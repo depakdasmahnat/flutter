@@ -3,23 +3,29 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
-import 'package:mrwebbeast/pages/profile/about_us.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
-import '../../pages/auth/interest_screen.dart';
-import '../../pages/auth/verify_otp.dart';
-import '../../pages/welcome_screen.dart';
+import '../../screens/auth/connect_with_us.dart';
+import '../../screens/auth/interest_screen.dart';
+import '../../screens/auth/member_login.dart';
+import '../../screens/auth/question_screen.dart';
+import '../../screens/auth/verify_otp.dart';
+import '../../screens/guest/home/home_screen.dart';
+import '../../screens/guest/profile/about_us.dart';
+import '../../screens/guest/profile/edit_profile.dart';
+import '../../screens/guest/profile/permission_screen.dart';
+import '../../screens/guest/profile/settings.dart';
+import '../../screens/welcome_screen.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
 import '../../utils/widgets/web_view_screen.dart';
-import '../../pages/auth/login.dart';
-import '../../pages/dashboard/dashboard.dart';
-import '../../pages/home/home_screen.dart';
-import '../../pages/notifications/notifications.dart';
-import '../../pages/profile/edit_profile.dart';
-import '../../pages/profile/permission_screen.dart';
-import '../../pages/profile/settings.dart';
+import '../../screens/auth/login.dart';
+import '../../screens/dashboard/dashboard.dart';
+
+import '../../screens/notifications/notifications.dart';
+
 import '../services/analytics/analytic_service.dart';
 import '../services/database/local_database.dart';
 
@@ -47,7 +53,7 @@ class RoutesConfig {
       //   name: Routs.initialRoute,
       //   path: Routs.initialRoute,
       //   pageBuilder: (context, state) {
-      //     return materialPage(state: state, child: initialScreen());
+      //     return cupertinoPage(state: state, child: initialScreen());
       //   },
       // ),
 
@@ -55,27 +61,58 @@ class RoutesConfig {
         name: Routs.dashboard,
         path: Routs.dashboard,
         pageBuilder: (context, state) {
-          return customTransitionPage(state: state, child: const DashBoard(), authRequired: true);
+          DashBoard? data = state.extra as DashBoard?;
+          return cupertinoPage(
+              state: state,
+              child: DashBoard(
+                dashBoardIndex: data?.dashBoardIndex,
+                userRole: data?.userRole,
+              ),
+              authRequired: true);
         },
       ),
+
       GoRoute(
         name: Routs.welcome,
         path: Routs.welcome,
         pageBuilder: (context, state) {
-          return customTransitionPage(state: state, child: const WelcomeScreen());
+          return cupertinoPage(state: state, child: const WelcomeScreen());
         },
       ),
       GoRoute(
         name: Routs.login,
         path: Routs.login,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const Login());
+          return cupertinoPage(state: state, child: const Login());
         },
-      ),      GoRoute(
+      ),
+      GoRoute(
+        name: Routs.memberLogin,
+        path: Routs.memberLogin,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const MemberLogin());
+        },
+      ),
+      GoRoute(
         name: Routs.interests,
         path: Routs.interests,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const InterestScreen());
+          return cupertinoPage(state: state, child: const InterestScreen());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.questions,
+        path: Routs.questions,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const QuestionsScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.connectWithUs,
+        path: Routs.connectWithUs,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const ConnectWithUs());
         },
       ),
 
@@ -84,7 +121,7 @@ class RoutesConfig {
         path: Routs.verifyOTP,
         pageBuilder: (context, state) {
           VerifyOTP? data = state.extra as VerifyOTP?;
-          return materialPage(
+          return cupertinoPage(
               state: state,
               child: VerifyOTP(
                 mobileNo: data?.mobileNo,
@@ -96,7 +133,7 @@ class RoutesConfig {
         name: Routs.homeScreen,
         path: Routs.homeScreen,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const HomeScreen());
+          return cupertinoPage(state: state, child: const HomeScreen());
         },
         redirect: authRequired,
       ),
@@ -104,14 +141,14 @@ class RoutesConfig {
         name: Routs.notifications,
         path: Routs.notifications,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const NotificationScreen());
+          return cupertinoPage(state: state, child: const NotificationScreen());
         },
       ),
       GoRoute(
         name: Routs.settings,
         path: Routs.settings,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const SettingsScreen());
+          return cupertinoPage(state: state, child: const SettingsScreen());
         },
       ),
 
@@ -119,7 +156,7 @@ class RoutesConfig {
         name: Routs.aboutUs,
         path: Routs.aboutUs,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const AboutUsScreen());
+          return cupertinoPage(state: state, child: const AboutUsScreen());
         },
       ),
 
@@ -127,14 +164,14 @@ class RoutesConfig {
         name: Routs.editProfile,
         path: Routs.editProfile,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const EditProfile());
+          return cupertinoPage(state: state, child: const EditProfile());
         },
       ),
       GoRoute(
         name: Routs.permissions,
         path: Routs.permissions,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const PermissionsScreen());
+          return cupertinoPage(state: state, child: const PermissionsScreen());
         },
       ),
       GoRoute(
@@ -143,7 +180,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ImageOpener? data = state.extra as ImageOpener?;
 
-          return materialPage(
+          return cupertinoPage(
               state: state,
               child: ImageOpener(
                 assetImage: data?.assetImage,
@@ -159,7 +196,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           MultipleImageOpener? data = state.extra as MultipleImageOpener?;
 
-          return materialPage(
+          return cupertinoPage(
               state: state,
               child: MultipleImageOpener(
                 initialIndex: data?.initialIndex,
@@ -177,7 +214,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
-          return materialPage(
+          return cupertinoPage(
               state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
@@ -261,43 +298,5 @@ class RoutesConfig {
   }) {
     AnalyticService.trackScreen(state: state);
     return CupertinoPage(key: state.pageKey, child: child);
-  }
-
-  ///5)  Cupertino Page...
-
-  static CustomTransitionPage<dynamic> customTransitionPage({
-    required GoRouterState state,
-    required Widget child,
-    bool authRequired = false,
-    Curve? curve,
-    Duration transitionDuration = const Duration(milliseconds: 300),
-    Duration reverseTransitionDuration = const Duration(milliseconds: 300),
-    bool maintainState = true,
-    bool fullscreenDialog = false,
-    bool opaque = true,
-    bool barrierDismissible = false,
-    Color? barrierColor,
-    String? barrierLabel,
-  }) {
-    return CustomTransitionPage(
-      key: state.pageKey,
-      child: child,
-      transitionDuration: transitionDuration,
-      reverseTransitionDuration: reverseTransitionDuration,
-      maintainState: maintainState,
-      fullscreenDialog: fullscreenDialog,
-      barrierDismissible: barrierDismissible,
-      opaque: opaque,
-      barrierColor: barrierColor,
-      barrierLabel: barrierLabel,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        AnalyticService.trackScreen(state: state);
-
-        return FadeTransition(
-          opacity: CurveTween(curve: curve ?? Curves.easeInOutCirc).animate(animation),
-          child: child,
-        );
-      },
-    );
   }
 }

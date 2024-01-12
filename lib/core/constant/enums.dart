@@ -1,3 +1,12 @@
+enum UserRoles {
+  guest('Guest'),
+  member('Member');
+
+  final String value;
+
+  const UserRoles(this.value);
+}
+
 enum Roles {
   admin('Admin'),
   premium('Premium'),

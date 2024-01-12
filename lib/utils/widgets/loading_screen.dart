@@ -1,51 +1,54 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoadingScreen extends StatelessWidget {
+class LoadingScreen extends StatefulWidget {
   const LoadingScreen({
-    super.key,
+    Key? key,
     this.message,
     this.heightFactor,
-    this.widthFactor,
-    this.alignment,
     this.color,
-    this.backgroundColor,
-    required this.buildContext,
-  })  : assert(widthFactor == null || widthFactor >= 0.0),
-        assert(heightFactor == null || heightFactor >= 0.0);
+    this.widthFactor,
+  }) : super(key: key);
 
-  final BuildContext buildContext;
   final String? message;
   final double? heightFactor;
   final double? widthFactor;
   final Color? color;
-  final Color? backgroundColor;
-  final Alignment? alignment;
+
+  @override
+  State<LoadingScreen> createState() => _LoadingScreenState();
+}
+
+class _LoadingScreenState extends State<LoadingScreen> {
+  late String? message = widget.message;
+  late double? heightFactor = widget.heightFactor;
+  late double? widthFactor = widget.widthFactor;
+  late Color? color = widget.color;
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      alignment: alignment ?? Alignment.center,
-      heightFactor: heightFactor ?? 1,
-      widthFactor: widthFactor ?? 1,
+    Size size = MediaQuery.of(context).size;
+    return Center(
       child: Container(
-        color: backgroundColor ?? Colors.transparent,
+        height: heightFactor != null ? (size.height * heightFactor!) : null,
+        width: widthFactor != null ? size.width * widthFactor! : size.width,
+        color: color ?? Colors.transparent,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: CupertinoActivityIndicator(
+                color: Colors.white,
                 radius: 12,
-                color: color ?? Theme.of(buildContext).primaryColor,
               ),
             ),
             Text(
               message ?? 'Loading Data...',
-              style: Theme.of(buildContext).textTheme.titleMedium?.copyWith(
-                    color: color ?? Theme.of(buildContext).primaryColor,
-                  ),
+              style: const TextStyle(
+                color: Colors.white,
+              ),
             ),
           ],
         ),

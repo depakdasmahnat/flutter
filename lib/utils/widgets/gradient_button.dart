@@ -1,9 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GradientButton extends StatelessWidget {
   final GradientBorderPainter? _painter;
-  final Widget child;
+  final Widget? child;
   final VoidCallback? onTap;
   final double? borderRadius;
   final double? height;
@@ -14,11 +16,13 @@ class GradientButton extends StatelessWidget {
   final BoxDecoration? decoration;
   final Color? backgroundColor;
   final Gradient? backgroundGradient;
+  final double? blur;
+  final double? minSize;
   final List<BoxShadow>? boxShadow;
 
   GradientButton({
     super.key,
-    required this.child,
+    this.child,
     this.onTap,
     Gradient? gradient,
     this.borderWidth,
@@ -31,6 +35,8 @@ class GradientButton extends StatelessWidget {
     this.boxShadow,
     this.height,
     this.width,
+    this.blur,
+    this.minSize,
   }) : _painter = gradient != null
             ? GradientBorderPainter(
                 strokeWidth: borderWidth ?? 1,
@@ -42,28 +48,39 @@ class GradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
+      minSize: minSize??0,
       borderRadius: buildBorderRadius(),
       onPressed: onTap,
       padding: EdgeInsets.zero,
-      child: Container(
-        margin: margin ?? EdgeInsets.zero,
-        decoration: BoxDecoration(
-          color: backgroundGradient == null ? (backgroundColor ?? Colors.transparent) : null,
-          gradient: backgroundGradient,
+      child: Padding(
+        padding: margin ?? EdgeInsets.zero,
+        child: ClipRRect(
           borderRadius: buildBorderRadius(),
-          boxShadow: boxShadow,
-        ),
-        child: CustomPaint(
-          painter: _painter,
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: onTap,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: blur ?? 0, sigmaY: blur ?? 0),
             child: Container(
               height: height,
               width: width,
-              decoration: decoration,
-              padding: padding,
-              child: child,
+              decoration: BoxDecoration(
+                color: backgroundGradient == null ? (backgroundColor ?? Colors.transparent) : null,
+                gradient: backgroundGradient,
+                borderRadius: buildBorderRadius(),
+                boxShadow: boxShadow,
+              ),
+              child: CustomPaint(
+                painter: _painter,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: onTap,
+                  child: Container(
+                    height: height,
+                    width: width,
+                    decoration: decoration,
+                    padding: padding,
+                    child: child,
+                  ),
+                ),
+              ),
             ),
           ),
         ),

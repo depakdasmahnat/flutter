@@ -10,7 +10,6 @@ import 'package:mrwebbeast/core/constant/colors.dart';
 import 'package:mrwebbeast/core/functions.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-
 import '../../route/route_paths.dart';
 
 class NotificationController with ChangeNotifier {

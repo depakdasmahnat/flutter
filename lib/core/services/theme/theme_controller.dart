@@ -78,7 +78,7 @@ class AppThemes {
     return ThemeData(
       brightness: Brightness.dark,
       primaryColor: primaryColor,
-      useMaterial3: true,
+      useMaterial3: false,
       canvasColor: Colors.transparent,
       fontFamily: GoogleFonts.urbanist().fontFamily,
       dividerTheme: DividerThemeData(color: Colors.grey.shade800, thickness: 1),

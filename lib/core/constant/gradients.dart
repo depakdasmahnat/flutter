@@ -11,13 +11,37 @@ Gradient primaryGradient = const LinearGradient(
     secondaryColor,
   ],
 );
+Gradient primaryGradientTransparent = LinearGradient(
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+  colors: [
+    primaryColor.withOpacity(0.65),
+    secondaryColor.withOpacity(0.53),
+  ],
+);
 
 Gradient inActiveGradient = const LinearGradient(
-  end: Alignment.topCenter,
-  begin: Alignment.bottomCenter,
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
   colors: [
-    Color(0xff3B3B3B),
     Color(0xff4A4A4A),
+    Color(0xff3B3B3B),
+  ],
+);
+Gradient feedsCardGradient = const LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Color(0xff1C1C1C),
+    Color(0xff282828),
+  ],
+);
+Gradient inActiveGradientTransparent = LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    const Color(0xff4A4A4A).withOpacity(0.61),
+    const Color(0xff3B3B3B).withOpacity(0.44),
   ],
 );
 

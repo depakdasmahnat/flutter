@@ -3,11 +3,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/colors.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 
-
+import '../../app.dart';
 
 Widget backButton({required Icon icon}) {
   return Container(
@@ -115,7 +116,7 @@ Future showLoading({required BuildContext context, required String text}) {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   Padding(
+                  Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CupertinoActivityIndicator(
                       radius: 14,
@@ -125,7 +126,7 @@ Future showLoading({required BuildContext context, required String text}) {
                   const SizedBox(width: 20),
                   Text(
                     text,
-                    style:  TextStyle(
+                    style: TextStyle(
                       color: primaryColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -156,7 +157,10 @@ Future loadingDialog({
 Widget termsAndConditions(BuildContext context) {
   TextStyle defaultStyle = TextStyle(fontSize: 10, color: Colors.grey.shade400, fontWeight: FontWeight.w500);
   TextStyle linkStyle = TextStyle(
-      fontSize: 10, color: Colors.grey.shade400, fontWeight: FontWeight.w500, decoration: TextDecoration.underline);
+      fontSize: 10,
+      color: Colors.grey.shade400,
+      fontWeight: FontWeight.w500,
+      decoration: TextDecoration.underline);
   return RichText(
     maxLines: 4,
     text: TextSpan(
@@ -415,6 +419,47 @@ headingText({
       ],
     ),
   );
+}
+
+Future<bool> onAppExit() async {
+  BuildContext? context = MyApp.navigatorKey.currentContext;
+  bool? shouldPop;
+
+  if (context != null) {
+    shouldPop = await showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: const Text(
+              'Close App',
+              style: TextStyle(color: Colors.red),
+            ),
+            content: const Text('Are you sure you want to close the app ?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  context.pop(false);
+                },
+                child: const Text(
+                  'No',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.pop(true);
+                },
+                child: const Text(
+                  'Yes',
+                  style: TextStyle(color: Colors.green),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  return shouldPop ?? false;
 }
 
 pickImageButton({required BuildContext context, required String text, required IconData icon}) {

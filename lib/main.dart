@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'app.dart';
-import 'controllers/dashboard_controller.dart';
+import 'controllers/dashboard/dashboard_controller.dart';
 import 'core/services/database/local_database.dart';
 import 'core/services/localization/localization_controller.dart';
 import 'core/services/location/location_controller.dart';

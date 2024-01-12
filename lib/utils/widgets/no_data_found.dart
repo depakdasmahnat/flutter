@@ -1,42 +1,39 @@
 import 'package:flutter/material.dart';
 
-class NoDataFound extends StatelessWidget {
-  const NoDataFound({
-    super.key,
-    this.message,
-    this.heightFactor,
-    this.widthFactor,
-    this.alignment,
-    this.color,
-    this.backgroundColor,
-    required this.buildContext,
-  })  : assert(widthFactor == null || widthFactor >= 0.0),
-        assert(heightFactor == null || heightFactor >= 0.0);
-  final BuildContext buildContext;
+class NoDataFound extends StatefulWidget {
+  const NoDataFound({Key? key, this.message, this.heightFactor, this.widthFactor}) : super(key: key);
   final String? message;
   final double? heightFactor;
   final double? widthFactor;
-  final Color? color;
-  final Color? backgroundColor;
-  final Alignment? alignment;
+
+  @override
+  State<NoDataFound> createState() => _NoDataFoundState();
+}
+
+class _NoDataFoundState extends State<NoDataFound> {
+  late String? message = widget.message;
+  late double? heightFactor = widget.heightFactor;
+  late double? widthFactor = widget.widthFactor;
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      alignment: alignment ?? Alignment.center,
-      heightFactor: heightFactor ?? 1,
-      widthFactor: widthFactor ?? 1,
-      child: Container(
-        color: backgroundColor ?? Colors.transparent,
+    Size size = MediaQuery.of(context).size;
+    return SizedBox(
+      height: heightFactor != null ? size.height * heightFactor! : null,
+      width: widthFactor != null ? size.width * widthFactor! : size.width,
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              message ?? 'No Data Found',
-              style: Theme.of(buildContext).textTheme.titleMedium?.copyWith(
-                    color: color ?? Theme.of(buildContext).primaryColor,
-                  ),
+            Center(
+              child: Text(
+                message ?? 'No Data Found',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),
