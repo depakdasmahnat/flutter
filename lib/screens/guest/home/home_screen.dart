@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -54,11 +55,12 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Welcome Guest',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
                     fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.start,
@@ -66,9 +68,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 GradientText(
                   'Monday, 12 Jan',
                   gradient: primaryGradient,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
                     fontWeight: FontWeight.w400,
                   ),
                 ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mrwebbeast/core/config/api_config.dart';
 
-
 import '../database/local_database.dart';
 import 'exception_handler.dart';
 
@@ -44,10 +43,10 @@ class ApiService {
     String url = (baseUrl ?? ApiConfig.baseUrl) + endPoint;
     var uri = Uri.parse('$url${decodeQueryParameter(body: queryParameters)}');
     try {
-      var response =
-      await http.get(uri, headers: headers ?? defaultHeaders()).timeout(const Duration(seconds: timeOutDuration));
+      var response = await http
+          .get(uri, headers: headers ?? defaultHeaders())
+          .timeout(const Duration(seconds: timeOutDuration));
       return ErrorHandler.processResponse(response: response, showError: showError);
-
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);
     }
@@ -90,8 +89,8 @@ class ApiService {
       final response = body == null
           ? await http.put(uri, headers: headers ?? defaultHeaders())
           : await http
-          .put(uri, headers: headers ?? defaultHeaders(), body: body)
-          .timeout(const Duration(seconds: timeOutDuration));
+              .put(uri, headers: headers ?? defaultHeaders(), body: body)
+              .timeout(const Duration(seconds: timeOutDuration));
 
       return ErrorHandler.processResponse(response: response, showError: showError);
     } catch (e, s) {
@@ -164,12 +163,12 @@ class MultiPartData {
   String? filePath;
 
   factory MultiPartData.fromJson(Map<String, dynamic> json) => MultiPartData(
-    field: json['field'],
-    filePath: json['filePath'],
-  );
+        field: json['field'],
+        filePath: json['filePath'],
+      );
 
   Map<String, dynamic> toJson() => {
-    'field': field,
-    'filePath': filePath,
-  };
+        'field': field,
+        'filePath': filePath,
+      };
 }

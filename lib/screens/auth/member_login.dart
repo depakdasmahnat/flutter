@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
+import 'package:mrwebbeast/screens/dashboard/dashboard.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import '../../../utils/validators.dart';
 import '../../../utils/widgets/custom_text_field.dart';
@@ -100,6 +102,7 @@ class _MemberLoginState extends State<MemberLogin> {
             margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
             onTap: () {
               if (signInFormKey.currentState?.validate() == true) {
+                context.firstRoute();
                 context.pushReplacementNamed(Routs.dashboard);
               }
             },

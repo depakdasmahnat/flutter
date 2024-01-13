@@ -11,7 +11,7 @@ extension Navigation on BuildContext {
     return Navigator.of(this).pushReplacement(MaterialPageRoute(builder: (context) => child)).then((value) => value);
   }
 
-  void popUntil({required Widget child}) {
+  void firstRoute() {
     return Navigator.of(this).popUntil((route) => route.isFirst);
   }
 

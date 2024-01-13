@@ -7,6 +7,7 @@ class Routs {
   static const String interests = '/interests';
   static const String questions = '/questions';
   static const String connectWithUs = '/connectWithUs';
+  static const String joiningReason = '/joiningReason';
   static const String welcome = '/welcome';
   static const String dashboard = '/dashboard';
   static const String homeScreen = '/home-screen';
