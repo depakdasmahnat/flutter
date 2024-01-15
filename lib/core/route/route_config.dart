@@ -8,11 +8,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
 import '../../screens/auth/connect_with_us.dart';
+import '../../screens/auth/first_Screen.dart';
 import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../screens/guest/home/home_screen.dart';
+import '../../screens/guest/productDetail/product_detail.dart';
 import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
@@ -37,6 +39,7 @@ class RoutesConfig {
 
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
+    print("check orutng $authenticated");
     return authenticated ? Routs.dashboard : Routs.dashboard;
   }
 
@@ -91,6 +94,13 @@ class RoutesConfig {
         path: Routs.memberLogin,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const MemberLogin());
+        },
+      ),
+      GoRoute(
+        name: Routs.firstScreen,
+        path: Routs.firstScreen,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const FirstScreen());
         },
       ),
       GoRoute(
@@ -172,6 +182,12 @@ class RoutesConfig {
         path: Routs.permissions,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const PermissionsScreen());
+        },
+      ), GoRoute(
+        name: Routs.productDetail,
+        path: Routs.productDetail,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const ProductDetail());
         },
       ),
       GoRoute(

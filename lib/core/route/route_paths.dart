@@ -1,6 +1,7 @@
 class Routs {
   ///1) All Routs Path...
   static const String initialRoute = '/';
+  static const String firstScreen = '/fisrstScreen';
   static const String login = '/login';
   static const String verifyOTP = '/verifyOTP';
   static const String memberLogin = '/memberLogin';
@@ -23,4 +24,5 @@ class Routs {
   static const String editProfile = '/edit-profile';
   static const String permissions = '/permissions';
   static const String samplePagination = '/sample-pagination';
+  static const String productDetail = '/productDetail';
 }

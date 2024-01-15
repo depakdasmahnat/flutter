@@ -2,6 +2,7 @@ class AppAssets {
   /// 1) Icons...
 
   static const String homeIcon = 'assets/icons/ic_home.png';
+  static const String sendIcon = 'assets/icons/ic_send.png';
   static const String networkIcon = 'assets/icons/ic_network.png';
   static const String leadsIcon = 'assets/icons/ic_leads.png';
   static const String membersIcon = 'assets/icons/ic_members.png';
@@ -27,6 +28,7 @@ class AppAssets {
 
   /// 2) Images...
 
+  static const String appLogo = 'assets/images/logo.png';
   static const String appIcon = 'assets/images/appIcon.png';
   static const String noImage = 'assets/images/no_image.png';
   static const String avatarImage = 'assets/images/avatar_image.png';
@@ -36,6 +38,8 @@ class AppAssets {
   static const String banner = 'assets/images/banner.png';
   static const String banner1 = 'assets/images/banner1.png';
   static const String banner2 = 'assets/images/banner2.png';
+  static const String guestProfile1 = 'assets/images/guest_profile1.png';
+  static const String guestProfile2 = 'assets/images/guets_profile2.png';
 
   static const String product = 'assets/images/product.png';
   static const String product1 = 'assets/images/product1.png';
@@ -45,4 +49,11 @@ class AppAssets {
 
   static const String surpriseJson = 'assets/lottie/surprise.json';
   static const String winnerJson = 'assets/lottie/winner.json';
+
+///3)  Videos...
+  static const String firstScreenVideo = 'assets/videos/mainvideo.gif';
+///4)  ExtraImage...
+
+  static const String container = 'assets/extraImage/container.png';
+
 }

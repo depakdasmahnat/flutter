@@ -19,6 +19,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    print("check gtp app =---------------");
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       startNotificationListeners();
