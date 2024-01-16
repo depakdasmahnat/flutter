@@ -4,8 +4,11 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.da
 import '../../core/config/app_assets.dart';
 import '../../core/constant/enums.dart';
 import '../../models/dashboard/dashboard_data.dart';
+import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/home/home_screen.dart';
 
+import '../../screens/guest/product/guest_product.dart';
+import '../../screens/guest/resource&Demo/mainresource.dart';
 import '../../utils/widgets/no_data_found.dart';
 
 class DashboardController extends ChangeNotifier {
@@ -57,19 +60,19 @@ class DashboardController extends ChangeNotifier {
       title: 'Products',
       activeImage: AppAssets.networkFilledIcon,
       inActiveImage: AppAssets.networkIcon,
-      widget: const NoDataFound(),
+      widget: const GuestPoduct(),
     ),
     DashboardData(
       title: 'Profile',
       activeImage: AppAssets.leadsFilledIcon,
       inActiveImage: AppAssets.leadsIcon,
-      widget: const NoDataFound(),
+      widget: const GuestProfile(),
     ),
     DashboardData(
       title: 'More',
       activeImage: AppAssets.membersFilledIcon,
       inActiveImage: AppAssets.membersIcon,
-      widget: const NoDataFound(),
+      widget: const Mainresource(),
     ),
   ];
 

@@ -1,6 +1,11 @@
 class AppAssets {
   /// 1) Icons...
 
+  static const String edit = 'assets/icons/ic_edit.png';
+  static const String faq = 'assets/icons/ic_faq.png';
+  static const String logout = 'assets/icons/ic_logout.png';
+  static const String call = 'assets/icons/ic_call.png';
+  static const String setting = 'assets/icons/ic_setting.png';
   static const String homeIcon = 'assets/icons/ic_home.png';
   static const String sendIcon = 'assets/icons/ic_send.png';
   static const String networkIcon = 'assets/icons/ic_network.png';
@@ -41,9 +46,13 @@ class AppAssets {
   static const String guestProfile1 = 'assets/images/guest_profile1.png';
   static const String guestProfile2 = 'assets/images/guets_profile2.png';
 
+  static const String geustProduct = 'assets/images/geust_product.png';
+  static const String geustProductDteila = 'assets/images/guet_product_detail.png';
+
   static const String product = 'assets/images/product.png';
   static const String product1 = 'assets/images/product1.png';
   static const String product2 = 'assets/images/product2.png';
+  static const String getsprofile = 'assets/images/guest_profile.png';
 
   ///3)  Json...
 

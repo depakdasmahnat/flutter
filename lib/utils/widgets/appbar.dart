@@ -6,7 +6,8 @@ import 'custom_back_button.dart';
 
 class CustomAppBar extends StatefulWidget {
   String? title;
-   CustomAppBar({super.key,this.title});
+  bool? showLeadICon ;
+   CustomAppBar({super.key,this.title,this.showLeadICon});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -17,7 +18,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      leading: const CustomBackButton(),
+      leading: widget.showLeadICon ==true? const CustomBackButton():null,
       title: Text(widget.title??'',style: TextStyle(
         color: Colors.white,
         fontSize: 22,

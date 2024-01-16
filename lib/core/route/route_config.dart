@@ -13,12 +13,16 @@ import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
+import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/home/home_screen.dart';
+import '../../screens/guest/product/guest_product.dart';
+import '../../screens/guest/product/guest_product_details.dart';
 import '../../screens/guest/productDetail/product_detail.dart';
 import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
+import '../../screens/guest/resource&Demo/resource_and_demo.dart';
 import '../../screens/welcome_screen.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
@@ -182,6 +186,32 @@ class RoutesConfig {
         path: Routs.permissions,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const PermissionsScreen());
+        },
+      ), GoRoute(
+        name: Routs.guestProductDetail,
+        path: Routs.guestProductDetail,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GusetProductDetails());
+        },
+      ),GoRoute(
+        name: Routs.guestProduct,
+        path: Routs.guestProduct,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GuestPoduct());
+        },
+      ),GoRoute(
+        name: Routs.guestProfile,
+        path: Routs.guestProfile,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GuestProfile());
+        },
+      ),GoRoute(
+        name: Routs.resourceAndDemo,
+        path: Routs.resourceAndDemo,
+
+        pageBuilder: (context, state) {
+
+          return cupertinoPage(state: state, child:  RecourceAndDemo(type:state.extra.toString()));
         },
       ), GoRoute(
         name: Routs.productDetail,

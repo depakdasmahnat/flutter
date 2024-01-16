@@ -143,16 +143,17 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.only(left: kPadding,right: kPadding,top: kPadding),
             child: Container(
-              height:size.height*0.05 ,
+              // height:size.height*0.05 ,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(AppAssets.container)
                 )
               ),
               child: const Padding(
-                padding: EdgeInsets.only(left: kPadding,right: kPadding),
+                padding: EdgeInsets.only(left: kPadding,right: kPadding,top: 5,bottom: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       'Total App Download',
@@ -246,10 +247,16 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class FeedCard extends StatelessWidget {
-  const FeedCard({
+   FeedCard({
     super.key,
     required this.index,
+    this.imageHeight,
+    this.fit,
+    this.type,
   });
+  double? imageHeight;
+   BoxFit? fit;
+   String? type;
 
   final int index;
 
@@ -261,21 +268,22 @@ class FeedCard extends StatelessWidget {
         gradient: feedsCardGradient,
         borderRadius: BorderRadius.circular(24),
       ),
-      child: const Column(
+      child:  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ImageView(
+            height: imageHeight,
             borderRadiusValue: 16,
-            margin: EdgeInsets.all(12),
-            fit: BoxFit.contain,
+            margin: const EdgeInsets.all(12),
+            fit:fit?? BoxFit.contain,
             assetImage: AppAssets.product1,
           ),
-          Padding(
+           Padding(
             padding: EdgeInsets.only(left: 12, right: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Best water purifier: 10 picks to ensure clean drinking water',
                   style: TextStyle(
                     color: Colors.white,
@@ -284,7 +292,12 @@ class FeedCard extends StatelessWidget {
                   ),
                   textAlign: TextAlign.start,
                 ),
-                Padding(
+                if(type =='true')
+                const SizedBox(
+                  height: 10,
+                ),
+                if(type !='true')
+                const Padding(
                   padding: EdgeInsets.symmetric(vertical: 8),
                   child: Text(
                     '12 hr',
@@ -296,7 +309,8 @@ class FeedCard extends StatelessWidget {
                     textAlign: TextAlign.start,
                   ),
                 ),
-                Padding(
+                if(type !='true')
+                const Padding(
                   padding: EdgeInsets.only(bottom: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

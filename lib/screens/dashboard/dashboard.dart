@@ -99,7 +99,6 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool selected = dashBoardIndex == index;
-
     return GestureDetector(
       onTap: () {
         context.read<DashboardController>().changeDashBoardIndex(index: index);

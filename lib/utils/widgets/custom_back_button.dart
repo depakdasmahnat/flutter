@@ -13,14 +13,19 @@ class _CustomBackButtonState extends State<CustomBackButton> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return   Padding(
-      padding: const EdgeInsets.all(3),
+    return   InkWell(
+      onTap: () {
+        Navigator.of(context).pop();
+      },
       child: Container(
         decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.white.withOpacity(0.6000000238418579)
         ),
-        child:   Center(child: Icon(AntDesign.left,color: Colors.black,size: size.height*0.034,)),
+        child:   Center(child: Padding(
+          padding: const EdgeInsets.all(9),
+          child: Icon(AntDesign.left,color: Colors.black,size: size.height*0.034,),
+        )),
           ),
     );
   }
