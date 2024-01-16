@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
-import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
-import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/constant/gradients.dart';
+import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class MemberHomeScreen extends StatefulWidget {
@@ -27,21 +29,13 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
-  String? selectedFilter = 'Trending';
-  List<String>? filters = [
-    'Trending',
-    'Products',
-    'Today',
-    'Technology',
-    'Water',
-    'Filter',
-  ];
-
   List<String> banners = [
     AppAssets.banner,
     AppAssets.banner1,
     AppAssets.banner2,
   ];
+
+  double? trainingProgress = 75;
 
   @override
   Widget build(BuildContext context) {
@@ -120,274 +114,274 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
             ),
             margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
           ),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              ImageView(
-                height: 50,
-                width: size.width,
-                borderRadiusValue: 8,
-                assetImage: AppAssets.alertBanner,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 36),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 4),
-                          child: Text(
-                            'Congratulations',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                ImageView(
+                  height: 50,
+                  width: size.width,
+                  borderRadiusValue: 8,
+                  assetImage: AppAssets.alertBanner,
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 4),
+                            child: Text(
+                              'Congratulations',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          'for your 1st sale',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
+                          Text(
+                            'for your 1st sale',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        ImageView(
-                          height: 40,
-                          width: 40,
-                          borderRadiusValue: 50,
-                          margin: EdgeInsets.only(left: 8, right: 8),
-                          fit: BoxFit.cover,
-                          assetImage: AppAssets.userImage,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 2),
-                              child: Text(
-                                'Ayaan Sha',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          ImageView(
+                            height: 40,
+                            width: 40,
+                            borderRadiusValue: 50,
+                            margin: EdgeInsets.only(left: 8, right: 8),
+                            fit: BoxFit.cover,
+                            assetImage: AppAssets.userImage,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 2),
+                                child: Text(
+                                  'Ayaan Sha',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Text(
-                              'Raipur',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
+                              Text(
+                                'Raipur',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
           ImageView(
             width: size.width,
             borderRadiusValue: 8,
             fit: BoxFit.cover,
             assetImage: AppAssets.downloadBg,
-            margin: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
+            margin: const EdgeInsets.only(top: 8, left: kPadding, right: kPadding, bottom: 8),
           ),
-          if (filters?.haveData == true)
-            SizedBox(
-              height: 40,
-              child: Center(
-                child: ListView.builder(
-                  itemCount: filters?.length ?? 0,
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(left: kPadding),
-                  itemBuilder: (context, index) {
-                    var data = filters?.elementAt(index);
-
-                    bool isSelected = selectedFilter == data;
-                    return GradientButton(
-                      backgroundGradient: isSelected ? primaryGradient : inActiveGradient,
-                      borderWidth: 2,
-                      borderRadius: 30,
-                      onTap: () {
-                        setState(() {
-                          selectedFilter = data;
-                        });
-                      },
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
-                      child: Text(
-                        '$data',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected ? Colors.black : Colors.white,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+          Container(
+            margin: const EdgeInsets.only(top: 8, left: kPadding, right: kPadding, bottom: 8),
+            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(12),
             ),
-          GridView.builder(
-            itemCount: 8,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return const Text("hjguyjg");
-            },
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class FeedCard extends StatelessWidget {
-  const FeedCard({
-    super.key,
-    required this.index,
-  });
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-      decoration: BoxDecoration(
-        gradient: feedsCardGradient,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ImageView(
-            borderRadiusValue: 16,
-            margin: EdgeInsets.all(12),
-            fit: BoxFit.contain,
-            assetImage: AppAssets.product1,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 12, right: 12),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Best water purifier: 10 picks to ensure clean drinking water',
+                const Text(
+                  'Your Training Progress',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  textAlign: TextAlign.start,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    '12 hr',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
+                GradientProgressBar(
+                  value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
+                  backgroundColor: Colors.grey.shade300,
+                  margin: const EdgeInsets.only(top: 8, bottom: 8),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Steps 35/60',
+                      style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                     ),
-                    textAlign: TextAlign.start,
-                  ),
+                    Text(
+                      '${(trainingProgress ?? 0).toStringAsFixed(0)}%',
+                      style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          FeedMenu(
-                            icon: AppAssets.heartIcon,
-                            value: '3',
-                          ),
-                          FeedMenu(
-                            icon: AppAssets.chatIcon,
-                            value: '12K',
-                          ),
-                          FeedMenu(
-                            icon: AppAssets.shareIcon,
-                          ),
-                        ],
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Compete your training',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        decoration: TextDecoration.underline,
                       ),
-                      FeedMenu(
-                        lastMenu: true,
-                        icon: AppAssets.bookmarkIcon,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          )
+          ),
+          GridView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(kPadding),
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 1.2,
+            ),
+            children: [
+              MenuCard(
+                image: AppAssets.dashboardIcon,
+                name: 'Dashboard',
+                onTap: () {
+                  context.pushNamed(Routs.memberDashBoard);
+                },
+              ),
+              MenuCard(
+                image: AppAssets.targetIcon,
+                name: 'Target',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.goalIcon,
+                name: 'Goal',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.eventIcon,
+                name: 'Events',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.todoIcon,
+                name: 'To Do',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.productsIcon,
+                name: 'Products',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.feedsIcon,
+                name: 'Feeds',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.trainingIcon,
+                name: 'Training',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.resourcesIcon,
+                name: 'Resources',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.dashboardIcon,
+                name: 'Demo',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.membersIcon,
+                name: 'Members',
+                onTap: () {},
+              ),
+              MenuCard(
+                image: AppAssets.documentIcon,
+                name: 'Reports',
+                onTap: () {},
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 }
 
-class FeedMenu extends StatelessWidget {
-  const FeedMenu({
+class MenuCard extends StatelessWidget {
+  const MenuCard({
     super.key,
-    required this.icon,
-    this.value,
+    required this.image,
+    required this.name,
     this.onTap,
-    this.lastMenu,
   });
 
-  final String icon;
-  final String? value;
-  final bool? lastMenu;
+  final String? image;
+  final String? name;
   final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: lastMenu != true ? kPadding : 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ImageView(
-            height: 20,
-            width: 20,
-            borderRadiusValue: 0,
-            color: Colors.white,
-            margin: const EdgeInsets.only(right: 4),
-            fit: BoxFit.contain,
-            onTap: onTap,
-            assetImage: icon,
-          ),
-          if (value != null)
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: feedsCardGradient,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ImageView(
+              height: 30,
+              width: 30,
+              borderRadiusValue: 16,
+              margin: const EdgeInsets.all(12),
+              fit: BoxFit.contain,
+              assetImage: '$image',
+            ),
             Text(
-              '$value',
+              '$name',
               style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 12,
+                color: Colors.white,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
               textAlign: TextAlign.start,
             ),
-        ],
+          ],
+        ),
       ),
     );
   }

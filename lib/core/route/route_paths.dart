@@ -4,6 +4,7 @@ class Routs {
   static const String login = '/login';
   static const String verifyOTP = '/verifyOTP';
   static const String memberLogin = '/memberLogin';
+  static const String memberDashBoard = '/memberDashBoard';
   static const String interests = '/interests';
   static const String questions = '/questions';
   static const String connectWithUs = '/connectWithUs';

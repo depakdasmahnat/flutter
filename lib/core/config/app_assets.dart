@@ -24,6 +24,17 @@ class AppAssets {
   static const String chatIcon = 'assets/icons/ic_chat.png';
   static const String shareIcon = 'assets/icons/ic_share.png';
   static const String bookmarkIcon = 'assets/icons/ic_bookmark.png';
+  static const String dashboardIcon = 'assets/icons/ic_dashboard_graph.png';
+  static const String eventIcon = 'assets/icons/ic_event.png';
+  static const String goalIcon = 'assets/icons/ic_goal.png';
+  static const String targetIcon = 'assets/icons/ic_target.png';
+  static const String todoIcon = 'assets/icons/ic_todo.png';
+  static const String productsIcon = 'assets/icons/ic_products.png';
+  static const String feedsIcon = 'assets/icons/ic_feeds.png';
+  static const String trainingIcon = 'assets/icons/ic_training.png';
+  static const String resourcesIcon = 'assets/icons/ic_resources.png';
+  static const String documentIcon = 'assets/icons/ic_document.png';
+  static const String arrowForwardIcon = 'assets/icons/ic_arrow_forward.png';
 
   /// 2) Images...
 
@@ -40,6 +51,9 @@ class AppAssets {
   static const String product = 'assets/images/product.png';
   static const String product1 = 'assets/images/product1.png';
   static const String product2 = 'assets/images/product2.png';
+  static const String alertBanner = 'assets/images/alert_banner.png';
+  static const String downloadBg = 'assets/images/downloads_bg.png';
+  static const String userImage = 'assets/images/user_image.png';
 
   ///3)  Json...
 

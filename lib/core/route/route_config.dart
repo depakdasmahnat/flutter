@@ -17,6 +17,7 @@ import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
+import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/welcome_screen.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
@@ -91,6 +92,12 @@ class RoutesConfig {
         path: Routs.memberLogin,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const MemberLogin());
+        },
+      ),      GoRoute(
+        name: Routs.memberDashBoard,
+        path: Routs.memberDashBoard,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const MemberDashBoard());
         },
       ),
       GoRoute(

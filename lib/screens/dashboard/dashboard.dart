@@ -86,14 +86,25 @@ class DashBoardState extends State<DashBoard> {
 
 class CustomBottomNavBar extends StatelessWidget {
   final int index;
+
   final int dashBoardIndex;
+
+  final double? height;
+  final double? width;
+  final bool? alwaysShowLabel;
+
   final DashboardData data;
+  final GestureTapCallback? onTap;
 
   const CustomBottomNavBar({
     super.key,
     required this.index,
     required this.dashBoardIndex,
     required this.data,
+    this.height,
+    this.width,
+    this.alwaysShowLabel = false,
+     this.onTap,
   });
 
   @override
@@ -101,15 +112,16 @@ class CustomBottomNavBar extends StatelessWidget {
     bool selected = dashBoardIndex == index;
 
     return GestureDetector(
-      onTap: () {
-        context.read<DashboardController>().changeDashBoardIndex(index: index);
-      },
+      onTap: onTap ??
+          () {
+            context.read<DashboardController>().changeDashBoardIndex(index: index);
+          },
       child: GradientButton(
         padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
         borderRadius: 50,
         blur: 10,
-        height: 50,
-        width: selected == true ? null : 50,
+        height: height ?? 50,
+        width: width ?? (selected == true ? null : 50),
         backgroundGradient: selected == true ? primaryGradient : null,
         backgroundColor: selected == true ? null : Colors.grey.withOpacity(0.3),
         child: Row(
@@ -125,7 +137,7 @@ class CustomBottomNavBar extends StatelessWidget {
               fit: BoxFit.contain,
               assetImage: selected ? data.activeImage : data.inActiveImage,
             ),
-            if (selected == true && data.title != null)
+            if (alwaysShowLabel == true ? true : selected == true && data.title != null)
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: Text(
