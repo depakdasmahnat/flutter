@@ -6,6 +6,7 @@ import '../../core/constant/enums.dart';
 import '../../models/dashboard/dashboard_data.dart';
 import '../../screens/guest/home/home_screen.dart';
 
+import '../../screens/member/home/member_home_screen.dart';
 import '../../utils/widgets/no_data_found.dart';
 
 class DashboardController extends ChangeNotifier {
@@ -23,7 +24,7 @@ class DashboardController extends ChangeNotifier {
   }
 
   ///2) Dashboard User Role
-  UserRoles defaultUserRole = UserRoles.guest;
+  UserRoles defaultUserRole = UserRoles.member;
   late UserRoles _userRole = defaultUserRole;
 
   UserRoles get userRole => _userRole;
@@ -79,7 +80,7 @@ class DashboardController extends ChangeNotifier {
       title: 'Home',
       activeImage: AppAssets.homeFilledIcon,
       inActiveImage: AppAssets.homeIcon,
-      widget: const HomeScreen(),
+      widget: const MemberHomeScreen(),
     ),
     DashboardData(
       title: 'Network',
