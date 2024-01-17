@@ -52,26 +52,26 @@ class DashboardController extends ChangeNotifier {
   final List<DashboardData> _guestWidgets = [
     DashboardData(
       title: 'Feed',
-      activeImage: AppAssets.homeFilledIcon,
-      inActiveImage: AppAssets.homeIcon,
+      activeImage: AppAssets.guestHomeIcon,
+      inActiveImage: AppAssets.guestHomeIcon,
       widget: const HomeScreen(),
     ),
     DashboardData(
       title: 'Products',
-      activeImage: AppAssets.networkFilledIcon,
-      inActiveImage: AppAssets.networkIcon,
+      activeImage: AppAssets.productIcon,
+      inActiveImage: AppAssets.productIcon,
       widget: const GuestPoduct(),
     ),
     DashboardData(
       title: 'Profile',
-      activeImage: AppAssets.leadsFilledIcon,
-      inActiveImage: AppAssets.leadsIcon,
+      activeImage: AppAssets.userIcon,
+      inActiveImage: AppAssets.userIcon,
       widget: const GuestProfile(),
     ),
     DashboardData(
       title: 'More',
-      activeImage: AppAssets.membersFilledIcon,
-      inActiveImage: AppAssets.membersIcon,
+      activeImage: AppAssets.more,
+      inActiveImage: AppAssets.more,
       widget: const Mainresource(),
     ),
   ];

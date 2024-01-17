@@ -24,50 +24,49 @@ class _RecourceAndDemoState extends State<RecourceAndDemo> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(size.height * 0.06),
+          preferredSize: Size.fromHeight(size.height * 0.18),
           child: CustomAppBar(
             showLeadICon: true,
             title: widget.type=='true'?'Demo Video':'Resources',
-          )),
-      body: ListView(
-        children:   [
-
-          const CustomTextField(
-            hintText: 'Search',
-            readOnly: true,
-            hintStyle: TextStyle(color: Colors.white),
-            prefixIcon: ImageView(
-              height: 20,
-              width: 20,
-              borderRadiusValue: 0,
-              color: Colors.white,
-              margin: EdgeInsets.only(left: kPadding, right: kPadding),
-              fit: BoxFit.contain,
-              assetImage: AppAssets.searchIcon,
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(size.height * 0.06), child: const CustomTextField(
+              hintText: 'Search',
+              readOnly: true,
+              hintStyle: TextStyle(color: Colors.white),
+              prefixIcon: ImageView(
+                height: 20,
+                width: 20,
+                borderRadiusValue: 0,
+                color: Colors.white,
+                margin: EdgeInsets.only(left: kPadding, right: kPadding),
+                fit: BoxFit.contain,
+                assetImage: AppAssets.searchIcon,
+              ),
+              margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
             ),
-            margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
-          ),
-          ListView.builder(
-            itemCount: 8,
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(bottom: kPadding),
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return InkWell(
-                  onTap: () {
-                    if(widget.type!='true'){
-                      context.pushNamed(Routs.resourceAndDemo,extra:true );
-                    }
+            ),
+          )
 
-                  },
-                  child: FeedCard(
-                    index: index,
-                  type: widget.type,
-                  imageHeight: size.height*0.3,
-                  fit: BoxFit.cover,));
-            },
-          ),
-        ],
+      ),
+      body: ListView.builder(
+        itemCount: 8,
+        shrinkWrap: true,
+        padding: const EdgeInsets.only(bottom: kPadding),
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return InkWell(
+              onTap: () {
+                if(widget.type!='true'){
+                  context.pushNamed(Routs.resourceAndDemo,extra:true );
+                }
+
+              },
+              child: FeedCard(
+                index: index,
+              type: widget.type,
+              imageHeight: size.height*0.3,
+              fit: BoxFit.cover,));
+        },
       ),
     );
   }

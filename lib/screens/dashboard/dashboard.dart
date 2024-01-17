@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 
 import 'package:mrwebbeast/core/constant/enums.dart';
@@ -40,6 +41,7 @@ class DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     debugPrint('deviceToken ${LocalDatabase().deviceToken}');
     // DashboardController dashboardController = Provider.of<DashboardController>(context);
     // Size size = MediaQuery.sizeOf(context);
@@ -55,6 +57,20 @@ class DashBoardState extends State<DashBoard> {
                 return controller.widgets.elementAt(dashBoardIndex).widget;
               },
             ),
+             floatingActionButton: Padding(
+               padding:  EdgeInsets.only(bottom: size.height*0.1),
+               child: Container(
+                 decoration: BoxDecoration(
+                   gradient: primaryGradient,
+                   shape: BoxShape.circle
+
+                 ),
+                 child: Padding(
+                   padding: const EdgeInsets.all(kPadding),
+                   child: Image.asset(AppAssets.call2,height: 30,color: Colors.black,),
+                 ),
+               ),
+             ),
             bottomSheet: GradientButton(
               margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
               borderRadius: 50,

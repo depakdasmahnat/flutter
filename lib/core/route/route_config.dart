@@ -13,6 +13,8 @@ import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
+import '../../screens/guest/guestProfile/guest_edit_profile.dart';
+import '../../screens/guest/guestProfile/guest_faq.dart';
 import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/home/home_screen.dart';
 import '../../screens/guest/product/guest_product.dart';
@@ -23,6 +25,7 @@ import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
 import '../../screens/guest/resource&Demo/resource_and_demo.dart';
+import '../../screens/select_lead/select_lead.dart';
 import '../../screens/welcome_screen.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
@@ -206,11 +209,29 @@ class RoutesConfig {
           return cupertinoPage(state: state, child: const GuestProfile());
         },
       ),GoRoute(
+        name: Routs.guestEditProfile,
+        path: Routs.guestEditProfile,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GuestEditProfile());
+        },
+      ),GoRoute(
+        name: Routs.guestFaq,
+        path: Routs.guestFaq,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GuestFaq());
+        },
+      ),GoRoute(
+        name: Routs.selectLead,
+        path: Routs.selectLead,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const SelectLead());
+        },
+      ),
+      GoRoute(
         name: Routs.resourceAndDemo,
         path: Routs.resourceAndDemo,
 
         pageBuilder: (context, state) {
-
           return cupertinoPage(state: state, child:  RecourceAndDemo(type:state.extra.toString()));
         },
       ), GoRoute(

@@ -79,7 +79,7 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.edit,
                           title: 'Profile Edit',
                           onTap: () {
-                            context.push(Routs.resourceAndDemo);
+                            context.push(Routs.guestEditProfile);
                           },
                         ),
                         SizedBox(
@@ -88,6 +88,9 @@ class _GuestProfileState extends State<GuestProfile> {
                         IconAndText(
                           icon: AppAssets.faq,
                           title: 'FAQ',
+                          onTap: () {
+                            context.pushNamed(Routs.guestFaq);
+                          },
                         ),
                         SizedBox(
                           height: size.height*0.02,
@@ -128,13 +131,14 @@ class _GuestProfileState extends State<GuestProfile> {
                         IconAndText(
                           icon: AppAssets.membersIcon,
                           title: 'Help & Support',
+                          height: size.height*0.021,
                         ),
                         SizedBox(
                           height: size.height*0.02,
                         ),
                         IconAndText(
                           icon: AppAssets.call,
-                          title: ' Contact us',
+                          title: 'Contact us',
                         ),
                         SizedBox(
                           height: size.height*0.02,
@@ -225,11 +229,13 @@ class Card extends StatelessWidget {
 class IconAndText extends StatelessWidget {
   String? icon;
   String? title;
+  double? height;
   void Function()? onTap;
   IconAndText({
     this.icon,
     this.title,
     this.onTap,
+    this.height,
 
     super.key,
   });
@@ -242,7 +248,7 @@ class IconAndText extends StatelessWidget {
       child: Row(
 
         children: [
-          Image.asset(icon??'',height: size.height*0.025,fit: BoxFit.contain),
+          Image.asset(icon??'',height:height?? size.height*0.026,fit: BoxFit.contain),
            SizedBox(
              width: size.width*0.04,
            ),

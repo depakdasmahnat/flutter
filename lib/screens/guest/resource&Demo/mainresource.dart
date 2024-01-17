@@ -16,6 +16,24 @@ class Mainresource extends StatefulWidget {
 }
 
 class _MainresourceState extends State<Mainresource> {
+  List item =[
+    {
+    'image':AppAssets.resources,
+    'title':'Business Images'
+  },
+    {
+    'image':AppAssets.pdf,
+    'title':'Business Images'
+  },
+    {
+    'image':AppAssets.pdf,
+    'title':'Demo Video'
+  },
+    {
+    'image':AppAssets.pdf,
+    'title':'Trainings PDFs'
+  }
+  ];
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -35,7 +53,7 @@ class _MainresourceState extends State<Mainresource> {
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         children: List.generate(
-          20, (index) {
+          item.length, (index) {
             return
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -57,9 +75,12 @@ class _MainresourceState extends State<Mainresource> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset(AppAssets.geustProduct,height: size.height*0.1,fit: BoxFit.cover,),
-                            const Text(
-                              'Events Videos',
+                            Padding(
+                              padding: const EdgeInsets.all(6),
+                              child: Image.asset(item[index]['image'],fit: BoxFit.cover,),
+                            ),
+                             Text(
+                              item[index]['title'],
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,

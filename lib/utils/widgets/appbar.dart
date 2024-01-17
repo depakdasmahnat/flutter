@@ -7,7 +7,8 @@ import 'custom_back_button.dart';
 class CustomAppBar extends StatefulWidget {
   String? title;
   bool? showLeadICon ;
-   CustomAppBar({super.key,this.title,this.showLeadICon});
+  PreferredSizeWidget? bottom;
+   CustomAppBar({super.key,this.title,this.showLeadICon,this.bottom});
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -25,6 +26,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         fontFamily: GoogleFonts.urbanist().fontFamily,
         fontWeight: FontWeight.w700,
       ),),
+      bottom:widget.bottom ,
     );
   }
 }

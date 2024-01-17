@@ -48,6 +48,9 @@ dependencies:
   app_settings: ^5.0.0
   pin_code_fields: ^8.0.1
   flutter_vector_icons: ^2.0.0
+  dropdown_search: ^5.0.6
+  device_preview: ^1.1.0
+  flutter_advanced_switch: ^3.0.1
 
 dev_dependencies:
   flutter_test:

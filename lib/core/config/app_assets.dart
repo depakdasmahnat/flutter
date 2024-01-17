@@ -3,6 +3,14 @@ class AppAssets {
 
   static const String edit = 'assets/icons/ic_edit.png';
   static const String faq = 'assets/icons/ic_faq.png';
+  static const String userIcons12 = 'assets/icons/ic_userIcon.png';
+  static const String rupees = 'assets/icons/ic_rupees.png';
+  static const String aboutQ = 'assets/icons/ic_about_q.png';
+  static const String rocket = 'assets/icons/ic_rocket.png';
+  static const String productIcon = 'assets/icons/ic_product_icon.png';
+  static const String userIcon = 'assets/icons/ic_userIcon.png';
+  static const String more = 'assets/icons/ic_more_icon.png';
+  static const String guestHomeIcon = 'assets/icons/ic_guest_home_icon.png';
   static const String logout = 'assets/icons/ic_logout.png';
   static const String call = 'assets/icons/ic_call.png';
   static const String setting = 'assets/icons/ic_setting.png';
@@ -34,6 +42,10 @@ class AppAssets {
   /// 2) Images...
 
   static const String appLogo = 'assets/images/logo.png';
+  static const String u1 = 'assets/images/userIcon.png';
+  static const String call2 = 'assets/images/call2.png';
+  static const String resources = 'assets/images/resources.png';
+  static const String pdf = 'assets/images/pdf_image.png';
   static const String appIcon = 'assets/images/appIcon.png';
   static const String noImage = 'assets/images/no_image.png';
   static const String avatarImage = 'assets/images/avatar_image.png';

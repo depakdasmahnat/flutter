@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/route/route_config.dart';
 import 'package:mrwebbeast/core/services/notifications/notification_controller.dart';
@@ -21,6 +23,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     print("check gtp app =---------------");
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       startNotificationListeners();
       LocalizationController localization = Provider.of<LocalizationController>(context, listen: false);
