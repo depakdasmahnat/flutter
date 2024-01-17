@@ -28,6 +28,7 @@ class _GraphDurationFilterState extends State<GraphDurationFilter> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
+      color: Colors.white,
       itemBuilder: (context) => List.generate(
         DurationFilterMenu.values.length,
         (index) {
@@ -36,32 +37,26 @@ class _GraphDurationFilterState extends State<GraphDurationFilter> {
 
           return PopupMenuItem(
             value: menu.name,
+            height: 24,
             onTap: () {
               _onTap(menu);
 
               widget.onChange(menu.label);
             },
             padding: EdgeInsets.zero,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-              padding: const EdgeInsets.only(top: 12, bottom: 12),
-              decoration: BoxDecoration(
-                gradient: blackGradient,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    menu.label,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      letterSpacing: 0.2,
-                      fontWeight: FontWeight.w600,
-                    ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  menu.label,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                    letterSpacing: 0.2,
+                    fontWeight: FontWeight.w600,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
@@ -72,15 +67,14 @@ class _GraphDurationFilterState extends State<GraphDurationFilter> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
       ),
-
       elevation: 5.0,
       // Adds additional shadow effect
       padding: EdgeInsets.zero,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           gradient: inActiveGradient,
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Row(
           children: [
@@ -88,7 +82,7 @@ class _GraphDurationFilterState extends State<GraphDurationFilter> {
               padding: const EdgeInsets.only(right: 4),
               child: Text(
                 widget.value ?? 'Monthly',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
             ),
             const Icon(Icons.keyboard_arrow_down_rounded, size: 18)

@@ -18,6 +18,8 @@ import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
 import '../../screens/member/home/member_dashboard.dart';
+import '../../screens/member/home/member_profile_details.dart';
+import '../../screens/member/target/target_screen.dart';
 import '../../screens/welcome_screen.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
@@ -93,11 +95,28 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const MemberLogin());
         },
-      ),      GoRoute(
+      ),
+      GoRoute(
         name: Routs.memberDashBoard,
         path: Routs.memberDashBoard,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const MemberDashBoard());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.memberProfileDetails,
+        path: Routs.memberProfileDetails,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const MemberProfileDetails());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.targetScreen,
+        path: Routs.targetScreen,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const TargetScreen());
         },
       ),
       GoRoute(

@@ -63,6 +63,56 @@ Gradient blueGradient = const LinearGradient(
     Color(0xff13BCBC),
   ],
 );
+Gradient redGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xffFF2600),
+    Color(0xffFF6130),
+  ],
+);
+Gradient yellowGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xffFEB000),
+    Color(0xffDCE901),
+  ],
+);
+Gradient greenGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xff17E402),
+    Color(0xff01B200),
+  ],
+);
+Gradient skyBlueGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xff029CD7),
+    Color(0xff2C4ED9),
+  ],
+);
+
+Gradient purpleGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xff5D27C8),
+    Color(0xff5A1D98),
+  ],
+);
+Gradient whiteGradient = const LinearGradient(
+  end: Alignment.bottomCenter,
+  begin: Alignment.topCenter,
+  colors: [
+    Color(0xffF3F3F3),
+    Color(0xffE0E0E0),
+  ],
+);
+
 Gradient feedsCardGradient = const LinearGradient(
   end: Alignment.bottomLeft,
   begin: Alignment.topRight,

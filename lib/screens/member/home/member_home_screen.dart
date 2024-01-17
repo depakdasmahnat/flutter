@@ -73,8 +73,8 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
             )
           ],
         ),
-        actions: const [
-          ImageView(
+        actions: [
+          const ImageView(
             height: 24,
             width: 24,
             borderRadiusValue: 0,
@@ -83,14 +83,19 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
             fit: BoxFit.contain,
             assetImage: AppAssets.notificationsIcon,
           ),
-          ImageView(
-            height: 24,
-            width: 24,
-            borderRadiusValue: 0,
-            color: Colors.white,
-            margin: EdgeInsets.only(left: 8, right: 8),
-            fit: BoxFit.contain,
-            assetImage: AppAssets.profileIcon,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ImageView(
+                height: 36,
+                width: 36,
+                border: Border.all(color: Colors.white),
+                borderRadiusValue: 50,
+                isAvatar: true,
+                margin: const EdgeInsets.only(left: 8, right: 8),
+                fit: BoxFit.contain,
+              ),
+            ],
           ),
         ],
       ),
@@ -278,12 +283,16 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
               MenuCard(
                 image: AppAssets.targetIcon,
                 name: 'Target',
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(Routs.targetScreen);
+                },
               ),
               MenuCard(
                 image: AppAssets.goalIcon,
                 name: 'Goal',
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(Routs.memberProfileDetails);
+                },
               ),
               MenuCard(
                 image: AppAssets.eventIcon,

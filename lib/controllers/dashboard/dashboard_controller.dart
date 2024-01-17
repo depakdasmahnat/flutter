@@ -7,6 +7,7 @@ import '../../models/dashboard/dashboard_data.dart';
 import '../../screens/guest/home/home_screen.dart';
 
 import '../../screens/member/home/member_home_screen.dart';
+import '../../screens/member/network/network_screen.dart';
 import '../../utils/widgets/no_data_found.dart';
 
 class DashboardController extends ChangeNotifier {
@@ -86,7 +87,7 @@ class DashboardController extends ChangeNotifier {
       title: 'Network',
       activeImage: AppAssets.networkFilledIcon,
       inActiveImage: AppAssets.networkIcon,
-      widget: const NoDataFound(),
+      widget: const NetworkScreen(),
     ),
     DashboardData(
       activeImage: AppAssets.addIcon,
