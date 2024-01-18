@@ -50,7 +50,7 @@ class _MemberLoginState extends State<MemberLogin> {
               textAlign: TextAlign.start,
             ),
             GradientText(
-              'GLOBAL TEAM PINNACLE',
+              'GLOBEL TEAM PINNACLE',
               gradient: primaryGradient,
               style: const TextStyle(
                 color: Colors.white,

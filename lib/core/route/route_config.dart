@@ -7,26 +7,28 @@ import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
+import '../../guest/guestProfile/guest_edit_profile.dart';
+import '../../guest/guestProfile/guest_faq.dart';
+import '../../guest/guestProfile/guest_profile.dart';
+import '../../guest/product/guest_product.dart';
+import '../../guest/product/guest_product_details.dart';
+import '../../guest/productDetail/product_detail.dart';
+import '../../guest/resource&Demo/resource_and_demo.dart';
 import '../../screens/auth/connect_with_us.dart';
-import '../../screens/auth/first_Screen.dart';
 import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
-import '../../screens/guest/guestProfile/guest_edit_profile.dart';
-import '../../screens/guest/guestProfile/guest_faq.dart';
-import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/home/home_screen.dart';
-import '../../screens/guest/product/guest_product.dart';
-import '../../screens/guest/product/guest_product_details.dart';
-import '../../screens/guest/productDetail/product_detail.dart';
 import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
-import '../../screens/guest/resource&Demo/resource_and_demo.dart';
-import '../../screens/select_lead/select_lead.dart';
+import '../../screens/member/home/member_dashboard.dart';
+import '../../screens/member/home/member_profile_details.dart';
+import '../../screens/member/target/target_screen.dart';
 import '../../screens/welcome_screen.dart';
+import '../../select_lead/select_lead.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
 import '../../utils/widgets/web_view_screen.dart';
@@ -46,7 +48,6 @@ class RoutesConfig {
 
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
-    print("check orutng $authenticated");
     return authenticated ? Routs.dashboard : Routs.dashboard;
   }
 
@@ -104,10 +105,26 @@ class RoutesConfig {
         },
       ),
       GoRoute(
-        name: Routs.firstScreen,
-        path: Routs.firstScreen,
+        name: Routs.memberDashBoard,
+        path: Routs.memberDashBoard,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const FirstScreen());
+          return cupertinoPage(state: state, child: const MemberDashBoard());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.memberProfileDetails,
+        path: Routs.memberProfileDetails,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const MemberProfileDetails());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.targetScreen,
+        path: Routs.targetScreen,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const TargetScreen());
         },
       ),
       GoRoute(
@@ -184,43 +201,50 @@ class RoutesConfig {
           return cupertinoPage(state: state, child: const EditProfile());
         },
       ),
+
       GoRoute(
         name: Routs.permissions,
         path: Routs.permissions,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const PermissionsScreen());
         },
-      ), GoRoute(
+      ),
+      GoRoute(
         name: Routs.guestProductDetail,
         path: Routs.guestProductDetail,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const GusetProductDetails());
         },
-      ),GoRoute(
+      ),
+      GoRoute(
         name: Routs.guestProduct,
         path: Routs.guestProduct,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const GuestPoduct());
         },
-      ),GoRoute(
+      ),
+      GoRoute(
         name: Routs.guestProfile,
         path: Routs.guestProfile,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const GuestProfile());
         },
-      ),GoRoute(
+      ),
+      GoRoute(
         name: Routs.guestEditProfile,
         path: Routs.guestEditProfile,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const GuestEditProfile());
         },
-      ),GoRoute(
+      ),
+      GoRoute(
         name: Routs.guestFaq,
         path: Routs.guestFaq,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const GuestFaq());
         },
-      ),GoRoute(
+      ),
+      GoRoute(
         name: Routs.selectLead,
         path: Routs.selectLead,
         pageBuilder: (context, state) {
@@ -230,11 +254,11 @@ class RoutesConfig {
       GoRoute(
         name: Routs.resourceAndDemo,
         path: Routs.resourceAndDemo,
-
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child:  RecourceAndDemo(type:state.extra.toString()));
+          return cupertinoPage(state: state, child: RecourceAndDemo(type: state.extra.toString()));
         },
-      ), GoRoute(
+      ),
+      GoRoute(
         name: Routs.productDetail,
         path: Routs.productDetail,
         pageBuilder: (context, state) {

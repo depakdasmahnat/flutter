@@ -242,20 +242,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(bottom: size.height * 0.1),
-        child: Container(
-          decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
-          child: Padding(
-            padding: const EdgeInsets.all(kPadding),
-            child: Image.asset(
-              AppAssets.call2,
-              height: 30,
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

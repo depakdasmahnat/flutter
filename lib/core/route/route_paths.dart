@@ -1,10 +1,12 @@
 class Routs {
   ///1) All Routs Path...
   static const String initialRoute = '/';
-  static const String firstScreen = '/fisrstScreen';
   static const String login = '/login';
   static const String verifyOTP = '/verifyOTP';
   static const String memberLogin = '/memberLogin';
+  static const String memberDashBoard = '/memberDashBoard';
+  static const String memberProfileDetails = '/memberProfileDetails';
+  static const String targetScreen = '/targetScreen';
   static const String interests = '/interests';
   static const String questions = '/questions';
   static const String connectWithUs = '/connectWithUs';
@@ -24,6 +26,7 @@ class Routs {
   static const String editProfile = '/edit-profile';
   static const String permissions = '/permissions';
   static const String samplePagination = '/sample-pagination';
+
   static const String productDetail = '/productDetail';
   static const String guestProductDetail = '/guestProductDetail';
   static const String guestProduct = '/guestProduct';

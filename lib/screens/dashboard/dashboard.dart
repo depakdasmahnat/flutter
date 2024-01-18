@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 
 import 'package:mrwebbeast/core/constant/enums.dart';
@@ -12,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../controllers/dashboard/dashboard_controller.dart';
 
+import '../../core/config/app_assets.dart';
 import '../../core/services/database/local_database.dart';
 
 import '../../models/dashboard/dashboard_data.dart';
@@ -41,10 +41,9 @@ class DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     debugPrint('deviceToken ${LocalDatabase().deviceToken}');
     // DashboardController dashboardController = Provider.of<DashboardController>(context);
-    // Size size = MediaQuery.sizeOf(context);
+    Size size = MediaQuery.sizeOf(context);
     return Consumer<DashboardController>(
       builder: (context, controller, child) {
         dashBoardIndex = controller.dashBoardIndex;
@@ -57,20 +56,7 @@ class DashBoardState extends State<DashBoard> {
                 return controller.widgets.elementAt(dashBoardIndex).widget;
               },
             ),
-             floatingActionButton: Padding(
-               padding:  EdgeInsets.only(bottom: size.height*0.1),
-               child: Container(
-                 decoration: BoxDecoration(
-                   gradient: primaryGradient,
-                   shape: BoxShape.circle
 
-                 ),
-                 child: Padding(
-                   padding: const EdgeInsets.all(kPadding),
-                   child: Image.asset(AppAssets.call2,height: 30,color: Colors.black,),
-                 ),
-               ),
-             ),
             bottomSheet: GradientButton(
               margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
               borderRadius: 50,
@@ -102,29 +88,42 @@ class DashBoardState extends State<DashBoard> {
 
 class CustomBottomNavBar extends StatelessWidget {
   final int index;
+
   final int dashBoardIndex;
+
+  final double? height;
+  final double? width;
+  final bool? alwaysShowLabel;
+
   final DashboardData data;
+  final GestureTapCallback? onTap;
 
   const CustomBottomNavBar({
     super.key,
     required this.index,
     required this.dashBoardIndex,
     required this.data,
+    this.height,
+    this.width,
+    this.alwaysShowLabel = false,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     bool selected = dashBoardIndex == index;
+
     return GestureDetector(
-      onTap: () {
-        context.read<DashboardController>().changeDashBoardIndex(index: index);
-      },
+      onTap: onTap ??
+          () {
+            context.read<DashboardController>().changeDashBoardIndex(index: index);
+          },
       child: GradientButton(
         padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
         borderRadius: 50,
         blur: 10,
-        height: 50,
-        width: selected == true ? null : 50,
+        height: height ?? 50,
+        width: width ?? (selected == true ? null : 50),
         backgroundGradient: selected == true ? primaryGradient : null,
         backgroundColor: selected == true ? null : Colors.grey.withOpacity(0.3),
         child: Row(
@@ -140,7 +139,7 @@ class CustomBottomNavBar extends StatelessWidget {
               fit: BoxFit.contain,
               assetImage: selected ? data.activeImage : data.inActiveImage,
             ),
-            if (selected == true && data.title != null)
+            if (alwaysShowLabel == true ? true : selected == true && data.title != null)
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: Text(

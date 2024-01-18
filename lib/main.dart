@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,19 +19,15 @@ Future main() async {
   await LocalDatabase.initialize();
   await NotificationController.initialize();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-
   runApp(
-
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => DashboardController()),
-          ChangeNotifierProvider(create: (context) => LocationController()),
-          ChangeNotifierProvider(create: (context) => ThemeController()),
-          ChangeNotifierProvider(create: (context) => LocalizationController()),
-        ],
-        child: const MyApp(),
-
-        builder: DevicePreview.appBuilder,
-      )
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DashboardController()),
+        ChangeNotifierProvider(create: (context) => LocationController()),
+        ChangeNotifierProvider(create: (context) => ThemeController()),
+        ChangeNotifierProvider(create: (context) => LocalizationController()),
+      ],
+      child: const MyApp(),
+    ),
   );
 }

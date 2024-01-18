@@ -8,12 +8,14 @@ class LocalDatabase extends ChangeNotifier {
 
   static Future initialize() async {
     await Hive.initFlutter();
-
     await Hive.openBox(AppConfig.databaseName);
   }
+
   ///Hive Database Box....
   Box database = Hive.box(AppConfig.databaseName);
+
   ///Access Local Database data...
+
   late String? name = database.get('name');
   late String? email = database.get('email');
   late String? mobile = database.get('mobile');
@@ -28,7 +30,7 @@ class LocalDatabase extends ChangeNotifier {
   ///Setting Local Database data...
   ///
   // Future updateUser({required UserData user}) async {
-  //   // _currentUser = user;
+  //   _currentUser = user;
   //   notifyListeners();
   //   database.put("uid", user.uid);
   //   database.put("name", user.name);

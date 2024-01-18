@@ -84,13 +84,11 @@ class ErrorHandler {
 
     try {
       switch (response.statusCode) {
-        case 200 :
+        case 200 || 201:
           return jsonDecode(body ?? '');
-        case 201 : return jsonDecode(body ?? '');
         case 403:
           reAuth();
           throwException();
-          break;
         default:
           throwException();
       }

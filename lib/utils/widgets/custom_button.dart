@@ -28,6 +28,7 @@ class CustomButton extends StatelessWidget {
     this.boxShadow,
     this.letterSpacing,
     this.gradient,
+    this.textPadding,
   });
 
   final String text;
@@ -53,6 +54,7 @@ class CustomButton extends StatelessWidget {
 
   final MainAxisAlignment? mainAxisAlignment;
   final Gradient? gradient;
+  final EdgeInsets? textPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -100,16 +102,19 @@ class CustomButton extends StatelessWidget {
                     ),
                   ),
                 if (icon != null) icon!,
-                Text(
-                  text,
-                  style: textStyle ??
-                      TextStyle(
-                        color: textColor ?? Colors.white,
-                        fontFamily: GoogleFonts.urbanist().fontFamily,
-                        fontWeight: fontWeight ?? FontWeight.w600,
-                        letterSpacing: letterSpacing,
-                        fontSize: fontSize ?? 18,
-                      ),
+                Padding(
+                  padding: textPadding ?? EdgeInsets.zero,
+                  child: Text(
+                    text,
+                    style: textStyle ??
+                        TextStyle(
+                          color: textColor ?? Colors.white,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: fontWeight ?? FontWeight.w600,
+                          letterSpacing: letterSpacing,
+                          fontSize: fontSize ?? 18,
+                        ),
+                  ),
                 ),
                 if (trailingImage != null)
                   Padding(
