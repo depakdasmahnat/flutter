@@ -46,6 +46,13 @@ dependencies:
   permission_handler: ^11.0.0
   app_settings: ^5.0.0
   pin_code_fields: ^8.0.1
+  graphview: ^1.2.0
+  syncfusion_flutter_charts: ^23.1.38
+  syncfusion_flutter_core: ^23.2.7
+  flutter_vector_icons: ^2.0.0
+  dropdown_search: ^5.0.6
+  device_preview: ^1.1.0
+  flutter_advanced_switch: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -79,3 +86,4 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/json/
+    - assets/extraImage/

@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../controllers/dashboard/dashboard_controller.dart';
 
+import '../../core/config/app_assets.dart';
 import '../../core/services/database/local_database.dart';
 
 import '../../models/dashboard/dashboard_data.dart';
@@ -41,55 +42,71 @@ class DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     debugPrint('deviceToken ${LocalDatabase().deviceToken}');
+    // DashboardController dashboardController = Provider.of<DashboardController>(context);
+    Size size = MediaQuery.sizeOf(context);
+    return Consumer<DashboardController>(
+      builder: (context, controller, child) {
+        dashBoardIndex = controller.dashBoardIndex;
+        userRole = controller.userRole;
+        return WillPopScope(
+          onWillPop: onAppExit,
+          child: Scaffold(
+            body: Builder(
+              builder: (BuildContext context) {
+                return controller.widgets.elementAt(dashBoardIndex).widget;
+              },
+            ),
 
-    return Consumer<DashboardController>(builder: (context, controller, child) {
-      dashBoardIndex = controller.dashBoardIndex;
-      userRole = controller.userRole;
-      return WillPopScope(
-        onWillPop: onAppExit,
-        child: Scaffold(
-          body: Builder(
-            builder: (BuildContext context) {
-              return controller.widgets.elementAt(dashBoardIndex).widget;
-            },
-          ),
-          bottomSheet: GradientButton(
-            margin: const EdgeInsets.only(left: 24,right: 24,bottom: kPadding),
-            borderRadius: 50,
-            blur: 10,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            backgroundGradient: inActiveGradientTransparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(
-                controller.widgets.length,
-                (index) {
-                  var data = controller.widgets.elementAt(index);
-                  return CustomBottomNavBar(
-                    index: index,
-                    dashBoardIndex: dashBoardIndex,
-                    data: data,
-                  );
-                },
+            bottomSheet: GradientButton(
+              margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
+              borderRadius: 50,
+              blur: 15,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              // backgroundGradient: inActiveGradientTransparent,
+              backgroundColor: Colors.white.withOpacity(0.15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(
+                  controller.widgets.length,
+                  (index) {
+                    var data = controller.widgets.elementAt(index);
+                    return CustomBottomNavBar(
+                      index: index,
+                      dashBoardIndex: dashBoardIndex,
+                      data: data,
+                    );
+                  },
+                ),
               ),
             ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }
 
 class CustomBottomNavBar extends StatelessWidget {
   final int index;
+
   final int dashBoardIndex;
+
+  final double? height;
+  final double? width;
+  final bool? alwaysShowLabel;
+
   final DashboardData data;
+  final GestureTapCallback? onTap;
 
   const CustomBottomNavBar({
     super.key,
     required this.index,
     required this.dashBoardIndex,
     required this.data,
+    this.height,
+    this.width,
+    this.alwaysShowLabel = false,
+    this.onTap,
   });
 
   @override
@@ -97,20 +114,24 @@ class CustomBottomNavBar extends StatelessWidget {
     bool selected = dashBoardIndex == index;
 
     return GestureDetector(
-      onTap: () {
-        context.read<DashboardController>().changeDashBoardIndex(index: index);
-      },
+      onTap: onTap ??
+          () {
+            context.read<DashboardController>().changeDashBoardIndex(index: index);
+          },
       child: GradientButton(
         padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
         borderRadius: 50,
         blur: 10,
-        backgroundGradient: selected == true ? primaryGradient : inActiveGradient,
+        height: height ?? 50,
+        width: width ?? (selected == true ? null : 50),
+        backgroundGradient: selected == true ? primaryGradient : null,
+        backgroundColor: selected == true ? null : Colors.grey.withOpacity(0.3),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ImageView(
-              height: 38,
+              height: 18,
               width: 18,
               borderRadiusValue: 0,
               color: selected ? Colors.black : Colors.white,
@@ -118,7 +139,7 @@ class CustomBottomNavBar extends StatelessWidget {
               fit: BoxFit.contain,
               assetImage: selected ? data.activeImage : data.inActiveImage,
             ),
-            if (selected == true && data.title != null)
+            if (alwaysShowLabel == true ? true : selected == true && data.title != null)
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: Text(

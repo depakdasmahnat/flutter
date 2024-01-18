@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -8,7 +10,9 @@ import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
 
 import '../../../core/constant/gradients.dart';
+import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/image_view.dart';
+import 'guest_profiles.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -44,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -54,11 +58,12 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Welcome Guest',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
                     fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.start,
@@ -66,9 +71,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 GradientText(
                   'Monday, 12 Jan',
                   gradient: primaryGradient,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -92,7 +98,85 @@ class _HomeScreenState extends State<HomeScreen> {
         shrinkWrap: true,
         padding: const EdgeInsets.only(bottom: bottomNavbarSize),
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: kPadding,right: kPadding,top: 6),
+            child: Text(
+              'Congratulations to the new joinees',
+              style: TextStyle(
+                color: Colors.white ,
+                fontSize: 18,
+                fontFamily: GoogleFonts.urbanist().fontFamily,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          const GuestProfiles(),
           Banners(banners: banners),
+          GradientButton(
+            height: 70,
+            borderRadius: 18,
+            backgroundGradient: primaryGradient,
+            backgroundColor: Colors.transparent,
+            boxShadow: const [],
+            // margin:const EdgeInsets.only(left: 16, right: 24, bottom: 24),
+            onTap: () {
+              // context.pushNamed(Routs.verifyOTP);
+            },
+            margin: const EdgeInsets.only(left: kPadding,right: kPadding,top: kPadding),
+
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Check Demo',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: kPadding,right: kPadding,top: kPadding),
+            child: Container(
+              // height:size.height*0.05 ,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(AppAssets.container)
+                  )
+              ),
+              child: const Padding(
+                padding: EdgeInsets.only(left: kPadding,right: kPadding,top: 5,bottom: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Total App Download',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      '10 K',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
           const CustomTextField(
             hintText: 'Search',
             readOnly: true,
@@ -149,20 +233,44 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return FeedCard(index: index);
+              return InkWell(
+                  onTap: () {
+                    context.pushNamed(Routs.productDetail);
+                  },
+                  child: FeedCard(index: index));
             },
           ),
         ],
+      ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: size.height * 0.1),
+        child: Container(
+          decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
+          child: Padding(
+            padding: const EdgeInsets.all(kPadding),
+            child: Image.asset(
+              AppAssets.call2,
+              height: 30,
+              color: Colors.black,
+            ),
+          ),
+        ),
       ),
     );
   }
 }
 
 class FeedCard extends StatelessWidget {
-  const FeedCard({
+  FeedCard({
     super.key,
     required this.index,
+    this.imageHeight,
+    this.fit,
+    this.type,
   });
+  double? imageHeight;
+  BoxFit? fit;
+  String? type;
 
   final int index;
 
@@ -174,13 +282,14 @@ class FeedCard extends StatelessWidget {
         gradient: feedsCardGradient,
         borderRadius: BorderRadius.circular(24),
       ),
-      child: const Column(
+      child:  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ImageView(
+            height: imageHeight,
             borderRadiusValue: 16,
-            margin: EdgeInsets.all(12),
-            fit: BoxFit.contain,
+            margin: const EdgeInsets.all(12),
+            fit:fit?? BoxFit.contain,
             assetImage: AppAssets.product1,
           ),
           Padding(
@@ -188,7 +297,7 @@ class FeedCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Best water purifier: 10 picks to ensure clean drinking water',
                   style: TextStyle(
                     color: Colors.white,
@@ -197,45 +306,51 @@ class FeedCard extends StatelessWidget {
                   ),
                   textAlign: TextAlign.start,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    '12 hr',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
+                if(type =='true')
+                  const SizedBox(
+                    height: 10,
+                  ),
+                if(type !='true')
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      '12 hr',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.start,
                     ),
-                    textAlign: TextAlign.start,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          FeedMenu(
-                            icon: AppAssets.heartIcon,
-                            value: '3',
-                          ),
-                          FeedMenu(
-                            icon: AppAssets.chatIcon,
-                            value: '12K',
-                          ),
-                          FeedMenu(
-                            icon: AppAssets.shareIcon,
-                          ),
-                        ],
-                      ),
-                      FeedMenu(
-                        lastMenu: true,
-                        icon: AppAssets.bookmarkIcon,
-                      ),
-                    ],
+                if(type !='true')
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            FeedMenu(
+                              icon: AppAssets.heartIcon,
+                              value: '3',
+                            ),
+                            FeedMenu(
+                              icon: AppAssets.chatIcon,
+                              value: '12K',
+                            ),
+                            FeedMenu(
+                              icon: AppAssets.shareIcon,
+                            ),
+                          ],
+                        ),
+                        FeedMenu(
+                          lastMenu: true,
+                          icon: AppAssets.bookmarkIcon,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           )
