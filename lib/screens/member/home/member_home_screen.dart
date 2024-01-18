@@ -10,6 +10,7 @@ import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constant/gradients.dart';
+import '../../../guest/home/guest_profiles.dart';
 import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 
@@ -103,6 +104,20 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
         shrinkWrap: true,
         padding: const EdgeInsets.only(bottom: bottomNavbarSize),
         children: [
+          Padding(
+            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
+            child: Text(
+              'Congratulations to the new joiners',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontFamily: GoogleFonts.urbanist().fontFamily,
+                fontWeight: FontWeight.w400,
+              ),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          const GuestProfiles(),
           Banners(banners: banners),
           const CustomTextField(
             hintText: 'Search',
@@ -208,58 +223,64 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
             assetImage: AppAssets.downloadBg,
             margin: const EdgeInsets.only(top: 8, left: kPadding, right: kPadding, bottom: 8),
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 8, left: kPadding, right: kPadding, bottom: 8),
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Your Training Progress',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: () {
+              context.pushNamed(Routs.demoVideos);
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 8, left: kPadding, right: kPadding, bottom: 8),
+              padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Your Training Progress',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                GradientProgressBar(
-                  value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
-                  backgroundColor: Colors.grey.shade300,
-                  margin: const EdgeInsets.only(top: 8, bottom: 8),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Steps 35/60',
-                      style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      '${(trainingProgress ?? 0).toStringAsFixed(0)}%',
-                      style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Compete your training',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.underline,
+                  GradientProgressBar(
+                    value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
+                    backgroundColor: Colors.grey.shade300,
+                    margin: const EdgeInsets.only(top: 8, bottom: 8),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Steps 35/60',
+                        style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      Text(
+                        '${(trainingProgress ?? 0).toStringAsFixed(0)}%',
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Compete your training',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           GridView(
@@ -312,12 +333,16 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
               MenuCard(
                 image: AppAssets.feedsIcon,
                 name: 'Feeds',
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(Routs.memberFeeds);
+                },
               ),
               MenuCard(
                 image: AppAssets.trainingIcon,
                 name: 'Training',
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(Routs.trainingScreen);
+                },
               ),
               MenuCard(
                 image: AppAssets.resourcesIcon,

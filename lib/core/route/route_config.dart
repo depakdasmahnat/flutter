@@ -17,8 +17,11 @@ import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
+import '../../screens/member/feeds/demo_videos.dart';
+import '../../screens/member/feeds/member_feeds.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
+import '../../screens/member/home/training_screen.dart';
 import '../../screens/member/target/target_screen.dart';
 import '../../screens/welcome_screen.dart';
 import '../../utils/widgets/image_opener.dart';
@@ -40,7 +43,7 @@ class RoutesConfig {
 
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
-    return authenticated ? Routs.dashboard : Routs.dashboard;
+    return authenticated ? Routs.dashboard : Routs.welcome;
   }
 
   ///1)  Route Config...
@@ -201,6 +204,87 @@ class RoutesConfig {
         },
       ),
       GoRoute(
+<<<<<<< Updated upstream
+=======
+        name: Routs.guestProductDetail,
+        path: Routs.guestProductDetail,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GusetProductDetails());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestProduct,
+        path: Routs.guestProduct,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GuestPoduct());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestProfile,
+        path: Routs.guestProfile,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GuestProfile());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.guestEditProfile,
+        path: Routs.guestEditProfile,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GuestEditProfile());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestFaq,
+        path: Routs.guestFaq,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GuestFaq());
+        },
+      ),
+      GoRoute(
+        name: Routs.selectLead,
+        path: Routs.selectLead,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const SelectLead());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.demoVideos,
+        path: Routs.demoVideos,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const DemoVideos());
+        },
+      ),      GoRoute(
+        name: Routs.trainingScreen,
+        path: Routs.trainingScreen,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const TrainingScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberFeeds,
+        path: Routs.memberFeeds,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const MemberFeeds());
+        },
+      ),
+      GoRoute(
+        name: Routs.resourceAndDemo,
+        path: Routs.resourceAndDemo,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: RecourceAndDemo(type: state.extra.toString()));
+        },
+      ),
+      GoRoute(
+        name: Routs.productDetail,
+        path: Routs.productDetail,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const ProductDetail());
+        },
+      ),
+      GoRoute(
+>>>>>>> Stashed changes
         name: Routs.imageOpener,
         path: Routs.imageOpener,
         pageBuilder: (context, state) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
@@ -9,18 +10,19 @@ import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
 
 import '../../../core/constant/gradients.dart';
+import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/image_view.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({
+class MemberFeeds extends StatefulWidget {
+  const MemberFeeds({
     super.key,
   });
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MemberFeeds> createState() => _MemberFeedsState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MemberFeedsState extends State<MemberFeeds> {
   @override
   void initState() {
     super.initState();
@@ -37,142 +39,18 @@ class _HomeScreenState extends State<HomeScreen> {
     'Filter',
   ];
 
-  List<String> banners = [
-    AppAssets.banner,
-    AppAssets.banner1,
-    AppAssets.banner2,
-  ];
-
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Welcome Guest',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontFamily: GoogleFonts.urbanist().fontFamily,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                GradientText(
-                  'Monday, 12 Jan',
-                  gradient: primaryGradient,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: GoogleFonts.urbanist().fontFamily,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-        actions: const [
-          ImageView(
-            height: 24,
-            width: 24,
-            borderRadiusValue: 0,
-            color: Colors.white,
-            margin: EdgeInsets.only(left: 8, right: 8),
-            fit: BoxFit.contain,
-            assetImage: AppAssets.notificationsIcon,
-          ),
-        ],
+        title: const Text('Feeds'),
       ),
       body: ListView(
         shrinkWrap: true,
         padding: const EdgeInsets.only(bottom: bottomNavbarSize),
         children: [
-<<<<<<< Updated upstream
-          Banners(banners: banners),
-=======
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
-            child: Text(
-              'Congratulations to the new joiners',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontFamily: GoogleFonts.urbanist().fontFamily,
-                fontWeight: FontWeight.w400,
-              ),
-              textAlign: TextAlign.start,
-            ),
-          ),
-          const GuestProfiles(),
-          Banners(banners: banners),
-          GradientButton(
-            height: 70,
-            borderRadius: 18,
-            backgroundGradient: primaryGradient,
-            backgroundColor: Colors.transparent,
-            boxShadow: const [],
-            // margin:const EdgeInsets.only(left: 16, right: 24, bottom: 24),
-            onTap: () {
-              // context.pushNamed(Routs.verifyOTP);
-            },
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Check Demo',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: GoogleFonts.urbanist().fontFamily,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-            child: Container(
-              // height:size.height*0.05 ,
-              decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AppAssets.container))),
-              child: const Padding(
-                padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Total App Download',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      '10 K',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
->>>>>>> Stashed changes
           const CustomTextField(
             hintText: 'Search',
             readOnly: true,
@@ -186,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fit: BoxFit.contain,
               assetImage: AppAssets.searchIcon,
             ),
-            margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+            margin: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
           ),
           if (filters?.haveData == true)
             SizedBox(
@@ -229,7 +107,11 @@ class _HomeScreenState extends State<HomeScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return FeedCard(index: index);
+              return InkWell(
+                  onTap: () {
+                    context.pushNamed(Routs.productDetail);
+                  },
+                  child: FeedCard(index: index));
             },
           ),
         ],
@@ -239,17 +121,17 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class FeedCard extends StatelessWidget {
-  const FeedCard({
+  FeedCard({
     super.key,
     required this.index,
+    this.imageHeight,
+    this.fit,
+    this.type,
   });
-<<<<<<< Updated upstream
-=======
 
   double? imageHeight;
   BoxFit? fit;
   String? type;
->>>>>>> Stashed changes
 
   final int index;
 
@@ -261,22 +143,14 @@ class FeedCard extends StatelessWidget {
         gradient: feedsCardGradient,
         borderRadius: BorderRadius.circular(24),
       ),
-<<<<<<< Updated upstream
-      child: const Column(
-=======
       child: Column(
->>>>>>> Stashed changes
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ImageView(
+            height: imageHeight,
             borderRadiusValue: 16,
-<<<<<<< Updated upstream
-            margin: EdgeInsets.all(12),
-            fit: BoxFit.contain,
-=======
             margin: const EdgeInsets.all(12),
             fit: fit ?? BoxFit.contain,
->>>>>>> Stashed changes
             assetImage: AppAssets.product1,
           ),
           Padding(
@@ -284,7 +158,7 @@ class FeedCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Best water purifier: 10 picks to ensure clean drinking water',
                   style: TextStyle(
                     color: Colors.white,
@@ -293,45 +167,6 @@ class FeedCard extends StatelessWidget {
                   ),
                   textAlign: TextAlign.start,
                 ),
-<<<<<<< Updated upstream
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    '12 hr',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          FeedMenu(
-                            icon: AppAssets.heartIcon,
-                            value: '3',
-                          ),
-                          FeedMenu(
-                            icon: AppAssets.chatIcon,
-                            value: '12K',
-                          ),
-                          FeedMenu(
-                            icon: AppAssets.shareIcon,
-                          ),
-                        ],
-                      ),
-                      FeedMenu(
-                        lastMenu: true,
-                        icon: AppAssets.bookmarkIcon,
-                      ),
-                    ],
-=======
                 if (type == 'true')
                   const SizedBox(
                     height: 10,
@@ -376,9 +211,7 @@ class FeedCard extends StatelessWidget {
                         ),
                       ],
                     ),
->>>>>>> Stashed changes
                   ),
-                ),
               ],
             ),
           )

@@ -26,4 +26,20 @@ class Routs {
   static const String editProfile = '/edit-profile';
   static const String permissions = '/permissions';
   static const String samplePagination = '/sample-pagination';
+<<<<<<< Updated upstream
+=======
+
+  static const String productDetail = '/productDetail';
+  static const String guestProductDetail = '/guestProductDetail';
+  static const String guestProduct = '/guestProduct';
+  static const String guestProfile = '/guestProfile';
+  static const String resourceAndDemo = '/resourceAndDemo';
+  static const String guestEditProfile = '/guestEditPRofile';
+  static const String guestFaq = '/guestFaq';
+  static const String selectLead = '/selectLead';
+
+  static const String demoVideos = '/demoVideos';
+  static const String trainingScreen = '/trainingScreen';
+  static const String memberFeeds = '/memberFeeds';
+>>>>>>> Stashed changes
 }

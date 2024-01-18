@@ -6,6 +6,11 @@ import '../../core/constant/enums.dart';
 import '../../models/dashboard/dashboard_data.dart';
 import '../../screens/guest/home/home_screen.dart';
 
+<<<<<<< Updated upstream
+=======
+import '../../screens/guest/product/guest_product.dart';
+import '../../screens/guest/resource&Demo/mainresource.dart';
+>>>>>>> Stashed changes
 import '../../screens/member/home/member_home_screen.dart';
 import '../../screens/member/network/network_screen.dart';
 import '../../utils/widgets/no_data_found.dart';

@@ -36,6 +36,8 @@ class AppAssets {
   static const String documentIcon = 'assets/icons/ic_document.png';
   static const String arrowForwardIcon = 'assets/icons/ic_arrow_forward.png';
   static const String achievementIcon = 'assets/icons/ic_achievement.png';
+  static const String playIcon = 'assets/icons/ic_play.png';
+  static const String checkIcon = 'assets/icons/ic_check.png';
 
   /// 2) Images...
 

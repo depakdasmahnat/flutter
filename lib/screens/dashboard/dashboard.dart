@@ -95,6 +95,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
   final DashboardData data;
   final GestureTapCallback? onTap;
+  final EdgeInsets? imageMargin;
 
   const CustomBottomNavBar({
     super.key,
@@ -104,7 +105,12 @@ class CustomBottomNavBar extends StatelessWidget {
     this.height,
     this.width,
     this.alwaysShowLabel = false,
+<<<<<<< Updated upstream
      this.onTap,
+=======
+    this.onTap,
+    this.imageMargin,
+>>>>>>> Stashed changes
   });
 
   @override
@@ -126,14 +132,14 @@ class CustomBottomNavBar extends StatelessWidget {
         backgroundColor: selected == true ? null : Colors.grey.withOpacity(0.3),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ImageView(
               height: 18,
               width: 18,
               borderRadiusValue: 0,
               color: selected ? Colors.black : Colors.white,
-              margin: EdgeInsets.zero,
+              margin: imageMargin ?? EdgeInsets.zero,
               fit: BoxFit.contain,
               assetImage: selected ? data.activeImage : data.inActiveImage,
             ),
