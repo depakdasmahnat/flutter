@@ -35,4 +35,7 @@ class Routs {
   static const String guestEditProfile = '/guestEditPRofile';
   static const String guestFaq = '/guestFaq';
   static const String selectLead = '/selectLead';
+  static const String fisrtScreen = '/fisrtScreen';
+  static const String memberProfile = '/memberProfile';
+  static const String callender = '/callender';
 }

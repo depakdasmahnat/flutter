@@ -9,34 +9,29 @@ import '../../screens/guest/home/home_screen.dart';
 
 import '../../screens/guest/product/guest_product.dart';
 import '../../screens/guest/resource&Demo/mainresource.dart';
+import '../../screens/member/home/member_home_screen.dart';
+import '../../screens/member/lead/lead.dart';
+import '../../screens/member/memberScreen/member_screen.dart';
 import '../../utils/widgets/no_data_found.dart';
 
 class DashboardController extends ChangeNotifier {
   /// 1) Dashboard Index
   final int _defaultDashBoardIndex = 0;
-
   late int _dashBoardIndex = _defaultDashBoardIndex;
-
   int get dashBoardIndex => _dashBoardIndex;
-
   changeDashBoardIndex({int? index}) {
     _dashBoardIndex = index ?? _dashBoardIndex;
-
     notifyListeners();
   }
-
   ///2) Dashboard User Role
-  UserRoles defaultUserRole = UserRoles.guest;
+  // UserRoles defaultUserRole = UserRoles.guest;
+  UserRoles defaultUserRole = UserRoles.member;
   late UserRoles _userRole = defaultUserRole;
-
   UserRoles get userRole => _userRole;
-
   changeUserRole({UserRoles? role}) {
     _userRole = role ?? defaultUserRole;
-
     notifyListeners();
   }
-
   changeUserRoleFromString({String? role}) {
     List<UserRoles> userRoles = UserRoles.values.where((element) => element.value == role).toList();
     if (userRoles.haveData) {
@@ -82,7 +77,7 @@ class DashboardController extends ChangeNotifier {
       title: 'Home',
       activeImage: AppAssets.homeFilledIcon,
       inActiveImage: AppAssets.homeIcon,
-      widget: const HomeScreen(),
+      widget: const MemberHomeScreen(),
     ),
     DashboardData(
       title: 'Network',
@@ -99,13 +94,13 @@ class DashboardController extends ChangeNotifier {
       title: 'Leads',
       activeImage: AppAssets.leadsFilledIcon,
       inActiveImage: AppAssets.leadsIcon,
-      widget: const NoDataFound(),
+      widget: const Lead(),
     ),
     DashboardData(
       title: 'Members',
       activeImage: AppAssets.membersFilledIcon,
       inActiveImage: AppAssets.membersIcon,
-      widget: const NoDataFound(),
+      widget: const MemberScreen(),
     ),
   ];
 }

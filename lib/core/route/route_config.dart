@@ -15,6 +15,7 @@ import '../../guest/product/guest_product_details.dart';
 import '../../guest/productDetail/product_detail.dart';
 import '../../guest/resource&Demo/resource_and_demo.dart';
 import '../../screens/auth/connect_with_us.dart';
+import '../../screens/auth/first_Screen.dart';
 import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member_login.dart';
 import '../../screens/auth/question_screen.dart';
@@ -26,6 +27,8 @@ import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
+import '../../screens/member/memberScreen/callender.dart';
+import '../../screens/member/profile/profile.dart';
 import '../../screens/member/target/target_screen.dart';
 import '../../screens/welcome_screen.dart';
 import '../../select_lead/select_lead.dart';
@@ -52,7 +55,6 @@ class RoutesConfig {
   }
 
   ///1)  Route Config...
-
   static final GoRouter _router = GoRouter(
     initialLocation: initialLocation(),
     observers: [
@@ -67,7 +69,27 @@ class RoutesConfig {
       //     return cupertinoPage(state: state, child: initialScreen());
       //   },
       // ),
-
+      GoRoute(
+        name: Routs.callender,
+        path: Routs.callender,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const CallenderForm());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberProfile,
+        path: Routs.memberProfile,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const MemberProfile());
+        },
+      ),
+      GoRoute(
+        name: Routs.fisrtScreen,
+        path: Routs.fisrtScreen,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const FirstScreen());
+        },
+      ),
       GoRoute(
         name: Routs.dashboard,
         path: Routs.dashboard,

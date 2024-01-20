@@ -65,6 +65,7 @@ class AppAssets {
   static const String documentIcon = 'assets/icons/ic_document.png';
   static const String arrowForwardIcon = 'assets/icons/ic_arrow_forward.png';
   static const String achievementIcon = 'assets/icons/ic_achievement.png';
+  static const String playIcon = 'assets/icons/ic_play.png';
 
   /// 2) Images...
 
@@ -77,10 +78,11 @@ class AppAssets {
   static const String banner = 'assets/images/banner.png';
   static const String banner1 = 'assets/images/banner1.png';
   static const String banner2 = 'assets/images/banner2.png';
-
   static const String alertBanner = 'assets/images/alert_banner.png';
   static const String downloadBg = 'assets/images/downloads_bg.png';
   static const String userImage = 'assets/images/user_image.png';
+  static const String filter = 'assets/images/filter.png';
+  static const String topIcon = 'assets/images/topicon.png';
 
   ///3)  Json...
 
@@ -93,4 +95,6 @@ class AppAssets {
   ///4)  ExtraImage...
 
   static const String container = 'assets/extraImage/container.png';
+  static const String toparrow = 'assets/images/toparrow.png';
+  static const String memberprofile = 'assets/images/memberprofile.png';
 }

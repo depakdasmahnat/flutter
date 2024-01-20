@@ -34,7 +34,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
               ),
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(17),bottomRight:Radius.circular(17) )
             ),
-            child: const Padding(
+            child:  Padding(
               padding: EdgeInsets.only(left: kPadding,top: 30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
