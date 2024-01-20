@@ -66,6 +66,7 @@ class AppAssets {
   static const String arrowForwardIcon = 'assets/icons/ic_arrow_forward.png';
   static const String achievementIcon = 'assets/icons/ic_achievement.png';
   static const String playIcon = 'assets/icons/ic_play.png';
+  static const String upload = 'assets/icons/download.png';
 
   /// 2) Images...
 
@@ -97,4 +98,5 @@ class AppAssets {
   static const String container = 'assets/extraImage/container.png';
   static const String toparrow = 'assets/images/toparrow.png';
   static const String memberprofile = 'assets/images/memberprofile.png';
+  static const String admemberlist = 'assets/images/memberuser.png';
 }

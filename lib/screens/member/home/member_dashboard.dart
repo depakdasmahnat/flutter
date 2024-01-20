@@ -10,6 +10,7 @@ import 'package:mrwebbeast/screens/member/home/performance_graph.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
 import '../../../models/dashboard/dashboard_data.dart';
+import '../../../utils/widgets/custom_bottemsheet.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../dashboard/dashboard.dart';
@@ -113,7 +114,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: kPadding, left: 8, right: 8),
+            padding: EdgeInsets.only(top: kPadding, left: 4, right: 4),
             child: Row(
               children: [
                 MySalesTarget(
@@ -171,22 +172,67 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             child: Row(
               children: [
                 AnalyticsCard(
-                  title: 'Leads Added',
+                  title: 'List',
                   value: '08',
                   gradient: limeGradient,
-                  onTap: () {},
+                  onTap:()async {
+                    await  showModalBottomSheet(
+                    backgroundColor: Colors.transparent,
+                    context: context,
+                    clipBehavior: Clip.antiAlias,
+                    isScrollControlled: true,
+                    shape: const OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18))),
+                    builder: (context) =>
+                     CustomeModelBottemSheet(
+                       title: 'New Lists',
+                       tabIndex:myDashboard?7:4,
+                       listItem: 14,
+
+                     )
+                    );
+                  },
                 ),
                 AnalyticsCard(
                   title: 'Demo Scheduled',
                   value: '02',
                   gradient: targetGradient,
-                  onTap: () {},
+                  onTap:()async {
+                    await  showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        clipBehavior: Clip.antiAlias,
+                        isScrollControlled: true,
+                        shape: const OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18))),
+                        builder: (context) =>
+                            CustomeModelBottemSheet(
+                              title: 'Demo Scheduled',
+                              tabIndex:myDashboard? 8:5,
+                              listItem: 14,
+
+                            )
+                    );
+                  },
                 ),
                 AnalyticsCard(
                   title: 'Demo Competed',
                   value: '02',
                   gradient: targetGradient,
-                  onTap: () {},
+                  onTap:()async {
+                    await  showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        clipBehavior: Clip.antiAlias,
+                        isScrollControlled: true,
+                        shape: const OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18))),
+                        builder: (context) =>
+                            CustomeModelBottemSheet(
+                              title: 'Demo Done',
+                              tabIndex: myDashboard?9:4,
+                              listItem: 14,
+
+                            )
+                    );
+                  },
                 ),
               ],
             ),
@@ -200,7 +246,22 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   value: '06',
                   flex: 2,
                   gradient: primaryGradient,
-                  onTap: () {},
+                  onTap:()async {
+                    await  showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        clipBehavior: Clip.antiAlias,
+                        isScrollControlled: true,
+                        shape: const OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18))),
+                        builder: (context) =>
+                            CustomeModelBottemSheet(
+                              title: 'Demo Done',
+                              tabIndex:myDashboard? 10:6,
+                              listItem: 14,
+
+                            )
+                    );
+                  },
                 ),
                 AnalyticsCard(
                   title: 'Leads\nConversion',
@@ -288,6 +349,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
   }
 
   TextStyle headingTextStyle() => const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+
+
 }
 
 class MyRankTarget extends StatelessWidget {
@@ -364,7 +427,6 @@ class MyRankTarget extends StatelessWidget {
     );
   }
 }
-
 class MySalesTarget extends StatelessWidget {
   const MySalesTarget({
     super.key,
@@ -474,7 +536,6 @@ class MySalesTarget extends StatelessWidget {
     );
   }
 }
-
 class AnalyticsCard extends StatelessWidget {
   const AnalyticsCard({
     super.key,

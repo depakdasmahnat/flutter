@@ -38,4 +38,7 @@ class Routs {
   static const String fisrtScreen = '/fisrtScreen';
   static const String memberProfile = '/memberProfile';
   static const String callender = '/callender';
+  static const String memberEditProfile = '/memberEditProfile';
+  static const String memberaddList = '/memberaddList';
+  static const String memberaddForm = '/memberaddForm';
 }

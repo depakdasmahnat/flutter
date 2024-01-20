@@ -25,9 +25,13 @@ import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
+
+import '../../screens/member/addMember/add_member_form.dart';
+import '../../screens/member/addMemberList/add_member_list.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
 import '../../screens/member/memberScreen/callender.dart';
+import '../../screens/member/profile/member_edit_profile.dart';
 import '../../screens/member/profile/profile.dart';
 import '../../screens/member/target/target_screen.dart';
 import '../../screens/welcome_screen.dart';
@@ -69,6 +73,26 @@ class RoutesConfig {
       //     return cupertinoPage(state: state, child: initialScreen());
       //   },
       // ),
+      GoRoute(
+        name: Routs.memberaddForm,
+        path: Routs.memberaddForm,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const AddMemberForm());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberaddList,
+        path: Routs.memberaddList,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const AddMemberList());
+        },
+      ), GoRoute(
+        name: Routs.memberEditProfile,
+        path: Routs.memberEditProfile,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const MemberEditProfile());
+        },
+      ),
       GoRoute(
         name: Routs.callender,
         path: Routs.callender,

@@ -220,7 +220,49 @@ class _MemberProfileState extends State<MemberProfile> {
        mainAxisSize: MainAxisSize.min,
        mainAxisAlignment: MainAxisAlignment.center,
        children: [
-
+         Padding(
+           padding: const EdgeInsets.only(bottom: 8.0,left: 8),
+           child: GradientButton(
+             height: 70,
+             borderRadius: 18,
+             backgroundGradient: primaryGradient,
+             backgroundColor: Colors.transparent,
+             boxShadow: const [],
+             margin: const EdgeInsets.only(left: 16, right: 24),
+             onTap: () {
+               context.pushNamed(Routs.callender);
+             },
+             child: Row(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: [
+                 Text(
+                   'Call for Demo',
+                   style: TextStyle(
+                     color: Colors.black,
+                     fontFamily: GoogleFonts.urbanist().fontFamily,
+                     fontWeight: FontWeight.w600,
+                     fontSize: 18,
+                   ),
+                 ),
+                 const SizedBox(
+                   width: 7,
+                 ),
+                 Container(
+                   decoration: const BoxDecoration(
+                       gradient: LinearGradient(
+                         colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
+                       ),
+                       shape: BoxShape.circle
+                   ),
+                   child: Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Image.asset(AppAssets.call,height: size.height*0.02,),
+                   ),
+                 )
+               ],
+             ),
+           ),
+         ),
        ],
      ),
 

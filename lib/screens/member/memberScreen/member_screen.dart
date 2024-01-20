@@ -521,7 +521,7 @@ class _MemberScreenState extends State<MemberScreen> {
                     child:
                     InkWell(
                       onTap: () {
-                        context.push(Routs.memberProfile);
+                        context.pushNamed(Routs.memberEditProfile);
                       },
                       child: RowCart(
                         tabIndex: tabIndex,

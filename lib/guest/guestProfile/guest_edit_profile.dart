@@ -35,7 +35,6 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           CustomeTextFiled(
             title: 'First Name',
             hintText: 'Enter First Name',
-
           ),
           CustomeTextFiled(
             title: 'Last Name',
@@ -184,7 +183,10 @@ String? hintText;
 bool? readOnly;
 Widget? prefixIcon;
 double? height;
+TextInputType? keyboardType;
 TextEditingController? controller;
+String? Function(String?)? validator;
+void Function(String)? onChanged;
   CustomeTextFiled({
  this.title,
  this.hintText,
@@ -193,6 +195,9 @@ TextEditingController? controller;
  this.prefixIcon,
  this.height,
  this.readOnly,
+ this.keyboardType,
+ this.validator,
+ this.onChanged,
     super.key,
   });
   @override
@@ -227,8 +232,11 @@ TextEditingController? controller;
                 ),
               ),
               CustomTextField(
+                onChanged:onChanged ,
                 readOnly:readOnly ,
+                validator: validator,
                 onTap: onTap,
+                keyboardType:keyboardType ,
                 height:height?? size.height*0.03,
                 controller: controller,
                 prefixIcon:prefixIcon ,

@@ -476,7 +476,8 @@ class RowCart extends StatelessWidget {
           onTap: () {
 
           },
-          child: Container(
+          child:
+          Container(
             decoration: ShapeDecoration(
               gradient: LinearGradient(
                 begin: Alignment(0.61, -0.79),
@@ -583,8 +584,34 @@ class RowCart extends StatelessWidget {
         ),
 
       ],
-    ):
+    ):tabIndex==4?
     Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Row(
+          children: [
+            Image.asset(AppAssets.u1),
+            const SizedBox(
+              width: 5,
+            ),
+            CustomeText(
+              text: 'Ayaan sha',
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
+          ],
+        ),
+        CustomeText(
+          text: 'Raipur (C.G.)',
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
+        const Icon(Icons.more_vert)
+
+
+
+      ],
+    ):Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Row(
