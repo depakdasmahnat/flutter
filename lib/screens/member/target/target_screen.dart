@@ -252,7 +252,7 @@ class _TargetScreenState extends State<TargetScreen> {
         ],
       ),
       bottomSheet: CustomButton(
-        text: 'Add a  target',
+        text: 'Add a target',
         icon: Icon(
           CupertinoIcons.add_circled,
           color: Colors.grey.shade900,
@@ -264,7 +264,9 @@ class _TargetScreenState extends State<TargetScreen> {
         backgroundColor: Colors.grey,
         borderColor: Colors.grey,
         mainAxisAlignment: MainAxisAlignment.center,
-        onPressed: () {},
+        onPressed: () {
+          context.pushNamed(Routs.createTarget);
+        },
       ),
     );
   }

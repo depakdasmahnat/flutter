@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/constant/gradients.dart';
+
+import 'colors.dart';
 
 const double kPadding = 16;
 const double bottomNavbarSize = 120;
@@ -9,22 +12,56 @@ const BorderRadius upperBorderRadius = BorderRadius.only(
   topLeft: Radius.circular(kBorderRadius),
   topRight: Radius.circular(kBorderRadius),
 );
+Decoration? decoration = ShapeDecoration(
+  gradient: const LinearGradient(
+    begin: Alignment(0.00, -1.00),
+    end: Alignment(0, 1),
+    colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
+  ),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10.96),
+  ),
+);
 
-Color statusColor({required String? status}) {
+Gradient primaryGradientTransparent = LinearGradient(
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+  colors: [
+    primaryColor.withOpacity(0.65),
+    secondaryColor.withOpacity(0.53),
+  ],
+);
+
+Color statusColor({required num? percentage}) {
   Color color = Colors.grey;
-  switch (status) {
-    case 'Processing':
-      color = Colors.blue;
-      break;
-    case 'Successfully':
-      color = Colors.green;
-      break;
-    case 'Failed':
-      color = Colors.orangeAccent;
-      break;
-    case 'Canceled':
-      color = Colors.red;
-      break;
+
+  if (percentage == null || percentage == 0 || percentage < 20) {
+    color = Colors.red;
+  } else if (percentage < 40) {
+    color = Colors.orangeAccent;
+  } else if (percentage < 60) {
+    color = Colors.purple;
+  } else if (percentage < 80) {
+    color = Colors.blue;
+  } else {
+    color = Colors.green;
   }
   return color;
+}
+
+Gradient statusGradient({required num? sales}) {
+  Gradient gradient = primaryGradient;
+
+  if (sales == null || sales == 0 || sales < 20) {
+    gradient = redGradient;
+  } else if (sales < 40) {
+    gradient = yellowGradient;
+  } else if (sales < 60) {
+    gradient = purpleGradient;
+  } else if (sales < 80) {
+    gradient = blueGradient;
+  } else {
+    gradient = greenGradient;
+  }
+  return gradient;
 }

@@ -471,7 +471,7 @@ pickImageButton({required BuildContext context, required String text, required I
         minWidth: 150.0,
       ),
       decoration: BoxDecoration(
-        color: context.colorScheme.primary,
+        color: Colors.black,
         border: Border.all(color: context.colorScheme.primary),
         borderRadius: BorderRadius.circular(16),
       ),

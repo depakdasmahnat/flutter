@@ -4,13 +4,11 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.da
 import '../../core/config/app_assets.dart';
 import '../../core/constant/enums.dart';
 import '../../models/dashboard/dashboard_data.dart';
+import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/home/home_screen.dart';
 
-<<<<<<< Updated upstream
-=======
 import '../../screens/guest/product/guest_product.dart';
 import '../../screens/guest/resource&Demo/mainresource.dart';
->>>>>>> Stashed changes
 import '../../screens/member/home/member_home_screen.dart';
 import '../../screens/member/network/network_screen.dart';
 import '../../utils/widgets/no_data_found.dart';
@@ -24,10 +22,17 @@ class DashboardController extends ChangeNotifier {
   int get dashBoardIndex => _dashBoardIndex;
 
   changeDashBoardIndex({int? index}) {
-    _dashBoardIndex = index ?? _dashBoardIndex;
+    if (userRole == UserRoles.member && index == 2) {
+      showMoreMenuPopUp = !showMoreMenuPopUp;
+    } else {
+      showMoreMenuPopUp = false;
+      _dashBoardIndex = index ?? _dashBoardIndex;
+    }
 
     notifyListeners();
   }
+
+  bool showMoreMenuPopUp = false;
 
   ///2) Dashboard User Role
   UserRoles defaultUserRole = UserRoles.member;
@@ -56,27 +61,27 @@ class DashboardController extends ChangeNotifier {
   final List<DashboardData> _guestWidgets = [
     DashboardData(
       title: 'Feed',
-      activeImage: AppAssets.homeFilledIcon,
-      inActiveImage: AppAssets.homeIcon,
+      activeImage: AppAssets.guestHomeIcon,
+      inActiveImage: AppAssets.guestHomeIcon,
       widget: const HomeScreen(),
     ),
     DashboardData(
       title: 'Products',
-      activeImage: AppAssets.networkFilledIcon,
-      inActiveImage: AppAssets.networkIcon,
-      widget: const NoDataFound(),
+      activeImage: AppAssets.productIcon,
+      inActiveImage: AppAssets.productIcon,
+      widget: const GuestPoduct(),
     ),
     DashboardData(
       title: 'Profile',
-      activeImage: AppAssets.leadsFilledIcon,
-      inActiveImage: AppAssets.leadsIcon,
-      widget: const NoDataFound(),
+      activeImage: AppAssets.userIcon,
+      inActiveImage: AppAssets.userIcon,
+      widget: const GuestProfile(),
     ),
     DashboardData(
       title: 'More',
-      activeImage: AppAssets.membersFilledIcon,
-      inActiveImage: AppAssets.membersIcon,
-      widget: const NoDataFound(),
+      activeImage: AppAssets.more,
+      inActiveImage: AppAssets.more,
+      widget: const Mainresource(),
     ),
   ];
 

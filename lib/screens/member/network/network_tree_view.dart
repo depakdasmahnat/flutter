@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
@@ -9,7 +10,9 @@ import 'package:mrwebbeast/models/dashboard/color_grades.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
 import '../../../core/constant/constant.dart';
+import '../../../core/route/route_paths.dart';
 import '../../../models/dashboard/tree_graph_model.dart';
+import '../../../utils/widgets/gradient_button.dart';
 
 class NetworkTreeView extends StatefulWidget {
   const NetworkTreeView({super.key});
@@ -25,7 +28,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
       profilePic: 'url',
       rank: 'A',
       level: '6A',
-      sales: 45,
+      sales: 90,
       percentage: 77,
       members: [2, 3],
     ),
@@ -34,7 +37,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
       profilePic: 'url',
       rank: 'A',
       level: '6A',
-      sales: 15,
+      sales: 45,
       percentage: 77,
       members: [4, 5],
     ),
@@ -43,7 +46,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
       profilePic: 'url',
       rank: 'B',
       level: '6A',
-      sales: 72,
+      sales: 92,
       percentage: 77,
       members: [6, 7],
     ),
@@ -52,7 +55,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
       profilePic: 'url',
       rank: 'C',
       level: '6A',
-      sales: 23,
+      sales: 45,
       percentage: 77,
       // connectedMember: [8, 9],
     ),
@@ -61,7 +64,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
       profilePic: 'url',
       rank: 'D',
       level: '6A',
-      sales: 14,
+      sales: 67,
       percentage: 77,
       // connectedMember: [10, 11],
     ),
@@ -182,17 +185,15 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
                         decoration: BoxDecoration(
                           gradient: e.gradient,
                         ),
-                        child: Flexible(
-                          child: Center(
-                            child: Text(
-                              '${e.percentage}%',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                        child: Center(
+                          child: Text(
+                            '${e.percentage}%',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
@@ -275,6 +276,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
                       if (filteredMembers.haveData) {
                         data = filteredMembers.first;
                       }
+
                       return rectangleWidget(data);
                     },
                   ),
@@ -290,27 +292,51 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
   Widget rectangleWidget(TreeGraphData? data) {
     return InkWell(
       onTap: () {
-        print('clicked');
+        context.pushNamed(Routs.memberProfileDetails);
       },
       child: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 2),
-            decoration: BoxDecoration(
-              gradient: primaryGradient,
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: Center(
-              child: ImageView(
-                height: 30,
-                width: 30,
-                isAvatar: true,
-                borderRadiusValue: 40,
-                border: Border.all(color: Colors.black, width: 2),
-                margin: const EdgeInsets.all(3),
-                assetImage: 'AppAssets.appIcon',
+          Stack(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 2),
+                decoration: BoxDecoration(
+                  gradient: statusGradient(sales: data?.sales),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Center(
+                  child: ImageView(
+                    height: 38,
+                    width: 38,
+                    isAvatar: true,
+                    borderRadiusValue: 40,
+                    border: Border.all(color: Colors.black, width: 2),
+                    margin: const EdgeInsets.all(3),
+                    assetImage: '',
+                  ),
+                ),
               ),
-            ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: GradientButton(
+                  height: 14,
+                  width: 14,
+                  backgroundGradient: primaryGradient,
+                  padding: EdgeInsets.zero,
+                  child: Center(
+                    child: Text(
+                      '${data?.level}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 8,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 2, bottom: 2),

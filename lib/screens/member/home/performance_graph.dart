@@ -34,7 +34,7 @@ class PerformanceGraph extends StatelessWidget {
             // ),
             tooltipBehavior: TooltipBehavior(enable: true),
             backgroundColor: Colors.transparent,
-            series: <ChartSeries>[
+            series: <CartesianSeries>[
               SplineSeries<TargetAnalyticsData?, String>(
                 dataSource: analytics!,
                 splineType: SplineType.cardinal,

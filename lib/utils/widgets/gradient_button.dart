@@ -17,7 +17,9 @@ class GradientButton extends StatelessWidget {
   final Color? backgroundColor;
   final Gradient? backgroundGradient;
   final double? blur;
+
   final double? minSize;
+  final Border? border;
   final List<BoxShadow>? boxShadow;
 
   GradientButton({
@@ -37,6 +39,7 @@ class GradientButton extends StatelessWidget {
     this.width,
     this.blur,
     this.minSize,
+    this.border,
   }) : _painter = gradient != null
             ? GradientBorderPainter(
                 strokeWidth: borderWidth ?? 1,
@@ -48,7 +51,7 @@ class GradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      minSize: minSize??0,
+      minSize: minSize ?? 0,
       borderRadius: buildBorderRadius(),
       onPressed: onTap,
       padding: EdgeInsets.zero,
@@ -64,6 +67,7 @@ class GradientButton extends StatelessWidget {
               decoration: BoxDecoration(
                 color: backgroundGradient == null ? (backgroundColor ?? Colors.transparent) : null,
                 gradient: backgroundGradient,
+                border: border,
                 borderRadius: buildBorderRadius(),
                 boxShadow: boxShadow,
               ),

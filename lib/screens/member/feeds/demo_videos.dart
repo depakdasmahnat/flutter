@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
@@ -40,51 +42,56 @@ class _DemoVideosState extends State<DemoVideos> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: kPadding,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
-                child: ListTile(
-                  leading: GradientButton(
-                    height: 50,
-                    width: 50,
-                    borderRadius: 30,
-                    backgroundGradient: primaryGradient,
-                    child: const ImageView(
-                      height: 16,
-                      width: 16,
-                      fit: BoxFit.contain,
-                      assetImage: AppAssets.playIcon,
-                    ),
+              return GestureDetector(
+                onTap: () {
+                  context.pushNamed(Routs.examQuiz);
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: kPadding,
+                    vertical: 8,
                   ),
-                  title: Text(
-                    'Chapter ${index + 1}',
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
+                  child: ListTile(
+                    leading: GradientButton(
+                      height: 50,
+                      width: 50,
+                      borderRadius: 30,
+                      backgroundGradient: primaryGradient,
+                      child: const ImageView(
+                        height: 16,
+                        width: 16,
+                        fit: BoxFit.contain,
+                        assetImage: AppAssets.playIcon,
+                      ),
                     ),
-                  ),
-                  subtitle: Text(
-                    'Chapter ${index + 1}',
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
+                    title: Text(
+                      'Chapter ${index + 1}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  trailing: GradientButton(
-                    height: 28,
-                    width: 28,
-                    borderRadius: 30,
-                    backgroundGradient: limeGradient,
-                    child: const ImageView(
-                      height: 16,
-                      width: 16,
-                      fit: BoxFit.contain,
-                      assetImage: AppAssets.checkIcon,
+                    subtitle: Text(
+                      'Chapter ${index + 1}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    trailing: GradientButton(
+                      height: 28,
+                      width: 28,
+                      borderRadius: 30,
+                      backgroundGradient: limeGradient,
+                      child: const ImageView(
+                        height: 16,
+                        width: 16,
+                        fit: BoxFit.contain,
+                        assetImage: AppAssets.checkIcon,
+                      ),
                     ),
                   ),
                 ),

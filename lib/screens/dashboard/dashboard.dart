@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 
 import 'package:mrwebbeast/core/constant/enums.dart';
 
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/screens/dashboard/more_menu.dart';
+import 'package:mrwebbeast/utils/widgets/custom_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 
 import 'package:provider/provider.dart';
@@ -11,10 +14,13 @@ import 'package:provider/provider.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../controllers/dashboard/dashboard_controller.dart';
 
+import '../../core/config/app_assets.dart';
 import '../../core/services/database/local_database.dart';
 
 import '../../models/dashboard/dashboard_data.dart';
+import '../../utils/widgets/gradient_text.dart';
 import '../../utils/widgets/widgets.dart';
+import 'custom_drawer.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key, this.dashBoardIndex, this.userRole});
@@ -42,7 +48,7 @@ class DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     debugPrint('deviceToken ${LocalDatabase().deviceToken}');
     // DashboardController dashboardController = Provider.of<DashboardController>(context);
-    // Size size = MediaQuery.sizeOf(context);
+    Size size = MediaQuery.sizeOf(context);
     return Consumer<DashboardController>(
       builder: (context, controller, child) {
         dashBoardIndex = controller.dashBoardIndex;
@@ -50,30 +56,123 @@ class DashBoardState extends State<DashBoard> {
         return WillPopScope(
           onWillPop: onAppExit,
           child: Scaffold(
+            drawer: const CustomDrawer(),
+            onDrawerChanged: (val) {},
+            appBar: (userRole == UserRoles.member && dashBoardIndex == 0)
+                ? AppBar(
+                    elevation: 0,
+                    leadingWidth: 0,
+                    leading: const SizedBox(),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Builder(builder: (context) {
+                          return ImageView(
+                            height: 42,
+                            width: 42,
+                            assetImage: AppAssets.drawerIcon,
+                            margin: const EdgeInsets.only(right: kPadding),
+                            onTap: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                          );
+                        }),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GradientText(
+                              'Welcome Guest',
+                              gradient: primaryGradient,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontFamily: GoogleFonts.urbanist().fontFamily,
+                                fontWeight: FontWeight.w700,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                            Text(
+                              'Monday, 12 Jan',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: GoogleFonts.urbanist().fontFamily,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    actions: [
+                      const ImageView(
+                        height: 24,
+                        width: 24,
+                        borderRadiusValue: 0,
+                        color: Colors.white,
+                        margin: EdgeInsets.only(left: 8, right: 8),
+                        fit: BoxFit.contain,
+                        assetImage: AppAssets.notificationsIcon,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ImageView(
+                            height: 36,
+                            width: 36,
+                            border: Border.all(color: Colors.white),
+                            borderRadiusValue: 50,
+                            isAvatar: true,
+                            margin: const EdgeInsets.only(left: 8, right: 8),
+                            fit: BoxFit.contain,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : null,
             body: Builder(
               builder: (BuildContext context) {
                 return controller.widgets.elementAt(dashBoardIndex).widget;
               },
             ),
-            bottomSheet: GradientButton(
-              margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
-              borderRadius: 50,
-              blur: 15,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-              // backgroundGradient: inActiveGradientTransparent,
-              backgroundColor: Colors.white.withOpacity(0.15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                  controller.widgets.length,
-                  (index) {
-                    var data = controller.widgets.elementAt(index);
-                    return CustomBottomNavBar(
-                      index: index,
-                      dashBoardIndex: dashBoardIndex,
-                      data: data,
-                    );
-                  },
+            bottomSheet: GestureDetector(
+              onTap: () {
+                if (controller.showMoreMenuPopUp) {
+                  context.read<DashboardController>().changeDashBoardIndex(index: 2);
+                }
+              },
+              child: Container(
+                decoration:
+                    controller.showMoreMenuPopUp ? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
+                child: Column(
+                  mainAxisSize: controller.showMoreMenuPopUp ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    if (controller.showMoreMenuPopUp) const DashboardMoreMenu(),
+                    GradientButton(
+                      margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
+                      borderRadius: 50,
+                      blur: 15,
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      // backgroundGradient: inActiveGradientTransparent,
+                      backgroundColor: Colors.white.withOpacity(0.15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(
+                          controller.widgets.length,
+                          (index) {
+                            var data = controller.widgets.elementAt(index);
+                            return CustomBottomNavBar(
+                              index: index,
+                              dashBoardIndex: dashBoardIndex,
+                              data: data,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -105,12 +204,8 @@ class CustomBottomNavBar extends StatelessWidget {
     this.height,
     this.width,
     this.alwaysShowLabel = false,
-<<<<<<< Updated upstream
-     this.onTap,
-=======
     this.onTap,
     this.imageMargin,
->>>>>>> Stashed changes
   });
 
   @override

@@ -26,10 +26,16 @@ class Routs {
   static const String editProfile = '/edit-profile';
   static const String permissions = '/permissions';
   static const String samplePagination = '/sample-pagination';
-<<<<<<< Updated upstream
-=======
 
   static const String productDetail = '/productDetail';
+  static const String examQuiz = '/examQuiz';
+  static const String toDoScreen = '/toDoScreen';
+  static const String goals = '/goals';
+  static const String createGoal = '/createGoal';
+  static const String achievers = '/achievers';
+  static const String createTarget = '/createTarget';
+  static const String networkReport = '/networkReport';
+
   static const String guestProductDetail = '/guestProductDetail';
   static const String guestProduct = '/guestProduct';
   static const String guestProfile = '/guestProfile';
@@ -41,5 +47,4 @@ class Routs {
   static const String demoVideos = '/demoVideos';
   static const String trainingScreen = '/trainingScreen';
   static const String memberFeeds = '/memberFeeds';
->>>>>>> Stashed changes
 }
