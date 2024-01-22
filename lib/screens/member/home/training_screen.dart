@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
-import '../../../guest/home/home_screen.dart';
+
 import '../../../models/dashboard/dashboard_data.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/custom_text_field.dart';
@@ -13,6 +13,7 @@ import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../dashboard/dashboard.dart';
+import '../../guest/home/home_screen.dart';
 
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({super.key});

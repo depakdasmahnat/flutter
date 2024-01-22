@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
-import 'package:mrwebbeast/screens/guest/home/banners.dart';
+import 'package:mrwebbeast/screens/member/feeds/feeds_card.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
-import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
 
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/feeds/feeds_model.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class MemberFeeds extends StatefulWidget {
@@ -37,6 +36,43 @@ class _MemberFeedsState extends State<MemberFeeds> {
     'Technology',
     'Water',
     'Filter',
+  ];
+
+  List<FeedsData> dummyDataList = [
+    // Example 1
+    FeedsData(
+      id: '1',
+      title: 'Best water purifier: 10 picks to ensure clean drinking water',
+      duration: '5:30',
+      likes: 150,
+      comments: 25,
+      wishlistId: 'w123',
+      isLiked: false,
+      isBookmarked: true,
+      images: [
+        AppAssets.product1,
+        AppAssets.product2,
+      ],
+      videoUrl: null,
+      youtubeUrl: null,
+      share: 'https://example.com/share/1',
+    ),
+
+    // Example 2
+    FeedsData(
+      id: '2',
+      title: 'Exciting Adventure',
+      duration: '8:45',
+      likes: 300,
+      comments: 40,
+      wishlistId: 'w456',
+      isLiked: true,
+      isBookmarked: false,
+      images: null,
+      videoUrl: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      youtubeUrl: null,
+      share: 'https://example.com/share/2',
+    ),
   ];
 
   @override
@@ -102,165 +138,22 @@ class _MemberFeedsState extends State<MemberFeeds> {
                 ),
               ),
             ),
-          ListView.builder(
-            itemCount: 8,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return InkWell(
+          if (dummyDataList.haveData)
+            ListView.builder(
+              itemCount: dummyDataList.length ?? 0,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return InkWell(
                   onTap: () {
                     context.pushNamed(Routs.productDetail);
                   },
-                  child: FeedCard(index: index));
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class FeedCard extends StatelessWidget {
-  FeedCard({
-    super.key,
-    required this.index,
-    this.imageHeight,
-    this.fit,
-    this.type,
-  });
-
-  double? imageHeight;
-  BoxFit? fit;
-  String? type;
-
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-      decoration: BoxDecoration(
-        gradient: feedsCardGradient,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ImageView(
-            height: imageHeight,
-            borderRadiusValue: 16,
-            margin: const EdgeInsets.all(12),
-            fit: fit ?? BoxFit.contain,
-            assetImage: AppAssets.product1,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Best water purifier: 10 picks to ensure clean drinking water',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                  child: FeedCard(
+                    index: index,
+                    data: dummyDataList.elementAt(index),
                   ),
-                  textAlign: TextAlign.start,
-                ),
-                if (type == 'true')
-                  const SizedBox(
-                    height: 10,
-                  ),
-                if (type != 'true')
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      '12 hr',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                if (type != 'true')
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            FeedMenu(
-                              icon: AppAssets.heartIcon,
-                              value: '3',
-                            ),
-                            FeedMenu(
-                              icon: AppAssets.chatIcon,
-                              value: '12K',
-                            ),
-                            FeedMenu(
-                              icon: AppAssets.shareIcon,
-                            ),
-                          ],
-                        ),
-                        FeedMenu(
-                          lastMenu: true,
-                          icon: AppAssets.bookmarkIcon,
-                        ),
-                      ],
-                    ),
-                  ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class FeedMenu extends StatelessWidget {
-  const FeedMenu({
-    super.key,
-    required this.icon,
-    this.value,
-    this.onTap,
-    this.lastMenu,
-  });
-
-  final String icon;
-  final String? value;
-  final bool? lastMenu;
-  final GestureTapCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: lastMenu != true ? kPadding : 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ImageView(
-            height: 20,
-            width: 20,
-            borderRadiusValue: 0,
-            color: Colors.white,
-            margin: const EdgeInsets.only(right: 4),
-            fit: BoxFit.contain,
-            onTap: onTap,
-            assetImage: icon,
-          ),
-          if (value != null)
-            Text(
-              '$value',
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-              textAlign: TextAlign.start,
+                );
+              },
             ),
         ],
       ),

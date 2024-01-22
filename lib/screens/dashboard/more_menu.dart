@@ -2,11 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+
+import '../../core/route/route_paths.dart';
 
 class DashboardMoreMenu extends StatefulWidget {
   const DashboardMoreMenu({super.key});
@@ -37,22 +40,30 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
             MenuButton(
               title: 'Create Events',
               image: AppAssets.eventIcon,
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(Routs.createEvent);
+              },
             ),
             MenuButton(
               title: 'Create Demo',
               image: AppAssets.videoIcons,
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(Routs.createDemo);
+              },
             ),
             MenuButton(
               title: 'Create Target',
               image: AppAssets.targetIcon,
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(Routs.createTarget);
+              },
             ),
             MenuButton(
               title: 'Create New Goal',
               image: AppAssets.goalIcon,
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(Routs.createGoal);
+              },
             ),
           ],
         ),

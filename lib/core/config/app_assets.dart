@@ -56,6 +56,7 @@ class AppAssets {
   static const String bookmarkIcon = 'assets/icons/ic_bookmark.png';
   static const String dashboardIcon = 'assets/icons/ic_dashboard_graph.png';
   static const String eventIcon = 'assets/icons/ic_event.png';
+  static const String clockIcon = 'assets/icons/ic_clock.png';
   static const String goalIcon = 'assets/icons/ic_goal.png';
   static const String targetIcon = 'assets/icons/ic_target.png';
   static const String todoIcon = 'assets/icons/ic_todo.png';

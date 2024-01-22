@@ -5,15 +5,13 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
-import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
-import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/constant/gradients.dart';
-import '../../../guest/home/guest_profiles.dart';
-import '../../../utils/widgets/gradient_button.dart';
+
 import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
+import '../../../utils/widgets/training_progress.dart';
+import '../../guest/home/guest_profiles.dart';
 
 class MemberHomeScreen extends StatefulWidget {
   const MemberHomeScreen({
@@ -62,65 +60,12 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
           ),
           const GuestProfiles(),
           Banners(banners: banners),
-          GestureDetector(
+          TrainingProgress(
+            trainingProgress: 56,
+            title: 'Basic Training Progress',
             onTap: () {
               context.pushNamed(Routs.demoVideos);
             },
-            child: Container(
-              margin: const EdgeInsets.only(top: kPadding, left: kPadding, right: kPadding, bottom: 8),
-              padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Your Training Progress',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  GradientProgressBar(
-                    value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
-                    backgroundColor: Colors.grey.shade300,
-                    margin: const EdgeInsets.only(top: 8, bottom: 8),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Steps 35/60',
-                        style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        '${(trainingProgress ?? 0).toStringAsFixed(0)}%',
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
-                      ),
-                    ],
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Compete your training',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ),
           GridView(
             shrinkWrap: true,
@@ -182,7 +127,6 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                   context.pushNamed(Routs.achievers);
                 },
               ),
-
               MenuCard(
                 image: AppAssets.videoIcons,
                 name: 'Demo',
@@ -190,14 +134,20 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                   context.pushNamed(Routs.demoVideos);
                 },
               ),
-
               MenuCard(
                 image: AppAssets.resourcesIcon,
                 name: 'Resources',
                 onTap: () {
-                  context.pushNamed(Routs.memberProfileDetails);
+                  context.pushNamed(Routs.resources);
                 },
               ),
+              // MenuCard(
+              //   image: AppAssets.eventIcon,
+              //   name: 'Events',
+              //   onTap: () {
+              //     context.pushNamed(Routs.events);
+              //   },
+              // ),
 
               // MenuCard(
               //   image: AppAssets.trainingIcon,
@@ -243,7 +193,7 @@ class MenuCard extends StatelessWidget {
               height: 30,
               width: 30,
               borderRadiusValue: 0,
-              margin: const EdgeInsets.all(12),
+              margin: const EdgeInsets.symmetric(horizontal: kPadding),
               fit: BoxFit.contain,
               assetImage: '$image',
             ),

@@ -56,6 +56,8 @@ dependencies:
   dotted_border: ^2.1.0
   syncfusion_flutter_datagrid: ^24.1.46
   percent_indicator: ^4.2.3
+  video_player: ^2.8.2
+  visibility_detector: ^0.4.0+2
 
 dev_dependencies:
   flutter_test:

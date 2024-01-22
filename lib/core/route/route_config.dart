@@ -3,38 +3,44 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
+import 'package:mrwebbeast/screens/guest/product/guest_product_details.dart';
 import 'package:mrwebbeast/screens/member/archievers/achievers.dart';
+import 'package:mrwebbeast/screens/member/demo/create_demo.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
-import '../../guest/guestProfile/guest_edit_profile.dart';
-import '../../guest/guestProfile/guest_faq.dart';
-import '../../guest/guestProfile/guest_profile.dart';
-import '../../guest/product/guest_product.dart';
-import '../../guest/product/guest_product_details.dart';
-import '../../guest/productDetail/product_detail.dart';
-import '../../guest/resource&Demo/resource_and_demo.dart';
+
 import '../../screens/auth/connect_with_us.dart';
 import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
+import '../../screens/guest/guestProfile/guest_edit_profile.dart';
+import '../../screens/guest/guestProfile/guest_faq.dart';
+import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/home/home_screen.dart';
+import '../../screens/guest/product/guest_product.dart';
+import '../../screens/guest/productDetail/product_detail.dart';
 import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
+import '../../screens/guest/resource&Demo/resource_and_demo.dart';
 import '../../screens/member/archievers/archievers_table.dart';
+import '../../screens/member/events/create_event.dart';
+import '../../screens/member/events/events_screen.dart';
 import '../../screens/member/exam/exam_quiz.dart';
 import '../../screens/member/feeds/demo_videos.dart';
 import '../../screens/member/feeds/member_feeds.dart';
 import '../../screens/member/goal/create_goal.dart';
 import '../../screens/member/goal/goals_screen.dart';
 import '../../screens/member/home/member_dashboard.dart';
+import '../../screens/member/home/member_profile.dart';
 import '../../screens/member/home/member_profile_details.dart';
 import '../../screens/member/home/training_screen.dart';
 import '../../screens/member/network/network_report.dart';
+import '../../screens/member/resources/resources.dart';
 import '../../screens/member/target/create_target.dart';
 import '../../screens/member/target/target_screen.dart';
 import '../../screens/member/todo/todo_screen.dart';
@@ -345,10 +351,45 @@ class RoutesConfig {
         },
       ),
       GoRoute(
+        name: Routs.createEvent,
+        path: Routs.createEvent,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const CreateEvent());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberProfile,
+        path: Routs.memberProfile,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const MemberProfile());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.events,
+        path: Routs.events,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const EventScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.createDemo,
+        path: Routs.createDemo,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const CreateDemo());
+        },
+      ),
+      GoRoute(
         name: Routs.networkReport,
         path: Routs.networkReport,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const NetworkReport());
+        },
+      ),      GoRoute(
+        name: Routs.resources,
+        path: Routs.resources,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const ResourcesScreen());
         },
       ),
       GoRoute(

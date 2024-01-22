@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 
@@ -15,12 +16,14 @@ import '../../../utils/widgets/image_view.dart';
 import '../../controllers/dashboard/dashboard_controller.dart';
 
 import '../../core/config/app_assets.dart';
+import '../../core/route/route_paths.dart';
 import '../../core/services/database/local_database.dart';
 
 import '../../models/dashboard/dashboard_data.dart';
 import '../../utils/widgets/gradient_text.dart';
 import '../../utils/widgets/widgets.dart';
-import 'custom_drawer.dart';
+
+import 'drawer.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({super.key, this.dashBoardIndex, this.userRole});
@@ -68,8 +71,8 @@ class DashBoardState extends State<DashBoard> {
                       children: [
                         Builder(builder: (context) {
                           return ImageView(
-                            height: 42,
-                            width: 42,
+                            height: 40,
+                            width: 40,
                             assetImage: AppAssets.drawerIcon,
                             margin: const EdgeInsets.only(right: kPadding),
                             onTap: () {
@@ -125,6 +128,9 @@ class DashBoardState extends State<DashBoard> {
                             isAvatar: true,
                             margin: const EdgeInsets.only(left: 8, right: 8),
                             fit: BoxFit.contain,
+                            onTap: () {
+                              context.pushNamed(Routs.memberProfile);
+                            },
                           ),
                         ],
                       ),
