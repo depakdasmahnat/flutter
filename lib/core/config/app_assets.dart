@@ -99,4 +99,5 @@ class AppAssets {
   static const String toparrow = 'assets/images/toparrow.png';
   static const String memberprofile = 'assets/images/memberprofile.png';
   static const String admemberlist = 'assets/images/memberuser.png';
+  static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
 }

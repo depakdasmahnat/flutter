@@ -73,7 +73,8 @@ class _FirstScreenState extends State<FirstScreen> {
                     boxShadow: const [],
                     // margin:const EdgeInsets.only(left: 16, right: 24, bottom: 24),
                     onTap: () {
-                      // context.pushNamed(Routs.verifyOTP);
+                      context.pushNamed(Routs.login
+                      );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

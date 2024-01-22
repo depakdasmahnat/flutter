@@ -188,7 +188,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin ?? const EdgeInsets.fromLTRB(16, 8, 16, 8),
+      margin: margin ?? const EdgeInsets.fromLTRB(16, 4, 16, 4),
       height: height,
       width: width,
       constraints: constraints,

@@ -55,7 +55,7 @@ class RoutesConfig {
 
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
-    return authenticated ? Routs.dashboard : Routs.dashboard;
+    return authenticated ? Routs.dashboard : Routs.fisrtScreen;
   }
 
   ///1)  Route Config...

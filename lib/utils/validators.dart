@@ -170,4 +170,14 @@ class Validator {
     }
     return null;
   }
+  /// guest login screen id no validation
+  static String? idNo(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Number'} is required';
+    }
+    // if (double.tryParse(value) == null) {
+    //   return 'Invalid ${fieldName ?? 'number'} format';
+    // }
+    return null;
+  }
 }
