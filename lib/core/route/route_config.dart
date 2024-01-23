@@ -29,11 +29,12 @@ import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
 
-import '../../screens/member/addMember/add_member_form.dart';
-import '../../screens/member/addMemberList/add_member_list.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
-import '../../screens/member/memberScreen/callender.dart';
+
+import '../../screens/member/members/add_member_form.dart';
+import '../../screens/member/members/add_member_list.dart';
+import '../../screens/member/members/calendar.dart';
 import '../../screens/member/profile/member_edit_profile.dart';
 import '../../screens/member/target/target_screen.dart';
 import '../../screens/guest/resource&Demo/resource_and_demo.dart';
@@ -115,7 +116,7 @@ class RoutesConfig {
         name: Routs.callender,
         path: Routs.callender,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const CallenderForm());
+          return cupertinoPage(state: state, child: const CalendarForm());
         },
       ),
       GoRoute(
@@ -174,8 +175,7 @@ class RoutesConfig {
         name: Routs.memberProfileDetails,
         path: Routs.memberProfileDetails,
         pageBuilder: (context, state) {
-          return cupertinoPage(
-              state: state, child: const MemberProfileDetails());
+          return cupertinoPage(state: state, child: const MemberProfileDetails());
         },
       ),
 
@@ -272,8 +272,7 @@ class RoutesConfig {
         name: Routs.guestProductDetail,
         path: Routs.guestProductDetail,
         pageBuilder: (context, state) {
-          return cupertinoPage(
-              state: state, child: const GusetProductDetails());
+          return cupertinoPage(state: state, child: const GusetProductDetails());
         },
       ),
       GoRoute(
@@ -338,9 +337,7 @@ class RoutesConfig {
         name: Routs.resourceAndDemo,
         path: Routs.resourceAndDemo,
         pageBuilder: (context, state) {
-          return cupertinoPage(
-              state: state,
-              child: RecourceAndDemo(type: state.extra.toString()));
+          return cupertinoPage(state: state, child: RecourceAndDemo(type: state.extra.toString()));
         },
       ),
 
@@ -479,9 +476,7 @@ class RoutesConfig {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
           return cupertinoPage(
-              state: state,
-              child: WebViewScreen(
-                  key: data?.key, title: data?.title, url: data?.url));
+              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {

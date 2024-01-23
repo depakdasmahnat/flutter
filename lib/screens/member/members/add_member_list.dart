@@ -7,10 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
-import '../../../guest/guestProfile/guest_edit_profile.dart';
-import '../../../guest/guestProfile/guest_faq.dart';
+
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/gradient_button.dart';
+import '../../guest/guestProfile/guest_edit_profile.dart';
+import '../../guest/guestProfile/guest_faq.dart';
 
 class AddMemberList extends StatefulWidget {
   const AddMemberList({super.key});
@@ -65,12 +66,12 @@ class _AddMemberListState extends State<AddMemberList> {
               ),
             ],
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'List First Name',
             hintText: 'Enter First Name',
 
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'List Last Name',
             hintText: 'Enter Last Name',
 
@@ -79,13 +80,13 @@ class _AddMemberListState extends State<AddMemberList> {
             title: 'Gender',
             listItem: const ['Male','Female'],
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'List Mobile No.',
             hintText: 'Enter Mobile No.',
             keyboardType: TextInputType.number,
 
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'List Email',
             hintText: 'email@gmail.com',
 
@@ -97,7 +98,7 @@ class _AddMemberListState extends State<AddMemberList> {
           Row(
             children: [
               Expanded(
-                child: CustomeTextFiled(
+                child: CustomTextFieldApp(
                   title: 'Date of Birth',
                   hintText: 'dd/mm/yyyy',
                   controller: dateControlller,
@@ -122,7 +123,7 @@ class _AddMemberListState extends State<AddMemberList> {
                             ),
 
                             // Input
-                            inputDecorationTheme: InputDecorationTheme(
+                            inputDecorationTheme: const InputDecorationTheme(
                               // labelStyle: GoogleFonts.greatVibes(), // Input label
                             ),
                           ),
@@ -138,8 +139,8 @@ class _AddMemberListState extends State<AddMemberList> {
                   readOnly: true,
                 ),
               ),
-              Expanded(
-                child: CustomeTextFiled(
+              const Expanded(
+                child: CustomTextFieldApp(
                   title: 'No. of family Members',
                   keyboardType: TextInputType.number,
                   hintText: 'Enter No. of family Members',
@@ -172,7 +173,7 @@ class _AddMemberListState extends State<AddMemberList> {
                       gradient:  LinearGradient(
                         begin: const Alignment(0.61, -0.79),
                         end: const Alignment(-0.61, 0.79),
-                        colors:index==0 ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]:index==1?[const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]: [const Color(0xFF3CDCDC), Color(0xFF12BCBC)],
+                        colors:index==0 ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]:index==1?[const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]: [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(39),
@@ -215,13 +216,13 @@ class _AddMemberListState extends State<AddMemberList> {
                     AdvancedSwitch(
                       controller: switch1,
                       thumb: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.black,
                             shape: BoxShape.circle
                         ),
                       ) ,
                       inactiveColor: Colors.grey,
-                      borderRadius: BorderRadius.all(const Radius.circular(15)),
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
                       width: size.height*0.06,
                       height: size.height*0.03,
                       enabled: true,
@@ -233,44 +234,44 @@ class _AddMemberListState extends State<AddMemberList> {
 
             ),
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'Any Illness In Family Members',
             hintText: 'Enter Members',
 
 
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'Monthly Income',
             hintText: 'Enter Income',
             keyboardType: TextInputType.number,
 
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'State',
             hintText: 'Enter State',
 
 
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'City',
             hintText: 'Enter City',
 
 
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'Pin Code',
             hintText: 'Enter Pin Code',
 
 
           ),
-          CustomeTextFiled(
+          CustomTextFieldApp(
             height: size.height*0.04,
             title: 'Address',
             hintText: 'Enter Address',
 
 
           ),
-          CustomeTextFiled(
+          const CustomTextFieldApp(
             title: 'Sponsor Name',
             hintText: 'Enter Sponsor Name',
 

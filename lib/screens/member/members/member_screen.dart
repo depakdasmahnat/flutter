@@ -164,10 +164,10 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 
 import '../../../core/constant/gradients.dart';
-import '../../../guest/guestProfile/guest_edit_profile.dart';
-import '../../../guest/guestProfile/guest_faq.dart';
+
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/custom_back_button.dart';
+import '../../guest/guestProfile/guest_faq.dart';
 import '../lead/lead.dart';
 
 class MemberScreen extends StatefulWidget {
@@ -180,10 +180,11 @@ class MemberScreen extends StatefulWidget {
 class _MemberScreenState extends State<MemberScreen> {
   int tabIndex = 0;
   List tabItem = ['Today', 'This week', 'Month'];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print("chekc size $size");
+    print('check size $size');
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(size.height * 0.5),
@@ -223,15 +224,12 @@ class _MemberScreenState extends State<MemberScreen> {
                                   setState(() {});
                                 },
                                 child: Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                                   child: Container(
                                     width: size.width * 0.3,
                                     height: size.width * 0.06,
                                     decoration: ShapeDecoration(
-                                      gradient: index == tabIndex
-                                          ? primaryGradient
-                                          : null,
+                                      gradient: index == tabIndex ? primaryGradient : null,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -241,9 +239,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                       text: tabItem[index],
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
-                                      color: index == tabIndex
-                                          ? Colors.black
-                                          : Colors.white,
+                                      color: index == tabIndex ? Colors.black : Colors.white,
                                     )),
                                   ),
                                 ),
@@ -253,8 +249,7 @@ class _MemberScreenState extends State<MemberScreen> {
                         ),
                       )),
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: kPadding, right: kPadding, top: 8, bottom: 8),
+                    padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -272,8 +267,7 @@ class _MemberScreenState extends State<MemberScreen> {
                               end: Alignment(0, 1),
                               colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
                             ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                           ),
                           child: DropdownSearch<String>(
                             dropdownButtonProps: const DropdownButtonProps(
@@ -291,17 +285,13 @@ class _MemberScreenState extends State<MemberScreen> {
                               disabledItemFn: (String s) => s.startsWith('p'),
                             ),
                             items: const ['Monthly', 'Weekly', 'Days'],
-                            dropdownDecoratorProps:
-                                const DropDownDecoratorProps(
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
-                                  contentPadding:
-                                      EdgeInsets.only(left: kPadding, top: 2),
+                                  contentPadding: EdgeInsets.only(left: kPadding, top: 2),
                                   border: InputBorder.none,
                                   hintText: 'Select',
                                   hintStyle: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700)),
+                                      fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700)),
                             ),
                           ),
                         )
@@ -325,8 +315,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                 color: Colors.black,
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8.0, bottom: 8),
+                                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
                                 child: Row(
                                   children: [
                                     CustomeText(
@@ -385,14 +374,12 @@ class _MemberScreenState extends State<MemberScreen> {
                       ),
                       CustomeContainer(
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: kPadding, top: 8, bottom: 8, right: 5),
+                          padding: const EdgeInsets.only(left: kPadding, top: 8, bottom: 8, right: 5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-
                             children: [
                               SizedBox(
-                                width: size.width*0.43,
+                                width: size.width * 0.43,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -410,8 +397,7 @@ class _MemberScreenState extends State<MemberScreen> {
                                         Container(
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: Colors.white.withOpacity(
-                                                  0.6000000238418579)),
+                                              color: Colors.white.withOpacity(0.6000000238418579)),
                                           child: Center(
                                               child: Padding(
                                             padding: const EdgeInsets.all(1),
@@ -434,10 +420,8 @@ class _MemberScreenState extends State<MemberScreen> {
                                       ],
                                     ),
                                     CircleAvatar(
-                                      backgroundImage:
-                                      AssetImage(AppAssets.topIcon),
+                                      backgroundImage: AssetImage(AppAssets.topIcon),
                                     ),
-
                                   ],
                                 ),
                               ),
@@ -458,17 +442,17 @@ class _MemberScreenState extends State<MemberScreen> {
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white,
                                   ),
-                                   SizedBox(
-                                     width: 3,
-                                   ),
-                                   CircleAvatar(
-                                    maxRadius: size.height*0.01,
-                                    backgroundImage: AssetImage(AppAssets.toparrow,),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  CircleAvatar(
+                                    maxRadius: size.height * 0.01,
+                                    backgroundImage: AssetImage(
+                                      AppAssets.toparrow,
+                                    ),
                                   )
                                 ],
                               )
-
-
                             ],
                           ),
                         ),
@@ -476,12 +460,12 @@ class _MemberScreenState extends State<MemberScreen> {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 3,top: 12,right: 3),
+                    padding: const EdgeInsets.only(left: 3, top: 12, right: 3),
                     child: CustomeContainer(
-                      continerWidht:double.infinity ,
+                      continerWidht: double.infinity,
                       color: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
                       child: Padding(
-                        padding: const EdgeInsets.only(left: kPadding,top: kPadding,bottom: kPadding),
+                        padding: const EdgeInsets.only(left: kPadding, top: kPadding, bottom: kPadding),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -507,32 +491,28 @@ class _MemberScreenState extends State<MemberScreen> {
               ),
             ),
           )),
-      body:  ListView.builder(
+      body: ListView.builder(
         itemCount: 10,
-
-        padding: EdgeInsets.only(bottom: size.height*0.13,top: size.height*0.02),
+        padding: EdgeInsets.only(bottom: size.height * 0.13, top: size.height * 0.02),
         itemBuilder: (context, index) {
           return Padding(
-              padding: const EdgeInsets.only(left: kPadding,right: kPadding),
+              padding: const EdgeInsets.only(left: kPadding, right: kPadding),
               child: Container(
                 decoration: decoration,
                 child: Padding(
                     padding: const EdgeInsets.all(10),
-                    child:
-                    InkWell(
+                    child: InkWell(
                       onTap: () {
                         context.pushNamed(Routs.memberEditProfile);
                       },
                       child: RowCart(
                         tabIndex: tabIndex,
                         listIndex: index,
-
                       ),
-                    )
-                ),
-              )
-          );
-        },),
+                    )),
+              ));
+        },
+      ),
     );
   }
 }
@@ -541,6 +521,7 @@ class CustomeContainer extends StatelessWidget {
   List<Color>? color;
   Widget? child;
   double? continerWidht;
+
   CustomeContainer({
     this.child,
     this.color,
@@ -553,7 +534,7 @@ class CustomeContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      width: continerWidht??size.width*0.48,
+        width: continerWidht ?? size.width * 0.48,
         decoration: ShapeDecoration(
           gradient: LinearGradient(
             begin: const Alignment(0.00, -1.00),

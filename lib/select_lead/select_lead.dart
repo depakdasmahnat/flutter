@@ -8,7 +8,8 @@ import '../../core/constant/constant.dart';
 import '../../utils/widgets/appbar.dart';
 import '../../utils/widgets/custom_text_field.dart';
 import '../../utils/widgets/image_view.dart';
-import '../guest/guestProfile/guest_faq.dart';
+
+import '../screens/guest/guestProfile/guest_faq.dart';
 
 class SelectLead extends StatefulWidget {
   const SelectLead({super.key});
@@ -19,6 +20,7 @@ class SelectLead extends StatefulWidget {
 
 class _SelectLeadState extends State<SelectLead> {
   final switch1 = ValueNotifier<bool>(true);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -43,11 +45,7 @@ class _SelectLeadState extends State<SelectLead> {
                   fit: BoxFit.contain,
                   assetImage: AppAssets.searchIcon,
                 ),
-                margin: EdgeInsets.only(
-                    left: kPadding,
-                    right: kPadding,
-                    top: kPadding,
-                    bottom: kPadding),
+                margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
               ),
             ),
           )),
@@ -84,13 +82,12 @@ class _SelectLeadState extends State<SelectLead> {
                     AdvancedSwitch(
                       height: size.height * 0.028,
                       width: size.height * 0.06,
-                      activeColor: Color(0xFFFDDC9C),
-                      inactiveColor: Color(0xFFF3F3F3),
+                      activeColor: const Color(0xFFFDDC9C),
+                      inactiveColor: const Color(0xFFF3F3F3),
                       controller: switch1,
                       enabled: true,
                       thumb: Container(
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.black),
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
                       ),
                     ),
                     InkWell(
@@ -99,8 +96,7 @@ class _SelectLeadState extends State<SelectLead> {
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
                             backgroundColor: Colors.white,
-                            shape: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(18)),
+                            shape: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
                             title: CustomeText(
                               text: 'Do you want to Attend this event',
                               fontWeight: FontWeight.w600,
@@ -113,13 +109,10 @@ class _SelectLeadState extends State<SelectLead> {
                               children: [
                                 Container(
                                   decoration: ShapeDecoration(
-                                    gradient: LinearGradient(
-                                      begin: const Alignment(0.00, -1.00),
-                                      end: const Alignment(0, 1),
-                                      colors: [
-                                        Color(0xFF1B1B1B),
-                                        Color(0xFF282828)
-                                      ],
+                                    gradient: const LinearGradient(
+                                      begin: Alignment(0.00, -1.00),
+                                      end: Alignment(0, 1),
+                                      colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
                                     ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(14),
@@ -141,13 +134,10 @@ class _SelectLeadState extends State<SelectLead> {
                                 ),
                                 Container(
                                   decoration: ShapeDecoration(
-                                    gradient: LinearGradient(
-                                      begin: const Alignment(0.00, -1.00),
-                                      end: const Alignment(0, 1),
-                                      colors: [
-                                        Color(0xFF1B1B1B),
-                                        Color(0xFF282828)
-                                      ],
+                                    gradient: const LinearGradient(
+                                      begin: Alignment(0.00, -1.00),
+                                      end: Alignment(0, 1),
+                                      colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
                                     ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(14),
@@ -171,9 +161,9 @@ class _SelectLeadState extends State<SelectLead> {
                       },
                       child: Container(
                         decoration: ShapeDecoration(
-                          gradient: LinearGradient(
-                            begin: const Alignment(0.00, -1.00),
-                            end: const Alignment(0, 1),
+                          gradient: const LinearGradient(
+                            begin: Alignment(0.00, -1.00),
+                            end: Alignment(0, 1),
                             colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
                           ),
                           shape: RoundedRectangleBorder(
@@ -181,8 +171,7 @@ class _SelectLeadState extends State<SelectLead> {
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 18, right: 18, top: 8, bottom: 8),
+                          padding: const EdgeInsets.only(left: 18, right: 18, top: 8, bottom: 8),
                           child: CustomeText(
                             text: 'Join',
                             fontWeight: FontWeight.w500,

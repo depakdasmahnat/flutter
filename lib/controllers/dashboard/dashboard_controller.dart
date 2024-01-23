@@ -11,7 +11,7 @@ import '../../screens/guest/product/guest_product.dart';
 import '../../screens/guest/resource&Demo/mainresource.dart';
 import '../../screens/member/home/member_home_screen.dart';
 import '../../screens/member/lead/lead.dart';
-import '../../screens/member/memberScreen/member_screen.dart';
+import '../../screens/member/members/member_screen.dart';
 import '../../screens/member/network/network_screen.dart';
 import '../../utils/widgets/no_data_found.dart';
 

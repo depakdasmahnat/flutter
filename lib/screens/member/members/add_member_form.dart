@@ -5,10 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../guest/guestProfile/guest_edit_profile.dart';
-import '../../../guest/guestProfile/guest_faq.dart';
+
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/gradient_button.dart';
+import '../../guest/guestProfile/guest_edit_profile.dart';
+import '../../guest/guestProfile/guest_faq.dart';
 
 class AddMemberForm extends StatefulWidget {
   const AddMemberForm({super.key});
@@ -70,12 +71,12 @@ class _AddMemberFormState extends State<AddMemberForm> {
                 ),
               ],
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'First Name',
               hintText: 'Enter First Name',
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Last Name',
               hintText: 'Enter Last Name',
 
@@ -84,23 +85,23 @@ class _AddMemberFormState extends State<AddMemberForm> {
               title: 'Gender',
               listItem: const ['Male','Female'],
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Mobile No.',
               hintText: 'Enter Mobile No.',
               keyboardType: TextInputType.number,
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Email',
               hintText: 'email@gmail.com',
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Occupation',
               hintText: 'Enter Your Occupation',
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Occupation',
               hintText: 'Enter Your Occupation',
 
@@ -108,7 +109,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
             Row(
               children: [
                 Expanded(
-                  child: CustomeTextFiled(
+                  child: CustomTextFieldApp(
                     title: 'Date of Birth',
                     hintText: 'dd/mm/yyyy',
                     controller: dateControlller,
@@ -150,7 +151,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
                   ),
                 ),
                 Expanded(
-                  child: CustomeTextFiled(
+                  child: CustomTextFieldApp(
                     title: 'No. of family Members',
                     keyboardType: TextInputType.number,
                     hintText: 'Enter No. of family Members',
@@ -197,56 +198,56 @@ class _AddMemberFormState extends State<AddMemberForm> {
 
               ),
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Any Illness In Family Members',
               hintText: 'Enter Members',
 
 
             ),
 
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Monthly Income',
               hintText: 'Enter Income',
               keyboardType: TextInputType.number,
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'State',
               hintText: 'Enter State',
 
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'City',
               hintText: 'Enter City',
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Pin Code',
               hintText: 'Enter Pin Code',
               keyboardType: TextInputType.number,
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               height: size.height*0.06,
               title: 'Address',
               hintText: 'Enter Address',
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Sponsor Name',
               hintText: 'Enter Sponsor Name',
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               title: 'Sales Facilitator',
               hintText: 'Enter Sales Facilitator Name',
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
                controller: enagicPasswordController,
               title: 'Enagic Password',
               hintText: 'Enter Enagic Password',
 
             ),
-            CustomeTextFiled(
+            CustomTextFieldApp(
               controller: enagicConfirmPasswordController,
               title: 'Confirm Password',
               hintText: 'Enter Confirm Password',

@@ -5,12 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
-import 'package:mrwebbeast/guest/guestProfile/guest_faq.dart';
+
 
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/gradient_button.dart';
+import '../../guest/guestProfile/guest_faq.dart';
 
 class MemberProfile extends StatefulWidget {
   const MemberProfile({super.key});

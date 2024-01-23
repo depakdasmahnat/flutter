@@ -10,8 +10,9 @@ import 'package:mrwebbeast/utils/widgets/appbar.dart';
 
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../guest/guestProfile/guest_edit_profile.dart';
+
 import '../../../utils/widgets/gradient_button.dart';
+import '../../guest/guestProfile/guest_edit_profile.dart';
 
 class MemberEditProfile extends StatefulWidget {
   const MemberEditProfile({super.key});
@@ -65,12 +66,12 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                ),
              ],
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'First Name',
              hintText: 'Enter First Name',
 
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Last Name',
              hintText: 'Enter Last Name',
 
@@ -79,17 +80,17 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
              title: 'Gender',
              listItem: const ['Male','Female'],
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Email',
              hintText: 'email@gmail.com',
 
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Occupation',
              hintText: 'Enter Your Occupation',
 
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Occupation',
              hintText: 'Enter Your Occupation',
 
@@ -97,7 +98,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
            Row(
              children: [
                Expanded(
-                 child: CustomeTextFiled(
+                 child: CustomTextFieldApp(
                    title: 'Date of Birth',
                    hintText: 'dd/mm/yyyy',
                    controller: dateControlller,
@@ -122,7 +123,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                              ),
 
                              // Input
-                             inputDecorationTheme: InputDecorationTheme(
+                             inputDecorationTheme: const InputDecorationTheme(
                                // labelStyle: GoogleFonts.greatVibes(), // Input label
                              ),
                            ),
@@ -138,8 +139,8 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                    readOnly: true,
                  ),
                ),
-               Expanded(
-                 child: CustomeTextFiled(
+               const Expanded(
+                 child: CustomTextFieldApp(
                    title: 'No. of family Members',
                    keyboardType: TextInputType.number,
                    hintText: 'Enter No. of family Members',
@@ -168,13 +169,13 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                      AdvancedSwitch(
                        controller: switch1,
                       thumb: Container(
-                       decoration: BoxDecoration(
+                       decoration: const BoxDecoration(
                          color: Colors.black,
                         shape: BoxShape.circle
                        ),
                       ) ,
                        inactiveColor: Colors.grey,
-                       borderRadius: BorderRadius.all(const Radius.circular(15)),
+                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                        width: size.height*0.06,
                        height: size.height*0.03,
                        enabled: true,
@@ -186,51 +187,51 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
 
              ),
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Any Illness In Family Members',
              hintText: 'Enter Members',
 
 
            ),
 
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Monthly Income',
              hintText: 'Enter Income',
              keyboardType: TextInputType.number,
 
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'State',
              hintText: 'Enter State',
 
 
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'City',
              hintText: 'Enter City',
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Pin Code',
              hintText: 'Enter Pin Code',
              keyboardType: TextInputType.number,
            ),
-           CustomeTextFiled(
+           CustomTextFieldApp(
              height: size.height*0.06,
              title: 'Address',
              hintText: 'Enter Address',
 
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
 
              title: 'Enagic ID',
              hintText: 'Enter Enagic ID',
 
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Enagic Password',
              hintText: 'Enter Enagic Password',
            ),
-           CustomeTextFiled(
+           const CustomTextFieldApp(
              title: 'Confirm Password',
              hintText: 'Enter Confirm Password',
            ),

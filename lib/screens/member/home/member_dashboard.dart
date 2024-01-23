@@ -189,7 +189,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(18),
                                 topRight: Radius.circular(18))),
-                        builder: (context) => CustomeModelBottemSheet(
+                        builder: (context) => CustomModelBottomSheet(
                               title: 'New Lists',
                               tabIndex: myDashboard ? 7 : 4,
                               listItem: 14,
@@ -210,7 +210,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(18),
                                 topRight: Radius.circular(18))),
-                        builder: (context) => CustomeModelBottemSheet(
+                        builder: (context) => CustomModelBottomSheet(
                               title: 'Demo Scheduled',
                               tabIndex: myDashboard ? 8 : 5,
                               listItem: 14,
@@ -231,7 +231,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(18),
                                 topRight: Radius.circular(18))),
-                        builder: (context) => CustomeModelBottemSheet(
+                        builder: (context) => CustomModelBottomSheet(
                               title: 'Demo Done',
                               tabIndex: myDashboard ? 9 : 4,
                               listItem: 14,
@@ -260,7 +260,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(18),
                                 topRight: Radius.circular(18))),
-                        builder: (context) => CustomeModelBottemSheet(
+                        builder: (context) => CustomModelBottomSheet(
                               title: 'Demo Done',
                               tabIndex: myDashboard ? 10 : 6,
                               listItem: 14,
