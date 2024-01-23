@@ -25,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.2.0"
-  animated_horizontal_calendar:
-    dependency: "direct main"
-    description:
-      name: animated_horizontal_calendar
-      sha256: dd9606d6e83e796ee4e2eb933b12a7340a3fe0b4058d2938cc2c82d20bf303d3
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.3"
   ansicolor:
     dependency: transitive
     description:
