@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/constant/gradients.dart';
 
 import 'colors.dart';
 
@@ -31,21 +32,36 @@ Gradient primaryGradientTransparent = LinearGradient(
   ],
 );
 
-Color statusColor({required String? status}) {
+Color statusColor({required num? percentage}) {
   Color color = Colors.grey;
-  switch (status) {
-    case 'Processing':
-      color = Colors.blue;
-      break;
-    case 'Successfully':
-      color = Colors.green;
-      break;
-    case 'Failed':
-      color = Colors.orangeAccent;
-      break;
-    case 'Canceled':
-      color = Colors.red;
-      break;
+
+  if (percentage == null || percentage == 0 || percentage < 20) {
+    color = Colors.red;
+  } else if (percentage < 40) {
+    color = Colors.orangeAccent;
+  } else if (percentage < 60) {
+    color = Colors.purple;
+  } else if (percentage < 80) {
+    color = Colors.blue;
+  } else {
+    color = Colors.green;
   }
   return color;
+}
+
+Gradient statusGradient({required num? sales}) {
+  Gradient gradient = primaryGradient;
+
+  if (sales == null || sales == 0 || sales < 20) {
+    gradient = redGradient;
+  } else if (sales < 40) {
+    gradient = yellowGradient;
+  } else if (sales < 60) {
+    gradient = purpleGradient;
+  } else if (sales < 80) {
+    gradient = blueGradient;
+  } else {
+    gradient = greenGradient;
+  }
+  return gradient;
 }

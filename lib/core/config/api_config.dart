@@ -25,5 +25,4 @@ class ApiEndpoints {
 
   //1) Auth APIs...
   static const String validateMobile = 'validate_mobile';
-
 }

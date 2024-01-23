@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../controllers/dashboard/dashboard_controller.dart';
 
-import '../../core/config/app_assets.dart';
 import '../../core/services/database/local_database.dart';
 
 import '../../models/dashboard/dashboard_data.dart';
@@ -35,7 +34,9 @@ class DashBoardState extends State<DashBoard> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<DashboardController>().changeDashBoardIndex(index: dashBoardIndex);
+      context
+          .read<DashboardController>()
+          .changeDashBoardIndex(index: dashBoardIndex);
     });
   }
 
@@ -56,9 +57,9 @@ class DashBoardState extends State<DashBoard> {
                 return controller.widgets.elementAt(dashBoardIndex).widget;
               },
             ),
-
             bottomSheet: GradientButton(
-              margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
+              margin:
+                  const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
               borderRadius: 50,
               blur: 15,
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -97,6 +98,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
   final DashboardData data;
   final GestureTapCallback? onTap;
+  final EdgeInsets? imageMargin;
 
   const CustomBottomNavBar({
     super.key,
@@ -107,6 +109,7 @@ class CustomBottomNavBar extends StatelessWidget {
     this.width,
     this.alwaysShowLabel = false,
     this.onTap,
+    this.imageMargin,
   });
 
   @override
@@ -116,7 +119,9 @@ class CustomBottomNavBar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap ??
           () {
-            context.read<DashboardController>().changeDashBoardIndex(index: index);
+            context
+                .read<DashboardController>()
+                .changeDashBoardIndex(index: index);
           },
       child: GradientButton(
         padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
@@ -135,11 +140,13 @@ class CustomBottomNavBar extends StatelessWidget {
               width: 18,
               borderRadiusValue: 0,
               color: selected ? Colors.black : Colors.white,
-              margin: EdgeInsets.zero,
+              margin: imageMargin ?? EdgeInsets.zero,
               fit: BoxFit.contain,
               assetImage: selected ? data.activeImage : data.inActiveImage,
             ),
-            if (alwaysShowLabel == true ? true : selected == true && data.title != null)
+            if (alwaysShowLabel == true
+                ? true
+                : selected == true && data.title != null)
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: Text(

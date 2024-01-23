@@ -11,7 +11,7 @@ Gradient primaryGradient = const LinearGradient(
     secondaryColor,
   ],
 );
-Gradient primaryGradientBlur = const  LinearGradient(
+Gradient primaryGradientBlur = const LinearGradient(
   begin: Alignment(0.00, -1.00),
   end: Alignment(0, 1),
   colors: [Color(0xCCFDDC9C), Color(0xA5DDA53B)],
@@ -147,13 +147,17 @@ Gradient rainbowGradient = const LinearGradient(
   ],
 );
 
-Gradient blankGradient = const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
-  Colors.grey,
-  Colors.grey,
-], stops: [
-  0,
-  0.100
-]);
+Gradient blankGradient = const LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Colors.grey,
+      Colors.grey,
+    ],
+    stops: [
+      0,
+      0.100
+    ]);
 
 Gradient textFieldGradient = const LinearGradient(
   begin: Alignment.centerRight,

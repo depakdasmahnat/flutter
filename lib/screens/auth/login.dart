@@ -24,6 +24,7 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
   }
+
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController referralCodeCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
@@ -39,7 +40,8 @@ class _LoginState extends State<Login> {
       // appBar: AppBar(),
       body: Stack(
         children: [
-          Image.asset(AppAssets.authbackgroundimage,fit: BoxFit.fitWidth,width: double.infinity),
+          Image.asset(AppAssets.authbackgroundimage,
+              fit: BoxFit.fitWidth, width: double.infinity),
           Form(
             key: signInFormKey,
             child: ListView(
@@ -84,14 +86,13 @@ class _LoginState extends State<Login> {
                   },
                   onChanged: (value) {
                     print("check 1");
-                    if(value.length==10){
+                    if (value.length == 10) {
                       context.read<AuthControllers>().validateMobile(
-                        context: context,
-                        mobile: phoneCtrl.text,
-                      );
+                            context: context,
+                            mobile: phoneCtrl.text,
+                          );
                       print("check 2");
                     }
-
                   },
                   hintText: 'Enter Mobile No.',
                   autofillHints: const [AutofillHints.telephoneNumberNational],
@@ -103,10 +104,7 @@ class _LoginState extends State<Login> {
                   validator: (val) {
                     return Validator.fullNameValidator(val);
                   },
-                  onChanged: (value) {
-
-
-                  },
+                  onChanged: (value) {},
                   hintText: 'Enter Full Name',
                   autofillHints: const [AutofillHints.name],
                   margin: const EdgeInsets.only(top: 1, bottom: 1),
@@ -117,8 +115,7 @@ class _LoginState extends State<Login> {
                   validator: (val) {
                     return Validator.fullNameValidator(val);
                   },
-                  onChanged: (value) {
-                  },
+                  onChanged: (value) {},
                   hintText: 'Enter Last Name',
                   autofillHints: const [AutofillHints.name],
                   margin: const EdgeInsets.only(top: 18, bottom: 18),
@@ -192,7 +189,6 @@ class _LoginState extends State<Login> {
                 context.firstRoute();
                 context.pushNamed(Routs.verifyOTP);
               }
-
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -210,7 +206,7 @@ class _LoginState extends State<Login> {
             ),
           ),
           SizedBox(
-            height: size.height*0.05,
+            height: size.height * 0.05,
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -230,13 +226,14 @@ class _LoginState extends State<Login> {
             ],
           ),
           SizedBox(
-            height: size.height*0.01,
+            height: size.height * 0.01,
           ),
         ],
       ),
       // bottomNavigationBar:
     );
   }
+
   Padding prefixIcon({required IconData icon}) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 12),

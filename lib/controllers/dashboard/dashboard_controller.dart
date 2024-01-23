@@ -12,28 +12,44 @@ import '../../screens/guest/resource&Demo/mainresource.dart';
 import '../../screens/member/home/member_home_screen.dart';
 import '../../screens/member/lead/lead.dart';
 import '../../screens/member/memberScreen/member_screen.dart';
+import '../../screens/member/network/network_screen.dart';
 import '../../utils/widgets/no_data_found.dart';
 
 class DashboardController extends ChangeNotifier {
   /// 1) Dashboard Index
   final int _defaultDashBoardIndex = 0;
   late int _dashBoardIndex = _defaultDashBoardIndex;
+
   int get dashBoardIndex => _dashBoardIndex;
+
   changeDashBoardIndex({int? index}) {
-    _dashBoardIndex = index ?? _dashBoardIndex;
+    if (userRole == UserRoles.member && index == 2) {
+      showMoreMenuPopUp = !showMoreMenuPopUp;
+    } else {
+      showMoreMenuPopUp = false;
+      _dashBoardIndex = index ?? _dashBoardIndex;
+    }
+
     notifyListeners();
   }
+
+  bool showMoreMenuPopUp = false;
+
   ///2) Dashboard User Role
-  // UserRoles defaultUserRole = UserRoles.guest;
   UserRoles defaultUserRole = UserRoles.member;
   late UserRoles _userRole = defaultUserRole;
+
   UserRoles get userRole => _userRole;
+
   changeUserRole({UserRoles? role}) {
     _userRole = role ?? defaultUserRole;
+
     notifyListeners();
   }
+
   changeUserRoleFromString({String? role}) {
-    List<UserRoles> userRoles = UserRoles.values.where((element) => element.value == role).toList();
+    List<UserRoles> userRoles =
+        UserRoles.values.where((element) => element.value == role).toList();
     if (userRoles.haveData) {
       _userRole = userRoles.first;
       notifyListeners();
@@ -41,7 +57,8 @@ class DashboardController extends ChangeNotifier {
   }
 
   /// 3) Dashboard Index
-  late List widgets = userRole == UserRoles.guest ? _guestWidgets : _membersWidgets;
+  late List widgets =
+      userRole == UserRoles.guest ? _guestWidgets : _membersWidgets;
 
   // Guest Widgets
   final List<DashboardData> _guestWidgets = [
@@ -83,7 +100,7 @@ class DashboardController extends ChangeNotifier {
       title: 'Network',
       activeImage: AppAssets.networkFilledIcon,
       inActiveImage: AppAssets.networkIcon,
-      widget: const NoDataFound(),
+      widget: const NetworkScreen(),
     ),
     DashboardData(
       activeImage: AppAssets.addIcon,

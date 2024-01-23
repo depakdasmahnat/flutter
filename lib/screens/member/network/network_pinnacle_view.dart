@@ -1,13 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/models/dashboard/color_grades.dart';
+import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
 import '../../../core/constant/constant.dart';
+import '../../../core/route/route_paths.dart';
 import '../../../models/dashboard/tree_graph_model.dart';
 
 class NetworkPinnacleView extends StatefulWidget {
@@ -145,17 +146,15 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                         decoration: BoxDecoration(
                           gradient: e.gradient,
                         ),
-                        child: Flexible(
-                          child: Center(
-                            child: Text(
-                              '${e.percentage}%',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                        child: Center(
+                          child: Text(
+                            '${e.percentage}%',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
@@ -170,7 +169,11 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
           child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: 100),
+                padding: const EdgeInsets.only(
+                    left: kPadding,
+                    right: kPadding,
+                    top: kPadding,
+                    bottom: 100),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: SizedBox(
@@ -185,7 +188,9 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                           child: Container(
                             height: 60,
                             decoration: BoxDecoration(
-                              gradient: currentLevel ? primaryGradient : whiteGradient,
+                              gradient: currentLevel
+                                  ? primaryGradient
+                                  : whiteGradient,
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +229,8 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                   maxScale: 6,
                   child: GraphView(
                     graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                    algorithm: BuchheimWalkerAlgorithm(
+                        builder, TreeEdgeRenderer(builder)),
                     paint: Paint()
                       ..color = Colors.white
                       ..strokeWidth = 1
@@ -232,7 +238,9 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                     builder: (Node node) {
                       var indexId = node.key?.value as int?;
                       List<TreeGraphData> members = treeGraphData;
-                      var filteredMembers = members.where((element) => element.id == indexId).toList();
+                      var filteredMembers = members
+                          .where((element) => element.id == indexId)
+                          .toList();
                       TreeGraphData? data;
 
                       if (filteredMembers.haveData) {
@@ -253,27 +261,71 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
   Widget rectangleWidget(TreeGraphData? data) {
     return InkWell(
       onTap: () {
-        print('clicked');
+        context.pushNamed(Routs.memberProfileDetails);
       },
       child: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(bottom: 2),
-            decoration: BoxDecoration(
-              gradient: greenGradient,
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: Center(
-              child: ImageView(
-                height: 30,
-                width: 30,
-                isAvatar: true,
-                borderRadiusValue: 40,
-                border: Border.all(color: Colors.black, width: 2),
-                margin: const EdgeInsets.all(3),
-                assetImage: 'AppAssets.appIcon',
+          Stack(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 2),
+                decoration: BoxDecoration(
+                  gradient: statusGradient(sales: data?.sales),
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: Center(
+                  child: ImageView(
+                    height: 38,
+                    width: 38,
+                    isAvatar: true,
+                    borderRadiusValue: 40,
+                    border: Border.all(color: Colors.black, width: 2),
+                    margin: const EdgeInsets.all(3),
+                    assetImage: 'AppAssets.appIcon',
+                  ),
+                ),
               ),
-            ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: GradientButton(
+                  height: 14,
+                  width: 14,
+                  backgroundGradient: primaryGradient,
+                  padding: EdgeInsets.zero,
+                  child: Center(
+                    child: Text(
+                      '${data?.rank}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 8,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: GradientButton(
+                  height: 14,
+                  width: 14,
+                  backgroundGradient: primaryGradient,
+                  padding: EdgeInsets.zero,
+                  child: Center(
+                    child: Text(
+                      '${data?.level}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 8,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 2, bottom: 2),

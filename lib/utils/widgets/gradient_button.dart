@@ -17,7 +17,9 @@ class GradientButton extends StatelessWidget {
   final Color? backgroundColor;
   final Gradient? backgroundGradient;
   final double? blur;
+
   final double? minSize;
+  final Border? border;
   final List<BoxShadow>? boxShadow;
 
   GradientButton({
@@ -37,6 +39,7 @@ class GradientButton extends StatelessWidget {
     this.width,
     this.blur,
     this.minSize,
+    this.border,
   }) : _painter = gradient != null
             ? GradientBorderPainter(
                 strokeWidth: borderWidth ?? 1,
@@ -48,7 +51,7 @@ class GradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      minSize: minSize??0,
+      minSize: minSize ?? 0,
       borderRadius: buildBorderRadius(),
       onPressed: onTap,
       padding: EdgeInsets.zero,
@@ -62,8 +65,11 @@ class GradientButton extends StatelessWidget {
               height: height,
               width: width,
               decoration: BoxDecoration(
-                color: backgroundGradient == null ? (backgroundColor ?? Colors.transparent) : null,
+                color: backgroundGradient == null
+                    ? (backgroundColor ?? Colors.transparent)
+                    : null,
                 gradient: backgroundGradient,
+                border: border,
                 borderRadius: buildBorderRadius(),
                 boxShadow: boxShadow,
               ),
@@ -110,18 +116,23 @@ class GradientBorderPainter extends CustomPainter {
   final double strokeWidth;
   final Gradient gradient;
 
-  GradientBorderPainter({required this.strokeWidth, required this.radius, required this.gradient});
+  GradientBorderPainter(
+      {required this.strokeWidth,
+      required this.radius,
+      required this.gradient});
 
   @override
   void paint(Canvas canvas, Size size) {
     // create outer rectangle equals size
     Rect outerRect = Offset.zero & size;
-    var outerRRect = RRect.fromRectAndRadius(outerRect, Radius.circular(radius));
+    var outerRRect =
+        RRect.fromRectAndRadius(outerRect, Radius.circular(radius));
 
     // create inner rectangle smaller by strokeWidth
-    Rect innerRect =
-        Rect.fromLTWH(strokeWidth, strokeWidth, size.width - strokeWidth * 2, size.height - strokeWidth * 2);
-    var innerRRect = RRect.fromRectAndRadius(innerRect, Radius.circular(radius - strokeWidth));
+    Rect innerRect = Rect.fromLTWH(strokeWidth, strokeWidth,
+        size.width - strokeWidth * 2, size.height - strokeWidth * 2);
+    var innerRRect = RRect.fromRectAndRadius(
+        innerRect, Radius.circular(radius - strokeWidth));
 
     // apply gradient shader
     _paint.shader = gradient.createShader(outerRect);

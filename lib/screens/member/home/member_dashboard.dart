@@ -114,7 +114,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: kPadding, left: 4, right: 4),
+            padding: EdgeInsets.only(top: kPadding, left: 8, right: 8),
             child: Row(
               children: [
                 MySalesTarget(
@@ -131,7 +131,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+            padding: const EdgeInsets.only(
+                left: kPadding, right: kPadding, top: kPadding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -140,7 +141,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   style: headingTextStyle(),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     gradient: inActiveGradient,
                     borderRadius: BorderRadius.circular(5),
@@ -151,7 +153,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         padding: EdgeInsets.only(right: 4),
                         child: Text(
                           '6A2',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                       ),
                       Icon(Icons.keyboard_arrow_down_rounded, size: 18)
@@ -162,7 +165,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
+            padding:
+                const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
             child: PerformanceGraph(
               analytics: dummyAnalyticsList,
             ),
@@ -175,63 +179,63 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   title: 'List',
                   value: '08',
                   gradient: limeGradient,
-                  onTap:()async {
-                    await  showModalBottomSheet(
-                    backgroundColor: Colors.transparent,
-                    context: context,
-                    clipBehavior: Clip.antiAlias,
-                    isScrollControlled: true,
-                    shape: const OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18))),
-                    builder: (context) =>
-                     CustomeModelBottemSheet(
-                       title: 'New Lists',
-                       tabIndex:myDashboard?7:4,
-                       listItem: 14,
-
-                     )
-                    );
+                  onTap: () async {
+                    await showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        clipBehavior: Clip.antiAlias,
+                        isScrollControlled: true,
+                        shape: const OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18),
+                                topRight: Radius.circular(18))),
+                        builder: (context) => CustomeModelBottemSheet(
+                              title: 'New Lists',
+                              tabIndex: myDashboard ? 7 : 4,
+                              listItem: 14,
+                            ));
                   },
                 ),
                 AnalyticsCard(
                   title: 'Demo Scheduled',
                   value: '02',
                   gradient: targetGradient,
-                  onTap:()async {
-                    await  showModalBottomSheet(
+                  onTap: () async {
+                    await showModalBottomSheet(
                         backgroundColor: Colors.transparent,
                         context: context,
                         clipBehavior: Clip.antiAlias,
                         isScrollControlled: true,
-                        shape: const OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18))),
-                        builder: (context) =>
-                            CustomeModelBottemSheet(
+                        shape: const OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18),
+                                topRight: Radius.circular(18))),
+                        builder: (context) => CustomeModelBottemSheet(
                               title: 'Demo Scheduled',
-                              tabIndex:myDashboard? 8:5,
+                              tabIndex: myDashboard ? 8 : 5,
                               listItem: 14,
-
-                            )
-                    );
+                            ));
                   },
                 ),
                 AnalyticsCard(
                   title: 'Demo Competed',
                   value: '02',
                   gradient: targetGradient,
-                  onTap:()async {
-                    await  showModalBottomSheet(
+                  onTap: () async {
+                    await showModalBottomSheet(
                         backgroundColor: Colors.transparent,
                         context: context,
                         clipBehavior: Clip.antiAlias,
                         isScrollControlled: true,
-                        shape: const OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18))),
-                        builder: (context) =>
-                            CustomeModelBottemSheet(
+                        shape: const OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18),
+                                topRight: Radius.circular(18))),
+                        builder: (context) => CustomeModelBottemSheet(
                               title: 'Demo Done',
-                              tabIndex: myDashboard?9:4,
+                              tabIndex: myDashboard ? 9 : 4,
                               listItem: 14,
-
-                            )
-                    );
+                            ));
                   },
                 ),
               ],
@@ -246,21 +250,21 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   value: '06',
                   flex: 2,
                   gradient: primaryGradient,
-                  onTap:()async {
-                    await  showModalBottomSheet(
+                  onTap: () async {
+                    await showModalBottomSheet(
                         backgroundColor: Colors.transparent,
                         context: context,
                         clipBehavior: Clip.antiAlias,
                         isScrollControlled: true,
-                        shape: const OutlineInputBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18))),
-                        builder: (context) =>
-                            CustomeModelBottemSheet(
+                        shape: const OutlineInputBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18),
+                                topRight: Radius.circular(18))),
+                        builder: (context) => CustomeModelBottemSheet(
                               title: 'Demo Done',
-                              tabIndex:myDashboard? 10:6,
+                              tabIndex: myDashboard ? 10 : 6,
                               listItem: 14,
-
-                            )
-                    );
+                            ));
                   },
                 ),
                 AnalyticsCard(
@@ -276,7 +280,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+            padding: const EdgeInsets.only(
+                left: kPadding, right: kPadding, bottom: kPadding),
             child: Text(
               'Leads Type',
               style: headingTextStyle(),
@@ -348,9 +353,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
     );
   }
 
-  TextStyle headingTextStyle() => const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
-
-
+  TextStyle headingTextStyle() =>
+      const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
 }
 
 class MyRankTarget extends StatelessWidget {
@@ -384,7 +388,8 @@ class MyRankTarget extends StatelessWidget {
               children: [
                 Text(
                   '$level',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -401,7 +406,8 @@ class MyRankTarget extends StatelessWidget {
                 ),
                 Text(
                   '$rank',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -416,7 +422,8 @@ class MyRankTarget extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     '(${target ?? 0}) Sale Pending to achieve',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -427,6 +434,7 @@ class MyRankTarget extends StatelessWidget {
     );
   }
 }
+
 class MySalesTarget extends StatelessWidget {
   const MySalesTarget({
     super.key,
@@ -445,7 +453,8 @@ class MySalesTarget extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(minHeight: 140),
         margin: const EdgeInsets.only(right: 8),
-        padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
+        padding: const EdgeInsets.symmetric(
+            horizontal: kPadding, vertical: kPadding),
         decoration: BoxDecoration(
           gradient: targetGradient,
           borderRadius: BorderRadius.circular(32),
@@ -455,7 +464,10 @@ class MySalesTarget extends StatelessWidget {
           children: [
             const Text(
               'My sales target',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 12, top: 12),
@@ -466,14 +478,20 @@ class MySalesTarget extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8),
                     child: Text(
                       '${pending ?? 0}',
-                      style: const TextStyle(color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
                       'Pending',
-                      style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -489,15 +507,20 @@ class MySalesTarget extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         '${target ?? 0}',
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700),
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 2),
                       child: Text(
                         'Target',
-                        style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ],
@@ -515,15 +538,20 @@ class MySalesTarget extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         '${archived ?? 0}',
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 2),
                       child: Text(
                         'Achieved',
-                        style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
                       ),
                     ),
                   ],
@@ -536,6 +564,7 @@ class MySalesTarget extends StatelessWidget {
     );
   }
 }
+
 class AnalyticsCard extends StatelessWidget {
   const AnalyticsCard({
     super.key,
@@ -571,7 +600,8 @@ class AnalyticsCard extends StatelessWidget {
             children: [
               Container(
                 constraints: BoxConstraints(minHeight: minHeight ?? 120),
-                padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kPadding, vertical: 16),
                 decoration: BoxDecoration(
                   gradient: gradient ?? inActiveGradient,
                   borderRadius: BorderRadius.circular(32),
@@ -598,7 +628,9 @@ class AnalyticsCard extends StatelessWidget {
                         Text(
                           '$title',
                           style: TextStyle(
-                              color: textColor ?? Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                              color: textColor ?? Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),

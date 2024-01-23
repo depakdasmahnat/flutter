@@ -28,6 +28,22 @@ class Routs {
   static const String samplePagination = '/sample-pagination';
 
   static const String productDetail = '/productDetail';
+  static const String examQuiz = '/examQuiz';
+  static const String toDoScreen = '/toDoScreen';
+  static const String goals = '/goals';
+  static const String createGoal = '/createGoal';
+
+  static const String achievers = '/achievers';
+  static const String createTarget = '/createTarget';
+  static const String events = '/events';
+  static const String createEvent = '/createEvent';
+
+  static const String demos = '/demos';
+  static const String createDemo = '/createDemo';
+
+  static const String networkReport = '/networkReport';
+  static const String resources = '/resources';
+
   static const String guestProductDetail = '/guestProductDetail';
   static const String guestProduct = '/guestProduct';
   static const String guestProfile = '/guestProfile';
@@ -41,4 +57,8 @@ class Routs {
   static const String memberEditProfile = '/memberEditProfile';
   static const String memberaddList = '/memberaddList';
   static const String memberaddForm = '/memberaddForm';
+
+  static const String demoVideos = '/demoVideos';
+  static const String trainingScreen = '/trainingScreen';
+  static const String memberFeeds = '/memberFeeds';
 }
