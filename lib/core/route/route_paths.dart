@@ -41,8 +41,6 @@ class Routs {
   static const String demos = '/demos';
   static const String createDemo = '/createDemo';
 
-  static const String memberProfile = '/memberProfile';
-
   static const String networkReport = '/networkReport';
   static const String resources = '/resources';
 
@@ -53,6 +51,12 @@ class Routs {
   static const String guestEditProfile = '/guestEditPRofile';
   static const String guestFaq = '/guestFaq';
   static const String selectLead = '/selectLead';
+  static const String fisrtScreen = '/fisrtScreen';
+  static const String memberProfile = '/memberProfile';
+  static const String callender = '/callender';
+  static const String memberEditProfile = '/memberEditProfile';
+  static const String memberaddList = '/memberaddList';
+  static const String memberaddForm = '/memberaddForm';
 
   static const String demoVideos = '/demoVideos';
   static const String trainingScreen = '/trainingScreen';

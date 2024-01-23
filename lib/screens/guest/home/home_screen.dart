@@ -99,9 +99,10 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.only(bottom: bottomNavbarSize),
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
+            padding:
+                const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
             child: Text(
-              'Congratulations to the new joiners',
+              'Congratulations to the new joinees',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -123,7 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               // context.pushNamed(Routs.verifyOTP);
             },
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+            margin: const EdgeInsets.only(
+                left: kPadding, right: kPadding, top: kPadding),
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -140,38 +142,39 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-            child: Container(
-              // height:size.height*0.05 ,
-              decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AppAssets.container))),
-              child: const Padding(
-                padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 5, bottom: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Total App Download',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      '10 K',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+          //   child: Container(
+          //     // height:size.height*0.05 ,
+          //     decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AppAssets.container))),
+          //     child: const Padding(
+          //       padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 5, bottom: 5),
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //         mainAxisSize: MainAxisSize.min,
+          //         children: [
+          //           Text(
+          //             'Total App Download',
+          //             style: TextStyle(
+          //               fontSize: 16,
+          //               fontWeight: FontWeight.w700,
+          //               color: Colors.black,
+          //             ),
+          //           ),
+          //           Text(
+          //             '10 K',
+          //             style: TextStyle(
+          //               fontSize: 32,
+          //               fontWeight: FontWeight.w700,
+          //               color: Colors.black,
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
           const CustomTextField(
             hintText: 'Search',
             readOnly: true,
@@ -185,7 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
               fit: BoxFit.contain,
               assetImage: AppAssets.searchIcon,
             ),
-            margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+            margin: EdgeInsets.only(
+                left: kPadding,
+                right: kPadding,
+                top: kPadding,
+                bottom: kPadding),
           ),
           if (filters?.haveData == true)
             SizedBox(
@@ -200,7 +207,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     bool isSelected = selectedFilter == data;
                     return GradientButton(
-                      backgroundGradient: isSelected ? primaryGradient : inActiveGradient,
+                      backgroundGradient:
+                          isSelected ? primaryGradient : inActiveGradient,
                       borderWidth: 2,
                       borderRadius: 30,
                       onTap: () {
@@ -209,7 +217,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         });
                       },
                       margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: kPadding, vertical: 8),
                       child: Text(
                         '$data',
                         style: TextStyle(
@@ -240,7 +249,8 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: size.height * 0.1),
         child: Container(
-          decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
+          decoration:
+              BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
           child: Padding(
             padding: const EdgeInsets.all(kPadding),
             child: Image.asset(
@@ -263,7 +273,6 @@ class FeedCard extends StatelessWidget {
     this.fit,
     this.type,
   });
-
   double? imageHeight;
   BoxFit? fit;
   String? type;
@@ -273,7 +282,8 @@ class FeedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+      margin:
+          const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
       decoration: BoxDecoration(
         gradient: feedsCardGradient,
         borderRadius: BorderRadius.circular(24),
@@ -289,7 +299,7 @@ class FeedCard extends StatelessWidget {
             assetImage: AppAssets.product1,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12),
+            padding: EdgeInsets.only(left: 12, right: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

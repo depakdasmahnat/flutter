@@ -65,7 +65,9 @@ class GradientButton extends StatelessWidget {
               height: height,
               width: width,
               decoration: BoxDecoration(
-                color: backgroundGradient == null ? (backgroundColor ?? Colors.transparent) : null,
+                color: backgroundGradient == null
+                    ? (backgroundColor ?? Colors.transparent)
+                    : null,
                 gradient: backgroundGradient,
                 border: border,
                 borderRadius: buildBorderRadius(),
@@ -114,18 +116,23 @@ class GradientBorderPainter extends CustomPainter {
   final double strokeWidth;
   final Gradient gradient;
 
-  GradientBorderPainter({required this.strokeWidth, required this.radius, required this.gradient});
+  GradientBorderPainter(
+      {required this.strokeWidth,
+      required this.radius,
+      required this.gradient});
 
   @override
   void paint(Canvas canvas, Size size) {
     // create outer rectangle equals size
     Rect outerRect = Offset.zero & size;
-    var outerRRect = RRect.fromRectAndRadius(outerRect, Radius.circular(radius));
+    var outerRRect =
+        RRect.fromRectAndRadius(outerRect, Radius.circular(radius));
 
     // create inner rectangle smaller by strokeWidth
-    Rect innerRect =
-        Rect.fromLTWH(strokeWidth, strokeWidth, size.width - strokeWidth * 2, size.height - strokeWidth * 2);
-    var innerRRect = RRect.fromRectAndRadius(innerRect, Radius.circular(radius - strokeWidth));
+    Rect innerRect = Rect.fromLTWH(strokeWidth, strokeWidth,
+        size.width - strokeWidth * 2, size.height - strokeWidth * 2);
+    var innerRRect = RRect.fromRectAndRadius(
+        innerRect, Radius.circular(radius - strokeWidth));
 
     // apply gradient shader
     _paint.shader = gradient.createShader(outerRect);

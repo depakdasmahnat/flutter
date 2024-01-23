@@ -8,7 +8,6 @@ import 'package:mrwebbeast/screens/guest/home/banners.dart';
 
 import '../../../core/constant/gradients.dart';
 
-import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/training_progress.dart';
 import '../../guest/home/guest_profiles.dart';
@@ -46,7 +45,8 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
         padding: const EdgeInsets.only(bottom: bottomNavbarSize),
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
+            padding:
+                const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
             child: Text(
               'Congratulations to the new joiners',
               style: TextStyle(

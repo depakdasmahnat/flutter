@@ -10,13 +10,14 @@ import '../../screens/guest/home/home_screen.dart';
 import '../../screens/guest/product/guest_product.dart';
 import '../../screens/guest/resource&Demo/mainresource.dart';
 import '../../screens/member/home/member_home_screen.dart';
+import '../../screens/member/lead/lead.dart';
+import '../../screens/member/members/member_screen.dart';
 import '../../screens/member/network/network_screen.dart';
 import '../../utils/widgets/no_data_found.dart';
 
 class DashboardController extends ChangeNotifier {
   /// 1) Dashboard Index
   final int _defaultDashBoardIndex = 0;
-
   late int _dashBoardIndex = _defaultDashBoardIndex;
 
   int get dashBoardIndex => _dashBoardIndex;
@@ -47,7 +48,8 @@ class DashboardController extends ChangeNotifier {
   }
 
   changeUserRoleFromString({String? role}) {
-    List<UserRoles> userRoles = UserRoles.values.where((element) => element.value == role).toList();
+    List<UserRoles> userRoles =
+        UserRoles.values.where((element) => element.value == role).toList();
     if (userRoles.haveData) {
       _userRole = userRoles.first;
       notifyListeners();
@@ -55,7 +57,8 @@ class DashboardController extends ChangeNotifier {
   }
 
   /// 3) Dashboard Index
-  late List widgets = userRole == UserRoles.guest ? _guestWidgets : _membersWidgets;
+  late List widgets =
+      userRole == UserRoles.guest ? _guestWidgets : _membersWidgets;
 
   // Guest Widgets
   final List<DashboardData> _guestWidgets = [
@@ -108,13 +111,13 @@ class DashboardController extends ChangeNotifier {
       title: 'Leads',
       activeImage: AppAssets.leadsFilledIcon,
       inActiveImage: AppAssets.leadsIcon,
-      widget: const NoDataFound(),
+      widget: const Lead(),
     ),
     DashboardData(
       title: 'Members',
       activeImage: AppAssets.membersFilledIcon,
       inActiveImage: AppAssets.membersIcon,
-      widget: const NoDataFound(),
+      widget: const MemberScreen(),
     ),
   ];
 }

@@ -41,21 +41,21 @@ class _GuestProfilesState extends State<GuestProfiles> {
       'subtital': 'Raipur',
     },
   ];
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(left: kPadding, right: kPadding),
       child: SizedBox(
-        height: 80,
+        height: size.height * 0.10,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
               children: [
                 Container(
-                  decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, gradient: primaryGradient),
                   child: Padding(
                     padding: const EdgeInsets.all(6),
                     child: Column(

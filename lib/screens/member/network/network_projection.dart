@@ -207,7 +207,11 @@ class NetworkProjectionState extends State<NetworkProjection> {
           child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: 100),
+                padding: const EdgeInsets.only(
+                    left: kPadding,
+                    right: kPadding,
+                    top: kPadding,
+                    bottom: 100),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: SizedBox(
@@ -222,7 +226,9 @@ class NetworkProjectionState extends State<NetworkProjection> {
                           child: Container(
                             height: 60,
                             decoration: BoxDecoration(
-                              gradient: currentLevel ? primaryGradient : whiteGradient,
+                              gradient: currentLevel
+                                  ? primaryGradient
+                                  : whiteGradient,
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -261,7 +267,8 @@ class NetworkProjectionState extends State<NetworkProjection> {
                   maxScale: 6,
                   child: GraphView(
                     graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                    algorithm: BuchheimWalkerAlgorithm(
+                        builder, TreeEdgeRenderer(builder)),
                     paint: Paint()
                       ..color = Colors.white
                       ..strokeWidth = 1
@@ -269,7 +276,9 @@ class NetworkProjectionState extends State<NetworkProjection> {
                     builder: (Node node) {
                       var indexId = node.key?.value as int?;
                       List<TreeGraphData> members = treeGraphData;
-                      var filteredMembers = members.where((element) => element.id == indexId).toList();
+                      var filteredMembers = members
+                          .where((element) => element.id == indexId)
+                          .toList();
                       TreeGraphData? data;
 
                       if (filteredMembers.haveData) {

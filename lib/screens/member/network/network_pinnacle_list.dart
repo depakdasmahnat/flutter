@@ -1,12 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graphview/GraphView.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
-import 'package:mrwebbeast/models/dashboard/color_grades.dart';
 import 'package:mrwebbeast/screens/member/network/pinnacle_list_table.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
@@ -44,7 +39,8 @@ class NetworkPinnacleListState extends State<NetworkPinnacleList> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+          padding: const EdgeInsets.only(
+              left: kPadding, right: kPadding, bottom: kPadding),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: SizedBox(
@@ -60,7 +56,8 @@ class NetworkPinnacleListState extends State<NetworkPinnacleList> {
                     child: Container(
                       width: 45,
                       decoration: BoxDecoration(
-                        gradient: currentLevel ? primaryGradient : whiteGradient,
+                        gradient:
+                            currentLevel ? primaryGradient : whiteGradient,
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

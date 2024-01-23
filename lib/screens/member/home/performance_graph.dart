@@ -15,11 +15,11 @@ class PerformanceGraph extends StatelessWidget {
     return analytics.haveData
         ? SfCartesianChart(
             plotAreaBorderWidth: 0,
-            primaryXAxis: CategoryAxis(
+            primaryXAxis: const CategoryAxis(
               isVisible: true,
-              axisLine: const AxisLine(width: 1, color: Colors.white),
-              labelStyle: const TextStyle(color: Colors.white, fontSize: 8),
-              majorGridLines: const MajorGridLines(color: Colors.white, width: 0),
+              axisLine: AxisLine(width: 1, color: Colors.white),
+              labelStyle: TextStyle(color: Colors.white, fontSize: 8),
+              majorGridLines: MajorGridLines(color: Colors.white, width: 0),
               borderColor: Colors.white,
             ),
             // primaryYAxis: CategoryAxis(
@@ -41,16 +41,19 @@ class PerformanceGraph extends StatelessWidget {
                 cardinalSplineTension: 2,
                 color: const Color(0xffD1F35A),
                 width: 3,
-                dataLabelMapper: (TargetAnalyticsData? sales, _) => '${sales?.xAxis}',
-                xValueMapper: (TargetAnalyticsData? sales, _) => '${sales?.xAxis}',
-                yValueMapper: (TargetAnalyticsData? sales, _) => num.tryParse('${sales?.performance}') ?? 0,
+                dataLabelMapper: (TargetAnalyticsData? sales, _) =>
+                    '${sales?.xAxis}',
+                xValueMapper: (TargetAnalyticsData? sales, _) =>
+                    '${sales?.xAxis}',
+                yValueMapper: (TargetAnalyticsData? sales, _) =>
+                    num.tryParse('${sales?.performance}') ?? 0,
                 markerSettings: const MarkerSettings(
                   isVisible: true,
                   color: primaryColor,
                   borderColor: Colors.white,
                 ),
                 enableTooltip: true,
-                dataLabelSettings: DataLabelSettings(),
+                dataLabelSettings: const DataLabelSettings(),
               ),
             ],
           )
