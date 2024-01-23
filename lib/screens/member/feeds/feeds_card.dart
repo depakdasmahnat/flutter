@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
+import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -26,54 +28,16 @@ class FeedCard extends StatefulWidget {
 }
 
 class _FeedCardState extends State<FeedCard> {
-  VideoPlayerController? videoPlayerController;
   late FeedsData? data = widget.data;
-
-  Future initVideo() async {
-    disposeVideo();
-    if (data?.videoUrl != null) {
-      debugPrint('data?.videoUrl ${data?.videoUrl}');
-
-      videoPlayerController = VideoPlayerController.networkUrl(Uri.parse('${data?.videoUrl}'));
-    }
-
-    await videoPlayerController?.initialize();
-    videoPlayerController?.addListener(() {
-      if (context.mounted) {
-        setState(() {});
-      }
-    });
-    playVideo();
-  }
-
-  Future<bool> playVideo() async {
-    if (videoPlayerController?.value.isPlaying == true) {
-      await videoPlayerController?.pause();
-    } else {
-      await videoPlayerController?.play();
-    }
-    return true;
-  }
-
-  Future disposeVideo() async {
-    if (videoPlayerController?.value.isInitialized == true) {
-      videoPlayerController?.removeListener(() {});
-      await videoPlayerController?.dispose();
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-
-    initVideo();
   }
 
   @override
   void dispose() {
     super.dispose();
-    disposeVideo();
-    videoPlayerController = null;
   }
 
   @override
@@ -87,35 +51,54 @@ class _FeedCardState extends State<FeedCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (data?.images.haveData == true)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kPadding),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: data?.images?.length ?? 0,
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.zero,
-                  physics: const PageScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    var image = data?.images?.elementAt(index);
+          Column(
+            children: [
+              if (data?.images.haveData == true)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 8,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data?.images?.length ?? 0,
+                      scrollDirection: Axis.horizontal,
+                      padding: EdgeInsets.zero,
+                      physics: const PageScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        var image = data?.images?.elementAt(index);
 
-                    return AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: ImageView(
-                        borderRadiusValue: 16,
-                        margin: EdgeInsets.zero,
-                        fit: BoxFit.contain,
-                        assetImage: '${image}',
-                      ),
-                    );
-                  },
+                        return AspectRatio(
+                          aspectRatio: 16 / 8,
+                          child: ImageView(
+                            borderRadiusValue: 18,
+                            margin: EdgeInsets.zero,
+                            backgroundColor: Colors.transparent,
+                            fit: BoxFit.cover,
+                            assetImage: '$image',
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              else if (data?.videoUrl != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  child: VideoPlayerCard(
+                    url: '${data?.videoUrl}',
+                    borderRadius: 18,
+                  ),
+                )
+              else if (data?.youtubeUrl != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  child: YoutubeVideoPlayerCard(
+                    url: '${data?.youtubeUrl}',
+                    borderRadius: 18,
+                  ),
                 ),
-              ),
-            )
-          else if (data?.videoUrl != null)
-            videoPlayerWidget(),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12),
             child: Column(
@@ -176,52 +159,6 @@ class _FeedCardState extends State<FeedCard> {
             ),
           )
         ],
-      ),
-    );
-  }
-
-  Widget videoPlayerWidget() {
-    return VisibilityDetector(
-      key: const ObjectKey('videoManager'),
-      onVisibilityChanged: (visibility) {
-        var visiblePercentage = visibility.visibleFraction * 100;
-        if (visibility.visibleFraction == 0 && mounted) {
-          videoPlayerController?.pause();
-        } else if (visibility.visibleFraction < 0.95 && mounted) {
-          videoPlayerController?.pause();
-        } else if (visibility.visibleFraction == 1 && mounted) {
-          videoPlayerController?.play();
-        }
-        debugPrint(
-            'Video Player visibility  ${visibility.key} is $visiblePercentage% visible & ${visibility.visibleFraction}');
-      },
-      child: Container(
-        child: (videoPlayerController?.value.isInitialized == true)
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: GestureDetector(
-                  onTap: () {
-                    playVideo();
-                  },
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: VideoPlayer(videoPlayerController!),
-                      ),
-                      if (videoPlayerController?.value.isPlaying == false)
-                        Icon(Icons.play_circle_filled_outlined, size: 56, color: Colors.grey.shade100)
-                      else if (videoPlayerController?.value.isBuffering == true)
-                        const CupertinoActivityIndicator(color: primaryColor),
-                    ],
-                  ),
-                ),
-              )
-            : const AspectRatio(
-                aspectRatio: 16 / 9,
-                child: CupertinoActivityIndicator(radius: 18, color: primaryColor),
-              ),
       ),
     );
   }

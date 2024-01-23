@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
@@ -40,25 +41,49 @@ class _GuestProfilesState extends State<GuestProfiles> {
       'title': 'sabanok...',
       'subtital': 'Raipur',
     },
+    {
+      'image': AppAssets.guestProfile2,
+      'title': 'sabanok...',
+      'subtital': 'Raipur',
+    },
+    {
+      'image': AppAssets.guestProfile1,
+      'title': 'sabanok...',
+      'subtital': 'Raipur',
+    },
+    {
+      'image': AppAssets.guestProfile2,
+      'title': 'sabanok...',
+      'subtital': 'Raipur',
+    },
+    {
+      'image': AppAssets.guestProfile2,
+      'title': 'sabanok...',
+      'subtital': 'Raipur',
+    },
   ];
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(left: kPadding, right: kPadding),
       child: SizedBox(
-        height: size.height * 0.10,
+        height: 85,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, gradient: primaryGradient),
+                  height: 45,
+                  width: 45,
+                  decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
                   child: Padding(
                     padding: const EdgeInsets.all(6),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
@@ -75,7 +100,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                           '24',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 26,
+                            fontSize: 22,
                             height: 1,
                             fontFamily: GoogleFonts.urbanist().fontFamily,
                             fontWeight: FontWeight.w800,
@@ -86,40 +111,40 @@ class _GuestProfilesState extends State<GuestProfiles> {
                     ),
                   ),
                 ),
-                Text(
-                  'New\nMembers Join',
-                  style: TextStyle(
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    'New\nMembers Join',
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                       fontFamily: GoogleFonts.urbanist().fontFamily,
                       fontWeight: FontWeight.w500,
-                      height: 1),
-                  textAlign: TextAlign.center,
+                      height: 1.1,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ],
             ),
             Expanded(
               child: ListView.builder(
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 itemCount: guestProfile.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(4),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.asset(
-                            guestProfile[index]['image'],
-                            fit: BoxFit.cover,
-                            height: size.height * 0.05,
-                          ),
+                        ImageView(
+                          height: 45,
+                          width: 45,
+                          borderRadiusValue: 45,
+                          margin: const EdgeInsets.only(bottom: 8),
+                          assetImage: guestProfile[index]['image'],
                         ),
                         Text(
                           '${guestProfile[index]["title"]}',
@@ -134,7 +159,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                         Text(
                           '${guestProfile[index]["subtital"]}',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.grey.shade300,
                             fontSize: 8,
                             fontFamily: GoogleFonts.urbanist().fontFamily,
                             fontWeight: FontWeight.w500,

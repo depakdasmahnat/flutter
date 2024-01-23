@@ -61,6 +61,7 @@ dependencies:
   percent_indicator: ^4.2.3
   video_player: ^2.8.2
   visibility_detector: ^0.4.0+2
+  youtube_player_iframe: ^4.0.4
   
 dev_dependencies:
   flutter_test:

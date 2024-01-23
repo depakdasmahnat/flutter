@@ -45,15 +45,14 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
         padding: const EdgeInsets.only(bottom: bottomNavbarSize),
         children: [
           Padding(
-            padding:
-                const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
+            padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
             child: Text(
               'Congratulations to the new joiners',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
                 fontFamily: GoogleFonts.urbanist().fontFamily,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.start,
             ),
@@ -113,6 +112,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                   context.pushNamed(Routs.toDoScreen);
                 },
               ),
+
               MenuCard(
                 image: AppAssets.documentIcon,
                 name: 'Reports',

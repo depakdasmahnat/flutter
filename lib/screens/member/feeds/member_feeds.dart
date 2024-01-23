@@ -38,43 +38,6 @@ class _MemberFeedsState extends State<MemberFeeds> {
     'Filter',
   ];
 
-  List<FeedsData> dummyDataList = [
-    // Example 1
-    FeedsData(
-      id: '1',
-      title: 'Best water purifier: 10 picks to ensure clean drinking water',
-      duration: '5:30',
-      likes: 150,
-      comments: 25,
-      wishlistId: 'w123',
-      isLiked: false,
-      isBookmarked: true,
-      images: [
-        AppAssets.product1,
-        AppAssets.product2,
-      ],
-      videoUrl: null,
-      youtubeUrl: null,
-      share: 'https://example.com/share/1',
-    ),
-
-    // Example 2
-    FeedsData(
-      id: '2',
-      title: 'Exciting Adventure',
-      duration: '8:45',
-      likes: 300,
-      comments: 40,
-      wishlistId: 'w456',
-      isLiked: true,
-      isBookmarked: false,
-      images: null,
-      videoUrl: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-      youtubeUrl: null,
-      share: 'https://example.com/share/2',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -138,9 +101,9 @@ class _MemberFeedsState extends State<MemberFeeds> {
                 ),
               ),
             ),
-          if (dummyDataList.haveData)
+          if (dummyFeedsList.haveData)
             ListView.builder(
-              itemCount: dummyDataList.length ?? 0,
+              itemCount: dummyFeedsList.length ?? 0,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
@@ -150,7 +113,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
                   },
                   child: FeedCard(
                     index: index,
-                    data: dummyDataList.elementAt(index),
+                    data: dummyFeedsList.elementAt(index),
                   ),
                 );
               },
@@ -160,3 +123,51 @@ class _MemberFeedsState extends State<MemberFeeds> {
     );
   }
 }
+
+List<FeedsData> dummyFeedsList = [
+  FeedsData(
+    id: '1',
+    title: 'Best water purifier: 10 picks to ensure clean drinking water',
+    duration: '5:30',
+    likes: 150,
+    comments: 25,
+    wishlistId: 'w123',
+    isLiked: false,
+    isBookmarked: true,
+    images: [
+      AppAssets.product1,
+      AppAssets.product2,
+    ],
+    videoUrl: null,
+    youtubeUrl: null,
+    share: 'https://example.com/share/1',
+  ),
+  FeedsData(
+    id: '2',
+    title: 'Exciting Adventure',
+    duration: '8:45',
+    likes: 300,
+    comments: 40,
+    wishlistId: 'w456',
+    isLiked: true,
+    isBookmarked: false,
+    images: null,
+    videoUrl: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    youtubeUrl: null,
+    share: 'https://example.com/share/2',
+  ),
+  FeedsData(
+    id: '3',
+    title: 'Exciting Adventure',
+    duration: '8:45',
+    likes: 300,
+    comments: 40,
+    wishlistId: 'w456',
+    isLiked: true,
+    isBookmarked: false,
+    images: null,
+    videoUrl: null,
+    youtubeUrl: 'https://www.youtube.com/watch?v=6GL4kW_llds',
+    share: 'https://example.com/share/2',
+  ),
+];

@@ -26,8 +26,7 @@ class AppAssets {
   static const String pdf = 'assets/images/pdf_image.png';
 
   static const String geustProduct = 'assets/images/geust_product.png';
-  static const String geustProductDteila =
-      'assets/images/guet_product_detail.png';
+  static const String geustProductDteila = 'assets/images/guet_product_detail.png';
 
   static const String product = 'assets/images/product.png';
 
@@ -70,8 +69,7 @@ class AppAssets {
   static const String achievementIcon = 'assets/icons/ic_achievement.png';
   static const String playIcon = 'assets/icons/ic_play.png';
   static const String upload = 'assets/icons/download.png';
-  static const String congratulationsBanner =
-      'assets/images/congratulations_banner.png';
+  static const String congratulationsBanner = 'assets/images/congratulations_banner.png';
   static const String checkIcon = 'assets/icons/ic_check.png';
 
   static const String achieversIcon = 'assets/icons/ic_achievers.png';
@@ -99,8 +97,7 @@ class AppAssets {
   static const String userImage = 'assets/images/user_image.png';
   static const String goalImage = 'assets/images/goal_home.png';
 
-  static const String logoHorizontalText =
-      'assets/images/logo_horizontal_text.png';
+  static const String logoHorizontalText = 'assets/images/logo_horizontal_text.png';
   static const String dashboardRings = 'assets/images/dashboard_rings.png';
 
   ///3)  Json...
@@ -117,6 +114,5 @@ class AppAssets {
   static const String toparrow = 'assets/images/toparrow.png';
   static const String memberprofile = 'assets/images/memberprofile.png';
   static const String admemberlist = 'assets/images/memberuser.png';
-  static const String authbackgroundimage =
-      'assets/images/authbackgroundimage.png';
+  static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
 }
