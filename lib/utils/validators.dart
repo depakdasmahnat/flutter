@@ -20,18 +20,18 @@ class Validator {
     if (value == null || value.isEmpty) {
       return '${fieldName ?? 'Full name'} is required';
     }
-    final parts = value.split(' ');
-    if (parts.length < 2) {
-      return 'Please enter your ${fieldName ?? 'full name'}';
-    }
-    for (var part in parts) {
-      if (part.length < 2) {
-        return 'Each word in your ${fieldName ?? 'full name'} must be at least 2 characters long';
-      }
-      if (!RegExp(r'^[a-zA-Z]+$').hasMatch(part)) {
-        return 'Please enter a valid ${fieldName ?? 'full name'}';
-      }
-    }
+    // final parts = value.split(' ');
+    // if (parts.length < 2) {
+    //   return 'Please enter your ${fieldName ?? 'full name'}';
+    // }
+    // for (var part in parts) {
+    //   if (part.length < 2) {
+    //     return 'Each word in your ${fieldName ?? 'full name'} must be at least 2 characters long';
+    //   }
+    //   if (!RegExp(r'^[a-zA-Z]+$').hasMatch(part)) {
+    //     return 'Please enter a valid ${fieldName ?? 'full name'}';
+    //   }
+    // }
     return null;
   }
 
@@ -89,7 +89,6 @@ class Validator {
     }
     return null;
   }
-
   /// Validates that a password is at least 8 characters long.
   static String? passwordValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'app.dart';
+import 'controllers/auth_controller/auth_controller.dart';
 import 'controllers/dashboard/dashboard_controller.dart';
 import 'core/services/database/local_database.dart';
 import 'core/services/localization/localization_controller.dart';
@@ -38,6 +39,7 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => LocationController()),
       ChangeNotifierProvider(create: (context) => ThemeController()),
       ChangeNotifierProvider(create: (context) => LocalizationController()),
+      ChangeNotifierProvider(create: (context) => AuthControllers()),
     ],
     child: const MyApp(),
   ));

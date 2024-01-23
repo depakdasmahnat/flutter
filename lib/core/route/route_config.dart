@@ -72,7 +72,7 @@ class RoutesConfig {
 
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
-    return authenticated ? Routs.dashboard : Routs.dashboard;
+    return authenticated ? Routs.dashboard : Routs.fisrtScreen;
   }
 
   ///1)  Route Config...
@@ -218,6 +218,10 @@ class RoutesConfig {
               state: state,
               child: VerifyOTP(
                 mobileNo: data?.mobileNo,
+                lastName: data?.lastName,
+                referralCode: data?.referralCode,
+                isMobileValidated: data?.isMobileValidated,
+                firstName: data?.firstName,
                 goBack: data?.goBack,
               ));
         },

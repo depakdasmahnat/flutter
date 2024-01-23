@@ -8,7 +8,10 @@ import '../../core/config/api_config.dart';
 import '../../core/route/route_paths.dart';
 import '../../core/services/api/api_service.dart';
 import '../../core/services/database/local_database.dart';
+import '../../models/auth_model/sendotp.dart';
 import '../../models/auth_model/validatemobile.dart';
+import '../../models/auth_model/verifyotp.dart';
+import '../../screens/auth/verify_otp.dart';
 import '../../utils/widgets/widgets.dart';
 
 class AuthControllers extends ChangeNotifier {
@@ -38,7 +41,7 @@ class AuthControllers extends ChangeNotifier {
     }
   }
   /// 1) Validate Mobile No. API...
-  Future validateMobile({
+  Future<Validatemobile?> validateMobile({
     required BuildContext context,
     required String? mobile,
 
@@ -55,34 +58,123 @@ class AuthControllers extends ChangeNotifier {
       body: body,
     );
 //Processing API...
-    loadingDialog(
+    Validatemobile? responseData;
+   await loadingDialog(
       context: context,
       future: response,
     ).then((response) async {
       if (response != null) {
         Map<String, dynamic> json = response;
-        Validatemobile responseData = Validatemobile.fromJson(json);
-        if (responseData.status == true) {
-          print('check validate phone number ${responseData.status}');
+         responseData = Validatemobile.fromJson(json);
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           // context.pushNamed(Routs., extra: VerifyOTP(mobileNo: mobile, countryCode: countryCode));
         } else {
-          showSnackBar(context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+        }
+
+      }
+    });
+    return responseData;
+  }
+
+  /// 1) Send Otp login...
+  Future<Sendotp?> sendOtp({
+    required BuildContext context,
+    required bool? isMobileValidated,
+    required String? mobile,
+    required String? firstName,
+    required String? lastName,
+    required String? referralCode,
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'is_mobile_validated': '$isMobileValidated',
+      'mobile': '$mobile',
+      'first_name': '$firstName',
+      'last_name': '$lastName',
+      'referral_code': '$referralCode',
+    };
+
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.sendOtp,
+      body: body,
+    );
+//Processing API...
+    Sendotp? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = Sendotp.fromJson(json);
+        print('is validate ${responseData?.data?.toJson()}');
+        print('is validate ${responseData?.status}');
+        if (responseData?.status == true) {
+          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+         await context.pushNamed(Routs.verifyOTP, extra:  VerifyOTP(
+            firstName: responseData?.data?.firstName,
+            isMobileValidated: '${responseData?.data?.isMobileValidated}',
+             lastName: responseData?.data?.lastName,
+             mobileNo: responseData?.data?.mobile,
+            referralCode: responseData?.data?.referralCode,
+          ));
+        } else {
+          showSnackBar(context: context, text: 'Something went wong', color: Colors.red);
         }
       }
     });
+    // return responseData;
   }
 
+  /// 1) verify Otp login...
+  Future<Verifyotp?> verifyOtp({
+    required BuildContext context,
+    required String? isMobileValidated,
+    required String? mobile,
+    required String? firstName,
+    required String? lastName,
+    required String? referralCode,
+    required String? otp,
 
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'is_mobile_validated': '$isMobileValidated',
+      'mobile': '$mobile',
+      'first_name': '$firstName',
+      'last_name': '$lastName',
+      'referral_code': '$referralCode',
+      'otp': '$otp',
+    };
 
-
-
-
-
-
-
-
-
-
-
-
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.verifyOtp,
+      body: body,
+    );
+//Processing API...
+    Verifyotp? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = Verifyotp.fromJson(json);
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          context.pushNamed(Routs.interests,);
+        } else {
+          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+        }
+      }
+    });
+    return responseData;
+  }
 }

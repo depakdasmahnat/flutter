@@ -25,4 +25,6 @@ class ApiEndpoints {
 
   //1) Auth APIs...
   static const String validateMobile = 'validate_mobile';
+  static const String sendOtp = 'send_otp';
+  static const String verifyOtp = 'verify_otp';
 }

@@ -49,15 +49,15 @@ dependencies:
   app_settings: ^5.0.0
   pin_code_fields: ^8.0.1
   graphview: ^1.2.0
-  syncfusion_flutter_charts: ^24.1.46+1
-  syncfusion_flutter_core: ^24.1.46
+  syncfusion_flutter_charts: ^22.2.9
+  syncfusion_flutter_core: ^22.2.9
   flutter_vector_icons: ^2.0.0
   dropdown_search: ^5.0.6
   device_preview: ^1.1.0
   flutter_advanced_switch: ^3.0.1
-  syncfusion_flutter_datagrid_export: ^24.1.47
+  syncfusion_flutter_datagrid_export: ^22.2.9
   dotted_border: ^2.1.0
-  syncfusion_flutter_datagrid: ^24.1.46
+  syncfusion_flutter_datagrid: ^22.2.9
   percent_indicator: ^4.2.3
   video_player: ^2.8.2
   visibility_detector: ^0.4.0+2

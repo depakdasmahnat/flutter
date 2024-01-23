@@ -10,6 +10,8 @@ import '../../../utils/validators.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/constant/gradients.dart';
+import '../../models/auth_model/sendotp.dart';
+import '../../models/auth_model/validatemobile.dart';
 import '../../utils/widgets/gradient_button.dart';
 
 class Login extends StatefulWidget {
@@ -20,12 +22,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool checkValidate =false;
+  bool forReferral =false;
   @override
   void initState() {
     super.initState();
   }
-
+  // Validatemobile validate =Validatemobile();
   TextEditingController nameCtrl = TextEditingController();
+  TextEditingController lastNameCtrl = TextEditingController();
   TextEditingController referralCodeCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController phoneCtrl = TextEditingController();
@@ -84,13 +89,16 @@ class _LoginState extends State<Login> {
                   validator: (val) {
                     return Validator.numberValidator(val);
                   },
-                  onChanged: (value) {
+                  onChanged: (value) async{
                     print("check 1");
                     if (value.length == 10) {
-                      context.read<AuthControllers>().validateMobile(
-                            context: context,
-                            mobile: phoneCtrl.text,
-                          );
+                      validatePhone();
+                       // await  context.read<AuthControllers>().validateMobile(
+                       //      context: context,
+                       //      mobile: phoneCtrl.text,
+                       //    ).then((value) {
+                       //      print("check responce ${value}");
+                       //    },);
                       print("check 2");
                     }
                   },
@@ -98,6 +106,7 @@ class _LoginState extends State<Login> {
                   autofillHints: const [AutofillHints.telephoneNumberNational],
                   margin: const EdgeInsets.only(bottom: 24),
                 ),
+               if( checkValidate==true)
                 CustomTextField(
                   controller: nameCtrl,
                   autofocus: true,
@@ -109,8 +118,9 @@ class _LoginState extends State<Login> {
                   autofillHints: const [AutofillHints.name],
                   margin: const EdgeInsets.only(top: 1, bottom: 1),
                 ),
+                if( checkValidate==true)
                 CustomTextField(
-                  controller: nameCtrl,
+                  controller: lastNameCtrl,
                   autofocus: true,
                   validator: (val) {
                     return Validator.fullNameValidator(val);
@@ -120,6 +130,7 @@ class _LoginState extends State<Login> {
                   autofillHints: const [AutofillHints.name],
                   margin: const EdgeInsets.only(top: 18, bottom: 18),
                 ),
+                if(forReferral==false)
                 const Padding(
                   padding: EdgeInsets.only(bottom: 12),
                   child: Text(
@@ -127,6 +138,7 @@ class _LoginState extends State<Login> {
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ),
+                if(forReferral==false)
                 CustomTextField(
                   controller: referralCodeCtrl,
                   autofocus: true,
@@ -134,7 +146,8 @@ class _LoginState extends State<Login> {
                   validator: (value) {
                     return Validator.numberValidator(value);
                   },
-                  margin: const EdgeInsets.only(bottom: 18),
+                  // autofillHints: const [AutofillHints.name],
+                  margin:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                 ),
               ],
             ),
@@ -186,8 +199,7 @@ class _LoginState extends State<Login> {
             margin: const EdgeInsets.only(left: 16, right: 24),
             onTap: () {
               if (signInFormKey.currentState?.validate() == true) {
-                context.firstRoute();
-                context.pushNamed(Routs.verifyOTP);
+                sendOtp();
               }
             },
             child: Row(
@@ -253,9 +265,34 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+  Future validatePhone() async {
+    Validatemobile? validate= await  context.read<AuthControllers>().validateMobile(
+      context: context,
+      mobile: phoneCtrl.text,
+    );
+    if(validate?.status==true){
+      nameCtrl.text =validate?.data?.firstName??'';
+      lastNameCtrl.text =validate?.data?.lastName??'';
+      checkValidate=true;
+      forReferral=true;
+    }else{
+      nameCtrl.clear();
+      lastNameCtrl.clear();
+      checkValidate=true;
+      forReferral=false;
+    }
+    setState(() {});
+    print('check status ${validate?.status}');
+  }
+  Future sendOtp() async {
+    print("check refersl code influtter ${referralCodeCtrl.text}");
+ await  context.read<AuthControllers>().sendOtp(
+      context: context,
+      mobile: phoneCtrl.text, isMobileValidated: forReferral, firstName:nameCtrl.text,
+      lastName: lastNameCtrl.text, referralCode: referralCodeCtrl.text,
+    );
+
+    // setState(() {});
+    // print('check status ${validate?.status}');
+  }
 }
-// void login() {
-//   if (signInFormKey.currentState!.validate()) {
-//
-//   }
-// }

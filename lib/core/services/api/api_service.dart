@@ -28,7 +28,9 @@ class ApiService {
 
   ///Seconds
   Map<String, String> defaultHeaders() {
-    return {'Authorization': 'Bearer ${LocalDatabase().accessToken}'};
+    return {
+      'Authorization': 'Bearer ${LocalDatabase().accessToken}',
+    };
   }
 
   ///1) Get Request...
@@ -67,6 +69,7 @@ class ApiService {
       final response = await http
           .post(uri, headers: headers ?? defaultHeaders(), body: body)
           .timeout(const Duration(seconds: timeOutDuration));
+      print('final responce body ${response.body}');
       return ErrorHandler.processResponse(response: response, showError: showError);
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);
