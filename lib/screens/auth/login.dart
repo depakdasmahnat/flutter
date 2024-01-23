@@ -118,7 +118,6 @@ class _LoginState extends State<Login> {
                     return Validator.fullNameValidator(val);
                   },
                   onChanged: (value) {
-
                   },
                   hintText: 'Enter Last Name',
                   autofillHints: const [AutofillHints.name],
