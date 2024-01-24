@@ -64,7 +64,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
           ),
         ],
       ),
-      backgroundColor: color ?? context.colorScheme.primary,
+      backgroundColor: color ?? Colors.black,
     ),
   );
 }
@@ -87,8 +87,7 @@ void showBanner({
       ),
       actions: [
         ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white)),
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
             },
@@ -117,7 +116,7 @@ Future showLoading({required BuildContext context, required String text}) {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CupertinoActivityIndicator(
                       radius: 14,
@@ -127,7 +126,7 @@ Future showLoading({required BuildContext context, required String text}) {
                   const SizedBox(width: 20),
                   Text(
                     text,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: primaryColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -156,8 +155,7 @@ Future loadingDialog({
 }
 
 Widget termsAndConditions(BuildContext context) {
-  TextStyle defaultStyle = TextStyle(
-      fontSize: 10, color: Colors.grey.shade400, fontWeight: FontWeight.w500);
+  TextStyle defaultStyle = TextStyle(fontSize: 10, color: Colors.grey.shade400, fontWeight: FontWeight.w500);
   TextStyle linkStyle = TextStyle(
       fontSize: 10,
       color: Colors.grey.shade400,
@@ -289,7 +287,7 @@ void copyText({
   Color? textColor,
 }) {
   Clipboard.setData(ClipboardData(text: textToCopy));
-  showSnackBar(context: context, text: message, color: color ?? primaryColor);
+  showSnackBar(context: context, text: message);
 }
 
 InkWell notificationBadge(context) {
@@ -407,8 +405,7 @@ headingText({
   required BuildContext context,
 }) {
   return Padding(
-    padding: padding ??
-        const EdgeInsets.only(left: 16, right: 16, top: 14, bottom: 8),
+    padding: padding ?? const EdgeInsets.only(left: 16, right: 16, top: 14, bottom: 8),
     child: Row(
       children: [
         Text(
@@ -465,10 +462,7 @@ Future<bool> onAppExit() async {
   return shouldPop ?? false;
 }
 
-pickImageButton(
-    {required BuildContext context,
-    required String text,
-    required IconData icon}) {
+pickImageButton({required BuildContext context, required String text, required IconData icon}) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(8, 16, 4, 16),
     child: Container(

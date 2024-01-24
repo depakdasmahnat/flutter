@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mrwebbeast/core/config/app_config.dart';
-
+import 'package:mrwebbeast/models/member/auth/member_data.dart';
 
 class LocalDatabase extends ChangeNotifier {
   ///Hive Database Initialization....
 
   static Future initialize() async {
     await Hive.initFlutter();
+    Hive.registerAdapter(MemberDataAdapter());
     await Hive.openBox(AppConfig.databaseName);
   }
 
@@ -26,6 +27,8 @@ class LocalDatabase extends ChangeNotifier {
   late double? latitude = database.get('latitude');
   late double? longitude = database.get('longitude');
   late String? themeMode = database.get('themeMode');
+
+  late MemberData? member = database.get('member');
 
   ///Setting Local Database data...
   ///
@@ -66,6 +69,20 @@ class LocalDatabase extends ChangeNotifier {
     longitude = longitude;
     database.put('latitude', latitude);
     database.put('longitude', longitude);
+    notifyListeners();
+  }
+
+  Future clearDatabase() async {
+    await database.clear().then((value) {
+      member = null;
+      notifyListeners();
+    });
+  }
+
+  Future saveMemberData({required MemberData? member}) async {
+    this.member = member;
+    database.put('member', member);
+    debugPrint('user fullName ${member?.firstName}');
     notifyListeners();
   }
 }

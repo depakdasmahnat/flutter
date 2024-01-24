@@ -78,6 +78,7 @@ class AppAssets {
   static const String drawerIcon = 'assets/icons/drawer_btn.png';
   static const String trophyIcon = 'assets/icons/ic_trophy.png';
   static const String addPersonIcon = 'assets/icons/ic_add_person.png';
+  static const String copyIcon = 'assets/icons/ic_copy.png';
 
   /// 2) Images...
 

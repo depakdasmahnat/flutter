@@ -15,7 +15,7 @@ import '../../screens/auth/connect_with_us.dart';
 import '../../screens/auth/first_Screen.dart';
 
 import '../../screens/auth/interest_screen.dart';
-import '../../screens/auth/member_login.dart';
+import '../../screens/auth/member/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../screens/guest/home/home_screen.dart';
@@ -72,7 +72,7 @@ class RoutesConfig {
 
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
-    return authenticated ? Routs.dashboard : Routs.dashboard;
+    return authenticated ? Routs.dashboard : Routs.fisrtScreen;
   }
 
   ///1)  Route Config...

@@ -157,7 +157,6 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                       )
                     ],
                   ),
-
                 ],
               ),
             ),
@@ -354,13 +353,29 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   title: 'Hot Leads',
                   value: '08',
                   minHeight: 100,
+                  borderRadius: 24,
+                  titleFontSize: 14,
+                  textColor: Colors.white,
+                  gradient: redGradient,
+                  onTap: () {},
+                ),
+                AnalyticsCard(
+                  title: 'Warm Leads',
+                  value: '02',
+                  borderRadius: 24,
+                  titleFontSize: 14,
+                  textColor: Colors.white,
                   gradient: primaryGradient,
+                  minHeight: 100,
                   onTap: () {},
                 ),
                 AnalyticsCard(
                   title: 'Cold Leads',
-                  value: '02',
+                  value: '06',
+                  titleFontSize: 14,
+                  textColor: Colors.white,
                   gradient: blueGradient,
+                  borderRadius: 24,
                   minHeight: 100,
                   onTap: () {},
                 ),
@@ -611,6 +626,8 @@ class AnalyticsCard extends StatelessWidget {
     this.flex,
     this.showArrow = true,
     this.minHeight,
+    this.borderRadius,
+    this.titleFontSize,
   });
 
   final String? title;
@@ -622,6 +639,8 @@ class AnalyticsCard extends StatelessWidget {
   final GestureTapCallback? onTap;
   final bool? showArrow;
   final double? minHeight;
+  final double? borderRadius;
+  final double? titleFontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -638,7 +657,7 @@ class AnalyticsCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
                 decoration: BoxDecoration(
                   gradient: gradient ?? inActiveGradient,
-                  borderRadius: BorderRadius.circular(32),
+                  borderRadius: BorderRadius.circular(borderRadius ?? 32),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -662,7 +681,9 @@ class AnalyticsCard extends StatelessWidget {
                         Text(
                           '$title',
                           style: TextStyle(
-                              color: textColor ?? Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                              color: textColor ?? Colors.black,
+                              fontSize: titleFontSize ?? 16,
+                              fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
