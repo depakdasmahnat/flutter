@@ -57,6 +57,11 @@ class LocalDatabase extends ChangeNotifier {
     database.put('themeMode', themeMode ?? '');
     notifyListeners();
   }
+  setAccessToken(String? token) {
+    accessToken = token;
+    database.put('accessToken', token ?? '');
+    notifyListeners();
+  }
 
   setLatLong(
     double? latitude,

@@ -8,9 +8,12 @@ import 'package:mrwebbeast/screens/guest/home/banners.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/guest_Model/fetchnewjoiners.dart';
 import '../../../utils/widgets/image_view.dart';
 import 'guest_profiles.dart';
 
@@ -24,12 +27,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Fetchnewjoiners? fetchnewjoiners;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+    //   // fetchnewjoiners = await context.read<GuestControllers>().fetchNewJoiners(context: context,);
+    // });
   }
-
   String? selectedFilter = 'Trending';
   List<String>? filters = [
     'Trending',

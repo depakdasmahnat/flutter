@@ -8,9 +8,12 @@ import '../../core/config/api_config.dart';
 import '../../core/route/route_paths.dart';
 import '../../core/services/api/api_service.dart';
 import '../../core/services/database/local_database.dart';
+import '../../models/auth_model/fetchinterestcategory.dart';
+import '../../models/auth_model/fetchinterestquestions.dart';
 import '../../models/auth_model/sendotp.dart';
 import '../../models/auth_model/validatemobile.dart';
 import '../../models/auth_model/verifyotp.dart';
+import '../../models/default/default_model.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../utils/widgets/widgets.dart';
 
@@ -166,7 +169,9 @@ class AuthControllers extends ChangeNotifier {
       if (response != null) {
         Map<String, dynamic> json = response;
         responseData = Verifyotp.fromJson(json);
+        var database = LocalDatabase();
         if (responseData?.status == true) {
+          database.setAccessToken(responseData?.data?.accessToken);
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           context.pushNamed(Routs.interests,);
@@ -176,5 +181,208 @@ class AuthControllers extends ChangeNotifier {
       }
     });
     return responseData;
+  }
+  /// 1) fetch interest category...
+  Fetchinterestcategory?  fetchInterestCategory;
+  bool isLoading=false;
+  Future<Fetchinterestcategory?> fetchInterestCategories({
+    required BuildContext context,
+    required String type,
+  }) async {
+    // refresh() {
+    //   loadingExerciseDetail = true;
+    //   exerciseDetailModel = null;
+    //   exerciseData = null;
+    //   exerciseDetail?.clear();
+    //   notifyListeners();
+    // }
+    //
+    // apiResponseCompleted() {
+    //   loadingExerciseDetail = false;
+    //   notifyListeners();
+    // }
+
+    // refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchCategories+type,
+      )
+          .then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          Fetchinterestcategory responseData = Fetchinterestcategory.fromJson(json);
+          if (responseData.status == true) {
+            isLoading=true;
+            fetchInterestCategory = responseData;
+            // assignExercise(refresh: true);
+
+            notifyListeners();
+          }
+        }
+
+        // apiResponseCompleted();
+      });
+    } catch (e, s) {
+      // apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchInterestCategory;
+  }
+
+
+  /// 1) fetch interest questions...
+  Fetchinterestquestions? fetchinterestquestions;
+  String question1 ='';
+  String questionId ='';
+  String question2 ='';
+  String questionId2 ='';
+  List itme =[];
+  Future<Fetchinterestquestions?> fetchInterestQuestions({
+    required BuildContext context,
+    required String categoryId,
+  }) async {
+    // refresh() {
+    //   loadingExerciseDetail = true;
+    //   exerciseDetailModel = null;
+    //   exerciseData = null;
+    //   exerciseDetail?.clear();
+    //   notifyListeners();
+    // }
+    //
+    // apiResponseCompleted() {
+    //   loadingExerciseDetail = false;
+    //   notifyListeners();
+    // }
+
+    // refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchQuestions+categoryId,
+      )
+          .then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          Fetchinterestquestions responseData = Fetchinterestquestions.fromJson(json);
+          if (responseData.status == true) {
+
+            fetchinterestquestions = responseData;
+            if(fetchinterestquestions?.data?.isNotEmpty ==true){
+              question1 =fetchinterestquestions?.data?[0].question??'';
+              questionId =fetchinterestquestions?.data?[0].id.toString()??'';
+              question2 =fetchinterestquestions?.data?[1].question??'';
+              questionId2 =fetchinterestquestions?.data?[1].id.toString()??'';
+              fetchinterestquestions?.data?[1].answers?.forEach((element) {
+                itme.add(element);
+              });
+
+            }
+            // assignExercise(refresh: true);
+
+            notifyListeners();
+          }
+        }
+
+        // apiResponseCompleted();
+      });
+    } catch (e, s) {
+      // apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchinterestquestions;
+  }
+
+  /// 1) question...
+  Future<DefaultModel?> questions({
+    required BuildContext context,
+
+    required String? questionId,
+    required String? answer,
+
+  }) async {
+    DefaultModel? responseData;
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'question_id': '$questionId',
+      'answer': '$answer',
+
+    };
+    debugPrint('Sent Data is $body');
+    try{
+
+      var response = ApiService().post(
+        endPoint: ApiEndpoints.submitGuestInterest,
+        body: body,
+      );
+
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) async {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          } else {
+            showSnackBar(context: context, text: 'Something went wong', color: Colors.red);
+          }
+        }
+      });
+    }catch(a){
+      debugPrint('>> $a');
+    }
+    return responseData;
+  }
+
+
+  /// 1) fetch new joiners...
+  Future<Fetchinterestcategory?> fetchNewJoiners({
+    required BuildContext context,
+    required String type,
+  }) async {
+    // refresh() {
+    //   loadingExerciseDetail = true;
+    //   exerciseDetailModel = null;
+    //   exerciseData = null;
+    //   exerciseDetail?.clear();
+    //   notifyListeners();
+    // }
+    //
+    // apiResponseCompleted() {
+    //   loadingExerciseDetail = false;
+    //   notifyListeners();
+    // }
+
+    // refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchCategories+type,
+      )
+          .then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          Fetchinterestcategory responseData = Fetchinterestcategory.fromJson(json);
+          if (responseData.status == true) {
+            isLoading=true;
+            fetchInterestCategory = responseData;
+            // assignExercise(refresh: true);
+
+            notifyListeners();
+          }
+        }
+
+        // apiResponseCompleted();
+      });
+    } catch (e, s) {
+      // apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchInterestCategory;
   }
 }

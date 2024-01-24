@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
+import '../../../models/guest_Model/fetchnewjoiners.dart';
 
 class GuestProfiles extends StatefulWidget {
   const GuestProfiles({super.key});
@@ -14,6 +17,15 @@ class GuestProfiles extends StatefulWidget {
 }
 
 class _GuestProfilesState extends State<GuestProfiles> {
+  Fetchnewjoiners? fetchnewjoiners;
+  @override
+  void initState() {
+
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      fetchnewjoiners = await context.read<GuestControllers>().fetchNewJoiners(context: context,);
+    });
+  }
   List guestProfile = [
     {
       'image': AppAssets.guestProfile1,
@@ -44,112 +56,122 @@ class _GuestProfilesState extends State<GuestProfiles> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-      child: SizedBox(
-        height: size.height * 0.10,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, gradient: primaryGradient),
-                  child: Padding(
-                    padding: const EdgeInsets.all(6),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '07 Days',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 8,
-                            fontFamily: GoogleFonts.urbanist().fontFamily,
-                            fontWeight: FontWeight.w700,
+    return Consumer<GuestControllers>(
+    builder: (context, controller, child) {
+      return   Padding(
+        padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+        child: SizedBox(
+          height: size.height * 0.10,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, gradient: primaryGradient),
+                    child: Padding(
+                      padding: const EdgeInsets.all(6),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            '07 Days',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 8,
+                              fontFamily: GoogleFonts.urbanist().fontFamily,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.start,
                           ),
-                          textAlign: TextAlign.start,
-                        ),
-                        Text(
-                          '24',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 26,
-                            height: 1,
-                            fontFamily: GoogleFonts.urbanist().fontFamily,
-                            fontWeight: FontWeight.w800,
+                          Text(
+                            '${fetchnewjoiners?.data?.counts}',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 26,
+                              height: 1,
+                              fontFamily: GoogleFonts.urbanist().fontFamily,
+                              fontWeight: FontWeight.w800,
+                            ),
+                            textAlign: TextAlign.start,
                           ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  'New\nMembers Join',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontFamily: GoogleFonts.urbanist().fontFamily,
-                      fontWeight: FontWeight.w500,
-                      height: 1),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                itemCount: guestProfile.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.asset(
-                            guestProfile[index]['image'],
-                            fit: BoxFit.cover,
-                            height: size.height * 0.05,
-                          ),
-                        ),
-                        Text(
-                          '${guestProfile[index]["title"]}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontFamily: GoogleFonts.urbanist().fontFamily,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          '${guestProfile[index]["subtital"]}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 8,
-                            fontFamily: GoogleFonts.urbanist().fontFamily,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                  Text(
+                    'New\nMembers Join',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontFamily: GoogleFonts.urbanist().fontFamily,
+                        fontWeight: FontWeight.w500,
+                        height: 1),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-            ),
-          ],
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: fetchnewjoiners?.data?.members?.length??0,
+                  itemBuilder: (context, index) {
+                    return fetchnewjoiners?.data?.members?[index].profilePhoto==null?const Offstage(): controller.isLoading==false?
+                        const Center(
+                          child:   CupertinoActivityIndicator(
+                              radius: 20.0, color: CupertinoColors.activeBlue),
+                        ):
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.network(
+                              fetchnewjoiners?.data?.members?[index].profilePhoto??'',
+                              fit: BoxFit.cover,
+                              height: size.height * 0.05,
+                            ),
+                          ),
+                          Text(
+                            '${fetchnewjoiners?.data?.members?[index].firstName}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontFamily: GoogleFonts.urbanist().fontFamily,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            '${fetchnewjoiners?.data?.members?[index].lastName}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                              fontFamily: GoogleFonts.urbanist().fontFamily,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+      );
+    },
+
     );
   }
 }

@@ -19,9 +19,7 @@ class DashboardController extends ChangeNotifier {
   /// 1) Dashboard Index
   final int _defaultDashBoardIndex = 0;
   late int _dashBoardIndex = _defaultDashBoardIndex;
-
   int get dashBoardIndex => _dashBoardIndex;
-
   changeDashBoardIndex({int? index}) {
     if (userRole == UserRoles.member && index == 2) {
       showMoreMenuPopUp = !showMoreMenuPopUp;
@@ -36,7 +34,7 @@ class DashboardController extends ChangeNotifier {
   bool showMoreMenuPopUp = false;
 
   ///2) Dashboard User Role
-  UserRoles defaultUserRole = UserRoles.member;
+  UserRoles defaultUserRole = UserRoles.guest;
   late UserRoles _userRole = defaultUserRole;
 
   UserRoles get userRole => _userRole;
@@ -48,8 +46,7 @@ class DashboardController extends ChangeNotifier {
   }
 
   changeUserRoleFromString({String? role}) {
-    List<UserRoles> userRoles =
-        UserRoles.values.where((element) => element.value == role).toList();
+    List<UserRoles> userRoles = UserRoles.values.where((element) => element.value == role).toList();
     if (userRoles.haveData) {
       _userRole = userRoles.first;
       notifyListeners();
@@ -57,8 +54,7 @@ class DashboardController extends ChangeNotifier {
   }
 
   /// 3) Dashboard Index
-  late List widgets =
-      userRole == UserRoles.guest ? _guestWidgets : _membersWidgets;
+  late List widgets = userRole == UserRoles.guest ? _guestWidgets : _membersWidgets;
 
   // Guest Widgets
   final List<DashboardData> _guestWidgets = [

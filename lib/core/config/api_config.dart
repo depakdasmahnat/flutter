@@ -27,4 +27,13 @@ class ApiEndpoints {
   static const String validateMobile = 'validate_mobile';
   static const String sendOtp = 'send_otp';
   static const String verifyOtp = 'verify_otp';
+  static const String fetchCategories = 'fetch_categories?type=';
+  static const String fetchQuestions = 'fetch_interest_questions?category_id=';
+  static const String submitGuestInterest = 'submit_guest_interest';
+
+/// Geust Apis....
+   static const String fetchJoiners = 'fetch_new_joinees';
+
+/// Common  Apis....
+    static const String fetchBanner = 'fetch_banners';
 }

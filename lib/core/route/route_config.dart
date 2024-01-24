@@ -14,10 +14,12 @@ import '../../app.dart';
 import '../../screens/auth/connect_with_us.dart';
 import '../../screens/auth/first_Screen.dart';
 
+import '../../screens/auth/gtp_video.dart';
 import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
+import '../../screens/auth/why_are_you_here.dart';
 import '../../screens/guest/home/home_screen.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
@@ -72,7 +74,7 @@ class RoutesConfig {
 
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
-    return authenticated ? Routs.dashboard : Routs.fisrtScreen;
+    return authenticated ? Routs.dashboard : Routs.dashboard;
   }
 
   ///1)  Route Config...
@@ -132,6 +134,8 @@ class RoutesConfig {
         path: Routs.dashboard,
         pageBuilder: (context, state) {
           DashBoard? data = state.extra as DashBoard?;
+          print("check data ${data?.dashBoardIndex}");
+          print("check data ${data?.userRole}");
           return cupertinoPage(
               state: state,
               child: DashBoard(
@@ -198,7 +202,8 @@ class RoutesConfig {
         name: Routs.questions,
         path: Routs.questions,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const QuestionsScreen());
+          QuestionsScreen? data = state.extra as QuestionsScreen?;
+          return cupertinoPage(state: state, child:  QuestionsScreen( categoryId: data?.categoryId??'',));
         },
       ),
       GoRoute(
@@ -206,6 +211,13 @@ class RoutesConfig {
         path: Routs.connectWithUs,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const ConnectWithUs());
+        },
+      ),
+      GoRoute(
+        name: Routs.gtpVideo,
+        path: Routs.gtpVideo,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GtpVideo());
         },
       ),
 
@@ -440,6 +452,14 @@ class RoutesConfig {
         },
       ),
       GoRoute(
+        name: Routs.whyareYou,
+        path: Routs.whyareYou,
+        pageBuilder: (context, state) {
+          WhyAreYouHere? data = state.extra as WhyAreYouHere?;
+          return cupertinoPage(state: state, child:  WhyAreYouHere(questionId: data?.questionId??'', item: data?.item??[], question:data?.question?? '',));
+        },
+      ),
+      GoRoute(
         name: Routs.imageOpener,
         path: Routs.imageOpener,
         pageBuilder: (context, state) {
@@ -536,7 +556,6 @@ class RoutesConfig {
     debugPrint('authRequired');
     if (!isAuthenticated()) {
       debugPrint('authRequired');
-
       return Routs.login;
     }
     return null;

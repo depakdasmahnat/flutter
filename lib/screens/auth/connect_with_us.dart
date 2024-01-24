@@ -17,6 +17,7 @@ class ConnectWithUs extends StatefulWidget {
 class _ConnectWithUsState extends State<ConnectWithUs> {
   @override
   void initState() {
+
     super.initState();
   }
 
@@ -112,7 +113,8 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
                         backgroundColor: Colors.transparent,
                         boxShadow: const [],
                         margin: const EdgeInsets.only(bottom: 6, top: 6),
-                        onTap: () {
+                        onTap: () async{
+                          await context.pushNamed(Routs.gtpVideo,);
                           setState(() {});
                         },
                         child: Row(

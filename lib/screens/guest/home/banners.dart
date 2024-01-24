@@ -5,8 +5,12 @@ import 'package:mrwebbeast/core/constant/colors.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
+import 'package:provider/provider.dart';
 
+
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/constant.dart';
+import '../../../models/common_apis/commonbanner.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class Banners extends StatefulWidget {
@@ -20,11 +24,23 @@ class Banners extends StatefulWidget {
 
 class _BannersState extends State<Banners> {
   int bannerIndex = 0;
+  Commonbanner? banner;
+  @override
+  void initState() {
+
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      banner=  await context.read<GuestControllers>().fetchBanner(context: context,);
+       print("check banner ${banner?.data?[0].image}");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return widget.banners.haveData
-        ? Column(
+    return
+      banner?.data?.isNotEmpty==true
+        ?
+    Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: kPadding, bottom: 4),
@@ -47,17 +63,17 @@ class _BannersState extends State<Banners> {
                       enlargeFactor: 0.3,
                       scrollDirection: Axis.horizontal,
                     ),
-                    items: List.generate(widget.banners?.length ?? 0, (bannerIndex) {
-                      var data = widget.banners?.elementAt(bannerIndex);
+                    items: List.generate(banner?.data?.length ?? 0, (bannerIndex) {
+                      var data = banner?.data?.elementAt(bannerIndex);
 
                       return Builder(
                         builder: (BuildContext context) {
                           return ImageView(
-                            assetImage: '$data',
+                            // assetImage: ,
+                            networkImage: '${data?.image}',
                             // backgroundColor: Colors.grey.shade300,
                             borderRadiusValue: 18,
                             onTap: () {},
-
                             fit: BoxFit.cover,
                             margin: const EdgeInsets.symmetric(horizontal: kPadding),
                           );
@@ -65,13 +81,13 @@ class _BannersState extends State<Banners> {
                       );
                     })),
               ),
-              if ((widget.banners?.length ?? 0) > 0)
+              if ((banner?.data?.length ?? 0) > 0)
                 SizedBox(
                   height: 8,
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: widget.banners?.length ?? 0,
+                    itemCount: banner?.data?.length ?? 0,
                     itemBuilder: (context, index) {
                       bool current = index == bannerIndex;
                       return GradientButton(

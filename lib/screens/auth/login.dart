@@ -193,7 +193,8 @@ class _LoginState extends State<Login> {
           GradientButton(
             height: 70,
             borderRadius: 18,
-            backgroundGradient: primaryGradientBlur,
+            blur: 10,
+            backgroundGradient: primaryGradientTransparent,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
             margin: const EdgeInsets.only(left: 16, right: 24),

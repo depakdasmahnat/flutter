@@ -45,9 +45,8 @@ class ApiService {
     String url = (baseUrl ?? ApiConfig.baseUrl) + endPoint;
     var uri = Uri.parse('$url${decodeQueryParameter(body: queryParameters)}');
     try {
-      var response = await http
-          .get(uri, headers: headers ?? defaultHeaders())
-          .timeout(const Duration(seconds: timeOutDuration));
+      var response = await http.get(uri, headers: headers ?? defaultHeaders()).timeout(const Duration(seconds: timeOutDuration));
+      print('chgeck responce body ${response.body}');
       return ErrorHandler.processResponse(response: response, showError: showError);
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);

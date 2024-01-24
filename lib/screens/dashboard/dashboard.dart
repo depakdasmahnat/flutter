@@ -148,8 +148,7 @@ class DashBoardState extends State<DashBoard> {
                 }
               },
               child: Container(
-                decoration:
-                    controller.showMoreMenuPopUp ? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
+                decoration: controller.showMoreMenuPopUp ? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
                 child: Column(
                   mainAxisSize: controller.showMoreMenuPopUp ? MainAxisSize.max : MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
