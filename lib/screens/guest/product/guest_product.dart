@@ -5,8 +5,11 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../utils/widgets/appbar.dart';
+import 'guest_product_details.dart';
 
 class GuestPoduct extends StatefulWidget {
   const GuestPoduct({super.key});
@@ -16,7 +19,16 @@ class GuestPoduct extends StatefulWidget {
 }
 
 class _GuestPoductState extends State<GuestPoduct> {
-  int? value =0;
+  int? value = 0;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context
+          .read<GuestControllers>()
+          .fetchProduct(context: context, page: '1');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,89 +40,89 @@ class _GuestPoductState extends State<GuestPoduct> {
             showLeadICon: false,
             title: 'Products',
           )),
-      body:
-      GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: ((size.height - kToolbarHeight - 24) / (size.height - kToolbarHeight - 24) / 1.25),
-        controller: ScrollController(keepScrollOffset: false),
-        padding: const EdgeInsets.only(bottom: 100),
-        shrinkWrap: true,
-
-        scrollDirection: Axis.vertical,
-        children: List.generate(
-          20,
-          (index) {
-            return
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child:  InkWell(
-                  onTap: () {
-                    value=index;
-
-                    setState(() {
-
-                    });
-                    context.push(Routs.guestProductDetail);
-                  },
-
+      body: Consumer<GuestControllers>(
+        builder: (context, controller, child) {
+          return GridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            childAspectRatio: ((size.height - kToolbarHeight - 20) / (size.height - kToolbarHeight - 20) / 1.1),
+            controller: ScrollController(keepScrollOffset: false),
+            padding: const EdgeInsets.only(bottom: 100),
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            children: List.generate(
+              controller.fetchguestProduct?.data?.length??0,
+              (index) {
+                return InkWell(
+                    onTap: () {
+                      value=index;
+                      setState(() {});
+                      context.push(Routs.guestProductDetail,extra: GusetProductDetails(productId:controller.fetchguestProduct?.data?[index].id.toString()??'' ,));
+                    },
                     child: ProductCard(
                       index: index,
                       value: value,
-                    )),
-              );
-          },
-        ),
+                      title:controller.fetchguestProduct?.data?[index].name,
+                      image:controller.fetchguestProduct?.data?[index].productImage,
+                    ));
+              },
+            ),
+          );
+        },
       ),
     );
   }
 }
+
 class ProductCard extends StatelessWidget {
   int? index;
   int? value;
-   ProductCard({
+  String? image;
+  String? title;
+  ProductCard({
     this.index,
     this.value,
+    this.image,
+    this.title,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return    Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          decoration:  BoxDecoration(
+          decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(22)),
-              gradient:index==value? primaryGradient:const LinearGradient(
-                begin: Alignment(0.00, -1.00),
-                end: Alignment(0, 1),
-                colors:[Color(0xFF1B1B1B), Color(0xFF282828)],
-              )),
+              gradient: index == value
+                  ? primaryGradient
+                  : const LinearGradient(
+                      begin: Alignment(0.00, -1.00),
+                      end: Alignment(0, 1),
+                      colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
+                    )),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-
               children: [
                 SizedBox(
                   // height: size.height * 0.235,
                   child: ClipRRect(
                     clipBehavior: Clip.antiAlias,
-                    borderRadius:
-                    const BorderRadius.all(Radius.circular(17)),
-                    child: Image.asset(AppAssets.geustProduct,
-                        fit: BoxFit.cover),
+                    borderRadius: const BorderRadius.all(Radius.circular(17)),
+                    child:
+                        Image.network(image??'', fit: BoxFit.cover,height: size.height*0.2,width: size.width*0.4),
                   ),
                 ),
                 SizedBox(
-                  height: size.height*0.01,
+                  height: size.height * 0.01,
                 ),
-                 Text(
-
-                  'Reverse Osmosis PVC Kangen Water Mach...',
+                Text(
+                  title??'',
                   style: TextStyle(
-                    color:index==value?Colors.black: Colors.white,
+                    color: index == value ? Colors.black : Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -122,6 +134,5 @@ class ProductCard extends StatelessWidget {
         ),
       ],
     );
-
   }
 }

@@ -14,9 +14,9 @@ import '../../../models/common_apis/commonbanner.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class Banners extends StatefulWidget {
-  const Banners({super.key, required this.banners});
+  const Banners({super.key,});
 
-  final List<String?>? banners;
+
 
   @override
   State<Banners> createState() => _BannersState();
@@ -24,27 +24,30 @@ class Banners extends StatefulWidget {
 
 class _BannersState extends State<Banners> {
   int bannerIndex = 0;
-  Commonbanner? banner;
+  // Commonbanner? banner;
   @override
   void initState() {
 
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
-      banner=  await context.read<GuestControllers>().fetchBanner(context: context,);
-       print("check banner ${banner?.data?[0].image}");
+      await context.read<GuestControllers>().fetchBanner(context: context,);
+       // print("check banner ${banner?.data?[0].image}");
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return
-      banner?.data?.isNotEmpty==true
-        ?
-    Column(
+
+      Consumer<GuestControllers>(
+        builder: (context, controller, child) {
+          return controller.banner?.data?.isNotEmpty==true?
+          Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: kPadding, bottom: 4),
-                child: CarouselSlider(
+                child:
+                CarouselSlider(
                     options: CarouselOptions(
                       aspectRatio: 16 / 7,
                       viewportFraction: 1,
@@ -63,8 +66,8 @@ class _BannersState extends State<Banners> {
                       enlargeFactor: 0.3,
                       scrollDirection: Axis.horizontal,
                     ),
-                    items: List.generate(banner?.data?.length ?? 0, (bannerIndex) {
-                      var data = banner?.data?.elementAt(bannerIndex);
+                    items: List.generate(controller.banner?.data?.length ?? 0, (bannerIndex) {
+                      var data = controller.banner?.data?.elementAt(bannerIndex);
 
                       return Builder(
                         builder: (BuildContext context) {
@@ -81,13 +84,13 @@ class _BannersState extends State<Banners> {
                       );
                     })),
               ),
-              if ((banner?.data?.length ?? 0) > 0)
+              if ((controller.banner?.data?.length ?? 0) > 0)
                 SizedBox(
                   height: 8,
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: banner?.data?.length ?? 0,
+                    itemCount: controller.banner?.data?.length ?? 0,
                     itemBuilder: (context, index) {
                       bool current = index == bannerIndex;
                       return GradientButton(
@@ -100,8 +103,12 @@ class _BannersState extends State<Banners> {
                   ),
                 ),
             ],
-          )
-        : const SizedBox();
+          ):Offstage();
+        },
+
+
+    );
+      
   }
 }
 

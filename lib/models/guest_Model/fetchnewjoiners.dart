@@ -81,11 +81,13 @@ class Members {
       String? firstName, 
       String? lastName, 
       String? profilePhoto, 
+      String? cityName,
       String? path,}){
     _id = id;
     _memberId = memberId;
     _firstName = firstName;
     _lastName = lastName;
+    _cityName = cityName;
     _profilePhoto = profilePhoto;
     _path = path;
 }
@@ -95,6 +97,7 @@ class Members {
     _memberId = json['member_id'];
     _firstName = json['first_name'];
     _lastName = json['last_name'];
+    _cityName = json['city_name'];
     _profilePhoto = json['profile_photo'];
     _path = json['path'];
   }
@@ -102,6 +105,7 @@ class Members {
   String? _memberId;
   String? _firstName;
   String? _lastName;
+  String? _cityName;
   String? _profilePhoto;
   String? _path;
 
@@ -111,6 +115,7 @@ class Members {
   String? get lastName => _lastName;
   String? get profilePhoto => _profilePhoto;
   String? get path => _path;
+  String? get cityName => _cityName;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -120,6 +125,7 @@ class Members {
     map['last_name'] = _lastName;
     map['profile_photo'] = _profilePhoto;
     map['path'] = _path;
+    map['city_name'] = _cityName;
     return map;
   }
 

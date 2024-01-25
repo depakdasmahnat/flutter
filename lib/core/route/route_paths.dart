@@ -63,4 +63,5 @@ class Routs {
   static const String memberFeeds = '/memberFeeds';
   static const String whyareYou = '/whyAreYouHere';
   static const String gtpVideo = '/gtpVideo';
+  static const String webView1 = '/webView';
 }

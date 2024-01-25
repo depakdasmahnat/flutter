@@ -34,7 +34,7 @@ class _EventScreenState extends State<EventScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: const CustomBackButton(),
+        leading:  CustomBackButton(),
         title: const Text('Events'),
       ),
       body: Column(

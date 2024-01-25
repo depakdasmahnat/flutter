@@ -31,6 +31,7 @@ import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
 
+import '../../screens/guest/web_view/faq.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
 
@@ -74,7 +75,7 @@ class RoutesConfig {
 
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
-    return authenticated ? Routs.dashboard : Routs.dashboard;
+    return authenticated ? Routs.fisrtScreen : Routs.fisrtScreen;
   }
 
   ///1)  Route Config...
@@ -288,7 +289,8 @@ class RoutesConfig {
         name: Routs.guestProductDetail,
         path: Routs.guestProductDetail,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const GusetProductDetails());
+          GusetProductDetails? data = state.extra as GusetProductDetails?;
+          return cupertinoPage(state: state, child:  GusetProductDetails(productId: data?.productId,));
         },
       ),
       GoRoute(
@@ -458,6 +460,14 @@ class RoutesConfig {
           WhyAreYouHere? data = state.extra as WhyAreYouHere?;
           return cupertinoPage(state: state, child:  WhyAreYouHere(questionId: data?.questionId??'', item: data?.item??[], question:data?.question?? '',));
         },
+      ),  GoRoute(
+        name: Routs.webView1,
+        path: Routs.webView1,
+        pageBuilder: (context, state) {
+          WebScreen? data = state.extra as WebScreen?;
+
+          return cupertinoPage(state: state, child:   WebScreen(type: data?.type??'',));
+        },
       ),
       GoRoute(
         name: Routs.imageOpener,
@@ -492,6 +502,7 @@ class RoutesConfig {
               ));
         },
       ),
+
 
       GoRoute(
         name: Routs.webView,

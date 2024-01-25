@@ -59,7 +59,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
             ),
           ),
           const GuestProfiles(),
-          Banners(banners: banners),
+          const Banners(),
           TrainingProgress(
             trainingProgress: 56,
             title: 'Basic Training Progress',

@@ -6,6 +6,7 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 
 import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
+import '../web_view/faq.dart';
 
 class GuestProfile extends StatefulWidget {
   const GuestProfile({super.key});
@@ -89,7 +90,7 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.faq,
                           title: 'FAQ',
                           onTap: () {
-                            context.pushNamed(Routs.guestFaq);
+                            context.pushNamed(Routs.webView1,extra: WebScreen(type: 'fetch_faqs',));
                           },
                         ),
                         SizedBox(
@@ -132,6 +133,10 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.membersIcon,
                           title: 'Help & Support',
                           height: size.height*0.021,
+                          onTap: () {
+                            context.pushNamed(Routs.webView1,extra: WebScreen(type: 'help_and_support',));
+
+                          },
                         ),
                         SizedBox(
                           height: size.height*0.02,
@@ -139,6 +144,9 @@ class _GuestProfileState extends State<GuestProfile> {
                         IconAndText(
                           icon: AppAssets.call,
                           title: 'Contact us',
+                          onTap: () {
+                            context.pushNamed(Routs.webView1,extra: WebScreen(type: 'contact_us',));
+                          },
                         ),
                         SizedBox(
                           height: size.height*0.02,
@@ -146,6 +154,10 @@ class _GuestProfileState extends State<GuestProfile> {
                         IconAndText(
                           icon: AppAssets.lockIcon,
                           title: 'Privacy policy ',
+                          onTap: () {
+                            context.pushNamed(Routs.webView1,extra: WebScreen(type: 'privacy_policy',));
+
+                          },
                         ),
 
                       ],

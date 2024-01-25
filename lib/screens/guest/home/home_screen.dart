@@ -10,6 +10,7 @@ import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controllers/auth_controller/auth_controller.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
@@ -31,9 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
-    //   // fetchnewjoiners = await context.read<GuestControllers>().fetchNewJoiners(context: context,);
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      await context.read<GuestControllers>().fetchFeedCategories(context: context);
+    });
   }
   String? selectedFilter = 'Trending';
   List<String>? filters = [
@@ -44,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'Water',
     'Filter',
   ];
-
   List<String> banners = [
     AppAssets.banner,
     AppAssets.banner1,
@@ -87,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
+        automaticallyImplyLeading: false,
         actions: const [
           ImageView(
             height: 24,
@@ -118,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const GuestProfiles(),
-          Banners(banners: banners),
+          const Banners(),
           GradientButton(
             height: 70,
             borderRadius: 18,
@@ -199,43 +200,47 @@ class _HomeScreenState extends State<HomeScreen> {
                 top: kPadding,
                 bottom: kPadding),
           ),
-          if (filters?.haveData == true)
-            SizedBox(
-              height: 40,
-              child: Center(
-                child: ListView.builder(
-                  itemCount: filters?.length ?? 0,
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(left: kPadding),
-                  itemBuilder: (context, index) {
-                    var data = filters?.elementAt(index);
+          // if (filters?.haveData == true)
+          Consumer<GuestControllers>(
+              builder: (context, value, child) {
+                return SizedBox(
+                  height: 40,
+                  child: Center(
+                    child: ListView.builder(
+                      itemCount:value.fetchFeedCategoriesModel?.data?.length ?? 0,
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(left: kPadding),
+                      itemBuilder: (context, index) {
 
-                    bool isSelected = selectedFilter == data;
-                    return GradientButton(
-                      backgroundGradient:
-                          isSelected ? primaryGradient : inActiveGradient,
-                      borderWidth: 2,
-                      borderRadius: 30,
-                      onTap: () {
-                        setState(() {
-                          selectedFilter = data;
-                        });
+                        var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
+                        // bool isSelected = selectedFilter == data;
+                        return GradientButton(
+                          backgroundGradient: value.tabIndex==index ? primaryGradient : inActiveGradient,
+                          borderWidth: 2,
+                          borderRadius: 30,
+                          onTap: () {
+                            setState(() {
+                              value.tabIndex = index;
+                            });
+                          },
+                          margin: const EdgeInsets.only(right: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kPadding, vertical: 8),
+                          child: Text(
+                            '${data?.name}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: value.tabIndex==index ? Colors.black : Colors.white,
+                            ),
+                          ),
+                        );
                       },
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kPadding, vertical: 8),
-                      child: Text(
-                        '$data',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected ? Colors.black : Colors.white,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+                    ),
+                  ),
+                );
+              },
+
             ),
           ListView.builder(
             itemCount: 8,
@@ -277,10 +282,12 @@ class FeedCard extends StatelessWidget {
     this.imageHeight,
     this.fit,
     this.type,
+    this.networkImage,
   });
   double? imageHeight;
   BoxFit? fit;
   String? type;
+  String? networkImage;
 
   final int index;
 
@@ -301,8 +308,10 @@ class FeedCard extends StatelessWidget {
             borderRadiusValue: 16,
             margin: const EdgeInsets.all(12),
             fit: fit ?? BoxFit.contain,
-            assetImage: AppAssets.product1,
+            networkImage: networkImage??'',
+            // assetImage: AppAssets.product1,
           ),
+          if (type != 'true')
           Padding(
             padding: EdgeInsets.only(left: 12, right: 12),
             child: Column(

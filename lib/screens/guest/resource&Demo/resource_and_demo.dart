@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
@@ -19,6 +21,14 @@ class RecourceAndDemo extends StatefulWidget {
 }
 
 class _RecourceAndDemoState extends State<RecourceAndDemo> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      context.read<GuestControllers>().resourcesDetailLoader=false;
+      await context.read<GuestControllers>().fetchResourcesDetail(context: context, page: '1');
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -48,25 +58,35 @@ class _RecourceAndDemoState extends State<RecourceAndDemo> {
           )
 
       ),
-      body: ListView.builder(
-        itemCount: 8,
-        shrinkWrap: true,
-        padding: const EdgeInsets.only(bottom: kPadding),
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          return InkWell(
-              onTap: () {
-                if(widget.type!='true'){
-                  context.pushNamed(Routs.resourceAndDemo,extra:true );
-                }
+      body: Consumer<GuestControllers>(
+      builder: (context, controller, child) {
+        return controller.resourcesDetailLoader==false?const Center(
+          child:   CupertinoActivityIndicator(
+              animating: true,
+              radius: 20, color: CupertinoColors.white),
+        )  : ListView.builder(
+          itemCount:controller.fetchResourcesDetailModel?.data?.length??0,
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(bottom: kPadding),
+          // physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {
+                  // if(widget.type!='true'){
+                  //   context.pushNamed(Routs.resourceAndDemo,extra:true );
+                  // }
 
-              },
-              child: FeedCard(
-                index: index,
-              type: widget.type,
-              imageHeight: size.height*0.3,
-              fit: BoxFit.cover,));
-        },
+                },
+                child: FeedCard(
+                  index: index,
+                  type: 'true',
+                  networkImage: controller.fetchResourcesDetailModel?.data?[index].file,
+                  imageHeight: size.height*0.3,
+                  fit: BoxFit.cover,));
+          },
+        );
+      },
+
       ),
     );
   }

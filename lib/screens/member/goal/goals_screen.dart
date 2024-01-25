@@ -34,7 +34,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: const CustomBackButton(),
+        leading:  CustomBackButton(),
         title: const Text('Goals'),
       ),
       body: Column(

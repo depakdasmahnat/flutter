@@ -17,13 +17,13 @@ class GuestProfiles extends StatefulWidget {
 }
 
 class _GuestProfilesState extends State<GuestProfiles> {
-  Fetchnewjoiners? fetchnewjoiners;
+  // Fetchnewjoiners? fetchnewjoiners;
   @override
   void initState() {
 
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
-      fetchnewjoiners = await context.read<GuestControllers>().fetchNewJoiners(context: context,);
+     await context.read<GuestControllers>().fetchNewJoiners(context: context,);
     });
   }
   List guestProfile = [
@@ -57,7 +57,9 @@ class _GuestProfilesState extends State<GuestProfiles> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Consumer<GuestControllers>(
+
     builder: (context, controller, child) {
+
       return   Padding(
         padding: const EdgeInsets.only(left: kPadding, right: kPadding),
         child: SizedBox(
@@ -65,6 +67,11 @@ class _GuestProfilesState extends State<GuestProfiles> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              controller.isLoading==false?
+              const Center(
+                child:   CupertinoActivityIndicator(
+                    radius: 15, color: CupertinoColors.white),
+              ):
               Column(
                 children: [
                   Container(
@@ -86,7 +93,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                             textAlign: TextAlign.start,
                           ),
                           Text(
-                            '${fetchnewjoiners?.data?.counts}',
+                            '${controller.fetchnewjoiners?.data?.counts}',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 26,
@@ -112,18 +119,24 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   ),
                 ],
               ),
+              controller.isLoading==false?
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child:   CupertinoActivityIndicator(
+                        radius: 15, color: CupertinoColors.white),
+                  ),
+                ],
+              ):
               Expanded(
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: fetchnewjoiners?.data?.members?.length??0,
+                  itemCount: controller.fetchnewjoiners?.data?.members?.length??0,
                   itemBuilder: (context, index) {
-                    return fetchnewjoiners?.data?.members?[index].profilePhoto==null?const Offstage(): controller.isLoading==false?
-                        const Center(
-                          child:   CupertinoActivityIndicator(
-                              radius: 20.0, color: CupertinoColors.activeBlue),
-                        ):
+                    return controller.fetchnewjoiners?.data?.members?[index].profilePhoto==null?const Offstage():
                     Padding(
                       padding: const EdgeInsets.all(4),
                       child: Column(
@@ -135,13 +148,13 @@ class _GuestProfilesState extends State<GuestProfiles> {
                               shape: BoxShape.circle,
                             ),
                             child: Image.network(
-                              fetchnewjoiners?.data?.members?[index].profilePhoto??'',
+                              controller.fetchnewjoiners?.data?.members?[index].profilePhoto??'',
                               fit: BoxFit.cover,
                               height: size.height * 0.05,
                             ),
                           ),
                           Text(
-                            '${fetchnewjoiners?.data?.members?[index].firstName}',
+                            '${controller.fetchnewjoiners?.data?.members?[index].firstName}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12,
@@ -151,7 +164,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            '${fetchnewjoiners?.data?.members?[index].lastName}',
+                            '${controller.fetchnewjoiners?.data?.members?[index].cityName}',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 8,

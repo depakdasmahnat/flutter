@@ -44,7 +44,7 @@ class _CreateEventState extends State<CreateEvent> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: const CustomBackButton(),
+        leading:  CustomBackButton(),
         title: const Text('Create Event'),
       ),
       body: ListView(

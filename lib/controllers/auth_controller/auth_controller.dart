@@ -182,54 +182,55 @@ class AuthControllers extends ChangeNotifier {
     });
     return responseData;
   }
-  /// 1) fetch interest category...
-  Fetchinterestcategory?  fetchInterestCategory;
   bool isLoading=false;
-  Future<Fetchinterestcategory?> fetchInterestCategories({
-    required BuildContext context,
-    required String type,
-  }) async {
-    // refresh() {
-    //   loadingExerciseDetail = true;
-    //   exerciseDetailModel = null;
-    //   exerciseData = null;
-    //   exerciseDetail?.clear();
-    //   notifyListeners();
-    // }
-    //
-    // apiResponseCompleted() {
-    //   loadingExerciseDetail = false;
-    //   notifyListeners();
-    // }
-
-    // refresh();
-    try {
-      await ApiService()
-          .get(
-        endPoint: ApiEndpoints.fetchCategories+type,
-      )
-          .then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          Fetchinterestcategory responseData = Fetchinterestcategory.fromJson(json);
-          if (responseData.status == true) {
-            isLoading=true;
-            fetchInterestCategory = responseData;
-            // assignExercise(refresh: true);
-
-            notifyListeners();
-          }
-        }
-
-        // apiResponseCompleted();
-      });
-    } catch (e, s) {
-      // apiResponseCompleted();
-      debugPrint('Error is $e & $s');
-    }
-
-    return fetchInterestCategory;
-  }
+  /// 1) fetch interest category...
+  // Fetchinterestcategory?  fetchInterestCategory;
+  //
+  // Future<Fetchinterestcategory?> fetchInterestCategories({
+  //   required BuildContext context,
+  //   required String type,
+  // }) async {
+  //   // refresh() {
+  //   //   loadingExerciseDetail = true;
+  //   //   exerciseDetailModel = null;
+  //   //   exerciseData = null;
+  //   //   exerciseDetail?.clear();
+  //   //   notifyListeners();
+  //   // }
+  //   //
+  //   // apiResponseCompleted() {
+  //   //   loadingExerciseDetail = false;
+  //   //   notifyListeners();
+  //   // }
+  //
+  //   // refresh();
+  //   try {
+  //     await ApiService()
+  //         .get(
+  //       endPoint: ApiEndpoints.fetchCategories+type,
+  //     )
+  //         .then((response) {
+  //       if (response != null) {
+  //         Map<String, dynamic> json = response;
+  //         Fetchinterestcategory responseData = Fetchinterestcategory.fromJson(json);
+  //         if (responseData.status == true) {
+  //           isLoading=true;
+  //           fetchInterestCategory = responseData;
+  //           // assignExercise(refresh: true);
+  //
+  //           notifyListeners();
+  //         }
+  //       }
+  //
+  //       // apiResponseCompleted();
+  //     });
+  //   } catch (e, s) {
+  //     // apiResponseCompleted();
+  //     debugPrint('Error is $e & $s');
+  //   }
+  //
+  //   return fetchInterestCategory;
+  // }
 
 
   /// 1) fetch interest questions...
@@ -338,51 +339,51 @@ class AuthControllers extends ChangeNotifier {
     return responseData;
   }
 
-
-  /// 1) fetch new joiners...
-  Future<Fetchinterestcategory?> fetchNewJoiners({
-    required BuildContext context,
-    required String type,
-  }) async {
-    // refresh() {
-    //   loadingExerciseDetail = true;
-    //   exerciseDetailModel = null;
-    //   exerciseData = null;
-    //   exerciseDetail?.clear();
-    //   notifyListeners();
-    // }
-    //
-    // apiResponseCompleted() {
-    //   loadingExerciseDetail = false;
-    //   notifyListeners();
-    // }
-
-    // refresh();
-    try {
-      await ApiService()
-          .get(
-        endPoint: ApiEndpoints.fetchCategories+type,
-      )
-          .then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          Fetchinterestcategory responseData = Fetchinterestcategory.fromJson(json);
-          if (responseData.status == true) {
-            isLoading=true;
-            fetchInterestCategory = responseData;
-            // assignExercise(refresh: true);
-
-            notifyListeners();
-          }
-        }
-
-        // apiResponseCompleted();
-      });
-    } catch (e, s) {
-      // apiResponseCompleted();
-      debugPrint('Error is $e & $s');
-    }
-
-    return fetchInterestCategory;
-  }
+  //
+  // /// 1) fetch new joiners...
+  // Future<Fetchinterestcategory?> fetchNewJoiners({
+  //   required BuildContext context,
+  //   required String type,
+  // }) async {
+  //   // refresh() {
+  //   //   loadingExerciseDetail = true;
+  //   //   exerciseDetailModel = null;
+  //   //   exerciseData = null;
+  //   //   exerciseDetail?.clear();
+  //   //   notifyListeners();
+  //   // }
+  //   //
+  //   // apiResponseCompleted() {
+  //   //   loadingExerciseDetail = false;
+  //   //   notifyListeners();
+  //   // }
+  //
+  //   // refresh();
+  //   try {
+  //     await ApiService()
+  //         .get(
+  //       endPoint: ApiEndpoints.fetchCategories+type,
+  //     )
+  //         .then((response) {
+  //       if (response != null) {
+  //         Map<String, dynamic> json = response;
+  //         Fetchinterestcategory responseData = Fetchinterestcategory.fromJson(json);
+  //         if (responseData.status == true) {
+  //           isLoading=true;
+  //           fetchInterestCategory = responseData;
+  //           // assignExercise(refresh: true);
+  //
+  //           notifyListeners();
+  //         }
+  //       }
+  //
+  //       // apiResponseCompleted();
+  //     });
+  //   } catch (e, s) {
+  //     // apiResponseCompleted();
+  //     debugPrint('Error is $e & $s');
+  //   }
+  //
+  //   return fetchInterestCategory;
+  // }
 }

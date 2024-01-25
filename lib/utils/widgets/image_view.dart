@@ -103,7 +103,7 @@ class ImageView extends StatelessWidget {
         color: color,
         height: height,
         width: width,
-        fit: fit,
+        fit: fit ?? BoxFit.cover,
         imageUrl: '$networkImage',
         placeholder: (context, url) => cacheLoadingImage(context: context, url: url),
         errorWidget: (context, url, error) =>

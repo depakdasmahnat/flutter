@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/auth/question_screen.dart';
@@ -29,16 +30,10 @@ class _InterestScreenState extends State<InterestScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      fetchInterestCategory = await context.read<AuthControllers>().fetchInterestCategories(context: context, type: 'Interest');
-
-      fetchInterestCategory?.data?.forEach((element) {
-        print('check interest category ${element.name}');
-      });
-
+      fetchInterestCategory = await context.read<GuestControllers>().fetchInterestCategories(context: context, type: 'Interest');
     });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -69,7 +64,7 @@ class _InterestScreenState extends State<InterestScreen> {
           ),
         ],
       ),
-      body: Consumer<AuthControllers>(
+      body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
 
           return  Form(

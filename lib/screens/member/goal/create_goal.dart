@@ -36,7 +36,7 @@ class _CreateGoalState extends State<CreateGoal> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: const CustomBackButton(),
+        leading:  CustomBackButton(),
         title: const Text('Create Goal'),
       ),
       body: ListView(
