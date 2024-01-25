@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'app.dart';
 import 'controllers/dashboard/dashboard_controller.dart';
+import 'controllers/member/member_auth_controller.dart';
+import 'controllers/member/network/network_controller.dart';
 import 'core/services/database/local_database.dart';
 import 'core/services/localization/localization_controller.dart';
 import 'core/services/location/location_controller.dart';
@@ -17,8 +19,7 @@ Future main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalDatabase.initialize();
   await NotificationController.initialize();
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(
       // DevicePreview(
       //   enabled: !kReleaseMode,
@@ -38,6 +39,9 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => LocationController()),
       ChangeNotifierProvider(create: (context) => ThemeController()),
       ChangeNotifierProvider(create: (context) => LocalizationController()),
+      ChangeNotifierProvider(create: (context) => LocalDatabase()),
+      ChangeNotifierProvider(create: (context) => MemberAuthControllers()),
+      ChangeNotifierProvider(create: (context) => NetworkControllers()),
     ],
     child: const MyApp(),
   ));

@@ -373,7 +373,7 @@ class EmployeeDataSource extends DataGridSource {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                progressColor: statusColor(percentage: data.training),
+                progressColor: statusColor(value: data.training),
               ),
             ),
             DataGridCell(
@@ -390,7 +390,7 @@ class EmployeeDataSource extends DataGridSource {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                progressColor: statusColor(percentage: data.training),
+                progressColor: statusColor(value: data.training),
               ),
             ),
             DataGridCell(

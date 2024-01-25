@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
 
+import '../../models/member/auth/reset_password.dart';
 import '../../screens/auth/connect_with_us.dart';
 import '../../screens/auth/first_Screen.dart';
 
@@ -436,6 +437,13 @@ class RoutesConfig {
         },
       ),
       GoRoute(
+        name: Routs.resetPassword,
+        path: Routs.resetPassword,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const ResetPassword());
+        },
+      ),
+      GoRoute(
         name: Routs.imageOpener,
         path: Routs.imageOpener,
         pageBuilder: (context, state) {
@@ -524,7 +532,7 @@ class RoutesConfig {
 
   static bool isAuthenticated() {
     LocalDatabase localDatabase = LocalDatabase();
-    return localDatabase.accessToken?.isNotEmpty == true;
+    return localDatabase.member?.accessToken?.isNotEmpty == true;
   }
 
   static String? authRequired(BuildContext context, GoRouterState state) {

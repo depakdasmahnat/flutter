@@ -55,6 +55,12 @@ class LocalDatabase extends ChangeNotifier {
     notifyListeners();
   }
 
+  setAccessToken(String? token) {
+    accessToken = token;
+    database.put('accessToken', token ?? '');
+    notifyListeners();
+  }
+
   setThemeMode({required ThemeMode mode}) {
     themeMode = mode.name;
     database.put('themeMode', themeMode ?? '');

@@ -32,10 +32,10 @@ Gradient primaryGradientTransparent = LinearGradient(
   ],
 );
 
-Color statusColor({required num? percentage}) {
+Color statusColor({required num? value}) {
   Color color = Colors.grey;
-
-  if (percentage == null || percentage == 0 || percentage < 20) {
+  num? percentage = num.tryParse('$value') ?? 0;
+  if (percentage == 0 || percentage < 20) {
     color = Colors.red;
   } else if (percentage < 40) {
     color = Colors.orangeAccent;
@@ -49,10 +49,12 @@ Color statusColor({required num? percentage}) {
   return color;
 }
 
-Gradient statusGradient({required num? sales}) {
+Gradient statusGradient({required String? sale}) {
+  num? sales = num.tryParse('$sale') ?? 0;
+
   Gradient gradient = primaryGradient;
 
-  if (sales == null || sales == 0 || sales < 20) {
+  if (sales == 0 || sales < 20) {
     gradient = redGradient;
   } else if (sales < 40) {
     gradient = yellowGradient;

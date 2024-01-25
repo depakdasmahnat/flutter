@@ -36,8 +36,7 @@ class Validator {
   }
 
   /// UserName Validator.
-  static String? userNameValidator(String? value,
-      {int minLength = 3, int maxLength = 30}) {
+  static String? userNameValidator(String? value, {int minLength = 3, int maxLength = 30}) {
     if (value?.isEmpty == true) {
       return 'Username is required';
     }
@@ -80,6 +79,26 @@ class Validator {
   }
 
   /// Validates that a value is a valid number format.
+  static String? phoneNumberValidator(
+    String? value,
+    int limit, [
+    String? fieldName,
+  ]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Phone Number'} is required';
+    }
+
+    if (value.length < limit) {
+      return 'Complete ${fieldName ?? 'Phone Number'} is required';
+    }
+
+    if (int.tryParse(value) == null) {
+      return 'Invalid ${fieldName ?? 'number'} format';
+    }
+    return null;
+  }
+
+  /// Validates that a value is a valid number format.
   static String? numberValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
       return '${fieldName ?? 'Number'} is required';
@@ -88,6 +107,26 @@ class Validator {
       return 'Invalid ${fieldName ?? 'number'} format';
     }
     return null;
+  }
+
+  /// Validates that a value is a valid alphanumeric format.
+  static String? alphanumericValidator(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Value'} is required';
+    }
+
+    // Check if the value contains only alphanumeric characters
+    if (!isAlphanumeric(value)) {
+      return 'Invalid ${fieldName ?? 'alphanumeric'} format';
+    }
+
+    return null;
+  }
+
+  /// Helper function to check if a string contains only alphanumeric characters.
+  static bool isAlphanumeric(String value) {
+    final alphanumericRegExp = RegExp(r'^[a-zA-Z0-9]+$');
+    return alphanumericRegExp.hasMatch(value);
   }
 
   /// Validates that a password is at least 8 characters long.
@@ -110,19 +149,14 @@ class Validator {
     final hasLowercase = value.contains(RegExp(r'[a-z]'));
     final hasDigits = value.contains(RegExp(r'\d'));
     final hasSpecialChars = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-    if (!hasUppercase ||
-        !hasLowercase ||
-        !hasDigits ||
-        !hasSpecialChars ||
-        value.length < 8) {
+    if (!hasUppercase || !hasLowercase || !hasDigits || !hasSpecialChars || value.length < 8) {
       return '${fieldName ?? 'Password'} must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.';
     }
     return null;
   }
 
   /// Validates that two values match (typically used for password confirmation).
-  static String? confirmPasswordValidator(String? value1, String? value2,
-      [String? fieldName]) {
+  static String? confirmPasswordValidator(String? value1, String? value2, [String? fieldName]) {
     if (value1 != value2) {
       return '${fieldName ?? 'Passwords'} do not match';
     }

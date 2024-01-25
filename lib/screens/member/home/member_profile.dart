@@ -6,7 +6,9 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/screens/member/invite/invite_leads_card.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/training_progress.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
@@ -330,13 +332,18 @@ class _MemberProfileState extends State<MemberProfile> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-            child: Card(
-              type: false,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
-                child: IconAndText(
-                  icon: AppAssets.logout,
-                  title: 'Sign Out',
+            child: GestureDetector(
+              onTap: () {
+                context.read<MemberAuthControllers>().logOutPopup(context);
+              },
+              child: Card(
+                type: false,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
+                  child: IconAndText(
+                    icon: AppAssets.logout,
+                    title: 'Sign Out',
+                  ),
                 ),
               ),
             ),

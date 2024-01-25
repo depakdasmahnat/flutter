@@ -28,7 +28,13 @@ class ApiService {
 
   ///Seconds
   Map<String, String> defaultHeaders() {
-    return {'Authorization': 'Bearer ${LocalDatabase().accessToken}'};
+    LocalDatabase localDatabase = LocalDatabase();
+    String? accessToken = localDatabase.accessToken;
+    if (localDatabase.member?.accessToken != null) {
+      accessToken = localDatabase.member?.accessToken;
+    }
+
+    return {'Authorization': 'Bearer $accessToken'};
   }
 
   ///1) Get Request...

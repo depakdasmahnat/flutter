@@ -54,12 +54,14 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            text,
-            style: TextStyle(color: textColor ?? Colors.white),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(color: textColor ?? Colors.white),
+            ),
           ),
           Icon(
-            icon ?? Icons.error_outline,
+            icon ?? CupertinoIcons.checkmark_alt_circle,
             color: Colors.white,
           ),
         ],
@@ -67,6 +69,13 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
       backgroundColor: color ?? Colors.black,
     ),
   );
+}
+
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showError({
+  required BuildContext context,
+  required String? message,
+}) {
+  return showSnackBar(context: context, text: message ?? 'Something Went Wrong', color: Colors.red);
 }
 
 void showBanner({

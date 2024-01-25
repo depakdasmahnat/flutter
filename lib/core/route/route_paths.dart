@@ -43,6 +43,7 @@ class Routs {
 
   static const String networkReport = '/networkReport';
   static const String resources = '/resources';
+  static const String resetPassword = '/resetPassword';
 
   static const String guestProductDetail = '/guestProductDetail';
   static const String guestProduct = '/guestProduct';

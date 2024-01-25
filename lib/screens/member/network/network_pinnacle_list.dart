@@ -7,7 +7,7 @@ import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
-import '../../../models/dashboard/tree_graph_model.dart';
+import '../../../models/member/network/tree_graph_model.dart';
 
 class NetworkPinnacleList extends StatefulWidget {
   const NetworkPinnacleList({super.key});

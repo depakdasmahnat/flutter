@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:mrwebbeast/controllers/member/member_auth_controller.dart';
+import 'package:mrwebbeast/models/default_model.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 import '../../../app.dart';
 import '../../../utils/widgets/widgets.dart';
@@ -34,15 +38,13 @@ class ApiException implements Exception {
     String? message,
   }) {
     if (logError) {
-      FirebaseCrashlytics.instance
-          .recordError(originalException, stackTrace ?? StackTrace.current);
+      FirebaseCrashlytics.instance.recordError(originalException, stackTrace ?? StackTrace.current);
     }
 
     if (showError ?? true) {
       BuildContext? context = MyApp.navigatorKey.currentState?.context;
       if (context != null) {
-        showSnackBar(
-            context: context, text: message ?? this.message, color: Colors.red);
+        showSnackBar(context: context, text: message ?? this.message, color: Colors.red);
       } else {
         debugPrint('App context does not found to show Error Popup');
       }
@@ -69,7 +71,19 @@ class ErrorHandler {
 
     String url = Uri.parse('${response.request?.url}').toString();
     int statusCode = response.statusCode;
-    String message = getErrorMessage(statusCode);
+    String message;
+
+    try {
+      Map<String, dynamic> json = jsonDecode('$body');
+      DefaultModel responseBody = DefaultModel.fromJson(json);
+      message = responseBody.message ?? getErrorMessage(statusCode);
+      if (responseBody.status == false) {
+        showError = true;
+      }
+    } catch (e) {
+      message = getErrorMessage(statusCode);
+      debugPrint('Error ${e.toString()}');
+    }
 
     ApiException throwException({String? error}) {
       return throw ApiException(
@@ -82,7 +96,8 @@ class ErrorHandler {
 
     log('API Url => $url');
     log('Status Code => $statusCode');
-    log('Message :- $message');
+    log('Message => $message');
+    log('Body => $body');
 
     try {
       switch (response.statusCode) {
@@ -90,10 +105,12 @@ class ErrorHandler {
           return jsonDecode(body ?? '');
         case 201:
           return jsonDecode(body ?? '');
-        case 403:
-          reAuth();
+        case 401:
+          reAuth(message);
           throwException();
-          break;
+        case 403:
+          reAuth(message);
+          throwException();
         default:
           throwException();
       }
@@ -106,23 +123,17 @@ class ErrorHandler {
     }
   }
 
-  static reAuth() {
-    String message = getErrorMessage(403);
+  static reAuth(String message) {
     BuildContext? context = MyApp.navigatorKey.currentContext;
     showError() {
       if (context != null) {
-        showSnackBar(
-            context: context,
-            text: message,
-            color: Colors.red,
-            icon: Icons.error_outline);
+        showSnackBar(context: context, text: message, color: Colors.red, icon: Icons.error_outline);
       }
     }
 
     if (context != null) {
       showError();
-
-      // context.read<AuthCon>().replaceToSignIn(context: context);
+      context.read<MemberAuthControllers>().logOut(context: context, message: message, color: Colors.red);
     }
   }
 
@@ -133,15 +144,13 @@ class ErrorHandler {
 
   static String getRequestStatus(int statusCode) {
     final status = apiStatues[statusCode];
-    String value =
-        status?['name'] ?? 'Unknown error with name code $statusCode';
+    String value = status?['name'] ?? 'Unknown error with name code $statusCode';
     return value;
   }
 
   static String getErrorMessage(int statusCode) {
     final status = apiStatues[statusCode];
-    String value =
-        status?['message'] ?? 'Unknown error with name code $statusCode';
+    String value = status?['message'] ?? 'Unknown error with name code $statusCode';
     return value;
   }
 
