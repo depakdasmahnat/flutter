@@ -49,6 +49,7 @@ class ApiEndpoints {
   static const String sendOtp = 'send_otp';
   static const String verifyOtp = 'verify_otp';
   static const String fetchCategories = 'fetch_categories?type=';
+  static const String fetchFeeds = 'fetch_feeds';
   static const String fetchQuestions = 'fetch_interest_questions?category_id=';
   static const String submitGuestInterest = 'submit_guest_interest';
 

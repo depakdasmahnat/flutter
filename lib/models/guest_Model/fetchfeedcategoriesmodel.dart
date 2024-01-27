@@ -5,7 +5,7 @@ class FetchFeedCategoriesModel {
   FetchFeedCategoriesModel({
       bool? status, 
       String? message, 
-      List<Data>? data,}){
+      List<FeedCategory>? data,}){
     _status = status;
     _message = message;
     _data = data;
@@ -17,17 +17,17 @@ class FetchFeedCategoriesModel {
     if (json['data'] != null) {
       _data = [];
       json['data'].forEach((v) {
-        _data?.add(Data.fromJson(v));
+        _data?.add(FeedCategory.fromJson(v));
       });
     }
   }
   bool? _status;
   String? _message;
-  List<Data>? _data;
+  List<FeedCategory>? _data;
 
   bool? get status => _status;
   String? get message => _message;
-  List<Data>? get data => _data;
+  List<FeedCategory>? get data => _data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -41,10 +41,10 @@ class FetchFeedCategoriesModel {
 
 }
 
-Data dataFromJson(String str) => Data.fromJson(json.decode(str));
-String dataToJson(Data data) => json.encode(data.toJson());
-class Data {
-  Data({
+FeedCategory dataFromJson(String str) => FeedCategory.fromJson(json.decode(str));
+String dataToJson(FeedCategory data) => json.encode(data.toJson());
+class FeedCategory {
+  FeedCategory({
       num? id, 
       String? name, 
       String? type, 
@@ -55,7 +55,7 @@ class Data {
     _position = position;
 }
 
-  Data.fromJson(dynamic json) {
+  FeedCategory.fromJson(dynamic json) {
     _id = json['id'];
     _name = json['name'];
     _type = json['type'];

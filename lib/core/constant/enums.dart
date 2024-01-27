@@ -17,6 +17,18 @@ enum Roles {
   const Roles(this.value);
 }
 
+enum FeedsFileType {
+  article('Article'),
+  video('Video'),
+  youtubeVideo('YoutubeVideo'),
+  pdf('Pdf'),
+  images('Image');
+
+  final String value;
+
+  const FeedsFileType(this.value);
+}
+
 enum Genders {
   male('Male'),
   female('Female'),

@@ -1,17 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/constant/enums.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
 import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
-import 'package:video_player/video_player.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/config/app_assets.dart';
-import '../../../core/constant/colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../models/feeds/feeds_model.dart';
+import '../../../models/feeds/feeds_data.dart';
+import 'package:html/parser.dart' show parse;
 
 class FeedCard extends StatefulWidget {
   const FeedCard({
@@ -21,7 +20,7 @@ class FeedCard extends StatefulWidget {
   });
 
   final int index;
-  final FeedsData data;
+  final FeedsData? data;
 
   @override
   State<FeedCard> createState() => _FeedCardState();
@@ -42,6 +41,8 @@ class _FeedCardState extends State<FeedCard> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+
     return Container(
       margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
       decoration: BoxDecoration(
@@ -53,50 +54,56 @@ class _FeedCardState extends State<FeedCard> {
         children: [
           Column(
             children: [
-              if (data?.images.haveData == true)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: AspectRatio(
-                    aspectRatio: 16 / 8,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: data?.images?.length ?? 0,
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.zero,
-                      physics: const PageScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        var image = data?.images?.elementAt(index);
+              if (data?.fileType == FeedsFileType.images.value && data?.files.haveData == true)
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: PageView.builder(
 
-                        return AspectRatio(
-                          aspectRatio: 16 / 8,
-                          child: ImageView(
-                            borderRadiusValue: 18,
-                            margin: EdgeInsets.zero,
-                            backgroundColor: Colors.transparent,
-                            fit: BoxFit.cover,
-                            assetImage: '$image',
-                          ),
-                        );
-                      },
-                    ),
+                    itemCount: data?.files?.length ?? 0,
+                    scrollDirection: Axis.horizontal,
+
+                    physics: const PageScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      var image = data?.files?.elementAt(index);
+
+                      return ImageView(
+                        width: size.width,
+                        borderRadiusValue: 18,
+                        margin: const EdgeInsets.symmetric(horizontal: 12,vertical: 12),
+                        backgroundColor: Colors.transparent,
+                        fit: BoxFit.cover,
+                        networkImage: '$image',
+                      );
+                    },
                   ),
                 )
-              else if (data?.videoUrl != null)
+              else if (data?.fileType == FeedsFileType.video.value && data?.file != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   child: VideoPlayerCard(
-                    url: '${data?.videoUrl}',
+                    url: '${data?.file}',
                     borderRadius: 18,
                   ),
                 )
-              else if (data?.youtubeUrl != null)
+              else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   child: YoutubeVideoPlayerCard(
-                    url: '${data?.youtubeUrl}',
+                    url: '${data?.file}',
                     borderRadius: 18,
                   ),
-                ),
+                )
+              else if (data?.description != null && data?.fileType == FeedsFileType.article.value)
+                showMoreDescription(
+                  context: context,
+                  description: parseHtmlToText(htmlString: '${data?.description}'),
+                  style: TextStyle(
+                    color: Colors.grey.shade800,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 2,
+                  overFlow: TextOverflow.ellipsis,
+                )
             ],
           ),
           Padding(
@@ -104,51 +111,53 @@ class _FeedCardState extends State<FeedCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '${data?.title}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    '12 hr',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
+                if (data?.title != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      '${data?.title}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.start,
                     ),
-                    textAlign: TextAlign.start,
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 12),
+                if (data?.description != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      '${data?.description}',
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
                           FeedMenu(
-                            icon: AppAssets.heartIcon,
-                            value: '3',
+                            icon: data?.isLiked == true ? AppAssets.heartIcon : AppAssets.heartIcon,
+                            value: data?.likes,
                           ),
                           FeedMenu(
                             icon: AppAssets.chatIcon,
-                            value: '12K',
+                            value: data?.comments,
                           ),
-                          FeedMenu(
+                          const FeedMenu(
                             icon: AppAssets.shareIcon,
                           ),
                         ],
                       ),
-                      FeedMenu(
+                      const FeedMenu(
                         lastMenu: true,
                         icon: AppAssets.bookmarkIcon,
                       ),
@@ -162,6 +171,42 @@ class _FeedCardState extends State<FeedCard> {
       ),
     );
   }
+
+  Widget showMoreDescription({
+    required BuildContext context,
+    required String? description,
+    TextStyle? style,
+    int? maxLines,
+    TextOverflow? overFlow,
+  }) {
+    return RichText(
+      maxLines: maxLines,
+      overflow: overFlow ?? TextOverflow.clip,
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: '$description',
+            style: style ??
+                TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey.shade800,
+                  fontWeight: FontWeight.w400,
+                ),
+          ),
+          // const TextSpan(
+          //   text: "Show More",
+          //   style: TextStyle(
+          //     fontSize: 12,
+          //     color: primaryColor,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          // ),
+        ],
+      ),
+    );
+  }
+
+  parseHtmlToText({required String htmlString}) {}
 }
 
 class FeedMenu extends StatelessWidget {
@@ -174,7 +219,7 @@ class FeedMenu extends StatelessWidget {
   });
 
   final String icon;
-  final String? value;
+  final num? value;
   final bool? lastMenu;
   final GestureTapCallback? onTap;
 
@@ -209,4 +254,10 @@ class FeedMenu extends StatelessWidget {
       ),
     );
   }
+}
+
+String parseHtmlToText({required String htmlString}) {
+  final document = parse(htmlString);
+  final String parsedText = parse(document.body!.text).documentElement!.text;
+  return parsedText;
 }

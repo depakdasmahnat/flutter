@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Fetchnewjoiners? fetchnewjoiners;
+
   @override
   void initState() {
     super.initState();
@@ -36,20 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
       await context.read<GuestControllers>().fetchFeedCategories(context: context);
     });
   }
-  String? selectedFilter = 'Trending';
-  List<String>? filters = [
-    'Trending',
-    'Products',
-    'Today',
-    'Technology',
-    'Water',
-    'Filter',
-  ];
-  List<String> banners = [
-    AppAssets.banner,
-    AppAssets.banner1,
-    AppAssets.banner2,
-  ];
 
   @override
   Widget build(BuildContext context) {

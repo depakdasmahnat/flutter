@@ -26,7 +26,6 @@ import '../../models/guest_Model/resourceModel.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../utils/widgets/widgets.dart';
 
-
 class GuestControllers extends ChangeNotifier {
   /// 0)  SignOut User....
 
@@ -36,12 +35,12 @@ class GuestControllers extends ChangeNotifier {
   }
 
   /// 1) fetch new joiners...
-  bool isLoading =false;
+  bool isLoading = false;
   Fetchnewjoiners? fetchnewjoiners;
+
   Future<Fetchnewjoiners?> fetchNewJoiners({
     required BuildContext context,
   }) async {
-
     try {
       await ApiService()
           .get(
@@ -52,10 +51,10 @@ class GuestControllers extends ChangeNotifier {
           Map<String, dynamic> json = response;
           Fetchnewjoiners responseData = Fetchnewjoiners.fromJson(json);
           if (responseData.status == true) {
-            isLoading =true;
-            fetchnewjoiners =responseData;
-          }else{
-            isLoading =true;
+            isLoading = true;
+            fetchnewjoiners = responseData;
+          } else {
+            isLoading = true;
           }
         }
         notifyListeners();
@@ -69,12 +68,13 @@ class GuestControllers extends ChangeNotifier {
 
     return fetchnewjoiners;
   }
+
   /// 1) fetch banner...
   Commonbanner? banner;
+
   Future<Commonbanner?> fetchBanner({
     required BuildContext context,
   }) async {
-
     try {
       await ApiService()
           .get(
@@ -85,7 +85,7 @@ class GuestControllers extends ChangeNotifier {
           Map<String, dynamic> json = response;
           Commonbanner responseData = Commonbanner.fromJson(json);
           if (responseData.status == true) {
-            banner =responseData;
+            banner = responseData;
           }
         }
         notifyListeners();
@@ -100,9 +100,10 @@ class GuestControllers extends ChangeNotifier {
     return banner;
   }
 
-  Fetchinterestcategory?  fetchInterestCategory;
-  bool fetchCategoryLoader =false;
-  int? tabIndex =0;
+  Fetchinterestcategory? fetchInterestCategory;
+  bool fetchCategoryLoader = false;
+  int? tabIndex = 0;
+
   Future<Fetchinterestcategory?> fetchInterestCategories({
     required BuildContext context,
     required String type,
@@ -124,7 +125,7 @@ class GuestControllers extends ChangeNotifier {
     try {
       await ApiService()
           .get(
-        endPoint: ApiEndpoints.fetchCategories+type,
+        endPoint: ApiEndpoints.fetchCategories + type,
       )
           .then((response) {
         if (response != null) {
@@ -132,7 +133,7 @@ class GuestControllers extends ChangeNotifier {
           Fetchinterestcategory responseData = Fetchinterestcategory.fromJson(json);
           if (responseData.status == true) {
             // isLoading=true;
-            fetchCategoryLoader=true;
+            fetchCategoryLoader = true;
             fetchInterestCategory = responseData;
             // assignExercise(refresh: true);
 
@@ -150,9 +151,10 @@ class GuestControllers extends ChangeNotifier {
     return fetchInterestCategory;
   }
 
-/// 1) fetch Product...
+  /// 1) fetch Product...
   Fetchguestproduct? fetchguestProduct;
-  bool guestProductLoader=false;
+  bool guestProductLoader = false;
+
   Future<Fetchguestproduct?> fetchProduct({
     required BuildContext context,
     required String page,
@@ -174,7 +176,7 @@ class GuestControllers extends ChangeNotifier {
     try {
       await ApiService()
           .get(
-        endPoint: ApiEndpoints.fetchProduct+page,
+        endPoint: ApiEndpoints.fetchProduct + page,
       )
           .then((response) {
         if (response != null) {
@@ -183,7 +185,7 @@ class GuestControllers extends ChangeNotifier {
           if (responseData.status == true) {
             // isLoading=true;
             fetchguestProduct = responseData;
-            guestProductLoader=true;
+            guestProductLoader = true;
             // assignExercise(refresh: true);
 
             notifyListeners();
@@ -200,10 +202,10 @@ class GuestControllers extends ChangeNotifier {
     return fetchguestProduct;
   }
 
-
   /// 1) fetch Product Detail...
   Fetchproductdetail? fetchproductDetail;
-  bool productLoader=false;
+  bool productLoader = false;
+
   Future<Fetchproductdetail?> fetchProductDetail({
     required BuildContext context,
     required String productId,
@@ -225,14 +227,14 @@ class GuestControllers extends ChangeNotifier {
     try {
       await ApiService()
           .get(
-        endPoint: ApiEndpoints.fetchProductDetail+productId,
+        endPoint: ApiEndpoints.fetchProductDetail + productId,
       )
           .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
           Fetchproductdetail responseData = Fetchproductdetail.fromJson(json);
           if (responseData.status == true) {
-            productLoader=true;
+            productLoader = true;
             fetchproductDetail = responseData;
             // assignExercise(refresh: true);
 
@@ -250,11 +252,10 @@ class GuestControllers extends ChangeNotifier {
     return fetchproductDetail;
   }
 
-
-
   /// 1) fetch resources...
   ResourceModel? resourceModel;
-  bool resourcesLoader=false;
+  bool resourcesLoader = false;
+
   Future<ResourceModel?> fetchResources({
     required BuildContext context,
     required String page,
@@ -276,14 +277,14 @@ class GuestControllers extends ChangeNotifier {
     try {
       await ApiService()
           .get(
-        endPoint: ApiEndpoints.fetchResources+page,
+        endPoint: ApiEndpoints.fetchResources + page,
       )
           .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
           ResourceModel responseData = ResourceModel.fromJson(json);
           if (responseData.status == true) {
-            resourcesLoader=true;
+            resourcesLoader = true;
             resourceModel = responseData;
             // assignExercise(refresh: true);
             notifyListeners();
@@ -301,12 +302,12 @@ class GuestControllers extends ChangeNotifier {
 
   /// 1) fetch feed categories...
 
-  FetchFeedCategoriesModel?  fetchFeedCategoriesModel;
+  FetchFeedCategoriesModel? fetchFeedCategoriesModel;
+
   // bool fetchCategoryLoader =false;
   // int? tabIndex =0;
   Future<FetchFeedCategoriesModel?> fetchFeedCategories({
     required BuildContext context,
-
   }) async {
     // refresh() {
     //   loadingExerciseDetail = true;
@@ -348,8 +349,10 @@ class GuestControllers extends ChangeNotifier {
   }
 
   /// 1) fetch resources details...
-  FetchResourcesDetailModel? fetchResourcesDetailModel ;
-   bool resourcesDetailLoader =false;
+  FetchResourcesDetailModel? fetchResourcesDetailModel;
+
+  bool resourcesDetailLoader = false;
+
   Future<FetchResourcesDetailModel?> fetchResourcesDetail({
     required BuildContext context,
     required String page,
@@ -371,7 +374,7 @@ class GuestControllers extends ChangeNotifier {
     try {
       await ApiService()
           .get(
-        endPoint: ApiEndpoints.fetchResourceDetails+page,
+        endPoint: ApiEndpoints.fetchResourceDetails + page,
       )
           .then((response) {
         if (response != null) {
@@ -379,7 +382,7 @@ class GuestControllers extends ChangeNotifier {
           FetchResourcesDetailModel responseData = FetchResourcesDetailModel.fromJson(json);
           if (responseData.status == true) {
             // isLoading=true;
-            resourcesDetailLoader =true;
+            resourcesDetailLoader = true;
             fetchResourcesDetailModel = responseData;
             // assignExercise(refresh: true);
 
@@ -397,55 +400,53 @@ class GuestControllers extends ChangeNotifier {
     return fetchResourcesDetailModel;
   }
 
-
   /// 1) FAQs..
-  // // FetchResourcesDetailModel? fetchResourcesDetailModel ;
-  // bool resourcesDetailLoader =false;
-  // Future<FetchResourcesDetailModel?> fetchResourcesDetail({
-  //   required BuildContext context,
-  //   required String page,
-  // }) async {
-  //   // refresh() {
-  //   //   loadingExerciseDetail = true;
-  //   //   exerciseDetailModel = null;
-  //   //   exerciseData = null;
-  //   //   exerciseDetail?.clear();
-  //   //   notifyListeners();
-  //   // }
-  //   //
-  //   // apiResponseCompleted() {
-  //   //   loadingExerciseDetail = false;
-  //   //   notifyListeners();
-  //   // }
-  //
-  //   // refresh();
-  //   try {
-  //     await ApiService()
-  //         .get(
-  //       endPoint: ApiEndpoints.fetchResourceDetails+page,
-  //     )
-  //         .then((response) {
-  //       if (response != null) {
-  //         Map<String, dynamic> json = response;
-  //         FetchResourcesDetailModel responseData = FetchResourcesDetailModel.fromJson(json);
-  //         if (responseData.status == true) {
-  //           // isLoading=true;
-  //           resourcesDetailLoader =true;
-  //           fetchResourcesDetailModel = responseData;
-  //           // assignExercise(refresh: true);
-  //
-  //           notifyListeners();
-  //         }
-  //       }
-  //
-  //       // apiResponseCompleted();
-  //     });
-  //   } catch (e, s) {
-  //     // apiResponseCompleted();
-  //     debugPrint('Error is $e & $s');
-  //   }
-  //
-  //   return fetchResourcesDetailModel;
-  // }
-
+// // FetchResourcesDetailModel? fetchResourcesDetailModel ;
+// bool resourcesDetailLoader =false;
+// Future<FetchResourcesDetailModel?> fetchResourcesDetail({
+//   required BuildContext context,
+//   required String page,
+// }) async {
+//   // refresh() {
+//   //   loadingExerciseDetail = true;
+//   //   exerciseDetailModel = null;
+//   //   exerciseData = null;
+//   //   exerciseDetail?.clear();
+//   //   notifyListeners();
+//   // }
+//   //
+//   // apiResponseCompleted() {
+//   //   loadingExerciseDetail = false;
+//   //   notifyListeners();
+//   // }
+//
+//   // refresh();
+//   try {
+//     await ApiService()
+//         .get(
+//       endPoint: ApiEndpoints.fetchResourceDetails+page,
+//     )
+//         .then((response) {
+//       if (response != null) {
+//         Map<String, dynamic> json = response;
+//         FetchResourcesDetailModel responseData = FetchResourcesDetailModel.fromJson(json);
+//         if (responseData.status == true) {
+//           // isLoading=true;
+//           resourcesDetailLoader =true;
+//           fetchResourcesDetailModel = responseData;
+//           // assignExercise(refresh: true);
+//
+//           notifyListeners();
+//         }
+//       }
+//
+//       // apiResponseCompleted();
+//     });
+//   } catch (e, s) {
+//     // apiResponseCompleted();
+//     debugPrint('Error is $e & $s');
+//   }
+//
+//   return fetchResourcesDetailModel;
+// }
 }

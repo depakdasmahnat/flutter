@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
@@ -24,15 +25,20 @@ class _YoutubeVideoPlayerCardState extends State<YoutubeVideoPlayerCard> {
   @override
   void initState() {
     super.initState();
-    controller = YoutubePlayerController(
-      params: const YoutubePlayerParams(
-        mute: false,
-        showControls: true,
-        showFullscreenButton: false,
-      ),
-    );
-    controller?.loadVideo('$url');
-    controller?.pauseVideo();
+    try {
+      controller = YoutubePlayerController(
+        params: const YoutubePlayerParams(
+          mute: false,
+          showControls: true,
+          showFullscreenButton: false,
+        ),
+      );
+
+      controller?.loadVideo('$url');
+      controller?.pauseVideo();
+    } catch (e, s) {
+      ErrorHandler.catchError(e, s, false);
+    }
 
     debugPrint('Loading ytVideoPlayer...');
     // controller.setFullScreenListener((value) {
