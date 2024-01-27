@@ -152,6 +152,7 @@ class GuestControllers extends ChangeNotifier {
 
 /// 1) fetch Product...
   Fetchguestproduct? fetchguestProduct;
+  bool guestProductLoader=false;
   Future<Fetchguestproduct?> fetchProduct({
     required BuildContext context,
     required String page,
@@ -182,6 +183,7 @@ class GuestControllers extends ChangeNotifier {
           if (responseData.status == true) {
             // isLoading=true;
             fetchguestProduct = responseData;
+            guestProductLoader=true;
             // assignExercise(refresh: true);
 
             notifyListeners();

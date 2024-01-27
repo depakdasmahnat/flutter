@@ -37,6 +37,7 @@ class _BannersState extends State<Banners> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return
 
       Consumer<GuestControllers>(
@@ -79,6 +80,8 @@ class _BannersState extends State<Banners> {
                             onTap: () {},
                             fit: BoxFit.cover,
                             margin: const EdgeInsets.symmetric(horizontal: kPadding),
+                            height: size.height*0.23,
+                            width: double.infinity,
                           );
                         },
                       );

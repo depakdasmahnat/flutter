@@ -79,6 +79,7 @@ class ImageView extends StatelessWidget {
         width: width,
         alignment: Alignment.center,
         margin: margin ?? const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+
         decoration: BoxDecoration(
           border: border,
           color: backgroundColor,
@@ -98,6 +99,7 @@ class ImageView extends StatelessWidget {
   }
 
   Widget imageWidget() {
+    print("check network image is here=====");
     if (networkImage != null) {
       return CachedNetworkImage(
         color: color,

@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../utils/widgets/appbar.dart';
+import '../../../utils/widgets/image_view.dart';
 import 'guest_product_details.dart';
 
 class GuestPoduct extends StatefulWidget {
@@ -24,12 +25,10 @@ class _GuestPoductState extends State<GuestPoduct> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context
-          .read<GuestControllers>()
-          .fetchProduct(context: context, page: '1');
+      context.read<GuestControllers>().guestProductLoader=false;
+      await context.read<GuestControllers>().fetchProduct(context: context, page: '1');
     });
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -59,7 +58,10 @@ class _GuestPoductState extends State<GuestPoduct> {
                       setState(() {});
                       context.push(Routs.guestProductDetail,extra: GusetProductDetails(productId:controller.fetchguestProduct?.data?[index].id.toString()??'' ,));
                     },
-                    child: ProductCard(
+                    child: controller.guestProductLoader==false?const Center(
+                      child:   CupertinoActivityIndicator(
+                          radius: 15, color: CupertinoColors.white),
+                    ) :ProductCard(
                       index: index,
                       value: value,
                       title:controller.fetchguestProduct?.data?[index].name,
@@ -116,6 +118,12 @@ class ProductCard extends StatelessWidget {
                         Image.network(image??'', fit: BoxFit.cover,height: size.height*0.2,width: size.width*0.4),
                   ),
                 ),
+                // ImageView(
+                //   borderRadiusValue: 16,
+                //   margin: const EdgeInsets.all(12),
+                //   fit:  BoxFit.contain,
+                //   networkImage: image??'',
+                // ),
                 SizedBox(
                   height: size.height * 0.01,
                 ),

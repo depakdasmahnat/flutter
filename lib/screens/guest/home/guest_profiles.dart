@@ -136,7 +136,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   scrollDirection: Axis.horizontal,
                   itemCount: controller.fetchnewjoiners?.data?.members?.length??0,
                   itemBuilder: (context, index) {
-                    return controller.fetchnewjoiners?.data?.members?[index].profilePhoto==null?const Offstage():
+                    return 
                     Padding(
                       padding: const EdgeInsets.all(4),
                       child: Column(
@@ -147,7 +147,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            child: Image.network(
+                            child:controller.fetchnewjoiners?.data?.members?[index].profilePhoto==null?Image.asset(AppAssets.getsprofile,fit: BoxFit.cover,
+                              height: size.height * 0.05,) :Image.network(
                               controller.fetchnewjoiners?.data?.members?[index].profilePhoto??'',
                               fit: BoxFit.cover,
                               height: size.height * 0.05,
