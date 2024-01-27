@@ -34,5 +34,6 @@ class ApiEndpoints {
   static const String fetchProfile = 'fetch_profile';
   static const String treeView = 'tree_view';
   static const String pinnacleView = 'pinnacle_view';
+  static const String selectABMember = 'select_A_B_members';
   static const String deleteUser = 'deleteUser';
 }

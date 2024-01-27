@@ -44,8 +44,12 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
     if (treeGraph.haveData) {
       debugPrint('treeGraph $treeGraph');
 
-      for (PinnacleViewData? element in treeGraph ?? []) {
+      for (int index = 0; index < (treeGraph?.length ?? 0); index++) {
+        PinnacleViewData? element = treeGraph?.elementAt(index);
         num? fromNodeId = element?.id;
+        if (index == 0) {
+          graph.addNode(Node.Id(fromNodeId));
+        }
         if (element?.connectedMember.haveData == true) {
           element?.connectedMember?.forEach((element) {
             num? toNodeId = element.id;
@@ -53,6 +57,7 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
           });
         }
       }
+
       setState(() {});
       builder
         ..siblingSeparation = (50)
@@ -172,34 +177,36 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: InteractiveViewer(
-                        constrained: false,
-                        boundaryMargin: const EdgeInsets.all(100),
-                        minScale: 0.01,
-                        maxScale: 6,
-                        child: GraphView(
-                          graph: graph,
-                          algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
-                          paint: Paint()
-                            ..color = Colors.white
-                            ..strokeWidth = 1
-                            ..style = PaintingStyle.stroke,
-                          builder: (Node node) {
-                            var indexId = node.key?.value as int?;
-                            List<PinnacleViewData>? members = treeGraph;
-                            var filteredMembers = members?.where((element) => element.id == indexId).toList();
-                            PinnacleViewData? data;
+                    if (graph.nodes.haveData)
+                      Expanded(
+                        child: InteractiveViewer(
+                          constrained: false,
+                          boundaryMargin: const EdgeInsets.all(100),
+                          minScale: 0.01,
+                          maxScale: 6,
+                          child: GraphView(
+                            graph: graph,
+                            algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                            paint: Paint()
+                              ..color = Colors.white
+                              ..strokeWidth = 1
+                              ..style = PaintingStyle.stroke,
+                            builder: (Node node) {
+                              var indexId = node.key?.value as int?;
+                              List<PinnacleViewData>? members = treeGraph;
+                              var filteredMembers =
+                                  members?.where((element) => element.id == indexId).toList();
+                              PinnacleViewData? data;
 
-                            if (filteredMembers.haveData) {
-                              data = filteredMembers?.first;
-                            }
+                              if (filteredMembers.haveData) {
+                                data = filteredMembers?.first;
+                              }
 
-                            return rectangleWidget(data);
-                          },
+                              return rectangleWidget(data);
+                            },
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               )
@@ -218,7 +225,7 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
   Widget rectangleWidget(PinnacleViewData? data) {
     return InkWell(
       onTap: () {
-        context.pushNamed(Routs.memberProfileDetails,extra: const MemberProfileDetails());
+        context.pushNamed(Routs.memberProfileDetails, extra: const MemberProfileDetails());
       },
       child: Column(
         children: [
@@ -242,58 +249,58 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                   ),
                 ),
               ),
-              if(data?.rank !=null)
-              Positioned(
-                top: 0,
-                left: 0,
-                child: GradientButton(
-                  height: 14,
-                  width: 14,
-                  backgroundGradient: primaryGradient,
-                  padding: EdgeInsets.zero,
-                  child: Center(
-                    child: Text(
-                      '${data?.rank}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 8,
+              if (data?.rank != null)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: GradientButton(
+                    height: 14,
+                    width: 14,
+                    backgroundGradient: primaryGradient,
+                    padding: EdgeInsets.zero,
+                    child: Center(
+                      child: Text(
+                        '${data?.rank}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 8,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              if(data?.level !=null)
-              Positioned(
-                top: 0,
-                right: 0,
-                child: GradientButton(
-                  height: 14,
-                  width: 14,
-                  backgroundGradient: primaryGradient,
-                  padding: EdgeInsets.zero,
-                  child: Center(
-                    child: Text(
-                      '${data?.level}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 8,
+              if (data?.level != null)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: GradientButton(
+                    height: 14,
+                    width: 14,
+                    backgroundGradient: primaryGradient,
+                    padding: EdgeInsets.zero,
+                    child: Center(
+                      child: Text(
+                        '${data?.level}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 8,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
-          if(data?.sales !=null)
-          Padding(
-            padding: const EdgeInsets.only(top: 2, bottom: 2),
-            child: Text(
-              'Sales: ${data?.sales}',
-              style: const TextStyle(fontSize: 12),
+          if (data?.sales != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 2, bottom: 2),
+              child: Text(
+                'Sales: ${data?.sales}',
+                style: const TextStyle(fontSize: 12),
+              ),
             ),
-          ),
         ],
       ),
     );

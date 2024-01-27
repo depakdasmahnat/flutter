@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graphview/GraphView.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/models/dashboard/color_grades.dart';
@@ -46,8 +43,13 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
     if (treeGraph.haveData) {
       debugPrint('treeGraph $treeGraph');
 
-      for (TreeGraphData? element in treeGraph ?? []) {
+      for (int index = 0; index < (treeGraph?.length ?? 0); index++) {
+        TreeGraphData? element = treeGraph?.elementAt(index);
         num? fromNodeId = element?.id;
+        if (index == 0) {
+          graph.addNode(Node.Id(fromNodeId));
+          // graph.addEdge(Node.Id(fromNodeId), Node.Id(fromNodeId));
+        }
         if (element?.connectedMember.haveData == true) {
           element?.connectedMember?.forEach((element) {
             num? toNodeId = element;
@@ -55,6 +57,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
           });
         }
       }
+
       setState(() {});
       builder
         ..siblingSeparation = (50)
@@ -174,34 +177,36 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: InteractiveViewer(
-                        constrained: false,
-                        boundaryMargin: const EdgeInsets.all(100),
-                        minScale: 0.01,
-                        maxScale: 6,
-                        child: GraphView(
-                          graph: graph,
-                          algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
-                          paint: Paint()
-                            ..color = Colors.white
-                            ..strokeWidth = 1
-                            ..style = PaintingStyle.stroke,
-                          builder: (Node node) {
-                            var indexId = node.key?.value as int?;
-                            List<TreeGraphData>? members = treeGraph;
-                            var filteredMembers = members?.where((element) => element.id == indexId).toList();
-                            TreeGraphData? data;
+                    if (graph.nodes.haveData)
+                      Expanded(
+                        child: InteractiveViewer(
+                          constrained: false,
+                          boundaryMargin: const EdgeInsets.all(100),
+                          minScale: 0.01,
+                          maxScale: 6,
+                          child: GraphView(
+                            graph: graph,
+                            algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                            paint: Paint()
+                              ..color = Colors.white
+                              ..strokeWidth = 1
+                              ..style = PaintingStyle.stroke,
+                            builder: (Node node) {
+                              var indexId = node.key?.value as int?;
+                              List<TreeGraphData>? members = treeGraph;
+                              var filteredMembers =
+                                  members?.where((element) => element.id == indexId).toList();
+                              TreeGraphData? data;
 
-                            if (filteredMembers.haveData) {
-                              data = filteredMembers?.first;
-                            }
+                              if (filteredMembers.haveData) {
+                                data = filteredMembers?.first;
+                              }
 
-                            return rectangleWidget(data);
-                          },
+                              return rectangleWidget(data);
+                            },
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               )
