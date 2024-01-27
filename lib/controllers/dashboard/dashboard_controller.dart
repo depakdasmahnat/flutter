@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/services/database/local_database.dart';
 
 import '../../core/config/app_assets.dart';
 import '../../core/constant/enums.dart';
@@ -23,7 +24,7 @@ class DashboardController extends ChangeNotifier {
   int get dashBoardIndex => _dashBoardIndex;
 
   changeDashBoardIndex({int? index}) {
-    if (userRole == UserRoles.member && index == 2) {
+    if (userRole == UserRoles.member.value && index == 2) {
       showMoreMenuPopUp = !showMoreMenuPopUp;
     } else {
       showMoreMenuPopUp = false;
@@ -36,32 +37,27 @@ class DashboardController extends ChangeNotifier {
   bool showMoreMenuPopUp = false;
 
   ///2) Dashboard User Role
-  UserRoles defaultUserRole = UserRoles.member;
-  late UserRoles _userRole = defaultUserRole;
 
-  UserRoles get userRole => _userRole;
+  String? _userRole = LocalDatabase().userRole;
 
-  changeUserRole({UserRoles? role}) {
-    _userRole = role ?? defaultUserRole;
+  String? get userRole => _userRole;
 
-    notifyListeners();
-  }
+  changeUserRole({String? role}) {
+    if (role != null) {
+      _userRole = role;
 
-  changeUserRoleFromString({String? role}) {
-    List<UserRoles> userRoles =
-        UserRoles.values.where((element) => element.value == role).toList();
-    if (userRoles.haveData) {
-      _userRole = userRoles.first;
+      widgets = _userRole == UserRoles.guest.value ? guestWidgets : membersWidgets;
+      _dashBoardIndex = 0;
       notifyListeners();
     }
   }
 
   /// 3) Dashboard Index
-  late List widgets =
-      userRole == UserRoles.guest ? _guestWidgets : _membersWidgets;
+
+  late List widgets = userRole == UserRoles.guest.value ? guestWidgets : membersWidgets;
 
   // Guest Widgets
-  final List<DashboardData> _guestWidgets = [
+  final List<DashboardData> guestWidgets = [
     DashboardData(
       title: 'Feed',
       activeImage: AppAssets.guestHomeIcon,
@@ -89,7 +85,7 @@ class DashboardController extends ChangeNotifier {
   ];
 
   // Member Widgets
-  final List<DashboardData> _membersWidgets = [
+  final List<DashboardData> membersWidgets = [
     DashboardData(
       title: 'Home',
       activeImage: AppAssets.homeFilledIcon,

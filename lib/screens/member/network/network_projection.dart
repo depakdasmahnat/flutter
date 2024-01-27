@@ -11,11 +11,7 @@ import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
-<<<<<<< HEAD
 import '../../../models/member/network/tree_graph_model.dart';
-=======
-import '../../../models/dashboard/tree_graph_model.dart';
->>>>>>> guestUI
 
 class NetworkProjection extends StatefulWidget {
   const NetworkProjection({super.key});
@@ -31,58 +27,35 @@ class NetworkProjectionState extends State<NetworkProjection> {
       profilePic: 'url',
       rank: 'A',
       level: '6A',
-<<<<<<< HEAD
       sales: '45',
       percentage: '77',
       connectedMember: [2, 3],
-=======
-      sales: 45,
-      percentage: 77,
-      members: [2, 3],
->>>>>>> guestUI
     ),
     TreeGraphData(
       id: 2,
       profilePic: 'url',
       rank: 'A',
       level: '6A',
-<<<<<<< HEAD
       sales: '15',
       percentage: '77',
       connectedMember: [4, 5],
-=======
-      sales: 15,
-      percentage: 77,
-      members: [4, 5],
->>>>>>> guestUI
     ),
     TreeGraphData(
       id: 3,
       profilePic: 'url',
       rank: 'B',
       level: '6A',
-<<<<<<< HEAD
       sales: '72',
       percentage: '77',
       connectedMember: [6, 7],
-=======
-      sales: 72,
-      percentage: 77,
-      members: [6, 7],
->>>>>>> guestUI
     ),
     TreeGraphData(
       id: 4,
       profilePic: 'url',
       rank: 'C',
       level: '6A',
-<<<<<<< HEAD
       sales: '23',
       percentage: '77',
-=======
-      sales: 23,
-      percentage: 77,
->>>>>>> guestUI
       // connectedMember: [8, 9],
     ),
     TreeGraphData(
@@ -90,13 +63,8 @@ class NetworkProjectionState extends State<NetworkProjection> {
       profilePic: 'url',
       rank: 'D',
       level: '6A',
-<<<<<<< HEAD
       sales: '14',
       percentage: '77',
-=======
-      sales: 14,
-      percentage: 77,
->>>>>>> guestUI
       // connectedMember: [10, 11],
     ),
     TreeGraphData(
@@ -104,13 +72,8 @@ class NetworkProjectionState extends State<NetworkProjection> {
       profilePic: 'url',
       rank: 'E',
       level: '6A',
-<<<<<<< HEAD
       sales: '19',
       percentage: '77',
-=======
-      sales: 19,
-      percentage: 77,
->>>>>>> guestUI
       // connectedMember: [12, 13],
     ),
     TreeGraphData(
@@ -118,56 +81,12 @@ class NetworkProjectionState extends State<NetworkProjection> {
       profilePic: 'url',
       rank: 'F',
       level: '6A',
-<<<<<<< HEAD
       sales: '16',
       percentage: '77',
-=======
-      sales: 16,
-      percentage: 77,
->>>>>>> guestUI
       // connectedMember: [14, 15],
     ),
   ];
 
-<<<<<<< HEAD
-=======
-  List<TreeGraphData> createTreeGraphData() {
-    List<TreeGraphData> treeGraphData = [];
-
-    // Create root node
-    treeGraphData.add(TreeGraphData(
-      id: 1,
-      profilePic: 'url',
-      rank: 'A',
-      level: '1',
-      sales: 55,
-      percentage: 77,
-      members: [2, 3],
-    ));
-
-    // Create remaining nodes
-    int currentId = 2;
-    for (int currentLevel = 2; currentLevel <= 14; currentLevel++) {
-      int nodesAtCurrentLevel = pow(2, currentLevel - 1).toInt();
-      for (int i = 0; i < nodesAtCurrentLevel; i++) {
-        treeGraphData.add(TreeGraphData(
-          id: currentId,
-          profilePic: 'url',
-          rank: 'A',
-          // You can adjust the rank as needed
-          level: currentLevel.toString(),
-          sales: 55,
-          percentage: 77,
-          members: [currentId * 2, currentId * 2 + 1],
-        ));
-        currentId++;
-      }
-    }
-
-    return treeGraphData;
-  }
-
->>>>>>> guestUI
   List<ColorGrades> colorGrades = [
     ColorGrades(gradient: redGradient, percentage: 20),
     ColorGrades(gradient: yellowGradient, percentage: 40),
@@ -189,13 +108,8 @@ class NetworkProjectionState extends State<NetworkProjection> {
     List<TreeGraphData> treeGraph = treeGraphData;
     for (var element in treeGraph) {
       num? fromNodeId = element.id;
-<<<<<<< HEAD
       if (element.connectedMember.haveData) {
         element.connectedMember?.forEach((element) {
-=======
-      if (element.members.haveData) {
-        element.members?.forEach((element) {
->>>>>>> guestUI
           num? toNodeId = element;
           graph.addEdge(Node.Id(fromNodeId), Node.Id(toNodeId));
         });
@@ -325,13 +239,8 @@ class NetworkProjectionState extends State<NetworkProjection> {
                       ..style = PaintingStyle.stroke,
                     builder: (Node node) {
                       var indexId = node.key?.value as int?;
-<<<<<<< HEAD
                       List<TreeGraphData> connectedMember = treeGraphData;
                       var filteredMembers = connectedMember
-=======
-                      List<TreeGraphData> members = treeGraphData;
-                      var filteredMembers = members
->>>>>>> guestUI
                           .where((element) => element.id == indexId)
                           .toList();
                       TreeGraphData? data;

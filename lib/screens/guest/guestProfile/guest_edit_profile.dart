@@ -85,8 +85,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -150,8 +149,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(
-                left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () {
               // context.pushNamed(Routs.questions);
             },

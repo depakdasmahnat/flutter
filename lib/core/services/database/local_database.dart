@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:mrwebbeast/app.dart';
 import 'package:mrwebbeast/core/config/app_config.dart';
-<<<<<<< HEAD
+import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/models/member/auth/member_data.dart';
-=======
+import 'package:provider/provider.dart';
 
->>>>>>> guestUI
+import '../../../controllers/dashboard/dashboard_controller.dart';
+import '../../../models/auth_model/guest_data.dart';
 
 class LocalDatabase extends ChangeNotifier {
   ///Hive Database Initialization....
 
   static Future initialize() async {
     await Hive.initFlutter();
-<<<<<<< HEAD
+    Hive.registerAdapter(GuestDataAdapter());
     Hive.registerAdapter(MemberDataAdapter());
-=======
->>>>>>> guestUI
     await Hive.openBox(AppConfig.databaseName);
   }
 
@@ -24,40 +24,16 @@ class LocalDatabase extends ChangeNotifier {
 
   ///Access Local Database data...
 
-  late String? name = database.get('name');
-  late String? email = database.get('email');
-  late String? mobile = database.get('mobile');
-  late String? profilePhoto = database.get('photoUrl');
-  late String? accessToken = database.get('accessToken');
   late String? deviceToken = database.get('deviceToken');
 
-  late double? latitude = database.get('latitude');
-  late double? longitude = database.get('longitude');
   late String? themeMode = database.get('themeMode');
+  late double? latitude = database.get('latitude');
+  late double? longitude = database.get('themeMode');
 
-<<<<<<< HEAD
+  late String? userRole = database.get('userRole');
+
+  late GuestData? guest = database.get('guest');
   late MemberData? member = database.get('member');
-
-=======
->>>>>>> guestUI
-  ///Setting Local Database data...
-  ///
-  // Future updateUser({required UserData user}) async {
-  //   _currentUser = user;
-  //   notifyListeners();
-  //   database.put("uid", user.uid);
-  //   database.put("name", user.name);
-  //   database.put("email", user.email);
-  //   database.put("username", user.username);
-  //   database.put("photoUrl", user.photoUrl);
-  //   database.put("role", user.role);
-  //   database.put("status", user.status);
-  //   database.put("points", user.points);
-  //   database.put("isPremium", user.isPremium);
-  //   database.put("isAnonymous", user.isAnonymous);
-  //   database.put("creationTime", user.creationTime);
-  //   database.put("lastSignInTime", user.lastSignInTime);
-  // }
 
   setDeviceToken(String? token) {
     deviceToken = token;
@@ -65,28 +41,11 @@ class LocalDatabase extends ChangeNotifier {
     notifyListeners();
   }
 
-<<<<<<< HEAD
-  setAccessToken(String? token) {
-    accessToken = token;
-    database.put('accessToken', token ?? '');
-    notifyListeners();
-  }
-
-=======
->>>>>>> guestUI
   setThemeMode({required ThemeMode mode}) {
     themeMode = mode.name;
     database.put('themeMode', themeMode ?? '');
     notifyListeners();
   }
-<<<<<<< HEAD
-=======
-  setAccessToken(String? token) {
-    accessToken = token;
-    database.put('accessToken', token ?? '');
-    notifyListeners();
-  }
->>>>>>> guestUI
 
   setLatLong(
     double? latitude,
@@ -98,21 +57,44 @@ class LocalDatabase extends ChangeNotifier {
     database.put('longitude', longitude);
     notifyListeners();
   }
-<<<<<<< HEAD
 
   Future clearDatabase() async {
     await database.clear().then((value) {
+      guest = null;
       member = null;
       notifyListeners();
     });
   }
 
+  _setUserRole(String? userRole) {
+    if (userRole != null) {
+      this.userRole = userRole;
+      database.put('userRole', userRole ?? '');
+      notifyListeners();
+    }
+  }
+
+  Future saveGuestData({required GuestData? guest}) async {
+    this.guest = guest;
+    database.put('guest', guest);
+    _setUserRole(guest?.role);
+    debugPrint('user fullName ${guest?.firstName}');
+    notifyListeners();
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      context.read<DashboardController>().changeUserRole(role: UserRoles.guest.value);
+    }
+  }
+
   Future saveMemberData({required MemberData? member}) async {
     this.member = member;
     database.put('member', member);
+    _setUserRole(member?.role);
     debugPrint('user fullName ${member?.firstName}');
     notifyListeners();
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      context.read<DashboardController>().changeUserRole(role: UserRoles.member.value);
+    }
   }
-=======
->>>>>>> guestUI
 }

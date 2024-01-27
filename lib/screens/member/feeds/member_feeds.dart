@@ -63,8 +63,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
               fit: BoxFit.contain,
               assetImage: AppAssets.searchIcon,
             ),
-            margin: EdgeInsets.only(
-                left: kPadding, right: kPadding, bottom: kPadding),
+            margin: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
           ),
           if (filters?.haveData == true)
             SizedBox(
@@ -79,8 +78,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
 
                     bool isSelected = selectedFilter == data;
                     return GradientButton(
-                      backgroundGradient:
-                          isSelected ? primaryGradient : inActiveGradient,
+                      backgroundGradient: isSelected ? primaryGradient : inActiveGradient,
                       borderWidth: 2,
                       borderRadius: 30,
                       onTap: () {
@@ -89,8 +87,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
                         });
                       },
                       margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kPadding, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
                       child: Text(
                         '$data',
                         style: TextStyle(
@@ -155,8 +152,7 @@ List<FeedsData> dummyFeedsList = [
     isLiked: true,
     isBookmarked: false,
     images: null,
-    videoUrl:
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    videoUrl: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
     youtubeUrl: null,
     share: 'https://example.com/share/2',
   ),

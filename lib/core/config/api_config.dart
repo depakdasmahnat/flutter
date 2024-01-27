@@ -1,3 +1,4 @@
+import '../constant/enums.dart';
 import '../services/database/local_database.dart';
 
 class ApiConfig {
@@ -16,7 +17,16 @@ class ApiConfig {
   static const String termsAndConditionsUrl = '${baseUrl}terms-conditions';
 
   static Map<String, String> defaultHeaders() {
-    return {'Authorization': 'Bearer ${LocalDatabase().accessToken}'};
+    LocalDatabase localDatabase = LocalDatabase();
+    String? userRole = localDatabase.userRole;
+    String? accessToken;
+    if (userRole == UserRoles.guest.value) {
+      accessToken = localDatabase.guest?.accessToken;
+    } else if (userRole == UserRoles.member.value) {
+      accessToken = localDatabase.member?.accessToken;
+    }
+
+    return {'Authorization': 'Bearer $accessToken'};
   }
 }
 

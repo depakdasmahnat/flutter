@@ -17,13 +17,6 @@ class PermissionsScreen extends StatefulWidget {
 }
 
 class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindingObserver {
-  LocalDatabase localDatabase = LocalDatabase();
-  double imageRadius = 70;
-
-  late String? fullName = localDatabase.name;
-  late String? email = localDatabase.email;
-  String? photoUrl;
-
   Future manageNotificationPermission({
     bool? forceRequest,
     bool? checkOnly,

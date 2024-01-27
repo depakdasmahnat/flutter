@@ -50,6 +50,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/services/api/api_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -57,75 +58,80 @@ import '../../../core/services/database/local_database.dart';
 
 class WebScreen extends StatefulWidget {
   String type;
-  WebScreen({super.key,required this.type});
+
+  WebScreen({super.key, required this.type});
 
   @override
   State<WebScreen> createState() => _WebScreenState();
 }
 
 class _WebScreenState extends State<WebScreen> {
+  bool isLoading = false;
+  String url = '';
 
-  bool isLoading =false;
-  String url ='';
-  getTerm()async{
-    try{
+  getTerm() async {
+    try {
       var res = await http.get(
-          Uri.parse('https://api.gtp.proapp.in/api/v1/${widget.type}'),
-          headers: {'Authorization': 'Bearer ${LocalDatabase().accessToken}'});
-      print("check status code ${res.statusCode}");
+        Uri.parse('https://api.gtp.proapp.in/api/v1/${widget.type}'),
+        headers: ApiService().defaultHeaders(),
+      );
+      print('check status code ${res.statusCode}');
       if (res.statusCode == 200) {
         setState(() {
-          url =res.body;
+          url = res.body;
         });
       }
-    }catch(a){
+    } catch (a) {
       print(a);
     }
   }
-  @override
-  void initState() {
-    getTerm();
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-    super.initState();
-  }
+
+  // @override
+  // void initState() {
+  //   getTerm();
+  //   if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+  //   super.initState();
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(body: Column()
 
-      body:Stack(
-          children:[
-            if (url.isNotEmpty)  // Only load WebView when the URL is not empty
-              WebView(
-                // initialUrl: url,
-                // javascriptMode: JavascriptMode.unrestricted,
-                // gestureNavigationEnabled: true,
-                // zoomEnabled: false,
-                // userAgent: HttpHeaders.userAgentHeader,
-                initialUrl: 'about:blank',
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (controller) {
-                  controller.loadUrl(Uri.dataFromString(
-                    url,
-                    mimeType: 'text/html',
-                  ).toString());
-                },
-                onPageStarted: (url) {
-                  setState(() {
-                    isLoading=false;
-                  });
-                },
-                onPageFinished: (url) {
-                  setState(() {
-                    isLoading=true;
-                  });
-                },
-              ),
-            isLoading==false?Center(
-              child: CircularProgressIndicator(),
-            ):Offstage()
-          ]
-      )
-      ,
-    );
+        //     body:Stack(
+        //     children:[
+        //     if (url.isNotEmpty) // Only load WebView when the URL is not empty
+        // WebView(
+        //   // initialUrl: url,
+        //   // javascriptMode: JavascriptMode.unrestricted,
+        //   // gestureNavigationEnabled: true,
+        //   // zoomEnabled: false,
+        //   // userAgent: HttpHeaders.userAgentHeader,
+        //   initialUrl: 'about:blank',
+        //   javascriptMode: JavascriptMode.unrestricted,
+        //   onWebViewCreated: (controller) {
+        //     controller.loadUrl(Uri.dataFromString(
+        //       url,
+        //       mimeType: 'text/html',
+        //     ).toString());
+        //   },
+        //   onPageStarted: (url) {
+        //     setState(() {
+        //       isLoading = false;
+        //     });
+        //   },
+        //   onPageFinished: (url) {
+        //     setState(() {
+        //       isLoading = true;
+        //     });
+        //   },
+        // )
+        // ,
+        // isLoading==false?Center(
+        // child: CircularProgressIndicator(),
+        // ):Offstage()
+        // ]
+        // )
+
+        );
   }
 }

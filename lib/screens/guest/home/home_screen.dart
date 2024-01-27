@@ -32,13 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context
-          .read<GuestControllers>()
-          .fetchFeedCategories(context: context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+      await context.read<GuestControllers>().fetchFeedCategories(context: context);
     });
   }
-
   String? selectedFilter = 'Trending';
   List<String>? filters = [
     'Trending',
@@ -205,50 +202,46 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           // if (filters?.haveData == true)
           Consumer<GuestControllers>(
-            builder: (context, value, child) {
-              return SizedBox(
-                height: 40,
-                child: Center(
-                  child: ListView.builder(
-                    itemCount:
-                        value.fetchFeedCategoriesModel?.data?.length ?? 0,
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.only(left: kPadding),
-                    itemBuilder: (context, index) {
-                      var data = value.fetchFeedCategoriesModel?.data
-                          ?.elementAt(index);
-                      // bool isSelected = selectedFilter == data;
-                      return GradientButton(
-                        backgroundGradient: value.tabIndex == index
-                            ? primaryGradient
-                            : inActiveGradient,
-                        borderWidth: 2,
-                        borderRadius: 30,
-                        onTap: () {
-                          setState(() {
-                            value.tabIndex = index;
-                          });
-                        },
-                        margin: const EdgeInsets.only(right: 12),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: kPadding, vertical: 8),
-                        child: Text(
-                          '${data?.name}',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: value.tabIndex == index
-                                ? Colors.black
-                                : Colors.white,
+              builder: (context, value, child) {
+                return SizedBox(
+                  height: 40,
+                  child: Center(
+                    child: ListView.builder(
+                      itemCount:value.fetchFeedCategoriesModel?.data?.length ?? 0,
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(left: kPadding),
+                      itemBuilder: (context, index) {
+
+                        var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
+                        // bool isSelected = selectedFilter == data;
+                        return GradientButton(
+                          backgroundGradient: value.tabIndex==index ? primaryGradient : inActiveGradient,
+                          borderWidth: 2,
+                          borderRadius: 30,
+                          onTap: () {
+                            setState(() {
+                              value.tabIndex = index;
+                            });
+                          },
+                          margin: const EdgeInsets.only(right: 12),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kPadding, vertical: 8),
+                          child: Text(
+                            '${data?.name}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: value.tabIndex==index ? Colors.black : Colors.white,
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+
+            ),
           ListView.builder(
             itemCount: 8,
             shrinkWrap: true,
@@ -315,72 +308,72 @@ class FeedCard extends StatelessWidget {
             borderRadiusValue: 16,
             margin: const EdgeInsets.all(12),
             fit: fit ?? BoxFit.contain,
-            networkImage: networkImage ?? '',
+            networkImage: networkImage??'',
             // assetImage: AppAssets.product1,
           ),
           if (type != 'true')
-            Padding(
-              padding: EdgeInsets.only(left: 12, right: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Best water purifier: 10 picks to ensure clean drinking water',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.start,
+          Padding(
+            padding: EdgeInsets.only(left: 12, right: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Best water purifier: 10 picks to ensure clean drinking water',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
-                  if (type == 'true')
-                    const SizedBox(
-                      height: 10,
+                  textAlign: TextAlign.start,
+                ),
+                if (type == 'true')
+                  const SizedBox(
+                    height: 10,
+                  ),
+                if (type != 'true')
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      '12 hr',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.start,
                     ),
-                  if (type != 'true')
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
-                      child: Text(
-                        '12 hr',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
+                  ),
+                if (type != 'true')
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            FeedMenu(
+                              icon: AppAssets.heartIcon,
+                              value: '3',
+                            ),
+                            FeedMenu(
+                              icon: AppAssets.chatIcon,
+                              value: '12K',
+                            ),
+                            FeedMenu(
+                              icon: AppAssets.shareIcon,
+                            ),
+                          ],
                         ),
-                        textAlign: TextAlign.start,
-                      ),
+                        FeedMenu(
+                          lastMenu: true,
+                          icon: AppAssets.bookmarkIcon,
+                        ),
+                      ],
                     ),
-                  if (type != 'true')
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              FeedMenu(
-                                icon: AppAssets.heartIcon,
-                                value: '3',
-                              ),
-                              FeedMenu(
-                                icon: AppAssets.chatIcon,
-                                value: '12K',
-                              ),
-                              FeedMenu(
-                                icon: AppAssets.shareIcon,
-                              ),
-                            ],
-                          ),
-                          FeedMenu(
-                            lastMenu: true,
-                            icon: AppAssets.bookmarkIcon,
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-            )
+                  ),
+              ],
+            ),
+          )
         ],
       ),
     );

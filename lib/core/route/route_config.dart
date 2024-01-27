@@ -19,14 +19,9 @@ import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
-import '../../screens/auth/connect_with_us.dart';
-import '../../screens/auth/first_Screen.dart';
 
 import '../../screens/auth/gtp_video.dart';
-import '../../screens/auth/interest_screen.dart';
-import '../../screens/auth/member_login.dart';
-import '../../screens/auth/question_screen.dart';
-import '../../screens/auth/verify_otp.dart';
+
 import '../../screens/auth/why_are_you_here.dart';
 import '../../screens/guest/home/home_screen.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
@@ -35,9 +30,8 @@ import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/product/guest_product.dart';
 import '../../screens/guest/productDetail/product_detail.dart';
 import '../../screens/guest/profile/about_us.dart';
-import '../../screens/guest/profile/edit_profile.dart';
+
 import '../../screens/guest/profile/permission_screen.dart';
-import '../../screens/guest/profile/settings.dart';
 
 import '../../screens/guest/web_view/faq.dart';
 import '../../screens/member/home/member_dashboard.dart';
@@ -173,7 +167,7 @@ class RoutesConfig {
         name: Routs.memberLogin,
         path: Routs.memberLogin,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberLogin());
+          return cupertinoPage(state: state, child: const MemberSignIn());
         },
       ),
       GoRoute(
@@ -188,8 +182,7 @@ class RoutesConfig {
         name: Routs.memberProfileDetails,
         path: Routs.memberProfileDetails,
         pageBuilder: (context, state) {
-          return cupertinoPage(
-              state: state, child: const MemberProfileDetails());
+          return cupertinoPage(state: state, child: const MemberProfileDetails());
         },
       ),
 
@@ -267,27 +260,12 @@ class RoutesConfig {
           return cupertinoPage(state: state, child: const NotificationScreen());
         },
       ),
-      GoRoute(
-        name: Routs.settings,
-        path: Routs.settings,
-        pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const SettingsScreen());
-        },
-      ),
 
       GoRoute(
         name: Routs.aboutUs,
         path: Routs.aboutUs,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const AboutUsScreen());
-        },
-      ),
-
-      GoRoute(
-        name: Routs.editProfile,
-        path: Routs.editProfile,
-        pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const EditProfile());
         },
       ),
 
@@ -372,9 +350,7 @@ class RoutesConfig {
         name: Routs.resourceAndDemo,
         path: Routs.resourceAndDemo,
         pageBuilder: (context, state) {
-          return cupertinoPage(
-              state: state,
-              child: RecourceAndDemo(type: state.extra.toString()));
+          return cupertinoPage(state: state, child: RecourceAndDemo(type: state.extra.toString()));
         },
       ),
 
@@ -548,9 +524,7 @@ class RoutesConfig {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
           return cupertinoPage(
-              state: state,
-              child: WebViewScreen(
-                  key: data?.key, title: data?.title, url: data?.url));
+              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {
@@ -599,7 +573,6 @@ class RoutesConfig {
   static bool isAuthenticated() {
     LocalDatabase localDatabase = LocalDatabase();
     return localDatabase.member?.accessToken?.isNotEmpty == true;
-    return localDatabase.accessToken?.isNotEmpty == true;
   }
 
   static String? authRequired(BuildContext context, GoRouterState state) {

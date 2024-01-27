@@ -24,8 +24,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       // await context.read<GuestControllers>().fetchResources(
       //     context: context, page: '1');
-      await context.read<GuestControllers>().fetchProductDetail(
-          context: context, productId: widget.productId ?? '');
+      await context.read<GuestControllers>().fetchProductDetail(context: context, productId: widget.productId??'');
     });
     super.initState();
   }
@@ -36,186 +35,180 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
     return Scaffold(
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
-          return controller.productLoader == false
-              ? const Center(
-                  child: CupertinoActivityIndicator(
-                      animating: true,
-                      radius: 20,
-                      color: CupertinoColors.white),
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(
-                      children: [
-                        CarouselSlider(
-                            options: CarouselOptions(
-                              aspectRatio: 16 / 7,
-                              viewportFraction: 1,
-                              initialPage: 0,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              autoPlay: true,
-                              onPageChanged: (val, season) {
-                                // bannerIndex = val;
-                                setState(() {});
-                              },
-                              autoPlayInterval: const Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 1200),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: false,
-                              enlargeFactor: 0.3,
-                              scrollDirection: Axis.horizontal,
-                            ),
-                            items: List.generate(
-                                controller.fetchproductDetail?.data?.images
-                                        ?.length ??
-                                    0, (bannerIndex) {
-                              var data = controller
-                                  .fetchproductDetail?.data?.images
-                                  ?.elementAt(bannerIndex);
+          return controller.productLoader==false?
+          const Center(
+            child:   CupertinoActivityIndicator(
+              animating: true,
+                radius: 20, color: CupertinoColors.white),
+          ):
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  CarouselSlider(
+                      options: CarouselOptions(
+                        aspectRatio: 16 / 7,
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        reverse: false,
+                        autoPlay: true,
+                        onPageChanged: (val, season) {
+                          // bannerIndex = val;
+                          setState(() {});
+                        },
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 1200),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: false,
+                        enlargeFactor: 0.3,
+                        scrollDirection: Axis.horizontal,
+                      ),
+                      items: List.generate(
+                          controller.fetchproductDetail?.data?.images?.length ??
+                              0, (bannerIndex) {
+                        var data = controller.fetchproductDetail?.data?.images
+                            ?.elementAt(bannerIndex);
 
-                              return Builder(
-                                builder: (BuildContext context) {
-                                  return ImageView(
-                                    networkImage: '$data',
-                                    borderRadiusValue: 0,
-                                    onTap: () {},
-                                    fit: BoxFit.cover,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: kPadding),
-                                  );
-                                },
-                              );
-                            })),
-                        Positioned(
-                          top: size.height * 0.05,
-                          left: size.width * 0.05,
-                          child: Row(
-                            children: [
-                              CustomBackButton(),
-                            ],
-                          ),
-                        ),
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return ImageView(
+
+                              networkImage: '$data',
+                              borderRadiusValue: 0,
+                              onTap: () {},
+                              fit: BoxFit.cover,
+                              margin: const EdgeInsets.symmetric(horizontal: kPadding),
+                            );
+                          },
+                        );
+                      })),
+                  Positioned(
+                    top: size.height * 0.05,
+                    left: size.width * 0.05,
+                    child: Row(
+                      children: [
+                        CustomBackButton(),
                       ],
                     ),
-                    // Container(
-                    //   height: size.height * 0.39,
-                    //   width: size.width,
-                    //   clipBehavior: Clip.antiAlias,
-                    //   decoration:  BoxDecoration(
-                    //       image: DecorationImage(
-                    //           image: NetworkImage(controller.fetchproductDetail?.data?.productImage??''),
-                    //           fit: BoxFit.contain),
-                    //       borderRadius: const BorderRadius.only(
-                    //           bottomLeft: Radius.circular(17),
-                    //           bottomRight: Radius.circular(17))),
-                    //   child:  Padding(
-                    //     padding: const EdgeInsets.only(left: kPadding, top: 30),
-                    //     child: Column(
-                    //       mainAxisAlignment: MainAxisAlignment.start,
-                    //       children: [
-                    //
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    SizedBox(
-                      height: size.height * 0.02,
+                  ),
+                ],
+              ),
+              // Container(
+              //   height: size.height * 0.39,
+              //   width: size.width,
+              //   clipBehavior: Clip.antiAlias,
+              //   decoration:  BoxDecoration(
+              //       image: DecorationImage(
+              //           image: NetworkImage(controller.fetchproductDetail?.data?.productImage??''),
+              //           fit: BoxFit.contain),
+              //       borderRadius: const BorderRadius.only(
+              //           bottomLeft: Radius.circular(17),
+              //           bottomRight: Radius.circular(17))),
+              //   child:  Padding(
+              //     padding: const EdgeInsets.only(left: kPadding, top: 30),
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       children: [
+              //
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(left: kPadding, right: kPadding),
+                  child: Text(
+                    controller.fetchproductDetail?.data?.name ?? '',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: Text(
-                          controller.fetchproductDetail?.data?.name ?? '',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: kPadding, right: kPadding),
-                      child: DetailList(
-                        leftTitle: 'Brand Kangen',
-                        rightTitle: 'Water Machine Price',
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: kPadding, right: kPadding),
-                      child: DetailList(
-                        leftTitle: 'Usage/Application',
-                        rightTitle: 'Kangen Water Machine Price ',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: kPadding, right: kPadding),
-                      child: DetailList(
-                        leftTitle: 'Water Storage Capacity',
-                        rightTitle: '4000 L',
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: kPadding, right: kPadding),
-                      child: DetailList(
-                        leftTitle: 'Purification Capacity',
-                        rightTitle: 'Kangen Water Machine Price',
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: kPadding),
-                      child: Text(
-                        'Product Description',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: kPadding, top: 10),
-                      child: Text(
-                        'CERTIFICATIONS',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: kPadding, top: 5, right: kPadding),
-                      child: Text(
-                        controller.fetchproductDetail?.data?.description ?? '',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                  ],
-                );
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                child: DetailList(
+                  leftTitle: 'Brand Kangen',
+                  rightTitle: 'Water Machine Price',
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: kPadding, right: kPadding),
+                child: DetailList(
+                  leftTitle: 'Usage/Application',
+                  rightTitle: 'Kangen Water Machine Price ',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                child: DetailList(
+                  leftTitle: 'Water Storage Capacity',
+                  rightTitle: '4000 L',
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                child: DetailList(
+                  leftTitle: 'Purification Capacity',
+                  rightTitle: 'Kangen Water Machine Price',
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: kPadding),
+                child: Text(
+                  'Product Description',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: kPadding, top: 10),
+                child: Text(
+                  'CERTIFICATIONS',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: kPadding, top: 5, right: kPadding),
+                child: Text(
+                  controller.fetchproductDetail?.data?.description ?? '',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+            ],
+          );
         },
       ),
     );

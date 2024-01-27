@@ -13,14 +13,14 @@ import '../../../core/constant/gradients.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/gradient_text.dart';
 
-class MemberLogin extends StatefulWidget {
-  const MemberLogin({super.key});
+class MemberSignIn extends StatefulWidget {
+  const MemberSignIn({super.key});
 
   @override
-  State<MemberLogin> createState() => _MemberLoginState();
+  State<MemberSignIn> createState() => _MemberSignInState();
 }
 
-class _MemberLoginState extends State<MemberLogin> {
+class _MemberSignInState extends State<MemberSignIn> {
   @override
   void initState() {
     super.initState();

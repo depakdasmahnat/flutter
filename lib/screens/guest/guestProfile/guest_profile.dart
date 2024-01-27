@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
 import '../web_view/faq.dart';
@@ -29,48 +31,32 @@ class _GuestProfileState extends State<GuestProfile> {
                   height: size.height * 0.19,
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(AppAssets.getsprofile),
-                        fit: BoxFit.cover),
+                    image: DecorationImage(image: AssetImage(AppAssets.getsprofile), fit: BoxFit.cover),
                   )),
               SizedBox(
                 height: size.height * 0.04,
               ),
               const Text(
                 'Ayaan Sha',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    height: 1.3),
+                style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
                 textAlign: TextAlign.center,
               ),
               const Text(
                 '+91 62656 84212',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    height: 1.3),
+                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.3),
                 textAlign: TextAlign.center,
               ),
               const Text(
                 'Civil lines, Raipur, C.G.',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    height: 1.2),
+                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
                 textAlign: TextAlign.center,
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: kPadding, right: kPadding, top: kPadding),
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: Card(
                   type: true,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30, top: kPadding, bottom: kPadding),
+                    padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,13 +108,11 @@ class _GuestProfileState extends State<GuestProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: kPadding, right: kPadding, top: kPadding),
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: Card(
                   type: false,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30, top: kPadding, bottom: kPadding),
+                    padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,16 +160,19 @@ class _GuestProfileState extends State<GuestProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: kPadding, right: kPadding, top: kPadding),
-                child: Card(
-                  type: false,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30, top: kPadding, bottom: kPadding),
-                    child: IconAndText(
-                      icon: AppAssets.logout,
-                      title: 'Sign Out',
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                child: GestureDetector(
+                  onTap: () {
+                    context.read<MemberAuthControllers>().logOutPopup(context);
+                  },
+                  child: Card(
+                    type: false,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
+                      child: IconAndText(
+                        icon: AppAssets.logout,
+                        title: 'Sign Out',
+                      ),
                     ),
                   ),
                 ),
@@ -210,6 +197,7 @@ class _GuestProfileState extends State<GuestProfile> {
 class Card extends StatelessWidget {
   Widget? child;
   bool? type;
+
   Card({
     this.child,
     this.type,
@@ -252,6 +240,7 @@ class IconAndText extends StatelessWidget {
   String? title;
   double? height;
   void Function()? onTap;
+
   IconAndText({
     this.icon,
     this.title,
@@ -267,8 +256,7 @@ class IconAndText extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Image.asset(icon ?? '',
-              height: height ?? size.height * 0.026, fit: BoxFit.contain),
+          Image.asset(icon ?? '', height: height ?? size.height * 0.026, fit: BoxFit.contain),
           SizedBox(
             width: size.width * 0.04,
           ),

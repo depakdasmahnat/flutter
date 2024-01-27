@@ -138,7 +138,6 @@ class _MyHomePageState extends State<WelcomeScreen> {
                     boxShadow: const [],
                     margin: const EdgeInsets.only(bottom: 18, top: 24),
                     onTap: () {
-                      context.read<DashboardController>().changeUserRole(role: UserRoles.guest);
                       context.pushNamed(Routs.login);
                     },
                     child: Row(
@@ -165,7 +164,6 @@ class _MyHomePageState extends State<WelcomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     margin: const EdgeInsets.only(bottom: 16),
                     onPressed: () {
-                      context.read<DashboardController>().changeUserRole(role: UserRoles.member);
                       context.pushNamed(Routs.memberLogin);
                     },
                   ),

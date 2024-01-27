@@ -136,8 +136,7 @@ class GoalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-          left: kPadding, right: kPadding, bottom: kPadding),
+      margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
       decoration: BoxDecoration(
         gradient: feedsCardGradient,
         borderRadius: BorderRadius.circular(24),

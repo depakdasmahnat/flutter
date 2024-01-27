@@ -42,8 +42,7 @@ class _AchieversState extends State<Achievers> {
                 ),
                 const ImageView(
                   assetImage: AppAssets.congratulationsBanner,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: kPadding, vertical: kPadding),
+                  margin: EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
                 )
               ],
             ),
@@ -64,11 +63,7 @@ class _AchieversState extends State<Achievers> {
                     fit: BoxFit.contain,
                     assetImage: AppAssets.searchIcon,
                   ),
-                  margin: EdgeInsets.only(
-                      left: kPadding,
-                      right: kPadding,
-                      top: kPadding,
-                      bottom: kPadding),
+                  margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
                 ),
               ),
               GradientButton(

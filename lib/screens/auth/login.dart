@@ -10,11 +10,8 @@ import '../../../utils/validators.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/constant/gradients.dart';
-<<<<<<< HEAD
-=======
 import '../../models/auth_model/sendotp.dart';
 import '../../models/auth_model/validatemobile.dart';
->>>>>>> guestUI
 import '../../utils/widgets/gradient_button.dart';
 
 class Login extends StatefulWidget {
@@ -25,23 +22,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-<<<<<<< HEAD
-=======
   bool checkValidate =false;
   bool forReferral =false;
->>>>>>> guestUI
   @override
   void initState() {
     super.initState();
   }
-<<<<<<< HEAD
-
-  TextEditingController nameCtrl = TextEditingController();
-=======
   // Validatemobile validate =Validatemobile();
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController lastNameCtrl = TextEditingController();
->>>>>>> guestUI
   TextEditingController referralCodeCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController phoneCtrl = TextEditingController();
@@ -100,15 +89,6 @@ class _LoginState extends State<Login> {
                   validator: (val) {
                     return Validator.numberValidator(val);
                   },
-<<<<<<< HEAD
-                  onChanged: (value) {
-                    print("check 1");
-                    if (value.length == 10) {
-                      context.read<AuthControllers>().validateMobile(
-                            context: context,
-                            mobile: phoneCtrl.text,
-                          );
-=======
                   onChanged: (value) async{
                     print("check 1");
                     if (value.length == 10) {
@@ -119,7 +99,6 @@ class _LoginState extends State<Login> {
                        //    ).then((value) {
                        //      print("check responce ${value}");
                        //    },);
->>>>>>> guestUI
                       print("check 2");
                     }
                   },
@@ -127,10 +106,7 @@ class _LoginState extends State<Login> {
                   autofillHints: const [AutofillHints.telephoneNumberNational],
                   margin: const EdgeInsets.only(bottom: 24),
                 ),
-<<<<<<< HEAD
-=======
                if( checkValidate==true)
->>>>>>> guestUI
                 CustomTextField(
                   controller: nameCtrl,
                   autofocus: true,
@@ -142,14 +118,9 @@ class _LoginState extends State<Login> {
                   autofillHints: const [AutofillHints.name],
                   margin: const EdgeInsets.only(top: 1, bottom: 1),
                 ),
-<<<<<<< HEAD
-                CustomTextField(
-                  controller: nameCtrl,
-=======
                 if( checkValidate==true)
                 CustomTextField(
                   controller: lastNameCtrl,
->>>>>>> guestUI
                   autofocus: true,
                   validator: (val) {
                     return Validator.fullNameValidator(val);
@@ -159,10 +130,7 @@ class _LoginState extends State<Login> {
                   autofillHints: const [AutofillHints.name],
                   margin: const EdgeInsets.only(top: 18, bottom: 18),
                 ),
-<<<<<<< HEAD
-=======
                 if(forReferral==false)
->>>>>>> guestUI
                 const Padding(
                   padding: EdgeInsets.only(bottom: 12),
                   child: Text(
@@ -170,10 +138,7 @@ class _LoginState extends State<Login> {
                     style: TextStyle(color: Colors.grey, fontSize: 12),
                   ),
                 ),
-<<<<<<< HEAD
-=======
                 if(forReferral==false)
->>>>>>> guestUI
                 CustomTextField(
                   controller: referralCodeCtrl,
                   autofocus: true,
@@ -181,12 +146,8 @@ class _LoginState extends State<Login> {
                   validator: (value) {
                     return Validator.numberValidator(value);
                   },
-<<<<<<< HEAD
-                  margin: const EdgeInsets.only(bottom: 18),
-=======
                   // autofillHints: const [AutofillHints.name],
                   margin:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
->>>>>>> guestUI
                 ),
               ],
             ),
@@ -232,23 +193,14 @@ class _LoginState extends State<Login> {
           GradientButton(
             height: 70,
             borderRadius: 18,
-<<<<<<< HEAD
-            backgroundGradient: primaryGradientBlur,
-=======
             blur: 10,
             backgroundGradient: primaryGradientTransparent,
->>>>>>> guestUI
             backgroundColor: Colors.transparent,
             boxShadow: const [],
             margin: const EdgeInsets.only(left: 16, right: 24),
             onTap: () {
               if (signInFormKey.currentState?.validate() == true) {
-<<<<<<< HEAD
-                context.firstRoute();
-                context.pushNamed(Routs.verifyOTP);
-=======
                 sendOtp();
->>>>>>> guestUI
               }
             },
             child: Row(
@@ -314,14 +266,6 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-<<<<<<< HEAD
-}
-// void login() {
-//   if (signInFormKey.currentState!.validate()) {
-//
-//   }
-// }
-=======
   Future validatePhone() async {
     Validatemobile? validate= await  context.read<AuthControllers>().validateMobile(
       context: context,
@@ -353,4 +297,3 @@ class _LoginState extends State<Login> {
     // print('check status ${validate?.status}');
   }
 }
->>>>>>> guestUI

@@ -204,7 +204,7 @@ class MemberAuthControllers extends ChangeNotifier {
 
         if (responseData.status == true) {
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
-          context.read<DashboardController>().changeUserRoleFromString(role: '${responseData.data}');
+
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
         } else {
@@ -245,7 +245,7 @@ class MemberAuthControllers extends ChangeNotifier {
 
         if (responseData.status == true) {
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
-          context.read<DashboardController>().changeUserRoleFromString(role: '${responseData.data}');
+
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
         } else {
@@ -286,7 +286,7 @@ class MemberAuthControllers extends ChangeNotifier {
 
         if (responseData.status == true) {
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
-          context.read<DashboardController>().changeUserRoleFromString(role: '${responseData.data}');
+
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
         } else {

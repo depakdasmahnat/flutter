@@ -47,6 +47,7 @@ class _CreateTargetState extends State<CreateTarget> {
             title: 'Sales Target',
             hintText: 'Enter Sales target',
           ),
+
           AppTextField(
             title: 'Start Date',
             hintText: 'dd/mm/yyyy',
@@ -61,8 +62,7 @@ class _CreateTargetState extends State<CreateTarget> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -102,8 +102,7 @@ class _CreateTargetState extends State<CreateTarget> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -129,6 +128,7 @@ class _CreateTargetState extends State<CreateTarget> {
             },
             readOnly: true,
           ),
+
           Padding(
             padding: const EdgeInsets.all(kPadding),
             child: GestureDetector(
@@ -141,8 +141,7 @@ class _CreateTargetState extends State<CreateTarget> {
                 radius: const Radius.circular(12),
                 color: Colors.grey,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kPadding, vertical: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
                   color: Colors.transparent,
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -189,8 +188,7 @@ class _CreateTargetState extends State<CreateTarget> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(
-                left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () {
               // context.pushNamed(Routs.questions);
             },
@@ -353,8 +351,7 @@ class AppTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.only(left: 1),
               autofocus: true,
               isDense: true,
-              margin: const EdgeInsets.only(
-                  left: kPadding, right: kPadding, top: 8, bottom: 12),
+              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
               // margin: const EdgeInsets.only(bottom: 18),
             ),

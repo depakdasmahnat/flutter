@@ -73,11 +73,7 @@ class _EventScreenState extends State<EventScreen> {
                     fit: BoxFit.contain,
                     assetImage: AppAssets.searchIcon,
                   ),
-                  margin: EdgeInsets.only(
-                      left: kPadding,
-                      right: kPadding,
-                      top: kPadding,
-                      bottom: kPadding),
+                  margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
                 ),
               ),
               GradientButton(
@@ -149,8 +145,7 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-          left: kPadding, right: kPadding, bottom: kPadding),
+      margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
       decoration: BoxDecoration(
         gradient: feedsCardGradient,
         borderRadius: BorderRadius.circular(24),

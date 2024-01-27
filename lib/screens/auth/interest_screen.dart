@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-<<<<<<< HEAD
-import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
-import 'package:mrwebbeast/core/route/route_paths.dart';
-import '../../core/constant/gradients.dart';
-=======
 import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
@@ -15,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/constant/gradients.dart';
 import '../../models/auth_model/fetchinterestcategory.dart';
->>>>>>> guestUI
 import '../../utils/widgets/gradient_button.dart';
 
 class InterestScreen extends StatefulWidget {
@@ -26,31 +20,13 @@ class InterestScreen extends StatefulWidget {
 }
 
 class _InterestScreenState extends State<InterestScreen> {
-<<<<<<< HEAD
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
-  List<String> selectedInterests = [];
-
-  List<String> interests = [
-    'Health',
-    'Wealth',
-    'Benefits',
-    'Lifestyle',
-    'Products',
-  ];
-
-=======
   Fetchinterestcategory?  fetchInterestCategory;
 
 
   GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
   List<String> selectedInterests = [];
-   String categoryId ='';
-   int? tabIndex =-1;
+  String categoryId ='';
+  int? tabIndex =-1;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -58,7 +34,6 @@ class _InterestScreenState extends State<InterestScreen> {
     });
     super.initState();
   }
->>>>>>> guestUI
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -89,96 +64,6 @@ class _InterestScreenState extends State<InterestScreen> {
           ),
         ],
       ),
-<<<<<<< HEAD
-      body: Form(
-        key: signInFormKey,
-        child: ListView(
-          padding: const EdgeInsets.only(left: 24, right: 24),
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: size.height * 0.05, bottom: 8),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Welcome Ayaan!',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      height: 1,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8),
-                    child: Text(
-                      'Choose your interests for your future goal',
-                      style: TextStyle(
-                        fontSize: 38,
-                        fontWeight: FontWeight.w400,
-                        height: 1,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Text(
-                    'Choose as many as you like',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      height: 1,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: interests.length,
-              padding: const EdgeInsets.only(top: 24),
-              itemBuilder: (context, index) {
-                var data = interests.elementAt(index);
-                bool isSelected = selectedInterests.contains(data);
-
-                return GradientButton(
-                  height: 50,
-                  borderRadius: 8,
-                  backgroundGradient: isSelected ? primaryGradient : inActiveGradient,
-                  backgroundColor: Colors.transparent,
-                  boxShadow: const [],
-                  margin: const EdgeInsets.only(bottom: 6, top: 6),
-                  onTap: () {
-                    if (isSelected) {
-                      selectedInterests.remove(data);
-                    } else {
-                      selectedInterests.add(data);
-                    }
-
-                    setState(() {});
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        data,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: GoogleFonts.urbanist().fontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: selectedInterests.haveData
-=======
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
 
@@ -284,42 +169,37 @@ class _InterestScreenState extends State<InterestScreen> {
 
       ),
       bottomNavigationBar: categoryId.isNotEmpty
->>>>>>> guestUI
           ? Column(
-              mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GradientButton(
+            height: 70,
+            borderRadius: 18,
+            backgroundGradient: primaryGradient,
+            backgroundColor: Colors.transparent,
+            boxShadow: const [],
+            margin: const EdgeInsets.only(left: 16, right: 24),
+            onTap: () {
+              context.pushNamed(Routs.questions, extra: QuestionsScreen(categoryId: categoryId,) );
+            },
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GradientButton(
-                  height: 70,
-                  borderRadius: 18,
-                  backgroundGradient: primaryGradient,
-                  backgroundColor: Colors.transparent,
-                  boxShadow: const [],
-                  margin: const EdgeInsets.only(left: 16, right: 24),
-                  onTap: () {
-<<<<<<< HEAD
-                    context.pushNamed(Routs.questions);
-=======
-                    context.pushNamed(Routs.questions, extra: QuestionsScreen(categoryId: categoryId,) );
->>>>>>> guestUI
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Continue',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: GoogleFonts.urbanist().fontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
+                Text(
+                  'Continue',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
                   ),
                 ),
               ],
-            )
+            ),
+          ),
+        ],
+      )
           : null,
     );
   }

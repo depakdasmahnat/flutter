@@ -229,12 +229,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             ),
           ),
           Padding(
-<<<<<<< HEAD
             padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
-=======
-            padding:
-                const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
->>>>>>> guestUI
             child: PerformanceGraph(
               analytics: dummyAnalyticsList,
             ),
@@ -255,12 +250,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         isScrollControlled: true,
                         shape: const OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-<<<<<<< HEAD
                                 topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-=======
-                                topLeft: Radius.circular(18),
-                                topRight: Radius.circular(18))),
->>>>>>> guestUI
                         builder: (context) => CustomModelBottomSheet(
                               title: 'New Lists',
                               tabIndex: myDashboard ? 7 : 4,
@@ -280,12 +270,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         isScrollControlled: true,
                         shape: const OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-<<<<<<< HEAD
                                 topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-=======
-                                topLeft: Radius.circular(18),
-                                topRight: Radius.circular(18))),
->>>>>>> guestUI
                         builder: (context) => CustomModelBottomSheet(
                               title: 'Demo Scheduled',
                               tabIndex: myDashboard ? 8 : 5,
@@ -305,12 +290,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         isScrollControlled: true,
                         shape: const OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-<<<<<<< HEAD
                                 topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-=======
-                                topLeft: Radius.circular(18),
-                                topRight: Radius.circular(18))),
->>>>>>> guestUI
                         builder: (context) => CustomModelBottomSheet(
                               title: 'Demo Done',
                               tabIndex: myDashboard ? 9 : 4,
@@ -338,12 +318,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         isScrollControlled: true,
                         shape: const OutlineInputBorder(
                             borderRadius: BorderRadius.only(
-<<<<<<< HEAD
                                 topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-=======
-                                topLeft: Radius.circular(18),
-                                topRight: Radius.circular(18))),
->>>>>>> guestUI
                         builder: (context) => CustomModelBottomSheet(
                               title: 'Demo Done',
                               tabIndex: myDashboard ? 10 : 6,
@@ -364,12 +339,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             ),
           ),
           Padding(
-<<<<<<< HEAD
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-=======
-            padding: const EdgeInsets.only(
-                left: kPadding, right: kPadding, bottom: kPadding),
->>>>>>> guestUI
             child: Text(
               'Leads Type',
               style: headingTextStyle(),
@@ -383,7 +353,6 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   title: 'Hot Leads',
                   value: '08',
                   minHeight: 100,
-<<<<<<< HEAD
                   borderRadius: 24,
                   titleFontSize: 14,
                   textColor: Colors.white,
@@ -398,23 +367,15 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   textColor: Colors.white,
                   gradient: primaryGradient,
                   minHeight: 100,
-=======
-                  gradient: primaryGradient,
->>>>>>> guestUI
                   onTap: () {},
                 ),
                 AnalyticsCard(
                   title: 'Cold Leads',
-<<<<<<< HEAD
                   value: '06',
                   titleFontSize: 14,
                   textColor: Colors.white,
                   gradient: blueGradient,
                   borderRadius: 24,
-=======
-                  value: '02',
-                  gradient: blueGradient,
->>>>>>> guestUI
                   minHeight: 100,
                   onTap: () {},
                 ),
@@ -466,12 +427,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
     );
   }
 
-<<<<<<< HEAD
   TextStyle headingTextStyle() => const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
-=======
-  TextStyle headingTextStyle() =>
-      const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
->>>>>>> guestUI
 }
 
 class MyRankTarget extends StatelessWidget {
@@ -505,12 +461,7 @@ class MyRankTarget extends StatelessWidget {
               children: [
                 Text(
                   '$level',
-<<<<<<< HEAD
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-=======
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
->>>>>>> guestUI
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -527,12 +478,7 @@ class MyRankTarget extends StatelessWidget {
                 ),
                 Text(
                   '$rank',
-<<<<<<< HEAD
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-=======
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
->>>>>>> guestUI
                 ),
               ],
             ),
@@ -547,12 +493,7 @@ class MyRankTarget extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     '(${target ?? 0}) Sale Pending to achieve',
-<<<<<<< HEAD
                     style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-=======
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.bold),
->>>>>>> guestUI
                   ),
                 ),
               ],
@@ -582,12 +523,7 @@ class MySalesTarget extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(minHeight: 140),
         margin: const EdgeInsets.only(right: 8),
-<<<<<<< HEAD
         padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
-=======
-        padding: const EdgeInsets.symmetric(
-            horizontal: kPadding, vertical: kPadding),
->>>>>>> guestUI
         decoration: BoxDecoration(
           gradient: targetGradient,
           borderRadius: BorderRadius.circular(32),
@@ -597,14 +533,7 @@ class MySalesTarget extends StatelessWidget {
           children: [
             const Text(
               'My sales target',
-<<<<<<< HEAD
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-=======
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
->>>>>>> guestUI
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 12, top: 12),
@@ -615,28 +544,14 @@ class MySalesTarget extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8),
                     child: Text(
                       '${pending ?? 0}',
-<<<<<<< HEAD
                       style: const TextStyle(color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
-=======
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold),
->>>>>>> guestUI
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
                       'Pending',
-<<<<<<< HEAD
                       style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
-=======
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
->>>>>>> guestUI
                     ),
                   ),
                 ],
@@ -652,29 +567,15 @@ class MySalesTarget extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         '${target ?? 0}',
-<<<<<<< HEAD
                         style:
                             const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
-=======
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700),
->>>>>>> guestUI
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 2),
                       child: Text(
                         'Target',
-<<<<<<< HEAD
                         style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
-=======
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
->>>>>>> guestUI
                       ),
                     ),
                   ],
@@ -692,29 +593,15 @@ class MySalesTarget extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         '${archived ?? 0}',
-<<<<<<< HEAD
                         style:
                             const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-=======
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
->>>>>>> guestUI
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 2),
                       child: Text(
                         'Achieved',
-<<<<<<< HEAD
                         style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
-=======
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
->>>>>>> guestUI
                       ),
                     ),
                   ],
@@ -739,11 +626,8 @@ class AnalyticsCard extends StatelessWidget {
     this.flex,
     this.showArrow = true,
     this.minHeight,
-<<<<<<< HEAD
     this.borderRadius,
     this.titleFontSize,
-=======
->>>>>>> guestUI
   });
 
   final String? title;
@@ -755,11 +639,8 @@ class AnalyticsCard extends StatelessWidget {
   final GestureTapCallback? onTap;
   final bool? showArrow;
   final double? minHeight;
-<<<<<<< HEAD
   final double? borderRadius;
   final double? titleFontSize;
-=======
->>>>>>> guestUI
 
   @override
   Widget build(BuildContext context) {
@@ -773,18 +654,10 @@ class AnalyticsCard extends StatelessWidget {
             children: [
               Container(
                 constraints: BoxConstraints(minHeight: minHeight ?? 120),
-<<<<<<< HEAD
                 padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
                 decoration: BoxDecoration(
                   gradient: gradient ?? inActiveGradient,
                   borderRadius: BorderRadius.circular(borderRadius ?? 32),
-=======
-                padding: const EdgeInsets.symmetric(
-                    horizontal: kPadding, vertical: 16),
-                decoration: BoxDecoration(
-                  gradient: gradient ?? inActiveGradient,
-                  borderRadius: BorderRadius.circular(32),
->>>>>>> guestUI
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -809,11 +682,7 @@ class AnalyticsCard extends StatelessWidget {
                           '$title',
                           style: TextStyle(
                               color: textColor ?? Colors.black,
-<<<<<<< HEAD
                               fontSize: titleFontSize ?? 16,
-=======
-                              fontSize: 16,
->>>>>>> guestUI
                               fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,

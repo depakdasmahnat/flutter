@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 
 class CustomBackButton extends StatefulWidget {
-  const CustomBackButton({super.key});
-  EdgeInsetsGeometry? padding;
-  CustomBackButton({super.key, this.padding});
+  const CustomBackButton({super.key, this.padding});
+
+  final EdgeInsetsGeometry? padding;
 
   @override
   State<CustomBackButton> createState() => _CustomBackButtonState();

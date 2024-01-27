@@ -175,6 +175,7 @@ class MemberData {
         referralCode: referralCode ?? this.referralCode,
         role: role ?? this.role,
         url: url ?? this.url,
+
         accessToken: accessToken ?? this.accessToken,
       );
 
