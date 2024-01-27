@@ -37,6 +37,7 @@ import '../../screens/guest/web_view/faq.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
 
+import '../../screens/member/lead/scheduled_demo_form.dart';
 import '../../screens/member/members/add_member_form.dart';
 import '../../screens/member/members/add_member_list.dart';
 import '../../screens/member/members/calendar.dart';
@@ -74,7 +75,6 @@ import 'route_paths.dart';
 class RoutesConfig {
   /// Initial Route...
   static final _settingsNavigatorKey = GlobalKey<NavigatorState>();
-
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
     return authenticated ? Routs.dashboard : Routs.fisrtScreen;
@@ -425,6 +425,13 @@ class RoutesConfig {
         path: Routs.events,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const EventScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.shceduledDemoForm,
+        path: Routs.shceduledDemoForm,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const ScheduledDemoForm());
         },
       ),
       GoRoute(

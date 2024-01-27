@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../utils/widgets/web_view_screen.dart';
 import '../web_view/faq.dart';
 
 class GuestProfile extends StatefulWidget {
@@ -75,10 +76,8 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.faq,
                           title: 'FAQ',
                           onTap: () {
-                            context.pushNamed(Routs.webView1,
-                                extra: WebScreen(
-                                  type: 'fetch_faqs',
-                                ));
+                            context.pushNamed(Routs.webView,
+                                extra: const WebViewScreen(url: 'https://api.gtp.proapp.in/api/v1/fetch_faqs',));
                           },
                         ),
                         SizedBox(
@@ -122,10 +121,8 @@ class _GuestProfileState extends State<GuestProfile> {
                           title: 'Help & Support',
                           height: size.height * 0.021,
                           onTap: () {
-                            context.pushNamed(Routs.webView1,
-                                extra: WebScreen(
-                                  type: 'help_and_support',
-                                ));
+                            context.pushNamed(Routs.webView,
+                                extra: const WebViewScreen(url: 'https://api.gtp.proapp.in/api/v1/help_and_support',));
                           },
                         ),
                         SizedBox(
@@ -135,10 +132,9 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.call,
                           title: 'Contact us',
                           onTap: () {
-                            context.pushNamed(Routs.webView1,
-                                extra: WebScreen(
-                                  type: 'contact_us',
-                                ));
+
+                            context.pushNamed(Routs.webView,
+                                extra: const WebViewScreen(url: 'https://api.gtp.proapp.in/api/v1/contact_us',));
                           },
                         ),
                         SizedBox(
@@ -148,10 +144,10 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.lockIcon,
                           title: 'Privacy policy ',
                           onTap: () {
-                            context.pushNamed(Routs.webView1,
-                                extra: WebScreen(
-                                  type: 'privacy_policy',
-                                ));
+
+                            context.pushNamed(Routs.webView,
+                                extra: const WebViewScreen(url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',));
+
                           },
                         ),
                       ],

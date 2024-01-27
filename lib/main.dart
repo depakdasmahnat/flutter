@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'app.dart';
 import 'controllers/dashboard/dashboard_controller.dart';
 import 'controllers/member/member_auth_controller.dart';
+import 'controllers/member/member_controller/member_controller.dart';
 import 'controllers/member/network/network_controller.dart';
 import 'controllers/auth_controller/auth_controller.dart';
 import 'controllers/guest_controller/guest_controller.dart';
@@ -47,6 +48,7 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => NetworkControllers()),
       ChangeNotifierProvider(create: (context) => AuthControllers()),
       ChangeNotifierProvider(create: (context) => GuestControllers()),
+      ChangeNotifierProvider(create: (context) => MembersController()),
     ],
     child: const MyApp(),
   ));

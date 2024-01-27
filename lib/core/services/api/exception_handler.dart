@@ -110,9 +110,11 @@ class ErrorHandler {
         case 401:
           reAuth(message);
           throwException();
+          break;
         case 403:
           reAuth(message);
           throwException();
+          break;
         default:
           throwException();
       }

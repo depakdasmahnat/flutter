@@ -48,7 +48,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                 children: [
                   CarouselSlider(
                       options: CarouselOptions(
-                        aspectRatio: 16 / 7,
+                        aspectRatio: 16 / 10,
                         viewportFraction: 1,
                         initialPage: 0,
                         enableInfiniteScroll: true,
@@ -75,12 +75,13 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                         return Builder(
                           builder: (BuildContext context) {
                             return ImageView(
-
                               networkImage: '$data',
                               borderRadiusValue: 0,
                               onTap: () {},
+                              width: double.infinity,
+                              height: size.height*0.4,
                               fit: BoxFit.cover,
-                              margin: const EdgeInsets.symmetric(horizontal: kPadding),
+                              margin: const EdgeInsets.symmetric(horizontal: 2),
                             );
                           },
                         );
@@ -88,9 +89,11 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                   Positioned(
                     top: size.height * 0.05,
                     left: size.width * 0.05,
-                    child: Row(
+                    child: const Row(
                       children: [
-                        CustomBackButton(),
+                        CustomBackButton(
+                          padding: EdgeInsets.all(4),
+                        ),
                       ],
                     ),
                   ),

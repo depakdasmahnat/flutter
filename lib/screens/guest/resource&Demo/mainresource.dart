@@ -22,9 +22,7 @@ class _MainresourceState extends State<Mainresource> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       context.read<GuestControllers>().fetchCategoryLoader=false;
-
       await context.read<GuestControllers>().fetchInterestCategories(context: context, type: 'Resource');
-
     });
     super.initState();
   }

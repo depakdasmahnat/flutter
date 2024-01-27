@@ -57,9 +57,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Consumer<GuestControllers>(
-
     builder: (context, controller, child) {
-
       return   Padding(
         padding: const EdgeInsets.only(left: kPadding, right: kPadding),
         child: SizedBox(
@@ -136,7 +134,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   scrollDirection: Axis.horizontal,
                   itemCount: controller.fetchnewjoiners?.data?.members?.length??0,
                   itemBuilder: (context, index) {
-                    return 
+                    return
                     Padding(
                       padding: const EdgeInsets.all(4),
                       child: Column(
@@ -147,22 +145,31 @@ class _GuestProfilesState extends State<GuestProfiles> {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),
-                            child:controller.fetchnewjoiners?.data?.members?[index].profilePhoto==null?Image.asset(AppAssets.getsprofile,fit: BoxFit.cover,
-                              height: size.height * 0.05,) :Image.network(
+                            child:  controller.fetchnewjoiners?.data?.members?[index].profilePhoto==null?Image.asset(
+                            AppAssets.userImage,
+                              fit: BoxFit.cover,
+                              height: size.height * 0.05,
+                            ):Image.network(
                               controller.fetchnewjoiners?.data?.members?[index].profilePhoto??'',
                               fit: BoxFit.cover,
                               height: size.height * 0.05,
                             ),
                           ),
-                          Text(
-                            '${controller.fetchnewjoiners?.data?.members?[index].firstName}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontFamily: GoogleFonts.urbanist().fontFamily,
-                              fontWeight: FontWeight.w500,
+                          SizedBox(
+                            width: size.width*0.1,
+                            child: Text(
+                              '${controller.fetchnewjoiners?.data?.members?[index].firstName}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.white,
+
+                                fontSize: 12,
+                                fontFamily: GoogleFonts.urbanist().fontFamily,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
                           Text(
                             '${controller.fetchnewjoiners?.data?.members?[index].cityName}',

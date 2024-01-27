@@ -79,8 +79,7 @@ class ImageView extends StatelessWidget {
         height: height,
         width: width,
         alignment: Alignment.center,
-        margin: margin ??
-            const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+        margin: margin ?? const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
         decoration: BoxDecoration(
           border: border,
           color: backgroundColor,
