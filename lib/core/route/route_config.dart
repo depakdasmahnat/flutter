@@ -19,6 +19,15 @@ import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
+import '../../screens/auth/connect_with_us.dart';
+import '../../screens/auth/first_Screen.dart';
+
+import '../../screens/auth/gtp_video.dart';
+import '../../screens/auth/interest_screen.dart';
+import '../../screens/auth/member_login.dart';
+import '../../screens/auth/question_screen.dart';
+import '../../screens/auth/verify_otp.dart';
+import '../../screens/auth/why_are_you_here.dart';
 import '../../screens/guest/home/home_screen.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
@@ -30,6 +39,7 @@ import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/profile/settings.dart';
 
+import '../../screens/guest/web_view/faq.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
 
@@ -133,6 +143,8 @@ class RoutesConfig {
         path: Routs.dashboard,
         pageBuilder: (context, state) {
           DashBoard? data = state.extra as DashBoard?;
+          print("check data ${data?.dashBoardIndex}");
+          print("check data ${data?.userRole}");
           return cupertinoPage(
               state: state,
               child: DashBoard(
@@ -176,7 +188,8 @@ class RoutesConfig {
         name: Routs.memberProfileDetails,
         path: Routs.memberProfileDetails,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberProfileDetails());
+          return cupertinoPage(
+              state: state, child: const MemberProfileDetails());
         },
       ),
 
@@ -199,7 +212,12 @@ class RoutesConfig {
         name: Routs.questions,
         path: Routs.questions,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const QuestionsScreen());
+          QuestionsScreen? data = state.extra as QuestionsScreen?;
+          return cupertinoPage(
+              state: state,
+              child: QuestionsScreen(
+                categoryId: data?.categoryId ?? '',
+              ));
         },
       ),
       GoRoute(
@@ -207,6 +225,13 @@ class RoutesConfig {
         path: Routs.connectWithUs,
         pageBuilder: (context, state) {
           return cupertinoPage(state: state, child: const ConnectWithUs());
+        },
+      ),
+      GoRoute(
+        name: Routs.gtpVideo,
+        path: Routs.gtpVideo,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const GtpVideo());
         },
       ),
 
@@ -219,6 +244,10 @@ class RoutesConfig {
               state: state,
               child: VerifyOTP(
                 mobileNo: data?.mobileNo,
+                lastName: data?.lastName,
+                referralCode: data?.referralCode,
+                isMobileValidated: data?.isMobileValidated,
+                firstName: data?.firstName,
                 goBack: data?.goBack,
               ));
         },
@@ -273,7 +302,12 @@ class RoutesConfig {
         name: Routs.guestProductDetail,
         path: Routs.guestProductDetail,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const GusetProductDetails());
+          GusetProductDetails? data = state.extra as GusetProductDetails?;
+          return cupertinoPage(
+              state: state,
+              child: GusetProductDetails(
+                productId: data?.productId,
+              ));
         },
       ),
       GoRoute(
@@ -338,7 +372,9 @@ class RoutesConfig {
         name: Routs.resourceAndDemo,
         path: Routs.resourceAndDemo,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: RecourceAndDemo(type: state.extra.toString()));
+          return cupertinoPage(
+              state: state,
+              child: RecourceAndDemo(type: state.extra.toString()));
         },
       ),
 
@@ -443,6 +479,34 @@ class RoutesConfig {
           return cupertinoPage(state: state, child: const ResetPassword());
         },
       ),
+
+      GoRoute(
+        name: Routs.whyareYou,
+        path: Routs.whyareYou,
+        pageBuilder: (context, state) {
+          WhyAreYouHere? data = state.extra as WhyAreYouHere?;
+          return cupertinoPage(
+              state: state,
+              child: WhyAreYouHere(
+                questionId: data?.questionId ?? '',
+                item: data?.item ?? [],
+                question: data?.question ?? '',
+              ));
+        },
+      ),
+      GoRoute(
+        name: Routs.webView1,
+        path: Routs.webView1,
+        pageBuilder: (context, state) {
+          WebScreen? data = state.extra as WebScreen?;
+
+          return cupertinoPage(
+              state: state,
+              child: WebScreen(
+                type: data?.type ?? '',
+              ));
+        },
+      ),
       GoRoute(
         name: Routs.imageOpener,
         path: Routs.imageOpener,
@@ -484,7 +548,9 @@ class RoutesConfig {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
           return cupertinoPage(
-              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
+              state: state,
+              child: WebViewScreen(
+                  key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {
@@ -533,6 +599,7 @@ class RoutesConfig {
   static bool isAuthenticated() {
     LocalDatabase localDatabase = LocalDatabase();
     return localDatabase.member?.accessToken?.isNotEmpty == true;
+    return localDatabase.accessToken?.isNotEmpty == true;
   }
 
   static String? authRequired(BuildContext context, GoRouterState state) {

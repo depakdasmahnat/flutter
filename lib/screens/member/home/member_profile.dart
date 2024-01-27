@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+<<<<<<< HEAD
 import 'package:mrwebbeast/screens/member/invite/invite_leads_card.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/training_progress.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_auth_controller.dart';
+=======
+import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
+import 'package:mrwebbeast/utils/widgets/training_progress.dart';
+
+>>>>>>> guestUI
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
@@ -160,7 +166,11 @@ class _MemberProfileState extends State<MemberProfile> {
                       child: Text(
                         'Achievements',
                         style: TextStyle(
+<<<<<<< HEAD
                           fontSize: 20,
+=======
+                          fontSize: 22,
+>>>>>>> guestUI
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
                         ),
@@ -171,8 +181,13 @@ class _MemberProfileState extends State<MemberProfile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ImageView(
+<<<<<<< HEAD
                           height: 55,
                           width: 55,
+=======
+                          height: 60,
+                          width: 60,
+>>>>>>> guestUI
                           assetImage: AppAssets.achievementIcon,
                           margin: EdgeInsets.only(),
                         ),
@@ -181,7 +196,11 @@ class _MemberProfileState extends State<MemberProfile> {
                           child: Text(
                             '6A2',
                             style: TextStyle(
+<<<<<<< HEAD
                               fontSize: 36,
+=======
+                              fontSize: 40,
+>>>>>>> guestUI
                               fontWeight: FontWeight.w800,
                               color: Colors.white,
                             ),
@@ -238,11 +257,15 @@ class _MemberProfileState extends State<MemberProfile> {
               ],
             ),
           ),
+<<<<<<< HEAD
           const TrainingProgress(
             trainingProgress: 56,
             margin: EdgeInsets.symmetric(horizontal: kPadding),
           ),
           const InviteLeadsCard(),
+=======
+          const TrainingProgress(trainingProgress: 56),
+>>>>>>> guestUI
           Padding(
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
             child: Card(
@@ -332,6 +355,7 @@ class _MemberProfileState extends State<MemberProfile> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+<<<<<<< HEAD
             child: GestureDetector(
               onTap: () {
                 context.read<MemberAuthControllers>().logOutPopup(context);
@@ -344,6 +368,15 @@ class _MemberProfileState extends State<MemberProfile> {
                     icon: AppAssets.logout,
                     title: 'Sign Out',
                   ),
+=======
+            child: Card(
+              type: false,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
+                child: IconAndText(
+                  icon: AppAssets.logout,
+                  title: 'Sign Out',
+>>>>>>> guestUI
                 ),
               ),
             ),

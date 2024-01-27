@@ -75,7 +75,10 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showError({
   required BuildContext context,
   required String? message,
 }) {
-  return showSnackBar(context: context, text: message ?? 'Something Went Wrong', color: Colors.red);
+  return showSnackBar(
+      context: context,
+      text: message ?? 'Something Went Wrong',
+      color: Colors.red);
 }
 
 void showBanner({
@@ -96,7 +99,8 @@ void showBanner({
       ),
       actions: [
         ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white)),
             onPressed: () {
               ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
             },
@@ -164,7 +168,8 @@ Future loadingDialog({
 }
 
 Widget termsAndConditions(BuildContext context) {
-  TextStyle defaultStyle = TextStyle(fontSize: 10, color: Colors.grey.shade400, fontWeight: FontWeight.w500);
+  TextStyle defaultStyle = TextStyle(
+      fontSize: 10, color: Colors.grey.shade400, fontWeight: FontWeight.w500);
   TextStyle linkStyle = TextStyle(
       fontSize: 10,
       color: Colors.grey.shade400,
@@ -414,7 +419,8 @@ headingText({
   required BuildContext context,
 }) {
   return Padding(
-    padding: padding ?? const EdgeInsets.only(left: 16, right: 16, top: 14, bottom: 8),
+    padding: padding ??
+        const EdgeInsets.only(left: 16, right: 16, top: 14, bottom: 8),
     child: Row(
       children: [
         Text(
@@ -471,7 +477,10 @@ Future<bool> onAppExit() async {
   return shouldPop ?? false;
 }
 
-pickImageButton({required BuildContext context, required String text, required IconData icon}) {
+pickImageButton(
+    {required BuildContext context,
+    required String text,
+    required IconData icon}) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(8, 16, 4, 16),
     child: Container(

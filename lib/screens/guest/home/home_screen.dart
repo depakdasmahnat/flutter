@@ -8,9 +8,13 @@ import 'package:mrwebbeast/screens/guest/home/banners.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/auth_controller/auth_controller.dart';
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/guest_Model/fetchnewjoiners.dart';
 import '../../../utils/widgets/image_view.dart';
 import 'guest_profiles.dart';
 
@@ -24,10 +28,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // Fetchnewjoiners? fetchnewjoiners;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context
+          .read<GuestControllers>()
+          .fetchFeedCategories(context: context);
+    });
   }
 
   String? selectedFilter = 'Trending';
@@ -39,7 +48,6 @@ class _HomeScreenState extends State<HomeScreen> {
     'Water',
     'Filter',
   ];
-
   List<String> banners = [
     AppAssets.banner,
     AppAssets.banner1,
@@ -82,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
+        automaticallyImplyLeading: false,
         actions: const [
           ImageView(
             height: 24,
@@ -113,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const GuestProfiles(),
-          Banners(banners: banners),
+          const Banners(),
           GradientButton(
             height: 70,
             borderRadius: 18,
@@ -194,44 +203,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 top: kPadding,
                 bottom: kPadding),
           ),
-          if (filters?.haveData == true)
-            SizedBox(
-              height: 40,
-              child: Center(
-                child: ListView.builder(
-                  itemCount: filters?.length ?? 0,
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.only(left: kPadding),
-                  itemBuilder: (context, index) {
-                    var data = filters?.elementAt(index);
-
-                    bool isSelected = selectedFilter == data;
-                    return GradientButton(
-                      backgroundGradient:
-                          isSelected ? primaryGradient : inActiveGradient,
-                      borderWidth: 2,
-                      borderRadius: 30,
-                      onTap: () {
-                        setState(() {
-                          selectedFilter = data;
-                        });
-                      },
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kPadding, vertical: 8),
-                      child: Text(
-                        '$data',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected ? Colors.black : Colors.white,
+          // if (filters?.haveData == true)
+          Consumer<GuestControllers>(
+            builder: (context, value, child) {
+              return SizedBox(
+                height: 40,
+                child: Center(
+                  child: ListView.builder(
+                    itemCount:
+                        value.fetchFeedCategoriesModel?.data?.length ?? 0,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(left: kPadding),
+                    itemBuilder: (context, index) {
+                      var data = value.fetchFeedCategoriesModel?.data
+                          ?.elementAt(index);
+                      // bool isSelected = selectedFilter == data;
+                      return GradientButton(
+                        backgroundGradient: value.tabIndex == index
+                            ? primaryGradient
+                            : inActiveGradient,
+                        borderWidth: 2,
+                        borderRadius: 30,
+                        onTap: () {
+                          setState(() {
+                            value.tabIndex = index;
+                          });
+                        },
+                        margin: const EdgeInsets.only(right: 12),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kPadding, vertical: 8),
+                        child: Text(
+                          '${data?.name}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: value.tabIndex == index
+                                ? Colors.black
+                                : Colors.white,
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
+          ),
           ListView.builder(
             itemCount: 8,
             shrinkWrap: true,
@@ -272,10 +289,12 @@ class FeedCard extends StatelessWidget {
     this.imageHeight,
     this.fit,
     this.type,
+    this.networkImage,
   });
   double? imageHeight;
   BoxFit? fit;
   String? type;
+  String? networkImage;
 
   final int index;
 
@@ -296,70 +315,72 @@ class FeedCard extends StatelessWidget {
             borderRadiusValue: 16,
             margin: const EdgeInsets.all(12),
             fit: fit ?? BoxFit.contain,
-            assetImage: AppAssets.product1,
+            networkImage: networkImage ?? '',
+            // assetImage: AppAssets.product1,
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 12, right: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Best water purifier: 10 picks to ensure clean drinking water',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+          if (type != 'true')
+            Padding(
+              padding: EdgeInsets.only(left: 12, right: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Best water purifier: 10 picks to ensure clean drinking water',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.start,
                   ),
-                  textAlign: TextAlign.start,
-                ),
-                if (type == 'true')
-                  const SizedBox(
-                    height: 10,
-                  ),
-                if (type != 'true')
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      '12 hr',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
+                  if (type == 'true')
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  if (type != 'true')
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        '12 hr',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.start,
                       ),
-                      textAlign: TextAlign.start,
                     ),
-                  ),
-                if (type != 'true')
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            FeedMenu(
-                              icon: AppAssets.heartIcon,
-                              value: '3',
-                            ),
-                            FeedMenu(
-                              icon: AppAssets.chatIcon,
-                              value: '12K',
-                            ),
-                            FeedMenu(
-                              icon: AppAssets.shareIcon,
-                            ),
-                          ],
-                        ),
-                        FeedMenu(
-                          lastMenu: true,
-                          icon: AppAssets.bookmarkIcon,
-                        ),
-                      ],
+                  if (type != 'true')
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              FeedMenu(
+                                icon: AppAssets.heartIcon,
+                                value: '3',
+                              ),
+                              FeedMenu(
+                                icon: AppAssets.chatIcon,
+                                value: '12K',
+                              ),
+                              FeedMenu(
+                                icon: AppAssets.shareIcon,
+                              ),
+                            ],
+                          ),
+                          FeedMenu(
+                            lastMenu: true,
+                            icon: AppAssets.bookmarkIcon,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-              ],
-            ),
-          )
+                ],
+              ),
+            )
         ],
       ),
     );

@@ -72,7 +72,12 @@ class _CreateEventState extends State<CreateEvent> {
             child: CustomDropdown(
               title: 'Type Of Category*',
               hintText: 'Select Event Type',
-              listItem: ['Webinar', 'Conferences', 'Workshops', 'Networking Event'],
+              listItem: [
+                'Webinar',
+                'Conferences',
+                'Workshops',
+                'Networking Event'
+              ],
             ),
           ),
           Row(
@@ -82,7 +87,8 @@ class _CreateEventState extends State<CreateEvent> {
                   title: 'Start Date',
                   hintText: 'dd/mm/yyyy',
                   controller: startDateCtrl,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10, left: kPadding, right: kPadding),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: kPadding, right: kPadding),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
@@ -93,7 +99,8 @@ class _CreateEventState extends State<CreateEvent> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -125,7 +132,8 @@ class _CreateEventState extends State<CreateEvent> {
                   title: 'Start Time',
                   hintText: 'hh:mm',
                   controller: startTimeCtrl,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10, right: kPadding),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, right: kPadding),
                   onTap: () async {
                     TimeOfDay? time = await showTimePicker(
                       context: context,
@@ -133,7 +141,8 @@ class _CreateEventState extends State<CreateEvent> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -169,7 +178,8 @@ class _CreateEventState extends State<CreateEvent> {
                   title: 'End Date',
                   hintText: 'dd/mm/yyyy',
                   controller: endDateCtrl,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10, left: kPadding, right: kPadding),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: kPadding, right: kPadding),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
@@ -180,7 +190,8 @@ class _CreateEventState extends State<CreateEvent> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -212,7 +223,8 @@ class _CreateEventState extends State<CreateEvent> {
                   title: 'End Time',
                   hintText: 'hh:mm',
                   controller: endTimeCtrl,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10, right: kPadding),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, right: kPadding),
                   onTap: () async {
                     TimeOfDay? time = await showTimePicker(
                       context: context,
@@ -220,7 +232,8 @@ class _CreateEventState extends State<CreateEvent> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -285,7 +298,8 @@ class _CreateEventState extends State<CreateEvent> {
                 radius: const Radius.circular(12),
                 color: Colors.grey,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kPadding, vertical: 24),
                   color: Colors.transparent,
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -333,7 +347,8 @@ class _CreateEventState extends State<CreateEvent> {
           ),
           Container(
             height: 55,
-            margin: const EdgeInsets.only(top: kPadding, bottom: kPadding, left: kPadding),
+            margin: const EdgeInsets.only(
+                top: kPadding, bottom: kPadding, left: kPadding),
             child: ListView.builder(
               itemCount: 10,
               shrinkWrap: true,
@@ -390,7 +405,11 @@ class _CreateEventState extends State<CreateEvent> {
                     fit: BoxFit.contain,
                     assetImage: AppAssets.searchIcon,
                   ),
-                  margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+                  margin: EdgeInsets.only(
+                      left: kPadding,
+                      right: kPadding,
+                      top: kPadding,
+                      bottom: kPadding),
                 ),
               ),
               // GradientButton(
@@ -414,8 +433,10 @@ class _CreateEventState extends State<CreateEvent> {
                 10,
                 (index) {
                   return Container(
-                    margin: const EdgeInsets.only(right: kPadding, top: kPadding),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    margin:
+                        const EdgeInsets.only(right: kPadding, top: kPadding),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
                       gradient: inActiveGradient,
                       borderRadius: BorderRadius.circular(50),
@@ -451,7 +472,8 @@ class _CreateEventState extends State<CreateEvent> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(
+                left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () {
               // context.pushNamed(Routs.questions);
             },
@@ -577,7 +599,8 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
+      padding: padding ??
+          const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
       child: Container(
         decoration: ShapeDecoration(
           color: const Color(0xFF1B1B1B),
@@ -617,7 +640,8 @@ class AppTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.only(left: 1),
               autofocus: true,
               isDense: true,
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 12),
+              margin: const EdgeInsets.only(
+                  left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
               // margin: const EdgeInsets.only(bottom: 18),
             ),

@@ -45,20 +45,33 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
         padding: const EdgeInsets.only(bottom: bottomNavbarSize),
         children: [
           Padding(
+<<<<<<< HEAD
             padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+=======
+            padding:
+                const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
+>>>>>>> guestUI
             child: Text(
               'Congratulations to the new joiners',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,
                 fontFamily: GoogleFonts.urbanist().fontFamily,
+<<<<<<< HEAD
                 fontWeight: FontWeight.w500,
+=======
+                fontWeight: FontWeight.w400,
+>>>>>>> guestUI
               ),
               textAlign: TextAlign.start,
             ),
           ),
           const GuestProfiles(),
+<<<<<<< HEAD
           Banners(banners: banners),
+=======
+          const Banners(),
+>>>>>>> guestUI
           TrainingProgress(
             trainingProgress: 56,
             title: 'Basic Training Progress',
@@ -112,7 +125,10 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                   context.pushNamed(Routs.toDoScreen);
                 },
               ),
+<<<<<<< HEAD
 
+=======
+>>>>>>> guestUI
               MenuCard(
                 image: AppAssets.documentIcon,
                 name: 'Reports',

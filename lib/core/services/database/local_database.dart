@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:mrwebbeast/core/config/app_config.dart';
+<<<<<<< HEAD
 import 'package:mrwebbeast/models/member/auth/member_data.dart';
+=======
+
+>>>>>>> guestUI
 
 class LocalDatabase extends ChangeNotifier {
   ///Hive Database Initialization....
 
   static Future initialize() async {
     await Hive.initFlutter();
+<<<<<<< HEAD
     Hive.registerAdapter(MemberDataAdapter());
+=======
+>>>>>>> guestUI
     await Hive.openBox(AppConfig.databaseName);
   }
 
@@ -28,8 +35,11 @@ class LocalDatabase extends ChangeNotifier {
   late double? longitude = database.get('longitude');
   late String? themeMode = database.get('themeMode');
 
+<<<<<<< HEAD
   late MemberData? member = database.get('member');
 
+=======
+>>>>>>> guestUI
   ///Setting Local Database data...
   ///
   // Future updateUser({required UserData user}) async {
@@ -55,17 +65,28 @@ class LocalDatabase extends ChangeNotifier {
     notifyListeners();
   }
 
+<<<<<<< HEAD
   setAccessToken(String? token) {
     accessToken = token;
     database.put('accessToken', token ?? '');
     notifyListeners();
   }
 
+=======
+>>>>>>> guestUI
   setThemeMode({required ThemeMode mode}) {
     themeMode = mode.name;
     database.put('themeMode', themeMode ?? '');
     notifyListeners();
   }
+<<<<<<< HEAD
+=======
+  setAccessToken(String? token) {
+    accessToken = token;
+    database.put('accessToken', token ?? '');
+    notifyListeners();
+  }
+>>>>>>> guestUI
 
   setLatLong(
     double? latitude,
@@ -77,6 +98,7 @@ class LocalDatabase extends ChangeNotifier {
     database.put('longitude', longitude);
     notifyListeners();
   }
+<<<<<<< HEAD
 
   Future clearDatabase() async {
     await database.clear().then((value) {
@@ -91,4 +113,6 @@ class LocalDatabase extends ChangeNotifier {
     debugPrint('user fullName ${member?.firstName}');
     notifyListeners();
   }
+=======
+>>>>>>> guestUI
 }

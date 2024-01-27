@@ -42,7 +42,9 @@ class DashBoardState extends State<DashBoard> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<DashboardController>().changeDashBoardIndex(index: dashBoardIndex);
+      context
+          .read<DashboardController>()
+          .changeDashBoardIndex(index: dashBoardIndex);
     });
   }
 
@@ -144,22 +146,29 @@ class DashBoardState extends State<DashBoard> {
             bottomSheet: GestureDetector(
               onTap: () {
                 if (controller.showMoreMenuPopUp) {
-                  context.read<DashboardController>().changeDashBoardIndex(index: 2);
+                  context
+                      .read<DashboardController>()
+                      .changeDashBoardIndex(index: 2);
                 }
               },
               child: Container(
-                decoration:
-                    controller.showMoreMenuPopUp ? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
+                decoration: controller.showMoreMenuPopUp
+                    ? BoxDecoration(color: Colors.grey.withOpacity(0.1))
+                    : null,
                 child: Column(
-                  mainAxisSize: controller.showMoreMenuPopUp ? MainAxisSize.max : MainAxisSize.min,
+                  mainAxisSize: controller.showMoreMenuPopUp
+                      ? MainAxisSize.max
+                      : MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (controller.showMoreMenuPopUp) const DashboardMoreMenu(),
                     GradientButton(
-                      margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
+                      margin: const EdgeInsets.only(
+                          left: 24, right: 24, bottom: kPadding),
                       borderRadius: 50,
                       blur: 15,
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 12),
                       // backgroundGradient: inActiveGradientTransparent,
                       backgroundColor: Colors.white.withOpacity(0.15),
                       child: Row(
@@ -220,7 +229,9 @@ class CustomBottomNavBar extends StatelessWidget {
     return GestureDetector(
       onTap: onTap ??
           () {
-            context.read<DashboardController>().changeDashBoardIndex(index: index);
+            context
+                .read<DashboardController>()
+                .changeDashBoardIndex(index: index);
           },
       child: GradientButton(
         padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
@@ -243,7 +254,9 @@ class CustomBottomNavBar extends StatelessWidget {
               fit: BoxFit.contain,
               assetImage: selected ? data.activeImage : data.inActiveImage,
             ),
-            if (alwaysShowLabel == true ? true : selected == true && data.title != null)
+            if (alwaysShowLabel == true
+                ? true
+                : selected == true && data.title != null)
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: Text(

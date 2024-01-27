@@ -58,7 +58,6 @@ class _CreateDemoState extends State<CreateDemo> {
               listItem: ['Online', 'Offline'],
             ),
           ),
-
           AppTextField(
             title: 'Start Date',
             hintText: 'dd/mm/yyyy',
@@ -73,7 +72,8 @@ class _CreateDemoState extends State<CreateDemo> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -110,7 +110,8 @@ class _CreateDemoState extends State<CreateDemo> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -149,7 +150,8 @@ class _CreateDemoState extends State<CreateDemo> {
           ),
           Container(
             height: 55,
-            margin: const EdgeInsets.only(top: kPadding, bottom: kPadding, left: kPadding),
+            margin: const EdgeInsets.only(
+                top: kPadding, bottom: kPadding, left: kPadding),
             child: ListView.builder(
               itemCount: 10,
               shrinkWrap: true,
@@ -206,7 +208,11 @@ class _CreateDemoState extends State<CreateDemo> {
                     fit: BoxFit.contain,
                     assetImage: AppAssets.searchIcon,
                   ),
-                  margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+                  margin: EdgeInsets.only(
+                      left: kPadding,
+                      right: kPadding,
+                      top: kPadding,
+                      bottom: kPadding),
                 ),
               ),
               // GradientButton(
@@ -230,8 +236,10 @@ class _CreateDemoState extends State<CreateDemo> {
                 10,
                 (index) {
                   return Container(
-                    margin: const EdgeInsets.only(right: kPadding, top: kPadding),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    margin:
+                        const EdgeInsets.only(right: kPadding, top: kPadding),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
                       gradient: inActiveGradient,
                       borderRadius: BorderRadius.circular(50),
@@ -267,7 +275,8 @@ class _CreateDemoState extends State<CreateDemo> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(
+                left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () {
               // context.pushNamed(Routs.questions);
             },
@@ -393,7 +402,8 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
+      padding: padding ??
+          const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
       child: Container(
         decoration: ShapeDecoration(
           color: const Color(0xFF1B1B1B),
@@ -433,7 +443,8 @@ class AppTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.only(left: 1),
               autofocus: true,
               isDense: true,
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 12),
+              margin: const EdgeInsets.only(
+                  left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
               // margin: const EdgeInsets.only(bottom: 18),
             ),

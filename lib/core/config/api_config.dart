@@ -36,4 +36,20 @@ class ApiEndpoints {
   static const String pinnacleView = 'pinnacle_view';
   static const String selectABMember = 'select_A_B_members';
   static const String deleteUser = 'deleteUser';
+  static const String sendOtp = 'send_otp';
+  static const String verifyOtp = 'verify_otp';
+  static const String fetchCategories = 'fetch_categories?type=';
+  static const String fetchQuestions = 'fetch_interest_questions?category_id=';
+  static const String submitGuestInterest = 'submit_guest_interest';
+
+  /// Geust Apis....
+  static const String fetchJoiners = 'fetch_new_joinees';
+  static const String fetchProduct = 'fetch_products?page=';
+  static const String fetchProductDetail = 'fetch_product_details?product_id=';
+  static const String fetchResources = 'fetch_resources?page=';
+  static const String fetchFeedCategories = 'fetch_feed_categories';
+  static const String fetchResourceDetails = 'fetch_resources?page=';
+
+  /// Common  Apis....
+  static const String fetchBanner = 'fetch_banners';
 }

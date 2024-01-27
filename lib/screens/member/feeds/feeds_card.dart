@@ -1,14 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
 import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
-import 'package:video_player/video_player.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/config/app_assets.dart';
-import '../../../core/constant/colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../models/feeds/feeds_model.dart';
@@ -43,7 +39,8 @@ class _FeedCardState extends State<FeedCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+      margin:
+          const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
       decoration: BoxDecoration(
         gradient: feedsCardGradient,
         borderRadius: BorderRadius.circular(24),
@@ -83,7 +80,8 @@ class _FeedCardState extends State<FeedCard> {
                 )
               else if (data?.videoUrl != null)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   child: VideoPlayerCard(
                     url: '${data?.videoUrl}',
                     borderRadius: 18,
@@ -91,7 +89,8 @@ class _FeedCardState extends State<FeedCard> {
                 )
               else if (data?.youtubeUrl != null)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   child: YoutubeVideoPlayerCard(
                     url: '${data?.youtubeUrl}',
                     borderRadius: 18,

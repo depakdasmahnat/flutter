@@ -43,7 +43,8 @@ class _MemberProfileState extends State<MemberProfile> {
                   padding: const EdgeInsets.only(left: 8.0),
                   child: Container(
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white.withOpacity(0.6000000238418579)),
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.6000000238418579)),
                     child: Padding(
                       padding: const EdgeInsets.all(9),
                       child: Icon(
@@ -171,8 +172,9 @@ class _MemberProfileState extends State<MemberProfile> {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Container(
-                      decoration:
-                          BoxDecoration(color: Color(0xFFD9D9D9), borderRadius: BorderRadius.circular(18)),
+                      decoration: BoxDecoration(
+                          color: Color(0xFFD9D9D9),
+                          borderRadius: BorderRadius.circular(18)),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(

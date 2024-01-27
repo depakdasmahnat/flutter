@@ -22,7 +22,11 @@ class _NetworkReportState extends State<NetworkReport> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+<<<<<<< HEAD
         leading: const CustomBackButton(),
+=======
+        leading:  CustomBackButton(),
+>>>>>>> guestUI
         title: const Text(
           'Report',
           style: TextStyle(color: Colors.black),

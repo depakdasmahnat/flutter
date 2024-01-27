@@ -63,7 +63,8 @@ class ImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ?? ((fullScreenMode == true)
+      onTap: onTap ??
+          ((fullScreenMode == true)
               ? () {
                   context.pushNamed(Routs.imageOpener,
                       extra: ImageOpener(
@@ -78,16 +79,19 @@ class ImageView extends StatelessWidget {
         height: height,
         width: width,
         alignment: Alignment.center,
-        margin: margin ?? const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+        margin: margin ??
+            const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
         decoration: BoxDecoration(
           border: border,
           color: backgroundColor,
-          borderRadius: borderRadius ?? BorderRadius.circular(borderRadiusValue ?? defaultBorderRadius),
+          borderRadius: borderRadius ??
+              BorderRadius.circular(borderRadiusValue ?? defaultBorderRadius),
           boxShadow: boxShadow,
           gradient: gradient,
         ),
         child: ClipRRect(
-          borderRadius: borderRadius ?? BorderRadius.circular(borderRadiusValue ?? defaultBorderRadius),
+          borderRadius: borderRadius ??
+              BorderRadius.circular(borderRadiusValue ?? defaultBorderRadius),
           child: Padding(
             padding: padding ?? EdgeInsets.zero,
             child: imageWidget(),
@@ -105,9 +109,11 @@ class ImageView extends StatelessWidget {
         width: width,
         fit: fit,
         imageUrl: '$networkImage',
-        placeholder: (context, url) => cacheLoadingImage(context: context, url: url),
+        placeholder: (context, url) =>
+            cacheLoadingImage(context: context, url: url),
         errorWidget: (context, url, error) =>
-            errorWidget ?? cacheImageError(context: context, url: url, isAvatar: isAvatar),
+            errorWidget ??
+            cacheImageError(context: context, url: url, isAvatar: isAvatar),
       );
     } else if (assetImage != null) {
       return Image.asset(
@@ -118,7 +124,11 @@ class ImageView extends StatelessWidget {
         fit: fit ?? BoxFit.cover,
         errorBuilder: (context, error, stackTrace) =>
             errorWidget ??
-            imageError(context: context, error: error, stackTrace: stackTrace, isAvatar: isAvatar),
+            imageError(
+                context: context,
+                error: error,
+                stackTrace: stackTrace,
+                isAvatar: isAvatar),
       );
     } else if (file != null) {
       return Image.file(
@@ -129,7 +139,11 @@ class ImageView extends StatelessWidget {
         fit: fit ?? BoxFit.cover,
         errorBuilder: (context, error, stackTrace) =>
             errorWidget ??
-            imageError(context: context, error: error, stackTrace: stackTrace, isAvatar: isAvatar),
+            imageError(
+                context: context,
+                error: error,
+                stackTrace: stackTrace,
+                isAvatar: isAvatar),
       );
     } else {
       return CachedNetworkImage(
@@ -138,9 +152,11 @@ class ImageView extends StatelessWidget {
         width: width,
         fit: fit,
         imageUrl: '$networkImage',
-        placeholder: (context, url) => cacheLoadingImage(context: context, url: url),
+        placeholder: (context, url) =>
+            cacheLoadingImage(context: context, url: url),
         errorWidget: (context, url, error) =>
-            errorWidget ?? cacheImageError(context: context, url: url, isAvatar: isAvatar),
+            errorWidget ??
+            cacheImageError(context: context, url: url, isAvatar: isAvatar),
       );
     }
   }
@@ -206,8 +222,11 @@ class ImageView extends StatelessWidget {
       height: height,
       width: width,
       fit: fit ?? BoxFit.cover,
-      errorBuilder: (context, error, stackTrace) =>
-          imageError(context: context, error: error, stackTrace: stackTrace, isAvatar: isAvatar),
+      errorBuilder: (context, error, stackTrace) => imageError(
+          context: context,
+          error: error,
+          stackTrace: stackTrace,
+          isAvatar: isAvatar),
     );
   }
 }

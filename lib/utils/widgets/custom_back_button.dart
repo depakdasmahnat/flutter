@@ -5,6 +5,8 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 
 class CustomBackButton extends StatefulWidget {
   const CustomBackButton({super.key});
+  EdgeInsetsGeometry? padding;
+  CustomBackButton({super.key, this.padding});
 
   @override
   State<CustomBackButton> createState() => _CustomBackButtonState();
@@ -28,13 +30,15 @@ class _CustomBackButtonState extends State<CustomBackButton> {
               shape: BoxShape.circle,
               color: Colors.white.withOpacity(0.6),
             ),
-            child: const Center(
-                child: Center(
-              child: Icon(
-                AntDesign.left,
-                color: Colors.black,
+            child: Center(
+              child: Padding(
+                padding: widget.padding ?? const EdgeInsets.all(0),
+                child: const Icon(
+                  AntDesign.left,
+                  color: Colors.black,
+                ),
               ),
-            )),
+            ),
           ),
         ),
       ],

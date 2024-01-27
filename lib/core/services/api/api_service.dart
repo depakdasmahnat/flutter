@@ -52,7 +52,8 @@ class ApiService {
       var response = await http
           .get(uri, headers: headers ?? defaultHeaders())
           .timeout(const Duration(seconds: timeOutDuration));
-      return ErrorHandler.processResponse(response: response, showError: showError);
+      return ErrorHandler.processResponse(
+          response: response, showError: showError);
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);
     }
@@ -73,7 +74,8 @@ class ApiService {
       final response = await http
           .post(uri, headers: headers ?? defaultHeaders(), body: body)
           .timeout(const Duration(seconds: timeOutDuration));
-      return ErrorHandler.processResponse(response: response, showError: showError);
+      return ErrorHandler.processResponse(
+          response: response, showError: showError);
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);
     }
@@ -98,7 +100,8 @@ class ApiService {
               .put(uri, headers: headers ?? defaultHeaders(), body: body)
               .timeout(const Duration(seconds: timeOutDuration));
 
-      return ErrorHandler.processResponse(response: response, showError: showError);
+      return ErrorHandler.processResponse(
+          response: response, showError: showError);
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);
     }
@@ -121,7 +124,8 @@ class ApiService {
           .patch(uri, headers: headers ?? defaultHeaders(), body: body)
           .timeout(const Duration(seconds: timeOutDuration));
 
-      return ErrorHandler.processResponse(response: response, showError: showError);
+      return ErrorHandler.processResponse(
+          response: response, showError: showError);
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);
     }
@@ -144,15 +148,18 @@ class ApiService {
       request.fields.addAll(body);
       if (multipartFile != null) {
         for (var element in multipartFile) {
-          debugPrint('Multipart... Field ${element.field}: FilePath ${element.filePath}');
+          debugPrint(
+              'Multipart... Field ${element.field}: FilePath ${element.filePath}');
           if (element.field != null && element.filePath != null) {
-            request.files.add(await http.MultipartFile.fromPath('${element.field}', '${element.filePath}'));
+            request.files.add(await http.MultipartFile.fromPath(
+                '${element.field}', '${element.filePath}'));
           }
         }
       }
       request.headers.addAll(headers ?? defaultHeaders());
       http.StreamedResponse response = await request.send();
-      return ErrorHandler.processResponse(response: response, showError: showError);
+      return ErrorHandler.processResponse(
+          response: response, showError: showError);
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);
     }
