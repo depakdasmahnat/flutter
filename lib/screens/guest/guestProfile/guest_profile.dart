@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../core/services/database/local_database.dart';
 import '../../../utils/widgets/web_view_screen.dart';
 import '../web_view/faq.dart';
 
@@ -19,8 +20,11 @@ class GuestProfile extends StatefulWidget {
 }
 
 class _GuestProfileState extends State<GuestProfile> {
+
   @override
   Widget build(BuildContext context) {
+    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -37,21 +41,21 @@ class _GuestProfileState extends State<GuestProfile> {
               SizedBox(
                 height: size.height * 0.04,
               ),
-              const Text(
-                'Ayaan Sha',
-                style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
+               Text(
+                '${localDatabase.guest?.firstName} ${localDatabase.guest?.lastName}',
+                style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
                 textAlign: TextAlign.center,
               ),
-              const Text(
-                '+91 62656 84212',
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.3),
+               Text(
+                '${localDatabase.guest?.mobile}',
+                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.3),
                 textAlign: TextAlign.center,
               ),
-              const Text(
-                'Civil lines, Raipur, C.G.',
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
-                textAlign: TextAlign.center,
-              ),
+              // const Text(
+              //   '${localDatabase.guest?.a}',
+              //   style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
+              //   textAlign: TextAlign.center,
+              // ),
               Padding(
                 padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: Card(

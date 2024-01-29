@@ -1,16 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
+import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/appbar.dart';
+import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../guest/guestProfile/guest_faq.dart';
+import '../demo/create_demo.dart';
+import 'model_dailog_box.dart';
 
 class Lead extends StatefulWidget {
   const Lead({super.key});
@@ -21,6 +28,7 @@ class Lead extends StatefulWidget {
 
 class _LeadState extends State<Lead> {
   int tabIndex = 0;
+
   List tabItem = [
     'New Listed',
     'Invitation call',
@@ -572,7 +580,8 @@ class _LeadState extends State<Lead> {
                                             BorderRadius.circular(21.60),
                                       ),
                                     ),
-                                    child: PopupMenuButton(
+                                    child:
+                                    PopupMenuButton(
                                       child: Padding(
                                         padding: const EdgeInsets.all(13),
                                         child: Image.asset(AppAssets.filter,height: size.height*0.04,),
@@ -584,16 +593,21 @@ class _LeadState extends State<Lead> {
                                       },
                                       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                                         const PopupMenuItem(
+                                          value: 'Newest',
                                           child: Text('Newest'),
                                         ),
                                         const PopupMenuItem(
+                                          value: 'Oldest',
                                           child: Text('Oldest'),
                                         ),
                                         const PopupMenuItem(
+                                          value: 'Today',
                                           child: Text('Today'),
                                         ), const PopupMenuItem(
+                                          value: 'Hot',
                                           child: Text('Hot'),
                                         ),const PopupMenuItem(
+                                          value: 'Cold',
                                           child: Text('Cold'),
                                         ),
 
@@ -622,6 +636,7 @@ class _LeadState extends State<Lead> {
                         child: RowCart(
                           tabIndex: tabIndex,
                           listIndex: index,
+                          guestId:controller.fetchLeadsModel?.data?[index].id.toString()  ,
                           image:controller.fetchLeadsModel?.data?[index].profilePhoto ,
                           name: controller.fetchLeadsModel?.data?[index].firstName,
                           city: controller.fetchLeadsModel?.data?[index].cityName,
@@ -642,6 +657,7 @@ class _LeadState extends State<Lead> {
 class RowCart extends StatelessWidget {
   int? tabIndex;
   int? listIndex;
+  String? guestId;
   String? image;
   String? name;
   String? city;
@@ -652,6 +668,7 @@ class RowCart extends StatelessWidget {
   RowCart({
     this.tabIndex,
     this.listIndex,
+    this.guestId,
     this.image,
     this.name,
     this.city,
@@ -664,6 +681,7 @@ class RowCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List item =['Hot','Worm','Cold'];
     Size size = MediaQuery.of(context).size;
 
     return tabIndex == 0
@@ -676,10 +694,14 @@ class RowCart extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  CustomeText(
-                    text: name??'',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                  SizedBox(
+                    width: size.width*0.12,
+                    child: CustomeText(
+                      text: name??'',
+                      maxLines: 1,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -688,11 +710,15 @@ class RowCart extends StatelessWidget {
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: Color(0xFFD9D9D9), shape: BoxShape.circle),
+              Container(
+                decoration: const BoxDecoration(
+                    color: Color(0xFFD9D9D9), shape: BoxShape.circle),
+                child: GestureDetector(
+                   onTap: () async{
+                     await context.read<MembersController>().callUser(
+                       mobileNo: phone
+                     );
+                   },
                   child: Padding(
                     padding: const EdgeInsets.all(1),
                     child: ImageView(
@@ -703,7 +729,31 @@ class RowCart extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(Icons.more_vert)
+              PopupMenuButton(
+                // clipBehavior: Clip.antiAlias,
+                onSelected: (value) async{
+                  print('check menu ${guestId}');
+               await   showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => ModelDialogBox(guestId:guestId??'' ,status: 'Invitation Call',)
+                  );
+                 // await context.pushNamed(Routs.modelDialogBox,extra: ModelDialogBox(guestId: '1',));
+
+                },
+
+                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  const PopupMenuItem(
+                    value: 'Interested',
+                    child: Text('Interested'),
+                  ),
+                  const PopupMenuItem(
+                    value: 'Not confirm',
+                    child: Text('Not confirm'),
+                  ),
+                ],
+                child: const Icon(Icons.more_vert),
+              ),
+
             ],
           )
         : tabIndex == 1
@@ -717,10 +767,14 @@ class RowCart extends StatelessWidget {
                       const SizedBox(
                         width: 5,
                       ),
-                      CustomeText(
-                        text: name??'',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                      SizedBox(
+                        width: size.width*0.12,
+                        child: CustomeText(
+                          text: name??'',
+                           maxLines: 1,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
@@ -739,8 +793,10 @@ class RowCart extends StatelessWidget {
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
-                  InkWell(
-                    onTap: () {},
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routs.createDemo,extra: CreateDemo(guestId: guestId??'',));
+                    },
                     child: Container(
                       decoration: ShapeDecoration(
                         gradient: const LinearGradient(

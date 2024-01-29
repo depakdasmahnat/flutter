@@ -64,6 +64,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
           height: size.height * 0.10,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               controller.isLoading==false?
               const Center(
@@ -141,7 +142,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            clipBehavior: Clip.antiAlias,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                             ),

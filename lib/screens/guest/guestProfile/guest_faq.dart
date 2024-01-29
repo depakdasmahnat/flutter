@@ -283,6 +283,7 @@ class CustomeText extends StatelessWidget {
  double? textHeight;
  TextAlign? textAlign;
  FontWeight? fontWeight;
+ int? maxLines;
   CustomeText({
     this.color,
     this.text,
@@ -290,6 +291,7 @@ class CustomeText extends StatelessWidget {
     this.fontSize,
     this.textHeight,
     this.textAlign,
+    this.maxLines,
     super.key,
   });
   @override
@@ -298,7 +300,9 @@ class CustomeText extends StatelessWidget {
     return
       Text(
         text??'',
+        maxLines:maxLines ,
         style:  TextStyle(
+          overflow: TextOverflow.ellipsis,
           color: color,
           fontSize: fontSize,
           fontWeight: fontWeight,

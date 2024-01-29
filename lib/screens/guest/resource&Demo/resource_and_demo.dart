@@ -15,7 +15,8 @@ import '../home/home_screen.dart';
 
 class RecourceAndDemo extends StatefulWidget {
   String? type;
-   RecourceAndDemo({super.key,this.type});
+  String? categoryId;
+   RecourceAndDemo({super.key,this.type,this.categoryId});
   @override
   State<RecourceAndDemo> createState() => _RecourceAndDemoState();
 }
@@ -24,8 +25,8 @@ class _RecourceAndDemoState extends State<RecourceAndDemo> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      context.read<GuestControllers>().resourcesDetailLoader=false;
-      await context.read<GuestControllers>().fetchResourcesDetail(context: context, page: '1');
+      // context.read<GuestControllers>().resourcesDetailLoader=false;
+      await context.read<GuestControllers>().fetchResourcesDetail(context: context,categoryId: widget.categoryId??'', page: '1');
     });
     super.initState();
   }
@@ -72,9 +73,9 @@ class _RecourceAndDemoState extends State<RecourceAndDemo> {
           itemBuilder: (context, index) {
             return InkWell(
                 onTap: () {
-                  // if(widget.type!='true'){
-                  //   context.pushNamed(Routs.resourceAndDemo,extra:true );
-                  // }
+                  if(widget.type!='true'){
+                    context.pushNamed(Routs.resourceAndDemo,extra:true );
+                  }
 
                 },
                 child: FeedCard(

@@ -81,7 +81,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
               hintText: 'Enter Last Name',
 
             ),
-            CustomeDropdown(
+            CustomDropdown(
               title: 'Gender',
               listItem: const ['Male','Female'],
             ),

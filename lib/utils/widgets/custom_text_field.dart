@@ -256,6 +256,7 @@ class CustomTextField extends StatelessWidget {
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 hintText: hintText,
+                counterText: '',
                 errorText: errorText,
                 errorMaxLines: errorMaxLines,
                 errorStyle: errorStyle ?? const TextStyle(color: Colors.red),

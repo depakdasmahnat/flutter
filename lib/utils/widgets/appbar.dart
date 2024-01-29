@@ -19,7 +19,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      leading: widget.showLeadICon == true ? CustomBackButton() : null,
+      leading: widget.showLeadICon == true ? const CustomBackButton() : null,
       title: Text(
         widget.title ?? '',
         style: TextStyle(

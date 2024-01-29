@@ -51,6 +51,7 @@ class ApiEndpoints {
   static const String fetchCategories = 'fetch_categories?type=';
   static const String fetchQuestions = 'fetch_interest_questions?category_id=';
   static const String submitGuestInterest = 'submit_guest_interest';
+  static const String updateLeadStatus = 'update_lead_status';
 
   // Lead apis
   static const String fetchLead = 'fetch_leads?';
@@ -62,8 +63,11 @@ class ApiEndpoints {
   static const String fetchProductDetail = 'fetch_product_details?product_id=';
   static const String fetchResources = 'fetch_resources?page=';
   static const String fetchFeedCategories = 'fetch_feed_categories';
-  static const String fetchResourceDetails = 'fetch_resources?page=';
+  static const String fetchResourceDetails = 'fetch_resources?page=1&category_id=';
+  static const String editProfile = 'edit_profile';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';
+  static const String state = 'fetch_states';
+  static const String city = 'fetch_cities?state_id=';
 }

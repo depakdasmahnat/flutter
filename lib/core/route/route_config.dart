@@ -37,6 +37,7 @@ import '../../screens/guest/web_view/faq.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
 
+import '../../screens/member/lead/model_dailog_box.dart';
 import '../../screens/member/lead/scheduled_demo_form.dart';
 import '../../screens/member/members/add_member_form.dart';
 import '../../screens/member/members/add_member_list.dart';
@@ -350,7 +351,17 @@ class RoutesConfig {
         name: Routs.resourceAndDemo,
         path: Routs.resourceAndDemo,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: RecourceAndDemo(type: state.extra.toString()));
+          RecourceAndDemo? data = state.extra as RecourceAndDemo?;
+
+          return cupertinoPage(state: state, child: RecourceAndDemo(categoryId: data?.categoryId??'',));
+        },
+      ),
+      GoRoute(
+        name: Routs.modelDialogBox,
+        path: Routs.modelDialogBox,
+        pageBuilder: (context, state) {
+          ModelDialogBox? data = state.extra as ModelDialogBox?;
+          return cupertinoPage(state: state, child: ModelDialogBox( guestId: data?.guestId??'', status:data?.status??"" ,));
         },
       ),
 
@@ -438,7 +449,8 @@ class RoutesConfig {
         name: Routs.createDemo,
         path: Routs.createDemo,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const CreateDemo());
+          CreateDemo? data = state.extra as CreateDemo?;
+          return cupertinoPage(state: state, child:  CreateDemo(guestId:data?.guestId??'' ,));
         },
       ),
       GoRoute(

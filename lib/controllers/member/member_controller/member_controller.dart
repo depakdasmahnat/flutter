@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/app.dart';
 
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/services/api/api_service.dart';
 
+import '../../../models/default/default_model.dart';
 import '../../../models/member/leads/fetchLeads.dart';
 import '../../../models/member/network/tree_graph_model.dart';
+import '../../../utils/widgets/widgets.dart';
 
 class MembersController extends ChangeNotifier {
   /// 1) Tree View API...
@@ -56,20 +60,16 @@ class MembersController extends ChangeNotifier {
     return networkTreeViewNodes;
   }
 
-
-
   /// lead Apis
-
-
 
   ///  fetch leads
   FetchLeads? fetchLeadsModel;
-  bool leadsLoader =false;
+  bool leadsLoader = false;
   Future<FetchLeads?> fetchLeads({
     String? status,
     String? priority,
     String? page,
-}) async {
+  }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
     if (context != null) {
@@ -88,8 +88,8 @@ class MembersController extends ChangeNotifier {
       onRefresh();
       try {
         var response = await ApiService().get(
-            endPoint: '${ApiEndpoints.fetchLead}status=$status&priority=$priority&page=$page'
-        );
+            endPoint:
+                '${ApiEndpoints.fetchLead}status=$status&priority=$priority&page=$page');
 
         if (response != null) {
           Map<String, dynamic> json = response;
@@ -110,4 +110,58 @@ class MembersController extends ChangeNotifier {
     return fetchLeadsModel;
   }
 
+  ///  add lead status
+
+  Future<DefaultModel?> updateLeadStatus({
+    required BuildContext context,
+    required String? guestId,
+    required String? status,
+    required String? priority,
+    required String? remark,
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'guest_id': '$guestId',
+      'status': '$status',
+      'priority': '$priority',
+      'remark': '$remark',
+    };
+
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.updateLeadStatus,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          context?.pop();
+        } else {
+          showSnackBar(
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
+        }
+      }
+    });
+    return responseData;
+  }
+
+  /// call log
+  Future<void> callUser({String? mobileNo}) async {
+    final call = Uri.parse('tel:+91 $mobileNo');
+    if (await canLaunchUrl(call)) {
+      launchUrl(call);
+    } else {
+      throw 'Could not launch $call';
+    }
+  }
 }

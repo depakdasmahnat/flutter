@@ -176,11 +176,9 @@ class AuthControllers extends ChangeNotifier {
 
         if (responseData?.status == true) {
           context.read<LocalDatabase>().saveGuestData(guest: responseData?.data);
-
           GuestData? guest = context.read<LocalDatabase>().guest;
           debugPrint('guest ${guest?.firstName}');
-          showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           context.pushNamed(
             Routs.interests,
           );

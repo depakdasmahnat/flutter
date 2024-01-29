@@ -15,9 +15,13 @@ import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/widgets.dart';
+import '../../guest/guestProfile/guest_edit_profile.dart';
+import '../../guest/guestProfile/guest_faq.dart';
+import '../events/create_event.dart';
 
 class CreateDemo extends StatefulWidget {
-  const CreateDemo({super.key});
+  final String guestId;
+  const CreateDemo({super.key, required this.guestId});
 
   @override
   State<CreateDemo> createState() => _CreateDemoState();
@@ -27,6 +31,7 @@ class _CreateDemoState extends State<CreateDemo> {
   TextEditingController eventNameCtrl = TextEditingController();
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController startTimeCtrl = TextEditingController();
+  TextEditingController commentCtrl = TextEditingController();
 
   TextEditingController endDateCtrl = TextEditingController();
   TextEditingController endTimeCtrl = TextEditingController();
@@ -35,9 +40,11 @@ class _CreateDemoState extends State<CreateDemo> {
   TextEditingController cityCtrl = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
   TextEditingController descriptionCtrl = TextEditingController();
+  String typeOfDame = '';
+  String priority = '';
+  List item =['Hot','Worm','Cold'];
 
   File? image;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -50,15 +57,17 @@ class _CreateDemoState extends State<CreateDemo> {
       body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
+              onChanged: (v) {
+                typeOfDame = v;
+              },
               title: 'Type of demo*',
               hintText: 'Select type',
-              listItem: ['Online', 'Offline'],
+              listItem: const ['Online', 'Offline'],
             ),
           ),
-
           AppTextField(
             title: 'Start Date',
             hintText: 'dd/mm/yyyy',
@@ -73,7 +82,8 @@ class _CreateDemoState extends State<CreateDemo> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -110,7 +120,8 @@ class _CreateDemoState extends State<CreateDemo> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -136,6 +147,99 @@ class _CreateDemoState extends State<CreateDemo> {
             },
             readOnly: true,
           ),
+          AppTextField(
+            title: 'Remark',
+            hintText: 'Comment',
+            controller: commentCtrl,
+            onTap: () async {
+              TimeOfDay? time = await showTimePicker(
+                context: context,
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      popupMenuTheme: PopupMenuThemeData(
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      cardColor: Colors.white,
+
+                      colorScheme: Theme.of(context).colorScheme.copyWith(
+                        primary: Colors.white, // <-- SEE HERE
+                        onPrimary: Colors.black, // <-- SEE HERE
+                        onSurface: Colors.white,
+                      ),
+
+                      // Input
+                      inputDecorationTheme: const InputDecorationTheme(
+                        // labelStyle: GoogleFonts.greatVibes(), // Input label
+                      ),
+                    ),
+                    child: child!,
+                  );
+                },
+                initialTime: TimeOfDay.now(),
+              );
+
+              if (time != null) {
+                startTimeCtrl.text = '${time.hour}:${time.minute}';
+              }
+            },
+            readOnly: true,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+            child: CustomeText(
+              text: 'Lead status',
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: kPadding),
+            child: SizedBox(
+              height: size.height*0.06,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 9.0),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: item.length,
+                  itemBuilder: (context, index) {
+                    return    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          priority =item[index];
+                        },
+                        child: Container(
+                          decoration: ShapeDecoration(
+                            gradient:  LinearGradient(
+                              begin: const Alignment(0.61, -0.79),
+                              end: const Alignment(-0.61, 0.79),
+                              colors:index==0 ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]:index==1?[const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]: [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(39),
+                            ),
+                          ),
+                          child:SizedBox(
+                            width: size.width*0.11,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 4,bottom: 4),
+                                child: CustomeText(
+                                  text: item[index],fontWeight: FontWeight.w500,fontSize: 10,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ) ,
+                        ),
+                      ),
+                    );
+                  },),
+              ),
+            ),
+          ),
           const Padding(
             padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: Row(
@@ -149,7 +253,8 @@ class _CreateDemoState extends State<CreateDemo> {
           ),
           Container(
             height: 55,
-            margin: const EdgeInsets.only(top: kPadding, bottom: kPadding, left: kPadding),
+            margin: const EdgeInsets.only(
+                top: kPadding, bottom: kPadding, left: kPadding),
             child: ListView.builder(
               itemCount: 10,
               shrinkWrap: true,
@@ -206,7 +311,11 @@ class _CreateDemoState extends State<CreateDemo> {
                     fit: BoxFit.contain,
                     assetImage: AppAssets.searchIcon,
                   ),
-                  margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+                  margin: EdgeInsets.only(
+                      left: kPadding,
+                      right: kPadding,
+                      top: kPadding,
+                      bottom: kPadding),
                 ),
               ),
               // GradientButton(
@@ -230,8 +339,10 @@ class _CreateDemoState extends State<CreateDemo> {
                 10,
                 (index) {
                   return Container(
-                    margin: const EdgeInsets.only(right: kPadding, top: kPadding),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    margin:
+                        const EdgeInsets.only(right: kPadding, top: kPadding),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                     decoration: BoxDecoration(
                       gradient: inActiveGradient,
                       borderRadius: BorderRadius.circular(50),
@@ -267,7 +378,8 @@ class _CreateDemoState extends State<CreateDemo> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(
+                left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () {
               // context.pushNamed(Routs.questions);
             },
@@ -393,7 +505,8 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
+      padding: padding ??
+          const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
       child: Container(
         decoration: ShapeDecoration(
           color: const Color(0xFF1B1B1B),
@@ -433,7 +546,8 @@ class AppTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.only(left: 1),
               autofocus: true,
               isDense: true,
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 12),
+              margin: const EdgeInsets.only(
+                  left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
               // margin: const EdgeInsets.only(bottom: 18),
             ),
@@ -444,77 +558,77 @@ class AppTextField extends StatelessWidget {
   }
 }
 
-class CustomDropdown extends StatelessWidget {
-  final String? title;
-  final String? hintText;
-  final List<String>? listItem;
-  final TextEditingController? controller;
-
-  const CustomDropdown({
-    this.title,
-    this.hintText,
-    this.listItem,
-    this.controller,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.all(9),
-      child: Container(
-        decoration: ShapeDecoration(
-          color: const Color(0xFF1B1B1B),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: kPadding, top: 7),
-              child: Text(
-                title ?? '',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: DropdownSearch<String>(
-                dropdownButtonProps: const DropdownButtonProps(
-                    padding: EdgeInsets.only(bottom: 10),
-                    icon: Icon(
-                      CupertinoIcons.chevron_down,
-                      size: 18,
-                    )),
-                popupProps: PopupProps.menu(
-                  menuProps: const MenuProps(
-                    backgroundColor: Color(0xFF1B1B1B),
-                  ),
-                  fit: FlexFit.loose,
-                  showSelectedItems: true,
-                  disabledItemFn: (String s) => s.startsWith('p'),
-                ),
-                items: listItem ?? [],
-                dropdownDecoratorProps: DropDownDecoratorProps(
-                  dropdownSearchDecoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 7, top: 7),
-                    border: InputBorder.none,
-                    hintText: hintText ?? 'Select Gender',
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class CustomDropdown extends StatelessWidget {
+//   final String? title;
+//   final String? hintText;
+//   final List<String>? listItem;
+//   final TextEditingController? controller;
+//
+//   const CustomDropdown({
+//     this.title,
+//     this.hintText,
+//     this.listItem,
+//     this.controller,
+//     super.key,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     Size size = MediaQuery.of(context).size;
+//     return Padding(
+//       padding: const EdgeInsets.all(9),
+//       child: Container(
+//         decoration: ShapeDecoration(
+//           color: const Color(0xFF1B1B1B),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(16),
+//           ),
+//         ),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Padding(
+//               padding: const EdgeInsets.only(left: kPadding, top: 7),
+//               child: Text(
+//                 title ?? '',
+//                 style: const TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 10,
+//                   fontWeight: FontWeight.w400,
+//                 ),
+//                 textAlign: TextAlign.center,
+//               ),
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.only(left: 8.0),
+//               child: DropdownSearch<String>(
+//                 dropdownButtonProps: const DropdownButtonProps(
+//                     padding: EdgeInsets.only(bottom: 10),
+//                     icon: Icon(
+//                       CupertinoIcons.chevron_down,
+//                       size: 18,
+//                     )),
+//                 popupProps: PopupProps.menu(
+//                   menuProps: const MenuProps(
+//                     backgroundColor: Color(0xFF1B1B1B),
+//                   ),
+//                   fit: FlexFit.loose,
+//                   showSelectedItems: true,
+//                   disabledItemFn: (String s) => s.startsWith('p'),
+//                 ),
+//                 items: listItem ?? [],
+//                 dropdownDecoratorProps: DropDownDecoratorProps(
+//                   dropdownSearchDecoration: InputDecoration(
+//                     contentPadding: const EdgeInsets.only(left: 7, top: 7),
+//                     border: InputBorder.none,
+//                     hintText: hintText ?? 'Select Gender',
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

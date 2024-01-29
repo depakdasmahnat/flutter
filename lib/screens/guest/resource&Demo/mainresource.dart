@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+import 'package:mrwebbeast/screens/guest/resource&Demo/resource_and_demo.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
@@ -21,7 +22,7 @@ class _MainresourceState extends State<Mainresource> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      context.read<GuestControllers>().fetchCategoryLoader=false;
+      // context.read<GuestControllers>().fetchCategoryLoader=false;
       await context.read<GuestControllers>().fetchInterestCategories(context: context, type: 'Resource');
     });
     super.initState();
@@ -29,6 +30,7 @@ class _MainresourceState extends State<Mainresource> {
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return  Scaffold(
       appBar: PreferredSize(
@@ -41,7 +43,7 @@ class _MainresourceState extends State<Mainresource> {
         builder: (context, controller, child) {
           return  controller.fetchCategoryLoader==false?const Center(
             child:   CupertinoActivityIndicator(
-                animating: true,
+
                 radius: 20, color: CupertinoColors.white),
           ) :
           GridView.count(
@@ -59,7 +61,10 @@ class _MainresourceState extends State<Mainresource> {
                   padding: const EdgeInsets.all(8.0),
                   child:  InkWell(
                       onTap: () {
-                        context.push(Routs.resourceAndDemo,);
+                         var id = controller.fetchInterestCategory?.data?[index].id.toString();
+                         print("check id $id");
+
+                        context.pushNamed(Routs.resourceAndDemo,extra: RecourceAndDemo(categoryId:id ,));
                       },
                       child:Container(
                         decoration:  const BoxDecoration(
@@ -77,8 +82,8 @@ class _MainresourceState extends State<Mainresource> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(6),
-                                // child: Image.network(controller.resourceModel?.data?[index].file??'',fit: BoxFit.cover,),
-                                child: Image.asset(AppAssets.resources,fit: BoxFit.cover,),
+                                child:controller.resourceModel?.data?[index].file==null?Image.asset(AppAssets.resources,fit: BoxFit.cover,): Image.network(controller.resourceModel?.data?[index].file??'',fit: BoxFit.cover,),
+
                               ),
                               Text(
                                 controller.fetchInterestCategory?.data?[index].name??'',

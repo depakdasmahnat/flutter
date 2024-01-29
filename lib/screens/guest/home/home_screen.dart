@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           const CustomTextField(
             hintText: 'Search',
-            readOnly: true,
+            // readOnly: true,
             hintStyle: TextStyle(color: Colors.white),
             prefixIcon: ImageView(
               height: 20,
