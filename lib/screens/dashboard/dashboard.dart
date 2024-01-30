@@ -154,7 +154,7 @@ class DashBoardState extends State<DashBoard> {
                   mainAxisSize: controller.showMoreMenuPopUp ? MainAxisSize.max : MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (controller.showMoreMenuPopUp) const DashboardMoreMenu(),
+                    if (controller.showMoreMenuPopUp)  DashboardMoreMenu(),
                     GradientButton(
                       margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
                       borderRadius: 50,

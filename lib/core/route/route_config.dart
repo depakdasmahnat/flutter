@@ -78,6 +78,7 @@ class RoutesConfig {
   static final _settingsNavigatorKey = GlobalKey<NavigatorState>();
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
+    print("check authenticated $authenticated");
     return authenticated ? Routs.dashboard : Routs.fisrtScreen;
   }
 
@@ -361,7 +362,7 @@ class RoutesConfig {
         path: Routs.modelDialogBox,
         pageBuilder: (context, state) {
           ModelDialogBox? data = state.extra as ModelDialogBox?;
-          return cupertinoPage(state: state, child: ModelDialogBox( guestId: data?.guestId??'', status:data?.status??"" ,));
+          return cupertinoPage(state: state, child: ModelDialogBox( guestId: data?.guestId??'', feedback:data?.feedback??'' ,));
         },
       ),
 
@@ -450,7 +451,7 @@ class RoutesConfig {
         path: Routs.createDemo,
         pageBuilder: (context, state) {
           CreateDemo? data = state.extra as CreateDemo?;
-          return cupertinoPage(state: state, child:  CreateDemo(guestId:data?.guestId??'' ,));
+          return cupertinoPage(state: state, child:  CreateDemo(guestId:data?.guestId??'',name: data?.name,image:data?.image ,));
         },
       ),
       GoRoute(
@@ -591,9 +592,8 @@ class RoutesConfig {
 
   static bool isAuthenticated() {
     LocalDatabase localDatabase = LocalDatabase();
-    return localDatabase.member?.accessToken?.isNotEmpty == true;
+    return localDatabase.member?.accessToken?.isNotEmpty == true||localDatabase.guest?.accessToken?.isNotEmpty == true;
   }
-
   static String? authRequired(BuildContext context, GoRouterState state) {
     debugPrint('isAuthenticated() ${isAuthenticated()}');
     debugPrint('authRequired');

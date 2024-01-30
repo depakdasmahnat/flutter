@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/auth/question_screen.dart';
@@ -38,6 +39,9 @@ class _WhyAreYouHereState extends State<WhyAreYouHere> {
     // });
     // super.initState();
   }
+  navigateToConnectWithUs() {
+    return context.pushNamed(Routs.connectWithUs);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class _WhyAreYouHereState extends State<WhyAreYouHere> {
             boxShadow: const [],
             margin: const EdgeInsets.only(right: 16),
             onTap: () {
-              setState(() {});
+              navigateToConnectWithUs();
             },
             child: const Center(
               child: Text(
@@ -103,7 +107,7 @@ class _WhyAreYouHereState extends State<WhyAreYouHere> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'Choose as many as you like',
                         style: TextStyle(
                           fontSize: 16,
@@ -119,7 +123,8 @@ class _WhyAreYouHereState extends State<WhyAreYouHere> {
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: widget.item.length,
-                  padding: const EdgeInsets.only(top: 24),
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 24,bottom: kPadding),
                   itemBuilder: (context, index) {
                     // var data = interests.elementAt(index);
                     // bool isSelected = selectedInterests.contains(data);

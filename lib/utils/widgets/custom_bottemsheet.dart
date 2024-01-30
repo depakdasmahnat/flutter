@@ -14,7 +14,6 @@ class CustomModelBottomSheet extends StatefulWidget {
   final int? tabIndex;
 
   const CustomModelBottomSheet({super.key, this.title, this.listItem, this.tabIndex});
-
   @override
   State<CustomModelBottomSheet> createState() => _CustomModelBottomSheetState();
 }

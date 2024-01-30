@@ -110,21 +110,73 @@ class MembersController extends ChangeNotifier {
     return fetchLeadsModel;
   }
 
-  ///  add lead status
+  ///  add lead priority
 
-  Future<DefaultModel?> updateLeadStatus({
+  Future<DefaultModel?> updateLeadPriority({
     required BuildContext context,
     required String? guestId,
-    required String? status,
+    required String? feedback,
     required String? priority,
     required String? remark,
   }) async {
     FocusScope.of(context).unfocus();
     Map<String, dynamic> body = {
       'guest_id': '$guestId',
-      'status': '$status',
       'priority': '$priority',
+      'feedback': '$feedback',
       'remark': '$remark',
+    };
+
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.updateLeadPriority,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          context?.pop();
+        } else {
+          showSnackBar(
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
+        }
+      }
+    });
+    return responseData;
+  }
+
+
+  bool showItem=false;
+  changeStatus(){
+    if(showItem==false){
+      showItem=true;
+    }else{
+      showItem=false;
+    }
+
+  }
+  ///  add lead status
+  Future<DefaultModel?> updateLeadStatus({
+    required BuildContext context,
+    required String? guestId,
+    required String? status,
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'guest_id': '$guestId',
+      'status': '$status',
+      'remark': '',
     };
 
     debugPrint('Sent Data is $body');
@@ -164,4 +216,100 @@ class MembersController extends ChangeNotifier {
       throw 'Could not launch $call';
     }
   }
+
+
+
+  /// scheduledDemo....
+  Future<DefaultModel?> scheduledDemo({
+    required BuildContext context,
+    required String? guestId,
+    required String? demoType,
+    required String? date,
+    required String? time,
+    required String? remarks,
+    required String? priority,
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'guest_id': '$guestId',
+      'demo_type': '$demoType',
+      'date': '$date',
+      'time': '$time',
+      'priority': '$priority',
+    };
+
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.scheduledDemo,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          context?.pop();
+        } else {
+          showSnackBar(
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
+        }
+      }
+    });
+    return responseData;
+  }
+
+  /// demo done
+
+  Future<DefaultModel?> demoDoneForm({
+    required BuildContext context,
+    required String? demoId,
+    required String? feedback,
+    required String? remark,
+    required String? priority,
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'demo_id': '$demoId',
+      'feedback': '$feedback',
+      'remark': '$remark',
+      'priority': '$priority',
+    };
+
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.demoDone,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          context?.pop();
+        } else {
+          showSnackBar(
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
+        }
+      }
+    });
+    return responseData;
+  }
+
 }

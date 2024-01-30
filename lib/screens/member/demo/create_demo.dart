@@ -9,7 +9,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
@@ -21,7 +23,9 @@ import '../events/create_event.dart';
 
 class CreateDemo extends StatefulWidget {
   final String guestId;
-  const CreateDemo({super.key, required this.guestId});
+  final String? name;
+  final String? image;
+  const CreateDemo({super.key, required this.guestId,this.name, this.image});
 
   @override
   State<CreateDemo> createState() => _CreateDemoState();
@@ -40,13 +44,14 @@ class _CreateDemoState extends State<CreateDemo> {
   TextEditingController cityCtrl = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
   TextEditingController descriptionCtrl = TextEditingController();
+  int? tabIndex=0;
   String typeOfDame = '';
   String priority = '';
-  List item =['Hot','Worm','Cold'];
-
+  List item = ['Hot', 'Worm', 'Cold'];
   File? image;
   @override
   Widget build(BuildContext context) {
+    print(' chekc name ${widget.name}');
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +63,7 @@ class _CreateDemoState extends State<CreateDemo> {
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
               onChanged: (v) {
                 typeOfDame = v;
@@ -70,7 +75,7 @@ class _CreateDemoState extends State<CreateDemo> {
           ),
           AppTextField(
             title: 'Start Date',
-            hintText: 'dd/mm/yyyy',
+            hintText: 'dd-mm-yyyy',
             controller: startDateCtrl,
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
@@ -104,7 +109,7 @@ class _CreateDemoState extends State<CreateDemo> {
 
               if (pickedDate != null) {
                 startDateCtrl.text =
-                    "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                    "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
               }
             },
             readOnly: true,
@@ -142,7 +147,7 @@ class _CreateDemoState extends State<CreateDemo> {
               );
 
               if (time != null) {
-                startTimeCtrl.text = '${time.hour}:${time.minute}';
+                startTimeCtrl.text = time.format(context);
               }
             },
             readOnly: true,
@@ -151,42 +156,10 @@ class _CreateDemoState extends State<CreateDemo> {
             title: 'Remark',
             hintText: 'Comment',
             controller: commentCtrl,
-            onTap: () async {
-              TimeOfDay? time = await showTimePicker(
-                context: context,
-                builder: (context, child) {
-                  return Theme(
-                    data: Theme.of(context).copyWith(
-                      popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      cardColor: Colors.white,
-
-                      colorScheme: Theme.of(context).colorScheme.copyWith(
-                        primary: Colors.white, // <-- SEE HERE
-                        onPrimary: Colors.black, // <-- SEE HERE
-                        onSurface: Colors.white,
-                      ),
-
-                      // Input
-                      inputDecorationTheme: const InputDecorationTheme(
-                        // labelStyle: GoogleFonts.greatVibes(), // Input label
-                      ),
-                    ),
-                    child: child!,
-                  );
-                },
-                initialTime: TimeOfDay.now(),
-              );
-
-              if (time != null) {
-                startTimeCtrl.text = '${time.hour}:${time.minute}';
-              }
-            },
-            readOnly: true,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+            padding:
+                const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: CustomeText(
               text: 'Lead status',
               fontSize: 16,
@@ -196,7 +169,7 @@ class _CreateDemoState extends State<CreateDemo> {
           Padding(
             padding: const EdgeInsets.only(left: kPadding),
             child: SizedBox(
-              height: size.height*0.06,
+              height: size.height * 0.06,
               child: Padding(
                 padding: const EdgeInsets.only(left: 9.0),
                 child: ListView.builder(
@@ -204,39 +177,57 @@ class _CreateDemoState extends State<CreateDemo> {
                   scrollDirection: Axis.horizontal,
                   itemCount: item.length,
                   itemBuilder: (context, index) {
-                    return    Padding(
+                    return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          priority =item[index];
+                          priority = item[index];
+                          tabIndex =index;
+                          setState(() {});
                         },
                         child: Container(
-                          decoration: ShapeDecoration(
-                            gradient:  LinearGradient(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
                               begin: const Alignment(0.61, -0.79),
                               end: const Alignment(-0.61, 0.79),
-                              colors:index==0 ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]:index==1?[const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]: [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                              colors: index == 0
+                                  ? [
+                                const Color(0xFFFF2600),
+                                const Color(0xFFFF6130)
+                              ]
+                                  : index == 1
+                                  ? [
+                                const Color(0xFFFDDC9C),
+                                const Color(0xFFDDA53B)
+                              ]
+                                  : [
+                                const Color(0xFF3CDCDC),
+                                const Color(0xFF12BCBC)
+                              ],
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(39),
-                            ),
+                            border:tabIndex==index? Border.all( color: CupertinoColors.white,width: 2):null,
+                            borderRadius: BorderRadius.circular(39)
                           ),
-                          child:SizedBox(
-                            width: size.width*0.11,
+                          child: SizedBox(
+                            width: size.width * 0.11,
                             child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 4,bottom: 4),
+                                padding:
+                                    const EdgeInsets.only(top: 4, bottom: 4),
                                 child: CustomeText(
-                                  text: item[index],fontWeight: FontWeight.w500,fontSize: 10,
+                                  text: item[index],
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 10,
                                   color: Colors.white,
                                 ),
                               ),
                             ),
-                          ) ,
+                          ),
                         ),
                       ),
                     );
-                  },),
+                  },
+                ),
               ),
             ),
           ),
@@ -251,121 +242,148 @@ class _CreateDemoState extends State<CreateDemo> {
               ],
             ),
           ),
-          Container(
-            height: 55,
-            margin: const EdgeInsets.only(
-                top: kPadding, bottom: kPadding, left: kPadding),
-            child: ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 120,
-                  margin: const EdgeInsets.only(right: kPadding),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  decoration: BoxDecoration(
-                    gradient: inActiveGradient,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: const Row(
-                    children: [
-                      ImageView(
-                        height: 40,
-                        width: 40,
-                        borderRadiusValue: 40,
-                        isAvatar: true,
-                        assetImage: AppAssets.appIcon,
-                        margin: EdgeInsets.only(right: 8),
-                      ),
-                      Text('Ayan'),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
-            child: Row(
-              children: [
-                Text(
-                  'Select Members to add',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
-          const Row(
-            children: [
-              Flexible(
-                child: CustomTextField(
-                  hintText: 'Search',
-                  hintStyle: TextStyle(color: Colors.white),
-                  prefixIcon: ImageView(
-                    height: 20,
-                    width: 20,
-                    borderRadiusValue: 0,
-                    color: Colors.white,
-                    margin: EdgeInsets.only(left: kPadding, right: kPadding),
-                    fit: BoxFit.contain,
-                    assetImage: AppAssets.searchIcon,
-                  ),
-                  margin: EdgeInsets.only(
-                      left: kPadding,
-                      right: kPadding,
-                      top: kPadding,
-                      bottom: kPadding),
-                ),
-              ),
-              // GradientButton(
-              //   height: 60,
-              //   width: 60,
-              //   margin: const EdgeInsets.only(left: 8, right: kPadding),
-              //   backgroundGradient: blackGradient,
-              //   child: const ImageView(
-              //     height: 28,
-              //     width: 28,
-              //     assetImage: AppAssets.filterIcons,
-              //     margin: EdgeInsets.zero,
-              //   ),
-              // )
-            ],
-          ),
           Padding(
             padding: const EdgeInsets.only(left: kPadding),
-            child: Wrap(
-              children: List.generate(
-                10,
-                (index) {
-                  return Container(
-                    margin:
-                        const EdgeInsets.only(right: kPadding, top: kPadding),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    decoration: BoxDecoration(
-                      gradient: inActiveGradient,
-                      borderRadius: BorderRadius.circular(50),
+            child: Container(
+              width: 30,
+              decoration: BoxDecoration(
+                gradient: inActiveGradient,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child:  Padding(
+                padding: const EdgeInsets.all(4),
+                child: Row(
+                  children: [
+                    ImageView(
+                      height: 40,
+                      width: 40,
+                      borderRadiusValue: 40,
+                      isAvatar: true,
+                      assetImage: widget.image,
+                      margin: const EdgeInsets.only(right: 8),
                     ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ImageView(
-                          height: 40,
-                          width: 40,
-                          borderRadiusValue: 40,
-                          isAvatar: true,
-                          assetImage: AppAssets.appIcon,
-                          margin: EdgeInsets.only(right: 8),
-                        ),
-                        Text('Ayaan'),
-                      ],
-                    ),
-                  );
-                },
+                    Text(widget.name??''),
+                  ],
+                ),
               ),
             ),
           ),
+          // Container(
+          //   height: 55,
+          //   margin: const EdgeInsets.only(
+          //       top: kPadding, bottom: kPadding, left: kPadding),
+          //   child: ListView.builder(
+          //     itemCount: 10,
+          //     shrinkWrap: true,
+          //     scrollDirection: Axis.horizontal,
+          //     itemBuilder: (context, index) {
+          //       return
+          //         Container(
+          //         width: 120,
+          //         margin: const EdgeInsets.only(right: kPadding),
+          //         padding: const EdgeInsets.symmetric(horizontal: 8),
+          //         decoration: BoxDecoration(
+          //           gradient: inActiveGradient,
+          //           borderRadius: BorderRadius.circular(50),
+          //         ),
+          //         child: const Row(
+          //           children: [
+          //             ImageView(
+          //               height: 40,
+          //               width: 40,
+          //               borderRadiusValue: 40,
+          //               isAvatar: true,
+          //               assetImage: AppAssets.appIcon,
+          //               margin: EdgeInsets.only(right: 8),
+          //             ),
+          //             Text('Ayan'),
+          //           ],
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+          // const Padding(
+          //   padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+          //   child: Row(
+          //     children: [
+          //       Text(
+          //         'Select Members to add',
+          //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // const Row(
+          //   children: [
+          //     Flexible(
+          //       child: CustomTextField(
+          //         hintText: 'Search',
+          //         hintStyle: TextStyle(color: Colors.white),
+          //         prefixIcon: ImageView(
+          //           height: 20,
+          //           width: 20,
+          //           borderRadiusValue: 0,
+          //           color: Colors.white,
+          //           margin: EdgeInsets.only(left: kPadding, right: kPadding),
+          //           fit: BoxFit.contain,
+          //           assetImage: AppAssets.searchIcon,
+          //         ),
+          //         margin: EdgeInsets.only(
+          //             left: kPadding,
+          //             right: kPadding,
+          //             top: kPadding,
+          //             bottom: kPadding),
+          //       ),
+          //     ),
+          //     // GradientButton(
+          //     //   height: 60,
+          //     //   width: 60,
+          //     //   margin: const EdgeInsets.only(left: 8, right: kPadding),
+          //     //   backgroundGradient: blackGradient,
+          //     //   child: const ImageView(
+          //     //     height: 28,
+          //     //     width: 28,
+          //     //     assetImage: AppAssets.filterIcons,
+          //     //     margin: EdgeInsets.zero,
+          //     //   ),
+          //     // )
+          //   ],
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: kPadding),
+          //   child: Wrap(
+          //     children: List.generate(
+          //       10,
+          //       (index) {
+          //         return Container(
+          //           margin:
+          //               const EdgeInsets.only(right: kPadding, top: kPadding),
+          //           padding:
+          //               const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          //           decoration: BoxDecoration(
+          //             gradient: inActiveGradient,
+          //             borderRadius: BorderRadius.circular(50),
+          //           ),
+          //           child: const Row(
+          //             mainAxisSize: MainAxisSize.min,
+          //             children: [
+          //               ImageView(
+          //                 height: 40,
+          //                 width: 40,
+          //                 borderRadiusValue: 40,
+          //                 isAvatar: true,
+          //                 assetImage: AppAssets.appIcon,
+          //                 margin: EdgeInsets.only(right: 8),
+          //               ),
+          //               Text('Ayaan'),
+          //             ],
+          //           ),
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       bottomNavigationBar: Column(
@@ -381,7 +399,11 @@ class _CreateDemoState extends State<CreateDemo> {
             margin: const EdgeInsets.only(
                 left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () {
-              // context.pushNamed(Routs.questions);
+              context.read<MembersController>().scheduledDemo(
+                  context: context,
+                  guestId: widget.guestId, demoType: typeOfDame,
+                  date: startDateCtrl.text,
+                  time: startTimeCtrl.text, remarks: commentCtrl.text, priority: priority);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

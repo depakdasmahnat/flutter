@@ -52,6 +52,9 @@ class ApiEndpoints {
   static const String fetchQuestions = 'fetch_interest_questions?category_id=';
   static const String submitGuestInterest = 'submit_guest_interest';
   static const String updateLeadStatus = 'update_lead_status';
+  static const String updateLeadPriority = 'update_lead_priority';
+  static const String demoDone = 'demo_done';
+  static const String scheduledDemo = 'schedule_demo';
 
   // Lead apis
   static const String fetchLead = 'fetch_leads?';
