@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
@@ -5,7 +6,9 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.da
 import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
 import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
@@ -15,12 +18,14 @@ import 'package:html/parser.dart' show parse;
 class FeedCard extends StatefulWidget {
   const FeedCard({
     super.key,
-    required this.index,
+    this.index,
     required this.data,
+    this.isFeeds = true,
   });
 
-  final int index;
+  final int? index;
   final FeedsData? data;
+  final bool? isFeeds;
 
   @override
   State<FeedCard> createState() => _FeedCardState();
@@ -28,6 +33,7 @@ class FeedCard extends StatefulWidget {
 
 class _FeedCardState extends State<FeedCard> {
   late FeedsData? data = widget.data;
+  late bool? isFeeds = widget.isFeeds;
 
   @override
   void initState() {
@@ -58,10 +64,8 @@ class _FeedCardState extends State<FeedCard> {
                 AspectRatio(
                   aspectRatio: 16 / 9,
                   child: PageView.builder(
-
                     itemCount: data?.files?.length ?? 0,
                     scrollDirection: Axis.horizontal,
-
                     physics: const PageScrollPhysics(),
                     itemBuilder: (context, index) {
                       var image = data?.files?.elementAt(index);
@@ -69,7 +73,7 @@ class _FeedCardState extends State<FeedCard> {
                       return ImageView(
                         width: size.width,
                         borderRadiusValue: 18,
-                        margin: const EdgeInsets.symmetric(horizontal: 12,vertical: 12),
+                        margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
                         backgroundColor: Colors.transparent,
                         fit: BoxFit.cover,
                         networkImage: '$image',
@@ -79,7 +83,7 @@ class _FeedCardState extends State<FeedCard> {
                 )
               else if (data?.fileType == FeedsFileType.video.value && data?.file != null)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
                   child: VideoPlayerCard(
                     url: '${data?.file}',
                     borderRadius: 18,
@@ -87,27 +91,16 @@ class _FeedCardState extends State<FeedCard> {
                 )
               else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
                   child: YoutubeVideoPlayerCard(
                     url: '${data?.file}',
                     borderRadius: 18,
                   ),
                 )
-              else if (data?.description != null && data?.fileType == FeedsFileType.article.value)
-                showMoreDescription(
-                  context: context,
-                  description: parseHtmlToText(htmlString: '${data?.description}'),
-                  style: TextStyle(
-                    color: Colors.grey.shade800,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  maxLines: 2,
-                  overFlow: TextOverflow.ellipsis,
-                )
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12),
+            padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -124,9 +117,19 @@ class _FeedCardState extends State<FeedCard> {
                       textAlign: TextAlign.start,
                     ),
                   ),
-                if (data?.description != null)
+                if (data?.description != null && data?.fileType == FeedsFileType.article.value)
+                  showMoreDescription(
+                    context: context,
+                    description: parseHtmlToText(htmlString: '${data?.description}'),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                    ),
+                    maxLines: 2,
+                    overFlow: TextOverflow.ellipsis,
+                  )
+                else if (data?.description != null)
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.only(top: 8),
                     child: Text(
                       '${data?.description}',
                       style: const TextStyle(
@@ -137,33 +140,48 @@ class _FeedCardState extends State<FeedCard> {
                       textAlign: TextAlign.start,
                     ),
                   ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          FeedMenu(
-                            icon: data?.isLiked == true ? AppAssets.heartIcon : AppAssets.heartIcon,
-                            value: data?.likes,
-                          ),
-                          FeedMenu(
-                            icon: AppAssets.chatIcon,
-                            value: data?.comments,
-                          ),
-                          const FeedMenu(
-                            icon: AppAssets.shareIcon,
-                          ),
-                        ],
-                      ),
-                      const FeedMenu(
-                        lastMenu: true,
-                        icon: AppAssets.bookmarkIcon,
-                      ),
-                    ],
+                if (isFeeds == true)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            if (data?.isLiked == null)
+                              Container(
+                                height: 18,
+                                width: 24,
+                                margin: const EdgeInsets.only(right: kPadding),
+                                child: const CupertinoActivityIndicator(),
+                              )
+                            else
+                              FeedMenu(
+                                icon: data?.isLiked == true ? AppAssets.heartFilledIcon : AppAssets.heartIcon,
+                                value: data?.likes,
+                                onTap: () async {
+                                  await context.read<FeedsController>().manageWishList(
+                                        feedId: data?.id,
+                                        inWishList: data?.isLiked == true,
+                                      );
+                                },
+                              ),
+                            FeedMenu(
+                              icon: AppAssets.chatIcon,
+                              value: data?.comments,
+                            ),
+                            const FeedMenu(
+                              icon: AppAssets.shareIcon,
+                            ),
+                          ],
+                        ),
+                        const FeedMenu(
+                          lastMenu: true,
+                          icon: AppAssets.bookmarkIcon,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           )
@@ -179,34 +197,35 @@ class _FeedCardState extends State<FeedCard> {
     int? maxLines,
     TextOverflow? overFlow,
   }) {
-    return RichText(
-      maxLines: maxLines,
-      overflow: overFlow ?? TextOverflow.clip,
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: '$description',
-            style: style ??
-                TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade800,
-                  fontWeight: FontWeight.w400,
-                ),
-          ),
-          // const TextSpan(
-          //   text: "Show More",
-          //   style: TextStyle(
-          //     fontSize: 12,
-          //     color: primaryColor,
-          //     fontWeight: FontWeight.bold,
-          //   ),
-          // ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: RichText(
+        maxLines: maxLines,
+        overflow: overFlow ?? TextOverflow.clip,
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: '$description',
+              style: style ??
+                  TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade200,
+                    fontWeight: FontWeight.w400,
+                  ),
+            ),
+            // const TextSpan(
+            //   text: "Show More",
+            //   style: TextStyle(
+            //     fontSize: 12,
+            //     color: primaryColor,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+          ],
+        ),
       ),
     );
   }
-
-  parseHtmlToText({required String htmlString}) {}
 }
 
 class FeedMenu extends StatelessWidget {
@@ -227,30 +246,33 @@ class FeedMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(right: lastMenu != true ? kPadding : 0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ImageView(
-            height: 20,
-            width: 20,
-            borderRadiusValue: 0,
-            color: Colors.white,
-            margin: const EdgeInsets.only(right: 4),
-            fit: BoxFit.contain,
-            onTap: onTap,
-            assetImage: icon,
-          ),
-          if (value != null)
-            Text(
-              '$value',
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-              textAlign: TextAlign.start,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ImageView(
+              height: 20,
+              width: 20,
+              borderRadiusValue: 0,
+              color: Colors.white,
+              margin: const EdgeInsets.only(right: 4),
+              fit: BoxFit.contain,
+              onTap: null,
+              assetImage: icon,
             ),
-        ],
+            if (value != null)
+              Text(
+                '$value',
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.start,
+              ),
+          ],
+        ),
       ),
     );
   }

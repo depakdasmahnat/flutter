@@ -51,7 +51,7 @@ class AppAssets {
   static const String logoTextIcon = 'assets/icons/logo_text.png';
 
   static const String lockIcon = 'assets/icons/ic_lock.png';
-  static const String heartIcon = 'assets/icons/ic_heart.png';
+  static const String heartIcon = 'assets/icons/ic_heart.png';  static const String heartFilledIcon = 'assets/icons/ic_heart_filled.png';
   static const String chatIcon = 'assets/icons/ic_chat.png';
   static const String shareIcon = 'assets/icons/ic_share.png';
   static const String bookmarkIcon = 'assets/icons/ic_bookmark.png';

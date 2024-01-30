@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../core/config/api_config.dart';
 import '../../core/route/route_paths.dart';
 import '../../core/services/api/api_service.dart';
+import '../../core/services/api/exception_handler.dart';
 import '../../core/services/database/local_database.dart';
 import '../../models/auth_model/fetchinterestcategory.dart';
 import '../../models/auth_model/fetchinterestquestions.dart';
@@ -15,6 +18,7 @@ import '../../models/auth_model/validatemobile.dart';
 import '../../models/auth_model/verifyotp.dart';
 import '../../models/common_apis/commonbanner.dart';
 import '../../models/default/default_model.dart';
+import '../../models/feeds/feeds_data.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
@@ -108,20 +112,19 @@ class GuestControllers extends ChangeNotifier {
     required BuildContext context,
     required String type,
   }) async {
-    // refresh() {
-    //   loadingExerciseDetail = true;
-    //   exerciseDetailModel = null;
-    //   exerciseData = null;
-    //   exerciseDetail?.clear();
-    //   notifyListeners();
-    // }
-    //
-    // apiResponseCompleted() {
-    //   loadingExerciseDetail = false;
-    //   notifyListeners();
-    // }
+    refresh() {
+      fetchCategoryLoader = true;
+      fetchInterestCategory = null;
 
-    // refresh();
+      notifyListeners();
+    }
+
+    apiResponseCompleted() {
+      fetchCategoryLoader = false;
+      notifyListeners();
+    }
+
+    refresh();
     try {
       await ApiService()
           .get(
@@ -141,7 +144,7 @@ class GuestControllers extends ChangeNotifier {
           }
         }
 
-        // apiResponseCompleted();
+        apiResponseCompleted();
       });
     } catch (e, s) {
       // apiResponseCompleted();
@@ -252,53 +255,53 @@ class GuestControllers extends ChangeNotifier {
     return fetchproductDetail;
   }
 
-  /// 1) fetch resources...
-  ResourceModel? resourceModel;
-  bool resourcesLoader = false;
-
-  Future<ResourceModel?> fetchResources({
-    required BuildContext context,
-    required String page,
-  }) async {
-    // refresh() {
-    //   loadingExerciseDetail = true;
-    //   exerciseDetailModel = null;
-    //   exerciseData = null;
-    //   exerciseDetail?.clear();
-    //   notifyListeners();
-    // }
-    //
-    // apiResponseCompleted() {
-    //   loadingExerciseDetail = false;
-    //   notifyListeners();
-    // }
-
-    // refresh();
-    try {
-      await ApiService()
-          .get(
-        endPoint: ApiEndpoints.fetchResources + page,
-      )
-          .then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          ResourceModel responseData = ResourceModel.fromJson(json);
-          if (responseData.status == true) {
-            resourcesLoader = true;
-            resourceModel = responseData;
-            // assignExercise(refresh: true);
-            notifyListeners();
-          }
-        }
-        // apiResponseCompleted();
-      });
-    } catch (e, s) {
-      // apiResponseCompleted();
-      debugPrint('Error is $e & $s');
-    }
-
-    return resourceModel;
-  }
+  // /// 1) fetch resources...
+  // ResourceModel? resourceModel;
+  // bool resourcesLoader = false;
+  //
+  // Future<ResourceModel?> fetchResources({
+  //   required BuildContext context,
+  //   required String page,
+  // }) async {
+  //   // refresh() {
+  //   //   loadingExerciseDetail = true;
+  //   //   exerciseDetailModel = null;
+  //   //   exerciseData = null;
+  //   //   exerciseDetail?.clear();
+  //   //   notifyListeners();
+  //   // }
+  //   //
+  //   // apiResponseCompleted() {
+  //   //   loadingExerciseDetail = false;
+  //   //   notifyListeners();
+  //   // }
+  //
+  //   // refresh();
+  //   try {
+  //     await ApiService()
+  //         .get(
+  //       endPoint: ApiEndpoints.fetchResources + page,
+  //     )
+  //         .then((response) {
+  //       if (response != null) {
+  //         Map<String, dynamic> json = response;
+  //         ResourceModel responseData = ResourceModel.fromJson(json);
+  //         if (responseData.status == true) {
+  //           resourcesLoader = true;
+  //           resourceModel = responseData;
+  //           // assignExercise(refresh: true);
+  //           notifyListeners();
+  //         }
+  //       }
+  //       // apiResponseCompleted();
+  //     });
+  //   } catch (e, s) {
+  //     // apiResponseCompleted();
+  //     debugPrint('Error is $e & $s');
+  //   }
+  //
+  //   return resourceModel;
+  // }
 
   /// 1) fetch feed categories...
 
@@ -349,55 +352,131 @@ class GuestControllers extends ChangeNotifier {
   }
 
   /// 1) fetch resources details...
-  FetchResourcesDetailModel? fetchResourcesDetailModel;
 
-  bool resourcesDetailLoader = false;
+  bool loadingResources = true;
+  FetchResourcesDetailModel? _resourcesModel;
 
-  Future<FetchResourcesDetailModel?> fetchResourcesDetail({
+  FetchResourcesDetailModel? get resourcesModel => _resourcesModel;
+
+  List<FeedsData>? _resources;
+
+  List<FeedsData>? get resources => _resources;
+  num resourcesIndex = 1;
+  num resourcesTotal = 1;
+
+  RefreshController resourcesController = RefreshController(initialRefresh: false);
+
+  Future<List<FeedsData>?> fetchResourcesDetail({
     required BuildContext context,
-    required String page,
+    bool isRefresh = false,
+    bool loadingNext = false,
+    String? searchKey,
+    num? categoryId,
+    String? limit,
   }) async {
-    // refresh() {
-    //   loadingExerciseDetail = true;
-    //   exerciseDetailModel = null;
-    //   exerciseData = null;
-    //   exerciseDetail?.clear();
-    //   notifyListeners();
-    // }
-    //
-    // apiResponseCompleted() {
-    //   loadingExerciseDetail = false;
-    //   notifyListeners();
-    // }
+    String modelingData = 'FeedsData';
+    debugPrint('Fetching $modelingData Data...');
 
-    // refresh();
-    try {
-      await ApiService()
-          .get(
-        endPoint: ApiEndpoints.fetchResourceDetails + page,
-      )
-          .then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          FetchResourcesDetailModel responseData = FetchResourcesDetailModel.fromJson(json);
-          if (responseData.status == true) {
-            // isLoading=true;
-            resourcesDetailLoader = true;
-            fetchResourcesDetailModel = responseData;
-            // assignExercise(refresh: true);
-
-            notifyListeners();
-          }
-        }
-
-        // apiResponseCompleted();
-      });
-    } catch (e, s) {
-      // apiResponseCompleted();
-      debugPrint('Error is $e & $s');
+    onRefresh() {
+      resourcesIndex = 1;
+      resourcesTotal = 1;
+      loadingResources = true;
+      resourcesController.resetNoData();
+      _resourcesModel = null;
+      _resources = null;
+      notifyListeners();
+      debugPrint('Cleared $modelingData');
     }
 
-    return fetchResourcesDetailModel;
+    onComplete() {
+      loadingResources = false;
+      notifyListeners();
+    }
+
+    if (isRefresh) {
+      onRefresh();
+    }
+
+    Map<String, String> body = {
+      'page': '$resourcesIndex',
+      'category_id': '${categoryId ?? ''}',
+      'search_key': searchKey ?? '',
+      'limit': limit ?? '10',
+    };
+
+    debugPrint('Body $body');
+
+    try {
+      if (resourcesIndex <= resourcesTotal) {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchResources,
+          queryParameters: body,
+        );
+        FetchResourcesDetailModel? responseData;
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          responseData = FetchResourcesDetailModel.fromJson(json);
+          _resourcesModel = responseData;
+        }
+
+        if (responseData?.status == true) {
+          debugPrint('Current Page $resourcesTotal');
+          debugPrint(responseData?.message);
+          if (responseData?.data?.haveData == true) {
+            for (int i = 0; i < (responseData?.data?.length ?? 0); i++) {
+              var data = responseData?.data?.elementAt(i);
+              if (_resources == null) {
+                debugPrint('$modelingData Added');
+                if (data != null) {
+                  _resources = [data];
+                }
+              } else {
+                if (_resources?.contains(data) == true) {
+                  debugPrint('$modelingData Already exit');
+                } else {
+                  if (data != null) {
+                    _resources?.add(data);
+                    debugPrint('$modelingData  Updated');
+                  }
+                }
+              }
+            }
+            notifyListeners();
+          }
+
+          if (loadingNext) {
+            resourcesController.loadComplete();
+          } else {
+            resourcesController.refreshCompleted();
+          }
+          resourcesTotal = responseData?.dataRecords?.totalPage ?? 1;
+          resourcesIndex++;
+          notifyListeners();
+          debugPrint('$modelingData Total Pages $resourcesTotal');
+          debugPrint('Updated $modelingData Current Page $resourcesIndex');
+          return _resources;
+        } else {
+          debugPrint(responseData?.message);
+          if (loadingNext) {
+            resourcesController.loadFailed();
+          } else {
+            resourcesController.refreshFailed();
+          }
+          notifyListeners();
+        }
+      } else {
+        resourcesController.loadNoData();
+        loadingResources = false;
+        notifyListeners();
+        debugPrint('Load no More data in $modelingData');
+      }
+    } catch (e, s) {
+      ErrorHandler.catchError(e, s, true);
+    } finally {
+      onComplete();
+    }
+
+    return _resources;
   }
 
   /// 1) FAQs..

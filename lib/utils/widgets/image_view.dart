@@ -169,7 +169,7 @@ class ImageView extends StatelessWidget {
     return SizedBox(
       height: height ?? 10,
       width: width ?? 10,
-      child: Center(
+      child: const Center(
         child: CupertinoActivityIndicator(color: primaryColor),
       ),
     );
@@ -185,7 +185,7 @@ class ImageView extends StatelessWidget {
       color: color,
       height: height,
       width: width,
-      fit: fit ?? BoxFit.cover,
+      fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) =>
           imageError(context: context, error: error, stackTrace: stackTrace),
     );
@@ -202,7 +202,7 @@ class ImageView extends StatelessWidget {
     return SizedBox(
       height: height ?? 10,
       width: width ?? 10,
-      child: Center(
+      child: const Center(
         child: CupertinoActivityIndicator(color: primaryColor),
       ),
     );
@@ -221,7 +221,7 @@ class ImageView extends StatelessWidget {
       color: color,
       height: height,
       width: width,
-      fit: fit ?? BoxFit.cover,
+      fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) => imageError(
           context: context,
           error: error,

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../core/services/database/local_database.dart';
 import '../web_view/faq.dart';
 
 class GuestProfile extends StatefulWidget {
@@ -21,36 +23,46 @@ class _GuestProfileState extends State<GuestProfile> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
     return Scaffold(
       body: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          ListView(
+            padding: EdgeInsets.zero,
             children: [
               Container(
                   height: size.height * 0.19,
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                    image: DecorationImage(image: AssetImage(AppAssets.getsprofile), fit: BoxFit.cover),
+                    image: DecorationImage(
+                        image: AssetImage(
+                          AppAssets.getsprofile,
+                        ),
+                        fit: BoxFit.cover),
                   )),
+
               SizedBox(
                 height: size.height * 0.04,
               ),
-              const Text(
-                'Ayaan Sha',
-                style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
+              Text(
+                '${localDatabase.guest?.firstName ?? ''} ${localDatabase.guest?.lastName ?? ''}',
+                style: const TextStyle(
+                    color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
                 textAlign: TextAlign.center,
               ),
-              const Text(
-                '+91 62656 84212',
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.3),
+              Text(
+                '+91 ${localDatabase.guest?.mobile ?? ''}',
+                style: const TextStyle(
+                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.3),
                 textAlign: TextAlign.center,
               ),
-              const Text(
-                'Civil lines, Raipur, C.G.',
-                style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
-                textAlign: TextAlign.center,
-              ),
+              if (localDatabase.guest?.email != null)
+                Text(
+                  localDatabase.guest?.email ?? '',
+                  style: const TextStyle(
+                      color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
+                  textAlign: TextAlign.center,
+                ),
               Padding(
                 padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: Card(
@@ -182,10 +194,12 @@ class _GuestProfileState extends State<GuestProfile> {
           Positioned(
             top: size.height * 0.11,
             left: size.width * 0.37,
-            child: CircleAvatar(
-              minRadius: size.height * 0.06,
-              maxRadius: size.height * 0.06,
-              backgroundImage: const AssetImage(AppAssets.product1),
+            child:         ImageView(
+              height: 100,
+              width: 100,
+              networkImage: '${localDatabase.guest?.profilePhoto}',
+              isAvatar: true,
+              margin: EdgeInsets.zero,
             ),
           )
         ],
@@ -212,8 +226,8 @@ class Card extends StatelessWidget {
       // height: 232,
       decoration: ShapeDecoration(
         gradient: LinearGradient(
-          begin: Alignment(0.00, -1.00),
-          end: Alignment(0, 1),
+          begin: const Alignment(0.00, -1.00),
+          end: const Alignment(0, 1),
           colors: type == true
               ? [const Color(0xFF3B3B3B), const Color(0xFF4A4A4A)]
               : [const Color(0xFF1B1B1B), const Color(0xFF282828)],

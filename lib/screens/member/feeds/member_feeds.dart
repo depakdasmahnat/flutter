@@ -19,6 +19,7 @@ import '../../../models/guest_Model/fetchfeedcategoriesmodel.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import 'feed_detail.dart';
 
 class MemberFeeds extends StatefulWidget {
   const MemberFeeds({
@@ -86,7 +87,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
               children: [
                 CustomTextField(
                   hintText: 'Search',
-                  readOnly: true,
+                  controller: searchController,
                   hintStyle: const TextStyle(color: Colors.white),
                   prefixIcon: ImageView(
                     height: 20,
@@ -155,13 +156,14 @@ class _MemberFeedsState extends State<MemberFeeds> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
+                      var data = feeds?.elementAt(index);
                       return InkWell(
                         onTap: () {
-                          context.pushNamed(Routs.productDetail);
+                          context.pushNamed(Routs.feedDetail, extra: FeedDetail(id: data?.id));
                         },
                         child: FeedCard(
                           index: index,
-                          data: feeds?.elementAt(index),
+                          data: data,
                         ),
                       );
                     },

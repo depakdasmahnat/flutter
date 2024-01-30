@@ -80,7 +80,7 @@ class DashboardController extends ChangeNotifier {
       title: 'Resources',
       activeImage: AppAssets.more,
       inActiveImage: AppAssets.more,
-      widget: const Mainresource(),
+      widget: const MainResource(),
     ),
   ];
 

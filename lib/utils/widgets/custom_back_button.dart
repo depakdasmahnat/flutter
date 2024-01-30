@@ -19,7 +19,7 @@ class _CustomBackButtonState extends State<CustomBackButton> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        InkWell(
+        GestureDetector(
           onTap: () {
             context.pop();
           },

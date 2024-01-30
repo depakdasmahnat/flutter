@@ -21,52 +21,60 @@ class GuestPoduct extends StatefulWidget {
 
 class _GuestPoductState extends State<GuestPoduct> {
   int? value = 0;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      context.read<GuestControllers>().guestProductLoader=false;
+      context.read<GuestControllers>().guestProductLoader = false;
       await context.read<GuestControllers>().fetchProduct(context: context, page: '1');
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(size.height * 0.06),
-          child: CustomAppBar(
-            showLeadICon: false,
-            title: 'Products',
-          )),
+        preferredSize: Size.fromHeight(size.height * 0.06),
+        child: CustomAppBar(
+          showLeadICon: false,
+          title: 'Products',
+        ),
+      ),
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
           return GridView.count(
             crossAxisCount: 2,
             mainAxisSpacing: 10,
-            childAspectRatio: ((size.height - kToolbarHeight - 20) / (size.height - kToolbarHeight - 20) / 1.1),
+            childAspectRatio:
+                ((size.height - kToolbarHeight - 20) / (size.height - kToolbarHeight - 20) / 1.1),
             controller: ScrollController(keepScrollOffset: false),
             padding: const EdgeInsets.only(bottom: 100),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             children: List.generate(
-              controller.fetchguestProduct?.data?.length??0,
+              controller.fetchguestProduct?.data?.length ?? 0,
               (index) {
                 return InkWell(
                     onTap: () {
-                      value=index;
+                      value = index;
                       setState(() {});
-                      context.push(Routs.guestProductDetail,extra: GusetProductDetails(productId:controller.fetchguestProduct?.data?[index].id.toString()??'' ,));
+                      context.push(Routs.guestProductDetail,
+                          extra: GusetProductDetails(
+                            productId: controller.fetchguestProduct?.data?[index].id.toString() ?? '',
+                          ));
                     },
-                    child: controller.guestProductLoader==false?const Center(
-                      child:   CupertinoActivityIndicator(
-                          radius: 15, color: CupertinoColors.white),
-                    ) :ProductCard(
-                      index: index,
-                      value: value,
-                      title:controller.fetchguestProduct?.data?[index].name,
-                      image:controller.fetchguestProduct?.data?[index].productImage,
-                    ));
+                    child: controller.guestProductLoader == false
+                        ? const Center(
+                            child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                          )
+                        : ProductCard(
+                            index: index,
+                            value: value,
+                            title: controller.fetchguestProduct?.data?[index].name,
+                            image: controller.fetchguestProduct?.data?[index].productImage,
+                          ));
               },
             ),
           );
@@ -81,6 +89,7 @@ class ProductCard extends StatelessWidget {
   int? value;
   String? image;
   String? title;
+
   ProductCard({
     this.index,
     this.value,
@@ -88,6 +97,7 @@ class ProductCard extends StatelessWidget {
     this.title,
     super.key,
   });
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -114,8 +124,8 @@ class ProductCard extends StatelessWidget {
                   child: ClipRRect(
                     clipBehavior: Clip.antiAlias,
                     borderRadius: const BorderRadius.all(Radius.circular(17)),
-                    child:
-                        Image.network(image??'', fit: BoxFit.cover,height: size.height*0.2,width: size.width*0.4),
+                    child: Image.network(image ?? '',
+                        fit: BoxFit.cover, height: size.height * 0.2, width: size.width * 0.4),
                   ),
                 ),
                 // ImageView(
@@ -128,7 +138,7 @@ class ProductCard extends StatelessWidget {
                   height: size.height * 0.01,
                 ),
                 Text(
-                  title??'',
+                  title ?? '',
                   style: TextStyle(
                     color: index == value ? Colors.black : Colors.white,
                     fontSize: 14,

@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import '../feeds/feeds_data.dart';
 FetchResourcesDetailModel fetchResouresDetailModelFromJson(String str) => FetchResourcesDetailModel.fromJson(json.decode(str));
 String fetchResouresDetailModelToJson(FetchResourcesDetailModel data) => json.encode(data.toJson());
 class FetchResourcesDetailModel {
@@ -6,7 +8,7 @@ class FetchResourcesDetailModel {
       bool? status, 
       String? message, 
       DataRecords? dataRecords, 
-      List<Data>? data,}){
+      List<FeedsData>? data,}){
     _status = status;
     _message = message;
     _dataRecords = dataRecords;
@@ -20,19 +22,19 @@ class FetchResourcesDetailModel {
     if (json['data'] != null) {
       _data = [];
       json['data'].forEach((v) {
-        _data?.add(Data.fromJson(v));
+        _data?.add(FeedsData.fromJson(v));
       });
     }
   }
   bool? _status;
   String? _message;
   DataRecords? _dataRecords;
-  List<Data>? _data;
+  List<FeedsData>? _data;
 
   bool? get status => _status;
   String? get message => _message;
   DataRecords? get dataRecords => _dataRecords;
-  List<Data>? get data => _data;
+  List<FeedsData>? get data => _data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -49,46 +51,7 @@ class FetchResourcesDetailModel {
 
 }
 
-Data dataFromJson(String str) => Data.fromJson(json.decode(str));
-String dataToJson(Data data) => json.encode(data.toJson());
-class Data {
-  Data({
-      num? id, 
-      num? categoryId, 
-      String? path, 
-      String? file,}){
-    _id = id;
-    _categoryId = categoryId;
-    _path = path;
-    _file = file;
-}
 
-  Data.fromJson(dynamic json) {
-    _id = json['id'];
-    _categoryId = json['category_id'];
-    _path = json['path'];
-    _file = json['file'];
-  }
-  num? _id;
-  num? _categoryId;
-  String? _path;
-  String? _file;
-
-  num? get id => _id;
-  num? get categoryId => _categoryId;
-  String? get path => _path;
-  String? get file => _file;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = _id;
-    map['category_id'] = _categoryId;
-    map['path'] = _path;
-    map['file'] = _file;
-    return map;
-  }
-
-}
 
 DataRecords dataRecordsFromJson(String str) => DataRecords.fromJson(json.decode(str));
 String dataRecordsToJson(DataRecords data) => json.encode(data.toJson());

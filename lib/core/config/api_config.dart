@@ -50,16 +50,21 @@ class ApiEndpoints {
   static const String verifyOtp = 'verify_otp';
   static const String fetchCategories = 'fetch_categories?type=';
   static const String fetchFeeds = 'fetch_feeds';
+  static const String feedLike = 'feed_like';
+  static const String feedUnLike = 'feed_unlike';
+
+  static const String viewFeed = 'view_feed';
   static const String fetchQuestions = 'fetch_interest_questions?category_id=';
   static const String submitGuestInterest = 'submit_guest_interest';
 
-  /// Geust Apis....
+  /// Guest Apis....
   static const String fetchJoiners = 'fetch_new_joinees';
   static const String fetchProduct = 'fetch_products?page=';
   static const String fetchProductDetail = 'fetch_product_details?product_id=';
-  static const String fetchResources = 'fetch_resources?page=';
+  static const String fetchResources = 'fetch_resources';
   static const String fetchFeedCategories = 'fetch_feed_categories';
-  static const String fetchResourceDetails = 'fetch_resources?page=';
+  static const String getComments = 'get_comments';
+  static const String feedComment = 'feed_comment';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

@@ -27,7 +27,7 @@ class Routs {
   static const String permissions = '/permissions';
   static const String samplePagination = '/sample-pagination';
 
-  static const String productDetail = '/productDetail';
+  static const String feedDetail = '/feedDetail';
   static const String examQuiz = '/examQuiz';
   static const String toDoScreen = '/toDoScreen';
   static const String goals = '/goals';

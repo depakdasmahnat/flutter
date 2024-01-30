@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/screens/guest/product/guest_product_details.dart';
 import 'package:mrwebbeast/screens/member/archievers/achievers.dart';
@@ -28,7 +29,7 @@ import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
 import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/product/guest_product.dart';
-import '../../screens/guest/productDetail/product_detail.dart';
+import '../../screens/member/feeds/feed_detail.dart';
 import '../../screens/guest/profile/about_us.dart';
 
 import '../../screens/guest/profile/permission_screen.dart';
@@ -72,9 +73,6 @@ import '../services/database/local_database.dart';
 import 'route_paths.dart';
 
 class RoutesConfig {
-  /// Initial Route...
-  static final _settingsNavigatorKey = GlobalKey<NavigatorState>();
-
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
     return authenticated ? Routs.dashboard : Routs.fisrtScreen;
@@ -137,8 +135,8 @@ class RoutesConfig {
         path: Routs.dashboard,
         pageBuilder: (context, state) {
           DashBoard? data = state.extra as DashBoard?;
-          print("check data ${data?.dashBoardIndex}");
-          print("check data ${data?.userRole}");
+          print('check data ${data?.dashBoardIndex}');
+          print('check data ${data?.userRole}');
           return cupertinoPage(
               state: state,
               child: DashBoard(
@@ -350,15 +348,22 @@ class RoutesConfig {
         name: Routs.resourceAndDemo,
         path: Routs.resourceAndDemo,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: RecourceAndDemo(type: state.extra.toString()));
+          ResourceAndDemo? data = state.extra as ResourceAndDemo?;
+
+          return cupertinoPage(state: state, child: ResourceAndDemo(category: data?.category));
         },
       ),
 
       GoRoute(
-        name: Routs.productDetail,
-        path: Routs.productDetail,
+        name: Routs.feedDetail,
+        path: Routs.feedDetail,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const ProductDetail());
+          FeedDetail? data = state.extra as FeedDetail?;
+          return cupertinoPage(
+              state: state,
+              child: FeedDetail(
+                id: data?.id,
+              ));
         },
       ),
       GoRoute(
@@ -571,11 +576,19 @@ class RoutesConfig {
   static authRedirect(BuildContext context, GoRouterState state) {}
 
   static bool isAuthenticated() {
+    bool status = false;
     LocalDatabase localDatabase = LocalDatabase();
-    return localDatabase.member?.accessToken?.isNotEmpty == true;
+
+    if (localDatabase.userRole == UserRoles.guest.value) {
+      status = localDatabase.guest?.accessToken?.isNotEmpty == true;
+    } else if (localDatabase.userRole == UserRoles.member.value) {
+      status = localDatabase.member?.accessToken?.isNotEmpty == true;
+    }
+
+    return status;
   }
 
-  static String? authRequired(BuildContext context, GoRouterState state) {
+    static String? authRequired(BuildContext context, GoRouterState state) {
     debugPrint('isAuthenticated() ${isAuthenticated()}');
     debugPrint('authRequired');
     if (!isAuthenticated()) {
