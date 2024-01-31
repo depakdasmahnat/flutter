@@ -22,8 +22,8 @@ enum FeedsFileType {
   video('Video'),
   youtubeVideo('YoutubeVideo'),
   pdf('Pdf'),
-  images('Image');
-
+  ppt('Ppt'),
+  image('Image');
   final String value;
 
   const FeedsFileType(this.value);

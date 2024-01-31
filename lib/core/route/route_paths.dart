@@ -32,7 +32,8 @@ class Routs {
   static const String toDoScreen = '/toDoScreen';
   static const String goals = '/goals';
   static const String createGoal = '/createGoal';
-
+  static const String viewPdf = '/viewPdf';
+  static const String pptViewer = '/pptViewer';
 
   static const String achievers = '/achievers';
   static const String createTarget = '/createTarget';

@@ -99,7 +99,7 @@ class ErrorHandler {
     log('API Url => $url');
     log('Status Code => $statusCode');
     log('Message => $message');
-    log('Body => $body');
+    log('Response => $body');
 
     try {
       switch (response.statusCode) {

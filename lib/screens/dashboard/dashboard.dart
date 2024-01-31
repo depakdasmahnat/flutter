@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 
 import 'package:mrwebbeast/core/constant/enums.dart';
@@ -37,6 +38,9 @@ class DashBoard extends StatefulWidget {
 class DashBoardState extends State<DashBoard> {
   late int dashBoardIndex = widget.dashBoardIndex ?? 0;
   late String? userRole = widget.userRole ?? UserRoles.guest.value;
+  DateTime currentDate = DateTime.now();
+
+  late String formattedDate = DateFormat(dayFormat).format(currentDate);
 
   @override
   void initState() {
@@ -48,7 +52,8 @@ class DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('deviceToken ${LocalDatabase().deviceToken}');
+    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
+    debugPrint('deviceToken ${localDatabase.deviceToken}');
     // DashboardController dashboardController = Provider.of<DashboardController>(context);
     Size size = MediaQuery.sizeOf(context);
     return Consumer<DashboardController>(
@@ -83,18 +88,20 @@ class DashBoardState extends State<DashBoard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             GradientText(
-                              'Welcome Guest',
+                              'Welcome ${localDatabase.member?.firstName ?? 'Member'}',
                               gradient: primaryGradient,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
+                                overflow: TextOverflow.ellipsis,
                                 fontFamily: GoogleFonts.urbanist().fontFamily,
                                 fontWeight: FontWeight.w700,
                               ),
+                              maxLines: 1,
                               textAlign: TextAlign.start,
                             ),
                             Text(
-                              'Monday, 12 Jan',
+                              formattedDate,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -154,7 +161,7 @@ class DashBoardState extends State<DashBoard> {
                   mainAxisSize: controller.showMoreMenuPopUp ? MainAxisSize.max : MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (controller.showMoreMenuPopUp)  DashboardMoreMenu(),
+                    if (controller.showMoreMenuPopUp) DashboardMoreMenu(),
                     GradientButton(
                       margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
                       borderRadius: 50,

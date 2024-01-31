@@ -4,6 +4,7 @@ import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:mrwebbeast/screens/member/feeds/feeds_card.dart';
+import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -59,12 +60,14 @@ class _FeedDetailState extends State<FeedDetail> {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(size.height * 0.06),
-        child: CustomAppBar(
-          showLeadICon: true,
-          title: 'Details',
+      appBar: AppBar(
+        leading: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomBackButton(),
+          ],
         ),
+         title: const Text('Details'),
       ),
       body: Consumer<FeedsController>(
         builder: (context, controller, child) {
@@ -86,6 +89,7 @@ class _FeedDetailState extends State<FeedDetail> {
               }
             },
             child: ListView(
+              shrinkWrap: true,
               children: [
                 if (feedDetails != null)
                   FeedCard(data: feedDetails)
@@ -99,7 +103,8 @@ class _FeedDetailState extends State<FeedDetail> {
                   ListView.builder(
                     itemCount: comments?.length ?? 0,
                     shrinkWrap: true,
-                    padding: const EdgeInsets.only(top: 8),
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.only(top: 8, bottom: 50),
                     itemBuilder: (context, index) {
                       var data = comments?.elementAt(index);
 

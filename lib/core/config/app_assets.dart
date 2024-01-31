@@ -27,8 +27,7 @@ class AppAssets {
   static const String leadContact = 'assets/icons/Ic_lead_contact.png';
 
   static const String geustProduct = 'assets/images/geust_product.png';
-  static const String geustProductDteila =
-      'assets/images/guet_product_detail.png';
+  static const String geustProductDteila = 'assets/images/guet_product_detail.png';
 
   static const String product = 'assets/images/product.png';
 
@@ -52,7 +51,8 @@ class AppAssets {
   static const String logoTextIcon = 'assets/icons/logo_text.png';
 
   static const String lockIcon = 'assets/icons/ic_lock.png';
-  static const String heartIcon = 'assets/icons/ic_heart.png';  static const String heartFilledIcon = 'assets/icons/ic_heart_filled.png';
+  static const String heartIcon = 'assets/icons/ic_heart.png';
+  static const String heartFilledIcon = 'assets/icons/ic_heart_filled.png';
   static const String chatIcon = 'assets/icons/ic_chat.png';
   static const String shareIcon = 'assets/icons/ic_share.png';
   static const String bookmarkIcon = 'assets/icons/ic_bookmark.png';
@@ -71,8 +71,7 @@ class AppAssets {
   static const String achievementIcon = 'assets/icons/ic_achievement.png';
   static const String playIcon = 'assets/icons/ic_play.png';
   static const String upload = 'assets/icons/download.png';
-  static const String congratulationsBanner =
-      'assets/images/congratulations_banner.png';
+  static const String congratulationsBanner = 'assets/images/congratulations_banner.png';
   static const String checkIcon = 'assets/icons/ic_check.png';
 
   static const String achieversIcon = 'assets/icons/ic_achievers.png';
@@ -83,6 +82,8 @@ class AppAssets {
   static const String addPersonIcon = 'assets/icons/ic_add_person.png';
   static const String copyIcon = 'assets/icons/ic_copy.png';
   static const String leadShare = 'assets/icons/Ic_lead_share.png';
+  static const String fileIcon = 'assets/icons/ic_file.png';
+  static const String pdfIcon = 'assets/icons/ic_pdf.png';
 
   /// 2) Images...
 
@@ -102,8 +103,7 @@ class AppAssets {
   static const String userImage = 'assets/images/user_image.png';
   static const String goalImage = 'assets/images/goal_home.png';
 
-  static const String logoHorizontalText =
-      'assets/images/logo_horizontal_text.png';
+  static const String logoHorizontalText = 'assets/images/logo_horizontal_text.png';
   static const String dashboardRings = 'assets/images/dashboard_rings.png';
 
   ///3)  Json...
@@ -120,6 +120,5 @@ class AppAssets {
   static const String toparrow = 'assets/images/toparrow.png';
   static const String memberprofile = 'assets/images/memberprofile.png';
   static const String admemberlist = 'assets/images/memberuser.png';
-  static const String authbackgroundimage =
-      'assets/images/authbackgroundimage.png';
+  static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
 }
