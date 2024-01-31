@@ -35,6 +35,7 @@ class _LoginState extends State<Login> {
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController phoneCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
+  TextEditingController addressCtrl = TextEditingController();
   GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
 
   @override
@@ -90,16 +91,10 @@ class _LoginState extends State<Login> {
                     return Validator.numberValidator(val);
                   },
                   onChanged: (value) async{
-                    print("check 1");
+
                     if (value.length == 10) {
                       validatePhone();
-                       // await  context.read<AuthControllers>().validateMobile(
-                       //      context: context,
-                       //      mobile: phoneCtrl.text,
-                       //    ).then((value) {
-                       //      print("check responce ${value}");
-                       //    },);
-                      print("check 2");
+
                     }
                   },
                   hintText: 'Enter Mobile No.',
@@ -130,6 +125,18 @@ class _LoginState extends State<Login> {
                   autofillHints: const [AutofillHints.name],
                   margin: const EdgeInsets.only(top: 18, bottom: 18),
                 ),
+                if( checkValidate==true)
+                  CustomTextField(
+                    controller: addressCtrl,
+                    autofocus: true,
+                    validator: (val) {
+                      return Validator.fullNameValidator(val);
+                    },
+                    onChanged: (value) {},
+                    hintText: 'Enter Address',
+                    autofillHints: const [AutofillHints.name],
+                    margin: const EdgeInsets.only(top: 18, bottom: 18),
+                  ),
                 if(forReferral==false)
                 const Padding(
                   padding: EdgeInsets.only(bottom: 12),
@@ -274,6 +281,7 @@ class _LoginState extends State<Login> {
     if(validate?.status==true){
       nameCtrl.text =validate?.data?.firstName??'';
       lastNameCtrl.text =validate?.data?.lastName??'';
+      addressCtrl.text =validate?.data?.address??'';
       checkValidate=true;
       forReferral=true;
     }else{
@@ -286,11 +294,12 @@ class _LoginState extends State<Login> {
     print('check status ${validate?.status}');
   }
   Future sendOtp() async {
-    print("check refersl code influtter ${referralCodeCtrl.text}");
+
  await  context.read<AuthControllers>().sendOtp(
       context: context,
       mobile: phoneCtrl.text, isMobileValidated: forReferral, firstName:nameCtrl.text,
       lastName: lastNameCtrl.text, referralCode: referralCodeCtrl.text,
+   address: addressCtrl.text
     );
 
     // setState(() {});

@@ -89,10 +89,11 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.faq,
                           title: 'FAQ',
                           onTap: () {
-                            context.pushNamed(Routs.webView,
-                                extra: const WebViewScreen(
-                                  url: 'https://api.gtp.proapp.in/api/v1/fetch_faqs',
-                                ));
+                            context.pushNamed(Routs.guestFaq);
+                            // context.pushNamed(Routs.webView,
+                            //     extra: const WebViewScreen(
+                            //       url: 'https://api.gtp.proapp.in/api/v1/fetch_faqs',
+                            //     ));
                           },
                         ),
                         SizedBox(
