@@ -20,13 +20,6 @@ class ResourceAndDemo extends StatefulWidget {
 
   const ResourceAndDemo({super.key, this.category});
 
-<<<<<<< HEAD
-=======
-class RecourceAndDemo extends StatefulWidget {
-  String? type;
-  String? categoryId;
-   RecourceAndDemo({super.key,this.type,this.categoryId});
->>>>>>> guestUI
   @override
   State<ResourceAndDemo> createState() => _ResourceAndDemoState();
 }
@@ -38,11 +31,11 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
 
   Future fetchResourcesDetail({bool? loadingNext}) async {
     return await context.read<GuestControllers>().fetchResourcesDetail(
-          context: context,
-          categoryId: category?.id,
-          isRefresh: loadingNext == true ? false : true,
-          loadingNext: loadingNext ?? false,
-        );
+      context: context,
+      categoryId: category?.id,
+      isRefresh: loadingNext == true ? false : true,
+      loadingNext: loadingNext ?? false,
+    );
   }
 
   TextEditingController searchController = TextEditingController();
@@ -53,13 +46,8 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-<<<<<<< HEAD
       fetchResourcesDetail();
 
-=======
-      // context.read<GuestControllers>().resourcesDetailLoader=false;
-      await context.read<GuestControllers>().fetchResourcesDetail(context: context,categoryId: widget.categoryId??'', page: '1');
->>>>>>> guestUI
     });
     super.initState();
   }
@@ -71,7 +59,6 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
         title: Text(category?.name ?? 'Resources'),
       ),
       body: Consumer<GuestControllers>(
-<<<<<<< HEAD
         builder: (context, controller, child) {
           resources = controller.resources;
           return SmartRefresher(
@@ -109,58 +96,29 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
                 controller.loadingResources == true
                     ? const LoadingScreen(heightFactor: 0.7)
                     : (resources.haveData)
-                        ? ListView.builder(
-                            itemCount: resources?.length ?? 0,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.only(bottom: kPadding),
-                            // physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              var data = resources?.elementAt(index);
-=======
-      builder: (context, controller, child) {
-        return controller.resourcesDetailLoader==false?const Center(
-          child:   CupertinoActivityIndicator(
-              animating: true,
-              radius: 20, color: CupertinoColors.white),
-        )  : ListView.builder(
-          itemCount:controller.fetchResourcesDetailModel?.data?.length??0,
-          shrinkWrap: true,
-          padding: const EdgeInsets.only(bottom: kPadding),
-          // physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return InkWell(
-                onTap: () {
-                  if(widget.type!='true'){
-                    context.pushNamed(Routs.resourceAndDemo,extra:true );
-                  }
+                    ? ListView.builder(
+                  itemCount: resources?.length ?? 0,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: kPadding),
+                  // physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    var data = resources?.elementAt(index);
 
-                },
-                child: FeedCard(
-                  index: index,
-                  type: 'true',
-                  networkImage: controller.fetchResourcesDetailModel?.data?[index].file,
-                  imageHeight: size.height*0.3,
-                  fit: BoxFit.cover,));
-          },
-        );
-      },
->>>>>>> guestUI
-
-                              return InkWell(
-                                  onTap: () {
-                                    // if(widget.type!='true'){
-                                    //   context.pushNamed(Routs.resourceAndDemo,extra:true );
-                                    // }
-                                  },
-                                  child: FeedCard(
-                                    index: index,
-                                    data: data,
-                                    isFeeds: false,
-                                  ));
-                            },
-                          )
-                        : const NoDataFound(heightFactor: 0.7),
+                    return InkWell(
+                        onTap: () {
+                          // if(widget.type!='true'){
+                          //   context.pushNamed(Routs.resourceAndDemo,extra:true );
+                          // }
+                        },
+                        child: FeedCard(
+                          index: index,
+                          data: data,
+                          isFeeds: false,
+                        ));
+                  },
+                )
+                    : const NoDataFound(heightFactor: 0.7),
               ],
             ),
           );

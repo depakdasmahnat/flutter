@@ -73,6 +73,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             hintText: 'Enter Last Name',
           ),
           CustomDropdown(
+            hintText: 'Select Gender',
             onChanged: (v) {
               gender =v??'';
             },
@@ -86,7 +87,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             hintText: 'Enter Mobile No.',
             prefixIcon: const Padding(
               padding: EdgeInsets.only(top: 3),
-              child: Text("+91"),
+              child: Text('+91'),
             ),
           ),
            CustomTextFieldApp(
@@ -95,6 +96,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             hintText: 'email@gmail.com',
           ),
           CustomDropdown(
+            hintText: 'Select Ref Type',
             onChanged: (v) {
               refType =v??'';
             },
@@ -102,6 +104,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             listItem: const ['Friend', 'Friend'],
           ),
           CustomDropdown(
+            hintText: 'Select Occupation',
             onChanged: (v) {
               occupation=v??'';
             },
@@ -171,6 +174,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           Consumer<GuestControllers>(
             builder: (context, controller, child) {
               return CustomDropdown(
+                hintText: 'Select State',
                 onChanged: (v) async{
                   stateId=   controller.satesModel?.data?.firstWhere((element) {
                     return element.name ==v;
@@ -189,6 +193,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           Consumer<GuestControllers>(
            builder: (context, controller, child) {
              return  CustomDropdown(
+               hintText: 'Select City',
                onChanged: (v) {
                  cityId=   controller.cityModel?.data?.firstWhere((element) {
                    return element.name ==v;
@@ -406,14 +411,14 @@ class CustomDropdown extends StatelessWidget {
                 ),
                 items: listItem?.cast<String>() ?? [],
                 onChanged:onChanged ,
-                dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownDecoratorProps:  DropDownDecoratorProps(
                   dropdownSearchDecoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(
+                    contentPadding: const EdgeInsets.only(
                       left: 7,
                       top: 7,
                     ),
                     border: InputBorder.none,
-                    hintText: 'Select Gender',
+                    hintText: hintText??'Select Gender',
                   ),
                 ),
               ),

@@ -14,7 +14,7 @@ import '../../app.dart';
 
 import '../../models/member/auth/reset_password.dart';
 import '../../screens/auth/connect_with_us.dart';
-import '../../screens/auth/first_Screen.dart';
+import '../../screens/welcome_screen.dart';
 
 import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/member/member_login.dart';
@@ -77,8 +77,8 @@ import 'route_paths.dart';
 class RoutesConfig {
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
-    print("check authenticated $authenticated");
-    return authenticated ? Routs.dashboard : Routs.fisrtScreen;
+
+    return authenticated ? Routs.dashboard : Routs.welcome;
   }
 
   ///1)  Route Config...
@@ -126,10 +126,10 @@ class RoutesConfig {
         },
       ),
       GoRoute(
-        name: Routs.fisrtScreen,
-        path: Routs.fisrtScreen,
+        name: Routs.welcome,
+        path: Routs.welcome,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const FirstScreen());
+          return cupertinoPage(state: state, child: const WelcomeScreen());
         },
       ),
 
@@ -150,13 +150,6 @@ class RoutesConfig {
         },
       ),
 
-      GoRoute(
-        name: Routs.welcome,
-        path: Routs.welcome,
-        pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const WelcomeScreen());
-        },
-      ),
       GoRoute(
         name: Routs.login,
         path: Routs.login,
@@ -183,8 +176,7 @@ class RoutesConfig {
         name: Routs.memberProfileDetails,
         path: Routs.memberProfileDetails,
         pageBuilder: (context, state) {
-          return cupertinoPage(
-              state: state, child: const MemberProfileDetails());
+          return cupertinoPage(state: state, child: const MemberProfileDetails());
         },
       ),
 
@@ -354,8 +346,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ResourceAndDemo? data = state.extra as ResourceAndDemo?;
 
-          return cupertinoPage(
-              state: state, child: ResourceAndDemo(category: data?.category));
+          return cupertinoPage(state: state, child: ResourceAndDemo(category: data?.category));
         },
       ),
 
@@ -548,9 +539,7 @@ class RoutesConfig {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
           return cupertinoPage(
-              state: state,
-              child: WebViewScreen(
-                  key: data?.key, title: data?.title, url: data?.url));
+              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {

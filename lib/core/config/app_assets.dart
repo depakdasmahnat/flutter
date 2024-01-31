@@ -112,7 +112,7 @@ class AppAssets {
   static const String winnerJson = 'assets/lottie/winner.json';
 
   ///3)  Videos...
-  static const String firstScreenVideo = 'assets/videos/mainvideo.gif';
+  static const String firstScreenVideo = 'assets/videos/video.gif';
 
   ///4)  ExtraImage...
 

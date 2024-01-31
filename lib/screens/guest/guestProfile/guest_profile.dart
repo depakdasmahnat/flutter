@@ -23,9 +23,6 @@ class GuestProfile extends StatefulWidget {
 class _GuestProfileState extends State<GuestProfile> {
   @override
   Widget build(BuildContext context) {
-    LocalDatabase localDatabase =
-        Provider.of<LocalDatabase>(context, listen: false);
-
     Size size = MediaQuery.of(context).size;
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
     return Scaffold(
@@ -51,62 +48,29 @@ class _GuestProfileState extends State<GuestProfile> {
               Text(
                 '${localDatabase.guest?.firstName ?? ''} ${localDatabase.guest?.lastName ?? ''}',
                 style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    height: 1.3),
+                    color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
                 textAlign: TextAlign.center,
               ),
               Text(
                 '+91 ${localDatabase.guest?.mobile ?? ''}',
                 style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    height: 1.3),
+                    color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.3),
                 textAlign: TextAlign.center,
               ),
               if (localDatabase.guest?.email != null)
                 Text(
                   localDatabase.guest?.email ?? '',
                   style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400,
-                      height: 1.2),
+                      color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
                   textAlign: TextAlign.center,
                 ),
-              Text(
-                '${localDatabase.guest?.firstName} ${localDatabase.guest?.lastName}',
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    height: 1.3),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                '${localDatabase.guest?.mobile}',
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    height: 1.3),
-                textAlign: TextAlign.center,
-              ),
-              // const Text(
-              //   '${localDatabase.guest?.a}',
-              //   style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
-              //   textAlign: TextAlign.center,
-              // ),
+
               Padding(
-                padding: const EdgeInsets.only(
-                    left: kPadding, right: kPadding, top: kPadding),
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: Card(
                   type: true,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30, top: kPadding, bottom: kPadding),
+                    padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,8 +91,7 @@ class _GuestProfileState extends State<GuestProfile> {
                           onTap: () {
                             context.pushNamed(Routs.webView,
                                 extra: const WebViewScreen(
-                                  url:
-                                      'https://api.gtp.proapp.in/api/v1/fetch_faqs',
+                                  url: 'https://api.gtp.proapp.in/api/v1/fetch_faqs',
                                 ));
                           },
                         ),
@@ -159,13 +122,11 @@ class _GuestProfileState extends State<GuestProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: kPadding, right: kPadding, top: kPadding),
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: Card(
                   type: false,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30, top: kPadding, bottom: kPadding),
+                    padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,8 +138,7 @@ class _GuestProfileState extends State<GuestProfile> {
                           onTap: () {
                             context.pushNamed(Routs.webView,
                                 extra: const WebViewScreen(
-                                  url:
-                                      'https://api.gtp.proapp.in/api/v1/help_and_support',
+                                  url: 'https://api.gtp.proapp.in/api/v1/help_and_support',
                                 ));
                           },
                         ),
@@ -191,8 +151,7 @@ class _GuestProfileState extends State<GuestProfile> {
                           onTap: () {
                             context.pushNamed(Routs.webView,
                                 extra: const WebViewScreen(
-                                  url:
-                                      'https://api.gtp.proapp.in/api/v1/contact_us',
+                                  url: 'https://api.gtp.proapp.in/api/v1/contact_us',
                                 ));
                           },
                         ),
@@ -205,8 +164,7 @@ class _GuestProfileState extends State<GuestProfile> {
                           onTap: () {
                             context.pushNamed(Routs.webView,
                                 extra: const WebViewScreen(
-                                  url:
-                                      'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                                  url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
                                 ));
                           },
                         ),
@@ -216,8 +174,7 @@ class _GuestProfileState extends State<GuestProfile> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    left: kPadding, right: kPadding, top: kPadding),
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: GestureDetector(
                   onTap: () {
                     context.read<MemberAuthControllers>().logOutPopup(context);
@@ -225,8 +182,7 @@ class _GuestProfileState extends State<GuestProfile> {
                   child: Card(
                     type: false,
                     child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 30, top: kPadding, bottom: kPadding),
+                      padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
                       child: IconAndText(
                         icon: AppAssets.logout,
                         title: 'Sign Out',
@@ -316,8 +272,7 @@ class IconAndText extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Image.asset(icon ?? '',
-              height: height ?? size.height * 0.026, fit: BoxFit.contain),
+          Image.asset(icon ?? '', height: height ?? size.height * 0.026, fit: BoxFit.contain),
           SizedBox(
             width: size.width * 0.04,
           ),

@@ -35,7 +35,7 @@ class MemberAuthControllers extends ChangeNotifier {
       await clearUserData(context).then((val) {
         notifyListeners();
         context.firstRoute();
-        context.pushReplacementNamed(Routs.fisrtScreen);
+        context.pushReplacementNamed(Routs.welcome);
       }).then((value) {
         showSnackBar(context: context, text: message ?? 'Successfully Logout', color: color ?? Colors.green);
       });
