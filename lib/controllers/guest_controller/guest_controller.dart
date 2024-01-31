@@ -748,7 +748,7 @@ class GuestControllers extends ChangeNotifier {
   }) async {
     refresh() {
       fetchFaqsLoader = true;
-      fetchInterestCategory = null;
+      fetchFaqsModel = null;
 
       notifyListeners();
     }

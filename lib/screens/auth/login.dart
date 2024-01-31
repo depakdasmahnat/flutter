@@ -123,7 +123,7 @@ class _LoginState extends State<Login> {
                   onChanged: (value) {},
                   hintText: 'Enter Last Name',
                   autofillHints: const [AutofillHints.name],
-                  margin: const EdgeInsets.only(top: 18, bottom: 18),
+                  margin: const EdgeInsets.only(top: 18),
                 ),
                 if( checkValidate==true)
                   CustomTextField(
