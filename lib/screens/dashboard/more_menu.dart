@@ -12,7 +12,8 @@ import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import '../../core/route/route_paths.dart';
 
 class DashboardMoreMenu extends StatefulWidget {
-  const DashboardMoreMenu({super.key});
+  bool? showLeadItem;
+   DashboardMoreMenu({super.key,this.showLeadItem});
 
   @override
   State<DashboardMoreMenu> createState() => _DashboardMoreMenuState();
@@ -25,9 +26,37 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
       filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
       child: Padding(
         padding: const EdgeInsets.only(bottom: kPadding),
-        child: Column(
+        child:widget.showLeadItem==true?
+        Column(
           children: [
             MenuButton(
+              width: 270,
+              title: 'Add List',
+              image: AppAssets.addPersonIcon,
+              onTap: () {},
+            ),
+            MenuButton(
+              width: 270,
+                title: 'Contact',
+                image: AppAssets.leadContact,
+                onTap: () {
+                  context.pushNamed(Routs.createGoal);
+                },
+              ),
+              MenuButton(
+                width: 270,
+                title: 'Share referral',
+                image: AppAssets.leadShare,
+                onTap: () {
+                  context.pushNamed(Routs.createGoal);
+                },
+              ),
+          ],
+        )  :
+        Column(
+          children: [
+            MenuButton(
+
               title: 'Add List',
               image: AppAssets.addPersonIcon,
               onTap: () {},
@@ -58,13 +87,7 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
                 context.pushNamed(Routs.createTarget);
               },
             ),
-            MenuButton(
-              title: 'Create New Goal',
-              image: AppAssets.goalIcon,
-              onTap: () {
-                context.pushNamed(Routs.createGoal);
-              },
-            ),
+
           ],
         ),
       ),
@@ -74,9 +97,10 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
 
 class MenuButton extends StatelessWidget {
   const MenuButton(
-      {super.key, this.title, this.image, this.gradient, this.onTap});
+      {super.key, this.title, this.image, this.gradient, this.onTap,this.width});
 
   final String? title;
+  final double? width;
   final String? image;
   final Gradient? gradient;
   final GestureTapCallback? onTap;
@@ -85,6 +109,7 @@ class MenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientButton(
       height: 60,
+      width: width ,
       backgroundGradient: gradient ?? whiteGradient,
       border: Border.all(color: Colors.grey.shade300),
       padding: const EdgeInsets.symmetric(horizontal: 36),

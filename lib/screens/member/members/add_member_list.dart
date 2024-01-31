@@ -76,7 +76,7 @@ class _AddMemberListState extends State<AddMemberList> {
             hintText: 'Enter Last Name',
 
           ),
-          CustomeDropdown(
+          CustomDropdown(
             title: 'Gender',
             listItem: const ['Male','Female'],
           ),
@@ -91,7 +91,7 @@ class _AddMemberListState extends State<AddMemberList> {
             hintText: 'email@gmail.com',
 
           ),
-          CustomeDropdown(
+          CustomDropdown(
             title: 'List Status',
             listItem: const ['Family','Friend','Professional','Society','Random'],
           ),

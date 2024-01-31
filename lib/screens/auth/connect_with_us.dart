@@ -23,7 +23,7 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
   GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
 
   navigateToDashboard() {
-    return context.pushReplacementNamed(Routs.dashboard);
+    return context.pushReplacementNamed(Routs.gtpVideo);
   }
 
   @override

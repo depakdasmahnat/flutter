@@ -25,9 +25,8 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       // await context.read<GuestControllers>().fetchResources(
       //     context: context, page: '1');
-      await context
-          .read<GuestControllers>()
-          .fetchProductDetail(context: context, productId: widget.productId ?? '');
+      await context.read<GuestControllers>().fetchProductDetail(
+          context: context, productId: widget.productId ?? '');
     });
     super.initState();
   }
@@ -40,8 +39,10 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
         builder: (context, controller, child) {
           return controller.productLoader == false
               ? const Center(
-                  child:
-                      CupertinoActivityIndicator(animating: true, radius: 20, color: CupertinoColors.white),
+                  child: CupertinoActivityIndicator(
+                      animating: true,
+                      radius: 20,
+                      color: CupertinoColors.white),
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,15 +61,20 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                                 setState(() {});
                               },
                               autoPlayInterval: const Duration(seconds: 3),
-                              autoPlayAnimationDuration: const Duration(milliseconds: 1200),
+                              autoPlayAnimationDuration:
+                                  const Duration(milliseconds: 1200),
                               autoPlayCurve: Curves.fastOutSlowIn,
                               enlargeCenterPage: false,
                               enlargeFactor: 0.3,
                               scrollDirection: Axis.horizontal,
                             ),
-                            items: List.generate(controller.fetchproductDetail?.data?.images?.length ?? 0,
-                                (bannerIndex) {
-                              var data = controller.fetchproductDetail?.data?.images?.elementAt(bannerIndex);
+                            items: List.generate(
+                                controller.fetchproductDetail?.data?.images
+                                        ?.length ??
+                                    0, (bannerIndex) {
+                              var data = controller
+                                  .fetchproductDetail?.data?.images
+                                  ?.elementAt(bannerIndex);
 
                               return Builder(
                                 builder: (BuildContext context) {
@@ -79,7 +85,8 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                                     borderRadiusValue: 0,
                                     onTap: () {},
                                     fit: BoxFit.cover,
-                                    margin: const EdgeInsets.only(bottom: kPadding),
+                                    margin:
+                                        const EdgeInsets.only(bottom: kPadding),
                                   );
                                 },
                               );
@@ -101,7 +108,8 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                     Align(
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                        padding: const EdgeInsets.only(
+                            left: kPadding, right: kPadding),
                         child: Text(
                           controller.fetchproductDetail?.data?.name ?? '',
                           style: const TextStyle(
@@ -117,28 +125,32 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                       height: size.height * 0.03,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                      padding: const EdgeInsets.only(
+                          left: kPadding, right: kPadding),
                       child: DetailList(
                         leftTitle: 'Brand Kangen',
                         rightTitle: 'Water Machine Price',
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                      padding: const EdgeInsets.only(
+                          left: kPadding, right: kPadding),
                       child: DetailList(
                         leftTitle: 'Usage/Application',
                         rightTitle: 'Kangen Water Machine Price ',
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                      padding: const EdgeInsets.only(
+                          left: kPadding, right: kPadding),
                       child: DetailList(
                         leftTitle: 'Water Storage Capacity',
                         rightTitle: '4000 L',
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                      padding: const EdgeInsets.only(
+                          left: kPadding, right: kPadding),
                       child: DetailList(
                         leftTitle: 'Purification Capacity',
                         rightTitle: 'Kangen Water Machine Price',
@@ -172,7 +184,8 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: kPadding, top: 5, right: kPadding),
+                      padding: const EdgeInsets.only(
+                          left: kPadding, top: 5, right: kPadding),
                       child: Text(
                         controller.fetchproductDetail?.data?.description ?? '',
                         style: const TextStyle(

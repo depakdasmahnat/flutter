@@ -184,7 +184,7 @@ class _MemberScreenState extends State<MemberScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print('check size $size');
+
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(size.height * 0.5),

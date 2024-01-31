@@ -101,6 +101,7 @@ class _GraphDurationFilterState extends State<GraphDurationFilter> {
         break;
       case DurationFilterMenu.weekly:
         showSnackBar(text: label, icon: Icons.check, context: context);
+        break;
       case DurationFilterMenu.monthly:
         showSnackBar(text: label, icon: Icons.check, context: context);
     }

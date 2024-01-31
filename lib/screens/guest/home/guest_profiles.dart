@@ -42,12 +42,15 @@ class _GuestProfilesState extends State<GuestProfiles> {
               children: [
                 controller.isLoading == false
                     ? const Center(
-                        child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                        child: CupertinoActivityIndicator(
+                            radius: 15, color: CupertinoColors.white),
                       )
                     : Column(
                         children: [
                           Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: primaryGradient),
                             child: Padding(
                               padding: const EdgeInsets.all(6),
                               child: Column(
@@ -58,7 +61,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 8,
-                                      fontFamily: GoogleFonts.urbanist().fontFamily,
+                                      fontFamily:
+                                          GoogleFonts.urbanist().fontFamily,
                                       fontWeight: FontWeight.w700,
                                     ),
                                     textAlign: TextAlign.start,
@@ -69,7 +73,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                       color: Colors.black,
                                       fontSize: 26,
                                       height: 1,
-                                      fontFamily: GoogleFonts.urbanist().fontFamily,
+                                      fontFamily:
+                                          GoogleFonts.urbanist().fontFamily,
                                       fontWeight: FontWeight.w800,
                                     ),
                                     textAlign: TextAlign.start,
@@ -95,7 +100,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Center(
-                            child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                            child: CupertinoActivityIndicator(
+                                radius: 15, color: CupertinoColors.white),
                           ),
                         ],
                       )
@@ -103,7 +109,9 @@ class _GuestProfilesState extends State<GuestProfiles> {
                         child: ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: controller.fetchnewjoiners?.data?.members?.length ?? 0,
+                          itemCount: controller
+                                  .fetchnewjoiners?.data?.members?.length ??
+                              0,
                           itemBuilder: (context, index) {
                             return Container(
                               width: 65,
@@ -116,7 +124,11 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                     decoration: const BoxDecoration(
                                       shape: BoxShape.circle,
                                     ),
-                                    child: controller.fetchnewjoiners?.data?.members?[index].profilePhoto ==
+                                    child: controller
+                                                .fetchnewjoiners
+                                                ?.data
+                                                ?.members?[index]
+                                                .profilePhoto ==
                                             null
                                         ? Image.asset(
                                             AppAssets.getsprofile,
@@ -124,7 +136,11 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                             height: size.height * 0.05,
                                           )
                                         : Image.network(
-                                            controller.fetchnewjoiners?.data?.members?[index].profilePhoto ??
+                                            controller
+                                                    .fetchnewjoiners
+                                                    ?.data
+                                                    ?.members?[index]
+                                                    .profilePhoto ??
                                                 '',
                                             fit: BoxFit.cover,
                                             height: size.height * 0.05,
@@ -135,7 +151,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
-                                      fontFamily: GoogleFonts.urbanist().fontFamily,
+                                      fontFamily:
+                                          GoogleFonts.urbanist().fontFamily,
                                       fontWeight: FontWeight.w500,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -146,7 +163,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 8,
-                                      fontFamily: GoogleFonts.urbanist().fontFamily,
+                                      fontFamily:
+                                          GoogleFonts.urbanist().fontFamily,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     textAlign: TextAlign.center,

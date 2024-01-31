@@ -13,12 +13,16 @@ import '../../core/services/api/exception_handler.dart';
 import '../../core/services/database/local_database.dart';
 import '../../models/auth_model/fetchinterestcategory.dart';
 import '../../models/auth_model/fetchinterestquestions.dart';
+import '../../models/auth_model/guest_data.dart';
 import '../../models/auth_model/sendotp.dart';
 import '../../models/auth_model/validatemobile.dart';
 import '../../models/auth_model/verifyotp.dart';
+import '../../models/common_apis/cityModel.dart';
 import '../../models/common_apis/commonbanner.dart';
+import '../../models/common_apis/stateModel.dart';
 import '../../models/default/default_model.dart';
 import '../../models/feeds/feeds_data.dart';
+import '../../models/guest_Model/editProfileModel.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
@@ -34,7 +38,8 @@ class GuestControllers extends ChangeNotifier {
   /// 0)  SignOut User....
 
   Future clearUserData(BuildContext context) async {
-    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
+    LocalDatabase localDatabase =
+        Provider.of<LocalDatabase>(context, listen: false);
     // return await localDatabase.clearDatabase();
   }
 
@@ -107,7 +112,6 @@ class GuestControllers extends ChangeNotifier {
   Fetchinterestcategory? fetchInterestCategory;
   bool fetchCategoryLoader = false;
   int? tabIndex = 0;
-
   Future<Fetchinterestcategory?> fetchInterestCategories({
     required BuildContext context,
     required String type,
@@ -115,6 +119,18 @@ class GuestControllers extends ChangeNotifier {
     refresh() {
       fetchCategoryLoader = true;
       fetchInterestCategory = null;
+      fetchCategoryLoader = false;
+      // exerciseDetailModel = null;
+      // exerciseData = null;
+      // exerciseDetail?.clear();
+      notifyListeners();
+    }
+
+    //
+    apiResponseCompleted() {
+      fetchCategoryLoader = true;
+      notifyListeners();
+    }
 
       notifyListeners();
     }
@@ -133,7 +149,8 @@ class GuestControllers extends ChangeNotifier {
           .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
-          Fetchinterestcategory responseData = Fetchinterestcategory.fromJson(json);
+          Fetchinterestcategory responseData =
+              Fetchinterestcategory.fromJson(json);
           if (responseData.status == true) {
             // isLoading=true;
             fetchCategoryLoader = true;
@@ -147,7 +164,7 @@ class GuestControllers extends ChangeNotifier {
         apiResponseCompleted();
       });
     } catch (e, s) {
-      // apiResponseCompleted();
+      apiResponseCompleted();
       debugPrint('Error is $e & $s');
     }
 
@@ -157,7 +174,6 @@ class GuestControllers extends ChangeNotifier {
   /// 1) fetch Product...
   Fetchguestproduct? fetchguestProduct;
   bool guestProductLoader = false;
-
   Future<Fetchguestproduct?> fetchProduct({
     required BuildContext context,
     required String page,
@@ -306,7 +322,6 @@ class GuestControllers extends ChangeNotifier {
   /// 1) fetch feed categories...
 
   FetchFeedCategoriesModel? fetchFeedCategoriesModel;
-
   // bool fetchCategoryLoader =false;
   // int? tabIndex =0;
   Future<FetchFeedCategoriesModel?> fetchFeedCategories({
@@ -334,7 +349,8 @@ class GuestControllers extends ChangeNotifier {
           .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
-          FetchFeedCategoriesModel responseData = FetchFeedCategoriesModel.fromJson(json);
+          FetchFeedCategoriesModel responseData =
+              FetchFeedCategoriesModel.fromJson(json);
           if (responseData.status == true) {
             fetchFeedCategoriesModel = responseData;
             notifyListeners();

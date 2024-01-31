@@ -15,6 +15,7 @@ import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/widgets.dart';
+import '../../guest/guestProfile/guest_edit_profile.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({super.key});
@@ -59,7 +60,7 @@ class _CreateEventState extends State<CreateEvent> {
             title: 'Event Type*',
             hintText: 'Enter Event Type',
           ),
-          const Padding(
+           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
               title: 'Event Type*',
@@ -67,7 +68,7 @@ class _CreateEventState extends State<CreateEvent> {
               listItem: ['Online', 'Offline'],
             ),
           ),
-          const Padding(
+           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
               title: 'Type Of Category*',
@@ -628,77 +629,77 @@ class AppTextField extends StatelessWidget {
   }
 }
 
-class CustomDropdown extends StatelessWidget {
-  final String? title;
-  final String? hintText;
-  final List<String>? listItem;
-  final TextEditingController? controller;
-
-  const CustomDropdown({
-    this.title,
-    this.hintText,
-    this.listItem,
-    this.controller,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Padding(
-      padding: const EdgeInsets.all(9),
-      child: Container(
-        decoration: ShapeDecoration(
-          color: const Color(0xFF1B1B1B),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: kPadding, top: 7),
-              child: Text(
-                title ?? '',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0),
-              child: DropdownSearch<String>(
-                dropdownButtonProps: const DropdownButtonProps(
-                    padding: EdgeInsets.only(bottom: 10),
-                    icon: Icon(
-                      CupertinoIcons.chevron_down,
-                      size: 18,
-                    )),
-                popupProps: PopupProps.menu(
-                  menuProps: const MenuProps(
-                    backgroundColor: Color(0xFF1B1B1B),
-                  ),
-                  fit: FlexFit.loose,
-                  showSelectedItems: true,
-                  disabledItemFn: (String s) => s.startsWith('p'),
-                ),
-                items: listItem ?? [],
-                dropdownDecoratorProps: DropDownDecoratorProps(
-                  dropdownSearchDecoration: InputDecoration(
-                    contentPadding: const EdgeInsets.only(left: 7, top: 7),
-                    border: InputBorder.none,
-                    hintText: hintText ?? 'Select Gender',
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// class CustomDropdown extends StatelessWidget {
+//   final String? title;
+//   final String? hintText;
+//   final List<String>? listItem;
+//   final TextEditingController? controller;
+//
+//   const CustomDropdown({
+//     this.title,
+//     this.hintText,
+//     this.listItem,
+//     this.controller,
+//     super.key,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     Size size = MediaQuery.of(context).size;
+//     return Padding(
+//       padding: const EdgeInsets.all(9),
+//       child: Container(
+//         decoration: ShapeDecoration(
+//           color: const Color(0xFF1B1B1B),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(16),
+//           ),
+//         ),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Padding(
+//               padding: const EdgeInsets.only(left: kPadding, top: 7),
+//               child: Text(
+//                 title ?? '',
+//                 style: const TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 10,
+//                   fontWeight: FontWeight.w400,
+//                 ),
+//                 textAlign: TextAlign.center,
+//               ),
+//             ),
+//             Padding(
+//               padding: const EdgeInsets.only(left: 8.0),
+//               child: DropdownSearch<String>(
+//                 dropdownButtonProps: const DropdownButtonProps(
+//                     padding: EdgeInsets.only(bottom: 10),
+//                     icon: Icon(
+//                       CupertinoIcons.chevron_down,
+//                       size: 18,
+//                     )),
+//                 popupProps: PopupProps.menu(
+//                   menuProps: const MenuProps(
+//                     backgroundColor: Color(0xFF1B1B1B),
+//                   ),
+//                   fit: FlexFit.loose,
+//                   showSelectedItems: true,
+//                   disabledItemFn: (String s) => s.startsWith('p'),
+//                 ),
+//                 items: listItem ?? [],
+//                 dropdownDecoratorProps: DropDownDecoratorProps(
+//                   dropdownSearchDecoration: InputDecoration(
+//                     contentPadding: const EdgeInsets.only(left: 7, top: 7),
+//                     border: InputBorder.none,
+//                     hintText: hintText ?? 'Select Gender',
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

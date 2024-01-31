@@ -34,6 +34,9 @@ class _InterestScreenState extends State<InterestScreen> {
     });
     super.initState();
   }
+  navigateToConnectWithUs() {
+    return context.pushNamed(Routs.connectWithUs);
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -49,7 +52,7 @@ class _InterestScreenState extends State<InterestScreen> {
             boxShadow: const [],
             margin: const EdgeInsets.only(right: 16),
             onTap: () {
-              setState(() {});
+              navigateToConnectWithUs();
             },
             child: const Center(
               child: Text(

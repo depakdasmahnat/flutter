@@ -33,6 +33,7 @@ class Routs {
   static const String goals = '/goals';
   static const String createGoal = '/createGoal';
 
+
   static const String achievers = '/achievers';
   static const String createTarget = '/createTarget';
   static const String events = '/events';
@@ -65,4 +66,6 @@ class Routs {
   static const String whyareYou = '/whyAreYouHere';
   static const String gtpVideo = '/gtpVideo';
   static const String webView1 = '/webView';
+  static const String shceduledDemoForm = '/shceduledDemoForm';
+  static const String modelDialogBox = '/modelDialogBox';
 }

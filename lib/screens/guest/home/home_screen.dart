@@ -56,7 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       fetchFeeds();
-      await context.read<GuestControllers>().fetchFeedCategories(context: context);
+      await context
+          .read<GuestControllers>()
+          .fetchFeedCategories(context: context);
     });
   }
 
@@ -118,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(bottom: bottomNavbarSize),
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
+              padding: const EdgeInsets.only(
+                  left: kPadding, right: kPadding, top: 6),
               child: Text(
                 'Congratulations to the new joinees',
                 style: TextStyle(
@@ -142,7 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 // context.pushNamed(Routs.verifyOTP);
               },
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+              margin: const EdgeInsets.only(
+                  left: kPadding, right: kPadding, top: kPadding),
 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +209,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.contain,
                 assetImage: AppAssets.searchIcon,
               ),
-              margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+              margin: EdgeInsets.only(
+                  left: kPadding,
+                  right: kPadding,
+                  top: kPadding,
+                  bottom: kPadding),
             ),
 
             // if (filters?.haveData == true)
@@ -215,15 +223,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 40,
                   child: Center(
                     child: ListView.builder(
-                      itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
+                      itemCount:
+                          value.fetchFeedCategoriesModel?.data?.length ?? 0,
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.only(left: kPadding),
                       itemBuilder: (context, index) {
-                        var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
+                        var data = value.fetchFeedCategoriesModel?.data
+                            ?.elementAt(index);
                         // bool isSelected = selectedFilter == data;
                         return GradientButton(
-                          backgroundGradient:
-                              selectedFilter?.id == data?.id ? primaryGradient : inActiveGradient,
+                          backgroundGradient: selectedFilter?.id == data?.id
+                              ? primaryGradient
+                              : inActiveGradient,
                           borderWidth: 2,
                           borderRadius: 30,
                           onTap: () {
@@ -232,13 +243,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             fetchFeeds();
                           },
                           margin: const EdgeInsets.only(right: 12),
-                          padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kPadding, vertical: 8),
                           child: Text(
                             '${data?.name}',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: selectedFilter?.id == data?.id ? Colors.black : Colors.white,
+                              color: selectedFilter?.id == data?.id
+                                  ? Colors.black
+                                  : Colors.white,
                             ),
                           ),
                         );
@@ -262,7 +276,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   var data = feeds?.elementAt(index);
                   return InkWell(
                     onTap: () {
-                      context.pushNamed(Routs.feedDetail, extra: FeedDetail(id: data?.id));
+                      context.pushNamed(Routs.feedDetail,
+                          extra: FeedDetail(id: data?.id));
                     },
                     child: FeedCard(
                       index: index,
@@ -285,7 +300,8 @@ class _HomeScreenState extends State<HomeScreen> {
               launchUrl(Uri.parse('tel:9876543210'));
             },
             child: Container(
-              decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                  gradient: primaryGradient, shape: BoxShape.circle),
               child: Padding(
                 padding: const EdgeInsets.all(kPadding),
                 child: Image.asset(

@@ -15,7 +15,7 @@ class PerformanceGraph extends StatelessWidget {
     return analytics.haveData
         ? SfCartesianChart(
             plotAreaBorderWidth: 0,
-            primaryXAxis: const CategoryAxis(
+            primaryXAxis:  CategoryAxis(
               isVisible: true,
               axisLine: AxisLine(width: 1, color: Colors.white),
               labelStyle: TextStyle(color: Colors.white, fontSize: 8),

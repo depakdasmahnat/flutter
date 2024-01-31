@@ -76,7 +76,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
              hintText: 'Enter Last Name',
 
            ),
-           CustomeDropdown(
+           CustomDropdown(
              title: 'Gender',
              listItem: const ['Male','Female'],
            ),

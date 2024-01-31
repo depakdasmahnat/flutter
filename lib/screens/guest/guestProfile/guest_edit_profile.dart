@@ -2,9 +2,12 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/constant/gradients.dart';
+import '../../../core/services/database/local_database.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
@@ -18,11 +21,38 @@ class GuestEditProfile extends StatefulWidget {
 
 class _GuestEditProfileState extends State<GuestEditProfile> {
   TextEditingController dateControlller = TextEditingController();
+  TextEditingController firsNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController familyMemberController = TextEditingController();
+  TextEditingController diseaseController = TextEditingController();
+  TextEditingController pinCodeController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  String gender ='';
+  String refType ='';
+  String occupation ='';
+  String stateId ='';
+  String cityId ='';
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.read<GuestControllers>().fetchState(context: context,);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
+    firsNameController.text =localDatabase.guest?.firstName??'';
+    lastNameController.text =localDatabase.guest?.lastName??'';
+    mobileController.text =localDatabase.guest?.mobile??'';
+    emailController.text =localDatabase.guest?.email??'';
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(size.height * 0.06),
           child: CustomAppBar(
@@ -32,42 +62,53 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
-          const CustomTextFieldApp(
+           CustomTextFieldApp(
             title: 'First Name',
+            controller: firsNameController,
             hintText: 'Enter First Name',
           ),
-          const CustomTextFieldApp(
+           CustomTextFieldApp(
+            controller: lastNameController,
             title: 'Last Name',
             hintText: 'Enter Last Name',
           ),
-          CustomeDropdown(
+          CustomDropdown(
+            onChanged: (v) {
+              gender =v??'';
+            },
+
             title: 'Gender',
             listItem: const ['Male', 'Female'],
           ),
-          const CustomTextFieldApp(
+           CustomTextFieldApp(
+            controller: mobileController,
             title: 'Mobile No.',
             hintText: 'Enter Mobile No.',
-            prefixIcon: Padding(
+            prefixIcon: const Padding(
               padding: EdgeInsets.only(top: 3),
               child: Text("+91"),
             ),
           ),
-          const CustomTextFieldApp(
+           CustomTextFieldApp(
+            controller: emailController,
             title: 'Email',
             hintText: 'email@gmail.com',
           ),
-          CustomeDropdown(
+          CustomDropdown(
+            onChanged: (v) {
+              refType =v??'';
+            },
             title: 'Ref Type',
             listItem: const ['Friend', 'Friend'],
           ),
-          CustomeDropdown(
+          CustomDropdown(
+            onChanged: (v) {
+              occupation=v??'';
+            },
             title: 'Occupation',
             listItem: const ['Doctor', 'Doctor'],
           ),
-          CustomeDropdown(
-            title: 'Occupation',
-            listItem: const ['Doctor', 'Doctor'],
-          ),
+
           Row(
             children: [
               Expanded(
@@ -79,7 +120,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
+                      firstDate: DateTime(1750),
                       lastDate: DateTime(2101),
                       builder: (context, child) {
                         return Theme(
@@ -112,27 +153,64 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                   readOnly: true,
                 ),
               ),
-              const Expanded(
+               Expanded(
                 child: CustomTextFieldApp(
+                  keyboardType: TextInputType.number,
+                  controller: familyMemberController,
                   title: 'No. of family Members',
                   hintText: 'Enter No. of family Members',
                 ),
               ),
             ],
           ),
-          const CustomTextFieldApp(
+           CustomTextFieldApp(
+            controller: diseaseController,
             title: 'Any Disease',
             hintText: 'Enter Disease',
           ),
-          CustomeDropdown(
-            title: 'City',
-            listItem: const ['Raipur', 'Bilaspur', 'korba'],
+          Consumer<GuestControllers>(
+            builder: (context, controller, child) {
+              return CustomDropdown(
+                onChanged: (v) async{
+                  stateId=   controller.satesModel?.data?.firstWhere((element) {
+                    return element.name ==v;
+                  },).id.toString()??'';
+                  if(stateId.isNotEmpty==true){
+                    await context.read<GuestControllers>().fetchCity(context: context, stateId: stateId,);
+                  }
+                  print('check state id $stateId');
+                },
+                title: 'State',
+                listItem: controller.satesModel?.data?.map((e) => e.name).toList(),
+              );
+            },
+
           ),
-          CustomeDropdown(
-            title: 'Pin Code',
-            listItem: const ['492001', '492001', '492001'],
+          Consumer<GuestControllers>(
+           builder: (context, controller, child) {
+             return  CustomDropdown(
+               onChanged: (v) {
+                 cityId=   controller.cityModel?.data?.firstWhere((element) {
+                   return element.name ==v;
+                 },).id.toString()??'';
+               },
+               title: 'City',
+               listItem: controller.cityModel?.data?.map((e) => e.name).toList(),
+             );
+           },
+
           ),
           CustomTextFieldApp(
+            controller: pinCodeController,
+            title: 'Pin Code',
+            hintText: 'Pin Code',
+            keyboardType: TextInputType.number,
+            maxLength: 6,
+
+
+          ),
+          CustomTextFieldApp(
+            controller: addressController,
             title: 'Address',
             hintText: 'Enter Address',
             height: size.height * 0.07,
@@ -150,7 +228,17 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             backgroundColor: Colors.transparent,
             boxShadow: const [],
             margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-            onTap: () {
+            onTap: ()async {
+              await  context.read<GuestControllers>().editProfile(context: context,
+                  firstName: firsNameController.text,
+                  lastName: lastNameController.text,
+                  email: emailController.text,
+                  gender: gender,
+                  leadRefType: refType,
+                  occupation: occupation,
+                  dob: dateControlller.text,
+                  familyMembers: familyMemberController.text,
+                  stateId: stateId, cityId: cityId, pincode: pinCodeController.text, address: addressController.text, illnessInFamily:diseaseController.text);
               // context.pushNamed(Routs.questions);
             },
             child: Row(
@@ -186,6 +274,7 @@ class CustomTextFieldApp extends StatelessWidget {
   final TextInputType? keyboardType;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
+  final int? maxLength;
 
   const CustomTextFieldApp({
     this.title,
@@ -199,6 +288,7 @@ class CustomTextFieldApp extends StatelessWidget {
     super.key,
     this.validator,
     this.onChanged,
+    this.maxLength,
   });
 
   @override
@@ -238,8 +328,8 @@ class CustomTextFieldApp extends StatelessWidget {
               prefixIcon: prefixIcon,
               keyboardType: keyboardType,
               contentPadding: const EdgeInsets.only(left: 1),
-
               autofocus: true,
+              maxLength: maxLength,
               hintText: hintText,
               validator: validator,
               onChanged: onChanged,
@@ -253,17 +343,19 @@ class CustomTextFieldApp extends StatelessWidget {
   }
 }
 
-class CustomeDropdown extends StatelessWidget {
+class CustomDropdown extends StatelessWidget {
   String? title;
   String? hintText;
-  List<String>? listItem;
+  List? listItem;
   TextEditingController? controller;
+  final void Function(dynamic)? onChanged;
 
-  CustomeDropdown({
+  CustomDropdown({
     this.title,
     this.hintText,
     this.listItem,
     this.controller,
+    this.onChanged,
     super.key,
   });
 
@@ -295,23 +387,25 @@ class CustomeDropdown extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 8.0),
-              child: DropdownSearch<String>(
+              padding: const EdgeInsets.only(left: 8.0),
+              child:
+              DropdownSearch<String>(
                 dropdownButtonProps: const DropdownButtonProps(
                     padding: EdgeInsets.only(bottom: 10),
                     icon: Icon(
                       CupertinoIcons.chevron_down,
                       size: 18,
                     )),
-                popupProps: PopupProps.menu(
-                  menuProps: const MenuProps(
+                popupProps: const PopupProps.menu(
+                  menuProps: MenuProps(
                     backgroundColor: Color(0xFF1B1B1B),
                   ),
                   fit: FlexFit.loose,
                   showSelectedItems: true,
-                  disabledItemFn: (String s) => s.startsWith('p'),
+
                 ),
-                items: listItem ?? [],
+                items: listItem?.cast<String>() ?? [],
+                onChanged:onChanged ,
                 dropdownDecoratorProps: const DropDownDecoratorProps(
                   dropdownSearchDecoration: InputDecoration(
                     contentPadding: EdgeInsets.only(

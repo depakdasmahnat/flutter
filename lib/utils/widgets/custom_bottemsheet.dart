@@ -14,7 +14,6 @@ class CustomModelBottomSheet extends StatefulWidget {
   final int? tabIndex;
 
   const CustomModelBottomSheet({super.key, this.title, this.listItem, this.tabIndex});
-
   @override
   State<CustomModelBottomSheet> createState() => _CustomModelBottomSheetState();
 }
@@ -23,7 +22,8 @@ class _CustomModelBottomSheetState extends State<CustomModelBottomSheet> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return StatefulBuilder(
+    return
+      StatefulBuilder(
       builder: (BuildContext context, void Function(void Function()) setState) {
         return SizedBox(
           height: size.height * 0.7,

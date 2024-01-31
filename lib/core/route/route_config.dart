@@ -38,6 +38,8 @@ import '../../screens/guest/web_view/faq.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile_details.dart';
 
+import '../../screens/member/lead/model_dailog_box.dart';
+import '../../screens/member/lead/scheduled_demo_form.dart';
 import '../../screens/member/members/add_member_form.dart';
 import '../../screens/member/members/add_member_list.dart';
 import '../../screens/member/members/calendar.dart';
@@ -75,6 +77,7 @@ import 'route_paths.dart';
 class RoutesConfig {
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
+    print("check authenticated $authenticated");
     return authenticated ? Routs.dashboard : Routs.fisrtScreen;
   }
 
@@ -180,7 +183,8 @@ class RoutesConfig {
         name: Routs.memberProfileDetails,
         path: Routs.memberProfileDetails,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberProfileDetails());
+          return cupertinoPage(
+              state: state, child: const MemberProfileDetails());
         },
       ),
 
@@ -350,7 +354,8 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ResourceAndDemo? data = state.extra as ResourceAndDemo?;
 
-          return cupertinoPage(state: state, child: ResourceAndDemo(category: data?.category));
+          return cupertinoPage(
+              state: state, child: ResourceAndDemo(category: data?.category));
         },
       ),
 
@@ -433,10 +438,24 @@ class RoutesConfig {
         },
       ),
       GoRoute(
+        name: Routs.shceduledDemoForm,
+        path: Routs.shceduledDemoForm,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const ScheduledDemoForm());
+        },
+      ),
+      GoRoute(
         name: Routs.createDemo,
         path: Routs.createDemo,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const CreateDemo());
+          CreateDemo? data = state.extra as CreateDemo?;
+          return cupertinoPage(
+              state: state,
+              child: CreateDemo(
+                guestId: data?.guestId ?? '',
+                name: data?.name,
+                image: data?.image,
+              ));
         },
       ),
       GoRoute(
@@ -529,7 +548,9 @@ class RoutesConfig {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
           return cupertinoPage(
-              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
+              state: state,
+              child: WebViewScreen(
+                  key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {
@@ -588,7 +609,7 @@ class RoutesConfig {
     return status;
   }
 
-    static String? authRequired(BuildContext context, GoRouterState state) {
+  static String? authRequired(BuildContext context, GoRouterState state) {
     debugPrint('isAuthenticated() ${isAuthenticated()}');
     debugPrint('authRequired');
     if (!isAuthenticated()) {

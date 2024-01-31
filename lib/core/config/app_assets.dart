@@ -24,6 +24,7 @@ class AppAssets {
   static const String call2 = 'assets/images/call2.png';
   static const String resources = 'assets/images/resources.png';
   static const String pdf = 'assets/images/pdf_image.png';
+  static const String leadContact = 'assets/icons/Ic_lead_contact.png';
 
   static const String geustProduct = 'assets/images/geust_product.png';
   static const String geustProductDteila =
@@ -81,6 +82,7 @@ class AppAssets {
   static const String trophyIcon = 'assets/icons/ic_trophy.png';
   static const String addPersonIcon = 'assets/icons/ic_add_person.png';
   static const String copyIcon = 'assets/icons/ic_copy.png';
+  static const String leadShare = 'assets/icons/Ic_lead_share.png';
 
   /// 2) Images...
 
