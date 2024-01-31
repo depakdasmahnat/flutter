@@ -47,6 +47,7 @@ class _GuestFaqState extends State<GuestFaq> {
       'color': Colors.white,
     }
   ];
+
   Fetchinterestcategory? fetchInterestCategory;
 
   @override

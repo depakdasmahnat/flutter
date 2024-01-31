@@ -15,6 +15,7 @@ import '../../../models/default/default_model.dart';
 import '../../../models/feeds/demos_model.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/guest_Model/fetchResouresDetailModel.dart';
+import '../../../models/member/goals/goals_model.dart';
 import '../../../models/member/leads/fetchLeads.dart';
 import '../../../models/member/network/tree_graph_model.dart';
 import '../../../utils/widgets/widgets.dart';
@@ -390,7 +391,7 @@ class MembersController extends ChangeNotifier {
                 } else {
                   if (data != null) {
                     _demo?.add(data);
-                    debugPrint('$modelingData  Updated');
+                    debugPrint('$modelingData Updated');
                   }
                 }
               }
@@ -431,5 +432,130 @@ class MembersController extends ChangeNotifier {
     }
 
     return _demo;
+  }
+
+  bool loadingGoals = true;
+  GoalsModel? _goalsModel;
+
+  GoalsModel? get goalsModel => _goalsModel;
+
+  List<GoalsData>? _goals;
+
+  List<GoalsData>? get goals => _goals;
+  num goalsIndex = 1;
+  num goalsTotal = 1;
+
+  RefreshController goalsController = RefreshController(initialRefresh: false);
+
+  Future<List<GoalsData>?> fetchGoals({
+    required BuildContext context,
+    bool isRefresh = false,
+    bool loadingNext = false,
+    String? searchKey,
+    String? limit,
+  }) async {
+    String modelingData = 'FeedsData';
+    debugPrint('Fetching $modelingData Data...');
+
+    onRefresh() {
+      goalsIndex = 1;
+      goalsTotal = 1;
+      loadingGoals = true;
+      goalsController.resetNoData();
+      _goalsModel = null;
+      _goals = null;
+      notifyListeners();
+      debugPrint('Cleared $modelingData');
+    }
+
+    onComplete() {
+      loadingGoals = false;
+      notifyListeners();
+    }
+
+    if (isRefresh) {
+      onRefresh();
+    }
+
+    Map<String, String> body = {
+      'page': '$goalsIndex',
+      'search_key': searchKey ?? '',
+      'limit': limit ?? '10',
+    };
+
+    debugPrint('Body $body');
+
+    try {
+      if (goalsIndex <= goalsTotal) {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchGoals,
+          queryParameters: body,
+        );
+
+        GoalsModel? responseData;
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          responseData = GoalsModel.fromJson(json);
+          _goalsModel = responseData;
+        }
+
+        if (responseData?.status == true) {
+          debugPrint('Current Page $goalsTotal');
+          debugPrint(responseData?.message);
+          if (responseData?.data?.haveData == true) {
+            for (int i = 0; i < (responseData?.data?.length ?? 0); i++) {
+              GoalsData? data = responseData?.data?.elementAt(i);
+              if (_goals == null) {
+                debugPrint('$modelingData Added');
+                if (data != null) {
+                  _goals = [data];
+                }
+              } else {
+                if (_goals?.contains(data) == true) {
+                  debugPrint('$modelingData Already exit');
+                } else {
+                  if (data != null) {
+                    _goals?.add(data);
+                    debugPrint('$modelingData Updated');
+                  }
+                }
+              }
+            }
+            notifyListeners();
+          }
+
+          if (loadingNext) {
+            goalsController.loadComplete();
+          } else {
+            goalsController.refreshCompleted();
+          }
+          goalsTotal = responseData?.dataRecords?.totalPage ?? 1;
+          goalsIndex++;
+          notifyListeners();
+          debugPrint('$modelingData Total Pages $goalsTotal');
+          debugPrint('Updated $modelingData Current Page $goalsIndex');
+          return _goals;
+        } else {
+          debugPrint(responseData?.message);
+          if (loadingNext) {
+            goalsController.loadFailed();
+          } else {
+            goalsController.refreshFailed();
+          }
+          notifyListeners();
+        }
+      } else {
+        goalsController.loadNoData();
+        loadingGoals = false;
+        notifyListeners();
+        debugPrint('Load no More data in $modelingData');
+      }
+    } catch (e, s) {
+      ErrorHandler.catchError(e, s, true);
+    } finally {
+      onComplete();
+    }
+
+    return _goals;
   }
 }

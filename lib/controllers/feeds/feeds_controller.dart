@@ -464,10 +464,8 @@ class FeedsController extends ChangeNotifier {
     };
 
     debugPrint('Sent Data is $body');
-    var response = ApiService().post(
-      endPoint: ApiEndpoints.feedComment,
-      body: body,
-    );
+
+    var response = ApiService().post(endPoint: ApiEndpoints.feedComment, body: body);
 //Processing API...
     DefaultModel? responseData;
     await loadingDialog(

@@ -60,6 +60,7 @@ class ApiEndpoints {
   static const String updateLeadPriority = 'update_lead_priority';
   static const String demoDone = 'demo_done';
   static const String fetchDemos = 'fetch_demos';
+  static const String fetchGoals = 'fetch_goals';
 
   static const String scheduledDemo = 'schedule_demo';
 

@@ -2,14 +2,21 @@ import 'package:dotted_border/dotted_border.dart';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
+import 'package:mrwebbeast/models/member/goals/goals_model.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
+import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../core/constant/gradients.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/image_view.dart';
+import '../../../utils/widgets/loading_screen.dart';
+import '../../../utils/widgets/no_data_found.dart';
 
 class GoalsScreen extends StatefulWidget {
   const GoalsScreen({
@@ -21,90 +28,127 @@ class GoalsScreen extends StatefulWidget {
 }
 
 class _GoalsScreenState extends State<GoalsScreen> {
+  TextEditingController searchController = TextEditingController();
+  List<GoalsData>? goals;
+
+  Future fetchGoals({bool? loadingNext}) async {
+    return await context.read<MembersController>().fetchGoals(
+          context: context,
+          isRefresh: loadingNext == true ? false : true,
+          loadingNext: loadingNext ?? false,
+          searchKey: searchController.text,
+        );
+  }
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      fetchGoals();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: const CustomBackButton(),
-        title: const Text('Goals'),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(kPadding),
-            child: GestureDetector(
-              onTap: () {
-                context.pushNamed(Routs.createGoal);
-              },
-              child: DottedBorder(
-                dashPattern: const [4, 4],
-                borderType: BorderType.RRect,
-                radius: const Radius.circular(12),
-                color: Colors.grey,
-                child: Container(
-                  height: 50,
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        margin: const EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                          gradient: blackGradient,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: const Icon(Icons.add),
+    return Consumer<MembersController>(builder: (context, controller, child) {
+      goals = controller.goals;
+      return Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          leading: const CustomBackButton(),
+          title: const Text('Goals'),
+        ),
+        body: SmartRefresher(
+          controller: controller.goalsController,
+          enablePullUp: true,
+          enablePullDown: true,
+          onRefresh: () async {
+            if (mounted) {
+              await fetchGoals();
+            }
+          },
+          onLoading: () async {
+            if (mounted) {
+              await fetchGoals(loadingNext: true);
+            }
+          },
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(kPadding),
+                child: GestureDetector(
+                  onTap: () {
+                    context.pushNamed(Routs.createGoal);
+                  },
+                  child: DottedBorder(
+                    dashPattern: const [4, 4],
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(12),
+                    color: Colors.grey,
+                    child: Container(
+                      height: 50,
+                      color: Colors.transparent,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            margin: const EdgeInsets.only(right: 8),
+                            decoration: BoxDecoration(
+                              gradient: blackGradient,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: const Icon(Icons.add),
+                          ),
+                          const Text(
+                            'Add a new goal',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
-                      const Text(
-                        'Add a new goal',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 8,
-              padding: const EdgeInsets.only(bottom: bottomNavbarSize),
-              // physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    // context.pushNamed(Routs.productDetail);
+              if (controller.loadingGoals)
+                const LoadingScreen(
+                  heightFactor: 0.7,
+                  message: 'Loading Goals...',
+                )
+              else if (goals.haveData)
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: goals?.length ?? 0,
+                  padding: const EdgeInsets.only(bottom: bottomNavbarSize),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    var data = goals?.elementAt(index);
+                    return GestureDetector(
+                      onTap: () {
+                        // context.pushNamed(Routs.productDetail);
+                      },
+                      child: GoalCard(
+                        index: index,
+                        goal: data,
+                      ),
+                    );
                   },
-                  child: GoalCard(
-                    index: index,
-                    title: 'Luxury House',
-                    description:
-                        'Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.',
-                    startDate: '14 Jan, 2024',
-                    endDate: '28 Jan, 2024',
-                    status: 'Achieved',
-                    type: 'Family',
-                  ),
-                );
-              },
-            ),
+                )
+              else
+                NoDataFound(
+                  heightFactor: 0.7,
+                  message: controller.goalsModel?.message ?? 'No Goals Found',
+                ),
+            ],
           ),
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 }
 
@@ -113,25 +157,16 @@ class GoalCard extends StatelessWidget {
   final BoxFit? fit;
 
   final int index;
-  final String? title;
 
-  final String? description;
-  final String? startDate;
-  final String? endDate;
-  final String? type;
-  final String? status;
+  final GoalsData? goal;
 
-  const GoalCard(
-      {super.key,
-      this.imageHeight,
-      this.fit,
-      required this.index,
-      required this.title,
-      required this.description,
-      required this.startDate,
-      required this.endDate,
-      required this.type,
-      required this.status});
+  const GoalCard({
+    super.key,
+    this.imageHeight,
+    this.fit,
+    required this.index,
+    required this.goal,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +184,7 @@ class GoalCard extends StatelessWidget {
             borderRadiusValue: 16,
             margin: const EdgeInsets.all(12),
             fit: fit ?? BoxFit.contain,
-            assetImage: AppAssets.goalImage,
+            networkImage: '${goal?.image}',
           ),
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12),
@@ -157,7 +192,7 @@ class GoalCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title ?? '',
+                  goal?.name ?? '',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -168,7 +203,7 @@ class GoalCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 4, bottom: 4),
                   child: Text(
-                    description ?? '',
+                    goal?.description ?? '',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -183,11 +218,11 @@ class GoalCard extends StatelessWidget {
                     children: [
                       FeedMenu(
                         icon: AppAssets.eventIcon,
-                        value: startDate ?? '',
+                        value: goal?.startDate ?? '',
                       ),
                       FeedMenu(
                         icon: AppAssets.membersIcon,
-                        value: type ?? '',
+                        value: goal?.type ?? '',
                       ),
                     ],
                   ),
@@ -195,7 +230,7 @@ class GoalCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
-                    'Expected completion date: ${endDate ?? ' '}',
+                    'Expected completion date: ${goal?.endDate ?? ' '}',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -213,7 +248,7 @@ class GoalCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '$status',
+                        '${goal?.status}',
                         style: const TextStyle(color: Colors.black),
                       ),
                     ],
