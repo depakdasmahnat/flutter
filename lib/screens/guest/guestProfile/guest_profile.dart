@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +14,7 @@ import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
 import '../../../utils/widgets/web_view_screen.dart';
+import '../../../utils/widgets/widgets.dart';
 import '../web_view/faq.dart';
 
 class GuestProfile extends StatefulWidget {
@@ -21,6 +25,7 @@ class GuestProfile extends StatefulWidget {
 }
 
 class _GuestProfileState extends State<GuestProfile> {
+  File? image;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -197,17 +202,91 @@ class _GuestProfileState extends State<GuestProfile> {
           Positioned(
             top: size.height * 0.11,
             left: size.width * 0.37,
-            child: ImageView(
-              height: 100,
-              width: 100,
-              networkImage: '${localDatabase.guest?.profilePhoto}',
-              isAvatar: true,
-              margin: EdgeInsets.zero,
+            child: GestureDetector(
+              onTap: () {
+                addImages();
+              },
+              child: ImageView(
+                height: 100,
+                width: 100,
+                networkImage: '${localDatabase.guest?.profilePhoto}',
+                isAvatar: true,
+                margin: EdgeInsets.zero,
+              ),
             ),
           )
         ],
       ),
     );
+  }
+  Future<void> updateProfileImage({required ImageSource source}) async {
+    final pickedImg = await ImagePicker().pickImage(source: source);
+    setState(() {
+      if (pickedImg != null) {
+        image = File(pickedImg.path);
+      }
+    });
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+  }
+
+  Future addImages() async {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(24),
+                topLeft: Radius.circular(24),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Change Profile Pic',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        updateProfileImage(source: ImageSource.camera);
+                      },
+                      child: pickImageButton(
+                        context: context,
+                        text: 'Camera',
+                        icon: Icons.camera,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        updateProfileImage(source: ImageSource.gallery);
+                      },
+                      child: pickImageButton(
+                        context: context,
+                        text: 'Gallery',
+                        icon: Icons.photo,
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
 
