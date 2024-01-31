@@ -1087,7 +1087,7 @@ class RowCart extends StatelessWidget {
                                  .whenComplete(
                                    () async {
                                  await context.read<MembersController>().fetchLeads(
-                                     status: 'Demo Sheduled',
+                                     status: 'Demo Scheduled',
                                      priority: '',
                                      page: '1');
                                },

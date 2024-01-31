@@ -23,6 +23,7 @@ import '../../models/common_apis/stateModel.dart';
 import '../../models/default/default_model.dart';
 import '../../models/feeds/feeds_data.dart';
 import '../../models/guest_Model/editProfileModel.dart';
+import '../../models/guest_Model/fetchGuestProfile.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
@@ -31,6 +32,7 @@ import '../../models/guest_Model/fetchguestproduct.dart';
 import '../../models/guest_Model/fetchnewjoiners.dart';
 import '../../models/guest_Model/fetchproductdetail.dart';
 import '../../models/guest_Model/resourceModel.dart';
+import '../../models/member/faqs/fetchFaqsModel.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../utils/widgets/widgets.dart';
 
@@ -119,7 +121,6 @@ class GuestControllers extends ChangeNotifier {
     refresh() {
       fetchCategoryLoader = true;
       fetchInterestCategory = null;
-
       notifyListeners();
     }
 
@@ -151,7 +152,7 @@ class GuestControllers extends ChangeNotifier {
         apiResponseCompleted();
       });
     } catch (e, s) {
-      // apiResponseCompleted();
+      apiResponseCompleted();
       debugPrint('Error is $e & $s');
     }
 
@@ -692,5 +693,96 @@ class GuestControllers extends ChangeNotifier {
       }
     });
     return editProfileModel;
+  }
+
+
+  /// 1) fetch guest profile data..
+  FetchGuestProfile? fetchGuestProfileModel;
+  bool fetchGuestProfileLoader =false ;
+  Future<FetchGuestProfile?> fetchGuestProfile({
+    required BuildContext context,
+
+  }) async {
+    refresh() {
+      fetchGuestProfileLoader = false;
+
+      notifyListeners();
+    }
+    // //
+    apiResponseCompleted() {
+      fetchGuestProfileLoader = true;
+      notifyListeners();
+    }
+    //
+    refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchGuestProfile,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchGuestProfile responseData = FetchGuestProfile.fromJson(json);
+          if (responseData.status == true) {
+            fetchGuestProfileModel = responseData;
+            notifyListeners();
+          }
+        }
+
+        apiResponseCompleted();
+      });
+    } catch (e, s) {
+      apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchGuestProfileModel;
+  }
+  /// 1) fetch faqs..
+  FetchFaqsModel? fetchFaqsModel;
+  bool fetchFaqsLoader =false;
+  Future<FetchFaqsModel?> fetchFaqs({
+    required BuildContext context,
+    required String categoriesId,
+
+  }) async {
+    refresh() {
+      fetchFaqsLoader = true;
+      fetchInterestCategory = null;
+
+      notifyListeners();
+    }
+
+    apiResponseCompleted() {
+      fetchFaqsLoader = false;
+      notifyListeners();
+    }
+
+    refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchFaqs +categoriesId,
+      )
+          .then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchFaqsModel responseData = FetchFaqsModel.fromJson(json);
+          if (responseData.status == true) {
+
+            fetchFaqsLoader = true;
+            fetchFaqsModel = responseData;
+            notifyListeners();
+          }
+        }
+
+        apiResponseCompleted();
+      });
+    } catch (e, s) {
+      apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchFaqsModel;
   }
 }

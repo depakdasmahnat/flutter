@@ -93,6 +93,7 @@ class AuthControllers extends ChangeNotifier {
     required String? mobile,
     required String? firstName,
     required String? lastName,
+    required String? address,
     required String? referralCode,
   }) async {
     FocusScope.of(context).unfocus();
@@ -101,6 +102,7 @@ class AuthControllers extends ChangeNotifier {
       'mobile': '$mobile',
       'first_name': '$firstName',
       'last_name': '$lastName',
+      'address': '$address',
       'referral_code': '$referralCode',
     };
 
@@ -118,8 +120,7 @@ class AuthControllers extends ChangeNotifier {
       if (response != null) {
         Map<String, dynamic> json = response;
         responseData = Sendotp.fromJson(json);
-        print('is validate ${responseData?.data?.toJson()}');
-        print('is validate ${responseData?.status}');
+
         if (responseData?.status == true) {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);

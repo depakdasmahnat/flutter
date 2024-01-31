@@ -75,9 +75,11 @@ class ApiEndpoints {
   static const String fetchResourceDetails =
       'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
+  static const String fetchFaqs = 'fetch_faqs?category=';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';
   static const String state = 'fetch_states';
   static const String city = 'fetch_cities?state_id=';
+  static const String fetchGuestProfile = 'fetch_profile';
 }
