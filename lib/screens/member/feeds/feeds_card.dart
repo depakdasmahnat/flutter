@@ -7,6 +7,7 @@ import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
 import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../core/config/app_assets.dart';
@@ -170,8 +171,11 @@ class _FeedCardState extends State<FeedCard> {
                               icon: AppAssets.chatIcon,
                               value: data?.comments,
                             ),
-                            const FeedMenu(
+                            FeedMenu(
                               icon: AppAssets.shareIcon,
+                              onTap: () {
+                                Share.share('${data?.title ?? ''}\n${data?.file ?? ''}');
+                              },
                             ),
                           ],
                         ),

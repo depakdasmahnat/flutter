@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:mrwebbeast/screens/member/feeds/feeds_card.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -8,11 +10,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
-import '../../../core/constant/gradients.dart';
 import '../../../models/feeds/comments_model.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../utils/widgets/appbar.dart';
-import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class FeedDetail extends StatefulWidget {
@@ -56,6 +56,7 @@ class _FeedDetailState extends State<FeedDetail> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: PreferredSize(
@@ -158,8 +159,14 @@ class _FeedDetailState extends State<FeedDetail> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircleAvatar(
-              backgroundImage: AssetImage(AppAssets.guestProfile1),
+            ImageView(
+              height: 45,
+              width: 45,
+              isAvatar: true,
+              networkImage: localDatabase.userRole == UserRoles.guest.value
+                  ? '${localDatabase.guest?.profilePhoto}'
+                  : '${localDatabase.member?.profilePhoto}',
+              margin: const EdgeInsets.only(right: 4),
             ),
             Expanded(
               child: Padding(
