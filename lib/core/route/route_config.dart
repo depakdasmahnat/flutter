@@ -7,6 +7,8 @@ import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/screens/guest/product/guest_product_details.dart';
 import 'package:mrwebbeast/screens/member/archievers/achievers.dart';
 import 'package:mrwebbeast/screens/member/demo/create_demo.dart';
+import 'package:mrwebbeast/screens/member/demo/demos_screen.dart';
+import 'package:mrwebbeast/utils/widgets/pdf_viewer.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -63,6 +65,7 @@ import '../../screens/welcome_screen.dart';
 import '../../select_lead/select_lead.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
+import '../../utils/widgets/ppt_viewer.dart';
 import '../../utils/widgets/web_view_screen.dart';
 import '../../screens/auth/login.dart';
 import '../../screens/dashboard/dashboard.dart';
@@ -447,6 +450,31 @@ class RoutesConfig {
                 name: data?.name,
                 image: data?.image,
               ));
+        },
+      ),
+
+      GoRoute(
+        name: Routs.viewPdf,
+        path: Routs.viewPdf,
+        pageBuilder: (context, state) {
+          PDFViewer? data = state.extra as PDFViewer?;
+          return cupertinoPage(state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
+        },
+      ),
+      GoRoute(
+        name: Routs.demos,
+        path: Routs.demos,
+        pageBuilder: (context, state) {
+          return cupertinoPage(state: state, child: const DemosScreen());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.pptViewer,
+        path: Routs.pptViewer,
+        pageBuilder: (context, state) {
+          PPTViewer? data = state.extra as PPTViewer?;
+          return cupertinoPage(state: state, child: PPTViewer(url: data?.url ?? ''));
         },
       ),
       GoRoute(

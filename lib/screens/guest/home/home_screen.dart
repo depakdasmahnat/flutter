@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -40,6 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
   List<FeedsData>? feeds;
   FeedCategory? selectedFilter;
+  DateTime currentDate = DateTime.now();
+
+  late String formattedDate = DateFormat(dayFormat).format(currentDate);
 
   Future fetchFeeds({bool? loadingNext}) async {
     return await context.read<FeedsController>().fetchFeeds(
@@ -87,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     textAlign: TextAlign.start,
                   ),
                   GradientText(
-                    'Monday, 12 Jan',
+                    formattedDate,
                     gradient: primaryGradient,
                     style: TextStyle(
                       color: Colors.white,
@@ -138,12 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundGradient: primaryGradient,
               backgroundColor: Colors.transparent,
               boxShadow: const [],
-              // margin:const EdgeInsets.only(left: 16, right: 24, bottom: 24),
               onTap: () {
-                // context.pushNamed(Routs.verifyOTP);
+                context.pushNamed(Routs.demos);
               },
               margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

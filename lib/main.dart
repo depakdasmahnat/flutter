@@ -23,8 +23,7 @@ Future main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalDatabase.initialize();
   await NotificationController.initialize();
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(
       // DevicePreview(
       //   enabled: !kReleaseMode,

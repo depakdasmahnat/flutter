@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
 import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
+import 'package:mrwebbeast/utils/widgets/image_opener.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:mrwebbeast/utils/widgets/pdf_viewer.dart';
+import 'package:mrwebbeast/utils/widgets/ppt_viewer.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../core/config/app_assets.dart';
@@ -61,7 +67,22 @@ class _FeedCardState extends State<FeedCard> {
         children: [
           Column(
             children: [
-              if (data?.fileType == FeedsFileType.images.value && data?.files.haveData == true)
+              if (data?.fileType == FeedsFileType.image.value && data?.file != null)
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: ImageView(
+                    width: size.width,
+                    borderRadiusValue: 18,
+                    margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                    backgroundColor: Colors.transparent,
+                    fit: BoxFit.cover,
+                    networkImage: '${data?.file}',
+                    onTap: () {
+                      context.pushNamed(Routs.imageOpener, extra: ImageOpener(networkImage: '${data?.file}'));
+                    },
+                  ),
+                )
+              else if (data?.fileType == FeedsFileType.image.value && data?.files.haveData == true)
                 AspectRatio(
                   aspectRatio: 16 / 9,
                   child: PageView.builder(
@@ -97,6 +118,33 @@ class _FeedCardState extends State<FeedCard> {
                     url: '${data?.file}',
                     borderRadius: 18,
                   ),
+                )
+              else if (data?.fileType == FeedsFileType.pdf.value && data?.file != null)
+                ImageView(
+                  height: 150,
+                  borderRadiusValue: 18,
+                  margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  backgroundColor: Colors.transparent,
+                  fit: BoxFit.cover,
+                  assetImage: AppAssets.pdfIcon,
+                  onTap: () {
+                    context.pushNamed(Routs.viewPdf,
+                        extra: PDFViewer(
+                          pdfUrl: '${data?.file}',
+                        ));
+                  },
+                )
+              else if (data?.file != null)
+                ImageView(
+                  height: 150,
+                  borderRadiusValue: 18,
+                  margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  backgroundColor: Colors.transparent,
+                  fit: BoxFit.cover,
+                  assetImage: AppAssets.fileIcon,
+                  onTap: () {
+                    launchUrl(Uri.parse('${data?.file}'));
+                  },
                 )
             ],
           ),
@@ -256,11 +304,11 @@ class FeedMenu extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ImageView(
-              height: 20,
+              height: 18,
               width: 20,
               borderRadiusValue: 0,
               color: Colors.white,
-              margin: const EdgeInsets.only(right: 4),
+              margin: const EdgeInsets.only(right: 6),
               fit: BoxFit.contain,
               onTap: null,
               assetImage: icon,
@@ -271,7 +319,7 @@ class FeedMenu extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
                 textAlign: TextAlign.start,
               ),

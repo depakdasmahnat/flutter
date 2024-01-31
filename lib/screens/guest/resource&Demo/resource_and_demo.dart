@@ -6,7 +6,6 @@ import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/constant.dart';
 import '../../../models/auth_model/fetchinterestcategory.dart';
