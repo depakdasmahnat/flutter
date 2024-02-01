@@ -13,7 +13,8 @@ import '../../../utils/widgets/no_data_found.dart';
 import '../../guest/home/home_screen.dart';
 
 class MemberProfileDetails extends StatefulWidget {
-  const MemberProfileDetails({super.key});
+  String memberId;
+   MemberProfileDetails({super.key,required this.memberId});
 
   @override
   State<MemberProfileDetails> createState() => _MemberProfileDetailsState();

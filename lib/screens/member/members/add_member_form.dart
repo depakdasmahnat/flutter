@@ -71,7 +71,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
                 ),
               ],
             ),
-            CustomTextFieldApp(
+            const CustomTextFieldApp(
               title: 'First Name',
               hintText: 'Enter First Name',
 
@@ -124,15 +124,11 @@ class _AddMemberFormState extends State<AddMemberForm> {
                             data: Theme.of(context).copyWith(
                               popupMenuTheme: PopupMenuThemeData(shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                               cardColor: Colors.white,
-
-
-
                               colorScheme: Theme.of(context).colorScheme.copyWith(
                                 primary: Colors.white, // <-- SEE HERE
                                 onPrimary: Colors.black, // <-- SEE HERE
                                 onSurface: Colors.white,
                               ),
-
                               // Input
                               inputDecorationTheme: InputDecorationTheme(
                                 // labelStyle: GoogleFonts.greatVibes(), // Input label

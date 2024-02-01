@@ -149,6 +149,7 @@ class _LoginState extends State<Login> {
                 CustomTextField(
                   controller: referralCodeCtrl,
                   autofocus: true,
+
                   hintText: 'Referral code',
                   validator: (value) {
                     return Validator.numberValidator(value);
@@ -165,38 +166,38 @@ class _LoginState extends State<Login> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(right: 4),
-                  child: Text(
-                    'Don’t have an account?',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: const Text(
-                    'Register',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 16),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       // const Padding(
+          //       //   padding: EdgeInsets.only(right: 4),
+          //       //   child: Text(
+          //       //     'Don’t have an account?',
+          //       //     style: TextStyle(
+          //       //       color: Colors.white,
+          //       //       fontSize: 14,
+          //       //       fontWeight: FontWeight.w400,
+          //       //     ),
+          //       //     textAlign: TextAlign.start,
+          //       //   ),
+          //       // ),
+          //       // GestureDetector(
+          //       //   onTap: () {},
+          //       //   child: const Text(
+          //       //     'Register',
+          //       //     style: TextStyle(
+          //       //       color: Colors.white,
+          //       //       fontSize: 14,
+          //       //       fontWeight: FontWeight.w700,
+          //       //     ),
+          //       //     textAlign: TextAlign.start,
+          //       //   ),
+          //       // ),
+          //     ],
+          //   ),
+          // ),
           GradientButton(
             height: 70,
             borderRadius: 18,
@@ -287,6 +288,8 @@ class _LoginState extends State<Login> {
     }else{
       nameCtrl.clear();
       lastNameCtrl.clear();
+      addressCtrl.clear();
+      referralCodeCtrl.clear();
       checkValidate=true;
       forReferral=false;
     }

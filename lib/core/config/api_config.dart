@@ -62,6 +62,10 @@ class ApiEndpoints {
   static const String fetchDemos = 'fetch_demos';
 
   static const String scheduledDemo = 'schedule_demo';
+  static const String leadClose = 'close_lead';
+  static const String fetchSponsor = 'get_member_list';
+  static const String addLead = 'add_lead';
+  static const String ref = 'generate_referral_link';
 
   // Lead apis
   static const String fetchLead = 'fetch_leads?';

@@ -10,6 +10,7 @@ import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 
 import '../../core/route/route_paths.dart';
+import '../member/lead/model_dailog_box.dart';
 
 class DashboardMoreMenu extends StatefulWidget {
   bool? showLeadItem;
@@ -20,6 +21,17 @@ class DashboardMoreMenu extends StatefulWidget {
 }
 
 class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
+  Future<void> _showDialog(
+      BuildContext context,) async {
+    return showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return  const ModelDialogBox1(
+        ) ;
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
@@ -33,7 +45,9 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
               width: 270,
               title: 'Add List',
               image: AppAssets.addPersonIcon,
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(Routs.memberaddList);
+              },
             ),
             MenuButton(
               width: 270,
@@ -47,8 +61,12 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
                 width: 270,
                 title: 'Share referral',
                 image: AppAssets.leadShare,
-                onTap: () {
-                  context.pushNamed(Routs.createGoal);
+                onTap: () async{
+                await  _showDialog(
+                  context
+                );
+
+                  // context.pushNamed(Routs.createGoal);
                 },
               ),
           ],

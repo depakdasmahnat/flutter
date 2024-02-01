@@ -22,12 +22,14 @@ class VerifyOTP extends StatefulWidget {
       this.lastName,
       this.mobileNo,
       this.referralCode,
+      this.address,
       this.goBack});
   final String? isMobileValidated;
   final String? firstName;
   final String? lastName;
   final String? mobileNo;
   final String? referralCode;
+  final String? address;
   final bool? goBack;
 
   @override
@@ -271,6 +273,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
           firstName: widget.firstName,
           lastName: widget.lastName,
           referralCode: widget.referralCode,
+          address: widget.address,
           otp: otp);
       setState(() {});
     } else {

@@ -225,7 +225,7 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
   Widget rectangleWidget(PinnacleViewData? data) {
     return InkWell(
       onTap: () {
-        context.pushNamed(Routs.memberProfileDetails, extra: const MemberProfileDetails());
+        context.pushNamed(Routs.memberProfileDetails, extra:  MemberProfileDetails(memberId: '',));
       },
       child: Column(
         children: [

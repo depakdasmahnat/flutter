@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';
@@ -17,6 +19,7 @@ import '../../../utils/widgets/image_view.dart';
 import '../../dashboard/more_menu.dart';
 import '../../guest/guestProfile/guest_faq.dart';
 import '../demo/create_demo.dart';
+import '../home/member_profile_details.dart';
 import 'custom_popup_menu.dart';
 import 'demo_don_form.dart';
 import 'model_dailog_box.dart';
@@ -33,10 +36,10 @@ class _LeadState extends State<Lead> {
 
   List tabItem = [
     'New Listed',
-    'Invitation call',
+    'Invitation Call',
     'Demo Scheduled',
     'Follow Up',
-    'Closing'
+    'Closed'
   ];
   List item = [
     {
@@ -91,14 +94,12 @@ class _LeadState extends State<Lead> {
       'color': Colors.white,
     },
   ];
- bool showItem =false;
+ // bool showItem =false;
   String status = '';
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context
-          .read<MembersController>()
-          .fetchLeads(status: '', priority: '', page: '1');
+      await context.read<MembersController>().fetchLeads(status: '', priority: '', page: '1');
     });
     super.initState();
   }
@@ -156,13 +157,13 @@ class _LeadState extends State<Lead> {
                                           onTap: () async {
                                             tabIndex = index;
                                             status = tabItem[index];
-                                            await context
-                                                .read<MembersController>()
-                                                .fetchLeads(
-                                                    status: status,
-                                                    priority: '',
-                                                    page: '1');
+                                            if(status=='New Listed'){
+                                              status ='New';
+                                            }
+
                                             setState(() {});
+                                            await context.read<MembersController>().fetchLeads(status: status, priority: '', page: '1');
+
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -653,6 +654,8 @@ class _LeadState extends State<Lead> {
                     )),
             body: Stack(
             children: [
+              controller.fetchLeadsModel?.data?.isEmpty==true?
+                  const NoDataFound():
               ListView.builder(
                 itemCount: controller.fetchLeadsModel?.data?.length ?? 0,
                 padding: EdgeInsets.only(bottom: size.height * 0.13),
@@ -666,9 +669,7 @@ class _LeadState extends State<Lead> {
                             padding: const EdgeInsets.all(10),
                             child: RowCart(
                               tabIndex: tabIndex,
-                              listIndex: index,
-                              guestId: controller.fetchLeadsModel?.data?[index].id
-                                  .toString(),
+                              listIndex: index, guestId: controller.fetchLeadsModel?.data?[index].id.toString(),
                               image: controller
                                   .fetchLeadsModel?.data?[index].profilePhoto,
                               name: controller
@@ -685,20 +686,22 @@ class _LeadState extends State<Lead> {
                                   .fetchLeadsModel?.data?[index].priority,
                               demoId: controller
                                   .fetchLeadsModel?.data?[index].demoId.toString() ,
+                              memberId: controller
+                                  .fetchLeadsModel?.data?[index].memberId.toString() ,
                             )),
                       ));
                 },
               ),
-              if(showItem ==true)
+              if(controller.showItem ==true)
               Padding(
                 padding:  EdgeInsets.only(bottom: size.height*0.1),
                 child: Container(
-                  decoration: showItem? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
+                  decoration: controller.showItem? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
                   child: Column(
-                    mainAxisSize: showItem ? MainAxisSize.max : MainAxisSize.min,
+                    mainAxisSize: controller.showItem ? MainAxisSize.max : MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      if(showItem==true)
+                      if(controller.showItem==true)
                         DashboardMoreMenu(
                           showLeadItem: true,
                         ),
@@ -707,26 +710,19 @@ class _LeadState extends State<Lead> {
                 ),
               ),
             ],
-
             ),
-            
             floatingActionButton: tabIndex == 0
                 ? Padding(
                     padding: EdgeInsets.only(bottom: size.height * 0.1),
                     child: GestureDetector(
                       onTap: () async{
-                        if(showItem==false){
-                          showItem =true;
-                        }else{
-                          showItem =false;
-                        }
-                        setState(() {
-
-                        });
-                        // print("chweck 1 ${controller.showItem}");
-                        // await context.read<MembersController>().changeStatus();
-                        // print("chweck 2 ${controller.showItem}");
-
+                        controller.changeStatus();
+                        // if(controller.showItem==false){
+                        //   context.read<MembersController>().showItem=true;
+                        //
+                        // }else{
+                        //   context.read<MembersController>().showItem=false;
+                        // }
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -760,6 +756,7 @@ class RowCart extends StatelessWidget {
   String? time;
   String? priority;
   String? demoId;
+  String? memberId;
   RowCart({
     this.tabIndex,
     this.listIndex,
@@ -772,18 +769,20 @@ class RowCart extends StatelessWidget {
     this.time,
     this.priority,
     this.demoId,
+    this.memberId,
     super.key,
   });
   Future<void> _showDialog(
-      BuildContext context, String? guestId, String? feedback) async {
+      BuildContext context, String? guestId, String? feedback,bool changePopUp,) async {
     return showDialog(
       context: context,
       barrierColor: Colors.transparent,
       builder: (BuildContext context) {
-        return ModelDialogBox(
+        return  ModelDialogBox(
           guestId: guestId ?? '',
           feedback: feedback ?? '',
-        );
+          changePopUp: changePopUp,
+        ) ;
       },
     );
   }
@@ -798,11 +797,20 @@ class RowCart extends StatelessWidget {
               Row(
                 children: [
                   image == null
-                      ? Image.asset(AppAssets.u1)
-                      : Image.network(
-                          image ?? '',
-                          height: size.height * 0.04,
-                        ),
+                      ? CircleAvatar(
+                    maxRadius: size.height * 0.02,
+                    child: Image.asset(AppAssets.userIcon,height: 15,),
+                  )
+                      :
+                  CircleAvatar(
+                    maxRadius: size.height * 0.02,
+                    child: Image.network(
+                      image ?? '',
+                      // height: size.height * 0.04,
+                      height: size.height * 0.04,
+                    ),
+
+                  ),
                   const SizedBox(
                     width: 5,
                   ),
@@ -862,7 +870,7 @@ class RowCart extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 onSelected: (value) {
                   print(value);
-                  _showDialog(context, guestId, value).whenComplete(
+                  _showDialog(context, guestId, value,false).whenComplete(
                     () async {
                       await context
                           .read<MembersController>()
@@ -911,6 +919,21 @@ class RowCart extends StatelessWidget {
                     children: [
                       // image==null?
                       // Image.asset(AppAssets.u1):Image.network(image??'',height: size.height*0.04,width:size.width*0.04 ,),
+                      image == null
+                          ? CircleAvatar(
+                        maxRadius: size.height * 0.02,
+                        child: Image.asset(AppAssets.userIcon,height: 15,),
+                      )
+                          :
+                      CircleAvatar(
+                        maxRadius: size.height * 0.02,
+                        child: Image.network(
+                          image ?? '',
+                          // height: size.height * 0.04,
+                          height: size.height * 0.04,
+                        ),
+
+                      ),
                       const SizedBox(
                         width: 5,
                       ),
@@ -990,8 +1013,20 @@ class RowCart extends StatelessWidget {
                       Row(
                         children: [
                           image == null
-                              ? Image.asset(AppAssets.u1)
-                              : Image.network(image ?? ''),
+                              ? CircleAvatar(
+                            maxRadius: size.height * 0.02,
+                            child: Image.asset(AppAssets.userIcon,height: 15,),
+                          )
+                              :
+                          CircleAvatar(
+                            maxRadius: size.height * 0.02,
+                            child: Image.network(
+                              image ?? '',
+                              // height: size.height * 0.04,
+                              height: size.height * 0.04,
+                            ),
+
+                          ),
                           const SizedBox(
                             width: 5,
                           ),
@@ -1246,8 +1281,16 @@ class RowCart extends StatelessWidget {
                               ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () {},
+                          GestureDetector(
+                            onTap: () {
+                              _showDialog(context, guestId, '',true).whenComplete(
+                                    () async {
+                                  await context
+                                      .read<MembersController>()
+                                      .fetchLeads(status: 'Follow Up', priority: '', page: '1');
+                                },
+                              );
+                            },
                             child: Container(
                               decoration: ShapeDecoration(
                                 gradient: const LinearGradient(
@@ -1283,8 +1326,20 @@ class RowCart extends StatelessWidget {
                               Row(
                                 children: [
                                   image == null
-                                      ? Image.asset(AppAssets.u1)
-                                      : Image.network(image ?? ''),
+                                      ? CircleAvatar(
+                                    maxRadius: size.height * 0.02,
+                                    child: Image.asset(AppAssets.userIcon,height: 15,),
+                                  )
+                                      :
+                                  CircleAvatar(
+                                    maxRadius: size.height * 0.02,
+                                    child: Image.network(
+                                      image ?? '',
+                                      // height: size.height * 0.04,
+                                      height: size.height * 0.04,
+                                    ),
+
+                                  ),
                                   const SizedBox(
                                     width: 5,
                                   ),
@@ -1296,11 +1351,41 @@ class RowCart extends StatelessWidget {
                                 ],
                               ),
                               CustomeText(
-                                text: city ?? "",
+                                text: city ?? 'Raipur',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
-                              const Icon(Icons.more_vert)
+                              GestureDetector(
+                                onTap: () {
+                                  context.pushNamed(Routs.memberProfileDetails,extra: MemberProfileDetails(memberId: memberId??'',));
+                                },
+                                child: Container(
+                                  decoration: ShapeDecoration(
+                                    gradient: const LinearGradient(
+                                      begin: Alignment(0.00, -1.00),
+                                      end: Alignment(0, 1),
+                                      colors: [
+                                        Color(0xFFF3F3F3),
+                                        Color(0xFFE0E0E0)
+                                      ],
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 18, right: 18, top: 4, bottom: 4),
+                                    child: CustomeText(
+                                      text: 'View Profile',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // const Icon(Icons.more_vert)
                             ],
                           )
                         : Row(

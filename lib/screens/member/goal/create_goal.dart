@@ -299,7 +299,14 @@ class AppTextField extends StatelessWidget {
   final double? height;
   final int? minLines;
   final int? maxLines;
+  final Widget? suffixIcon;
+   final bool? obscureText;
+  final String? obscuringCharacter;
   final TextEditingController? controller;
+  final  String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final BoxConstraints? suffixIconConstraints;
+  final void Function(String)? onFieldSubmitted;
 
   const AppTextField({
     this.title,
@@ -312,6 +319,13 @@ class AppTextField extends StatelessWidget {
     super.key,
     this.minLines,
     this.maxLines,
+    this.obscureText,
+    this.obscuringCharacter,
+    this.validator,
+    this.onChanged,
+    this.suffixIcon,
+    this.suffixIconConstraints,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -346,11 +360,19 @@ class AppTextField extends StatelessWidget {
             CustomTextField(
               readOnly: readOnly,
               onTap: onTap,
+              validator: validator,
+              onChanged:onChanged ,
+              suffixIcon: suffixIcon,
+              suffixIconConstraints: suffixIconConstraints,
+              onFieldSubmitted: onFieldSubmitted,
+
 
               controller: controller,
               prefixIcon: prefixIcon,
               minLines: minLines,
               maxLines: maxLines,
+              obscureText:obscureText ,
+              obscuringCharacter: obscuringCharacter,
               hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,

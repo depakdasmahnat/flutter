@@ -91,9 +91,11 @@ class CustomTextField extends StatelessWidget {
     this.errorMaxLines,
     this.labelStyle,
     this.onTapOutside,
+    this.suffixIconConstraints,
   });
 
   final TextEditingController? controller;
+  final BoxConstraints? suffixIconConstraints;
   final double? height;
   final double? width;
   final double? borderRadius;
@@ -256,6 +258,7 @@ class CustomTextField extends StatelessWidget {
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 hintText: hintText,
+                suffixIconConstraints: suffixIconConstraints,
                 counterText: '',
                 errorText: errorText,
                 errorMaxLines: errorMaxLines,

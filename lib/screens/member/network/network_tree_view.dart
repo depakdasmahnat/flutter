@@ -225,7 +225,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
   Widget rectangleWidget(TreeGraphData? data) {
     return InkWell(
       onTap: () {
-        context.pushNamed(Routs.memberProfileDetails, extra: const MemberProfileDetails());
+        context.pushNamed(Routs.memberProfileDetails, extra:  MemberProfileDetails(memberId: '',));
       },
       child: Column(
         children: [

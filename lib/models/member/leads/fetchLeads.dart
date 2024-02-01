@@ -66,7 +66,10 @@ class Data {
       this.demoDate, 
       this.demoTime, 
       this.remarks, 
-      this.demoStatus,});
+      this.demoStatus,
+      this.memberId,
+
+  });
 
   Data.fromJson(dynamic json) {
     id = json['id'];
@@ -86,6 +89,7 @@ class Data {
     demoTime = json['demo_time'];
     remarks = json['remarks'];
     demoStatus = json['demo_status'];
+    memberId = json['member_id'];
   }
   num? id;
   String? firstName;
@@ -104,6 +108,7 @@ class Data {
   String? demoTime;
   String? remarks;
   String? demoStatus;
+  int? memberId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -124,6 +129,7 @@ class Data {
     map['demo_time'] = demoTime;
     map['remarks'] = remarks;
     map['demo_status'] = demoStatus;
+    map['member_id'] = memberId;
     return map;
   }
 
