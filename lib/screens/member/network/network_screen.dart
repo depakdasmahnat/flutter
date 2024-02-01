@@ -10,6 +10,7 @@ import 'package:mrwebbeast/screens/member/network/network_tree_view.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 
 import '../../../models/dashboard/custom_tab_data.dart';
+import '../../../utils/custom_menu_popup.dart';
 
 class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> tabs;
@@ -140,9 +141,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
               width: 120,
               borderRadius: 18,
               backgroundGradient: primaryGradient,
-              onTap: () {
-                context.pushNamed(Routs.networkReport);
-              },
+              onTap: null,
               margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),

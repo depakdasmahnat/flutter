@@ -44,7 +44,8 @@ class ApiEndpoints {
   static const String fetchProfile = 'fetch_profile';
   static const String treeView = 'tree_view';
   static const String pinnacleView = 'pinnacle_view';
-  static const String selectABMember = 'select_A_B_members';
+  static const String projectionView = 'projection_view';
+
   static const String deleteUser = 'deleteUser';
   static const String sendOtp = 'send_otp';
   static const String verifyOtp = 'verify_otp';
@@ -61,6 +62,7 @@ class ApiEndpoints {
   static const String demoDone = 'demo_done';
   static const String fetchDemos = 'fetch_demos';
   static const String fetchGoals = 'fetch_goals';
+  static const String selectABMembers = 'select_A_B_members';  static const String selectProjectionABMembers = 'projection_selectAB_members';
 
   static const String scheduledDemo = 'schedule_demo';
 

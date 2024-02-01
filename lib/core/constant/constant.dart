@@ -49,7 +49,7 @@ Color statusColor({required num? value}) {
   return color;
 }
 
-Gradient statusGradient({required String? sale}) {
+Gradient statusGradient({required num? sale}) {
   num? sales = num.tryParse('$sale') ?? 0;
 
   Gradient gradient = primaryGradient;

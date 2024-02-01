@@ -15,6 +15,7 @@ import '../../../core/route/route_paths.dart';
 import '../../../models/member/network/tree_graph_model.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../home/member_profile_details.dart';
+import '../../../utils/custom_menu_popup.dart';
 
 class NetworkTreeView extends StatefulWidget {
   const NetworkTreeView({super.key});
@@ -46,15 +47,17 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
       for (int index = 0; index < (treeGraph?.length ?? 0); index++) {
         TreeGraphData? element = treeGraph?.elementAt(index);
         num? fromNodeId = element?.id;
+
         if (index == 0) {
           graph.addNode(Node.Id(fromNodeId));
           // graph.addEdge(Node.Id(fromNodeId), Node.Id(fromNodeId));
         }
         if (element?.connectedMember.haveData == true) {
-          element?.connectedMember?.forEach((element) {
-            num? toNodeId = element;
+          for (int index = 0; index < (element?.connectedMember?.length ?? 0); index++) {
+            var connectedMember = element?.connectedMember?.elementAt(index);
+            num? toNodeId = connectedMember;
             graph.addEdge(Node.Id(fromNodeId), Node.Id(toNodeId));
-          });
+          }
         }
       }
 
@@ -181,7 +184,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
                       Expanded(
                         child: InteractiveViewer(
                           constrained: false,
-                          boundaryMargin: const EdgeInsets.all(100),
+                          boundaryMargin: const EdgeInsets.all(200),
                           minScale: 0.01,
                           maxScale: 6,
                           child: GraphView(
@@ -223,10 +226,37 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
   }
 
   Widget rectangleWidget(TreeGraphData? data) {
-    return InkWell(
-      onTap: () {
-        context.pushNamed(Routs.memberProfileDetails, extra: const MemberProfileDetails());
-      },
+    return CustomPopupMenu(
+      items: [
+        if (data?.section == null)
+          CustomPopupMenuEntry(
+            label: 'Mark A',
+            onPressed: () async {
+              await context
+                  .read<NetworkControllers>()
+                  .selectABMembers(context: context, memberId: data?.id, memberType: 'A');
+            },
+          ),
+        if (data?.section == null)
+          CustomPopupMenuEntry(
+            label: 'Mark B',
+            onPressed: () {
+              context
+                  .read<NetworkControllers>()
+                  .selectABMembers(context: context, memberId: data?.id, memberType: 'B');
+            },
+          ),
+        CustomPopupMenuEntry(
+          label: 'Check Profile',
+          onPressed: () {
+            context.pushNamed(Routs.memberProfileDetails,
+                extra: MemberProfileDetails(
+                  id: data?.id,
+                ));
+          },
+        ),
+      ],
+      onChange: (String? val) {},
       child: Column(
         children: [
           Stack(
@@ -249,7 +279,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
                   ),
                 ),
               ),
-              if (data?.level != null)
+              if (data?.section != null)
                 Positioned(
                   top: 0,
                   right: 0,
@@ -260,7 +290,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
                     padding: EdgeInsets.zero,
                     child: Center(
                       child: Text(
-                        '${data?.level}',
+                        '${data?.section}',
                         style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -276,7 +306,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
             Padding(
               padding: const EdgeInsets.only(top: 2, bottom: 2),
               child: Text(
-                'Sales: ${data?.sales}',
+                '${data?.name} : ${data?.sales}',
                 style: const TextStyle(fontSize: 12),
               ),
             ),

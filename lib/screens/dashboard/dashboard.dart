@@ -134,6 +134,7 @@ class DashBoardState extends State<DashBoard> {
                             isAvatar: true,
                             margin: const EdgeInsets.only(left: 8, right: 8),
                             fit: BoxFit.contain,
+                            networkImage: '${localDatabase.member?.profilePhoto}',
                             onTap: () {
                               context.pushNamed(Routs.memberProfile);
                             },

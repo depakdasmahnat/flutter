@@ -12,6 +12,7 @@ import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../core/services/database/local_database.dart';
 import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 
@@ -27,6 +28,7 @@ class _MemberProfileState extends State<MemberProfile> {
 
   @override
   Widget build(BuildContext context) {
+    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -44,32 +46,35 @@ class _MemberProfileState extends State<MemberProfile> {
                 isAvatar: true,
                 margin: const EdgeInsets.only(left: 8, right: 16),
                 fit: BoxFit.contain,
+                networkImage: '${localDatabase.member?.profilePhoto}',
               ),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Ayaan Sha',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                    '${localDatabase.member?.firstName} ${localDatabase.member?.lastName ?? ''}',
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 4, bottom: 8),
+                    padding: const EdgeInsets.only(top: 4, bottom: 8),
                     child: Text(
-                      'ID: 655847A',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                      'ID: ${localDatabase.member?.enagicId}',
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 2),
-                    child: Text(
-                      '+91 62656 84212',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                  if (localDatabase.member?.mobile != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 2),
+                      child: Text(
+                        '+91 ${localDatabase.member?.mobile}',
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Civil lines, Raipur, C.G.',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                  ),
+                  if (localDatabase.member?.address != null)
+                    Text(
+                      '${localDatabase.member?.address}',
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
                 ],
               )
             ],

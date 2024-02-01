@@ -66,6 +66,7 @@ class TreeGraphData {
     this.name,
     this.profilePic,
     this.rank,
+    this.section,
     this.level,
     this.sales,
     this.percentage,
@@ -77,6 +78,7 @@ class TreeGraphData {
     name = json['name'];
     profilePic = json['profilePic'];
     rank = json['rank'];
+    section = json['section'];
     level = json['level'];
     sales = json['sales'];
     percentage = json['percentage'];
@@ -87,9 +89,10 @@ class TreeGraphData {
   String? name;
   String? profilePic;
   String? rank;
-  String? level;
-  String? sales;
-  String? percentage;
+  String? section;
+  num? level;
+  num? sales;
+  num? percentage;
   List<num>? connectedMember;
 
   TreeGraphData copyWith({
@@ -97,9 +100,10 @@ class TreeGraphData {
     String? name,
     String? profilePic,
     String? rank,
-    String? level,
-    String? sales,
-    String? percentage,
+    String? section,
+    num? level,
+    num? sales,
+    num? percentage,
     List<num>? connectedMember,
   }) =>
       TreeGraphData(
@@ -107,6 +111,7 @@ class TreeGraphData {
         name: name ?? this.name,
         profilePic: profilePic ?? this.profilePic,
         rank: rank ?? this.rank,
+        section: section ?? this.section,
         level: level ?? this.level,
         sales: sales ?? this.sales,
         percentage: percentage ?? this.percentage,
@@ -119,6 +124,7 @@ class TreeGraphData {
     map['name'] = name;
     map['profilePic'] = profilePic;
     map['rank'] = rank;
+    map['section'] = section;
     map['level'] = level;
     map['sales'] = sales;
     map['percentage'] = percentage;

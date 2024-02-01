@@ -8,10 +8,17 @@ import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/models/dashboard/color_grades.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/member/network/network_controller.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/member/network/projection_view_model.dart';
 import '../../../models/member/network/tree_graph_model.dart';
+import '../../../utils/custom_menu_popup.dart';
+import '../../../utils/widgets/loading_screen.dart';
+import '../../../utils/widgets/no_data_found.dart';
+import '../home/member_profile_details.dart';
 
 class NetworkProjection extends StatefulWidget {
   const NetworkProjection({super.key});
@@ -25,65 +32,38 @@ class NetworkProjectionState extends State<NetworkProjection> {
     TreeGraphData(
       id: 1,
       profilePic: 'url',
-      rank: 'A',
-      level: '6A',
-      sales: '45',
-      percentage: '77',
+      section: 'A',
+      rank: '6A',
+      sales: 77,
+      percentage: 56,
       connectedMember: [2, 3],
     ),
     TreeGraphData(
       id: 2,
       profilePic: 'url',
-      rank: 'A',
-      level: '6A',
-      sales: '15',
-      percentage: '77',
+      section: 'A',
+      rank: '6A',
+      sales: 77,
+      percentage: 56,
       connectedMember: [4, 5],
     ),
     TreeGraphData(
       id: 3,
       profilePic: 'url',
       rank: 'B',
-      level: '6A',
-      sales: '72',
-      percentage: '77',
+      section: '6A',
+      sales: 77,
+      percentage: 56,
       connectedMember: [6, 7],
     ),
     TreeGraphData(
       id: 4,
       profilePic: 'url',
       rank: 'C',
-      level: '6A',
-      sales: '23',
-      percentage: '77',
+      section: '6A',
+      sales: 77,
+      percentage: 56,
       // connectedMember: [8, 9],
-    ),
-    TreeGraphData(
-      id: 5,
-      profilePic: 'url',
-      rank: 'D',
-      level: '6A',
-      sales: '14',
-      percentage: '77',
-      // connectedMember: [10, 11],
-    ),
-    TreeGraphData(
-      id: 6,
-      profilePic: 'url',
-      rank: 'E',
-      level: '6A',
-      sales: '19',
-      percentage: '77',
-      // connectedMember: [12, 13],
-    ),
-    TreeGraphData(
-      id: 7,
-      profilePic: 'url',
-      rank: 'F',
-      level: '6A',
-      sales: '16',
-      percentage: '77',
-      // connectedMember: [14, 15],
     ),
   ];
 
@@ -97,174 +77,267 @@ class NetworkProjectionState extends State<NetworkProjection> {
 
   int currentUserLevel = 2;
   int maxLevel = 14;
-
-  final Graph graph = Graph()..isTree = true;
+  Graph graph = Graph()..isTree = true;
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+  List<ProjectionViewData>? projectionViewNodes;
+
+  Future fetchTreeView({String? memberId}) async {
+    projectionViewNodes = await context.read<NetworkControllers>().fetchProjectionView(memberId: memberId);
+    if (projectionViewNodes.haveData) {
+      debugPrint('treeGraph $projectionViewNodes');
+      for (int index = 0; index < (projectionViewNodes?.length ?? 0); index++) {
+        ProjectionViewData? element = projectionViewNodes?.elementAt(index);
+        num? fromNodeId = element?.level;
+
+        if (index == 0) {
+          graph.addNode(Node.Id(fromNodeId));
+          // graph.addEdge(Node.Id(fromNodeId), Node.Id(fromNodeId));
+        }
+        if (element?.connectedMember.haveData == true) {
+          for (int index = 0; index < (element?.connectedMember?.length ?? 0); index++) {
+            var connectedMember = element?.connectedMember?.elementAt(index);
+            num? toNodeId = connectedMember?.id;
+            graph.addEdge(Node.Id(fromNodeId), Node.Id(toNodeId));
+          }
+        }
+      }
+
+      setState(() {});
+      builder
+        ..siblingSeparation = (50)
+        ..levelSeparation = (50)
+        ..subtreeSeparation = (100)
+        ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
+      setState(() {});
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
-    List<TreeGraphData> treeGraph = treeGraphData;
-    for (var element in treeGraph) {
-      num? fromNodeId = element.id;
-      if (element.connectedMember.haveData) {
-        element.connectedMember?.forEach((element) {
-          num? toNodeId = element;
-          graph.addEdge(Node.Id(fromNodeId), Node.Id(toNodeId));
-        });
-      }
-    }
-
-    builder
-      ..siblingSeparation = (50)
-      ..levelSeparation = (50)
-      ..subtreeSeparation = (100)
-      ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // treeGraphData = createTreeGraphData();
-      setState(() {});
+      fetchTreeView();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: kPadding),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Row(
-              children: colorGrades.map(
-                (e) {
-                  return Expanded(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        height: 32,
-                        decoration: BoxDecoration(
-                          gradient: e.gradient,
-                        ),
-                        child: Center(
-                          child: Text(
-                            '${e.percentage}%',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
+    return Consumer<NetworkControllers>(builder: (context, controller, child) {
+      projectionViewNodes = controller.projectionViewNodes;
+      return Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kPadding),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Row(
+                children: colorGrades.map(
+                  (e) {
+                    return Expanded(
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height: 32,
+                          decoration: BoxDecoration(
+                            gradient: e.gradient,
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${e.percentage}%',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ).toList(),
+                    );
+                  },
+                ).toList(),
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: kPadding,
-                    right: kPadding,
-                    top: kPadding,
-                    bottom: 100),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: SizedBox(
-                    width: 50,
-                    child: ListView.builder(
-                      itemCount: maxLevel,
-                      itemBuilder: (BuildContext context, int index) {
-                        bool currentLevel = currentUserLevel == (index + 1);
+          Expanded(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: 100),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: SizedBox(
+                      width: 50,
+                      child: ListView.builder(
+                        itemCount: maxLevel,
+                        itemBuilder: (BuildContext context, int index) {
+                          bool currentLevel = currentUserLevel == (index + 1);
 
-                        return GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 60,
-                            decoration: BoxDecoration(
-                              gradient: currentLevel
-                                  ? primaryGradient
-                                  : whiteGradient,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '${index + 1}',
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w700,
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                gradient: currentLevel ? primaryGradient : whiteGradient,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '${index + 1}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const Text(
-                                  'Level',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black,
+                                  const Text(
+                                    'Level',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: InteractiveViewer(
-                  constrained: false,
-                  boundaryMargin: const EdgeInsets.all(100),
-                  minScale: 0.01,
-                  maxScale: 6,
-                  child: GraphView(
-                    graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(
-                        builder, TreeEdgeRenderer(builder)),
-                    paint: Paint()
-                      ..color = Colors.white
-                      ..strokeWidth = 1
-                      ..style = PaintingStyle.stroke,
-                    builder: (Node node) {
-                      var indexId = node.key?.value as int?;
-                      List<TreeGraphData> connectedMember = treeGraphData;
-                      var filteredMembers = connectedMember
-                          .where((element) => element.id == indexId)
-                          .toList();
-                      TreeGraphData? data;
+                if (controller.loadingProjectionView)
+                  const Expanded(
+                    child: LoadingScreen(
+                      message: 'Loading Projection View',
+                    ),
+                  )
+                else if (projectionViewNodes.haveData)
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: kPadding, right: kPadding, top: kPadding, bottom: 100),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: SizedBox(
+                              width: 50,
+                              child: ListView.builder(
+                                itemCount: maxLevel,
+                                itemBuilder: (BuildContext context, int index) {
+                                  bool currentLevel = currentUserLevel == (index + 1);
 
-                      if (filteredMembers.haveData) {
-                        data = filteredMembers.first;
-                      }
-                      return rectangleWidget(data);
-                    },
+                                  return GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        gradient: currentLevel ? primaryGradient : whiteGradient,
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '${index + 1}',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const Text(
+                                            'Level',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        if (graph.nodes.haveData)
+                          Expanded(
+                            child: InteractiveViewer(
+                              constrained: false,
+                              boundaryMargin: const EdgeInsets.all(100),
+                              minScale: 0.01,
+                              maxScale: 6,
+                              child: GraphView(
+                                graph: graph,
+                                algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                                paint: Paint()
+                                  ..color = Colors.white
+                                  ..strokeWidth = 1
+                                  ..style = PaintingStyle.stroke,
+                                builder: (Node node) {
+                                  var indexId = node.key?.value as int?;
+                                  List<ProjectionViewData>? members = projectionViewNodes;
+                                  var filteredMembers =
+                                      members?.where((element) => element.id == indexId).toList();
+                                  ProjectionViewData? data;
+
+                                  if (filteredMembers.haveData) {
+                                    data = filteredMembers?.first;
+                                  }
+
+                                  return rectangleWidget(data);
+                                },
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  )
+                else
+                  const Expanded(
+                    child: NoDataFound(
+                      message: 'No Projection View Found',
+                    ),
                   ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
-  Widget rectangleWidget(TreeGraphData? data) {
-    return InkWell(
-      onTap: () {
-        context.pushNamed(Routs.memberProfileDetails);
-      },
+  Widget rectangleWidget(ProjectionViewData? data) {
+    return CustomPopupMenu(
+      items: [
+        CustomPopupMenuEntry(
+          label: 'Mark A',
+          onPressed: () {},
+        ),
+        CustomPopupMenuEntry(
+          label: 'Mark B',
+          onPressed: () {},
+        ),
+        CustomPopupMenuEntry(
+          label: 'Check Profile',
+          onPressed: () {
+            context.pushNamed(Routs.memberProfileDetails,
+                extra: MemberProfileDetails(
+                  id: data?.id,
+                ));
+          },
+        ),
+      ],
+      onChange: (String? val) {},
       child: Column(
         children: [
           Container(

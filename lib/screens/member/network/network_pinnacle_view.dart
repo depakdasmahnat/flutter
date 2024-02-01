@@ -15,6 +15,7 @@ import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/member/network/pinnacle_view_model.dart';
 import '../../../models/member/network/tree_graph_model.dart';
+import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/gradient_button.dart';
 
 class NetworkPinnacleView extends StatefulWidget {
@@ -223,10 +224,19 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
   }
 
   Widget rectangleWidget(PinnacleViewData? data) {
-    return InkWell(
-      onTap: () {
-        context.pushNamed(Routs.memberProfileDetails, extra: const MemberProfileDetails());
-      },
+    return CustomPopupMenu(
+      items: [
+        CustomPopupMenuEntry(
+          label: 'Check Profile',
+          onPressed: () {
+            context.pushNamed(Routs.memberProfileDetails,
+                extra: MemberProfileDetails(
+                  id: data?.id,
+                ));
+          },
+        ),
+      ],
+      onChange: (String? val) {},
       child: Column(
         children: [
           Stack(
@@ -249,10 +259,31 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                   ),
                 ),
               ),
-              if (data?.rank != null)
+              if (data?.section != null)
                 Positioned(
                   top: 0,
                   left: 0,
+                  child: GradientButton(
+                    height: 14,
+                    width: 14,
+                    backgroundGradient: primaryGradient,
+                    padding: EdgeInsets.zero,
+                    child: Center(
+                      child: Text(
+                        '${data?.section}',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 8,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              if (data?.rank != null)
+                Positioned(
+                  top: 0,
+                  right: 0,
                   child: GradientButton(
                     height: 14,
                     width: 14,
@@ -270,34 +301,13 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                     ),
                   ),
                 ),
-              if (data?.level != null)
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: GradientButton(
-                    height: 14,
-                    width: 14,
-                    backgroundGradient: primaryGradient,
-                    padding: EdgeInsets.zero,
-                    child: Center(
-                      child: Text(
-                        '${data?.level}',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 8,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
             ],
           ),
           if (data?.sales != null)
             Padding(
               padding: const EdgeInsets.only(top: 2, bottom: 2),
               child: Text(
-                'Sales: ${data?.sales}',
+                '${data?.name}: (${data?.sales})',
                 style: const TextStyle(fontSize: 12),
               ),
             ),
