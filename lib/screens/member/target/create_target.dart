@@ -8,9 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/appbar.dart';
@@ -27,12 +30,21 @@ class CreateTarget extends StatefulWidget {
 }
 
 class _CreateTargetState extends State<CreateTarget> {
-  TextEditingController startDateCtrl = TextEditingController();
+  TextEditingController currentMonth = TextEditingController();
   TextEditingController endDateCtrl = TextEditingController();
+  TextEditingController salesTargetController = TextEditingController();
   File? image;
+  var currentDate = DateTime.now();
+  @override
+  void initState() {
+    super.initState();
+    var formattedDate = DateFormat('MMM-yyyy').format(currentDate);
+    currentMonth.text =formattedDate;
+  }
 
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -43,139 +55,108 @@ class _CreateTargetState extends State<CreateTarget> {
       body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
-          const AppTextField(
+           AppTextField(
+            controller: salesTargetController,
             title: 'Sales Target',
+            keyboardType: TextInputType.number,
             hintText: 'Enter Sales target',
+
           ),
 
           AppTextField(
-            title: 'Start Date',
-            hintText: 'dd/mm/yyyy',
-            controller: startDateCtrl,
-            onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2101),
-                builder: (context, child) {
-                  return Theme(
-                    data: Theme.of(context).copyWith(
-                      popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-                      cardColor: Colors.white,
-
-                      colorScheme: Theme.of(context).colorScheme.copyWith(
-                            primary: Colors.white, // <-- SEE HERE
-                            onPrimary: Colors.black, // <-- SEE HERE
-                            onSurface: Colors.white,
-                          ),
-
-                      // Input
-                      inputDecorationTheme: const InputDecorationTheme(
-                          // labelStyle: GoogleFonts.greatVibes(), // Input label
-                          ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-
-              if (pickedDate != null) {
-                startDateCtrl.text =
-                    "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
-              }
-            },
+            title: 'Current Month',
+            // hintText: 'dd/mm/yyyy',
+            controller: currentMonth,
             readOnly: true,
           ),
-          AppTextField(
-            title: 'End Date',
-            hintText: 'dd/mm/yyyy',
-            controller: endDateCtrl,
-            onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2101),
-                builder: (context, child) {
-                  return Theme(
-                    data: Theme.of(context).copyWith(
-                      popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-                      cardColor: Colors.white,
+          // AppTextField(
+          //   title: 'End Date',
+          //   hintText: 'dd/mm/yyyy',
+          //   controller: endDateCtrl,
+          //   onTap: () async {
+          //     DateTime? pickedDate = await showDatePicker(
+          //       context: context,
+          //       initialDate: DateTime.now(),
+          //       firstDate: DateTime.now(),
+          //       lastDate: DateTime(2101),
+          //       builder: (context, child) {
+          //         return Theme(
+          //           data: Theme.of(context).copyWith(
+          //             popupMenuTheme: PopupMenuThemeData(
+          //                 shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+          //             cardColor: Colors.white,
+          //
+          //             colorScheme: Theme.of(context).colorScheme.copyWith(
+          //                   primary: Colors.white, // <-- SEE HERE
+          //                   onPrimary: Colors.black, // <-- SEE HERE
+          //                   onSurface: Colors.white,
+          //                 ),
+          //
+          //             // Input
+          //             inputDecorationTheme: const InputDecorationTheme(
+          //                 // labelStyle: GoogleFonts.greatVibes(), // Input label
+          //                 ),
+          //           ),
+          //           child: child!,
+          //         );
+          //       },
+          //     );
+          //
+          //     if (pickedDate != null) {
+          //       endDateCtrl.text =
+          //           "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+          //     }
+          //   },
+          //   readOnly: true,
+          // ),
 
-                      colorScheme: Theme.of(context).colorScheme.copyWith(
-                            primary: Colors.white, // <-- SEE HERE
-                            onPrimary: Colors.black, // <-- SEE HERE
-                            onSurface: Colors.white,
-                          ),
-
-                      // Input
-                      inputDecorationTheme: const InputDecorationTheme(
-                          // labelStyle: GoogleFonts.greatVibes(), // Input label
-                          ),
-                    ),
-                    child: child!,
-                  );
-                },
-              );
-
-              if (pickedDate != null) {
-                endDateCtrl.text =
-                    "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
-              }
-            },
-            readOnly: true,
-          ),
-
-          Padding(
-            padding: const EdgeInsets.all(kPadding),
-            child: GestureDetector(
-              onTap: () {
-                addImages();
-              },
-              child: DottedBorder(
-                dashPattern: const [4, 4],
-                borderType: BorderType.RRect,
-                radius: const Radius.circular(12),
-                color: Colors.grey,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
-                  color: Colors.transparent,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          ImageView(
-                            height: 50,
-                            width: 50,
-                            assetImage: '',
-                            margin: EdgeInsets.only(bottom: 8),
-                          ),
-                          Text(
-                            'Drop your image here, or browse',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'Supports: PNG, JPG',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(kPadding),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       addImages();
+          //     },
+          //     child: DottedBorder(
+          //       dashPattern: const [4, 4],
+          //       borderType: BorderType.RRect,
+          //       radius: const Radius.circular(12),
+          //       color: Colors.grey,
+          //       child: Container(
+          //         padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
+          //         color: Colors.transparent,
+          //         child: const Row(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Column(
+          //               children: [
+          //                 ImageView(
+          //                   height: 50,
+          //                   width: 50,
+          //                   assetImage: '',
+          //                   margin: EdgeInsets.only(bottom: 8),
+          //                 ),
+          //                 Text(
+          //                   'Drop your image here, or browse',
+          //                   style: TextStyle(
+          //                     fontSize: 16,
+          //                     fontWeight: FontWeight.w500,
+          //                   ),
+          //                 ),
+          //                 Text(
+          //                   'Supports: PNG, JPG',
+          //                   style: TextStyle(
+          //                     fontSize: 12,
+          //                     fontWeight: FontWeight.w500,
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       bottomNavigationBar: Column(
@@ -189,8 +170,9 @@ class _CreateTargetState extends State<CreateTarget> {
             backgroundColor: Colors.transparent,
             boxShadow: const [],
             margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-            onTap: () {
-              // context.pushNamed(Routs.questions);
+            onTap: () async{
+              await context.read<MembersController>().addTarget(context: context,
+                  salesTarget: salesTargetController.text);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -293,6 +275,7 @@ class AppTextField extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final TextEditingController? controller;
+  final TextInputType? keyboardType;
 
   const AppTextField({
     this.title,
@@ -305,6 +288,7 @@ class AppTextField extends StatelessWidget {
     super.key,
     this.minLines,
     this.maxLines,
+    this.keyboardType,
   });
 
   @override
@@ -343,7 +327,8 @@ class AppTextField extends StatelessWidget {
               controller: controller,
               prefixIcon: prefixIcon,
               minLines: minLines,
-              maxLines: maxLines,
+              maxLines: maxLines,keyboardType:keyboardType ,
+
               hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,

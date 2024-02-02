@@ -68,15 +68,18 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       stateId = fetchGuestProfileModel?.data?.stateId.toString() ?? '';
       cityId = fetchGuestProfileModel?.data?.cityId.toString() ?? '';
       cityName = fetchGuestProfileModel?.data?.cityName?? 'Select City';
+      firsNameController.text = fetchGuestProfileModel?.data?.firstName??'';
+      lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
+      mobileController.text = fetchGuestProfileModel?.data?.mobile??'';
     });
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
-    firsNameController.text = localDatabase.guest?.firstName ?? '';
-    lastNameController.text = localDatabase.guest?.lastName ?? '';
-    mobileController.text = localDatabase.guest?.mobile ?? '';
+    // firsNameController.text = localDatabase.guest?.firstName ?? '';
+    // lastNameController.text = localDatabase.guest?.lastName ?? '';
+    // mobileController.text = localDatabase.guest?.mobile ?? '';
     // emailController.text =localDatabase.guest?.email??'';
 
     Size size = MediaQuery.of(context).size;

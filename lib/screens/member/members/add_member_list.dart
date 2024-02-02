@@ -58,7 +58,8 @@ class _AddMemberListState extends State<AddMemberList> {
 
       await context.read<GuestControllers>().fetchState(
         context: context,
-      );  await context.read<MembersController>().fetchSponsor(
+      );
+      await context.read<MembersController>().fetchSponsor(
         context: context,
       );
 
@@ -85,7 +86,6 @@ class _AddMemberListState extends State<AddMemberList> {
       Navigator.pop(context);
     }
   }
-
   Future addImages() async {
     return showModalBottomSheet(
         context: context,
@@ -176,19 +176,24 @@ class _AddMemberListState extends State<AddMemberList> {
           SizedBox(
             height: size.height*0.01,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(AppAssets.upload,height: size.height*0.02),
-              const SizedBox(
-                width: 5,
-              ),
-              CustomeText(
-                text: 'Upload image',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ],
+          GestureDetector(
+            onTap: () {
+              addImages();
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(AppAssets.upload,height: size.height*0.02),
+                const SizedBox(
+                  width: 5,
+                ),
+                CustomeText(
+                  text: 'Upload image',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
           ),
            CustomTextFieldApp(
             controller: firstNameController,
@@ -227,7 +232,6 @@ class _AddMemberListState extends State<AddMemberList> {
             title: 'List Status',
             onChanged: (v) {
               status =v;
-
             },
             listItem: const ['Family','Friend','Professional','Society','Random'],
           ),
@@ -479,7 +483,6 @@ class _AddMemberListState extends State<AddMemberList> {
             controller: addressController,
 
           ),
-
           Consumer<MembersController>(
             builder: (context, controller, child) {
               return CustomDropdown(

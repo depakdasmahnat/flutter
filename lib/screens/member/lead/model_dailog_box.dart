@@ -450,9 +450,9 @@ class _ModelDialogBox1State extends State<ModelDialogBox1> {
                           ],
                         ),
                       ),
-
                       CustomeText(
-                        text: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
+                        textAlign: TextAlign.center,
+                        text: 'Lorem Ipsum is simply dummy text of the printing\nand typesetting industry. ',
                         fontWeight: FontWeight.w400,fontSize: 14,
                         color: Colors.black,
                       ),

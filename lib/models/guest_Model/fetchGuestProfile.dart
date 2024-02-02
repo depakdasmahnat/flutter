@@ -61,12 +61,15 @@ class Data {
       this.monthlyIncome, 
       this.sponsorId, 
       this.steps, 
+      this.sponsorName,
+      this.enagicId,
       this.accessToken,});
 
   Data.fromJson(dynamic json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
+    enagicId = json['enagic_id'];
     mobile = json['mobile'];
     email = json['email'];
     profilePhoto = json['profile_photo'];
@@ -85,6 +88,7 @@ class Data {
     pincode = json['pincode'];
     deviceToken = json['device_token'];
     role = json['role'];
+    sponsorName = json['sponsor_name'];
     feedback = json['feedback'];
     remarks = json['remarks'];
     status = json['status'];
@@ -100,6 +104,8 @@ class Data {
   String? lastName;
   String? mobile;
   String? email;
+  String? enagicId;
+  String? sponsorName;
   dynamic profilePhoto;
   num? referredBy;
   String? gender;
@@ -130,8 +136,10 @@ class Data {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['first_name'] = firstName;
+    map['enagic_id'] = enagicId;
     map['last_name'] = lastName;
     map['mobile'] = mobile;
+    map['sponsor_name'] = sponsorName;
     map['email'] = email;
     map['profile_photo'] = profilePhoto;
     map['referred_by'] = referredBy;

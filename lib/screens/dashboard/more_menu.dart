@@ -3,13 +3,16 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/route/route_paths.dart';
+import '../member/demo/create_demo.dart';
 import '../member/lead/model_dailog_box.dart';
 
 class DashboardMoreMenu extends StatefulWidget {
@@ -39,10 +42,49 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: kPadding),
         child:widget.showLeadItem==true?
+        Consumer<MembersController>(
+         builder: (context, controller, child) {
+           return   Column(
+             children: [
+               MenuButton(
+                 width: 270,
+                 title: 'Add List',
+                 image: AppAssets.addPersonIcon,
+                 onTap: () {
+                   controller.changeStatus();
+                   context.pushNamed(Routs.memberaddList);
+                 },
+               ),
+               MenuButton(
+                 width: 270,
+                 title: 'Contact',
+                 image: AppAssets.leadContact,
+                 onTap: () {
+                   context.pushNamed(Routs.createGoal);
+                 },
+               ),
+               MenuButton(
+                 width: 270,
+                 title: 'Share referral',
+                 image: AppAssets.leadShare,
+                 onTap: () async{
+                   controller.changeStatus();
+                   await  _showDialog(
+                       context
+                   );
+
+                   // context.pushNamed(Routs.createGoal);
+                 },
+               ),
+             ],
+           );
+         },
+
+        )
+            :
         Column(
           children: [
             MenuButton(
-              width: 270,
               title: 'Add List',
               image: AppAssets.addPersonIcon,
               onTap: () {
@@ -50,39 +92,12 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
               },
             ),
             MenuButton(
-              width: 270,
-                title: 'Contact',
-                image: AppAssets.leadContact,
-                onTap: () {
-                  context.pushNamed(Routs.createGoal);
-                },
-              ),
-              MenuButton(
-                width: 270,
-                title: 'Share referral',
-                image: AppAssets.leadShare,
-                onTap: () async{
-                await  _showDialog(
-                  context
-                );
-
-                  // context.pushNamed(Routs.createGoal);
-                },
-              ),
-          ],
-        )  :
-        Column(
-          children: [
-            MenuButton(
-
-              title: 'Add List',
-              image: AppAssets.addPersonIcon,
-              onTap: () {},
-            ),
-            MenuButton(
               title: 'Add Members',
               image: AppAssets.membersIcon,
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(Routs.memberaddForm);
+
+              },
             ),
             MenuButton(
               title: 'Create Events',
@@ -95,7 +110,7 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
               title: 'Create Demo',
               image: AppAssets.videoIcons,
               onTap: () {
-                context.pushNamed(Routs.createDemo);
+                context.pushNamed(Routs.createDemo,extra: const CreateDemo(guestId: '',showLeadList: true,));
               },
             ),
             MenuButton(

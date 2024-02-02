@@ -451,6 +451,7 @@ class RoutesConfig {
                 guestId: data?.guestId ?? '',
                 name: data?.name,
                 image: data?.image,
+                showLeadList: data?.showLeadList,
               ));
         },
       ),

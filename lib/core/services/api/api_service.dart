@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mrwebbeast/core/config/api_config.dart';
@@ -147,12 +148,28 @@ class ApiService {
       var request = http.MultipartRequest('POST', uri);
       request.fields.addAll(body);
       if (multipartFile != null) {
+        // for (var element in multipartFile) {
+        //   debugPrint('Multipart... Field ${element.field}: FilePath ${element.filePath}');
+        //   if (element.field != null && element.filePath != null) {
+        //     request.files.add(await http.MultipartFile.fromPath('${element.field}', '${element.filePath}'));
+        //   }
+        // }
         for (var element in multipartFile) {
           debugPrint('Multipart... Field ${element.field}: FilePath ${element.filePath}');
-          if (element.field != null && element.filePath != null) {
-            request.files.add(await http.MultipartFile.fromPath('${element.field}', '${element.filePath}'));
+          if (element.field != null && element.filePath != null && element.filePath!.isNotEmpty) {
+
+            if (File(element.filePath??'').existsSync()) {
+              request.files.add(await http.MultipartFile.fromPath('${element.field}', '${element.filePath}'));
+            } else {
+              debugPrint('File does not exist at path: ${element.filePath}');
+
+            }
+          } else {
+            debugPrint('Invalid field or file path: ${element.field}, ${element.filePath}');
+
           }
         }
+
       }
       request.headers.addAll(headers ?? defaultHeaders());
       http.StreamedResponse response = await request.send();

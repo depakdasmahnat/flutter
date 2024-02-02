@@ -71,29 +71,7 @@ class _LeadState extends State<Lead> {
       'color': Colors.white,
     }
   ];
-  List item1 = [
-    {
-      'image': '06',
-      'first': 'Hot Leads',
-      'second': 'Getting Started',
-      'gradiant': primaryGradient,
-      'color': const Color(0xFFE1FF41),
-    },
-    {
-      'image': '04',
-      'first': 'Warm Leads',
-      'second': 'How to Invest',
-      'gradiant': null,
-      'color': const Color(0xFFE1FF41),
-    },
-    {
-      'image': '09',
-      'first': 'Cold Leads',
-      'second': 'Payment Meth…',
-      'gradiant': null,
-      'color': Colors.white,
-    },
-  ];
+
  // bool showItem =false;
   String status = '';
   @override
@@ -826,7 +804,7 @@ class RowCart extends StatelessWidget {
                 ],
               ),
               CustomeText(
-                text: city ?? '',
+                text: city ?? '--',
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),

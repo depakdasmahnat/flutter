@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';
@@ -25,7 +26,8 @@ class CreateDemo extends StatefulWidget {
   final String guestId;
   final String? name;
   final String? image;
-  const CreateDemo({super.key, required this.guestId,this.name, this.image});
+  final bool?  showLeadList;
+  const CreateDemo({super.key, required this.guestId,this.name, this.image,this.showLeadList});
 
   @override
   State<CreateDemo> createState() => _CreateDemoState();
@@ -46,12 +48,22 @@ class _CreateDemoState extends State<CreateDemo> {
   TextEditingController descriptionCtrl = TextEditingController();
   int? tabIndex=0;
   String typeOfDame = '';
+  String guestId = '';
   String priority = '';
   List item = ['Hot', 'Worm', 'Cold'];
   File? image;
+
+  Set<int> leadIndex = Set<int>();
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.read<MembersController>().fetchLeads(status: '', priority: '', page: '1');
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    print(' chekc name ${widget.name}');
+    print(' chekc name ${widget.showLeadList}');
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -242,6 +254,7 @@ class _CreateDemoState extends State<CreateDemo> {
               ],
             ),
           ),
+          if(widget.showLeadList!=true)
           Padding(
             padding: const EdgeInsets.only(left: kPadding),
             child: Container(
@@ -268,41 +281,70 @@ class _CreateDemoState extends State<CreateDemo> {
               ),
             ),
           ),
-          // Container(
-          //   height: 55,
-          //   margin: const EdgeInsets.only(
-          //       top: kPadding, bottom: kPadding, left: kPadding),
-          //   child: ListView.builder(
-          //     itemCount: 10,
-          //     shrinkWrap: true,
-          //     scrollDirection: Axis.horizontal,
-          //     itemBuilder: (context, index) {
-          //       return
-          //         Container(
-          //         width: 120,
-          //         margin: const EdgeInsets.only(right: kPadding),
-          //         padding: const EdgeInsets.symmetric(horizontal: 8),
-          //         decoration: BoxDecoration(
-          //           gradient: inActiveGradient,
-          //           borderRadius: BorderRadius.circular(50),
-          //         ),
-          //         child: const Row(
-          //           children: [
-          //             ImageView(
-          //               height: 40,
-          //               width: 40,
-          //               borderRadiusValue: 40,
-          //               isAvatar: true,
-          //               assetImage: AppAssets.appIcon,
-          //               margin: EdgeInsets.only(right: 8),
-          //             ),
-          //             Text('Ayan'),
-          //           ],
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
+          if(widget.showLeadList==true)
+          const SizedBox(
+            height: 10,
+          ),
+          if(widget.showLeadList==true)
+          Consumer<MembersController>(
+          builder: (context, controller, child) {
+            return   Container(
+              height: 55,
+              margin: const EdgeInsets.only(
+                  top: kPadding, bottom: kPadding, left: kPadding),
+              child:controller.leadsLoader==false?const LoadingScreen() :ListView.builder(
+                itemCount: controller.fetchLeadsModel?.data?.length??0,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  bool isSelected = leadIndex.contains(index);
+                  return
+                    GestureDetector(
+                      onTap: () {
+
+                        if (isSelected) {
+
+                          leadIndex.remove(index);
+                        } else {
+
+                          leadIndex.add(index);
+                        }
+                        guestId =leadIndex.join(',');
+                        setState(() {});
+                      },
+                      child: Container(
+                        width: 120,
+                        margin: const EdgeInsets.only(right: kPadding),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        decoration: BoxDecoration(
+                          gradient:isSelected ?primaryGradient :inActiveGradient,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child:  Row(
+                          children: [
+                            const ImageView(
+                              height: 40,
+                              width: 40,
+                              borderRadiusValue: 40,
+                              isAvatar: true,
+                              assetImage: AppAssets.appIcon,
+                              margin: EdgeInsets.only(right: 8),
+                            ),
+                            CustomeText(
+                              text:controller.fetchLeadsModel?.data?[index].firstName??'' ,
+                              color: isSelected? Colors.black:Colors.white,
+                            )
+
+                          ],
+                        ),
+                      ),
+                    );
+                },
+              ),
+            );
+          },
+
+          ),
           // const Padding(
           //   padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
           //   child: Row(
@@ -314,42 +356,42 @@ class _CreateDemoState extends State<CreateDemo> {
           //     ],
           //   ),
           // ),
-          // const Row(
-          //   children: [
-          //     Flexible(
-          //       child: CustomTextField(
-          //         hintText: 'Search',
-          //         hintStyle: TextStyle(color: Colors.white),
-          //         prefixIcon: ImageView(
-          //           height: 20,
-          //           width: 20,
-          //           borderRadiusValue: 0,
-          //           color: Colors.white,
-          //           margin: EdgeInsets.only(left: kPadding, right: kPadding),
-          //           fit: BoxFit.contain,
-          //           assetImage: AppAssets.searchIcon,
-          //         ),
-          //         margin: EdgeInsets.only(
-          //             left: kPadding,
-          //             right: kPadding,
-          //             top: kPadding,
-          //             bottom: kPadding),
-          //       ),
-          //     ),
-          //     // GradientButton(
-          //     //   height: 60,
-          //     //   width: 60,
-          //     //   margin: const EdgeInsets.only(left: 8, right: kPadding),
-          //     //   backgroundGradient: blackGradient,
-          //     //   child: const ImageView(
-          //     //     height: 28,
-          //     //     width: 28,
-          //     //     assetImage: AppAssets.filterIcons,
-          //     //     margin: EdgeInsets.zero,
-          //     //   ),
-          //     // )
-          //   ],
-          // ),
+          // // const Row(
+          // //   children: [
+          // //     Flexible(
+          // //       child: CustomTextField(
+          // //         hintText: 'Search',
+          // //         hintStyle: TextStyle(color: Colors.white),
+          // //         prefixIcon: ImageView(
+          // //           height: 20,
+          // //           width: 20,
+          // //           borderRadiusValue: 0,
+          // //           color: Colors.white,
+          // //           margin: EdgeInsets.only(left: kPadding, right: kPadding),
+          // //           fit: BoxFit.contain,
+          // //           assetImage: AppAssets.searchIcon,
+          // //         ),
+          // //         margin: EdgeInsets.only(
+          // //             left: kPadding,
+          // //             right: kPadding,
+          // //             top: kPadding,
+          // //             bottom: kPadding),
+          // //       ),
+          // //     ),
+          // //     // GradientButton(
+          // //     //   height: 60,
+          // //     //   width: 60,
+          // //     //   margin: const EdgeInsets.only(left: 8, right: kPadding),
+          // //     //   backgroundGradient: blackGradient,
+          // //     //   child: const ImageView(
+          // //     //     height: 28,
+          // //     //     width: 28,
+          // //     //     assetImage: AppAssets.filterIcons,
+          // //     //     margin: EdgeInsets.zero,
+          // //     //   ),
+          // //     // )
+          // //   ],
+          // // ),
           // Padding(
           //   padding: const EdgeInsets.only(left: kPadding),
           //   child: Wrap(
@@ -401,7 +443,7 @@ class _CreateDemoState extends State<CreateDemo> {
             onTap: () {
               context.read<MembersController>().scheduledDemo(
                   context: context,
-                  guestId: widget.guestId, demoType: typeOfDame,
+                  guestId:guestId.isEmpty==true? widget.guestId:guestId, demoType: typeOfDame,
                   date: startDateCtrl.text,
                   time: startTimeCtrl.text, remarks: commentCtrl.text, priority: priority);
             },
