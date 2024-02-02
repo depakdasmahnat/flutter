@@ -7,6 +7,8 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/models/dashboard/color_grades.dart';
+import 'package:mrwebbeast/screens/member/network/downline_members.dart';
+import 'package:mrwebbeast/utils/widgets/custom_bottom_sheet.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
@@ -28,45 +30,6 @@ class NetworkProjection extends StatefulWidget {
 }
 
 class NetworkProjectionState extends State<NetworkProjection> {
-  List<TreeGraphData> treeGraphData = [
-    TreeGraphData(
-      id: 1,
-      profilePic: 'url',
-      section: 'A',
-      rank: '6A',
-      sales: 77,
-      percentage: 56,
-      connectedMember: [2, 3],
-    ),
-    TreeGraphData(
-      id: 2,
-      profilePic: 'url',
-      section: 'A',
-      rank: '6A',
-      sales: 77,
-      percentage: 56,
-      connectedMember: [4, 5],
-    ),
-    TreeGraphData(
-      id: 3,
-      profilePic: 'url',
-      rank: 'B',
-      section: '6A',
-      sales: 77,
-      percentage: 56,
-      connectedMember: [6, 7],
-    ),
-    TreeGraphData(
-      id: 4,
-      profilePic: 'url',
-      rank: 'C',
-      section: '6A',
-      sales: 77,
-      percentage: 56,
-      // connectedMember: [8, 9],
-    ),
-  ];
-
   List<ColorGrades> colorGrades = [
     ColorGrades(gradient: redGradient, percentage: 20),
     ColorGrades(gradient: yellowGradient, percentage: 40),
@@ -217,89 +180,33 @@ class NetworkProjectionState extends State<NetworkProjection> {
                       message: 'Loading Projection View',
                     ),
                   )
-                else if (projectionViewNodes.haveData)
+                else if (graph.nodes.haveData)
                   Expanded(
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: kPadding, right: kPadding, top: kPadding, bottom: 100),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: SizedBox(
-                              width: 50,
-                              child: ListView.builder(
-                                itemCount: maxLevel,
-                                itemBuilder: (BuildContext context, int index) {
-                                  bool currentLevel = currentUserLevel == (index + 1);
+                    child: InteractiveViewer(
+                      constrained: false,
+                      boundaryMargin: const EdgeInsets.all(100),
+                      minScale: 0.01,
+                      maxScale: 6,
+                      child: GraphView(
+                        graph: graph,
+                        algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                        paint: Paint()
+                          ..color = Colors.white
+                          ..strokeWidth = 1
+                          ..style = PaintingStyle.stroke,
+                        builder: (Node node) {
+                          var indexId = node.key?.value as int?;
+                          List<ProjectionViewData>? members = projectionViewNodes;
+                          var filteredMembers = members?.where((element) => element.id == indexId).toList();
+                          ProjectionViewData? data;
 
-                                  return GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        gradient: currentLevel ? primaryGradient : whiteGradient,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            '${index + 1}',
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          const Text(
-                                            'Level',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                        if (graph.nodes.haveData)
-                          Expanded(
-                            child: InteractiveViewer(
-                              constrained: false,
-                              boundaryMargin: const EdgeInsets.all(100),
-                              minScale: 0.01,
-                              maxScale: 6,
-                              child: GraphView(
-                                graph: graph,
-                                algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
-                                paint: Paint()
-                                  ..color = Colors.white
-                                  ..strokeWidth = 1
-                                  ..style = PaintingStyle.stroke,
-                                builder: (Node node) {
-                                  var indexId = node.key?.value as int?;
-                                  List<ProjectionViewData>? members = projectionViewNodes;
-                                  var filteredMembers =
-                                      members?.where((element) => element.id == indexId).toList();
-                                  ProjectionViewData? data;
+                          if (filteredMembers.haveData) {
+                            data = filteredMembers?.first;
+                          }
 
-                                  if (filteredMembers.haveData) {
-                                    data = filteredMembers?.first;
-                                  }
-
-                                  return rectangleWidget(data);
-                                },
-                              ),
-                            ),
-                          ),
-                      ],
+                          return rectangleWidget(data);
+                        },
+                      ),
                     ),
                   )
                 else
@@ -317,27 +224,21 @@ class NetworkProjectionState extends State<NetworkProjection> {
   }
 
   Widget rectangleWidget(ProjectionViewData? data) {
-    return CustomPopupMenu(
-      items: [
-        CustomPopupMenuEntry(
-          label: 'Mark A',
-          onPressed: () {},
-        ),
-        CustomPopupMenuEntry(
-          label: 'Mark B',
-          onPressed: () {},
-        ),
-        CustomPopupMenuEntry(
-          label: 'Check Profile',
-          onPressed: () {
-            context.pushNamed(Routs.memberProfileDetails,
-                extra: MemberProfileDetails(
-                  id: data?.id,
-                ));
-          },
-        ),
-      ],
-      onChange: (String? val) {},
+    return GestureDetector(
+      onTap: () {
+        CustomBottomSheet.show(
+          title: 'Select Projection Member',
+          centerTitle: true,
+          showBackButton: true,
+          borderRadius: 34,
+          context: context,
+          body: DownLineMembers(
+            memberId: data?.id,
+            level: data?.level,
+            parentId: data?.parentId,
+          ),
+        );
+      },
       child: Column(
         children: [
           Container(
@@ -354,17 +255,18 @@ class NetworkProjectionState extends State<NetworkProjection> {
                 borderRadiusValue: 40,
                 border: Border.all(color: Colors.black, width: 2),
                 margin: const EdgeInsets.all(3),
-                assetImage: 'AppAssets.appIcon',
+                assetImage: '${data?.profilePic}',
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 2, bottom: 2),
-            child: Text(
-              'Sales: ${data?.sales}',
-              style: const TextStyle(fontSize: 12),
+          if (data?.name != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 2, bottom: 2),
+              child: Text(
+                '${data?.name}: (${data?.sales ?? '0'})',
+                style: const TextStyle(fontSize: 12),
+              ),
             ),
-          ),
         ],
       ),
     );

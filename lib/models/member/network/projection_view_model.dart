@@ -68,6 +68,7 @@ class ProjectionViewData {
     this.rank,
     this.section,
     this.level,
+    this.parentId,
     this.sales,
     this.percentage,
     this.connectedMember,
@@ -80,6 +81,7 @@ class ProjectionViewData {
     rank = json['rank'];
     section = json['section'];
     level = json['level'];
+    parentId = json['parent_id'];
     sales = json['sales'];
     percentage = json['percentage'];
     if (json['connectedMember'] != null) {
@@ -96,6 +98,7 @@ class ProjectionViewData {
   String? rank;
   String? section;
   num? level;
+  num? parentId;
   num? sales;
   num? percentage;
   List<ConnectedMember>? connectedMember;
@@ -107,6 +110,7 @@ class ProjectionViewData {
     String? rank,
     String? section,
     num? level,
+    num? parentId,
     num? sales,
     num? percentage,
     List<ConnectedMember>? connectedMember,
@@ -118,6 +122,7 @@ class ProjectionViewData {
         rank: rank ?? this.rank,
         section: section ?? this.section,
         level: level ?? this.level,
+        parentId: parentId ?? this.parentId,
         sales: sales ?? this.sales,
         percentage: percentage ?? this.percentage,
         connectedMember: connectedMember ?? this.connectedMember,
@@ -131,6 +136,8 @@ class ProjectionViewData {
     map['rank'] = rank;
     map['section'] = section;
     map['level'] = level;
+
+    map['parent_id'] = parentId;
     map['sales'] = sales;
     map['percentage'] = percentage;
     if (connectedMember != null) {

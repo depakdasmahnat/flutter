@@ -16,6 +16,15 @@ enum Roles {
 
   const Roles(this.value);
 }
+enum ChapterStatus {
+  open('Open'),
+  locked('Locked'),
+  completed('Completed');
+
+  final String value;
+
+  const ChapterStatus(this.value);
+}
 
 enum FeedsFileType {
   article('Article'),

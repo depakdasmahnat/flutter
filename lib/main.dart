@@ -11,6 +11,7 @@ import 'controllers/member/member_controller/member_controller.dart';
 import 'controllers/member/network/network_controller.dart';
 import 'controllers/auth_controller/auth_controller.dart';
 import 'controllers/guest_controller/guest_controller.dart';
+import 'controllers/member/training/training_controller.dart';
 import 'core/services/database/local_database.dart';
 import 'core/services/localization/localization_controller.dart';
 import 'core/services/location/location_controller.dart';
@@ -50,6 +51,7 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => GuestControllers()),
       ChangeNotifierProvider(create: (context) => FeedsController()),
       ChangeNotifierProvider(create: (context) => MembersController()),
+      ChangeNotifierProvider(create: (context) => TrainingControllers()),
     ],
     child: const MyApp(),
   ));

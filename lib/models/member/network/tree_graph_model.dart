@@ -71,6 +71,7 @@ class TreeGraphData {
     this.sales,
     this.percentage,
     this.connectedMember,
+    this.availableOptions,
   });
 
   TreeGraphData.fromJson(dynamic json) {
@@ -83,6 +84,12 @@ class TreeGraphData {
     sales = json['sales'];
     percentage = json['percentage'];
     connectedMember = json['connectedMember'] != null ? json['connectedMember'].cast<num>() : [];
+    if (json['available_options'] != null) {
+      availableOptions = [];
+      json['available_options'].forEach((v) {
+        availableOptions?.add(AvailableOptions.fromJson(v));
+      });
+    }
   }
 
   num? id;
@@ -94,6 +101,7 @@ class TreeGraphData {
   num? sales;
   num? percentage;
   List<num>? connectedMember;
+  List<AvailableOptions>? availableOptions;
 
   TreeGraphData copyWith({
     num? id,
@@ -105,6 +113,7 @@ class TreeGraphData {
     num? sales,
     num? percentage,
     List<num>? connectedMember,
+    List<AvailableOptions>? available_options,
   }) =>
       TreeGraphData(
         id: id ?? this.id,
@@ -116,6 +125,7 @@ class TreeGraphData {
         sales: sales ?? this.sales,
         percentage: percentage ?? this.percentage,
         connectedMember: connectedMember ?? this.connectedMember,
+        availableOptions: available_options ?? this.availableOptions,
       );
 
   Map<String, dynamic> toJson() {
@@ -129,6 +139,10 @@ class TreeGraphData {
     map['sales'] = sales;
     map['percentage'] = percentage;
     map['connectedMember'] = connectedMember;
+    if (availableOptions != null) {
+      map['available_options'] = availableOptions?.map((v) => v.toJson()).toList();
+    }
+
     return map;
   }
 }
@@ -170,6 +184,41 @@ class DataRecords {
     map['totalPage'] = totalPage;
     map['limit'] = limit;
     map['page'] = page;
+    return map;
+  }
+}
+
+AvailableOptions connectedMemberFromJson(String str) => AvailableOptions.fromJson(json.decode(str));
+
+String connectedMemberToJson(AvailableOptions data) => json.encode(data.toJson());
+
+class AvailableOptions {
+  AvailableOptions({
+    this.option,
+    this.id,
+  });
+
+  AvailableOptions.fromJson(dynamic json) {
+    option = json['option'];
+    id = json['id'];
+  }
+
+  String? option;
+  num? id;
+
+  AvailableOptions copyWith({
+    String? option,
+    num? id,
+  }) =>
+      AvailableOptions(
+        option: option ?? this.option,
+        id: id ?? this.id,
+      );
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['option'] = option;
+    map['id'] = id;
     return map;
   }
 }

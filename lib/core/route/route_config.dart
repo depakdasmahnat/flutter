@@ -16,6 +16,7 @@ import '../../app.dart';
 
 import '../../models/member/auth/reset_password.dart';
 import '../../screens/auth/connect_with_us.dart';
+import '../../screens/member/training/chapter_details.dart';
 import '../../screens/welcome_screen.dart';
 
 import '../../screens/auth/interest_screen.dart';
@@ -50,13 +51,13 @@ import '../../screens/member/target/target_screen.dart';
 import '../../screens/guest/resource&Demo/resource_and_demo.dart';
 import '../../screens/member/events/create_event.dart';
 import '../../screens/member/events/events_screen.dart';
-import '../../screens/member/exam/exam_quiz.dart';
-import '../../screens/member/feeds/demo_videos.dart';
+import '../../screens/member/training/exam_quiz.dart';
+import '../../screens/member/training/chapters_screen.dart';
 import '../../screens/member/feeds/member_feeds.dart';
 import '../../screens/member/goal/create_goal.dart';
 import '../../screens/member/goal/goals_screen.dart';
 import '../../screens/member/home/member_profile.dart';
-import '../../screens/member/home/training_screen.dart';
+import '../../screens/member/training/training_screen.dart';
 import '../../screens/member/network/network_report.dart';
 import '../../screens/member/resources/resources.dart';
 import '../../screens/member/target/create_target.dart';
@@ -323,10 +324,25 @@ class RoutesConfig {
       ),
 
       GoRoute(
-        name: Routs.demoVideos,
-        path: Routs.demoVideos,
+        name: Routs.chapters,
+        path: Routs.chapters,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const DemoVideos());
+          ChaptersScreen? data = state.extra as ChaptersScreen?;
+
+          return cupertinoPage(
+              state: state,
+              child: ChaptersScreen(
+                category: data?.category,
+              ));
+        },
+      ),
+      GoRoute(
+        name: Routs.chaptersDetails,
+        path: Routs.chaptersDetails,
+        pageBuilder: (context, state) {
+          ChaptersDetails? data = state.extra as ChaptersDetails?;
+
+          return cupertinoPage(state: state, child: ChaptersDetails(chapter: data?.chapter));
         },
       ),
       GoRoute(
@@ -365,11 +381,13 @@ class RoutesConfig {
               ));
         },
       ),
+
       GoRoute(
         name: Routs.examQuiz,
         path: Routs.examQuiz,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const ExamQuiz());
+          ExamQuiz? data = state.extra as ExamQuiz?;
+          return cupertinoPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
         },
       ),
       GoRoute(

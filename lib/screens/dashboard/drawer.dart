@@ -37,7 +37,7 @@ class CustomDrawer extends StatelessWidget {
               trainingProgress: 56,
               title: 'Basic Training Progress',
               onTap: () {
-                context.pushNamed(Routs.demoVideos);
+                context.pushNamed(Routs.chapters);
               },
               margin: const EdgeInsets.only(top: 8, bottom: 8, left: kPadding, right: kPadding),
             ),

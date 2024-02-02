@@ -62,9 +62,18 @@ class ApiEndpoints {
   static const String demoDone = 'demo_done';
   static const String fetchDemos = 'fetch_demos';
   static const String fetchGoals = 'fetch_goals';
-  static const String selectABMembers = 'select_A_B_members';  static const String selectProjectionABMembers = 'projection_selectAB_members';
-
+  static const String selectABMembers = 'select_A_B_members';
+  static const String selectProjectionABMembers = 'projection_selectAB_members';
+  static const String downLineMemberList = 'downline_member_list';
   static const String scheduledDemo = 'schedule_demo';
+
+  /// Training Apis
+
+  static const String fetchTrainings = 'fetch_trainings';
+  static const String fetchChapters = 'fetch_chapters';
+  static const String fetchChapterDetails = 'fetch_chapter_details';
+  static const String fetchTests = 'fetch_tests';
+  static const String submitUsersAnswer = 'submit_users_answer';
 
   // Lead apis
   static const String fetchLead = 'fetch_leads?';

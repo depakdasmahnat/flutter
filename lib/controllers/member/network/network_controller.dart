@@ -6,7 +6,9 @@ import 'package:mrwebbeast/app.dart';
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/models/default/default_model.dart';
+import 'package:mrwebbeast/models/member/network/down_line_members_model.dart';
 import 'package:mrwebbeast/models/member/network/projection_view_model.dart';
+import 'package:mrwebbeast/models/member/training/training_categories_model.dart';
 
 import '../../../core/services/api/api_service.dart';
 import '../../../models/member/network/pinnacle_view_model.dart';
@@ -225,6 +227,7 @@ class NetworkControllers extends ChangeNotifier {
 
         if (responseData.status == true) {
           fetchProjectionView();
+          context.pop();
         } else {
           showError(context: context, message: responseData.message ?? 'Something Went Wrong');
         }
@@ -232,5 +235,63 @@ class NetworkControllers extends ChangeNotifier {
     } catch (e, s) {
       ErrorHandler.catchError(e, s, true);
     }
+  }
+
+  /// 6) Down Line Member Data API...
+
+  bool loadingDownLineMember = true;
+  DownLineMembersModel? downLineMembersModel;
+  List<DownLineMemberData>? downLineMemberData;
+
+  Future<List<DownLineMemberData>?> fetchDownLineMemberList({
+    num? memberId,
+    num? level,
+    String? search,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingDownLineMember = true;
+        downLineMembersModel = null;
+        downLineMemberData = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingDownLineMember = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.downLineMemberList,
+          queryParameters: {
+            'member_id': '$memberId',
+            'level': '$level',
+            'search_key': '$search',
+          },
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          DownLineMembersModel responseData = DownLineMembersModel.fromJson(json);
+          if (responseData.status == true) {
+            downLineMemberData = responseData.data;
+
+            debugPrint('downLineMemberData ${downLineMemberData?.length}');
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return downLineMemberData;
   }
 }

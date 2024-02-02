@@ -51,6 +51,7 @@ class AppAssets {
   static const String logoTextIcon = 'assets/icons/logo_text.png';
 
   static const String lockIcon = 'assets/icons/ic_lock.png';
+  static const String lockFilledIcon = 'assets/icons/ic_lock_filled.png';
   static const String heartIcon = 'assets/icons/ic_heart.png';
   static const String heartFilledIcon = 'assets/icons/ic_heart_filled.png';
   static const String chatIcon = 'assets/icons/ic_chat.png';
@@ -70,6 +71,7 @@ class AppAssets {
   static const String arrowForwardIcon = 'assets/icons/ic_arrow_forward.png';
   static const String achievementIcon = 'assets/icons/ic_achievement.png';
   static const String playIcon = 'assets/icons/ic_play.png';
+  static const String playVideoIcon = 'assets/icons/play_video.png';
   static const String upload = 'assets/icons/download.png';
   static const String congratulationsBanner = 'assets/images/congratulations_banner.png';
   static const String checkIcon = 'assets/icons/ic_check.png';

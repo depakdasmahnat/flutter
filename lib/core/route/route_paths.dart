@@ -59,8 +59,8 @@ class Routs {
   static const String memberEditProfile = '/memberEditProfile';
   static const String memberaddList = '/memberaddList';
   static const String memberaddForm = '/memberaddForm';
-
-  static const String demoVideos = '/demoVideos';
+  static const String chapters = '/chapters';
+  static const String chaptersDetails = '/chapters_details';
   static const String trainingScreen = '/trainingScreen';
   static const String memberFeeds = '/memberFeeds';
   static const String whyareYou = '/whyAreYouHere';

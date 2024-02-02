@@ -62,7 +62,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
             trainingProgress: 56,
             title: 'Basic Training Progress',
             onTap: () {
-              context.pushNamed(Routs.demoVideos);
+              context.pushNamed(Routs.chapters);
             },
           ),
           GridView(
@@ -130,7 +130,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                 image: AppAssets.videoIcons,
                 name: 'Demo',
                 onTap: () {
-                  context.pushNamed(Routs.demoVideos);
+                  context.pushNamed(Routs.chapters);
                 },
               ),
               MenuCard(

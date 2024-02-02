@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 
 import '../../core/constant/colors.dart';
@@ -147,7 +148,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                       children: [
                         Padding(
                           padding:
-                              EdgeInsets.only(left: 24, right: 8, top: 10, bottom: showTitleDivider ? 8 : 0),
+                              EdgeInsets.only(left: 24, right: 8, top: kPadding, bottom: showTitleDivider ? kPadding : 0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -162,7 +163,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                       children: [
                                         Text(
                                           '$title',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -176,9 +177,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                           FocusScope.of(context).unfocus();
                                           context.pop();
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           CupertinoIcons.multiply,
-                                          color: primaryColor,
+                                          color: Colors.white,
                                         ),
                                       )
                                     else

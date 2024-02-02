@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-import 'package:mrwebbeast/models/member/exam_quiz_model.dart';
+
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 
 import '../../../core/config/app_assets.dart';

@@ -226,36 +226,34 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
   }
 
   Widget rectangleWidget(TreeGraphData? data) {
-    return CustomPopupMenu(
-      items: [
-        if (data?.section == null)
-          CustomPopupMenuEntry(
-            label: 'Mark A',
-            onPressed: () async {
-              await context
-                  .read<NetworkControllers>()
-                  .selectABMembers(context: context, memberId: data?.id, memberType: 'A');
-            },
-          ),
-        if (data?.section == null)
-          CustomPopupMenuEntry(
-            label: 'Mark B',
-            onPressed: () {
-              context
-                  .read<NetworkControllers>()
-                  .selectABMembers(context: context, memberId: data?.id, memberType: 'B');
-            },
-          ),
-        CustomPopupMenuEntry(
-          label: 'Check Profile',
-          onPressed: () {
-            context.pushNamed(Routs.memberProfileDetails,
-                extra: MemberProfileDetails(
-                  id: data?.id,
-                ));
+    List<CustomPopupMenuEntry> widgets = [];
+    if (data?.availableOptions.haveData == true) {
+      data?.availableOptions?.forEach((element) {
+        widgets.add(CustomPopupMenuEntry(
+          label: 'Mark ${element.option}',
+          onPressed: () async {
+            await context
+                .read<NetworkControllers>()
+                .selectABMembers(context: context, memberId: data.id, memberType: '${element.option}');
           },
-        ),
-      ],
+        ));
+      });
+    }
+
+    widgets.add(
+      CustomPopupMenuEntry(
+        label: 'Check Profile',
+        onPressed: () {
+          context.pushNamed(Routs.memberProfileDetails,
+              extra: MemberProfileDetails(
+                id: data?.id,
+              ));
+        },
+      ),
+    );
+
+    return CustomPopupMenu(
+      items: widgets,
       onChange: (String? val) {},
       child: Column(
         children: [
