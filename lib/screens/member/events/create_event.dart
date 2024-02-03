@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:dropdown_search/dropdown_search.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -60,7 +58,7 @@ class _CreateEventState extends State<CreateEvent> {
             title: 'Event Type*',
             hintText: 'Enter Event Type',
           ),
-           Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
               title: 'Event Type*',
@@ -68,7 +66,7 @@ class _CreateEventState extends State<CreateEvent> {
               listItem: ['Online', 'Offline'],
             ),
           ),
-           Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
               title: 'Type Of Category*',

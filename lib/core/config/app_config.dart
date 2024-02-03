@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+
 import '../services/database/local_database.dart';
 
 class AppConfig {
@@ -12,6 +13,7 @@ class AppConfig {
   static const String playStoreUrl = 'https://play.google.com/store/apps/details?id=$packageName';
   static const String appStoreUrl = 'https://apps.apple.com/us/app/emuvv/id6462873844';
   static const String deeplinkUrl = 'https://mrwebbeast.page.link/downlaod';
+
   static String apkLink() {
     String url;
 

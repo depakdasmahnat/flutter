@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/models/auth_model/guest_data.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +8,6 @@ import '../../core/config/api_config.dart';
 import '../../core/route/route_paths.dart';
 import '../../core/services/api/api_service.dart';
 import '../../core/services/database/local_database.dart';
-import '../../models/auth_model/validatemobile.dart';
-import '../../models/auth_model/fetchinterestcategory.dart';
 import '../../models/auth_model/fetchinterestquestions.dart';
 import '../../models/auth_model/sendotp.dart';
 import '../../models/auth_model/validatemobile.dart';
@@ -19,7 +15,6 @@ import '../../models/auth_model/verifyotp.dart';
 import '../../models/default/default_model.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../utils/widgets/widgets.dart';
-import '../dashboard/dashboard_controller.dart';
 
 class AuthControllers extends ChangeNotifier {
   /// 0)  SignOut User....
@@ -179,7 +174,8 @@ class AuthControllers extends ChangeNotifier {
           context.read<LocalDatabase>().saveGuestData(guest: responseData?.data);
           GuestData? guest = context.read<LocalDatabase>().guest;
           debugPrint('guest ${guest?.firstName}');
-          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           context.pushNamed(
             Routs.interests,
           );

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
-import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../utils/validators.dart';
 import '../../../../utils/widgets/custom_text_field.dart';
 import '../../../controllers/member/member_auth_controller.dart';

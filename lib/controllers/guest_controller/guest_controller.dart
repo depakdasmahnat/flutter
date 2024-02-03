@@ -1,31 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../core/config/api_config.dart';
-import '../../core/route/route_paths.dart';
 import '../../core/services/api/api_service.dart';
 import '../../core/services/database/local_database.dart';
 import '../../models/auth_model/fetchinterestcategory.dart';
-import '../../models/auth_model/fetchinterestquestions.dart';
-import '../../models/auth_model/guest_data.dart';
-import '../../models/auth_model/sendotp.dart';
-import '../../models/auth_model/validatemobile.dart';
-import '../../models/auth_model/verifyotp.dart';
 import '../../models/common_apis/cityModel.dart';
 import '../../models/common_apis/commonbanner.dart';
 import '../../models/common_apis/stateModel.dart';
-import '../../models/default/default_model.dart';
 import '../../models/feeds/feeds_data.dart';
 import '../../models/guest_Model/editProfileModel.dart';
 import '../../models/guest_Model/fetchGuestProfile.dart';
-import '../../models/guest_Model/fetchResouresDetailModel.dart';
-import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchfeedcategoriesmodel.dart';
 import '../../models/guest_Model/fetchguestproduct.dart';
@@ -33,7 +22,6 @@ import '../../models/guest_Model/fetchnewjoiners.dart';
 import '../../models/guest_Model/fetchproductdetail.dart';
 import '../../models/guest_Model/resourceModel.dart';
 import '../../models/member/faqs/fetchFaqsModel.dart';
-import '../../screens/auth/verify_otp.dart';
 import '../../utils/widgets/widgets.dart';
 
 class GuestControllers extends ChangeNotifier {
@@ -695,31 +683,33 @@ class GuestControllers extends ChangeNotifier {
     return editProfileModel;
   }
 
-
   /// 1) fetch guest profile data..
   FetchGuestProfile? fetchGuestProfileModel;
-  bool fetchGuestProfileLoader =false ;
+  bool fetchGuestProfileLoader = false;
+
   Future<FetchGuestProfile?> fetchGuestProfile({
     required BuildContext context,
-
   }) async {
     refresh() {
       fetchGuestProfileLoader = false;
 
       notifyListeners();
     }
+
     // //
     apiResponseCompleted() {
       fetchGuestProfileLoader = true;
       notifyListeners();
     }
+
     //
     refresh();
     try {
       await ApiService()
           .get(
         endPoint: ApiEndpoints.fetchGuestProfile,
-      ).then((response) {
+      )
+          .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
           FetchGuestProfile responseData = FetchGuestProfile.fromJson(json);
@@ -738,13 +728,14 @@ class GuestControllers extends ChangeNotifier {
 
     return fetchGuestProfileModel;
   }
+
   /// 1) fetch faqs..
   FetchFaqsModel? fetchFaqsModel;
-  bool fetchFaqsLoader =false;
+  bool fetchFaqsLoader = false;
+
   Future<FetchFaqsModel?> fetchFaqs({
     required BuildContext context,
     required String categoriesId,
-
   }) async {
     refresh() {
       fetchFaqsLoader = true;
@@ -762,14 +753,13 @@ class GuestControllers extends ChangeNotifier {
     try {
       await ApiService()
           .get(
-        endPoint: ApiEndpoints.fetchFaqs +categoriesId,
+        endPoint: ApiEndpoints.fetchFaqs + categoriesId,
       )
           .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
           FetchFaqsModel responseData = FetchFaqsModel.fromJson(json);
           if (responseData.status == true) {
-
             fetchFaqsLoader = true;
             fetchFaqsModel = responseData;
             notifyListeners();

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/constant/colors.dart';

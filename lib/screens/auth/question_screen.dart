@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/screens/auth/why_are_you_here.dart';
 import 'package:provider/provider.dart';
+
 import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/config/app_assets.dart';
 import '../../core/constant/gradients.dart';
@@ -13,6 +14,7 @@ import '../../utils/widgets/gradient_button.dart';
 
 class QuestionsScreen extends StatefulWidget {
   final String categoryId;
+
   const QuestionsScreen({super.key, required this.categoryId});
 
   @override
@@ -28,13 +30,13 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       fetchQuestions = await context
           .read<AuthControllers>()
-          .fetchInterestQuestions(
-              context: context, categoryId: widget.categoryId);
+          .fetchInterestQuestions(context: context, categoryId: widget.categoryId);
     });
     super.initState();
   }
 
   GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
+
   navigateToConnectWithUs() {
     return context.pushNamed(Routs.connectWithUs);
   }
@@ -97,8 +99,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsets.only(top: size.height * 0.05, bottom: 8),
+                        padding: EdgeInsets.only(top: size.height * 0.05, bottom: 8),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -139,11 +140,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                             margin: const EdgeInsets.only(bottom: 6, top: 6),
                             onTap: () {
                               // navigateToConnectWithUs();
-                              question(
-                                  controller.questionId,
-                                  'Yes',
-                                  controller.questionId2,
-                                  controller.itme,
+                              question(controller.questionId, 'Yes', controller.questionId2, controller.itme,
                                   controller.question2);
                             },
                             child: Row(
@@ -153,8 +150,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                   'Yes',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontFamily:
-                                        GoogleFonts.urbanist().fontFamily,
+                                    fontFamily: GoogleFonts.urbanist().fontFamily,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 18,
                                   ),
@@ -172,11 +168,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                             margin: const EdgeInsets.only(bottom: 6, top: 6),
                             onTap: () {
                               // navigateToConnectWithUs();
-                              question(
-                                  controller.questionId,
-                                  'No',
-                                  controller.questionId2,
-                                  controller.itme,
+                              question(controller.questionId, 'No', controller.questionId2, controller.itme,
                                   controller.question2);
                             },
                             child: Row(
@@ -186,8 +178,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                                   'No',
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontFamily:
-                                        GoogleFonts.urbanist().fontFamily,
+                                    fontFamily: GoogleFonts.urbanist().fontFamily,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 18,
                                   ),
@@ -208,8 +199,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     );
   }
 
-  Future question(String questionId, String answer, String questionId2,
-      List item, String question2) async {
+  Future question(String questionId, String answer, String questionId2, List item, String question2) async {
     DefaultModel? responce = await context.read<AuthControllers>().questions(
           context: context,
           questionId: questionId,

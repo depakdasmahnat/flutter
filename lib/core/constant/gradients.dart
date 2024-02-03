@@ -147,17 +147,13 @@ Gradient rainbowGradient = const LinearGradient(
   ],
 );
 
-Gradient blankGradient = const LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [
-      Colors.grey,
-      Colors.grey,
-    ],
-    stops: [
-      0,
-      0.100
-    ]);
+Gradient blankGradient = const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
+  Colors.grey,
+  Colors.grey,
+], stops: [
+  0,
+  0.100
+]);
 
 Gradient textFieldGradient = const LinearGradient(
   begin: Alignment.centerRight,

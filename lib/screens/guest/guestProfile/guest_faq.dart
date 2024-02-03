@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
-import '../../../core/route/route_paths.dart';
 import '../../../models/auth_model/fetchinterestcategory.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/custom_text_field.dart';

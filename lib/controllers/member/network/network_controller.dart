@@ -2,13 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/app.dart';
-
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/models/default/default_model.dart';
 import 'package:mrwebbeast/models/member/network/down_line_members_model.dart';
 import 'package:mrwebbeast/models/member/network/projection_view_model.dart';
-import 'package:mrwebbeast/models/member/training/training_categories_model.dart';
 
 import '../../../core/services/api/api_service.dart';
 import '../../../models/member/network/pinnacle_view_model.dart';

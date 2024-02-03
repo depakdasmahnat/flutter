@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:mrwebbeast/utils/widgets/widgets.dart';
-
 class CustomPopupMenuEntry {
   final String label;
   final IconData? icon;

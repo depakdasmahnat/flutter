@@ -1,19 +1,24 @@
 import 'dart:convert';
 
 import '../feeds/feeds_data.dart';
-FetchResourcesDetailModel fetchResouresDetailModelFromJson(String str) => FetchResourcesDetailModel.fromJson(json.decode(str));
+
+FetchResourcesDetailModel fetchResouresDetailModelFromJson(String str) =>
+    FetchResourcesDetailModel.fromJson(json.decode(str));
+
 String fetchResouresDetailModelToJson(FetchResourcesDetailModel data) => json.encode(data.toJson());
+
 class FetchResourcesDetailModel {
   FetchResourcesDetailModel({
-      bool? status, 
-      String? message, 
-      DataRecords? dataRecords, 
-      List<FeedsData>? data,}){
+    bool? status,
+    String? message,
+    DataRecords? dataRecords,
+    List<FeedsData>? data,
+  }) {
     _status = status;
     _message = message;
     _dataRecords = dataRecords;
     _data = data;
-}
+  }
 
   FetchResourcesDetailModel.fromJson(dynamic json) {
     _status = json['status'];
@@ -26,14 +31,18 @@ class FetchResourcesDetailModel {
       });
     }
   }
+
   bool? _status;
   String? _message;
   DataRecords? _dataRecords;
   List<FeedsData>? _data;
 
   bool? get status => _status;
+
   String? get message => _message;
+
   DataRecords? get dataRecords => _dataRecords;
+
   List<FeedsData>? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -48,34 +57,37 @@ class FetchResourcesDetailModel {
     }
     return map;
   }
-
 }
 
-
-
 DataRecords dataRecordsFromJson(String str) => DataRecords.fromJson(json.decode(str));
+
 String dataRecordsToJson(DataRecords data) => json.encode(data.toJson());
+
 class DataRecords {
   DataRecords({
-      num? totalPage, 
-      num? limit, 
-      num? page,}){
+    num? totalPage,
+    num? limit,
+    num? page,
+  }) {
     _totalPage = totalPage;
     _limit = limit;
     _page = page;
-}
+  }
 
   DataRecords.fromJson(dynamic json) {
     _totalPage = json['total_page'];
     _limit = json['limit'];
     _page = json['page'];
   }
+
   num? _totalPage;
   num? _limit;
   num? _page;
 
   num? get totalPage => _totalPage;
+
   num? get limit => _limit;
+
   num? get page => _page;
 
   Map<String, dynamic> toJson() {
@@ -85,5 +97,4 @@ class DataRecords {
     map['page'] = _page;
     return map;
   }
-
 }

@@ -5,21 +5,17 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
-import 'package:mrwebbeast/screens/member/training/exam_quiz.dart';
-import 'package:mrwebbeast/screens/member/feeds/feeds_card.dart';
 import 'package:mrwebbeast/screens/member/training/chapter_details_card.dart';
+import 'package:mrwebbeast/screens/member/training/exam_quiz.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/training/training_controller.dart';
-import '../../../core/constant/enums.dart';
 import '../../../models/member/training/chapter_details_model.dart';
 import '../../../models/member/training/chapters_model.dart';
-import '../../../models/member/training/training_categories_model.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
-import 'chapters_screen.dart';
 
 class ChaptersDetails extends StatefulWidget {
   const ChaptersDetails({super.key, required this.chapter});

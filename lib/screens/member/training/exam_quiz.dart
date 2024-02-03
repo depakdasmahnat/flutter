@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
-
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 

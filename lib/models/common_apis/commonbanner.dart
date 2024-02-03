@@ -1,15 +1,19 @@
 import 'dart:convert';
+
 Commonbanner commonbannerFromJson(String str) => Commonbanner.fromJson(json.decode(str));
+
 String commonbannerToJson(Commonbanner data) => json.encode(data.toJson());
+
 class Commonbanner {
   Commonbanner({
-      bool? status, 
-      String? message, 
-      List<Data>? data,}){
+    bool? status,
+    String? message,
+    List<Data>? data,
+  }) {
     _status = status;
     _message = message;
     _data = data;
-}
+  }
 
   Commonbanner.fromJson(dynamic json) {
     _status = json['status'];
@@ -21,12 +25,15 @@ class Commonbanner {
       });
     }
   }
+
   bool? _status;
   String? _message;
   List<Data>? _data;
 
   bool? get status => _status;
+
   String? get message => _message;
+
   List<Data>? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -38,22 +45,24 @@ class Commonbanner {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      num? id, 
-      String? image, 
-      String? path, 
-      num? position,}){
+    num? id,
+    String? image,
+    String? path,
+    num? position,
+  }) {
     _id = id;
     _image = image;
     _path = path;
     _position = position;
-}
+  }
 
   Data.fromJson(dynamic json) {
     _id = json['id'];
@@ -61,14 +70,18 @@ class Data {
     _path = json['path'];
     _position = json['position'];
   }
+
   num? _id;
   String? _image;
   String? _path;
   num? _position;
 
   num? get id => _id;
+
   String? get image => _image;
+
   String? get path => _path;
+
   num? get position => _position;
 
   Map<String, dynamic> toJson() {
@@ -79,5 +92,4 @@ class Data {
     map['position'] = _position;
     return map;
   }
-
 }

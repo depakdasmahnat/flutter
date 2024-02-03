@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:html/parser.dart' show parse;
 import 'package:mrwebbeast/core/constant/enums.dart';
-import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
@@ -10,7 +10,6 @@ import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_opener.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:mrwebbeast/utils/widgets/pdf_viewer.dart';
-import 'package:mrwebbeast/utils/widgets/ppt_viewer.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,7 +19,6 @@ import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../models/feeds/feeds_data.dart';
-import 'package:html/parser.dart' show parse;
 
 class FeedCard extends StatefulWidget {
   const FeedCard({

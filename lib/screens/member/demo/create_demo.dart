@@ -1,12 +1,9 @@
 import 'dart:io';
 
-import 'package:dotted_border/dotted_border.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +16,13 @@ import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
 import '../../guest/guestProfile/guest_faq.dart';
-import '../events/create_event.dart';
 
 class CreateDemo extends StatefulWidget {
   final String guestId;
   final String? name;
   final String? image;
-  const CreateDemo({super.key, required this.guestId,this.name, this.image});
+
+  const CreateDemo({super.key, required this.guestId, this.name, this.image});
 
   @override
   State<CreateDemo> createState() => _CreateDemoState();
@@ -44,11 +41,12 @@ class _CreateDemoState extends State<CreateDemo> {
   TextEditingController cityCtrl = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
   TextEditingController descriptionCtrl = TextEditingController();
-  int? tabIndex=0;
+  int? tabIndex = 0;
   String typeOfDame = '';
   String priority = '';
   List item = ['Hot', 'Worm', 'Cold'];
   File? image;
+
   @override
   Widget build(BuildContext context) {
     print(' chekc name ${widget.name}');
@@ -87,8 +85,7 @@ class _CreateDemoState extends State<CreateDemo> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -125,8 +122,7 @@ class _CreateDemoState extends State<CreateDemo> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -158,8 +154,7 @@ class _CreateDemoState extends State<CreateDemo> {
             controller: commentCtrl,
           ),
           Padding(
-            padding:
-                const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: CustomeText(
               text: 'Lead status',
               fontSize: 16,
@@ -182,38 +177,29 @@ class _CreateDemoState extends State<CreateDemo> {
                       child: GestureDetector(
                         onTap: () {
                           priority = item[index];
-                          tabIndex =index;
+                          tabIndex = index;
                           setState(() {});
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: const Alignment(0.61, -0.79),
-                              end: const Alignment(-0.61, 0.79),
-                              colors: index == 0
-                                  ? [
-                                const Color(0xFFFF2600),
-                                const Color(0xFFFF6130)
-                              ]
-                                  : index == 1
-                                  ? [
-                                const Color(0xFFFDDC9C),
-                                const Color(0xFFDDA53B)
-                              ]
-                                  : [
-                                const Color(0xFF3CDCDC),
-                                const Color(0xFF12BCBC)
-                              ],
-                            ),
-                            border:tabIndex==index? Border.all( color: CupertinoColors.white,width: 2):null,
-                            borderRadius: BorderRadius.circular(39)
-                          ),
+                              gradient: LinearGradient(
+                                begin: const Alignment(0.61, -0.79),
+                                end: const Alignment(-0.61, 0.79),
+                                colors: index == 0
+                                    ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                                    : index == 1
+                                        ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                                        : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                              ),
+                              border: tabIndex == index
+                                  ? Border.all(color: CupertinoColors.white, width: 2)
+                                  : null,
+                              borderRadius: BorderRadius.circular(39)),
                           child: SizedBox(
                             width: size.width * 0.11,
                             child: Center(
                               child: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 4, bottom: 4),
+                                padding: const EdgeInsets.only(top: 4, bottom: 4),
                                 child: CustomeText(
                                   text: item[index],
                                   fontWeight: FontWeight.w500,
@@ -250,7 +236,7 @@ class _CreateDemoState extends State<CreateDemo> {
                 gradient: inActiveGradient,
                 borderRadius: BorderRadius.circular(50),
               ),
-              child:  Padding(
+              child: Padding(
                 padding: const EdgeInsets.all(4),
                 child: Row(
                   children: [
@@ -262,7 +248,7 @@ class _CreateDemoState extends State<CreateDemo> {
                       assetImage: widget.image,
                       margin: const EdgeInsets.only(right: 8),
                     ),
-                    Text(widget.name??''),
+                    Text(widget.name ?? ''),
                   ],
                 ),
               ),
@@ -396,14 +382,16 @@ class _CreateDemoState extends State<CreateDemo> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(
-                left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () {
               context.read<MembersController>().scheduledDemo(
                   context: context,
-                  guestId: widget.guestId, demoType: typeOfDame,
+                  guestId: widget.guestId,
+                  demoType: typeOfDame,
                   date: startDateCtrl.text,
-                  time: startTimeCtrl.text, remarks: commentCtrl.text, priority: priority);
+                  time: startTimeCtrl.text,
+                  remarks: commentCtrl.text,
+                  priority: priority);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -527,8 +515,7 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: padding ??
-          const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
       child: Container(
         decoration: ShapeDecoration(
           color: const Color(0xFF1B1B1B),
@@ -568,8 +555,7 @@ class AppTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.only(left: 1),
               autofocus: true,
               isDense: true,
-              margin: const EdgeInsets.only(
-                  left: kPadding, right: kPadding, top: 8, bottom: 12),
+              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
               // margin: const EdgeInsets.only(bottom: 18),
             ),

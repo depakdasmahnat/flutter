@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
-import 'package:mrwebbeast/screens/member/events/create_event.dart';
 import 'package:mrwebbeast/utils/widgets/appbar.dart';
-import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 
 import '../../guest/guestProfile/guest_edit_profile.dart';
 
@@ -15,8 +12,9 @@ class ScheduledDemoForm extends StatefulWidget {
 }
 
 class _ScheduledDemoFormState extends State<ScheduledDemoForm> {
-  TextEditingController dateController =TextEditingController();
-  TextEditingController timeController =TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -29,10 +27,10 @@ class _ScheduledDemoFormState extends State<ScheduledDemoForm> {
         ),
       ),
       body: ListView(
-        children:  [
+        children: [
           CustomDropdown(
             title: 'Type of demo*',
-            listItem: ['Online','Offline'],
+            listItem: ['Online', 'Offline'],
             hintText: 'Select',
           ),
           CustomTextFieldApp(
@@ -52,15 +50,15 @@ class _ScheduledDemoFormState extends State<ScheduledDemoForm> {
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
-                        primary: Colors.white, // <-- SEE HERE
-                        onPrimary: Colors.black, // <-- SEE HERE
-                        onSurface: Colors.white,
-                      ),
+                            primary: Colors.white, // <-- SEE HERE
+                            onPrimary: Colors.black, // <-- SEE HERE
+                            onSurface: Colors.white,
+                          ),
 
                       // Input
                       inputDecorationTheme: const InputDecorationTheme(
-                        // labelStyle: GoogleFonts.greatVibes(), // Input label
-                      ),
+                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                          ),
                     ),
                     child: child!,
                   );
@@ -69,7 +67,7 @@ class _ScheduledDemoFormState extends State<ScheduledDemoForm> {
 
               if (pickedDate != null) {
                 timeController.text =
-                "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                    "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
               }
             },
           ),
@@ -77,7 +75,7 @@ class _ScheduledDemoFormState extends State<ScheduledDemoForm> {
             title: 'Time',
             hintText: 'hh:mm',
             controller: timeController,
-            onTap: () async{
+            onTap: () async {
               Future<TimeOfDay?> selectedTime24Hour = showTimePicker(
                 context: context,
                 initialTime: const TimeOfDay(hour: 10, minute: 47),
@@ -89,26 +87,24 @@ class _ScheduledDemoFormState extends State<ScheduledDemoForm> {
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
-                        primary: Colors.white, // <-- SEE HERE
-                        onPrimary: Colors.black, // <-- SEE HERE
-                        onSurface: Colors.white,
-                      ),
+                            primary: Colors.white, // <-- SEE HERE
+                            onPrimary: Colors.black, // <-- SEE HERE
+                            onSurface: Colors.white,
+                          ),
 
                       // Input
                       inputDecorationTheme: const InputDecorationTheme(
-                        // labelStyle: GoogleFonts.greatVibes(), // Input label
-                      ),
+                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                          ),
                     ),
                     child: child!,
                   );
                 },
-
               );
-              if(selectedTime24Hour !=null){
-                timeController.text =selectedTime24Hour.toString()??'';
+              if (selectedTime24Hour != null) {
+                timeController.text = selectedTime24Hour.toString() ?? '';
               }
             },
-
           ),
           CustomeText(
             text: 'Select your lists',
@@ -123,8 +119,6 @@ class _ScheduledDemoFormState extends State<ScheduledDemoForm> {
           CustomTextFieldApp(
             title: 'Search',
             hintText: 'hh:mm',
-
-
           ),
         ],
       ),

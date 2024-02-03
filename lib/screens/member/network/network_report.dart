@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-import 'package:mrwebbeast/screens/member/archievers/archievers_table.dart';
 import 'package:mrwebbeast/screens/member/network/pinnacle_list_table.dart';
 import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';

@@ -1,27 +1,34 @@
 import 'dart:convert';
+
 Validatemobile validatemobileFromJson(String str) => Validatemobile.fromJson(json.decode(str));
+
 String validatemobileToJson(Validatemobile data) => json.encode(data.toJson());
+
 class Validatemobile {
   Validatemobile({
-      bool? status, 
-      String? message, 
-      Data? data,}){
+    bool? status,
+    String? message,
+    Data? data,
+  }) {
     _status = status;
     _message = message;
     _data = data;
-}
+  }
 
   Validatemobile.fromJson(dynamic json) {
     _status = json['status'];
     _message = json['message'];
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
+
   bool? _status;
   String? _message;
   Data? _data;
 
   bool? get status => _status;
+
   String? get message => _message;
+
   Data? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -33,33 +40,35 @@ class Validatemobile {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      int? id, 
-      String? firstName, 
-      String? lastName, 
-      String? mobile, 
-      String? email, 
-      dynamic profilePhoto, 
-      dynamic path, 
-      int? stateId, 
-      int? cityId, 
-      String? address, 
-      String? role, 
-      dynamic emailVerifiedAt, 
-      dynamic deviceToken, 
-      String? createdAt, 
-      dynamic updatedAt, 
-      String? isActive, 
-      String? status, 
-      String? priority, 
-      dynamic deletedAt, 
-      int? steps,}){
+    int? id,
+    String? firstName,
+    String? lastName,
+    String? mobile,
+    String? email,
+    dynamic profilePhoto,
+    dynamic path,
+    int? stateId,
+    int? cityId,
+    String? address,
+    String? role,
+    dynamic emailVerifiedAt,
+    dynamic deviceToken,
+    String? createdAt,
+    dynamic updatedAt,
+    String? isActive,
+    String? status,
+    String? priority,
+    dynamic deletedAt,
+    int? steps,
+  }) {
     _id = id;
     _firstName = firstName;
     _lastName = lastName;
@@ -80,7 +89,7 @@ class Data {
     _priority = priority;
     _deletedAt = deletedAt;
     _steps = steps;
-}
+  }
 
   Data.fromJson(dynamic json) {
     _id = json['id'];
@@ -104,6 +113,7 @@ class Data {
     _deletedAt = json['deleted_at'];
     _steps = json['steps'];
   }
+
   int? _id;
   String? _firstName;
   String? _lastName;
@@ -126,24 +136,43 @@ class Data {
   int? _steps;
 
   int? get id => _id;
+
   String? get firstName => _firstName;
+
   String? get lastName => _lastName;
+
   String? get mobile => _mobile;
+
   String? get email => _email;
+
   dynamic get profilePhoto => _profilePhoto;
+
   dynamic get path => _path;
+
   int? get stateId => _stateId;
+
   int? get cityId => _cityId;
+
   String? get address => _address;
+
   String? get role => _role;
+
   dynamic get emailVerifiedAt => _emailVerifiedAt;
+
   dynamic get deviceToken => _deviceToken;
+
   String? get createdAt => _createdAt;
+
   dynamic get updatedAt => _updatedAt;
+
   String? get isActive => _isActive;
+
   String? get status => _status;
+
   String? get priority => _priority;
+
   dynamic get deletedAt => _deletedAt;
+
   int? get steps => _steps;
 
   Map<String, dynamic> toJson() {
@@ -170,5 +199,4 @@ class Data {
     map['steps'] = _steps;
     return map;
   }
-
 }

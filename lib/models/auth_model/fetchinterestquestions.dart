@@ -1,15 +1,20 @@
 import 'dart:convert';
-Fetchinterestquestions fetchinterestquestionsFromJson(String str) => Fetchinterestquestions.fromJson(json.decode(str));
+
+Fetchinterestquestions fetchinterestquestionsFromJson(String str) =>
+    Fetchinterestquestions.fromJson(json.decode(str));
+
 String fetchinterestquestionsToJson(Fetchinterestquestions data) => json.encode(data.toJson());
+
 class Fetchinterestquestions {
   Fetchinterestquestions({
-      bool? status, 
-      String? message, 
-      List<Data>? data,}){
+    bool? status,
+    String? message,
+    List<Data>? data,
+  }) {
     _status = status;
     _message = message;
     _data = data;
-}
+  }
 
   Fetchinterestquestions.fromJson(dynamic json) {
     _status = json['status'];
@@ -21,12 +26,15 @@ class Fetchinterestquestions {
       });
     }
   }
+
   bool? _status;
   String? _message;
   List<Data>? _data;
 
   bool? get status => _status;
+
   String? get message => _message;
+
   List<Data>? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -38,24 +46,26 @@ class Fetchinterestquestions {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      num? id, 
-      num? categoryId, 
-      String? question, 
-      List<String>? answers, 
-      num? position,}){
+    num? id,
+    num? categoryId,
+    String? question,
+    List<String>? answers,
+    num? position,
+  }) {
     _id = id;
     _categoryId = categoryId;
     _question = question;
     _answers = answers;
     _position = position;
-}
+  }
 
   Data.fromJson(dynamic json) {
     _id = json['id'];
@@ -64,6 +74,7 @@ class Data {
     _answers = json['answers'] != null ? json['answers'].cast<String>() : [];
     _position = json['position'];
   }
+
   num? _id;
   num? _categoryId;
   String? _question;
@@ -71,9 +82,13 @@ class Data {
   num? _position;
 
   num? get id => _id;
+
   num? get categoryId => _categoryId;
+
   String? get question => _question;
+
   List<String>? get answers => _answers;
+
   num? get position => _position;
 
   Map<String, dynamic> toJson() {
@@ -85,5 +100,4 @@ class Data {
     map['position'] = _position;
     return map;
   }
-
 }

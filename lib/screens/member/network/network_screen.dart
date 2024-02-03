@@ -10,7 +10,6 @@ import 'package:mrwebbeast/screens/member/network/network_tree_view.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 
 import '../../../models/dashboard/custom_tab_data.dart';
-import '../../../utils/custom_menu_popup.dart';
 
 class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> tabs;

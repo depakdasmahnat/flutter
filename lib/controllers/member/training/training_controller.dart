@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/app.dart';
-
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/models/default/default_model.dart';
@@ -261,42 +260,42 @@ class TrainingControllers extends ChangeNotifier {
     }
   }
 
-  // /// 5) Select AB Members API...
-  // Future selectProjectionABMembers({
-  //   required BuildContext context,
-  //   required num? previousMemberId,
-  //   required num? memberId,
-  //   required num? parentId,
-  // }) async {
-  //   FocusScope.of(context).unfocus();
-  //
-  //   Map<String, String> body = {
-  //     'previous_member_id': '$previousMemberId',
-  //     'new_member_id': '$memberId',
-  //     'parent_id': '$parentId',
-  //   };
-  //
-  //   debugPrint('Sent Data is $body');
-  //   try {
-  //     var response = await loadingDialog(
-  //       context: context,
-  //       future: ApiService().post(
-  //         endPoint: ApiEndpoints.selectProjectionABMembers,
-  //         body: body,
-  //       ),
-  //     );
-  //
-  //     if (response != null && context.mounted) {
-  //       Map<String, dynamic> json = response;
-  //       DefaultModel responseData = DefaultModel.fromJson(json);
-  //
-  //       if (responseData.status == true) {
-  //       } else {
-  //         showError(context: context, message: responseData.message ?? 'Something Went Wrong');
-  //       }
-  //     }
-  //   } catch (e, s) {
-  //     ErrorHandler.catchError(e, s, true);
-  //   }
-  // }
+// /// 5) Select AB Members API...
+// Future selectProjectionABMembers({
+//   required BuildContext context,
+//   required num? previousMemberId,
+//   required num? memberId,
+//   required num? parentId,
+// }) async {
+//   FocusScope.of(context).unfocus();
+//
+//   Map<String, String> body = {
+//     'previous_member_id': '$previousMemberId',
+//     'new_member_id': '$memberId',
+//     'parent_id': '$parentId',
+//   };
+//
+//   debugPrint('Sent Data is $body');
+//   try {
+//     var response = await loadingDialog(
+//       context: context,
+//       future: ApiService().post(
+//         endPoint: ApiEndpoints.selectProjectionABMembers,
+//         body: body,
+//       ),
+//     );
+//
+//     if (response != null && context.mounted) {
+//       Map<String, dynamic> json = response;
+//       DefaultModel responseData = DefaultModel.fromJson(json);
+//
+//       if (responseData.status == true) {
+//       } else {
+//         showError(context: context, message: responseData.message ?? 'Something Went Wrong');
+//       }
+//     }
+//   } catch (e, s) {
+//     ErrorHandler.catchError(e, s, true);
+//   }
+// }
 }

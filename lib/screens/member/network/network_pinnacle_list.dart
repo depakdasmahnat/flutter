@@ -39,8 +39,7 @@ class NetworkPinnacleListState extends State<NetworkPinnacleList> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Padding(
-          padding: const EdgeInsets.only(
-              left: kPadding, right: kPadding, bottom: kPadding),
+          padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: SizedBox(
@@ -56,8 +55,7 @@ class NetworkPinnacleListState extends State<NetworkPinnacleList> {
                     child: Container(
                       width: 45,
                       decoration: BoxDecoration(
-                        gradient:
-                            currentLevel ? primaryGradient : whiteGradient,
+                        gradient: currentLevel ? primaryGradient : whiteGradient,
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

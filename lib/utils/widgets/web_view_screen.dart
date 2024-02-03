@@ -53,7 +53,7 @@ class WebViewScreenState extends State<WebViewScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url ?? 'www.google.com'),headers:  ApiService().defaultHeaders() );
+      ..loadRequest(Uri.parse(widget.url ?? 'www.google.com'), headers: ApiService().defaultHeaders());
   }
 
   @override

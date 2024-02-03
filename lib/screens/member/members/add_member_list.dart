@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
-
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
@@ -22,40 +20,36 @@ class AddMemberList extends StatefulWidget {
 
 class _AddMemberListState extends State<AddMemberList> {
   final switch1 = ValueNotifier<bool>(true);
-  List item =['Hot','Worm','Cold'];
-  TextEditingController dateControlller =TextEditingController();
+  List item = ['Hot', 'Worm', 'Cold'];
+  TextEditingController dateControlller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-    return   Scaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
-          preferredSize:Size.fromHeight(size.height*0.07) ,
+          preferredSize: Size.fromHeight(size.height * 0.07),
           child: CustomAppBar(
             title: 'Add a List',
             showLeadICon: false,
           )),
-      body:
-      ListView(
-        padding: EdgeInsets.only(bottom: size.height*0.12),
+      body: ListView(
+        padding: EdgeInsets.only(bottom: size.height * 0.12),
         children: [
           Container(
-            height: size.height*0.14,
+            height: size.height * 0.14,
             decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage(AppAssets.admemberlist),
-                    fit: BoxFit.contain
-                )
-            ),
+                image: DecorationImage(image: AssetImage(AppAssets.admemberlist), fit: BoxFit.contain)),
           ),
           SizedBox(
-            height: size.height*0.01,
+            height: size.height * 0.01,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(AppAssets.upload,height: size.height*0.02),
+              Image.asset(AppAssets.upload, height: size.height * 0.02),
               const SizedBox(
                 width: 5,
               ),
@@ -69,31 +63,27 @@ class _AddMemberListState extends State<AddMemberList> {
           const CustomTextFieldApp(
             title: 'List First Name',
             hintText: 'Enter First Name',
-
           ),
           const CustomTextFieldApp(
             title: 'List Last Name',
             hintText: 'Enter Last Name',
-
           ),
           CustomDropdown(
             title: 'Gender',
-            listItem: const ['Male','Female'],
+            listItem: const ['Male', 'Female'],
           ),
           const CustomTextFieldApp(
             title: 'List Mobile No.',
             hintText: 'Enter Mobile No.',
             keyboardType: TextInputType.number,
-
           ),
           const CustomTextFieldApp(
             title: 'List Email',
             hintText: 'email@gmail.com',
-
           ),
           CustomDropdown(
             title: 'List Status',
-            listItem: const ['Family','Friend','Professional','Society','Random'],
+            listItem: const ['Family', 'Friend', 'Professional', 'Society', 'Random'],
           ),
           Row(
             children: [
@@ -102,7 +92,7 @@ class _AddMemberListState extends State<AddMemberList> {
                   title: 'Date of Birth',
                   hintText: 'dd/mm/yyyy',
                   controller: dateControlller,
-                  onTap: ()async {
+                  onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
@@ -111,29 +101,29 @@ class _AddMemberListState extends State<AddMemberList> {
                       builder: (context, child) {
                         return Theme(
                           data: Theme.of(context).copyWith(
-                            popupMenuTheme: PopupMenuThemeData(shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                            popupMenuTheme: PopupMenuThemeData(
+                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
-
-
                             colorScheme: Theme.of(context).colorScheme.copyWith(
-                              primary: Colors.white, // <-- SEE HERE
-                              onPrimary: Colors.black, // <-- SEE HERE
-                              onSurface: Colors.white,
-                            ),
+                                  primary: Colors.white, // <-- SEE HERE
+                                  onPrimary: Colors.black, // <-- SEE HERE
+                                  onSurface: Colors.white,
+                                ),
 
                             // Input
                             inputDecorationTheme: const InputDecorationTheme(
-                              // labelStyle: GoogleFonts.greatVibes(), // Input label
-                            ),
+                                // labelStyle: GoogleFonts.greatVibes(), // Input label
+                                ),
                           ),
                           child: child!,
                         );
                       },
                     );
 
-                    if(pickedDate !=null){
-                      dateControlller.text = "${pickedDate.day.toString().padLeft(2,"0")}/${pickedDate.month.toString().padLeft(2,"0")}/${pickedDate.year}";
+                    if (pickedDate != null) {
+                      dateControlller.text =
+                          "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
                     }
                   },
                   readOnly: true,
@@ -144,7 +134,6 @@ class _AddMemberListState extends State<AddMemberList> {
                   title: 'No. of family Members',
                   keyboardType: TextInputType.number,
                   hintText: 'Enter No. of family Members',
-
                 ),
               ),
             ],
@@ -158,42 +147,49 @@ class _AddMemberListState extends State<AddMemberList> {
             ),
           ),
           SizedBox(
-            height: size.height*0.06,
+            height: size.height * 0.06,
             child: Padding(
               padding: const EdgeInsets.only(left: 9.0),
               child: ListView.builder(
                 shrinkWrap: true,
-               scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.horizontal,
                 itemCount: item.length,
                 itemBuilder: (context, index) {
-                return    Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: ShapeDecoration(
-                      gradient:  LinearGradient(
-                        begin: const Alignment(0.61, -0.79),
-                        end: const Alignment(-0.61, 0.79),
-                        colors:index==0 ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]:index==1?[const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]: [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        gradient: LinearGradient(
+                          begin: const Alignment(0.61, -0.79),
+                          end: const Alignment(-0.61, 0.79),
+                          colors: index == 0
+                              ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                              : index == 1
+                                  ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                                  : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(39),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(39),
-                      ),
-                    ),
-                    child:SizedBox(
-                      width: size.width*0.11,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 4,bottom: 4),
-                          child: CustomeText(
-                            text: item[index],fontWeight: FontWeight.w500,fontSize: 10,
-                            color: Colors.white,
+                      child: SizedBox(
+                        width: size.width * 0.11,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 4, bottom: 4),
+                            child: CustomeText(
+                              text: item[index],
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    ) ,
-                  ),
-                );
-              },),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           Padding(
@@ -206,7 +202,7 @@ class _AddMemberListState extends State<AddMemberList> {
                 ),
               ),
               child: Padding(
-                padding:  const EdgeInsets.all(18),
+                padding: const EdgeInsets.all(18),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -216,70 +212,50 @@ class _AddMemberListState extends State<AddMemberList> {
                     AdvancedSwitch(
                       controller: switch1,
                       thumb: Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle
-                        ),
-                      ) ,
+                        decoration: const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+                      ),
                       inactiveColor: Colors.grey,
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
-                      width: size.height*0.06,
-                      height: size.height*0.03,
+                      width: size.height * 0.06,
+                      height: size.height * 0.03,
                       enabled: true,
                       disabledOpacity: 0.5,
                     ),
                   ],
                 ),
               ),
-
             ),
           ),
           const CustomTextFieldApp(
             title: 'Any Illness In Family Members',
             hintText: 'Enter Members',
-
-
           ),
           const CustomTextFieldApp(
             title: 'Monthly Income',
             hintText: 'Enter Income',
             keyboardType: TextInputType.number,
-
           ),
           const CustomTextFieldApp(
             title: 'State',
             hintText: 'Enter State',
-
-
           ),
           const CustomTextFieldApp(
             title: 'City',
             hintText: 'Enter City',
-
-
           ),
           const CustomTextFieldApp(
             title: 'Pin Code',
             hintText: 'Enter Pin Code',
-
-
           ),
           CustomTextFieldApp(
-            height: size.height*0.04,
+            height: size.height * 0.04,
             title: 'Address',
             hintText: 'Enter Address',
-
-
           ),
           const CustomTextFieldApp(
             title: 'Sponsor Name',
             hintText: 'Enter Sponsor Name',
-
-
           ),
-
-
-
         ],
       ),
       bottomSheet: Column(
@@ -312,10 +288,11 @@ class _AddMemberListState extends State<AddMemberList> {
               ],
             ),
           ),
-          SizedBox(height: size.height*0.02,)
+          SizedBox(
+            height: size.height * 0.02,
+          )
         ],
       ),
-
     );
   }
 }

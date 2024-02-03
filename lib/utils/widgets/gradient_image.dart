@@ -14,6 +14,7 @@ class GradientImage extends StatelessWidget {
   final String imageUrl;
   final Gradient? gradient;
   final Gradient? gradient2;
+
   @override
   Widget build(BuildContext context) {
     return Stack(

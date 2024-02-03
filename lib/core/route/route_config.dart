@@ -9,73 +9,60 @@ import 'package:mrwebbeast/screens/member/archievers/achievers.dart';
 import 'package:mrwebbeast/screens/member/demo/create_demo.dart';
 import 'package:mrwebbeast/screens/member/demo/demos_screen.dart';
 import 'package:mrwebbeast/utils/widgets/pdf_viewer.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
-
 import '../../models/member/auth/reset_password.dart';
 import '../../screens/auth/connect_with_us.dart';
-import '../../screens/member/training/chapter_details.dart';
-import '../../screens/welcome_screen.dart';
-
+import '../../screens/auth/gtp_video.dart';
 import '../../screens/auth/interest_screen.dart';
+import '../../screens/auth/login.dart';
 import '../../screens/auth/member/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
-
-import '../../screens/auth/gtp_video.dart';
-
 import '../../screens/auth/why_are_you_here.dart';
-import '../../screens/guest/home/home_screen.dart';
+import '../../screens/dashboard/dashboard.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
 import '../../screens/guest/guestProfile/guest_profile.dart';
+import '../../screens/guest/home/home_screen.dart';
 import '../../screens/guest/product/guest_product.dart';
-import '../../screens/member/feeds/feed_detail.dart';
 import '../../screens/guest/profile/about_us.dart';
-
 import '../../screens/guest/profile/permission_screen.dart';
-
+import '../../screens/guest/resource&Demo/resource_and_demo.dart';
 import '../../screens/guest/web_view/faq.dart';
+import '../../screens/member/events/create_event.dart';
+import '../../screens/member/events/events_screen.dart';
+import '../../screens/member/feeds/feed_detail.dart';
+import '../../screens/member/feeds/member_feeds.dart';
+import '../../screens/member/goal/create_goal.dart';
+import '../../screens/member/goal/goals_screen.dart';
 import '../../screens/member/home/member_dashboard.dart';
+import '../../screens/member/home/member_profile.dart';
 import '../../screens/member/home/member_profile_details.dart';
-
-import '../../screens/member/lead/model_dailog_box.dart';
 import '../../screens/member/lead/scheduled_demo_form.dart';
 import '../../screens/member/members/add_member_form.dart';
 import '../../screens/member/members/add_member_list.dart';
 import '../../screens/member/members/calendar.dart';
-import '../../screens/member/profile/member_edit_profile.dart';
-import '../../screens/member/target/target_screen.dart';
-import '../../screens/guest/resource&Demo/resource_and_demo.dart';
-import '../../screens/member/events/create_event.dart';
-import '../../screens/member/events/events_screen.dart';
-import '../../screens/member/training/exam_quiz.dart';
-import '../../screens/member/training/chapters_screen.dart';
-import '../../screens/member/feeds/member_feeds.dart';
-import '../../screens/member/goal/create_goal.dart';
-import '../../screens/member/goal/goals_screen.dart';
-import '../../screens/member/home/member_profile.dart';
-import '../../screens/member/training/training_screen.dart';
 import '../../screens/member/network/network_report.dart';
+import '../../screens/member/profile/member_edit_profile.dart';
 import '../../screens/member/resources/resources.dart';
 import '../../screens/member/target/create_target.dart';
+import '../../screens/member/target/target_screen.dart';
 import '../../screens/member/todo/todo_screen.dart';
+import '../../screens/member/training/chapter_details.dart';
+import '../../screens/member/training/chapters_screen.dart';
+import '../../screens/member/training/exam_quiz.dart';
+import '../../screens/member/training/training_screen.dart';
+import '../../screens/notifications/notifications.dart';
 import '../../screens/welcome_screen.dart';
 import '../../select_lead/select_lead.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
 import '../../utils/widgets/ppt_viewer.dart';
 import '../../utils/widgets/web_view_screen.dart';
-import '../../screens/auth/login.dart';
-import '../../screens/dashboard/dashboard.dart';
-
-import '../../screens/notifications/notifications.dart';
-
 import '../services/analytics/analytic_service.dart';
 import '../services/database/local_database.dart';
-
 import 'route_paths.dart';
 
 class RoutesConfig {

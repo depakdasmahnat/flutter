@@ -8,7 +8,9 @@ extension Navigation on BuildContext {
   }
 
   Future navigateToReplacement({required Widget child}) {
-    return Navigator.of(this).pushReplacement(MaterialPageRoute(builder: (context) => child)).then((value) => value);
+    return Navigator.of(this)
+        .pushReplacement(MaterialPageRoute(builder: (context) => child))
+        .then((value) => value);
   }
 
   void firstRoute() {

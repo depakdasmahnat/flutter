@@ -1,15 +1,20 @@
 import 'dart:convert';
-FetchFeedCategoriesModel fetchfeedcategoriesmodelFromJson(String str) => FetchFeedCategoriesModel.fromJson(json.decode(str));
+
+FetchFeedCategoriesModel fetchfeedcategoriesmodelFromJson(String str) =>
+    FetchFeedCategoriesModel.fromJson(json.decode(str));
+
 String fetchfeedcategoriesmodelToJson(FetchFeedCategoriesModel data) => json.encode(data.toJson());
+
 class FetchFeedCategoriesModel {
   FetchFeedCategoriesModel({
-      bool? status, 
-      String? message, 
-      List<FeedCategory>? data,}){
+    bool? status,
+    String? message,
+    List<FeedCategory>? data,
+  }) {
     _status = status;
     _message = message;
     _data = data;
-}
+  }
 
   FetchFeedCategoriesModel.fromJson(dynamic json) {
     _status = json['status'];
@@ -21,12 +26,15 @@ class FetchFeedCategoriesModel {
       });
     }
   }
+
   bool? _status;
   String? _message;
   List<FeedCategory>? _data;
 
   bool? get status => _status;
+
   String? get message => _message;
+
   List<FeedCategory>? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -38,22 +46,24 @@ class FetchFeedCategoriesModel {
     }
     return map;
   }
-
 }
 
 FeedCategory dataFromJson(String str) => FeedCategory.fromJson(json.decode(str));
+
 String dataToJson(FeedCategory data) => json.encode(data.toJson());
+
 class FeedCategory {
   FeedCategory({
-      num? id, 
-      String? name, 
-      String? type, 
-      num? position,}){
+    num? id,
+    String? name,
+    String? type,
+    num? position,
+  }) {
     _id = id;
     _name = name;
     _type = type;
     _position = position;
-}
+  }
 
   FeedCategory.fromJson(dynamic json) {
     _id = json['id'];
@@ -61,14 +71,18 @@ class FeedCategory {
     _type = json['type'];
     _position = json['position'];
   }
+
   num? _id;
   String? _name;
   String? _type;
   num? _position;
 
   num? get id => _id;
+
   String? get name => _name;
+
   String? get type => _type;
+
   num? get position => _position;
 
   Map<String, dynamic> toJson() {
@@ -79,5 +93,4 @@ class FeedCategory {
     map['position'] = _position;
     return map;
   }
-
 }

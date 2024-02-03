@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/screens/guest/product/guest_product.dart';
 
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
-
 import '../../../utils/widgets/custom_text_field.dart';
-import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class ResourcesScreen extends StatefulWidget {

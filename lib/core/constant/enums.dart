@@ -16,6 +16,7 @@ enum Roles {
 
   const Roles(this.value);
 }
+
 enum ChapterStatus {
   open('Open'),
   locked('Locked'),
@@ -33,6 +34,7 @@ enum FeedsFileType {
   pdf('Pdf'),
   ppt('Ppt'),
   image('Image');
+
   final String value;
 
   const FeedsFileType(this.value);

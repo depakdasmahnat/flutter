@@ -30,23 +30,20 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
 
   Future fetchResourcesDetail({bool? loadingNext}) async {
     return await context.read<GuestControllers>().fetchResourcesDetail(
-      context: context,
-      categoryId: category?.id,
-      isRefresh: loadingNext == true ? false : true,
-      loadingNext: loadingNext ?? false,
-    );
+          context: context,
+          categoryId: category?.id,
+          isRefresh: loadingNext == true ? false : true,
+          loadingNext: loadingNext ?? false,
+        );
   }
 
   TextEditingController searchController = TextEditingController();
   List<FeedsData>? feeds;
 
-
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       fetchResourcesDetail();
-
     });
     super.initState();
   }
@@ -95,29 +92,29 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
                 controller.loadingResources == true
                     ? const LoadingScreen(heightFactor: 0.7)
                     : (resources.haveData)
-                    ? ListView.builder(
-                  itemCount: resources?.length ?? 0,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(bottom: kPadding),
-                  // physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    var data = resources?.elementAt(index);
+                        ? ListView.builder(
+                            itemCount: resources?.length ?? 0,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.only(bottom: kPadding),
+                            // physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var data = resources?.elementAt(index);
 
-                    return InkWell(
-                        onTap: () {
-                          // if(widget.type!='true'){
-                          //   context.pushNamed(Routs.resourceAndDemo,extra:true );
-                          // }
-                        },
-                        child: FeedCard(
-                          index: index,
-                          data: data,
-                          isFeeds: false,
-                        ));
-                  },
-                )
-                    : const NoDataFound(heightFactor: 0.7),
+                              return InkWell(
+                                  onTap: () {
+                                    // if(widget.type!='true'){
+                                    //   context.pushNamed(Routs.resourceAndDemo,extra:true );
+                                    // }
+                                  },
+                                  child: FeedCard(
+                                    index: index,
+                                    data: data,
+                                    isFeeds: false,
+                                  ));
+                            },
+                          )
+                        : const NoDataFound(heightFactor: 0.7),
               ],
             ),
           );

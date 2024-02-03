@@ -1,11 +1,15 @@
 import 'dart:convert';
+
 CityModel cityModelFromJson(String str) => CityModel.fromJson(json.decode(str));
+
 String cityModelToJson(CityModel data) => json.encode(data.toJson());
+
 class CityModel {
   CityModel({
-      this.status, 
-      this.message, 
-      this.data,});
+    this.status,
+    this.message,
+    this.data,
+  });
 
   CityModel.fromJson(dynamic json) {
     status = json['status'];
@@ -17,6 +21,7 @@ class CityModel {
       });
     }
   }
+
   bool? status;
   String? message;
   List<Data>? data;
@@ -30,17 +35,19 @@ class CityModel {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      this.id, 
-      this.stateId, 
-      this.stateName, 
-      this.name,});
+    this.id,
+    this.stateId,
+    this.stateName,
+    this.name,
+  });
 
   Data.fromJson(dynamic json) {
     id = json['id'];
@@ -48,6 +55,7 @@ class Data {
     stateName = json['state_name'];
     name = json['name'];
   }
+
   num? id;
   num? stateId;
   String? stateName;
@@ -61,5 +69,4 @@ class Data {
     map['name'] = name;
     return map;
   }
-
 }

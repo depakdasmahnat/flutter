@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class NoDataFound extends StatefulWidget {
   const NoDataFound({super.key, this.message, this.heightFactor, this.widthFactor, this.color});
+
   final String? message;
   final double? heightFactor;
   final double? widthFactor;
@@ -30,10 +31,10 @@ class _NoDataFoundState extends State<NoDataFound> {
             Center(
               child: Text(
                 message ?? 'No Data Found',
-                style:  TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color:color?? Colors.white,
+                  color: color ?? Colors.white,
                 ),
               ),
             ),

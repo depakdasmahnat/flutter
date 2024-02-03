@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -8,6 +7,7 @@ class CustomAppBar extends StatefulWidget {
   String? title;
   bool? showLeadICon;
   PreferredSizeWidget? bottom;
+
   CustomAppBar({super.key, this.title, this.showLeadICon, this.bottom});
 
   @override

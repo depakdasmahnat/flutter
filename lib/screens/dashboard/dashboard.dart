@@ -3,25 +3,19 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
-
 import 'package:mrwebbeast/core/constant/enums.dart';
-
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
-
 import 'package:provider/provider.dart';
 
 import '../../../utils/widgets/image_view.dart';
 import '../../controllers/dashboard/dashboard_controller.dart';
-
 import '../../core/config/app_assets.dart';
 import '../../core/route/route_paths.dart';
 import '../../core/services/database/local_database.dart';
-
 import '../../models/dashboard/dashboard_data.dart';
 import '../../utils/widgets/gradient_text.dart';
 import '../../utils/widgets/widgets.dart';
-
 import 'drawer.dart';
 import 'more_menu.dart';
 

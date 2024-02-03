@@ -1,17 +1,22 @@
 import 'dart:convert';
+
 EditProfileModel editProfileModelFromJson(String str) => EditProfileModel.fromJson(json.decode(str));
+
 String editProfileModelToJson(EditProfileModel data) => json.encode(data.toJson());
+
 class EditProfileModel {
   EditProfileModel({
-      this.status, 
-      this.message, 
-      this.data,});
+    this.status,
+    this.message,
+    this.data,
+  });
 
   EditProfileModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
+
   bool? status;
   String? message;
   Data? data;
@@ -25,34 +30,36 @@ class EditProfileModel {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      this.id, 
-      this.firstName, 
-      this.lastName, 
-      this.mobile, 
-      this.email, 
-      this.profilePhoto, 
-      this.referredBy, 
-      this.gender, 
-      this.leadRefType, 
-      this.occupation, 
-      this.dob, 
-      this.noOfFamilyMembers, 
-      this.illnessInFamily, 
-      this.stateId, 
-      this.cityId, 
-      this.address, 
-      this.pincode, 
-      this.deviceToken, 
-      this.role, 
-      this.steps, 
-      this.accessToken,});
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.mobile,
+    this.email,
+    this.profilePhoto,
+    this.referredBy,
+    this.gender,
+    this.leadRefType,
+    this.occupation,
+    this.dob,
+    this.noOfFamilyMembers,
+    this.illnessInFamily,
+    this.stateId,
+    this.cityId,
+    this.address,
+    this.pincode,
+    this.deviceToken,
+    this.role,
+    this.steps,
+    this.accessToken,
+  });
 
   Data.fromJson(dynamic json) {
     id = json['id'];
@@ -77,6 +84,7 @@ class Data {
     steps = json['steps'];
     accessToken = json['access_token'];
   }
+
   num? id;
   String? firstName;
   String? lastName;
@@ -124,5 +132,4 @@ class Data {
     map['access_token'] = accessToken;
     return map;
   }
-
 }

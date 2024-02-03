@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
-import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../utils/widgets/appbar.dart';
-import '../../../utils/widgets/image_view.dart';
 import 'guest_product_details.dart';
 
 class GuestPoduct extends StatefulWidget {

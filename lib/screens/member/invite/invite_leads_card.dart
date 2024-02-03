@@ -1,5 +1,4 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
@@ -8,7 +7,6 @@ import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:mrwebbeast/utils/widgets/widgets.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class InviteLeadsCard extends StatelessWidget {
   const InviteLeadsCard({super.key});

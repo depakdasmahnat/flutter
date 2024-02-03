@@ -1,9 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:graphview/GraphView.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/models/dashboard/color_grades.dart';
@@ -14,13 +10,9 @@ import 'package:provider/provider.dart';
 
 import '../../../controllers/member/network/network_controller.dart';
 import '../../../core/constant/constant.dart';
-import '../../../core/route/route_paths.dart';
 import '../../../models/member/network/projection_view_model.dart';
-import '../../../models/member/network/tree_graph_model.dart';
-import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
-import '../home/member_profile_details.dart';
 
 class NetworkProjection extends StatefulWidget {
   const NetworkProjection({super.key});

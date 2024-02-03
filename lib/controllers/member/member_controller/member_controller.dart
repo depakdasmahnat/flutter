@@ -1,20 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/app.dart';
-
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
+import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/services/api/api_service.dart';
-
 import '../../../models/default/default_model.dart';
 import '../../../models/feeds/demos_model.dart';
 import '../../../models/feeds/feeds_data.dart';
-import '../../../models/guest_Model/fetchResouresDetailModel.dart';
+import '../../../models/member/auth/member_data.dart';
+import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../models/member/goals/goals_model.dart';
 import '../../../models/member/leads/fetchLeads.dart';
 import '../../../models/member/network/tree_graph_model.dart';
@@ -254,7 +253,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -557,5 +556,60 @@ class MembersController extends ChangeNotifier {
     }
 
     return _goals;
+  }
+
+  /// 1) Dashboard States API...
+
+  bool loadingDashboardStates = true;
+  DashboardStatesModel? dashboardStatesModel;
+  DashboardStatesData? dashboardStatesData;
+
+  Future<DashboardStatesData?> fetchDashboardStates({
+    num? memberId,
+    String? filter,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingDashboardStates = true;
+        dashboardStatesModel = null;
+        dashboardStatesData = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingDashboardStates = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      MemberData? member = LocalDatabase().member;
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchDashboardStats,
+          queryParameters: {
+            'member_id': '${memberId ?? member?.id}',
+            'filter': '$filter',
+          },
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          DashboardStatesModel responseData = DashboardStatesModel.fromJson(json);
+          if (responseData.status == true) {
+            dashboardStatesData = responseData.data;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return dashboardStatesData;
   }
 }

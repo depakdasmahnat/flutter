@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
-
 import '../../../models/dashboard/dashboard_data.dart';
 import '../../../models/member/training/training_categories_model.dart';
 import '../../../utils/widgets/custom_text_field.dart';

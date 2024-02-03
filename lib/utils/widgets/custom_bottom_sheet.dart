@@ -4,8 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 
-import '../../core/constant/colors.dart';
-
 class CustomBottomSheet extends StatefulWidget {
   const CustomBottomSheet({
     Key? key,
@@ -147,8 +145,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     Column(
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsets.only(left: 24, right: 8, top: kPadding, bottom: showTitleDivider ? kPadding : 0),
+                          padding: EdgeInsets.only(
+                              left: 24, right: 8, top: kPadding, bottom: showTitleDivider ? kPadding : 0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

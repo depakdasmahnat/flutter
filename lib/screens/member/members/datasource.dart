@@ -10,8 +10,6 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-
-
 /// Set customer's data collection to data grid source.
 class CustomerDataGridSource extends DataGridSource {
   /// Creates the customer data source class with required details.
@@ -36,25 +34,20 @@ class CustomerDataGridSource extends DataGridSource {
     dataGridRows = customerInfo.map<DataGridRow>((Customer dataGridRow) {
       return isWebOrDesktop
           ? DataGridRow(cells: <DataGridCell>[
-        DataGridCell<Image>(
-            columnName: 'Dealer', value: dataGridRow.dealer),
-        DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
-        DataGridCell<String>(columnName: 'Name', value: dataGridRow.name),
-        DataGridCell<double>(
-            columnName: 'Freight', value: dataGridRow.freight),
-        DataGridCell<DateTime>(
-            columnName: 'Shipped Date', value: dataGridRow.shippedDate),
-        DataGridCell<String>(columnName: 'City', value: dataGridRow.city),
-        DataGridCell<double>(
-            columnName: 'Price', value: dataGridRow.price),
-      ])
+              DataGridCell<Image>(columnName: 'Dealer', value: dataGridRow.dealer),
+              DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
+              DataGridCell<String>(columnName: 'Name', value: dataGridRow.name),
+              DataGridCell<double>(columnName: 'Freight', value: dataGridRow.freight),
+              DataGridCell<DateTime>(columnName: 'Shipped Date', value: dataGridRow.shippedDate),
+              DataGridCell<String>(columnName: 'City', value: dataGridRow.city),
+              DataGridCell<double>(columnName: 'Price', value: dataGridRow.price),
+            ])
           : DataGridRow(cells: <DataGridCell>[
-        DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
-        DataGridCell<String>(columnName: 'Name', value: dataGridRow.name),
-        DataGridCell<DateTime>(
-            columnName: 'Shipped Date', value: dataGridRow.shippedDate),
-        DataGridCell<String>(columnName: 'City', value: dataGridRow.city),
-      ]);
+              DataGridCell<int>(columnName: 'ID', value: dataGridRow.id),
+              DataGridCell<String>(columnName: 'Name', value: dataGridRow.name),
+              DataGridCell<DateTime>(columnName: 'Shipped Date', value: dataGridRow.shippedDate),
+              DataGridCell<String>(columnName: 'City', value: dataGridRow.city),
+            ]);
     }).toList(growable: false);
   }
 
@@ -75,94 +68,92 @@ class CustomerDataGridSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     return isWebOrDesktop
         ? DataGridRowAdapter(cells: <Widget>[
-      _buildDealer(row.getCells()[0].value),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          row.getCells()[1].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          row.getCells()[2].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          NumberFormat.currency(
-              locale: 'en_US', symbol: r'$', decimalDigits: 2)
-              .format(row.getCells()[3].value),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          DateFormat.yMd().format(row.getCells()[4].value),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          row.getCells()[5].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          NumberFormat.currency(
-              locale: 'en_US', symbol: r'$', decimalDigits: 2)
-              .format(row.getCells()[6].value),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    ])
+            _buildDealer(row.getCells()[0].value),
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                row.getCells()[1].value.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                row.getCells()[2].value.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                NumberFormat.currency(locale: 'en_US', symbol: r'$', decimalDigits: 2)
+                    .format(row.getCells()[3].value),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                DateFormat.yMd().format(row.getCells()[4].value),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                row.getCells()[5].value.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                NumberFormat.currency(locale: 'en_US', symbol: r'$', decimalDigits: 2)
+                    .format(row.getCells()[6].value),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ])
         : DataGridRowAdapter(cells: <Widget>[
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          row.getCells()[0].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          row.getCells()[1].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          DateFormat.yMd().format(row.getCells()[2].value),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          row.getCells()[3].value.toString(),
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    ]);
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                row.getCells()[0].value.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                row.getCells()[1].value.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                DateFormat.yMd().format(row.getCells()[2].value),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                row.getCells()[3].value.toString(),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ]);
   }
 
   // CustomerInfo Data set
@@ -189,7 +180,6 @@ class CustomerDataGridSource extends DataGridSource {
     Image.asset(AppAssets.userIcon),
     Image.asset(AppAssets.userIcon),
     Image.asset(AppAssets.userIcon),
-
   ];
 
   final List<String> _names = <String>[
@@ -240,8 +230,7 @@ class CustomerDataGridSource extends DataGridSource {
     final List<Customer> employeeData = <Customer>[];
     for (int i = 0; i < count; i++) {
       employeeData.add(Customer(
-        _dealers[
-        i < _dealers.length ? i : _random.nextInt(_dealers.length - 1)],
+        _dealers[i < _dealers.length ? i : _random.nextInt(_dealers.length - 1)],
         1100 + i,
         _names[i < _names.length ? i : _random.nextInt(_names.length - 1)],
         _random.nextInt(1000) + _random.nextDouble(),
@@ -254,13 +243,11 @@ class CustomerDataGridSource extends DataGridSource {
   }
 }
 
-
 /// Custom business object class which contains properties to hold the detailed
 /// information about the customer info which will be rendered in datagrid.
 class Customer {
   /// Creates the customer info class with required details.
-  Customer(this.dealer, this.id, this.name, this.price, this.shippedDate,
-      this.city, this.freight);
+  Customer(this.dealer, this.id, this.name, this.price, this.shippedDate, this.city, this.freight);
 
   /// Id of customer.
   final int id;

@@ -3,16 +3,14 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.da
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/models/default/default_model.dart';
 import 'package:mrwebbeast/models/feeds/feed_details_model.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../app.dart';
 import '../../core/config/api_config.dart';
 import '../../core/services/api/api_service.dart';
-import '../../core/services/database/local_database.dart';
 import '../../models/feeds/comments_model.dart';
 import '../../models/feeds/feeds_data.dart';
 import '../../models/feeds/feeds_model.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../../utils/widgets/widgets.dart';
 
 class FeedsController extends ChangeNotifier {

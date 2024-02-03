@@ -1,10 +1,13 @@
 import 'dart:convert';
+
 import 'package:hive/hive.dart';
 
 part 'guest_data.g.dart';
+
 GuestData dataFromJson(String str) => GuestData.fromJson(json.decode(str));
 
 String dataToJson(GuestData data) => json.encode(data.toJson());
+
 @HiveType(typeId: 2)
 class GuestData {
   GuestData({

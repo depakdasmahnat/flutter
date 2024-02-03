@@ -206,8 +206,7 @@ class CustomTextField extends StatelessWidget {
               enabled: enabled,
               onTap: onTap,
               obscureText: obscureText ?? false,
-              inputFormatters:
-                  inputFormatters ?? [LengthLimitingTextInputFormatter(limit)],
+              inputFormatters: inputFormatters ?? [LengthLimitingTextInputFormatter(limit)],
               validator: validator,
               onChanged: onChanged,
               onEditingComplete: onEditingComplete,
@@ -243,8 +242,7 @@ class CustomTextField extends StatelessWidget {
               autocorrect: autocorrect ?? true,
               obscuringCharacter: obscuringCharacter ?? '•',
               autofillHints: autofillHints,
-              autovalidateMode:
-                  autoValidateMode ?? AutovalidateMode.onUserInteraction,
+              autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
               scrollPadding: scrollPadding ?? const EdgeInsets.all(20.0),
               expands: expands ?? false,
               style: style ??
@@ -277,8 +275,7 @@ class CustomTextField extends StatelessWidget {
                     ),
                 isDense: isDense,
                 isCollapsed: isCollapsed ?? false,
-                contentPadding:
-                    contentPadding ?? const EdgeInsets.fromLTRB(16, 20, 6, 20),
+                contentPadding: contentPadding ?? const EdgeInsets.fromLTRB(16, 20, 6, 20),
                 floatingLabelAlignment: floatingLabelAlignment,
                 prefix: prefix,
                 prefixIcon: prefixIcon,
@@ -286,36 +283,18 @@ class CustomTextField extends StatelessWidget {
                 suffix: suffix,
                 suffixIcon: suffixIcon,
                 suffixIconColor: primaryColor,
-                border: border ??
-                    inputBorder(
-                        color: borderColor,
-                        borderRadius: borderRadius,
-                        context: context),
-                enabledBorder: border ??
-                    inputBorder(
-                        color: borderColor,
-                        borderRadius: borderRadius,
-                        context: context),
-                errorBorder: border ??
-                    inputBorder(
-                        color: borderColor,
-                        borderRadius: borderRadius,
-                        context: context),
-                focusedErrorBorder: border ??
-                    inputBorder(
-                        color: borderColor,
-                        borderRadius: borderRadius,
-                        context: context),
-                disabledBorder: border ??
-                    inputBorder(
-                        color: borderColor,
-                        borderRadius: borderRadius,
-                        context: context),
-                focusedBorder: border ??
-                    inputBorder(
-                        color: borderColor,
-                        borderRadius: borderRadius,
-                        context: context),
+                border:
+                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                enabledBorder:
+                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                errorBorder:
+                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                focusedErrorBorder:
+                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                disabledBorder:
+                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                focusedBorder:
+                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
               ),
             ),
           ),
@@ -324,8 +303,7 @@ class CustomTextField extends StatelessWidget {
     );
   }
 
-  InputBorder inputBorder(
-      {Color? color, double? borderRadius, required BuildContext context}) {
+  InputBorder inputBorder({Color? color, double? borderRadius, required BuildContext context}) {
     return OutlineInputBorder(
       borderSide: BorderSide(color: color ?? const Color(0xff1C1C1C)),
       borderRadius: BorderRadius.circular(borderRadius ?? 14),

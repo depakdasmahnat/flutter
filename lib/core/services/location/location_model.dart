@@ -52,8 +52,9 @@ class Predictions {
     }
     placeId = json['place_id'];
     reference = json['reference'];
-    structuredFormatting =
-        json['structured_formatting'] != null ? StructuredFormatting.fromJson(json['structured_formatting']) : null;
+    structuredFormatting = json['structured_formatting'] != null
+        ? StructuredFormatting.fromJson(json['structured_formatting'])
+        : null;
     if (json['terms'] != null) {
       terms = <Terms>[];
       json['terms'].forEach((v) {

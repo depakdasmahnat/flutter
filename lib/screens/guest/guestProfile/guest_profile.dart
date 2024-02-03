@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +9,6 @@ import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
 import '../../../utils/widgets/web_view_screen.dart';
-import '../web_view/faq.dart';
 
 class GuestProfile extends StatefulWidget {
   const GuestProfile({super.key});
@@ -41,7 +38,6 @@ class _GuestProfileState extends State<GuestProfile> {
                         ),
                         fit: BoxFit.cover),
                   )),
-
               SizedBox(
                 height: size.height * 0.04,
               ),
@@ -64,7 +60,6 @@ class _GuestProfileState extends State<GuestProfile> {
                       color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
                   textAlign: TextAlign.center,
                 ),
-
               Padding(
                 padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: Card(

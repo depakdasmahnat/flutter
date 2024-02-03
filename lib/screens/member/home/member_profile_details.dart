@@ -397,12 +397,12 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
-            child: PerformanceGraph(
-              analytics: dummyAnalyticsList,
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
+          //   child: PerformanceGraph(
+          //     analytics: dummyAnalyticsList,
+          //   ),
+          // ),
         ],
       ),
     );

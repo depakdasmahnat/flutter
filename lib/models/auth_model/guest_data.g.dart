@@ -61,10 +61,9 @@ class GuestDataAdapter extends TypeAdapter<GuestData> {
 
   @override
   int get hashCode => typeId.hashCode;
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GuestDataAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is GuestDataAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

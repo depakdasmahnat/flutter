@@ -36,8 +36,7 @@ class Validator {
   }
 
   /// UserName Validator.
-  static String? userNameValidator(String? value,
-      {int minLength = 3, int maxLength = 30}) {
+  static String? userNameValidator(String? value, {int minLength = 3, int maxLength = 30}) {
     if (value?.isEmpty == true) {
       return 'Username is required';
     }
@@ -150,19 +149,14 @@ class Validator {
     final hasLowercase = value.contains(RegExp(r'[a-z]'));
     final hasDigits = value.contains(RegExp(r'\d'));
     final hasSpecialChars = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-    if (!hasUppercase ||
-        !hasLowercase ||
-        !hasDigits ||
-        !hasSpecialChars ||
-        value.length < 8) {
+    if (!hasUppercase || !hasLowercase || !hasDigits || !hasSpecialChars || value.length < 8) {
       return '${fieldName ?? 'Password'} must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.';
     }
     return null;
   }
 
   /// Validates that two values match (typically used for password confirmation).
-  static String? confirmPasswordValidator(String? value1, String? value2,
-      [String? fieldName]) {
+  static String? confirmPasswordValidator(String? value1, String? value2, [String? fieldName]) {
     if (value1 != value2) {
       return '${fieldName ?? 'Passwords'} do not match';
     }

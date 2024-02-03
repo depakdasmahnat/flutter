@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +8,6 @@ import '../core/route/route_paths.dart';
 import '../utils/widgets/custome_transparent_Button.dart';
 import '../utils/widgets/gradient_button.dart';
 import '../utils/widgets/gradient_text.dart';
-import '../utils/widgets/image_view.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});

@@ -1,27 +1,34 @@
 import 'dart:convert';
+
 Sendotp sendotpFromJson(String str) => Sendotp.fromJson(json.decode(str));
+
 String sendotpToJson(Sendotp data) => json.encode(data.toJson());
+
 class Sendotp {
   Sendotp({
-      bool? status, 
-      String? message, 
-      Data? data,}){
+    bool? status,
+    String? message,
+    Data? data,
+  }) {
     _status = status;
     _message = message;
     _data = data;
-}
+  }
 
   Sendotp.fromJson(dynamic json) {
     _status = json['status'];
     _message = json['message'];
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
+
   bool? _status;
   String? _message;
   Data? _data;
 
   bool? get status => _status;
+
   String? get message => _message;
+
   Data? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -33,24 +40,26 @@ class Sendotp {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      String? mobile, 
-      String? firstName, 
-      String? lastName,
+    String? mobile,
+    String? firstName,
+    String? lastName,
     String? isMobileValidated,
-      dynamic referralCode,}){
+    dynamic referralCode,
+  }) {
     _mobile = mobile;
     _firstName = firstName;
     _lastName = lastName;
     _isMobileValidated = isMobileValidated;
     _referralCode = referralCode;
-}
+  }
 
   Data.fromJson(dynamic json) {
     _mobile = json['mobile'];
@@ -59,6 +68,7 @@ class Data {
     _isMobileValidated = json['is_mobile_validated'];
     _referralCode = json['referral_code'];
   }
+
   String? _mobile;
   String? _firstName;
   String? _lastName;
@@ -66,9 +76,13 @@ class Data {
   dynamic _referralCode;
 
   String? get mobile => _mobile;
+
   String? get firstName => _firstName;
+
   String? get lastName => _lastName;
+
   String? get isMobileValidated => _isMobileValidated;
+
   dynamic get referralCode => _referralCode;
 
   Map<String, dynamic> toJson() {
@@ -80,5 +94,4 @@ class Data {
     map['referral_code'] = _referralCode;
     return map;
   }
-
 }

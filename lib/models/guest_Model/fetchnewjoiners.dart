@@ -1,27 +1,34 @@
 import 'dart:convert';
+
 Fetchnewjoiners fetchnewjoinersFromJson(String str) => Fetchnewjoiners.fromJson(json.decode(str));
+
 String fetchnewjoinersToJson(Fetchnewjoiners data) => json.encode(data.toJson());
+
 class Fetchnewjoiners {
   Fetchnewjoiners({
-      bool? status, 
-      String? message, 
-      Data? data,}){
+    bool? status,
+    String? message,
+    Data? data,
+  }) {
     _status = status;
     _message = message;
     _data = data;
-}
+  }
 
   Fetchnewjoiners.fromJson(dynamic json) {
     _status = json['status'];
     _message = json['message'];
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
+
   bool? _status;
   String? _message;
   Data? _data;
 
   bool? get status => _status;
+
   String? get message => _message;
+
   Data? get data => _data;
 
   Map<String, dynamic> toJson() {
@@ -33,18 +40,20 @@ class Fetchnewjoiners {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      num? counts, 
-      List<Members>? members,}){
+    num? counts,
+    List<Members>? members,
+  }) {
     _counts = counts;
     _members = members;
-}
+  }
 
   Data.fromJson(dynamic json) {
     _counts = json['counts'];
@@ -55,10 +64,12 @@ class Data {
       });
     }
   }
+
   num? _counts;
   List<Members>? _members;
 
   num? get counts => _counts;
+
   List<Members>? get members => _members;
 
   Map<String, dynamic> toJson() {
@@ -69,20 +80,22 @@ class Data {
     }
     return map;
   }
-
 }
 
 Members membersFromJson(String str) => Members.fromJson(json.decode(str));
+
 String membersToJson(Members data) => json.encode(data.toJson());
+
 class Members {
   Members({
-      num? id, 
-      String? memberId, 
-      String? firstName, 
-      String? lastName, 
-      String? profilePhoto, 
-      String? cityName,
-      String? path,}){
+    num? id,
+    String? memberId,
+    String? firstName,
+    String? lastName,
+    String? profilePhoto,
+    String? cityName,
+    String? path,
+  }) {
     _id = id;
     _memberId = memberId;
     _firstName = firstName;
@@ -90,7 +103,7 @@ class Members {
     _cityName = cityName;
     _profilePhoto = profilePhoto;
     _path = path;
-}
+  }
 
   Members.fromJson(dynamic json) {
     _id = json['id'];
@@ -101,6 +114,7 @@ class Members {
     _profilePhoto = json['profile_photo'];
     _path = json['path'];
   }
+
   num? _id;
   String? _memberId;
   String? _firstName;
@@ -110,11 +124,17 @@ class Members {
   String? _path;
 
   num? get id => _id;
+
   String? get memberId => _memberId;
+
   String? get firstName => _firstName;
+
   String? get lastName => _lastName;
+
   String? get profilePhoto => _profilePhoto;
+
   String? get path => _path;
+
   String? get cityName => _cityName;
 
   Map<String, dynamic> toJson() {
@@ -128,5 +148,4 @@ class Members {
     map['city_name'] = _cityName;
     return map;
   }
-
 }

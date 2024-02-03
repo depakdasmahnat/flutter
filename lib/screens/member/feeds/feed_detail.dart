@@ -13,7 +13,6 @@ import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../models/feeds/comments_model.dart';
 import '../../../models/feeds/feeds_data.dart';
-import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class FeedDetail extends StatefulWidget {
@@ -67,7 +66,7 @@ class _FeedDetailState extends State<FeedDetail> {
             CustomBackButton(),
           ],
         ),
-         title: const Text('Details'),
+        title: const Text('Details'),
       ),
       body: Consumer<FeedsController>(
         builder: (context, controller, child) {

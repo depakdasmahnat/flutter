@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-
+import 'package:mrwebbeast/models/dashboard/custom_tab_data.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 
 import '../../../core/config/app_assets.dart';
-import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../home/member_dashboard.dart';
@@ -21,6 +19,14 @@ class ToDoScreen extends StatefulWidget {
 class _ToDoScreenState extends State<ToDoScreen> {
   double? trainingProgress = 75;
 
+  List<String> tabs = [
+    'Today',
+    'This Week',
+    'Month',
+  ];
+
+  late String currentTab = tabs.first;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +39,53 @@ class _ToDoScreenState extends State<ToDoScreen> {
         shrinkWrap: true,
         padding: const EdgeInsets.only(bottom: 100),
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
+            decoration: BoxDecoration(
+              gradient: inActiveGradient,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              children: tabs.map(
+                (e) {
+                  bool isSelected = currentTab == e;
+                  return Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        currentTab = e;
+
+                        setState(() {});
+                      },
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          gradient: isSelected ? primaryGradient : null,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Center(
+                          child: Text(
+                            e,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: isSelected ? Colors.black : Colors.white,
+                              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Pending task',
                   style: TextStyle(
                     fontSize: 18,
@@ -46,8 +93,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   ),
                 ),
                 Text(
-                  'Monthly',
-                  style: TextStyle(
+                  currentTab,
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -292,4 +339,14 @@ class TaskCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class CustomTabData {
+  CustomTabData({
+    required this.id,
+    required this.title,
+  });
+
+  int id;
+  String title;
 }

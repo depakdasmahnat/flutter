@@ -1,7 +1,9 @@
 import 'dart:convert';
+
 import 'package:hive/hive.dart';
 
 part 'member_data.g.dart';
+
 MemberData dataFromJson(String str) => MemberData.fromJson(json.decode(str));
 
 String dataToJson(MemberData data) => json.encode(data.toJson());
@@ -9,6 +11,7 @@ String dataToJson(MemberData data) => json.encode(data.toJson());
 @HiveType(typeId: 1)
 class MemberData {
   MemberData({
+    this.id,
     this.memberId,
     this.firstName,
     this.lastName,
@@ -20,7 +23,9 @@ class MemberData {
     this.gender,
     this.leadRefType,
     this.sponsorId,
+    this.sponsorName,
     this.salesFacilitatorId,
+    this.salesFacilitatorName,
     this.occupation,
     this.dob,
     this.noOfFamilyMembers,
@@ -28,7 +33,9 @@ class MemberData {
     this.disability,
     this.monthlyIncome,
     this.stateId,
+    this.stateName,
     this.cityId,
+    this.cityName,
     this.pincode,
     this.address,
     this.referralCode,
@@ -38,6 +45,7 @@ class MemberData {
   });
 
   MemberData.fromJson(dynamic json) {
+    id = json['id'];
     memberId = json['member_id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
@@ -49,7 +57,9 @@ class MemberData {
     gender = json['gender'];
     leadRefType = json['lead_ref_type'];
     sponsorId = json['sponsor_id'];
+    sponsorName = json['sponsor_name'];
     salesFacilitatorId = json['sales_facilitator_id'];
+    salesFacilitatorName = json['sales_facilitator_name'];
     occupation = json['occupation'];
     dob = json['dob'];
     noOfFamilyMembers = json['no_of_family_members'];
@@ -57,99 +67,115 @@ class MemberData {
     disability = json['disability'];
     monthlyIncome = json['monthly_income'];
     stateId = json['state_id'];
+    stateName = json['state_name'];
     cityId = json['city_id'];
+    cityName = json['city_name'];
     pincode = json['pincode'];
     address = json['address'];
     referralCode = json['referral_code'];
     role = json['role'];
     url = json['url'];
-    if (json['access_token'] != null) {
-      accessToken = json['access_token'];
-    }
+    accessToken = json['access_token'];
   }
 
   @HiveField(0)
-  String? memberId;
+  num? id;
   @HiveField(1)
-  String? firstName;
+  String? memberId;
   @HiveField(2)
-  String? lastName;
+  String? firstName;
   @HiveField(3)
-  String? mobile;
+  String? lastName;
   @HiveField(4)
-  String? email;
+  String? mobile;
   @HiveField(5)
-  String? enagicId;
+  String? email;
   @HiveField(6)
-  String? profilePhoto;
+  String? enagicId;
   @HiveField(7)
-  String? path;
+  String? profilePhoto;
   @HiveField(8)
-  String? gender;
+  dynamic path;
   @HiveField(9)
-  String? leadRefType;
+  String? gender;
   @HiveField(10)
-  num? sponsorId;
+  dynamic leadRefType;
   @HiveField(11)
-  num? salesFacilitatorId;
+  num? sponsorId;
   @HiveField(12)
-  String? occupation;
+  dynamic sponsorName;
   @HiveField(13)
-  String? dob;
+  dynamic salesFacilitatorId;
   @HiveField(14)
-  num? noOfFamilyMembers;
+  dynamic salesFacilitatorName;
   @HiveField(15)
-  String? illnessInFamily;
+  dynamic occupation;
   @HiveField(16)
-  String? disability;
+  dynamic dob;
   @HiveField(17)
-  String? monthlyIncome;
+  dynamic noOfFamilyMembers;
   @HiveField(18)
-  num? stateId;
+  dynamic illnessInFamily;
   @HiveField(19)
-  num? cityId;
+  dynamic disability;
   @HiveField(20)
-  String? pincode;
+  dynamic monthlyIncome;
   @HiveField(21)
-  String? address;
+  dynamic stateId;
   @HiveField(22)
-  String? referralCode;
+  dynamic stateName;
   @HiveField(23)
-  String? role;
+  dynamic cityId;
   @HiveField(24)
-  String? url;
+  dynamic cityName;
   @HiveField(25)
+  dynamic pincode;
+  @HiveField(26)
+  dynamic address;
+  @HiveField(27)
+  String? referralCode;
+  @HiveField(28)
+  String? role;
+  @HiveField(29)
+  String? url;
+  @HiveField(30)
   String? accessToken;
 
   MemberData copyWith({
+    num? id,
     String? memberId,
     String? firstName,
     String? lastName,
     String? mobile,
     String? email,
     String? enagicId,
-    dynamic profilePhoto,
+    String? profilePhoto,
     dynamic path,
     String? gender,
-    String? leadRefType,
+    dynamic leadRefType,
     num? sponsorId,
-    num? salesFacilitatorId,
-    String? occupation,
-    String? dob,
-    num? noOfFamilyMembers,
+    dynamic sponsorName,
+    dynamic salesFacilitatorId,
+    dynamic salesFacilitatorName,
+    dynamic occupation,
+    dynamic dob,
+    dynamic noOfFamilyMembers,
     dynamic illnessInFamily,
-    String? disability,
-    String? monthlyIncome,
-    num? stateId,
-    num? cityId,
-    String? pincode,
-    String? address,
+    dynamic disability,
+    dynamic monthlyIncome,
+    dynamic stateId,
+    dynamic stateName,
+    dynamic cityId,
+    dynamic cityName,
+    dynamic pincode,
+    dynamic address,
     String? referralCode,
     String? role,
     String? url,
     String? accessToken,
   }) =>
       MemberData(
+        id: id ?? this.id,
         memberId: memberId ?? this.memberId,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
@@ -161,7 +187,9 @@ class MemberData {
         gender: gender ?? this.gender,
         leadRefType: leadRefType ?? this.leadRefType,
         sponsorId: sponsorId ?? this.sponsorId,
+        sponsorName: sponsorName ?? this.sponsorName,
         salesFacilitatorId: salesFacilitatorId ?? this.salesFacilitatorId,
+        salesFacilitatorName: salesFacilitatorName ?? this.salesFacilitatorName,
         occupation: occupation ?? this.occupation,
         dob: dob ?? this.dob,
         noOfFamilyMembers: noOfFamilyMembers ?? this.noOfFamilyMembers,
@@ -169,18 +197,20 @@ class MemberData {
         disability: disability ?? this.disability,
         monthlyIncome: monthlyIncome ?? this.monthlyIncome,
         stateId: stateId ?? this.stateId,
+        stateName: stateName ?? this.stateName,
         cityId: cityId ?? this.cityId,
+        cityName: cityName ?? this.cityName,
         pincode: pincode ?? this.pincode,
         address: address ?? this.address,
         referralCode: referralCode ?? this.referralCode,
         role: role ?? this.role,
         url: url ?? this.url,
-
         accessToken: accessToken ?? this.accessToken,
       );
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['id'] = id;
     map['member_id'] = memberId;
     map['first_name'] = firstName;
     map['last_name'] = lastName;
@@ -192,7 +222,9 @@ class MemberData {
     map['gender'] = gender;
     map['lead_ref_type'] = leadRefType;
     map['sponsor_id'] = sponsorId;
+    map['sponsor_name'] = sponsorName;
     map['sales_facilitator_id'] = salesFacilitatorId;
+    map['sales_facilitator_name'] = salesFacilitatorName;
     map['occupation'] = occupation;
     map['dob'] = dob;
     map['no_of_family_members'] = noOfFamilyMembers;
@@ -200,15 +232,15 @@ class MemberData {
     map['disability'] = disability;
     map['monthly_income'] = monthlyIncome;
     map['state_id'] = stateId;
+    map['state_name'] = stateName;
     map['city_id'] = cityId;
+    map['city_name'] = cityName;
     map['pincode'] = pincode;
     map['address'] = address;
     map['referral_code'] = referralCode;
     map['role'] = role;
     map['url'] = url;
-    if (accessToken != null) {
-      map['access_token'] = accessToken;
-    }
+    map['access_token'] = accessToken;
     return map;
   }
 }

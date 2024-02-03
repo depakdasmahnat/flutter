@@ -17,90 +17,105 @@ class MemberDataAdapter extends TypeAdapter<MemberData> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MemberData(
-      memberId: fields[0] as String?,
-      firstName: fields[1] as String?,
-      lastName: fields[2] as String?,
-      mobile: fields[3] as String?,
-      email: fields[4] as String?,
-      enagicId: fields[5] as String?,
-      profilePhoto: fields[6] as String?,
-      path: fields[7] as String?,
-      gender: fields[8] as String?,
-      leadRefType: fields[9] as String?,
-      sponsorId: fields[10] as num?,
-      salesFacilitatorId: fields[11] as num?,
-      occupation: fields[12] as String?,
-      dob: fields[13] as String?,
-      noOfFamilyMembers: fields[14] as num?,
-      illnessInFamily: fields[15] as String?,
-      disability: fields[16] as String?,
-      monthlyIncome: fields[17] as String?,
-      stateId: fields[18] as num?,
-      cityId: fields[19] as num?,
-      pincode: fields[20] as String?,
-      address: fields[21] as String?,
-      referralCode: fields[22] as String?,
-      role: fields[23] as String?,
-      url: fields[24] as String?,
-      accessToken: fields[25] as String?,
+      id: fields[0] as num?,
+      memberId: fields[1] as String?,
+      firstName: fields[2] as String?,
+      lastName: fields[3] as String?,
+      mobile: fields[4] as String?,
+      email: fields[5] as String?,
+      enagicId: fields[6] as String?,
+      profilePhoto: fields[7] as String?,
+      path: fields[8] as dynamic,
+      gender: fields[9] as String?,
+      leadRefType: fields[10] as dynamic,
+      sponsorId: fields[11] as num?,
+      sponsorName: fields[12] as dynamic,
+      salesFacilitatorId: fields[13] as dynamic,
+      salesFacilitatorName: fields[14] as dynamic,
+      occupation: fields[15] as dynamic,
+      dob: fields[16] as dynamic,
+      noOfFamilyMembers: fields[17] as dynamic,
+      illnessInFamily: fields[18] as dynamic,
+      disability: fields[19] as dynamic,
+      monthlyIncome: fields[20] as dynamic,
+      stateId: fields[21] as dynamic,
+      stateName: fields[22] as dynamic,
+      cityId: fields[23] as dynamic,
+      cityName: fields[24] as dynamic,
+      pincode: fields[25] as dynamic,
+      address: fields[26] as dynamic,
+      referralCode: fields[27] as String?,
+      role: fields[28] as String?,
+      url: fields[29] as String?,
+      accessToken: fields[30] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MemberData obj) {
     writer
-      ..writeByte(26)
+      ..writeByte(31)
       ..writeByte(0)
-      ..write(obj.memberId)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.firstName)
+      ..write(obj.memberId)
       ..writeByte(2)
-      ..write(obj.lastName)
+      ..write(obj.firstName)
       ..writeByte(3)
-      ..write(obj.mobile)
+      ..write(obj.lastName)
       ..writeByte(4)
-      ..write(obj.email)
+      ..write(obj.mobile)
       ..writeByte(5)
-      ..write(obj.enagicId)
+      ..write(obj.email)
       ..writeByte(6)
-      ..write(obj.profilePhoto)
+      ..write(obj.enagicId)
       ..writeByte(7)
-      ..write(obj.path)
+      ..write(obj.profilePhoto)
       ..writeByte(8)
-      ..write(obj.gender)
+      ..write(obj.path)
       ..writeByte(9)
-      ..write(obj.leadRefType)
+      ..write(obj.gender)
       ..writeByte(10)
-      ..write(obj.sponsorId)
+      ..write(obj.leadRefType)
       ..writeByte(11)
-      ..write(obj.salesFacilitatorId)
+      ..write(obj.sponsorId)
       ..writeByte(12)
-      ..write(obj.occupation)
+      ..write(obj.sponsorName)
       ..writeByte(13)
-      ..write(obj.dob)
+      ..write(obj.salesFacilitatorId)
       ..writeByte(14)
-      ..write(obj.noOfFamilyMembers)
+      ..write(obj.salesFacilitatorName)
       ..writeByte(15)
-      ..write(obj.illnessInFamily)
+      ..write(obj.occupation)
       ..writeByte(16)
-      ..write(obj.disability)
+      ..write(obj.dob)
       ..writeByte(17)
-      ..write(obj.monthlyIncome)
+      ..write(obj.noOfFamilyMembers)
       ..writeByte(18)
-      ..write(obj.stateId)
+      ..write(obj.illnessInFamily)
       ..writeByte(19)
-      ..write(obj.cityId)
+      ..write(obj.disability)
       ..writeByte(20)
-      ..write(obj.pincode)
+      ..write(obj.monthlyIncome)
       ..writeByte(21)
-      ..write(obj.address)
+      ..write(obj.stateId)
       ..writeByte(22)
-      ..write(obj.referralCode)
+      ..write(obj.stateName)
       ..writeByte(23)
-      ..write(obj.role)
+      ..write(obj.cityId)
       ..writeByte(24)
-      ..write(obj.url)
+      ..write(obj.cityName)
       ..writeByte(25)
+      ..write(obj.pincode)
+      ..writeByte(26)
+      ..write(obj.address)
+      ..writeByte(27)
+      ..write(obj.referralCode)
+      ..writeByte(28)
+      ..write(obj.role)
+      ..writeByte(29)
+      ..write(obj.url)
+      ..writeByte(30)
       ..write(obj.accessToken);
   }
 
@@ -110,7 +125,5 @@ class MemberDataAdapter extends TypeAdapter<MemberData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MemberDataAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is MemberDataAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

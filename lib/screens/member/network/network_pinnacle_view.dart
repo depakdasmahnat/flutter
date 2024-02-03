@@ -14,7 +14,6 @@ import '../../../controllers/member/network/network_controller.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/member/network/pinnacle_view_model.dart';
-import '../../../models/member/network/tree_graph_model.dart';
 import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/gradient_button.dart';
 

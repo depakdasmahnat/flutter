@@ -1,12 +1,16 @@
 import 'dart:convert';
+
 FetchFaqsModel fetchFaqsModelFromJson(String str) => FetchFaqsModel.fromJson(json.decode(str));
+
 String fetchFaqsModelToJson(FetchFaqsModel data) => json.encode(data.toJson());
+
 class FetchFaqsModel {
   FetchFaqsModel({
-      this.status, 
-      this.message, 
-      this.dataRecords, 
-      this.data,});
+    this.status,
+    this.message,
+    this.dataRecords,
+    this.data,
+  });
 
   FetchFaqsModel.fromJson(dynamic json) {
     status = json['status'];
@@ -19,6 +23,7 @@ class FetchFaqsModel {
       });
     }
   }
+
   bool? status;
   String? message;
   DataRecords? dataRecords;
@@ -36,19 +41,21 @@ class FetchFaqsModel {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      this.id, 
-      this.question, 
-      this.answer, 
-      this.category, 
-      this.categoryName, 
-      this.position,});
+    this.id,
+    this.question,
+    this.answer,
+    this.category,
+    this.categoryName,
+    this.position,
+  });
 
   Data.fromJson(dynamic json) {
     id = json['id'];
@@ -58,6 +65,7 @@ class Data {
     categoryName = json['category_name'];
     position = json['position'];
   }
+
   num? id;
   String? question;
   String? answer;
@@ -75,22 +83,25 @@ class Data {
     map['position'] = position;
     return map;
   }
-
 }
 
 DataRecords dataRecordsFromJson(String str) => DataRecords.fromJson(json.decode(str));
+
 String dataRecordsToJson(DataRecords data) => json.encode(data.toJson());
+
 class DataRecords {
   DataRecords({
-      this.totalPage, 
-      this.limit, 
-      this.page,});
+    this.totalPage,
+    this.limit,
+    this.page,
+  });
 
   DataRecords.fromJson(dynamic json) {
     totalPage = json['total_page'];
     limit = json['limit'];
     page = json['page'];
   }
+
   num? totalPage;
   num? limit;
   num? page;
@@ -102,5 +113,4 @@ class DataRecords {
     map['page'] = page;
     return map;
   }
-
 }

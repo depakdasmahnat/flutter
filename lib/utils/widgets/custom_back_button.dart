@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 
 class CustomBackButton extends StatefulWidget {
-  const CustomBackButton({super.key, this.padding,this.icon});
+  const CustomBackButton({super.key, this.padding, this.icon});
 
   final EdgeInsetsGeometry? padding;
   final IconData? icon;
@@ -34,8 +34,8 @@ class _CustomBackButtonState extends State<CustomBackButton> {
             child: Center(
               child: Padding(
                 padding: widget.padding ?? const EdgeInsets.all(0),
-                child:  Icon(
-                  widget.icon ??AntDesign.left,
+                child: Icon(
+                  widget.icon ?? AntDesign.left,
                   color: Colors.black,
                 ),
               ),

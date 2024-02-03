@@ -7,9 +7,7 @@ import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/constant.dart';
-import '../../../models/auth_model/fetchinterestcategory.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';

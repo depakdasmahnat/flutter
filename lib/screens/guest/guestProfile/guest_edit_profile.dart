@@ -32,8 +32,10 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   TextEditingController diseaseController = TextEditingController();
   TextEditingController pinCodeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  String? gender='' ;
-  String? genderHint='' ;
+  String? gender = '';
+
+  String? genderHint = '';
+
   String refType = '';
   String refTypeHint = '';
   String occupation = '';
@@ -42,24 +44,26 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   String stateName = '';
   String cityId = '';
   String cityName = '';
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      fetchGuestProfileModel =
-          await context.read<GuestControllers>().fetchGuestProfile(
-                context: context,
-              );
+      fetchGuestProfileModel = await context.read<GuestControllers>().fetchGuestProfile(
+            context: context,
+          );
       await context.read<GuestControllers>().fetchState(
             context: context,
           );
       gender = fetchGuestProfileModel?.data?.gender;
-      genderHint = fetchGuestProfileModel?.data?.gender??'Select Gender';
-      refType = fetchGuestProfileModel?.data?.leadRefType.toString()??'';
+      genderHint = fetchGuestProfileModel?.data?.gender ?? 'Select Gender';
+      refType = fetchGuestProfileModel?.data?.leadRefType.toString() ?? '';
       refTypeHint = fetchGuestProfileModel?.data?.leadRefType ?? 'Select Ref Type';
-      occupation = fetchGuestProfileModel?.data?.occupation??'';
-      occupationHint = fetchGuestProfileModel?.data?.occupation??'Select Occupation';
+      occupation = fetchGuestProfileModel?.data?.occupation ?? '';
+      occupationHint = fetchGuestProfileModel?.data?.occupation ?? 'Select Occupation';
       dateControlller.text = fetchGuestProfileModel?.data?.dob ?? '';
-      familyMemberController.text = fetchGuestProfileModel?.data?.noOfFamilyMembers.toString()=='null' ? '':fetchGuestProfileModel?.data?.noOfFamilyMembers.toString()??"";
+      familyMemberController.text = fetchGuestProfileModel?.data?.noOfFamilyMembers.toString() == 'null'
+          ? ''
+          : fetchGuestProfileModel?.data?.noOfFamilyMembers.toString() ?? "";
       diseaseController.text = fetchGuestProfileModel?.data?.illnessInFamily ?? '';
       emailController.text = fetchGuestProfileModel?.data?.email ?? '';
       pinCodeController.text = fetchGuestProfileModel?.data?.pincode ?? '';
@@ -67,10 +71,11 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       stateName = fetchGuestProfileModel?.data?.stateName ?? 'Select State';
       stateId = fetchGuestProfileModel?.data?.stateId.toString() ?? '';
       cityId = fetchGuestProfileModel?.data?.cityId.toString() ?? '';
-      cityName = fetchGuestProfileModel?.data?.cityName?? 'Select City';
+      cityName = fetchGuestProfileModel?.data?.cityName ?? 'Select City';
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
@@ -90,184 +95,178 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           )),
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
-          return controller.fetchGuestProfileLoader==false?
-          const LoadingScreen(message: 'Loading Profile...'):ListView(
-            padding: EdgeInsets.only(bottom: size.height * 0.13),
-            children: [
-              CustomTextFieldApp(
-                title: 'First Name',
-                controller: firsNameController,
-                hintText: 'Enter First Name',
-              ),
-              CustomTextFieldApp(
-                controller: lastNameController,
-                title: 'Last Name',
-                hintText: 'Enter Last Name',
-              ),
-              CustomDropdown(
-                hintText: genderHint,
-                onChanged: (v) {
-                  gender = v ?? '';
-                },
-                title: 'Gender',
-                listItem: const ['Male', 'Female'],
-              ),
-              CustomTextFieldApp(
-                controller: mobileController,
-                title: 'Mobile No.',
-                hintText: 'Enter Mobile No.',
-                prefixIcon: const Padding(
-                  padding: EdgeInsets.only(top: 3),
-                  child: Text('+91'),
-                ),
-              ),
-              CustomTextFieldApp(
-                controller: emailController,
-                title: 'Email',
-                hintText: 'email@gmail.com',
-              ),
-              CustomDropdown(
-                hintText:refTypeHint,
-                onChanged: (v) {
-                  refType = v ?? '';
-                },
-                // selectedItem: refType,
-                title: 'Ref Type',
-                listItem: const ['Friend', 'Friend'],
-              ),
-              CustomDropdown(
-                hintText: occupationHint,
-                onChanged: (v) {
-                  occupation = v ?? '';
-                },
-
-                title: 'Occupation',
-                listItem: const ['Doctor', 'Doctor'],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextFieldApp(
-                      title: 'Date of Birth',
-                      hintText: 'dd/mm/yyyy',
-                      controller: dateControlller,
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1750),
-                          lastDate: DateTime(2101),
-                          builder: (context, child) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                popupMenuTheme: PopupMenuThemeData(
-                                    shape: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                cardColor: Colors.white,
-
-                                colorScheme: Theme.of(context)
-                                    .colorScheme
-                                    .copyWith(
-                                      primary: Colors.white, // <-- SEE HERE
-                                      onPrimary: Colors.black, // <-- SEE HERE
-                                      onSurface: Colors.white,
-                                    ),
-
-                                // Input
-                                inputDecorationTheme: const InputDecorationTheme(
-                                    // labelStyle: GoogleFonts.greatVibes(), // Input label
-                                    ),
-                              ),
-                              child: child!,
-                            );
-                          },
-                        );
-
-                        if (pickedDate != null) {
-                          dateControlller.text =
-                              "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
-                        }
+          return controller.fetchGuestProfileLoader == false
+              ? const LoadingScreen(message: 'Loading Profile...')
+              : ListView(
+                  padding: EdgeInsets.only(bottom: size.height * 0.13),
+                  children: [
+                    CustomTextFieldApp(
+                      title: 'First Name',
+                      controller: firsNameController,
+                      hintText: 'Enter First Name',
+                    ),
+                    CustomTextFieldApp(
+                      controller: lastNameController,
+                      title: 'Last Name',
+                      hintText: 'Enter Last Name',
+                    ),
+                    CustomDropdown(
+                      hintText: genderHint,
+                      onChanged: (v) {
+                        gender = v ?? '';
                       },
-                      readOnly: true,
+                      title: 'Gender',
+                      listItem: const ['Male', 'Female'],
                     ),
-                  ),
-                  Expanded(
-                    child: CustomTextFieldApp(
-                      keyboardType: TextInputType.number,
-                      controller: familyMemberController,
-                      title: 'No. of family Members',
-                      hintText: 'Enter No. of family Members',
+                    CustomTextFieldApp(
+                      controller: mobileController,
+                      title: 'Mobile No.',
+                      hintText: 'Enter Mobile No.',
+                      prefixIcon: const Padding(
+                        padding: EdgeInsets.only(top: 3),
+                        child: Text('+91'),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              CustomTextFieldApp(
-                controller: diseaseController,
-                title: 'Any Disease',
-                hintText: 'Enter Disease',
-              ),
-              CustomDropdown(
-                hintText:stateName,
-                onChanged: (v) async {
-                  stateId = controller.satesModel?.data
-                          ?.firstWhere(
-                            (element) {
-                              return element.name == v;
-                            },
-                          )
-                          .id
-                          .toString() ??
-                      '';
-                  if (stateId.isNotEmpty == true) {
-                    await context.read<GuestControllers>().fetchCity(
-                          context: context,
-                          stateId: stateId,
-                        );
-                  }
-                  print('check state id $stateId');
-                },
-                // selectedItem: stateName,
-                title: 'State',
-                listItem:
-                    controller.satesModel?.data?.map((e) => e.name).toList(),
-              ),
-              Consumer<GuestControllers>(
-                builder: (context, controller, child) {
-                  return CustomDropdown(
-                    hintText:cityName ,
-                    onChanged: (v) {
-                      cityId = controller.cityModel?.data
-                              ?.firstWhere(
-                                (element) {
-                                  return element.name == v;
+                    CustomTextFieldApp(
+                      controller: emailController,
+                      title: 'Email',
+                      hintText: 'email@gmail.com',
+                    ),
+                    CustomDropdown(
+                      hintText: refTypeHint,
+                      onChanged: (v) {
+                        refType = v ?? '';
+                      },
+                      // selectedItem: refType,
+                      title: 'Ref Type',
+                      listItem: const ['Friend', 'Friend'],
+                    ),
+                    CustomDropdown(
+                      hintText: occupationHint,
+                      onChanged: (v) {
+                        occupation = v ?? '';
+                      },
+                      title: 'Occupation',
+                      listItem: const ['Doctor', 'Doctor'],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextFieldApp(
+                            title: 'Date of Birth',
+                            hintText: 'dd/mm/yyyy',
+                            controller: dateControlller,
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1750),
+                                lastDate: DateTime(2101),
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      popupMenuTheme: PopupMenuThemeData(
+                                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                      cardColor: Colors.white,
+
+                                      colorScheme: Theme.of(context).colorScheme.copyWith(
+                                            primary: Colors.white, // <-- SEE HERE
+                                            onPrimary: Colors.black, // <-- SEE HERE
+                                            onSurface: Colors.white,
+                                          ),
+
+                                      // Input
+                                      inputDecorationTheme: const InputDecorationTheme(
+                                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                                          ),
+                                    ),
+                                    child: child!,
+                                  );
                                 },
-                              )
-                              .id
-                              .toString() ??
-                          '';
-                    },
-                    title: 'City',
-                    listItem:
-                        controller.cityModel?.data?.map((e) => e.name).toList(),
-                  );
-                },
-              ),
-              CustomTextFieldApp(
-                controller: pinCodeController,
-                title: 'Pin Code',
-                hintText: 'Pin Code',
-                keyboardType: TextInputType.number,
-                maxLength: 6,
-              ),
-              CustomTextFieldApp(
-                controller: addressController,
-                title: 'Address',
-                hintText: 'Enter Address',
-                height: size.height * 0.07,
-              ),
-            ],
-          );
+                              );
+
+                              if (pickedDate != null) {
+                                dateControlller.text =
+                                    "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                              }
+                            },
+                            readOnly: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomTextFieldApp(
+                            keyboardType: TextInputType.number,
+                            controller: familyMemberController,
+                            title: 'No. of family Members',
+                            hintText: 'Enter No. of family Members',
+                          ),
+                        ),
+                      ],
+                    ),
+                    CustomTextFieldApp(
+                      controller: diseaseController,
+                      title: 'Any Disease',
+                      hintText: 'Enter Disease',
+                    ),
+                    CustomDropdown(
+                      hintText: stateName,
+                      onChanged: (v) async {
+                        stateId = controller.satesModel?.data
+                                ?.firstWhere(
+                                  (element) {
+                                    return element.name == v;
+                                  },
+                                )
+                                .id
+                                .toString() ??
+                            '';
+                        if (stateId.isNotEmpty == true) {
+                          await context.read<GuestControllers>().fetchCity(
+                                context: context,
+                                stateId: stateId,
+                              );
+                        }
+                        print('check state id $stateId');
+                      },
+                      // selectedItem: stateName,
+                      title: 'State',
+                      listItem: controller.satesModel?.data?.map((e) => e.name).toList(),
+                    ),
+                    Consumer<GuestControllers>(
+                      builder: (context, controller, child) {
+                        return CustomDropdown(
+                          hintText: cityName,
+                          onChanged: (v) {
+                            cityId = controller.cityModel?.data
+                                    ?.firstWhere(
+                                      (element) {
+                                        return element.name == v;
+                                      },
+                                    )
+                                    .id
+                                    .toString() ??
+                                '';
+                          },
+                          title: 'City',
+                          listItem: controller.cityModel?.data?.map((e) => e.name).toList(),
+                        );
+                      },
+                    ),
+                    CustomTextFieldApp(
+                      controller: pinCodeController,
+                      title: 'Pin Code',
+                      hintText: 'Pin Code',
+                      keyboardType: TextInputType.number,
+                      maxLength: 6,
+                    ),
+                    CustomTextFieldApp(
+                      controller: addressController,
+                      title: 'Address',
+                      hintText: 'Enter Address',
+                      height: size.height * 0.07,
+                    ),
+                  ],
+                );
         },
       ),
       bottomSheet: Column(
@@ -280,8 +279,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(
-                left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () async {
               await context.read<GuestControllers>().editProfile(
                   context: context,
@@ -449,11 +447,9 @@ class CustomDropdown extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child:
-              DropdownSearch<String>(
+              child: DropdownSearch<String>(
                 dropdownButtonProps: const DropdownButtonProps(
                     padding: EdgeInsets.only(bottom: 10),
-
                     icon: Icon(
                       CupertinoIcons.chevron_down,
                       size: 18,
@@ -475,7 +471,7 @@ class CustomDropdown extends StatelessWidget {
                       top: 7,
                     ),
                     border: InputBorder.none,
-                    hintText: hintText?? 'Select Gender',
+                    hintText: hintText ?? 'Select Gender',
                   ),
                 ),
               ),

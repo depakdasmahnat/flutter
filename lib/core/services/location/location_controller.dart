@@ -9,12 +9,10 @@ import 'package:mrwebbeast/core/services/api/api_service.dart';
 import 'package:mrwebbeast/core/services/database/local_database.dart';
 
 import '../../../core/config/app_config.dart';
-
 import '../../../utils/widgets/custom_bottom_sheet.dart';
 import '../../../utils/widgets/custom_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/widgets.dart';
-
 import 'location_model.dart';
 import 'places_detail_model.dart';
 
@@ -161,12 +159,13 @@ class LocationController with ChangeNotifier {
               updateDestination: updateDestination,
               updateLocation: updateLocation,
             );
-            List<Address> address =
-                await Geocoder.local.findAddressesFromCoordinates(Coordinates(position!.latitude, position!.longitude));
+            List<Address> address = await Geocoder.local
+                .findAddressesFromCoordinates(Coordinates(position!.latitude, position!.longitude));
             debugPrint('Address.first ${address.first}');
             setAddress(address: address.first);
 
-            List<Placemark>? placeMarks = await placemarkFromCoordinates(position!.latitude, position!.longitude);
+            List<Placemark>? placeMarks =
+                await placemarkFromCoordinates(position!.latitude, position!.longitude);
             debugPrint('$placeMarks');
           }
         });
@@ -218,7 +217,8 @@ class LocationController with ChangeNotifier {
           locateCameraPosition();
           setNewCameraPosition(
             CameraPosition(
-                target: LatLng(addressLocations!.first.latitude, addressLocations!.first.longitude), zoom: 18),
+                target: LatLng(addressLocations!.first.latitude, addressLocations!.first.longitude),
+                zoom: 18),
           );
           markers.clear();
           setMarkers(

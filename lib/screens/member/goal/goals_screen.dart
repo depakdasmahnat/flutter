@@ -1,5 +1,4 @@
 import 'package:dotted_border/dotted_border.dart';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
@@ -179,12 +178,15 @@ class GoalCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ImageView(
-            height: imageHeight,
-            borderRadiusValue: 16,
-            margin: const EdgeInsets.all(12),
-            fit: fit ?? BoxFit.contain,
-            networkImage: '${goal?.image}',
+          AspectRatio(
+            aspectRatio: 16/9,
+            child: ImageView(
+              height: imageHeight,
+              borderRadiusValue: 16,
+              margin: const EdgeInsets.all(12),
+              fit: fit ?? BoxFit.contain,
+              networkImage: '${goal?.image}',
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12),

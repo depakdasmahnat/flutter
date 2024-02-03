@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../../core/config/app_assets.dart';
 import 'image_view.dart';
 
 class ImageOpener extends StatefulWidget {

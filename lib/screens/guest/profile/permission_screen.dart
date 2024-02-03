@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:mrwebbeast/core/services/notifications/notification_controller.dart';
-
 import 'package:provider/provider.dart';
 
 import '../../../core/constant/colors.dart';

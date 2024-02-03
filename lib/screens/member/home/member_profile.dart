@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/screens/member/invite/invite_leads_card.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
@@ -13,7 +11,6 @@ import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
-import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class MemberProfile extends StatefulWidget {

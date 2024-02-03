@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +21,7 @@ class VerifyOTP extends StatefulWidget {
       this.mobileNo,
       this.referralCode,
       this.goBack});
+
   final String? isMobileValidated;
   final String? firstName;
   final String? lastName;
@@ -192,16 +191,13 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   // ),
 
                   Padding(
-                    padding:
-                        const EdgeInsets.only(left: 12, top: 16, right: 12),
+                    padding: const EdgeInsets.only(left: 12, top: 16, right: 12),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          countDown == 0
-                              ? 'Did’t get the OTP?'
-                              : '$countDown  sec',
+                          countDown == 0 ? 'Did’t get the OTP?' : '$countDown  sec',
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w400,

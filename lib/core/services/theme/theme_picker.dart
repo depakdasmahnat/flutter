@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/colors.dart';
 import 'package:mrwebbeast/core/constant/shadows.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/extensions/normal/string_extension.dart';
 import 'package:provider/provider.dart';
-
-
 import 'theme_controller.dart';
 
 class ThemePicker extends StatefulWidget {
