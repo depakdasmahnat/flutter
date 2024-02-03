@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/app.dart';
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -15,13 +16,18 @@ import '../../../models/feeds/feeds_data.dart';
 import '../../../models/member/auth/member_data.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../models/member/goals/goals_model.dart';
+import '../../../models/guest_Model/fetchResouresDetailModel.dart';
+import '../../../models/member/genrate_referal/genrateReferralModel.dart';
 import '../../../models/member/leads/fetchLeads.dart';
+import '../../../models/member/member_profile/fetchMemberProfileModel.dart';
 import '../../../models/member/network/tree_graph_model.dart';
+import '../../../models/member/sponsor/fetchFacilitatorModel.dart';
+import '../../../models/member/sponsor/fetchSponsorModel.dart';
 import '../../../utils/widgets/widgets.dart';
 
 class MembersController extends ChangeNotifier {
   /// 1) Tree View API...
-
+  bool showItem =false;
   bool loadingTreeView = true;
   TreeGraphModel? networkTreeViewModel;
   List<TreeGraphData>? networkTreeViewNodes;
@@ -71,7 +77,6 @@ class MembersController extends ChangeNotifier {
   ///  fetch leads
   FetchLeads? fetchLeadsModel;
   bool leadsLoader = false;
-
   Future<FetchLeads?> fetchLeads({
     String? status,
     String? priority,
@@ -83,7 +88,6 @@ class MembersController extends ChangeNotifier {
       onRefresh() {
         leadsLoader = false;
         fetchLeadsModel = null;
-
         notifyListeners();
       }
 
@@ -103,6 +107,9 @@ class MembersController extends ChangeNotifier {
           if (responseData.status == true) {
             fetchLeadsModel = responseData;
             notifyListeners();
+          }else{
+            fetchLeadsModel = responseData;
+            notifyListeners();
           }
         }
       } catch (e, s) {
@@ -115,9 +122,7 @@ class MembersController extends ChangeNotifier {
 
     return fetchLeadsModel;
   }
-
   ///  add lead priority
-
   Future<DefaultModel?> updateLeadPriority({
     required BuildContext context,
     required String? guestId,
@@ -159,7 +164,7 @@ class MembersController extends ChangeNotifier {
     return responseData;
   }
 
-  bool showItem = false;
+  // bool showItem = false;
 
   changeStatus() {
     if (showItem == false) {
@@ -167,6 +172,7 @@ class MembersController extends ChangeNotifier {
     } else {
       showItem = false;
     }
+    notifyListeners();
   }
 
   ///  add lead status
@@ -567,38 +573,266 @@ class MembersController extends ChangeNotifier {
   Future<DashboardStatesData?> fetchDashboardStates({
     num? memberId,
     String? filter,
+
+  /// 1) lead close...
+  Future<DefaultModel?> leadClose({
+    required BuildContext context,
+    required String? guestId,
+    required String? enagicId,
+    required String? password,
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'guest_id': '$guestId',
+      'enagic_id': '$enagicId',
+      'password': '$password',
+
+    };
+
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.leadClose,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          context?.pop();
+        } else {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+        }
+      }
+    });
+    return responseData;
+  }
+
+
+
+  /// 1) fetch sponsor..
+  FetchSponsorModel? fetchSponsorModel;
+  bool sponsorLoader=false;
+  Future<FetchSponsorModel?> fetchSponsor({
+    required BuildContext context,
+    // required String stateId,
+    // required String categoryId,
+  }) async {
+    refresh() {
+      sponsorLoader = false;
+      fetchSponsorModel=null;
+      notifyListeners();
+    }
+    // //
+    apiResponseCompleted() {
+      sponsorLoader = true;
+      notifyListeners();
+    }
+    //
+    refresh();
+    try {
+    await  ApiService().get(
+        endPoint: ApiEndpoints.fetchSponsor ,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchSponsorModel responseData = FetchSponsorModel.fromJson(json);
+          if (responseData.status == true) {
+            fetchSponsorModel = responseData;
+            notifyListeners();
+          }
+        }
+      },);
+    apiResponseCompleted();
+
+    } catch (e, s) {
+      apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }finally {
+      apiResponseCompleted();
+    }{
+
+  }
+
+    return fetchSponsorModel;
+  }
+
+
+  /// 1) add list..
+
+  Map<String, dynamic>? uploadVideoResponse;
+  DefaultModel? defaultModel;
+  bool addLeadLoader=false;
+  Future addList({
+    required BuildContext context,
+   required String firstName,
+   required String lastName,
+   required String mobile,
+   required String email,
+   required String gender,
+   required String leadRefType,
+   required String occupation,
+   required String dob,
+   required String noOfFamilyMembers,
+   required String illnessInFamily,
+   required String stateId,
+   required String cityId,
+   required String address,
+   required String pincode,
+   required String disability,
+   required String monthlyIncome,
+   required String sponsorId,
+    required XFile? file,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'first_name': firstName,
+        'last_name':  lastName,
+        'mobile': mobile,
+        'email': email,
+        'gender': gender,
+        'lead_ref_type': leadRefType,
+        'occupation': occupation,
+        'dob': dob,
+        'no_of_family_members': noOfFamilyMembers,
+        'illness_in_family': illnessInFamily,
+        'state_id': stateId,
+        'city_id': cityId,
+        'address': address,
+        'pincode': pincode,
+        'disability': disability,
+        'monthly_income': monthlyIncome,
+        'sponsor_id': sponsorId,
+      };
+      debugPrint('Sent Data is $body');
+      //Processing API...
+      var response = ApiService().multiPart(
+        endPoint: ApiEndpoints.addLead,
+        body: body,
+        multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          uploadVideoResponse = json;
+          notifyListeners();
+          DefaultModel responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData.message ?? 'List add successfully', color: Colors.green);
+            showItem=false;
+            context?.pop();
+            notifyListeners();
+          } else {
+            showSnackBar(
+                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          }
+        }
+      },);
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
+
+  GenrateReferralModel? generateReferralModel;
+  bool generateRefLoader =false;
+
+  Future<GenrateReferralModel?> fetchReferral({
+    required BuildContext context,
+    // required String stateId,
+    // required String categoryId,
+  }) async {
+    refresh() {
+      generateRefLoader = false;
+      generateReferralModel=null;
+      notifyListeners();
+    }
+    // //
+    apiResponseCompleted() {
+      generateRefLoader = true;
+      notifyListeners();
+    }
+    //
+    refresh();
+    try {
+      await  ApiService().get(
+        endPoint: ApiEndpoints.ref ,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          GenrateReferralModel responseData = GenrateReferralModel.fromJson(json);
+          if (responseData.status == true) {
+            generateReferralModel = responseData;
+            notifyListeners();
+          }
+        }
+      },);
+      apiResponseCompleted();
+
+    } catch (e, s) {
+      apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return generateReferralModel;
+  }
+
+
+
+  ///  fetch memberProfile...
+  FetchMemberProfileModel? fetchMemberProfileModel;
+  bool memberProfileLoader = false;
+  Future<FetchMemberProfileModel?> fetchMemberProfile({
+    required BuildContext context,
+    required String memberID,
+
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
     if (context != null) {
       onRefresh() {
-        loadingDashboardStates = true;
-        dashboardStatesModel = null;
-        dashboardStatesData = null;
+        memberProfileLoader = false;
+        fetchMemberProfileModel = null;
         notifyListeners();
       }
 
       onComplete() {
-        loadingDashboardStates = false;
+        memberProfileLoader = true;
         notifyListeners();
       }
 
       onRefresh();
-      MemberData? member = LocalDatabase().member;
       try {
-        var response = await ApiService().get(
-          endPoint: ApiEndpoints.fetchDashboardStats,
-          queryParameters: {
-            'member_id': '${memberId ?? member?.id}',
-            'filter': '$filter',
-          },
-        );
+        var response = await ApiService()
+            .get(
+            endPoint: ApiEndpoints.memberProfile+memberID);
 
         if (response != null) {
           Map<String, dynamic> json = response;
-          DashboardStatesModel responseData = DashboardStatesModel.fromJson(json);
+          FetchMemberProfileModel responseData = FetchMemberProfileModel.fromJson(json);
           if (responseData.status == true) {
-            dashboardStatesData = responseData.data;
+            fetchMemberProfileModel = responseData;
+            notifyListeners();
+          }else{
+            fetchMemberProfileModel = responseData;
             notifyListeners();
           }
         }
@@ -609,7 +843,457 @@ class MembersController extends ChangeNotifier {
         onComplete();
       }
     }
-
-    return dashboardStatesData;
+    return fetchMemberProfileModel;
   }
+
+
+  /// 1) fetch facilitator..
+  FetchFacilitatorModel? fetchFacilitatorModel;
+
+  Future<FetchFacilitatorModel?> fetchFacilitator({
+    required BuildContext context,
+
+  }) async {
+    // refresh() {
+    //   resourcesDetailLoader = false;
+    //
+    //   notifyListeners();
+    // }
+    // //
+    // apiResponseCompleted() {
+    //   resourcesDetailLoader = true;
+    //   notifyListeners();
+    // }
+    //
+    // refresh();
+    try {
+      await  ApiService().get(
+        endPoint: ApiEndpoints.fetchFacilitator ,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchFacilitatorModel responseData = FetchFacilitatorModel.fromJson(json);
+          if (responseData.status == true) {
+            fetchFacilitatorModel = responseData;
+            notifyListeners();
+          }
+        }
+      },);
+
+    } catch (e, s) {
+      // apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchFacilitatorModel;
+  }
+
+  /// 1) add facilitator..
+
+  // Map<String, dynamic>? uploadVideoResponse;
+  DefaultModel? defaultFacilatatorModel;
+  // bool addLeadLoader=false;
+  Future addFacilitatorList({
+    required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String mobile,
+    required String email,
+    required String enagicId,
+    required String password,
+    required String gender,
+    required String leadRefType,
+    required String occupation,
+    required String dob,
+    required String noOfFamilyMembers,
+    required String illnessInFamily,
+    required String stateId,
+    required String cityId,
+    required String address,
+    required String pincode,
+    required String disability,
+    required String monthlyIncome,
+    required String sponsorId,
+    required String salesFacilitatorId,
+    required XFile? file,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'first_name': firstName,
+        'last_name':  lastName,
+        'mobile': mobile,
+        'email': email,
+        'enagic_id': enagicId,
+        'password': password,
+        'gender': gender,
+        'lead_ref_type': leadRefType,
+        'occupation': occupation,
+        'dob': dob,
+        'no_of_family_members': noOfFamilyMembers,
+        'illness_in_family': illnessInFamily,
+        'state_id': stateId,
+        'city_id': cityId,
+        'address': address,
+        'pincode': pincode,
+        'disability': disability,
+        'monthly_income': monthlyIncome,
+        'sponsor_id': sponsorId,
+        'sales_facilitator_id': salesFacilitatorId,
+      };
+      debugPrint('Sent Data is $body');
+      //Processing API...
+      var response = ApiService().multiPart(
+        endPoint: ApiEndpoints.addNewMemberLead,
+        body: body,
+        multipartFile:file != null? [MultiPartData(field: 'profile_photo', filePath: file?.path)]:[],
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          uploadVideoResponse = json;
+          notifyListeners();
+          DefaultModel responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData.message ?? 'List add successfully', color: Colors.green);
+            showItem=false;
+            context?.pop();
+            notifyListeners();
+          } else {
+            showSnackBar(
+                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          }
+        }
+      },);
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
+
+  // Map<String, dynamic>? uploadVideoResponse;
+  DefaultModel? defaultTargetModel;
+  // bool addLeadLoader=false;
+  Future addTarget({
+    required BuildContext context,
+    required String salesTarget,
+
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'sales_target': salesTarget,
+      };
+      debugPrint('Sent Data is $body');
+
+      var response = ApiService().post(
+        endPoint: ApiEndpoints.addTarget,
+        body: body,
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          DefaultModel responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData.message ?? 'List add successfully', color: Colors.green);
+
+            context?.pop();
+            notifyListeners();
+          } else {
+            showSnackBar(
+                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          }
+        }
+      },);
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
+  /// 1) edit member profile..
+
+  // / Map<String, dynamic>? uploadVideoResponse;
+  DefaultModel? defaultEditMemberModel;
+  // bool addLeadLoader=false;
+  Future editMemberProfile({
+    required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String mobile,
+    required String email,
+    // required String enagicId,
+    // required String password,
+    required String gender,
+    required String leadRefType,
+    required String occupation,
+    required String dob,
+    required String noOfFamilyMembers,
+    required String illnessInFamily,
+    required String stateId,
+    required String cityId,
+    required String address,
+    required String pincode,
+    required String disability,
+    required String monthlyIncome,
+    required String sponsorId,
+    required String salesFacilitatorId,
+    required XFile? file,
+
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'first_name': firstName,
+        'last_name':  lastName,
+        'mobile': mobile,
+        'email': email,
+        // 'enagic_id': enagicId,
+        // 'password': password,
+        'gender': gender,
+        'lead_ref_type': leadRefType,
+        'occupation': occupation,
+        'dob': dob,
+        'no_of_family_members': noOfFamilyMembers,
+        'illness_in_family': illnessInFamily,
+        'state_id': stateId,
+        'city_id': cityId,
+        'address': address,
+        'pincode': pincode,
+        'disability': disability,
+        'monthly_income': monthlyIncome,
+        'sponsor_id': sponsorId,
+        'sales_facilitator_id': salesFacilitatorId,
+      };
+      debugPrint('Sent Data is $body');
+      debugPrint('this is member edit profile');
+      //Processing API...
+      var response = ApiService().multiPart(
+        endPoint: ApiEndpoints.editMember,
+        body: body,
+        multipartFile:file != null? [MultiPartData(field: 'profile_photo', filePath: file?.path)]:[],
+
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          notifyListeners();
+          DefaultModel responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData.message ?? 'List add successfully', color: Colors.green);
+            context?.pop();
+            notifyListeners();
+          } else {
+            showSnackBar(
+                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          }
+        }
+      },);
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
+
+  // /// 1) fetch facilitator..
+  // FetchFacilitatorModel? fetchFacilitatorModel;
+  //
+  // Future<FetchFacilitatorModel?> fetchFacilitator({
+  //   required BuildContext context,
+  //
+  // }) async {
+  //   // refresh() {
+  //   //   resourcesDetailLoader = false;
+  //   //
+  //   //   notifyListeners();
+  //   // }
+  //   // //
+  //   // apiResponseCompleted() {
+  //   //   resourcesDetailLoader = true;
+  //   //   notifyListeners();
+  //   // }
+  //   //
+  //   // refresh();
+  //   try {
+  //     await  ApiService().get(
+  //       endPoint: ApiEndpoints.fetchFacilitator ,
+  //     ).then((response) {
+  //       if (response != null) {
+  //         Map<String, dynamic> json = response;
+  //         FetchFacilitatorModel responseData = FetchFacilitatorModel.fromJson(json);
+  //         if (responseData.status == true) {
+  //           fetchFacilitatorModel = responseData;
+  //           notifyListeners();
+  //         }
+  //       }
+  //     },);
+  //
+  //   } catch (e, s) {
+  //     // apiResponseCompleted();
+  //     debugPrint('Error is $e & $s');
+  //   }
+  //
+  //   return fetchFacilitatorModel;
+  // }
+
+
+  /// 1) add list..
+
+  // Map<String, dynamic>? uploadVideoResponse;
+  // DefaultModel? createEventModel;
+  // bool addLeadLoader=false;
+  Future createEvent({
+    required BuildContext context,
+    required String name,
+    required String eventType,
+    required String meetingLink,
+    required String city,
+    required String description,
+    required String startDate,
+    required String startTime,
+    required String endDate,
+    required String endTime,
+    required String memberIds,
+
+    required XFile? file,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'name': name,
+        'type': eventType,
+        'meeting_link': meetingLink,
+        'location': city,
+        'description': description,
+        'start_date': startDate,
+        'start_time': startTime,
+        'end_date': endDate,
+        'end_time': endTime,
+        'member_ids': memberIds,
+      };
+      debugPrint('Sent Data is $body');
+      //Processing API...
+      var response = ApiService().multiPart(
+        endPoint: ApiEndpoints.createEvent,
+        body: body,
+        multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          // uploadVideoResponse = json;
+          notifyListeners();
+          DefaultModel responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+            // showItem=false;
+            context?.pop();
+            notifyListeners();
+          } else {
+            showSnackBar(
+                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          }
+        }
+      },);
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
+
+  /// 1) add goal..
+
+  // Map<String, dynamic>? uploadVideoResponse;
+  // DefaultModel? createEventModel;
+  // bool addLeadLoader=false;
+  Future addGoal({
+    required BuildContext context,
+    required String name,
+    required String goalType,
+    required String startDate,
+    required String endDate,
+    required String description,
+    required XFile? file,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'name': name,
+        'type': goalType,
+        'start_date': startDate,
+        'end_date': endDate,
+        'description': description,
+      };
+      debugPrint('Sent Data is $body');
+      var response = ApiService().multiPart(
+        endPoint: ApiEndpoints.addGoal,
+        body: body,
+        multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          notifyListeners();
+          DefaultModel responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+            // showItem=false;
+            context?.pop();
+            notifyListeners();
+          } else {
+            showSnackBar(
+                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          }
+        }
+      },);
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
 }

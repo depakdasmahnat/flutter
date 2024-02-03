@@ -19,7 +19,7 @@ class _CustomTransparentButtonState extends State<CustomTransparentButton> {
       onTap: widget.onTap,
       child: Container(
         height: 70,
-        width: 374,
+        // width: 374,
         decoration: BoxDecoration(
             // color: goldColor,
 

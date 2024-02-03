@@ -202,7 +202,6 @@ class MemberAuthControllers extends ChangeNotifier {
 
         if (responseData.status == true) {
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
-
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
         } else {

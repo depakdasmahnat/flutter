@@ -1,22 +1,17 @@
 import 'dart:convert';
-
 FetchGuestProfile fetchGuestProfileFromJson(String str) => FetchGuestProfile.fromJson(json.decode(str));
-
 String fetchGuestProfileToJson(FetchGuestProfile data) => json.encode(data.toJson());
-
 class FetchGuestProfile {
   FetchGuestProfile({
-    this.status,
-    this.message,
-    this.data,
-  });
+      this.status, 
+      this.message, 
+      this.data,});
 
   FetchGuestProfile.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
-
   bool? status;
   String? message;
   Data? data;
@@ -30,50 +25,51 @@ class FetchGuestProfile {
     }
     return map;
   }
+
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
-
 String dataToJson(Data data) => json.encode(data.toJson());
-
 class Data {
   Data({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.mobile,
-    this.email,
-    this.profilePhoto,
-    this.referredBy,
-    this.gender,
-    this.leadRefType,
-    this.occupation,
-    this.dob,
-    this.noOfFamilyMembers,
-    this.illnessInFamily,
-    this.stateId,
-    this.stateName,
-    this.cityId,
-    this.cityName,
-    this.address,
-    this.pincode,
-    this.deviceToken,
-    this.role,
-    this.feedback,
-    this.remarks,
-    this.status,
-    this.priority,
-    this.disability,
-    this.monthlyIncome,
-    this.sponsorId,
-    this.steps,
-    this.accessToken,
-  });
+      this.id, 
+      this.firstName, 
+      this.lastName, 
+      this.mobile, 
+      this.email, 
+      this.profilePhoto, 
+      this.referredBy, 
+      this.gender, 
+      this.leadRefType, 
+      this.occupation, 
+      this.dob, 
+      this.noOfFamilyMembers, 
+      this.illnessInFamily, 
+      this.stateId, 
+      this.stateName,
+      this.cityId,
+      this.cityName,
+      this.address,
+      this.pincode, 
+      this.deviceToken, 
+      this.role, 
+      this.feedback, 
+      this.remarks, 
+      this.status, 
+      this.priority, 
+      this.disability, 
+      this.monthlyIncome, 
+      this.sponsorId, 
+      this.steps, 
+      this.sponsorName,
+      this.enagicId,
+      this.accessToken,});
 
   Data.fromJson(dynamic json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
+    enagicId = json['enagic_id'];
     mobile = json['mobile'];
     email = json['email'];
     profilePhoto = json['profile_photo'];
@@ -92,6 +88,7 @@ class Data {
     pincode = json['pincode'];
     deviceToken = json['device_token'];
     role = json['role'];
+    sponsorName = json['sponsor_name'];
     feedback = json['feedback'];
     remarks = json['remarks'];
     status = json['status'];
@@ -102,12 +99,13 @@ class Data {
     steps = json['steps'];
     accessToken = json['access_token'];
   }
-
   num? id;
   String? firstName;
   String? lastName;
   String? mobile;
   String? email;
+  String? enagicId;
+  String? sponsorName;
   dynamic profilePhoto;
   num? referredBy;
   String? gender;
@@ -138,8 +136,10 @@ class Data {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['first_name'] = firstName;
+    map['enagic_id'] = enagicId;
     map['last_name'] = lastName;
     map['mobile'] = mobile;
+    map['sponsor_name'] = sponsorName;
     map['email'] = email;
     map['profile_photo'] = profilePhoto;
     map['referred_by'] = referredBy;
@@ -168,4 +168,5 @@ class Data {
     map['access_token'] = accessToken;
     return map;
   }
+
 }

@@ -6,14 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/constant/gradients.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/widgets.dart';
+import '../../guest/guestProfile/guest_edit_profile.dart';
 
 class CreateGoal extends StatefulWidget {
   const CreateGoal({super.key});
@@ -23,8 +26,12 @@ class CreateGoal extends StatefulWidget {
 }
 
 class _CreateGoalState extends State<CreateGoal> {
+  String goalType ='';
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController endDateCtrl = TextEditingController();
+  TextEditingController goalNameCtrl = TextEditingController();
+  TextEditingController goalTypeCtrl = TextEditingController();
+  TextEditingController disCtrl = TextEditingController();
   File? image;
 
   @override
@@ -39,13 +46,19 @@ class _CreateGoalState extends State<CreateGoal> {
       body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
-          const AppTextField(
+           AppTextField(
+            controller: goalNameCtrl,
             title: 'Goal name',
             hintText: 'Enter Goal name',
           ),
-          const AppTextField(
-            title: 'Goal type*',
-            hintText: 'Enter Goal type',
+          CustomDropdown(
+            controller: goalTypeCtrl,
+            onChanged: (v) {
+              goalType = v;
+            },
+            title: 'Goal Type',
+            hintText: 'Select Goal Type',
+            listItem: const ['Online', 'Offline'],
           ),
           AppTextField(
             title: 'Start Date',
@@ -127,7 +140,8 @@ class _CreateGoalState extends State<CreateGoal> {
             },
             readOnly: true,
           ),
-          const AppTextField(
+           AppTextField(
+            controller: disCtrl,
             title: 'Description',
             hintText: 'Enter Description',
             minLines: 6,
@@ -147,7 +161,7 @@ class _CreateGoalState extends State<CreateGoal> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
                   color: Colors.transparent,
-                  child: const Row(
+                  child: image==null? const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
@@ -175,7 +189,7 @@ class _CreateGoalState extends State<CreateGoal> {
                         ],
                       ),
                     ],
-                  ),
+                  ):Image.file(File(image?.path??''),fit: BoxFit.cover,)
                 ),
               ),
             ),
@@ -193,8 +207,14 @@ class _CreateGoalState extends State<CreateGoal> {
             backgroundColor: Colors.transparent,
             boxShadow: const [],
             margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-            onTap: () {
-              // context.pushNamed(Routs.questions);
+            onTap: ()async {
+            await  context.read<MembersController>().addGoal(
+                  context: context,
+                  name: goalNameCtrl.text,
+                  goalType: goalType,
+                  startDate: startDateCtrl.text,
+                  endDate: endDateCtrl.text, description: disCtrl.text, file:XFile(image?.path??'') );
+
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -215,12 +235,14 @@ class _CreateGoalState extends State<CreateGoal> {
       ),
     );
   }
-
   Future<void> updateProfileImage({required ImageSource source}) async {
     final pickedImg = await ImagePicker().pickImage(source: source);
     setState(() {
       if (pickedImg != null) {
         image = File(pickedImg.path);
+        setState(() {
+
+        });
       }
     });
     if (context.mounted) {
@@ -296,7 +318,14 @@ class AppTextField extends StatelessWidget {
   final double? height;
   final int? minLines;
   final int? maxLines;
+  final Widget? suffixIcon;
+   final bool? obscureText;
+  final String? obscuringCharacter;
   final TextEditingController? controller;
+  final  String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final BoxConstraints? suffixIconConstraints;
+  final void Function(String)? onFieldSubmitted;
 
   const AppTextField({
     this.title,
@@ -309,6 +338,13 @@ class AppTextField extends StatelessWidget {
     super.key,
     this.minLines,
     this.maxLines,
+    this.obscureText,
+    this.obscuringCharacter,
+    this.validator,
+    this.onChanged,
+    this.suffixIcon,
+    this.suffixIconConstraints,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -343,11 +379,19 @@ class AppTextField extends StatelessWidget {
             CustomTextField(
               readOnly: readOnly,
               onTap: onTap,
+              validator: validator,
+              onChanged:onChanged ,
+              suffixIcon: suffixIcon,
+              suffixIconConstraints: suffixIconConstraints,
+              onFieldSubmitted: onFieldSubmitted,
+
 
               controller: controller,
               prefixIcon: prefixIcon,
               minLines: minLines,
               maxLines: maxLines,
+              obscureText:obscureText ,
+              obscuringCharacter: obscuringCharacter,
               hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,

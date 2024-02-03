@@ -65,7 +65,10 @@ class _MemberSignInState extends State<MemberSignIn> {
                 CustomTextField(
                   controller: enagicIdCtrl,
                   autofocus: true,
+                  textCapitalization: TextCapitalization.characters,
                   keyboardType: TextInputType.text,
+                  // : TextCapitalization.sentences,
+
                   validator: (val) {
                     return Validator.alphanumericValidator(val, 'Id No');
                   },

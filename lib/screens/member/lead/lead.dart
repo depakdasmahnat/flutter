@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';
@@ -9,11 +12,14 @@ import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/appbar.dart';
+
+import '../../../utils/widgets/custom_bottemsheet.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../dashboard/more_menu.dart';
 import '../../guest/guestProfile/guest_faq.dart';
 import '../demo/create_demo.dart';
+import '../home/member_profile_details.dart';
 import 'custom_popup_menu.dart';
 import 'demo_don_form.dart';
 import 'model_dailog_box.dart';
@@ -28,7 +34,13 @@ class Lead extends StatefulWidget {
 class _LeadState extends State<Lead> {
   int tabIndex = 0;
 
-  List tabItem = ['New Listed', 'Invitation call', 'Demo Scheduled', 'Follow Up', 'Closing'];
+  List tabItem = [
+    'New Listed',
+    'Invitation Call',
+    'Demo Scheduled',
+    'Follow Up',
+    'Closed'
+  ];
   List item = [
     {
       'image': '08',
@@ -59,32 +71,9 @@ class _LeadState extends State<Lead> {
       'color': Colors.white,
     }
   ];
-  List item1 = [
-    {
-      'image': '06',
-      'first': 'Hot Leads',
-      'second': 'Getting Started',
-      'gradiant': primaryGradient,
-      'color': const Color(0xFFE1FF41),
-    },
-    {
-      'image': '04',
-      'first': 'Warm Leads',
-      'second': 'How to Invest',
-      'gradiant': null,
-      'color': const Color(0xFFE1FF41),
-    },
-    {
-      'image': '09',
-      'first': 'Cold Leads',
-      'second': 'Payment Meth…',
-      'gradiant': null,
-      'color': Colors.white,
-    },
-  ];
-  bool showItem = false;
-  String status = '';
 
+ // bool showItem =false;
+  String status = '';
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -104,7 +93,8 @@ class _LeadState extends State<Lead> {
                 ? PreferredSize(
                     preferredSize: Size.fromHeight(size.height * 0.54),
                     child: const Center(
-                      child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                      child: CupertinoActivityIndicator(
+                          radius: 15, color: CupertinoColors.white),
                     ),
                   )
                 : PreferredSize(
@@ -124,7 +114,10 @@ class _LeadState extends State<Lead> {
                                   gradient: const LinearGradient(
                                     begin: Alignment(0.00, -1.00),
                                     end: Alignment(0, 1),
-                                    colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)],
+                                    colors: [
+                                      Color(0xFF3B3B3B),
+                                      Color(0xFF4A4A4A)
+                                    ],
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
@@ -142,10 +135,13 @@ class _LeadState extends State<Lead> {
                                           onTap: () async {
                                             tabIndex = index;
                                             status = tabItem[index];
-                                            await context
-                                                .read<MembersController>()
-                                                .fetchLeads(status: status, priority: '', page: '1');
+                                            if(status=='New Listed'){
+                                              status ='New';
+                                            }
+
                                             setState(() {});
+                                            await context.read<MembersController>().fetchLeads(status: status, priority: '', page: '1');
+
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -153,9 +149,12 @@ class _LeadState extends State<Lead> {
                                               width: size.width * 0.3,
                                               height: size.width * 0.06,
                                               decoration: ShapeDecoration(
-                                                gradient: index == tabIndex ? primaryGradient : null,
+                                                gradient: index == tabIndex
+                                                    ? primaryGradient
+                                                    : null,
                                                 shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
                                               ),
                                               child: Center(
@@ -163,7 +162,9 @@ class _LeadState extends State<Lead> {
                                                 text: tabItem[index],
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w600,
-                                                color: index == tabIndex ? Colors.black : Colors.white,
+                                                color: index == tabIndex
+                                                    ? Colors.black
+                                                    : Colors.white,
                                               )),
                                             ),
                                           ),
@@ -173,14 +174,16 @@ class _LeadState extends State<Lead> {
                                   ),
                                 )),
                             Padding(
-                              padding: const EdgeInsets.only(left: kPadding, top: 8),
+                              padding:
+                                  const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
                                   height: size.height * 0.13,
                                   child: Align(
                                     alignment: Alignment.topCenter,
                                     child: ListView(
                                       scrollDirection: Axis.horizontal,
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(3),
@@ -189,18 +192,23 @@ class _LeadState extends State<Lead> {
                                             decoration: ShapeDecoration(
                                               gradient: primaryGradient,
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, top: 8, bottom: 8),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.new1}',
+                                                    text:
+                                                        '${controller.fetchLeadsModel?.stats?.new1}',
                                                     fontSize: 31,
                                                     fontWeight: FontWeight.w700,
                                                     color: Colors.black,
@@ -210,7 +218,8 @@ class _LeadState extends State<Lead> {
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                     textAlign: TextAlign.start,
                                                   ),
@@ -225,17 +234,24 @@ class _LeadState extends State<Lead> {
                                             width: size.width * 0.22,
                                             decoration: ShapeDecoration(
                                               gradient: const LinearGradient(
-                                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
+                                                  colors: [
+                                                    Color(0xFFF3F3F3),
+                                                    Color(0xFFE0E0E0)
+                                                  ]),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, top: 8, bottom: 8),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   CustomeText(
                                                     text:
@@ -249,7 +265,8 @@ class _LeadState extends State<Lead> {
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                     textAlign: TextAlign.start,
                                                   ),
@@ -264,20 +281,28 @@ class _LeadState extends State<Lead> {
                                             width: size.width * 0.22,
                                             decoration: ShapeDecoration(
                                               gradient: const LinearGradient(
-                                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
+                                                  colors: [
+                                                    Color(0xFFF3F3F3),
+                                                    Color(0xFFE0E0E0)
+                                                  ]),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, top: 8, bottom: 8),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.followup}',
+                                                    text:
+                                                        '${controller.fetchLeadsModel?.stats?.followup}',
                                                     fontSize: 31,
                                                     fontWeight: FontWeight.w700,
                                                     color: Colors.black,
@@ -287,7 +312,8 @@ class _LeadState extends State<Lead> {
                                                     style: TextStyle(
                                                       color: Colors.black,
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                     textAlign: TextAlign.start,
                                                   ),
@@ -302,20 +328,28 @@ class _LeadState extends State<Lead> {
                                             width: size.width * 0.22,
                                             decoration: ShapeDecoration(
                                               gradient: const LinearGradient(
-                                                  colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)]),
+                                                  colors: [
+                                                    Color(0xFF3B3B3B),
+                                                    Color(0xFF4A4A4A)
+                                                  ]),
                                               shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
+                                                borderRadius:
+                                                    BorderRadius.circular(18),
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, top: 8, bottom: 8),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.closed}',
+                                                    text:
+                                                        '${controller.fetchLeadsModel?.stats?.closed}',
                                                     fontSize: 31,
                                                     fontWeight: FontWeight.w700,
                                                     color: Colors.white,
@@ -325,7 +359,8 @@ class _LeadState extends State<Lead> {
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.w600,
+                                                      fontWeight:
+                                                          FontWeight.w600,
                                                     ),
                                                     textAlign: TextAlign.start,
                                                   ),
@@ -339,7 +374,8 @@ class _LeadState extends State<Lead> {
                                   )),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: kPadding, top: 8),
+                              padding:
+                                  const EdgeInsets.only(left: kPadding, top: 8),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: CustomeText(
@@ -351,12 +387,14 @@ class _LeadState extends State<Lead> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: kPadding, top: 8),
+                              padding:
+                                  const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
                                   height: size.height * 0.13,
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.all(3),
@@ -364,20 +402,28 @@ class _LeadState extends State<Lead> {
                                           width: size.width * 0.3,
                                           decoration: ShapeDecoration(
                                             gradient: const LinearGradient(
-                                                colors: [Color(0xFFFF2600), Color(0xFFFF6130)]),
+                                                colors: [
+                                                  Color(0xFFFF2600),
+                                                  Color(0xFFFF6130)
+                                                ]),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, top: 8, bottom: 8),
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.hot}',
+                                                  text:
+                                                      '${controller.fetchLeadsModel?.stats?.hot}',
                                                   fontSize: 31,
                                                   fontWeight: FontWeight.w700,
                                                   color: Colors.white,
@@ -402,20 +448,28 @@ class _LeadState extends State<Lead> {
                                           width: size.width * 0.3,
                                           decoration: ShapeDecoration(
                                             gradient: const LinearGradient(
-                                                colors: [Color(0xFFFDDC9C), Color(0xFFDDA53B)]),
+                                                colors: [
+                                                  Color(0xFFFDDC9C),
+                                                  Color(0xFFDDA53B)
+                                                ]),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, top: 8, bottom: 8),
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.warm}',
+                                                  text:
+                                                      '${controller.fetchLeadsModel?.stats?.warm}',
                                                   fontSize: 31,
                                                   fontWeight: FontWeight.w700,
                                                   color: Colors.white,
@@ -440,20 +494,28 @@ class _LeadState extends State<Lead> {
                                           width: size.width * 0.3,
                                           decoration: ShapeDecoration(
                                             gradient: const LinearGradient(
-                                                colors: [Color(0xFF3CDCDC), Color(0xFF12BCBC)]),
+                                                colors: [
+                                                  Color(0xFF3CDCDC),
+                                                  Color(0xFF12BCBC)
+                                                ]),
                                             shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
+                                              borderRadius:
+                                                  BorderRadius.circular(18),
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0, top: 8, bottom: 8),
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.cold}',
+                                                  text:
+                                                      '${controller.fetchLeadsModel?.stats?.cold}',
                                                   fontSize: 31,
                                                   fontWeight: FontWeight.w700,
                                                   color: Colors.white,
@@ -487,16 +549,21 @@ class _LeadState extends State<Lead> {
                                       width: 20,
                                       borderRadiusValue: 0,
                                       color: Colors.white,
-                                      margin: EdgeInsets.only(left: kPadding, right: kPadding),
+                                      margin: EdgeInsets.only(
+                                          left: kPadding, right: kPadding),
                                       fit: BoxFit.contain,
                                       assetImage: AppAssets.searchIcon,
                                     ),
                                     margin: EdgeInsets.only(
-                                        left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+                                        left: kPadding,
+                                        right: kPadding,
+                                        top: kPadding,
+                                        bottom: kPadding),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: kPadding),
+                                  padding:
+                                      const EdgeInsets.only(right: kPadding),
                                   child: GestureDetector(
                                     onTap: () async {},
                                     child: Container(
@@ -504,10 +571,14 @@ class _LeadState extends State<Lead> {
                                         gradient: const LinearGradient(
                                           begin: Alignment(0.00, -1.00),
                                           end: Alignment(0, 1),
-                                          colors: [Color(0xFF383838), Color(0xFF282828)],
+                                          colors: [
+                                            Color(0xFF383838),
+                                            Color(0xFF282828)
+                                          ],
                                         ),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(21.60),
+                                          borderRadius:
+                                              BorderRadius.circular(21.60),
                                         ),
                                       ),
                                       child: PopupMenuButton(
@@ -521,9 +592,13 @@ class _LeadState extends State<Lead> {
                                         onSelected: (value) async {
                                           await context
                                               .read<MembersController>()
-                                              .fetchLeads(status: status, priority: value, page: '1');
+                                              .fetchLeads(
+                                                  status: status,
+                                                  priority: value,
+                                                  page: '1');
                                         },
-                                        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                                        itemBuilder: (BuildContext context) =>
+                                            <PopupMenuEntry>[
                                           const PopupMenuItem(
                                             value: 'Newest',
                                             child: Text('Newest'),
@@ -556,69 +631,80 @@ class _LeadState extends State<Lead> {
                       ),
                     )),
             body: Stack(
-              children: [
-                ListView.builder(
-                  itemCount: controller.fetchLeadsModel?.data?.length ?? 0,
-                  padding: EdgeInsets.only(bottom: size.height * 0.13),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-                        child: Container(
-                          decoration: decoration,
-                          child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: RowCart(
-                                tabIndex: tabIndex,
-                                listIndex: index,
-                                guestId: controller.fetchLeadsModel?.data?[index].id.toString(),
-                                image: controller.fetchLeadsModel?.data?[index].profilePhoto,
-                                name: controller.fetchLeadsModel?.data?[index].firstName,
-                                city: controller.fetchLeadsModel?.data?[index].cityName,
-                                phone: controller.fetchLeadsModel?.data?[index].mobile,
-                                date: controller.fetchLeadsModel?.data?[index].demoDate,
-                                time: controller.fetchLeadsModel?.data?[index].demoTime,
-                                priority: controller.fetchLeadsModel?.data?[index].priority,
-                                demoId: controller.fetchLeadsModel?.data?[index].demoId.toString(),
-                              )),
-                        ));
-                  },
-                ),
-                if (showItem == true)
-                  Padding(
-                    padding: EdgeInsets.only(bottom: size.height * 0.1),
-                    child: Container(
-                      decoration: showItem ? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
-                      child: Column(
-                        mainAxisSize: showItem ? MainAxisSize.max : MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (showItem == true)
-                            DashboardMoreMenu(
-                              showLeadItem: true,
-                            ),
-                        ],
-                      ),
-                    ),
+            children: [
+              controller.fetchLeadsModel?.data?.isEmpty==true?
+                  const NoDataFound():
+              ListView.builder(
+                itemCount: controller.fetchLeadsModel?.data?.length ?? 0,
+                padding: EdgeInsets.only(bottom: size.height * 0.13),
+                itemBuilder: (context, index) {
+                  return Padding(
+                      padding:
+                      const EdgeInsets.only(left: kPadding, right: kPadding),
+                      child: Container(
+                        decoration: decoration,
+                        child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: RowCart(
+                              tabIndex: tabIndex,
+                              listIndex: index, guestId: controller.fetchLeadsModel?.data?[index].id.toString(),
+                              image: controller
+                                  .fetchLeadsModel?.data?[index].profilePhoto,
+                              name: controller
+                                  .fetchLeadsModel?.data?[index].firstName,
+                              city: controller
+                                  .fetchLeadsModel?.data?[index].cityName,
+                              phone:
+                              controller.fetchLeadsModel?.data?[index].mobile,
+                              date: controller
+                                  .fetchLeadsModel?.data?[index].demoDate,
+                              time: controller
+                                  .fetchLeadsModel?.data?[index].demoTime,
+                              priority: controller
+                                  .fetchLeadsModel?.data?[index].priority,
+                              demoId: controller
+                                  .fetchLeadsModel?.data?[index].demoId.toString() ,
+                              memberId: controller
+                                  .fetchLeadsModel?.data?[index].memberId.toString() ,
+                            )),
+                      ));
+                },
+              ),
+              if(controller.showItem ==true)
+              Padding(
+                padding:  EdgeInsets.only(bottom: size.height*0.1),
+                child: Container(
+                  decoration: controller.showItem? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
+                  child: Column(
+                    mainAxisSize: controller.showItem ? MainAxisSize.max : MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      if(controller.showItem==true)
+                        DashboardMoreMenu(
+                          showLeadItem: true,
+                        ),
+                    ],
                   ),
-              ],
+                ),
+              ),
+            ],
             ),
             floatingActionButton: tabIndex == 0
                 ? Padding(
                     padding: EdgeInsets.only(bottom: size.height * 0.1),
                     child: GestureDetector(
-                      onTap: () async {
-                        if (showItem == false) {
-                          showItem = true;
-                        } else {
-                          showItem = false;
-                        }
-                        setState(() {});
-                        // print("chweck 1 ${controller.showItem}");
-                        // await context.read<MembersController>().changeStatus();
-                        // print("chweck 2 ${controller.showItem}");
+                      onTap: () async{
+                        controller.changeStatus();
+                        // if(controller.showItem==false){
+                        //   context.read<MembersController>().showItem=true;
+                        //
+                        // }else{
+                        //   context.read<MembersController>().showItem=false;
+                        // }
                       },
                       child: Container(
-                        decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
+                        decoration: BoxDecoration(
+                            gradient: primaryGradient, shape: BoxShape.circle),
                         child: Padding(
                           padding: const EdgeInsets.all(kPadding),
                           child: Image.asset(
@@ -648,7 +734,7 @@ class RowCart extends StatelessWidget {
   String? time;
   String? priority;
   String? demoId;
-
+  String? memberId;
   RowCart({
     this.tabIndex,
     this.listIndex,
@@ -661,18 +747,20 @@ class RowCart extends StatelessWidget {
     this.time,
     this.priority,
     this.demoId,
+    this.memberId,
     super.key,
   });
-
-  Future<void> _showDialog(BuildContext context, String? guestId, String? feedback) async {
+  Future<void> _showDialog(
+      BuildContext context, String? guestId, String? feedback,bool changePopUp,) async {
     return showDialog(
       context: context,
       barrierColor: Colors.transparent,
       builder: (BuildContext context) {
-        return ModelDialogBox(
+        return  ModelDialogBox(
           guestId: guestId ?? '',
           feedback: feedback ?? '',
-        );
+          changePopUp: changePopUp,
+        ) ;
       },
     );
   }
@@ -687,11 +775,20 @@ class RowCart extends StatelessWidget {
               Row(
                 children: [
                   image == null
-                      ? Image.asset(AppAssets.u1)
-                      : Image.network(
-                          image ?? '',
-                          height: size.height * 0.04,
-                        ),
+                      ? CircleAvatar(
+                    maxRadius: size.height * 0.02,
+                    child: Image.asset(AppAssets.userIcon,height: 15,),
+                  )
+                      :
+                  CircleAvatar(
+                    maxRadius: size.height * 0.02,
+                    child: Image.network(
+                      image ?? '',
+                      // height: size.height * 0.04,
+                      height: size.height * 0.04,
+                    ),
+
+                  ),
                   const SizedBox(
                     width: 5,
                   ),
@@ -707,12 +804,13 @@ class RowCart extends StatelessWidget {
                 ],
               ),
               CustomeText(
-                text: city ?? '',
+                text: city ?? '--',
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
               Container(
-                decoration: const BoxDecoration(color: Color(0xFFD9D9D9), shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                    color: Color(0xFFD9D9D9), shape: BoxShape.circle),
                 child: GestureDetector(
                   onTap: () async {
                     await context.read<MembersController>().callUser(
@@ -746,10 +844,11 @@ class RowCart extends StatelessWidget {
                 //   // await context.pushNamed(Routs.modelDialogBox,extra: ModelDialogBox(guestId: '1',));
                 //
                 //  },
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
                 onSelected: (value) {
                   print(value);
-                  _showDialog(context, guestId, value).whenComplete(
+                  _showDialog(context, guestId, value,false).whenComplete(
                     () async {
                       await context
                           .read<MembersController>()
@@ -757,7 +856,8 @@ class RowCart extends StatelessWidget {
                     },
                   );
                 },
-                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                itemBuilder:
+                    (BuildContext context) => <PopupMenuEntry>[
                   PopupMenuItem(
                     // height: size.height*0.05,
                     value: 'Interested',
@@ -797,6 +897,21 @@ class RowCart extends StatelessWidget {
                     children: [
                       // image==null?
                       // Image.asset(AppAssets.u1):Image.network(image??'',height: size.height*0.04,width:size.width*0.04 ,),
+                      image == null
+                          ? CircleAvatar(
+                        maxRadius: size.height * 0.02,
+                        child: Image.asset(AppAssets.userIcon,height: 15,),
+                      )
+                          :
+                      CircleAvatar(
+                        maxRadius: size.height * 0.02,
+                        child: Image.network(
+                          image ?? '',
+                          // height: size.height * 0.04,
+                          height: size.height * 0.04,
+                        ),
+
+                      ),
                       const SizedBox(
                         width: 5,
                       ),
@@ -837,9 +952,10 @@ class RowCart extends StatelessWidget {
                               ))
                           .whenComplete(
                         () async {
-                          await context
-                              .read<MembersController>()
-                              .fetchLeads(status: 'Invitation Call ', priority: '', page: '1');
+                          await context.read<MembersController>().fetchLeads(
+                              status: 'Invitation Call ',
+                              priority: '',
+                              page: '1');
                         },
                       );
                     },
@@ -855,7 +971,8 @@ class RowCart extends StatelessWidget {
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+                        padding: const EdgeInsets.only(
+                            left: 18, right: 18, top: 4, bottom: 4),
                         child: CustomeText(
                           text: 'Demo',
                           fontWeight: FontWeight.w500,
@@ -873,7 +990,21 @@ class RowCart extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          image == null ? Image.asset(AppAssets.u1) : Image.network(image ?? ''),
+                          image == null
+                              ? CircleAvatar(
+                            maxRadius: size.height * 0.02,
+                            child: Image.asset(AppAssets.userIcon,height: 15,),
+                          )
+                              :
+                          CircleAvatar(
+                            maxRadius: size.height * 0.02,
+                            child: Image.network(
+                              image ?? '',
+                              // height: size.height * 0.04,
+                              height: size.height * 0.04,
+                            ),
+
+                          ),
                           const SizedBox(
                             width: 5,
                           ),
@@ -901,10 +1032,19 @@ class RowCart extends StatelessWidget {
                               begin: const Alignment(0.61, -0.79),
                               end: const Alignment(-0.61, 0.79),
                               colors: priority == 'Hot'
-                                  ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                                  ? [
+                                      const Color(0xFFFF2600),
+                                      const Color(0xFFFF6130)
+                                    ]
                                   : priority == 'Warm'
-                                      ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-                                      : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                                      ? [
+                                          const Color(0xFFFDDC9C),
+                                          const Color(0xFFDDA53B)
+                                        ]
+                                      : [
+                                          const Color(0xFF3CDCDC),
+                                          const Color(0xFF12BCBC)
+                                        ],
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(39),
@@ -914,7 +1054,8 @@ class RowCart extends StatelessWidget {
                             width: size.width * 0.11,
                             child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                                padding:
+                                    const EdgeInsets.only(top: 4, bottom: 4),
                                 child: CustomeText(
                                   text: priority ?? '',
                                   fontWeight: FontWeight.w500,
@@ -926,73 +1067,79 @@ class RowCart extends StatelessWidget {
                           ),
                         ),
                       ),
-                      CustomPopUpMenu(
-                        onSelected: (v) async {
-                          if (v == 'Demo done') {
-                            await showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                clipBehavior: Clip.antiAlias,
-                                isScrollControlled: true,
-                                shape: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-                                builder: (context) => DemoDoneForm(
-                                      title: 'List Update',
-                                      demoId: demoId,
-                                    )).whenComplete(
-                              () async {
-                                await context
-                                    .read<MembersController>()
-                                    .fetchLeads(status: 'Demo Sheduled', priority: '', page: '1');
-                              },
-                            );
-                          } else {
-                            context
-                                .pushNamed(Routs.createDemo,
-                                    extra: CreateDemo(
-                                      guestId: guestId ?? '',
-                                      name: name,
-                                      image: image,
-                                    ))
-                                .whenComplete(
-                              () async {
-                                await context
-                                    .read<MembersController>()
-                                    .fetchLeads(status: 'Demo Scheduled', priority: '', page: '1');
-                              },
-                            );
-                          }
-                        },
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                          PopupMenuItem(
-                            // height: size.height*0.05,
-                            value: 'Demo done',
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: CustomeText(
-                                text: 'Demo done',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: 'Reschedule',
-                            height: size.height * 0.04,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: CustomeText(
-                                text: 'Reschedule',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                       CustomPopUpMenu(
+                         onSelected: (v)async {
+                           if(v=='Demo done'){
+                             await showModalBottomSheet(
+                                 backgroundColor: Colors.transparent,
+                                 context: context,
+                                 clipBehavior: Clip.antiAlias,
+                                 isScrollControlled: true,
+                                 shape: const OutlineInputBorder(
+                                     borderRadius: BorderRadius.only(
+                                         topLeft: Radius.circular(18), topRight: Radius.circular(18))),
+                                 builder: (context) =>  DemoDoneForm(
+                                   title: 'List Update',
+                                   demoId:demoId ,
+                                 )
+                             ).whenComplete(
+                               () async{
+                                 await context.read<MembersController>().fetchLeads(
+                                     status: 'Demo Sheduled',
+                                     priority: '',
+                                     page: '1');
+                               },
+                             );
+                           }else{
+                             context.pushNamed(Routs.createDemo,
+                                 extra: CreateDemo(
+                                   guestId: guestId ?? '',
+                                   name: name,
+                                   image: image,
+                                 ))
+                                 .whenComplete(
+                                   () async {
+                                 await context.read<MembersController>().fetchLeads(
+                                     status: 'Demo Scheduled',
+                                     priority: '',
+                                     page: '1');
+                               },
+                             );
+
+                           }
+
+                         },
+                             itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                               PopupMenuItem(
+                                 // height: size.height*0.05,
+                                 value: 'Demo done',
+                                 child: Padding(
+                                   padding: const EdgeInsets.only(left: 10.0),
+                                   child: CustomeText(
+                                     text: 'Demo done',
+                                     color: Colors.black,
+                                     fontWeight: FontWeight.w600,
+                                     fontSize: 12,
+                                   ),
+                                 ),
+                               ),
+                               PopupMenuItem(
+                                 value: 'Reschedule',
+                                 height: size.height * 0.04,
+                                 child: Padding(
+                                   padding: const EdgeInsets.only(left: 10.0),
+                                   child: CustomeText(
+                                     text: 'Reschedule',
+                                     color: Colors.black,
+                                     fontWeight: FontWeight.w600,
+                                     fontSize: 12,
+                                   ),
+                                 ),
+                               ),
+                             ],
+
+                       ),
+
                     ],
                   )
                 : tabIndex == 3
@@ -1001,7 +1148,9 @@ class RowCart extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              image == null ? Image.asset(AppAssets.u1) : Image.network(image ?? ''),
+                              image == null
+                                  ? Image.asset(AppAssets.u1)
+                                  : Image.network(image ?? ''),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -1027,10 +1176,19 @@ class RowCart extends StatelessWidget {
                                 begin: const Alignment(0.61, -0.79),
                                 end: const Alignment(-0.61, 0.79),
                                 colors: priority == 'Warm'
-                                    ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                                    ? [
+                                        const Color(0xFFFDDC9C),
+                                        const Color(0xFFDDA53B)
+                                      ]
                                     : priority == 'Hot'
-                                        ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-                                        : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                                        ? [
+                                            const Color(0xFFFF2600),
+                                            const Color(0xFFFF6130)
+                                          ]
+                                        : [
+                                            const Color(0xFF3CDCDC),
+                                            const Color(0xFF12BCBC)
+                                          ],
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(39),
@@ -1040,26 +1198,19 @@ class RowCart extends StatelessWidget {
                               width: size.width * 0.11,
                               child: Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 4, bottom: 4),
-                                  child: CustomPopUpMenu(
+                                  padding: const EdgeInsets.only(
+                                      top: 4, bottom: 4),
+                                  child:
+                                  CustomPopUpMenu(
                                     showText: true,
-                                    priority: priority,
-                                    onSelected: (v) async {
-                                      await context
-                                          .read<MembersController>()
-                                          .updateLeadPriority(
-                                              context: context,
-                                              guestId: guestId,
-                                              feedback: '',
-                                              priority: v,
-                                              remark: '')
-                                          .whenComplete(
-                                        () async {
-                                          await context
-                                              .read<MembersController>()
-                                              .fetchLeads(status: ' Follow Up', priority: '', page: '1');
-                                        },
-                                      );
+                                    priority:priority ,
+                                    onSelected: (v)async {
+                                      await context.read<MembersController>().updateLeadPriority(context: context,
+                                          guestId: guestId, feedback:'', priority: v, remark: '').whenComplete(() async{
+                                        await context
+                                            .read<MembersController>()
+                                            .fetchLeads(status: ' Follow Up', priority: '', page: '1');
+                                          },);
                                     },
                                     itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                                       PopupMenuItem(
@@ -1102,26 +1253,39 @@ class RowCart extends StatelessWidget {
                                         ),
                                       ),
                                     ],
+
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          InkWell(
-                            onTap: () {},
+                          GestureDetector(
+                            onTap: () {
+                              _showDialog(context, guestId, '',true).whenComplete(
+                                    () async {
+                                  await context
+                                      .read<MembersController>()
+                                      .fetchLeads(status: 'Follow Up', priority: '', page: '1');
+                                },
+                              );
+                            },
                             child: Container(
                               decoration: ShapeDecoration(
                                 gradient: const LinearGradient(
                                   begin: Alignment(0.00, -1.00),
                                   end: Alignment(0, 1),
-                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+                                  colors: [
+                                    Color(0xFFF3F3F3),
+                                    Color(0xFFE0E0E0)
+                                  ],
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+                                padding: const EdgeInsets.only(
+                                    left: 18, right: 18, top: 4, bottom: 4),
                                 child: CustomeText(
                                   text: 'Close',
                                   fontWeight: FontWeight.w500,
@@ -1139,7 +1303,21 @@ class RowCart extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  image == null ? Image.asset(AppAssets.u1) : Image.network(image ?? ''),
+                                  image == null
+                                      ? CircleAvatar(
+                                    maxRadius: size.height * 0.02,
+                                    child: Image.asset(AppAssets.userIcon,height: 15,),
+                                  )
+                                      :
+                                  CircleAvatar(
+                                    maxRadius: size.height * 0.02,
+                                    child: Image.network(
+                                      image ?? '',
+                                      // height: size.height * 0.04,
+                                      height: size.height * 0.04,
+                                    ),
+
+                                  ),
                                   const SizedBox(
                                     width: 5,
                                   ),
@@ -1151,11 +1329,41 @@ class RowCart extends StatelessWidget {
                                 ],
                               ),
                               CustomeText(
-                                text: city ?? "",
+                                text: city ?? 'Raipur',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
-                              const Icon(Icons.more_vert)
+                              GestureDetector(
+                                onTap: () {
+                                  context.pushNamed(Routs.memberProfileDetails,extra: MemberProfileDetails(memberId: memberId??'',));
+                                },
+                                child: Container(
+                                  decoration: ShapeDecoration(
+                                    gradient: const LinearGradient(
+                                      begin: Alignment(0.00, -1.00),
+                                      end: Alignment(0, 1),
+                                      colors: [
+                                        Color(0xFFF3F3F3),
+                                        Color(0xFFE0E0E0)
+                                      ],
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 18, right: 18, top: 4, bottom: 4),
+                                    child: CustomeText(
+                                      text: 'View Profile',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // const Icon(Icons.more_vert)
                             ],
                           )
                         : Row(
@@ -1163,7 +1371,9 @@ class RowCart extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  image == null ? Image.asset(AppAssets.u1) : Image.network(image ?? ''),
+                                  image == null
+                                      ? Image.asset(AppAssets.u1)
+                                      : Image.network(image ?? ''),
                                   const SizedBox(
                                     width: 5,
                                   ),
@@ -1186,14 +1396,18 @@ class RowCart extends StatelessWidget {
                                     gradient: const LinearGradient(
                                       begin: Alignment(0.00, -1.00),
                                       end: Alignment(0, 1),
-                                      colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+                                      colors: [
+                                        Color(0xFFF3F3F3),
+                                        Color(0xFFE0E0E0)
+                                      ],
                                     ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+                                    padding: const EdgeInsets.only(
+                                        left: 18, right: 18, top: 4, bottom: 4),
                                     child: CustomeText(
                                       text: 'View Profile',
                                       fontWeight: FontWeight.w500,

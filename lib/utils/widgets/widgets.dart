@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/colors.dart';
+import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 
@@ -481,7 +482,7 @@ pickImageButton({required BuildContext context, required String text, required I
       ),
       decoration: BoxDecoration(
         color: Colors.black,
-        border: Border.all(color: context.colorScheme.primary),
+        gradient: primaryGradient,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -492,7 +493,7 @@ pickImageButton({required BuildContext context, required String text, required I
             padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
             child: Icon(
               icon,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
           Padding(
@@ -500,7 +501,7 @@ pickImageButton({required BuildContext context, required String text, required I
             child: Text(
               text,
               style: const TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),

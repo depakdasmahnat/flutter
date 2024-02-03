@@ -259,7 +259,7 @@ class _MemberProfileState extends State<MemberProfile> {
                       icon: AppAssets.edit,
                       title: 'Profile Edit',
                       onTap: () {
-                        context.push(Routs.guestEditProfile);
+                        context.push(Routs.memberEditProfile);
                       },
                     ),
                     SizedBox(

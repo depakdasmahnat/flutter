@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
+import '../../../models/guest_Model/fetchnewjoiners.dart';
 
 class GuestProfiles extends StatefulWidget {
   const GuestProfiles({super.key});
@@ -33,23 +34,30 @@ class _GuestProfilesState extends State<GuestProfiles> {
     return Consumer<GuestControllers>(
       builder: (context, controller, child) {
         return Padding(
-          padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+          padding: const EdgeInsets.symmetric(horizontal: kPadding),
           child: SizedBox(
             height: size.height * 0.10,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 controller.isLoading == false
                     ? const Center(
-                        child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                        child: CupertinoActivityIndicator(
+                            radius: 15, color: CupertinoColors.white),
                       )
                     : Column(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  //       mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: primaryGradient),
                             child: Padding(
                               padding: const EdgeInsets.all(6),
                               child: Column(
+                                crossAxisAlignment:  CrossAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
@@ -57,7 +65,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 8,
-                                      fontFamily: GoogleFonts.urbanist().fontFamily,
+                                      fontFamily:
+                                          GoogleFonts.urbanist().fontFamily,
                                       fontWeight: FontWeight.w700,
                                     ),
                                     textAlign: TextAlign.start,
@@ -68,7 +77,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                       color: Colors.black,
                                       fontSize: 26,
                                       height: 1,
-                                      fontFamily: GoogleFonts.urbanist().fontFamily,
+                                      fontFamily:
+                                          GoogleFonts.urbanist().fontFamily,
                                       fontWeight: FontWeight.w800,
                                     ),
                                     textAlign: TextAlign.start,
@@ -94,40 +104,37 @@ class _GuestProfilesState extends State<GuestProfiles> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Center(
-                            child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                            child: CupertinoActivityIndicator(
+                                radius: 15, color: CupertinoColors.white),
                           ),
                         ],
                       )
-                    : Expanded(
-                        child: ListView.builder(
+                    :
+                Expanded(
+                        child:
+                        ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemCount: controller.fetchnewjoiners?.data?.members?.length ?? 0,
                           itemBuilder: (context, index) {
+                            double itemSpacing = size.width * 0.03; // Adjust the spacing between items here
                             return Container(
-                              width: 65,
-                              margin: const EdgeInsets.all(4),
+                              margin: EdgeInsets.only(right: itemSpacing),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Container(
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
+                                  controller.fetchnewjoiners?.data?.members?[index].profilePhoto == null
+                                      ? const CircleAvatar(
+                                    // maxRadius: size.height * 0.03,
+                                    // minRadius: size.height * 0.03,
+                                    backgroundImage: AssetImage(AppAssets.getsprofile),
+                                  )
+                                      : CircleAvatar(
+                                    // maxRadius: size.height * 0.03,
+                                    // minRadius: size.height * 0.03,
+                                    backgroundImage: NetworkImage(
+                                      controller.fetchnewjoiners?.data?.members?[index].profilePhoto ?? '',
                                     ),
-                                    child: controller.fetchnewjoiners?.data?.members?[index].profilePhoto ==
-                                            null
-                                        ? Image.asset(
-                                            AppAssets.getsprofile,
-                                            fit: BoxFit.cover,
-                                            height: size.height * 0.05,
-                                          )
-                                        : Image.network(
-                                            controller.fetchnewjoiners?.data?.members?[index].profilePhoto ??
-                                                '',
-                                            fit: BoxFit.cover,
-                                            height: size.height * 0.05,
-                                          ),
                                   ),
                                   Text(
                                     '${controller.fetchnewjoiners?.data?.members?[index].firstName}',
@@ -154,8 +161,10 @@ class _GuestProfilesState extends State<GuestProfiles> {
                               ),
                             );
                           },
-                        ),
-                      ),
+                        )
+
+
+                ),
               ],
             ),
           ),

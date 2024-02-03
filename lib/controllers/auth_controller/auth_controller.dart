@@ -125,10 +125,11 @@ class AuthControllers extends ChangeNotifier {
                 isMobileValidated: '${responseData?.data?.isMobileValidated}',
                 lastName: responseData?.data?.lastName,
                 mobileNo: responseData?.data?.mobile,
+                address: responseData?.data?.address,
                 referralCode: responseData?.data?.referralCode,
               ));
         } else {
-          showSnackBar(context: context, text: 'Something went wong', color: Colors.red);
+          showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
         }
       }
     });
@@ -143,6 +144,7 @@ class AuthControllers extends ChangeNotifier {
     required String? firstName,
     required String? lastName,
     required String? referralCode,
+    required String? address,
     required String? otp,
   }) async {
     FocusScope.of(context).unfocus();
@@ -152,6 +154,7 @@ class AuthControllers extends ChangeNotifier {
       'first_name': '$firstName',
       'last_name': '$lastName',
       'referral_code': '$referralCode',
+      'address': '$address',
       'otp': '$otp',
     };
 

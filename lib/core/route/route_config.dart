@@ -167,7 +167,8 @@ class RoutesConfig {
         name: Routs.memberProfileDetails,
         path: Routs.memberProfileDetails,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberProfileDetails());
+          MemberProfileDetails? data = state.extra as MemberProfileDetails?;
+          return cupertinoPage(state: state, child:  MemberProfileDetails(memberId: data?.memberId??'',));
         },
       ),
 
@@ -226,6 +227,7 @@ class RoutesConfig {
                 referralCode: data?.referralCode,
                 isMobileValidated: data?.isMobileValidated,
                 firstName: data?.firstName,
+                address: data?.address,
                 goBack: data?.goBack,
               ));
         },
@@ -454,6 +456,7 @@ class RoutesConfig {
                 guestId: data?.guestId ?? '',
                 name: data?.name,
                 image: data?.image,
+                showLeadList: data?.showLeadList,
               ));
         },
       ),

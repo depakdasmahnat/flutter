@@ -25,6 +25,7 @@ class AppAssets {
   static const String resources = 'assets/images/resources.png';
   static const String pdf = 'assets/images/pdf_image.png';
   static const String leadContact = 'assets/icons/Ic_lead_contact.png';
+  static const String group = 'assets/icons/Group.png';
 
   static const String geustProduct = 'assets/images/geust_product.png';
   static const String geustProductDteila = 'assets/images/guet_product_detail.png';

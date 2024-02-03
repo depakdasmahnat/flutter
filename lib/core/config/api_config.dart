@@ -77,6 +77,17 @@ class ApiEndpoints {
   static const String fetchTests = 'fetch_tests';
   static const String submitUsersAnswer = 'submit_users_answer';
   static const String fetchEvents = 'fetch_events';
+  static const String leadClose = 'close_lead';
+  static const String fetchSponsor = 'get_sponsor_member_list';
+  static const String fetchFacilitator = 'get_facilitator_member_list';
+  static const String addLead = 'add_lead';
+  static const String createEvent = 'add_event';
+  static const String addGoal = 'add_goal';
+  static const String addNewMemberLead = 'add_new_member';
+  static const String editMember = 'edit_member_profile';
+  static const String ref = 'generate_referral_link';
+  static const String memberProfile = 'fetch_dashboard_stats?member_id=';
+  static const String addTarget = 'add_target';
 
   // Lead apis
   static const String fetchLead = 'fetch_leads?';
@@ -89,7 +100,8 @@ class ApiEndpoints {
   static const String fetchFeedCategories = 'fetch_feed_categories';
   static const String getComments = 'get_comments';
   static const String feedComment = 'feed_comment';
-  static const String fetchResourceDetails = 'fetch_resources?page=1&category_id=';
+  static const String fetchResourceDetails =
+      'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
 
