@@ -27,7 +27,7 @@ import '../../../utils/widgets/widgets.dart';
 
 class MembersController extends ChangeNotifier {
   /// 1) Tree View API...
-  bool showItem =false;
+  bool showItem = false;
   bool loadingTreeView = true;
   TreeGraphModel? networkTreeViewModel;
   List<TreeGraphData>? networkTreeViewNodes;
@@ -77,6 +77,7 @@ class MembersController extends ChangeNotifier {
   ///  fetch leads
   FetchLeads? fetchLeadsModel;
   bool leadsLoader = false;
+
   Future<FetchLeads?> fetchLeads({
     String? status,
     String? priority,
@@ -107,7 +108,7 @@ class MembersController extends ChangeNotifier {
           if (responseData.status == true) {
             fetchLeadsModel = responseData;
             notifyListeners();
-          }else{
+          } else {
             fetchLeadsModel = responseData;
             notifyListeners();
           }
@@ -122,6 +123,7 @@ class MembersController extends ChangeNotifier {
 
     return fetchLeadsModel;
   }
+
   ///  add lead priority
   Future<DefaultModel?> updateLeadPriority({
     required BuildContext context,
@@ -564,30 +566,18 @@ class MembersController extends ChangeNotifier {
     return _goals;
   }
 
-  /// 1) Dashboard States API...
-
-  bool loadingDashboardStates = true;
-  DashboardStatesModel? dashboardStatesModel;
-  DashboardStatesData? dashboardStatesData;
-
-  Future<DashboardStatesData?> fetchDashboardStates({
-    num? memberId,
-    String? filter,
-
   /// 1) lead close...
   Future<DefaultModel?> leadClose({
     required BuildContext context,
     required String? guestId,
     required String? enagicId,
     required String? password,
-
   }) async {
     FocusScope.of(context).unfocus();
     Map<String, dynamic> body = {
       'guest_id': '$guestId',
       'enagic_id': '$enagicId',
       'password': '$password',
-
     };
 
     debugPrint('Sent Data is $body');
@@ -616,11 +606,10 @@ class MembersController extends ChangeNotifier {
     return responseData;
   }
 
-
-
   /// 1) fetch sponsor..
   FetchSponsorModel? fetchSponsorModel;
-  bool sponsorLoader=false;
+  bool sponsorLoader = false;
+
   Future<FetchSponsorModel?> fetchSponsor({
     required BuildContext context,
     // required String stateId,
@@ -628,68 +617,72 @@ class MembersController extends ChangeNotifier {
   }) async {
     refresh() {
       sponsorLoader = false;
-      fetchSponsorModel=null;
+      fetchSponsorModel = null;
       notifyListeners();
     }
+
     // //
     apiResponseCompleted() {
       sponsorLoader = true;
       notifyListeners();
     }
+
     //
     refresh();
     try {
-    await  ApiService().get(
-        endPoint: ApiEndpoints.fetchSponsor ,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          FetchSponsorModel responseData = FetchSponsorModel.fromJson(json);
-          if (responseData.status == true) {
-            fetchSponsorModel = responseData;
-            notifyListeners();
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchSponsor,
+      )
+          .then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            FetchSponsorModel responseData = FetchSponsorModel.fromJson(json);
+            if (responseData.status == true) {
+              fetchSponsorModel = responseData;
+              notifyListeners();
+            }
           }
-        }
-      },);
-    apiResponseCompleted();
-
+        },
+      );
+      apiResponseCompleted();
     } catch (e, s) {
       apiResponseCompleted();
       debugPrint('Error is $e & $s');
-    }finally {
+    } finally {
       apiResponseCompleted();
-    }{
-
-  }
+    }
+    {}
 
     return fetchSponsorModel;
   }
-
 
   /// 1) add list..
 
   Map<String, dynamic>? uploadVideoResponse;
   DefaultModel? defaultModel;
-  bool addLeadLoader=false;
+  bool addLeadLoader = false;
+
   Future addList({
     required BuildContext context,
-   required String firstName,
-   required String lastName,
-   required String mobile,
-   required String email,
-   required String gender,
-   required String leadRefType,
-   required String occupation,
-   required String dob,
-   required String noOfFamilyMembers,
-   required String illnessInFamily,
-   required String stateId,
-   required String cityId,
-   required String address,
-   required String pincode,
-   required String disability,
-   required String monthlyIncome,
-   required String sponsorId,
+    required String firstName,
+    required String lastName,
+    required String mobile,
+    required String email,
+    required String gender,
+    required String leadRefType,
+    required String occupation,
+    required String dob,
+    required String noOfFamilyMembers,
+    required String illnessInFamily,
+    required String stateId,
+    required String cityId,
+    required String address,
+    required String pincode,
+    required String disability,
+    required String monthlyIncome,
+    required String sponsorId,
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -697,7 +690,7 @@ class MembersController extends ChangeNotifier {
       FocusScope.of(context).unfocus();
       Map<String, String> body = {
         'first_name': firstName,
-        'last_name':  lastName,
+        'last_name': lastName,
         'mobile': mobile,
         'email': email,
         'gender': gender,
@@ -724,23 +717,28 @@ class MembersController extends ChangeNotifier {
       await loadingDialog(
         context: context,
         future: response,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          uploadVideoResponse = json;
-          notifyListeners();
-          DefaultModel responseData = DefaultModel.fromJson(json);
-          if (responseData?.status == true) {
-            showSnackBar(context: context, text: responseData.message ?? 'List add successfully', color: Colors.green);
-            showItem=false;
-            context?.pop();
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            uploadVideoResponse = json;
             notifyListeners();
-          } else {
-            showSnackBar(
-                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData?.status == true) {
+              showSnackBar(
+                  context: context,
+                  text: responseData.message ?? 'List add successfully',
+                  color: Colors.green);
+              showItem = false;
+              context?.pop();
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
           }
-        }
-      },);
+        },
+      );
       // return ApiService().multiPart(
       //   endPoint: ApiEndpoints.addLead,
       //   body: body,
@@ -751,9 +749,8 @@ class MembersController extends ChangeNotifier {
     }
   }
 
-
   GenrateReferralModel? generateReferralModel;
-  bool generateRefLoader =false;
+  bool generateRefLoader = false;
 
   Future<GenrateReferralModel?> fetchReferral({
     required BuildContext context,
@@ -762,31 +759,36 @@ class MembersController extends ChangeNotifier {
   }) async {
     refresh() {
       generateRefLoader = false;
-      generateReferralModel=null;
+      generateReferralModel = null;
       notifyListeners();
     }
+
     // //
     apiResponseCompleted() {
       generateRefLoader = true;
       notifyListeners();
     }
+
     //
     refresh();
     try {
-      await  ApiService().get(
-        endPoint: ApiEndpoints.ref ,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          GenrateReferralModel responseData = GenrateReferralModel.fromJson(json);
-          if (responseData.status == true) {
-            generateReferralModel = responseData;
-            notifyListeners();
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.ref,
+      )
+          .then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            GenrateReferralModel responseData = GenrateReferralModel.fromJson(json);
+            if (responseData.status == true) {
+              generateReferralModel = responseData;
+              notifyListeners();
+            }
           }
-        }
-      },);
+        },
+      );
       apiResponseCompleted();
-
     } catch (e, s) {
       apiResponseCompleted();
       debugPrint('Error is $e & $s');
@@ -795,15 +797,13 @@ class MembersController extends ChangeNotifier {
     return generateReferralModel;
   }
 
-
-
   ///  fetch memberProfile...
   FetchMemberProfileModel? fetchMemberProfileModel;
   bool memberProfileLoader = false;
+
   Future<FetchMemberProfileModel?> fetchMemberProfile({
     required BuildContext context,
     required String memberID,
-
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -821,9 +821,7 @@ class MembersController extends ChangeNotifier {
 
       onRefresh();
       try {
-        var response = await ApiService()
-            .get(
-            endPoint: ApiEndpoints.memberProfile+memberID);
+        var response = await ApiService().get(endPoint: ApiEndpoints.memberProfile + memberID);
 
         if (response != null) {
           Map<String, dynamic> json = response;
@@ -831,7 +829,7 @@ class MembersController extends ChangeNotifier {
           if (responseData.status == true) {
             fetchMemberProfileModel = responseData;
             notifyListeners();
-          }else{
+          } else {
             fetchMemberProfileModel = responseData;
             notifyListeners();
           }
@@ -846,13 +844,11 @@ class MembersController extends ChangeNotifier {
     return fetchMemberProfileModel;
   }
 
-
   /// 1) fetch facilitator..
   FetchFacilitatorModel? fetchFacilitatorModel;
 
   Future<FetchFacilitatorModel?> fetchFacilitator({
     required BuildContext context,
-
   }) async {
     // refresh() {
     //   resourcesDetailLoader = false;
@@ -867,19 +863,22 @@ class MembersController extends ChangeNotifier {
     //
     // refresh();
     try {
-      await  ApiService().get(
-        endPoint: ApiEndpoints.fetchFacilitator ,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          FetchFacilitatorModel responseData = FetchFacilitatorModel.fromJson(json);
-          if (responseData.status == true) {
-            fetchFacilitatorModel = responseData;
-            notifyListeners();
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchFacilitator,
+      )
+          .then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            FetchFacilitatorModel responseData = FetchFacilitatorModel.fromJson(json);
+            if (responseData.status == true) {
+              fetchFacilitatorModel = responseData;
+              notifyListeners();
+            }
           }
-        }
-      },);
-
+        },
+      );
     } catch (e, s) {
       // apiResponseCompleted();
       debugPrint('Error is $e & $s');
@@ -892,6 +891,7 @@ class MembersController extends ChangeNotifier {
 
   // Map<String, dynamic>? uploadVideoResponse;
   DefaultModel? defaultFacilatatorModel;
+
   // bool addLeadLoader=false;
   Future addFacilitatorList({
     required BuildContext context,
@@ -922,7 +922,7 @@ class MembersController extends ChangeNotifier {
       FocusScope.of(context).unfocus();
       Map<String, String> body = {
         'first_name': firstName,
-        'last_name':  lastName,
+        'last_name': lastName,
         'mobile': mobile,
         'email': email,
         'enagic_id': enagicId,
@@ -947,28 +947,33 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.addNewMemberLead,
         body: body,
-        multipartFile:file != null? [MultiPartData(field: 'profile_photo', filePath: file?.path)]:[],
+        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file?.path)] : [],
       );
       await loadingDialog(
         context: context,
         future: response,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          uploadVideoResponse = json;
-          notifyListeners();
-          DefaultModel responseData = DefaultModel.fromJson(json);
-          if (responseData?.status == true) {
-            showSnackBar(context: context, text: responseData.message ?? 'List add successfully', color: Colors.green);
-            showItem=false;
-            context?.pop();
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            uploadVideoResponse = json;
             notifyListeners();
-          } else {
-            showSnackBar(
-                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData?.status == true) {
+              showSnackBar(
+                  context: context,
+                  text: responseData.message ?? 'List add successfully',
+                  color: Colors.green);
+              showItem = false;
+              context?.pop();
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
           }
-        }
-      },);
+        },
+      );
       // return ApiService().multiPart(
       //   endPoint: ApiEndpoints.addLead,
       //   body: body,
@@ -979,14 +984,13 @@ class MembersController extends ChangeNotifier {
     }
   }
 
-
   // Map<String, dynamic>? uploadVideoResponse;
   DefaultModel? defaultTargetModel;
+
   // bool addLeadLoader=false;
   Future addTarget({
     required BuildContext context,
     required String salesTarget,
-
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
     if (context != null) {
@@ -1003,21 +1007,26 @@ class MembersController extends ChangeNotifier {
       await loadingDialog(
         context: context,
         future: response,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          DefaultModel responseData = DefaultModel.fromJson(json);
-          if (responseData?.status == true) {
-            showSnackBar(context: context, text: responseData.message ?? 'List add successfully', color: Colors.green);
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData?.status == true) {
+              showSnackBar(
+                  context: context,
+                  text: responseData.message ?? 'List add successfully',
+                  color: Colors.green);
 
-            context?.pop();
-            notifyListeners();
-          } else {
-            showSnackBar(
-                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+              context?.pop();
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
           }
-        }
-      },);
+        },
+      );
       // return ApiService().multiPart(
       //   endPoint: ApiEndpoints.addLead,
       //   body: body,
@@ -1032,6 +1041,7 @@ class MembersController extends ChangeNotifier {
 
   // / Map<String, dynamic>? uploadVideoResponse;
   DefaultModel? defaultEditMemberModel;
+
   // bool addLeadLoader=false;
   Future editMemberProfile({
     required BuildContext context,
@@ -1056,14 +1066,13 @@ class MembersController extends ChangeNotifier {
     required String sponsorId,
     required String salesFacilitatorId,
     required XFile? file,
-
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
     if (context != null) {
       FocusScope.of(context).unfocus();
       Map<String, String> body = {
         'first_name': firstName,
-        'last_name':  lastName,
+        'last_name': lastName,
         'mobile': mobile,
         'email': email,
         // 'enagic_id': enagicId,
@@ -1089,28 +1098,32 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.editMember,
         body: body,
-        multipartFile:file != null? [MultiPartData(field: 'profile_photo', filePath: file?.path)]:[],
-
+        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file?.path)] : [],
       );
       await loadingDialog(
         context: context,
         future: response,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
 
-          notifyListeners();
-          DefaultModel responseData = DefaultModel.fromJson(json);
-          if (responseData?.status == true) {
-            showSnackBar(context: context, text: responseData.message ?? 'List add successfully', color: Colors.green);
-            context?.pop();
             notifyListeners();
-          } else {
-            showSnackBar(
-                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData?.status == true) {
+              showSnackBar(
+                  context: context,
+                  text: responseData.message ?? 'List add successfully',
+                  color: Colors.green);
+              context?.pop();
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
           }
-        }
-      },);
+        },
+      );
       // return ApiService().multiPart(
       //   endPoint: ApiEndpoints.addLead,
       //   body: body,
@@ -1120,7 +1133,6 @@ class MembersController extends ChangeNotifier {
       // });
     }
   }
-
 
   // /// 1) fetch facilitator..
   // FetchFacilitatorModel? fetchFacilitatorModel;
@@ -1163,7 +1175,6 @@ class MembersController extends ChangeNotifier {
   //   return fetchFacilitatorModel;
   // }
 
-
   /// 1) add list..
 
   // Map<String, dynamic>? uploadVideoResponse;
@@ -1181,7 +1192,6 @@ class MembersController extends ChangeNotifier {
     required String endDate,
     required String endTime,
     required String memberIds,
-
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -1209,23 +1219,26 @@ class MembersController extends ChangeNotifier {
       await loadingDialog(
         context: context,
         future: response,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          // uploadVideoResponse = json;
-          notifyListeners();
-          DefaultModel responseData = DefaultModel.fromJson(json);
-          if (responseData?.status == true) {
-            showSnackBar(context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
-            // showItem=false;
-            context?.pop();
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            // uploadVideoResponse = json;
             notifyListeners();
-          } else {
-            showSnackBar(
-                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData?.status == true) {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+              // showItem=false;
+              context?.pop();
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
           }
-        }
-      },);
+        },
+      );
       // return ApiService().multiPart(
       //   endPoint: ApiEndpoints.addLead,
       //   body: body,
@@ -1235,7 +1248,6 @@ class MembersController extends ChangeNotifier {
       // });
     }
   }
-
 
   /// 1) add goal..
 
@@ -1270,22 +1282,25 @@ class MembersController extends ChangeNotifier {
       await loadingDialog(
         context: context,
         future: response,
-      ).then((response) {
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          notifyListeners();
-          DefaultModel responseData = DefaultModel.fromJson(json);
-          if (responseData?.status == true) {
-            showSnackBar(context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
-            // showItem=false;
-            context?.pop();
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
             notifyListeners();
-          } else {
-            showSnackBar(
-                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData?.status == true) {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+              // showItem=false;
+              context?.pop();
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
           }
-        }
-      },);
+        },
+      );
       // return ApiService().multiPart(
       //   endPoint: ApiEndpoints.addLead,
       //   body: body,
@@ -1296,4 +1311,58 @@ class MembersController extends ChangeNotifier {
     }
   }
 
+  /// 1) Dashboard States API...
+
+  bool loadingDashboardStates = true;
+  DashboardStatesModel? dashboardStatesModel;
+  DashboardStatesData? dashboardStatesData;
+
+  Future<DashboardStatesData?> fetchDashboardStates({
+    num? memberId,
+    String? filter,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingDashboardStates = true;
+        dashboardStatesModel = null;
+        dashboardStatesData = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingDashboardStates = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      MemberData? member = LocalDatabase().member;
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchDashboardStats,
+          queryParameters: {
+            'member_id': '${memberId ?? member?.id}',
+            'filter': '$filter',
+          },
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          DashboardStatesModel responseData = DashboardStatesModel.fromJson(json);
+          if (responseData.status == true) {
+            dashboardStatesData = responseData.data;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return dashboardStatesData;
+  }
 }

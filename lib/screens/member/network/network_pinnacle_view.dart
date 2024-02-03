@@ -230,7 +230,7 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
           onPressed: () {
             context.pushNamed(Routs.memberProfileDetails,
                 extra: MemberProfileDetails(
-                  id: data?.id,
+                  memberId: '${data?.id}',
                 ));
           },
         ),

@@ -37,6 +37,7 @@ class _CustomModelBottomSheetState extends State<CustomModelBottomSheet> {
                 )),
             body: ListView.builder(
               shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.only(top: kPadding, bottom: kPadding),
               itemCount: widget.listItem,
               itemBuilder: (context, index) {

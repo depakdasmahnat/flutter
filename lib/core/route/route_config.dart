@@ -85,42 +85,42 @@ class RoutesConfig {
       //   name: Routs.initialRoute,
       //   path: Routs.initialRoute,
       //   pageBuilder: (context, state) {
-      //     return cupertinoPage(state: state, child: initialScreen());
+      //     return materialPage(state: state, child: initialScreen());
       //   },
       // ),
       GoRoute(
         name: Routs.memberaddForm,
         path: Routs.memberaddForm,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const AddMemberForm());
+          return materialPage(state: state, child: const AddMemberForm());
         },
       ),
       GoRoute(
         name: Routs.memberaddList,
         path: Routs.memberaddList,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const AddMemberList());
+          return materialPage(state: state, child: const AddMemberList());
         },
       ),
       GoRoute(
         name: Routs.memberEditProfile,
         path: Routs.memberEditProfile,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberEditProfile());
+          return materialPage(state: state, child: const MemberEditProfile());
         },
       ),
       GoRoute(
         name: Routs.callender,
         path: Routs.callender,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const CalendarForm());
+          return materialPage(state: state, child: const CalendarForm());
         },
       ),
       GoRoute(
         name: Routs.welcome,
         path: Routs.welcome,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const WelcomeScreen());
+          return materialPage(state: state, child: const WelcomeScreen());
         },
       ),
 
@@ -131,7 +131,7 @@ class RoutesConfig {
           DashBoard? data = state.extra as DashBoard?;
           print('check data ${data?.dashBoardIndex}');
           print('check data ${data?.userRole}');
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: DashBoard(
                 dashBoardIndex: data?.dashBoardIndex,
@@ -145,21 +145,21 @@ class RoutesConfig {
         name: Routs.login,
         path: Routs.login,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const Login());
+          return materialPage(state: state, child: const Login());
         },
       ),
       GoRoute(
         name: Routs.memberLogin,
         path: Routs.memberLogin,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberSignIn());
+          return materialPage(state: state, child: const MemberSignIn());
         },
       ),
       GoRoute(
         name: Routs.memberDashBoard,
         path: Routs.memberDashBoard,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberDashBoard());
+          return materialPage(state: state, child: const MemberDashBoard());
         },
       ),
 
@@ -168,7 +168,11 @@ class RoutesConfig {
         path: Routs.memberProfileDetails,
         pageBuilder: (context, state) {
           MemberProfileDetails? data = state.extra as MemberProfileDetails?;
-          return cupertinoPage(state: state, child:  MemberProfileDetails(memberId: data?.memberId??'',));
+          return materialPage(
+              state: state,
+              child: MemberProfileDetails(
+                memberId: data?.memberId ?? '',
+              ));
         },
       ),
 
@@ -176,14 +180,14 @@ class RoutesConfig {
         name: Routs.targetScreen,
         path: Routs.targetScreen,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const TargetScreen());
+          return materialPage(state: state, child: const TargetScreen());
         },
       ),
       GoRoute(
         name: Routs.interests,
         path: Routs.interests,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const InterestScreen());
+          return materialPage(state: state, child: const InterestScreen());
         },
       ),
 
@@ -192,7 +196,7 @@ class RoutesConfig {
         path: Routs.questions,
         pageBuilder: (context, state) {
           QuestionsScreen? data = state.extra as QuestionsScreen?;
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: QuestionsScreen(
                 categoryId: data?.categoryId ?? '',
@@ -203,14 +207,14 @@ class RoutesConfig {
         name: Routs.connectWithUs,
         path: Routs.connectWithUs,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const ConnectWithUs());
+          return materialPage(state: state, child: const ConnectWithUs());
         },
       ),
       GoRoute(
         name: Routs.gtpVideo,
         path: Routs.gtpVideo,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const GtpVideo());
+          return materialPage(state: state, child: const GtpVideo());
         },
       ),
 
@@ -219,7 +223,7 @@ class RoutesConfig {
         path: Routs.verifyOTP,
         pageBuilder: (context, state) {
           VerifyOTP? data = state.extra as VerifyOTP?;
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: VerifyOTP(
                 mobileNo: data?.mobileNo,
@@ -236,7 +240,7 @@ class RoutesConfig {
         name: Routs.homeScreen,
         path: Routs.homeScreen,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const HomeScreen());
+          return materialPage(state: state, child: const HomeScreen());
         },
         redirect: authRequired,
       ),
@@ -244,7 +248,7 @@ class RoutesConfig {
         name: Routs.notifications,
         path: Routs.notifications,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const NotificationScreen());
+          return materialPage(state: state, child: const NotificationScreen());
         },
       ),
 
@@ -252,7 +256,7 @@ class RoutesConfig {
         name: Routs.aboutUs,
         path: Routs.aboutUs,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const AboutUsScreen());
+          return materialPage(state: state, child: const AboutUsScreen());
         },
       ),
 
@@ -260,7 +264,7 @@ class RoutesConfig {
         name: Routs.permissions,
         path: Routs.permissions,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const PermissionsScreen());
+          return materialPage(state: state, child: const PermissionsScreen());
         },
       ),
       GoRoute(
@@ -268,7 +272,7 @@ class RoutesConfig {
         path: Routs.guestProductDetail,
         pageBuilder: (context, state) {
           GusetProductDetails? data = state.extra as GusetProductDetails?;
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: GusetProductDetails(
                 productId: data?.productId,
@@ -279,14 +283,14 @@ class RoutesConfig {
         name: Routs.guestProduct,
         path: Routs.guestProduct,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const GuestPoduct());
+          return materialPage(state: state, child: const GuestPoduct());
         },
       ),
       GoRoute(
         name: Routs.guestProfile,
         path: Routs.guestProfile,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const GuestProfile());
+          return materialPage(state: state, child: const GuestProfile());
         },
       ),
 
@@ -294,21 +298,21 @@ class RoutesConfig {
         name: Routs.guestEditProfile,
         path: Routs.guestEditProfile,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const GuestEditProfile());
+          return materialPage(state: state, child: const GuestEditProfile());
         },
       ),
       GoRoute(
         name: Routs.guestFaq,
         path: Routs.guestFaq,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const GuestFaq());
+          return materialPage(state: state, child: const GuestFaq());
         },
       ),
       GoRoute(
         name: Routs.selectLead,
         path: Routs.selectLead,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const SelectLead());
+          return materialPage(state: state, child: const SelectLead());
         },
       ),
 
@@ -318,7 +322,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ChaptersScreen? data = state.extra as ChaptersScreen?;
 
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: ChaptersScreen(
                 category: data?.category,
@@ -331,21 +335,21 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ChaptersDetails? data = state.extra as ChaptersDetails?;
 
-          return cupertinoPage(state: state, child: ChaptersDetails(chapter: data?.chapter));
+          return materialPage(state: state, child: ChaptersDetails(chapter: data?.chapter));
         },
       ),
       GoRoute(
         name: Routs.trainingScreen,
         path: Routs.trainingScreen,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const TrainingScreen());
+          return materialPage(state: state, child: const TrainingScreen());
         },
       ),
       GoRoute(
         name: Routs.memberFeeds,
         path: Routs.memberFeeds,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberFeeds());
+          return materialPage(state: state, child: const MemberFeeds());
         },
       ),
       GoRoute(
@@ -354,7 +358,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ResourceAndDemo? data = state.extra as ResourceAndDemo?;
 
-          return cupertinoPage(state: state, child: ResourceAndDemo(category: data?.category));
+          return materialPage(state: state, child: ResourceAndDemo(category: data?.category));
         },
       ),
 
@@ -363,7 +367,7 @@ class RoutesConfig {
         path: Routs.feedDetail,
         pageBuilder: (context, state) {
           FeedDetail? data = state.extra as FeedDetail?;
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: FeedDetail(
                 id: data?.id,
@@ -376,28 +380,28 @@ class RoutesConfig {
         path: Routs.examQuiz,
         pageBuilder: (context, state) {
           ExamQuiz? data = state.extra as ExamQuiz?;
-          return cupertinoPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
+          return materialPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
         },
       ),
       GoRoute(
         name: Routs.toDoScreen,
         path: Routs.toDoScreen,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const ToDoScreen());
+          return materialPage(state: state, child: const ToDoScreen());
         },
       ),
       GoRoute(
         name: Routs.goals,
         path: Routs.goals,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const GoalsScreen());
+          return materialPage(state: state, child: const GoalsScreen());
         },
       ),
       GoRoute(
         name: Routs.createGoal,
         path: Routs.createGoal,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const CreateGoal());
+          return materialPage(state: state, child: const CreateGoal());
         },
       ),
 
@@ -405,7 +409,7 @@ class RoutesConfig {
         name: Routs.achievers,
         path: Routs.achievers,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const Achievers());
+          return materialPage(state: state, child: const Achievers());
         },
       ),
 
@@ -413,21 +417,21 @@ class RoutesConfig {
         name: Routs.createTarget,
         path: Routs.createTarget,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const CreateTarget());
+          return materialPage(state: state, child: const CreateTarget());
         },
       ),
       GoRoute(
         name: Routs.createEvent,
         path: Routs.createEvent,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const CreateEvent());
+          return materialPage(state: state, child: const CreateEvent());
         },
       ),
       GoRoute(
         name: Routs.memberProfile,
         path: Routs.memberProfile,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberProfile());
+          return materialPage(state: state, child: const MemberProfile());
         },
       ),
 
@@ -435,14 +439,14 @@ class RoutesConfig {
         name: Routs.events,
         path: Routs.events,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const EventScreen());
+          return materialPage(state: state, child: const EventScreen());
         },
       ),
       GoRoute(
         name: Routs.shceduledDemoForm,
         path: Routs.shceduledDemoForm,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const ScheduledDemoForm());
+          return materialPage(state: state, child: const ScheduledDemoForm());
         },
       ),
       GoRoute(
@@ -450,7 +454,7 @@ class RoutesConfig {
         path: Routs.createDemo,
         pageBuilder: (context, state) {
           CreateDemo? data = state.extra as CreateDemo?;
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: CreateDemo(
                 guestId: data?.guestId ?? '',
@@ -466,14 +470,14 @@ class RoutesConfig {
         path: Routs.viewPdf,
         pageBuilder: (context, state) {
           PDFViewer? data = state.extra as PDFViewer?;
-          return cupertinoPage(state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
+          return materialPage(state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
         },
       ),
       GoRoute(
         name: Routs.demos,
         path: Routs.demos,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const DemosScreen());
+          return materialPage(state: state, child: const DemosScreen());
         },
       ),
 
@@ -482,28 +486,28 @@ class RoutesConfig {
         path: Routs.pptViewer,
         pageBuilder: (context, state) {
           PPTViewer? data = state.extra as PPTViewer?;
-          return cupertinoPage(state: state, child: PPTViewer(url: data?.url ?? ''));
+          return materialPage(state: state, child: PPTViewer(url: data?.url ?? ''));
         },
       ),
       GoRoute(
         name: Routs.networkReport,
         path: Routs.networkReport,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const NetworkReport());
+          return materialPage(state: state, child: const NetworkReport());
         },
       ),
       GoRoute(
         name: Routs.resources,
         path: Routs.resources,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const ResourcesScreen());
+          return materialPage(state: state, child: const ResourcesScreen());
         },
       ),
       GoRoute(
         name: Routs.resetPassword,
         path: Routs.resetPassword,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const ResetPassword());
+          return materialPage(state: state, child: const ResetPassword());
         },
       ),
 
@@ -512,7 +516,7 @@ class RoutesConfig {
         path: Routs.whyareYou,
         pageBuilder: (context, state) {
           WhyAreYouHere? data = state.extra as WhyAreYouHere?;
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: WhyAreYouHere(
                 questionId: data?.questionId ?? '',
@@ -527,7 +531,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           WebScreen? data = state.extra as WebScreen?;
 
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: WebScreen(
                 type: data?.type ?? '',
@@ -540,7 +544,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ImageOpener? data = state.extra as ImageOpener?;
 
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: ImageOpener(
                 assetImage: data?.assetImage,
@@ -556,7 +560,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           MultipleImageOpener? data = state.extra as MultipleImageOpener?;
 
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: MultipleImageOpener(
                 initialIndex: data?.initialIndex,
@@ -574,7 +578,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
-          return cupertinoPage(
+          return materialPage(
               state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
@@ -650,6 +654,7 @@ class RoutesConfig {
   static MaterialPage<dynamic> materialPage({
     required GoRouterState state,
     required Widget child,
+    bool authRequired = false,
   }) {
     AnalyticService.trackScreen(state: state);
     return MaterialPage(key: state.pageKey, child: child);

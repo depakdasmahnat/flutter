@@ -244,10 +244,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
       CustomPopupMenuEntry(
         label: 'Check Profile',
         onPressed: () {
-          context.pushNamed(Routs.memberProfileDetails,
-              extra: MemberProfileDetails(
-                id: data?.id,
-              ));
+          context.pushNamed(Routs.memberProfileDetails, extra: MemberProfileDetails(memberId: '${data?.id}'));
         },
       ),
     );

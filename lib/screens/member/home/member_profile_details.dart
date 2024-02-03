@@ -18,8 +18,9 @@ import '../../../utils/widgets/no_data_found.dart';
 import '../../guest/home/home_screen.dart';
 
 class MemberProfileDetails extends StatefulWidget {
-  String memberId;
-  MemberProfileDetails({super.key, required this.memberId});
+  final String memberId;
+
+  const MemberProfileDetails({super.key, required this.memberId});
 
   @override
   State<MemberProfileDetails> createState() => _MemberProfileDetailsState();
@@ -40,6 +41,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
     TargetAnalyticsData(xAxis: 'Nov', performance: 38),
     TargetAnalyticsData(xAxis: 'Dec', performance: 54),
   ];
+
   // Create dummy data
   late TargetAnalyticsModel dummyData = TargetAnalyticsModel(
     success: true,
@@ -80,12 +82,11 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
   int dashBoardIndex = 0;
   double? trainingProgress = 75;
   String? selectedDuration = DurationFilterMenu.monthly.label;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context
-          .read<MembersController>()
-          .fetchMemberProfile(context: context, memberID: widget.memberId);
+      await context.read<MembersController>().fetchMemberProfile(context: context, memberID: widget.memberId);
     });
     super.initState();
   }
@@ -121,59 +122,48 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                           children: [
                             Text(
                               '${controller.fetchMemberProfileModel?.data?.firstName} ${controller.fetchMemberProfileModel?.data?.lastName}',
-                              style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.w700),
+                              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 4, bottom: 8),
                               child: Text(
                                 'ID: ${controller.fetchMemberProfileModel?.data?.enagicId}',
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w700),
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 2),
                               child: Text(
                                 '+91 ${controller.fetchMemberProfileModel?.data?.mobile}',
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w400),
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                               ),
                             ),
                             Text(
-                              controller
-                                      .fetchMemberProfileModel?.data?.address ??
-                                  '',
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
+                              controller.fetchMemberProfileModel?.data?.address ?? '',
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                             ),
                           ],
                         )
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: kPadding, right: kPadding),
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding),
                       child: Row(
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Padding(
-                                padding:
-                                    EdgeInsets.only(top: kPadding, bottom: 8),
+                                padding: EdgeInsets.only(top: kPadding, bottom: 8),
                                 child: Text(
                                   'Achievement',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400),
+                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                                 ),
                               ),
                               Row(
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 6),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                                     decoration: BoxDecoration(
                                       gradient: inActiveGradient,
                                       borderRadius: BorderRadius.circular(8),
@@ -181,15 +171,10 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                                     child: Row(
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 8),
+                                          padding: const EdgeInsets.only(right: 8),
                                           child: Text(
-                                            controller.fetchMemberProfileModel
-                                                    ?.data?.rank ??
-                                                '6A',
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w800),
+                                            controller.fetchMemberProfileModel?.data?.rank ?? '6A',
+                                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
                                           ),
                                         ),
                                         const ImageView(
@@ -201,10 +186,8 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                                     ),
                                   ),
                                   Container(
-                                    margin:
-                                        const EdgeInsets.only(left: kPadding),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16, vertical: 6),
+                                    margin: const EdgeInsets.only(left: kPadding),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                                     decoration: BoxDecoration(
                                       gradient: inActiveGradient,
                                       borderRadius: BorderRadius.circular(8),
@@ -213,18 +196,14 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                                       children: [
                                         const ImageView(
                                           height: 18,
-                                          assetImage:
-                                              AppAssets.membersFilledIcon,
+                                          assetImage: AppAssets.membersFilledIcon,
                                           margin: EdgeInsets.only(),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8),
+                                          padding: const EdgeInsets.only(left: 8),
                                           child: Text(
                                             'Members ${controller.fetchMemberProfileModel?.data?.memberCounts ?? ''}',
-                                            style: const TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w400),
+                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                                           ),
                                         ),
                                       ],
@@ -238,10 +217,8 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                       ),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(
-                          top: kPadding, left: kPadding, right: kPadding),
-                      padding: const EdgeInsets.only(
-                          left: kPadding, right: kPadding, top: 8, bottom: 8),
+                      margin: const EdgeInsets.only(top: kPadding, left: kPadding, right: kPadding),
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(12),
@@ -259,9 +236,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                             ),
                           ),
                           GradientProgressBar(
-                            value: (trainingProgress ?? 0) > 0
-                                ? (trainingProgress! / 100)
-                                : 0,
+                            value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
                             backgroundColor: Colors.grey.shade300,
                             margin: const EdgeInsets.only(top: 8, bottom: 8),
                           ),
@@ -270,17 +245,13 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                             children: [
                               const Text(
                                 'Steps 35/60',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
+                                style:
+                                    TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                               ),
                               Text(
                                 '${(trainingProgress ?? 0).toStringAsFixed(0)}%',
                                 style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500),
+                                    color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                               ),
                             ],
                           ),
@@ -302,8 +273,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: kPadding, right: kPadding, top: kPadding),
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -322,25 +292,18 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: kPadding, left: 8, right: 8),
+                      padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
                       child: Row(
                         children: [
                           MySalesTarget(
-                            pending:
-                                '${controller.fetchMemberProfileModel?.data?.pendingSales ?? ''}',
-                            target:
-                                '${controller.fetchMemberProfileModel?.data?.salesTarget ?? ''}',
-                            archived:
-                                '${controller.fetchMemberProfileModel?.data?.achievedSales ?? ''}',
+                            pending: '${controller.fetchMemberProfileModel?.data?.pendingSales ?? ''}',
+                            target: '${controller.fetchMemberProfileModel?.data?.salesTarget ?? ''}',
+                            archived: '${controller.fetchMemberProfileModel?.data?.achievedSales ?? ''}',
                           ),
                           MyRankTarget(
-                            level:
-                                '${controller.fetchMemberProfileModel?.data?.rank ?? '6A'}',
-                            rank:
-                                '${controller.fetchMemberProfileModel?.data?.nextRank ?? '6A2'}',
-                            target:
-                                '${controller.fetchMemberProfileModel?.data?.pendingRankSales ?? ''}',
+                            level: '${controller.fetchMemberProfileModel?.data?.rank ?? '6A'}',
+                            rank: '${controller.fetchMemberProfileModel?.data?.nextRank ?? '6A2'}',
+                            target: '${controller.fetchMemberProfileModel?.data?.pendingRankSales ?? ''}',
                           ),
                         ],
                       ),
@@ -349,10 +312,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(
-                              left: kPadding,
-                              right: kPadding,
-                              bottom: kPadding,
-                              top: kPadding),
+                              left: kPadding, right: kPadding, bottom: kPadding, top: kPadding),
                           child: Text(
                             'Dashboard',
                             style: headingTextStyle(),
@@ -370,37 +330,32 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                           children: [
                             AnalyticsCard(
                               title: 'Leads Added',
-                              value:
-                                  '${controller.fetchMemberProfileModel?.data?.leadsAddded ?? ''}',
+                              value: '${controller.fetchMemberProfileModel?.data?.leadsAddded ?? ''}',
                               gradient: limeGradient,
                               onTap: () {},
                             ),
                             AnalyticsCard(
                               title: 'Demo Scheduled',
-                              value:
-                                  '${controller.fetchMemberProfileModel?.data?.demoScheduled ?? ''}',
+                              value: '${controller.fetchMemberProfileModel?.data?.demoScheduled ?? ''}',
                               gradient: targetGradient,
                               onTap: () {},
                             ),
                             AnalyticsCard(
                               title: 'Demo Competed',
-                              value:
-                                  '${controller.fetchMemberProfileModel?.data?.demoCompleted ?? ''}',
+                              value: '${controller.fetchMemberProfileModel?.data?.demoCompleted ?? ''}',
                               gradient: targetGradient,
                               onTap: () {},
                             ),
                             AnalyticsCard(
                               title: 'Leads Closed',
-                              value:
-                                  '${controller.fetchMemberProfileModel?.data?.leadsClosed ?? ''}',
+                              value: '${controller.fetchMemberProfileModel?.data?.leadsClosed ?? ''}',
                               flex: 2,
                               gradient: primaryGradient,
                               onTap: () {},
                             ),
                             AnalyticsCard(
                               title: 'Leads\nConversion',
-                              value:
-                                  '${controller.fetchMemberProfileModel?.data?.leadsConversion ?? ''}',
+                              value: '${controller.fetchMemberProfileModel?.data?.leadsConversion ?? ''}',
                               gradient: inActiveGradient,
                               textColor: Colors.white,
                               showArrow: false,
@@ -409,16 +364,14 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                             ),
                             AnalyticsCard(
                               title: 'Hot Leads',
-                              value:
-                                  '${controller.fetchMemberProfileModel?.data?.hotLeads ?? ''}',
+                              value: '${controller.fetchMemberProfileModel?.data?.hotLeads ?? ''}',
                               minHeight: 100,
                               gradient: primaryGradient,
                               onTap: () {},
                             ),
                             AnalyticsCard(
                               title: 'Cold Leads',
-                              value:
-                                  '${controller.fetchMemberProfileModel?.data?.coldLeads ?? ''}',
+                              value: '${controller.fetchMemberProfileModel?.data?.coldLeads ?? ''}',
                               gradient: blueGradient,
                               minHeight: 100,
                               onTap: () {},
@@ -428,8 +381,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: kPadding, right: kPadding, top: 8),
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -438,8 +390,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                             style: headingTextStyle(),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
                               gradient: inActiveGradient,
                               borderRadius: BorderRadius.circular(5),
@@ -450,26 +401,24 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                                   padding: EdgeInsets.only(right: 4),
                                   child: Text(
                                     '6A2',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold),
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                                Icon(Icons.keyboard_arrow_down_rounded,
-                                    size: 18)
+                                Icon(Icons.keyboard_arrow_down_rounded, size: 18)
                               ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: kPadding, horizontal: 8),
-                      child: PerformanceGraph(
-                        analytics: dummyAnalyticsList,
-                      ),
-                    ),
+
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(
+                    //       vertical: kPadding, horizontal: 8),
+                    //   child: PerformanceGraph(
+                    //     analytics: dummyAnalyticsList,
+                    //   ),
+                    // ),
                   ],
                 ),
           bottomSheet: Column(
@@ -484,15 +433,19 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                 backgroundColor: Colors.transparent,
                 boxShadow: const [],
                 margin: const EdgeInsets.only(left: 16, right: 24),
-                onTap: () async{
+                onTap: () async {
                   await context.read<MembersController>().callUser(
-                    mobileNo: '${controller.fetchMemberProfileModel?.data?.mobile}',
-                  );
+                        mobileNo: '${controller.fetchMemberProfileModel?.data?.mobile}',
+                      );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(AppAssets.call,height: size.height*0.04,color: Colors.black,),
+                    Image.asset(
+                      AppAssets.call,
+                      height: size.height * 0.04,
+                      color: Colors.black,
+                    ),
                     const SizedBox(
                       width: 10,
                     ),
@@ -515,8 +468,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
     );
   }
 
-  TextStyle headingTextStyle() =>
-      const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+  TextStyle headingTextStyle() => const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
 }
 
 class MyRankTarget extends StatelessWidget {
@@ -550,8 +502,7 @@ class MyRankTarget extends StatelessWidget {
               children: [
                 Text(
                   '$level',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -568,8 +519,7 @@ class MyRankTarget extends StatelessWidget {
                 ),
                 Text(
                   '$rank',
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -584,8 +534,7 @@ class MyRankTarget extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     '(${target ?? 0}) Sale Pending to achieve',
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -615,8 +564,7 @@ class MySalesTarget extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(minHeight: 140),
         margin: const EdgeInsets.only(right: 8),
-        padding: const EdgeInsets.symmetric(
-            horizontal: kPadding, vertical: kPadding),
+        padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
         decoration: BoxDecoration(
           gradient: targetGradient,
           borderRadius: BorderRadius.circular(32),
@@ -626,10 +574,7 @@ class MySalesTarget extends StatelessWidget {
           children: [
             const Text(
               'My sales target',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 12, top: 12),
@@ -640,20 +585,14 @@ class MySalesTarget extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8),
                     child: Text(
                       '${pending ?? 0}',
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold),
+                      style: const TextStyle(color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
                       'Pending',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -669,20 +608,15 @@ class MySalesTarget extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         '${target ?? 0}',
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700),
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 2),
                       child: Text(
                         'Target',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
+                        style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                       ),
                     ),
                   ],
@@ -700,20 +634,15 @@ class MySalesTarget extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         '${archived ?? 0}',
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 2),
                       child: Text(
                         'Achieved',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
+                        style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
                       ),
                     ),
                   ],
@@ -759,10 +688,8 @@ class AnalyticsCard extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              constraints:
-                  BoxConstraints(minHeight: minHeight ?? 120, maxWidth: 120),
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kPadding, vertical: 16),
+              constraints: BoxConstraints(minHeight: minHeight ?? 120, maxWidth: 120),
+              padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
               decoration: BoxDecoration(
                 gradient: gradient ?? inActiveGradient,
                 borderRadius: BorderRadius.circular(32),
@@ -789,9 +716,7 @@ class AnalyticsCard extends StatelessWidget {
                       Text(
                         '$title',
                         style: TextStyle(
-                            color: textColor ?? Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            color: textColor ?? Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                       ),
