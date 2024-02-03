@@ -189,12 +189,11 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
           addressController.text = controller.fetchGuestProfileModel?.data?.address ?? '';
           enagicIdController.text = controller.fetchGuestProfileModel?.data?.enagicId ?? '';
           genderHint = controller.fetchGuestProfileModel?.data?.gender ?? '';
-          stateId =
-              controller.fetchGuestProfileModel?.data?.stateId.toString() ?? '';
+          stateId = controller.fetchGuestProfileModel?.data?.stateId.toString()=='null'?'':controller.fetchGuestProfileModel?.data?.stateId.toString()??'';
           stateHint = controller.fetchGuestProfileModel?.data?.stateName ??
               'Select State';
           gender = controller.fetchGuestProfileModel?.data?.gender ?? 'Select Gender';
-          cityId = controller.fetchGuestProfileModel?.data?.cityId.toString() ?? '';
+          cityId = controller.fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':controller.fetchGuestProfileModel?.data?.cityId.toString()??'';
           sponsorId = controller.fetchGuestProfileModel?.data?.sponsorId.toString()??'';
           sponsorHint = controller.fetchGuestProfileModel?.data?.sponsorName.toString()=='null' ? '':controller.fetchGuestProfileModel?.data?.sponsorName.toString()??'';
           cityHint = controller.fetchGuestProfileModel?.data?.cityName?? 'Select City';

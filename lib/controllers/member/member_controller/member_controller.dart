@@ -485,24 +485,24 @@ class MembersController extends ChangeNotifier {
 
   /// 1) fetch sponsor..
   FetchSponsorModel? fetchSponsorModel;
-
+  bool sponsorLoader=false;
   Future<FetchSponsorModel?> fetchSponsor({
     required BuildContext context,
     // required String stateId,
     // required String categoryId,
   }) async {
-    // refresh() {
-    //   resourcesDetailLoader = false;
-    //
-    //   notifyListeners();
-    // }
+    refresh() {
+      sponsorLoader = false;
+      fetchSponsorModel=null;
+      notifyListeners();
+    }
     // //
-    // apiResponseCompleted() {
-    //   resourcesDetailLoader = true;
-    //   notifyListeners();
-    // }
+    apiResponseCompleted() {
+      sponsorLoader = true;
+      notifyListeners();
+    }
     //
-    // refresh();
+    refresh();
     try {
     await  ApiService().get(
         endPoint: ApiEndpoints.fetchSponsor ,
@@ -516,11 +516,16 @@ class MembersController extends ChangeNotifier {
           }
         }
       },);
+    apiResponseCompleted();
 
     } catch (e, s) {
-      // apiResponseCompleted();
+      apiResponseCompleted();
       debugPrint('Error is $e & $s');
-    }
+    }finally {
+      apiResponseCompleted();
+    }{
+
+  }
 
     return fetchSponsorModel;
   }
@@ -944,6 +949,7 @@ class MembersController extends ChangeNotifier {
         'sales_facilitator_id': salesFacilitatorId,
       };
       debugPrint('Sent Data is $body');
+      debugPrint('this is member edit profile');
       //Processing API...
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.editMember,
@@ -1022,5 +1028,137 @@ class MembersController extends ChangeNotifier {
   //   return fetchFacilitatorModel;
   // }
 
+
+  /// 1) add list..
+
+  // Map<String, dynamic>? uploadVideoResponse;
+  // DefaultModel? createEventModel;
+  // bool addLeadLoader=false;
+  Future createEvent({
+    required BuildContext context,
+    required String name,
+    required String eventType,
+    required String meetingLink,
+    required String city,
+    required String description,
+    required String startDate,
+    required String startTime,
+    required String endDate,
+    required String endTime,
+    required String memberIds,
+
+    required XFile? file,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'name': name,
+        'type': eventType,
+        'meeting_link': meetingLink,
+        'location': city,
+        'description': description,
+        'start_date': startDate,
+        'start_time': startTime,
+        'end_date': endDate,
+        'end_time': endTime,
+        'member_ids': memberIds,
+      };
+      debugPrint('Sent Data is $body');
+      //Processing API...
+      var response = ApiService().multiPart(
+        endPoint: ApiEndpoints.createEvent,
+        body: body,
+        multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          // uploadVideoResponse = json;
+          notifyListeners();
+          DefaultModel responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+            // showItem=false;
+            context?.pop();
+            notifyListeners();
+          } else {
+            showSnackBar(
+                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          }
+        }
+      },);
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
+
+  /// 1) add goal..
+
+  // Map<String, dynamic>? uploadVideoResponse;
+  // DefaultModel? createEventModel;
+  // bool addLeadLoader=false;
+  Future addGoal({
+    required BuildContext context,
+    required String name,
+    required String goalType,
+    required String startDate,
+    required String endDate,
+    required String description,
+    required XFile? file,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'name': name,
+        'type': goalType,
+        'start_date': startDate,
+        'end_date': endDate,
+        'description': description,
+      };
+      debugPrint('Sent Data is $body');
+      var response = ApiService().multiPart(
+        endPoint: ApiEndpoints.addGoal,
+        body: body,
+        multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          notifyListeners();
+          DefaultModel responseData = DefaultModel.fromJson(json);
+          if (responseData?.status == true) {
+            showSnackBar(context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+            // showItem=false;
+            context?.pop();
+            notifyListeners();
+          } else {
+            showSnackBar(
+                context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          }
+        }
+      },);
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
 
 }

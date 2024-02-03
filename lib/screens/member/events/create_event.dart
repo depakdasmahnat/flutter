@@ -9,7 +9,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
@@ -25,6 +28,8 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
+  String eventType ='';
+  String memberIds ='';
   TextEditingController eventNameCtrl = TextEditingController();
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController startTimeCtrl = TextEditingController();
@@ -36,9 +41,18 @@ class _CreateEventState extends State<CreateEvent> {
   TextEditingController cityCtrl = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
   TextEditingController descriptionCtrl = TextEditingController();
-
+  Set<int> leadIndex = Set<int>();
   File? image;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.read<MembersController>().fetchSponsor(
+        context: context,
+      );
 
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -49,6 +63,7 @@ class _CreateEventState extends State<CreateEvent> {
         title: const Text('Create Event'),
       ),
       body: ListView(
+
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
           AppTextField(
@@ -56,24 +71,29 @@ class _CreateEventState extends State<CreateEvent> {
             title: 'Event name',
             hintText: 'Enter Event name',
           ),
-          const AppTextField(
-            title: 'Event Type*',
-            hintText: 'Enter Event Type',
-          ),
-           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+        
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
+              onChanged: (v) {
+                eventType=v;
+              },
               title: 'Event Type*',
               hintText: 'Select Event Type',
               listItem: ['Online', 'Offline'],
             ),
           ),
-           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
               title: 'Type Of Category*',
               hintText: 'Select Event Type',
-              listItem: ['Webinar', 'Conferences', 'Workshops', 'Networking Event'],
+              listItem: const [
+                'Webinar',
+                'Conferences',
+                'Workshops',
+                'Networking Event'
+              ],
             ),
           ),
           Row(
@@ -83,7 +103,8 @@ class _CreateEventState extends State<CreateEvent> {
                   title: 'Start Date',
                   hintText: 'dd/mm/yyyy',
                   controller: startDateCtrl,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10, left: kPadding, right: kPadding),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: kPadding, right: kPadding),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
@@ -94,7 +115,8 @@ class _CreateEventState extends State<CreateEvent> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -126,7 +148,8 @@ class _CreateEventState extends State<CreateEvent> {
                   title: 'Start Time',
                   hintText: 'hh:mm',
                   controller: startTimeCtrl,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10, right: kPadding),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, right: kPadding),
                   onTap: () async {
                     TimeOfDay? time = await showTimePicker(
                       context: context,
@@ -134,7 +157,8 @@ class _CreateEventState extends State<CreateEvent> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -170,7 +194,8 @@ class _CreateEventState extends State<CreateEvent> {
                   title: 'End Date',
                   hintText: 'dd/mm/yyyy',
                   controller: endDateCtrl,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10, left: kPadding, right: kPadding),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: kPadding, right: kPadding),
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
@@ -181,7 +206,8 @@ class _CreateEventState extends State<CreateEvent> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -213,7 +239,8 @@ class _CreateEventState extends State<CreateEvent> {
                   title: 'End Time',
                   hintText: 'hh:mm',
                   controller: endTimeCtrl,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10, right: kPadding),
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, right: kPadding),
                   onTap: () async {
                     TimeOfDay? time = await showTimePicker(
                       context: context,
@@ -221,7 +248,8 @@ class _CreateEventState extends State<CreateEvent> {
                         return Theme(
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(
-                                shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                shape: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -257,16 +285,10 @@ class _CreateEventState extends State<CreateEvent> {
           ),
           AppTextField(
             controller: cityCtrl,
-            title: 'City',
-            hintText: 'Enter City',
+            title: 'Location',
+            hintText: 'Enter Location',
           ),
-          AppTextField(
-            controller: addressCtrl,
-            title: 'Address',
-            hintText: 'Enter Address',
-            minLines: 2,
-            maxLines: 6,
-          ),
+
           AppTextField(
             controller: descriptionCtrl,
             title: 'Description',
@@ -286,9 +308,11 @@ class _CreateEventState extends State<CreateEvent> {
                 radius: const Radius.circular(12),
                 color: Colors.grey,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kPadding, vertical: 24),
                   color: Colors.transparent,
-                  child: const Row(
+                  child: image==null?
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
@@ -296,7 +320,7 @@ class _CreateEventState extends State<CreateEvent> {
                           ImageView(
                             height: 50,
                             width: 50,
-                            assetImage: '',
+                            // file: File(image?.path??''),
                             margin: EdgeInsets.only(bottom: 8),
                           ),
                           Text(
@@ -316,55 +340,60 @@ class _CreateEventState extends State<CreateEvent> {
                         ],
                       ),
                     ],
-                  ),
+                  ):ImageView(
+                    file: File(image?.path??''),
+                    fit: BoxFit.cover,
+
+                  )
                 ),
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
-            child: Row(
-              children: [
-                Text(
-                  'Select List',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 55,
-            margin: const EdgeInsets.only(top: kPadding, bottom: kPadding, left: kPadding),
-            child: ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
-                  width: 120,
-                  margin: const EdgeInsets.only(right: kPadding),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  decoration: BoxDecoration(
-                    gradient: inActiveGradient,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: const Row(
-                    children: [
-                      ImageView(
-                        height: 40,
-                        width: 40,
-                        borderRadiusValue: 40,
-                        isAvatar: true,
-                        assetImage: AppAssets.appIcon,
-                        margin: EdgeInsets.only(right: 8),
-                      ),
-                      Text('Ayan'),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+          // const Padding(
+          //   padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+          //   child: Row(
+          //     children: [
+          //       Text(
+          //         'Select List',
+          //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   height: 55,
+          //   margin: const EdgeInsets.only(
+          //       top: kPadding, bottom: kPadding, left: kPadding),
+          //   child: ListView.builder(
+          //     itemCount: 10,
+          //     shrinkWrap: true,
+          //     scrollDirection: Axis.horizontal,
+          //     itemBuilder: (context, index) {
+          //       return Container(
+          //         width: 120,
+          //         margin: const EdgeInsets.only(right: kPadding),
+          //         padding: const EdgeInsets.symmetric(horizontal: 8),
+          //         decoration: BoxDecoration(
+          //           gradient: inActiveGradient,
+          //           borderRadius: BorderRadius.circular(50),
+          //         ),
+          //         child: const Row(
+          //           children: [
+          //             ImageView(
+          //               height: 40,
+          //               width: 40,
+          //               borderRadiusValue: 40,
+          //               isAvatar: true,
+          //               assetImage: AppAssets.appIcon,
+          //               margin: EdgeInsets.only(right: 8),
+          //             ),
+          //             Text('Ayan'),
+          //           ],
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
           const Padding(
             padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: Row(
@@ -391,7 +420,11 @@ class _CreateEventState extends State<CreateEvent> {
                     fit: BoxFit.contain,
                     assetImage: AppAssets.searchIcon,
                   ),
-                  margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+                  margin: EdgeInsets.only(
+                      left: kPadding,
+                      right: kPadding,
+                      top: kPadding,
+                      bottom: kPadding),
                 ),
               ),
               // GradientButton(
@@ -410,34 +443,53 @@ class _CreateEventState extends State<CreateEvent> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: kPadding),
-            child: Wrap(
-              children: List.generate(
-                10,
-                (index) {
-                  return Container(
-                    margin: const EdgeInsets.only(right: kPadding, top: kPadding),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    decoration: BoxDecoration(
-                      gradient: inActiveGradient,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ImageView(
-                          height: 40,
-                          width: 40,
-                          borderRadiusValue: 40,
-                          isAvatar: true,
-                          assetImage: AppAssets.appIcon,
-                          margin: EdgeInsets.only(right: 8),
+            child: Consumer<MembersController>(
+              builder: (context, controller, child) {
+                return controller.sponsorLoader==false?const LoadingScreen() :Wrap(
+                    children: List.generate(
+                  controller.fetchSponsorModel?.data?.length ?? 0,
+                  (index) {
+                    bool isSelected = leadIndex.contains(index);
+                    return GestureDetector(
+                      onTap: () {
+                        if (isSelected) {
+                          leadIndex.remove(index);
+                        } else {
+                          leadIndex.add(index);
+                        }
+                        memberIds =leadIndex.join(',');
+                        setState(() {});
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                            right: kPadding, top: kPadding),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          gradient:
+                              isSelected ? primaryGradient : inActiveGradient,
+                          borderRadius: BorderRadius.circular(50),
                         ),
-                        Text('Ayaan'),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                        child:  Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ImageView(
+                              height: 40,
+                              width: 40,
+                              borderRadiusValue: 40,
+                              isAvatar: true,
+                              // networkImage: controller.fetchSponsorModel?.data?[index].profilePhoto??'',
+                              assetImage: AppAssets.appIcon,
+                              margin: const EdgeInsets.only(right: 8),
+                            ),
+                             Text(controller.fetchSponsorModel?.data?[index].name??''),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ));
+              },
             ),
           ),
         ],
@@ -452,8 +504,17 @@ class _CreateEventState extends State<CreateEvent> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(
+                left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () {
+              context.read<MembersController>().createEvent(context: context,
+                  name: eventNameCtrl.text,
+                  eventType: eventType,
+                  meetingLink: linkCtrl.text, 
+                  city: cityCtrl.text,
+                  description: descriptionCtrl.text,
+                  startDate: startDateCtrl.text, startTime: startTimeCtrl.text,
+                  endDate: endDateCtrl.text, endTime: endTimeCtrl.text, memberIds: memberIds, file: XFile(image?.path??''),);
               // context.pushNamed(Routs.questions);
             },
             child: Row(
@@ -481,6 +542,7 @@ class _CreateEventState extends State<CreateEvent> {
     setState(() {
       if (pickedImg != null) {
         image = File(pickedImg.path);
+        setState(() {});
       }
     });
     if (context.mounted) {
@@ -578,7 +640,8 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
+      padding: padding ??
+          const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
       child: Container(
         decoration: ShapeDecoration(
           color: const Color(0xFF1B1B1B),
@@ -618,7 +681,8 @@ class AppTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.only(left: 1),
               autofocus: true,
               isDense: true,
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 12),
+              margin: const EdgeInsets.only(
+                  left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
               // margin: const EdgeInsets.only(bottom: 18),
             ),

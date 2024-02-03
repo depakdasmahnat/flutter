@@ -34,11 +34,12 @@ class _GuestProfilesState extends State<GuestProfiles> {
     return Consumer<GuestControllers>(
       builder: (context, controller, child) {
         return Padding(
-          padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+          padding: const EdgeInsets.symmetric(horizontal: kPadding),
           child: SizedBox(
             height: size.height * 0.10,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 controller.isLoading == false
                     ? const Center(
@@ -46,6 +47,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                             radius: 15, color: CupertinoColors.white),
                       )
                     : Column(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  //       mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(
                             decoration: BoxDecoration(
@@ -54,6 +57,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                             child: Padding(
                               padding: const EdgeInsets.all(6),
                               child: Column(
+                                crossAxisAlignment:  CrossAxisAlignment.center,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
@@ -105,54 +109,39 @@ class _GuestProfilesState extends State<GuestProfiles> {
                           ),
                         ],
                       )
-                    : Expanded(
-                        child: ListView.builder(
+                    :
+                Expanded(
+                        child:
+                        ListView.builder(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: controller
-                                  .fetchnewjoiners?.data?.members?.length ??
-                              0,
+                          itemCount: controller.fetchnewjoiners?.data?.members?.length ?? 0,
                           itemBuilder: (context, index) {
+                            double itemSpacing = size.width * 0.03; // Adjust the spacing between items here
                             return Container(
-                              width: 65,
-                              margin: const EdgeInsets.all(4),
+                              margin: EdgeInsets.only(right: itemSpacing),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Container(
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
+                                  controller.fetchnewjoiners?.data?.members?[index].profilePhoto == null
+                                      ? const CircleAvatar(
+                                    // maxRadius: size.height * 0.03,
+                                    // minRadius: size.height * 0.03,
+                                    backgroundImage: AssetImage(AppAssets.getsprofile),
+                                  )
+                                      : CircleAvatar(
+                                    // maxRadius: size.height * 0.03,
+                                    // minRadius: size.height * 0.03,
+                                    backgroundImage: NetworkImage(
+                                      controller.fetchnewjoiners?.data?.members?[index].profilePhoto ?? '',
                                     ),
-                                    child: controller
-                                                .fetchnewjoiners
-                                                ?.data
-                                                ?.members?[index]
-                                                .profilePhoto ==
-                                            null
-                                        ? Image.asset(
-                                            AppAssets.getsprofile,
-                                            fit: BoxFit.cover,
-                                            height: size.height * 0.05,
-                                          )
-                                        : Image.network(
-                                            controller
-                                                    .fetchnewjoiners
-                                                    ?.data
-                                                    ?.members?[index]
-                                                    .profilePhoto ??
-                                                '',
-                                            fit: BoxFit.cover,
-                                            height: size.height * 0.05,
-                                          ),
                                   ),
                                   Text(
                                     '${controller.fetchnewjoiners?.data?.members?[index].firstName}',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
-                                      fontFamily:
-                                          GoogleFonts.urbanist().fontFamily,
+                                      fontFamily: GoogleFonts.urbanist().fontFamily,
                                       fontWeight: FontWeight.w500,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -163,8 +152,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 8,
-                                      fontFamily:
-                                          GoogleFonts.urbanist().fontFamily,
+                                      fontFamily: GoogleFonts.urbanist().fontFamily,
                                       fontWeight: FontWeight.w500,
                                     ),
                                     textAlign: TextAlign.center,
@@ -173,8 +161,10 @@ class _GuestProfilesState extends State<GuestProfiles> {
                               ),
                             );
                           },
-                        ),
-                      ),
+                        )
+
+
+                ),
               ],
             ),
           ),

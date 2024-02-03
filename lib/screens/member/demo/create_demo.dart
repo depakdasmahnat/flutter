@@ -52,7 +52,6 @@ class _CreateDemoState extends State<CreateDemo> {
   String priority = '';
   List item = ['Hot', 'Worm', 'Cold'];
   File? image;
-
   Set<int> leadIndex = Set<int>();
   @override
   void initState() {
@@ -63,7 +62,7 @@ class _CreateDemoState extends State<CreateDemo> {
   }
   @override
   Widget build(BuildContext context) {
-    print(' chekc name ${widget.showLeadList}');
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -184,7 +183,8 @@ class _CreateDemoState extends State<CreateDemo> {
               height: size.height * 0.06,
               child: Padding(
                 padding: const EdgeInsets.only(left: 9.0),
-                child: ListView.builder(
+                child:
+                ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: item.length,
@@ -243,6 +243,7 @@ class _CreateDemoState extends State<CreateDemo> {
               ),
             ),
           ),
+          if(widget.showLeadList!=true)
           const Padding(
             padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: Row(
@@ -286,115 +287,223 @@ class _CreateDemoState extends State<CreateDemo> {
             height: 10,
           ),
           if(widget.showLeadList==true)
-          Consumer<MembersController>(
-          builder: (context, controller, child) {
-            return   Container(
-              height: 55,
-              margin: const EdgeInsets.only(
-                  top: kPadding, bottom: kPadding, left: kPadding),
-              child:controller.leadsLoader==false?const LoadingScreen() :ListView.builder(
-                itemCount: controller.fetchLeadsModel?.data?.length??0,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  bool isSelected = leadIndex.contains(index);
-                  return
-                    GestureDetector(
-                      onTap: () {
-
-                        if (isSelected) {
-
-                          leadIndex.remove(index);
-                        } else {
-
-                          leadIndex.add(index);
-                        }
-                        guestId =leadIndex.join(',');
-                        setState(() {});
-                      },
-                      child: Container(
-                        width: 120,
-                        margin: const EdgeInsets.only(right: kPadding),
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          gradient:isSelected ?primaryGradient :inActiveGradient,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child:  Row(
-                          children: [
-                            const ImageView(
-                              height: 40,
-                              width: 40,
-                              borderRadiusValue: 40,
-                              isAvatar: true,
-                              assetImage: AppAssets.appIcon,
-                              margin: EdgeInsets.only(right: 8),
-                            ),
-                            CustomeText(
-                              text:controller.fetchLeadsModel?.data?[index].firstName??'' ,
-                              color: isSelected? Colors.black:Colors.white,
-                            )
-
-                          ],
-                        ),
-                      ),
-                    );
-                },
-              ),
-            );
-          },
-
+          const Padding(
+            padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+            child: Row(
+              children: [
+                Text(
+                  'Select Members to add',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
           ),
-          // const Padding(
-          //   padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
-          //   child: Row(
-          //     children: [
-          //       Text(
-          //         'Select Members to add',
-          //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          //       ),
-          //     ],
-          //   ),
+          if(widget.showLeadList==true)
+            Consumer<MembersController>(
+              builder: (context, controller, child) {
+                return controller.leadsLoader==false?const LoadingScreen() :Padding(
+                  padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+                  child: Wrap(
+                      children: List.generate(
+                        controller.fetchLeadsModel?.data?.length??0 ?? 0,
+                            (index) {
+                          bool isSelected = leadIndex.contains(index);
+                          return GestureDetector(
+                            onTap: () {
+                              if (isSelected) {
+                                leadIndex.remove(index);
+                              } else {
+                                leadIndex.add(index);
+                              }
+                              guestId =leadIndex.join(',');
+                              setState(() {});
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                  right: kPadding, top: kPadding),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 8),
+                              decoration: BoxDecoration(
+                                gradient:
+                                isSelected ? primaryGradient : inActiveGradient,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child:  Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ImageView(
+                                    height: 40,
+                                    width: 40,
+                                    borderRadiusValue: 40,
+                                    isAvatar: true,
+                                    networkImage:  controller.fetchLeadsModel?.data?[index].profilePhoto??'',
+                                    // assetImage: AppAssets.appIcon,
+                                    margin: const EdgeInsets.only(right: 8),
+                                  ),
+                                  Text(controller.fetchLeadsModel?.data?[index].firstName??''),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      )),
+                );
+              },
+            ),
+          // Consumer<MembersController>(
+          // builder: (context, controller, child) {
+          //   return   Container(
+          //     height: 55,
+          //     margin: const EdgeInsets.only(
+          //         top: kPadding, bottom: kPadding, left: kPadding),
+          //     child:controller.leadsLoader==false?const LoadingScreen()
+          //         :
+          //     // GridView.count(
+          //     //     crossAxisCount: 3,
+          //     //     crossAxisSpacing: 4.0,
+          //     //
+          //     //     children: List.generate(
+          //     //         controller.fetchLeadsModel?.data?.length??0, (index) {
+          //     //       bool isSelected = leadIndex.contains(index);
+          //     //       return Padding(
+          //     //         padding: const EdgeInsets.all(8.0),
+          //     //         child: GestureDetector(
+          //     //           onTap: () {
+          //     //
+          //     //             if (isSelected) {
+          //     //
+          //     //               leadIndex.remove(index);
+          //     //             } else {
+          //     //               leadIndex.add(index);
+          //     //             }
+          //     //             guestId =leadIndex.join(',');
+          //     //             setState(() {});
+          //     //           },
+          //     //           child: Container(
+          //     //             // width: 120,
+          //     //             margin: const EdgeInsets.only(right: kPadding),
+          //     //             padding: const EdgeInsets.symmetric(horizontal: 8),
+          //     //             decoration: BoxDecoration(
+          //     //               gradient:isSelected ?primaryGradient :inActiveGradient,
+          //     //               borderRadius: BorderRadius.circular(50),
+          //     //             ),
+          //     //             child:  Row(
+          //     //               children: [
+          //     //                 const ImageView(
+          //     //                   height: 40,
+          //     //                   width: 40,
+          //     //                   borderRadiusValue: 40,
+          //     //                   isAvatar: true,
+          //     //                   assetImage: AppAssets.appIcon,
+          //     //                   margin: EdgeInsets.only(right: 8),
+          //     //                 ),
+          //     //                 CustomeText(
+          //     //                   text:controller.fetchLeadsModel?.data?[index].firstName??'' ,
+          //     //                   color: isSelected? Colors.black:Colors.white,
+          //     //                 )
+          //     //
+          //     //               ],
+          //     //             ),
+          //     //           ),
+          //     //         ),
+          //     //       );
+          //     //     }
+          //     //     )
+          //     // )
+          //     ListView.builder(
+          //       itemCount: controller.fetchLeadsModel?.data?.length??0,
+          //       shrinkWrap: true,
+          //       scrollDirection: Axis.horizontal,
+          //       itemBuilder: (context, index) {
+          //         bool isSelected = leadIndex.contains(index);
+          //         return
+          //           GestureDetector(
+          //             onTap: () {
+          //
+          //               if (isSelected) {
+          //
+          //                 leadIndex.remove(index);
+          //               } else {
+          //
+          //                 leadIndex.add(index);
+          //               }
+          //               guestId =leadIndex.join(',');
+          //               setState(() {});
+          //             },
+          //             child: Container(
+          //               width: 120,
+          //               margin: const EdgeInsets.only(right: kPadding),
+          //               padding: const EdgeInsets.symmetric(horizontal: 8),
+          //               decoration: BoxDecoration(
+          //                 gradient:isSelected ?primaryGradient :inActiveGradient,
+          //                 borderRadius: BorderRadius.circular(50),
+          //               ),
+          //               child:  Row(
+          //                 children: [
+          //                   const ImageView(
+          //                     height: 40,
+          //                     width: 40,
+          //                     borderRadiusValue: 40,
+          //                     isAvatar: true,
+          //                     assetImage: AppAssets.appIcon,
+          //                     margin: EdgeInsets.only(right: 8),
+          //                   ),
+          //                   CustomeText(
+          //                     text:controller.fetchLeadsModel?.data?[index].firstName??'' ,
+          //                     color: isSelected? Colors.black:Colors.white,
+          //                   )
+          //
+          //                 ],
+          //               ),
+          //             ),
+          //           );
+          //       },
+          //     ),
+          //   );
+          // },
+          //
           // ),
-          // // const Row(
-          // //   children: [
-          // //     Flexible(
-          // //       child: CustomTextField(
-          // //         hintText: 'Search',
-          // //         hintStyle: TextStyle(color: Colors.white),
-          // //         prefixIcon: ImageView(
-          // //           height: 20,
-          // //           width: 20,
-          // //           borderRadiusValue: 0,
-          // //           color: Colors.white,
-          // //           margin: EdgeInsets.only(left: kPadding, right: kPadding),
-          // //           fit: BoxFit.contain,
-          // //           assetImage: AppAssets.searchIcon,
-          // //         ),
-          // //         margin: EdgeInsets.only(
-          // //             left: kPadding,
-          // //             right: kPadding,
-          // //             top: kPadding,
-          // //             bottom: kPadding),
-          // //       ),
-          // //     ),
-          // //     // GradientButton(
-          // //     //   height: 60,
-          // //     //   width: 60,
-          // //     //   margin: const EdgeInsets.only(left: 8, right: kPadding),
-          // //     //   backgroundGradient: blackGradient,
-          // //     //   child: const ImageView(
-          // //     //     height: 28,
-          // //     //     width: 28,
-          // //     //     assetImage: AppAssets.filterIcons,
-          // //     //     margin: EdgeInsets.zero,
-          // //     //   ),
-          // //     // )
-          // //   ],
-          // // ),
+
+          // const Row(
+          //   children: [
+          //     Flexible(
+          //       child: CustomTextField(
+          //         hintText: 'Search',
+          //         hintStyle: TextStyle(color: Colors.white),
+          //         prefixIcon: ImageView(
+          //           height: 20,
+          //           width: 20,
+          //           borderRadiusValue: 0,
+          //           color: Colors.white,
+          //           margin: EdgeInsets.only(left: kPadding, right: kPadding),
+          //           fit: BoxFit.contain,
+          //           assetImage: AppAssets.searchIcon,
+          //         ),
+          //         margin: EdgeInsets.only(
+          //             left: kPadding,
+          //             right: kPadding,
+          //             top: kPadding,
+          //             bottom: kPadding),
+          //       ),
+          //     ),
+          //     // GradientButton(
+          //     //   height: 60,
+          //     //   width: 60,
+          //     //   margin: const EdgeInsets.only(left: 8, right: kPadding),
+          //     //   backgroundGradient: blackGradient,
+          //     //   child: const ImageView(
+          //     //     height: 28,
+          //     //     width: 28,
+          //     //     assetImage: AppAssets.filterIcons,
+          //     //     margin: EdgeInsets.zero,
+          //     //   ),
+          //     // )
+          //   ],
+          // ),
           // Padding(
           //   padding: const EdgeInsets.only(left: kPadding),
-          //   child: Wrap(
+          //   child:
+          //   Wrap(
           //     children: List.generate(
           //       10,
           //       (index) {

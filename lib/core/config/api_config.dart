@@ -63,9 +63,11 @@ class ApiEndpoints {
 
   static const String scheduledDemo = 'schedule_demo';
   static const String leadClose = 'close_lead';
-  static const String fetchSponsor = 'get_member_list';
+  static const String fetchSponsor = 'get_sponsor_member_list';
   static const String fetchFacilitator = 'get_facilitator_member_list';
   static const String addLead = 'add_lead';
+  static const String createEvent = 'add_event';
+  static const String addGoal = 'add_goal';
   static const String addNewMemberLead = 'add_new_member';
   static const String editMember = 'edit_member_profile';
   static const String ref = 'generate_referral_link';

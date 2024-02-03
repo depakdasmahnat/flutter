@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     this.controller,
+    this.textCapitalization,
     this.height,
     this.width,
     this.constraints,
@@ -92,6 +93,7 @@ class CustomTextField extends StatelessWidget {
     this.labelStyle,
     this.onTapOutside,
     this.suffixIconConstraints,
+
   });
 
   final TextEditingController? controller;
@@ -115,7 +117,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
-  final TextCapitalization textCapitalization = TextCapitalization.none;
+  final TextCapitalization? textCapitalization ;
   final TextInputAction? textInputAction;
   final TextStyle? style;
   final StrutStyle? strutStyle;
@@ -199,6 +201,7 @@ class CustomTextField extends StatelessWidget {
           Flexible(
             child: TextFormField(
               key: key,
+
               controller: controller,
               keyboardType: keyboardType,
               autofocus: autofocus ?? false,
@@ -240,7 +243,7 @@ class CustomTextField extends StatelessWidget {
               cursorWidth: cursorWidth ?? 2.0,
               textAlign: textAlign ?? TextAlign.start,
               textDirection: textDirection,
-              textCapitalization: textCapitalization,
+              textCapitalization: textCapitalization??TextCapitalization.none,
               textInputAction: textInputAction,
               autocorrect: autocorrect ?? true,
               obscuringCharacter: obscuringCharacter ?? '•',
