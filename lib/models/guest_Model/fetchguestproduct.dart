@@ -57,7 +57,8 @@ class Data {
       String? name, 
       String? price, 
       String? description, 
-      dynamic productVideo, 
+      String? subHeading,
+      dynamic productVideo,
       dynamic path, 
       String? productImage,}){
     _id = id;
@@ -66,6 +67,7 @@ class Data {
     _description = description;
     _productVideo = productVideo;
     _path = path;
+    _subHeading = subHeading;
     _productImage = productImage;
 }
 
@@ -76,6 +78,7 @@ class Data {
     _description = json['description'];
     _productVideo = json['product_video'];
     _path = json['path'];
+    _subHeading = json['sub_heading'];
     _productImage = json['product_image'];
   }
   num? _id;
@@ -85,6 +88,7 @@ class Data {
   dynamic _productVideo;
   dynamic _path;
   String? _productImage;
+  String? _subHeading;
 
   num? get id => _id;
   String? get name => _name;
@@ -93,6 +97,7 @@ class Data {
   dynamic get productVideo => _productVideo;
   dynamic get path => _path;
   String? get productImage => _productImage;
+  String? get subHeading => _subHeading;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -103,6 +108,7 @@ class Data {
     map['product_video'] = _productVideo;
     map['path'] = _path;
     map['product_image'] = _productImage;
+    map['sub_heading'] = _subHeading;
     return map;
   }
 

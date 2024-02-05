@@ -197,9 +197,8 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
           sponsorId = controller.fetchGuestProfileModel?.data?.sponsorId.toString()??'';
           sponsorHint = controller.fetchGuestProfileModel?.data?.sponsorName.toString()=='null' ? '':controller.fetchGuestProfileModel?.data?.sponsorName.toString()??'';
           cityHint = controller.fetchGuestProfileModel?.data?.cityName?? 'Select City';
-          occupationHint =
-              controller.fetchGuestProfileModel?.data?.occupation ??
-                  'Select Occupation';
+          occupationHint = controller.fetchGuestProfileModel?.data?.occupation ??
+              'Select Occupation';
           occupation =
               controller.fetchGuestProfileModel?.data?.occupation ?? '';
           return controller.fetchGuestProfileLoader == false

@@ -142,6 +142,7 @@ class AuthControllers extends ChangeNotifier {
   }
 
   /// 1) verify Otp login...
+   String userName ='';
   Future<Verifyotp?> verifyOtp({
     required BuildContext context,
     required String? isMobileValidated,
@@ -183,9 +184,7 @@ class AuthControllers extends ChangeNotifier {
           GuestData? guest = context.read<LocalDatabase>().guest;
           debugPrint('guest ${guest?.firstName}');
           showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
-          context.pushNamed(
-            Routs.interests,
-          );
+          context.pushNamed(responseData?.url??Routs.interests,);
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
