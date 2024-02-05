@@ -6,6 +6,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mrwebbeast/controllers/member/member_auth_controller.dart';
+import 'package:mrwebbeast/core/services/api/api_service.dart';
+import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:mrwebbeast/models/default_model.dart';
 import 'package:provider/provider.dart';
 
@@ -94,6 +96,8 @@ class ErrorHandler {
 
     log('API Url => $url');
     log('Status Code => $statusCode');
+
+    log('Header => ${ApiService().defaultHeaders()}');
     log('Message => $message');
     log('Response => $body');
 

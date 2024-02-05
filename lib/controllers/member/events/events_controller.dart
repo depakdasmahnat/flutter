@@ -14,6 +14,7 @@ import '../../../core/services/api/api_service.dart';
 import '../../../models/member/events/events_model.dart';
 import '../../../models/member/network/pinnacle_view_model.dart';
 import '../../../models/member/network/tree_graph_model.dart';
+import '../../../models/member/todo/to_do_model.dart';
 import '../../../utils/widgets/widgets.dart';
 
 class EventsControllers extends ChangeNotifier {
@@ -142,5 +143,57 @@ class EventsControllers extends ChangeNotifier {
     }
 
     return _events;
+  }
+
+  /// 2) ToDo API...
+  bool loadingToDos = true;
+  ToDoModel? toDoModel;
+  ToDoData? toDos;
+
+  Future<ToDoData?> fetchToDos({
+    String? search,
+    String? filter,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingToDos = true;
+        toDoModel = null;
+        toDos = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingToDos = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService().get(endPoint: ApiEndpoints.fetchToDo, queryParameters: {
+          'search_key': search ?? '',
+          'date': filter ?? '',
+        });
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          ToDoModel responseData = ToDoModel.fromJson(json);
+          if (responseData.status == true) {
+            toDos = responseData.data;
+
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return toDos;
   }
 }

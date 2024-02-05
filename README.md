@@ -1,6 +1,6 @@
 # mrwebbeast
 
-A  project developed by mrwebbeast.
+A project developed by mrwebbeast.
 
 ## Getting Started
 
@@ -16,10 +16,9 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 <<<<<<< HEAD
 
-
 For Running Build Runner
 dart run build_runner build
 flutter gen-l10n
 =======
->>>>>>> guestUI
->>>>>>> Member Id:- ENB26JZV
+> > > > > > > guestUI
+> > > > > > > Member Id:- ENB26JZV

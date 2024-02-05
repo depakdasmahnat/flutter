@@ -120,11 +120,12 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                   context.pushNamed(Routs.achievers);
                 },
               ),
+
               MenuCard(
                 image: AppAssets.videoIcons,
                 name: 'Demo',
                 onTap: () {
-                  context.pushNamed(Routs.chapters);
+                  context.pushNamed(Routs.demos);
                 },
               ),
               MenuCard(

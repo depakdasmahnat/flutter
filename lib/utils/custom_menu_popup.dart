@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomPopupMenuEntry {
+  final String? value;
   final String label;
   final IconData? icon;
-  final void Function() onPressed;
+  final Function()? onPressed;
 
   CustomPopupMenuEntry({
+    this.value,
     required this.label,
     this.icon,
     required this.onPressed,
@@ -46,7 +48,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
             onTap: () {
               _onTap(menuEntry);
 
-              widget.onChange(menuEntry.label);
+              widget.onChange(menuEntry.value ?? menuEntry.label);
             },
             padding: EdgeInsets.zero,
             child: Row(
@@ -80,6 +82,6 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
   }
 
   void _onTap(CustomPopupMenuEntry entry) {
-    entry.onPressed();
+    entry.onPressed?.call();
   }
 }

@@ -4,7 +4,7 @@ import 'package:mrwebbeast/controllers/member/member_controller/member_controlle
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-import 'package:mrwebbeast/models/dashboard/target_analytics_model.dart';
+
 import 'package:mrwebbeast/screens/member/home/duration_popup.dart';
 import 'package:mrwebbeast/screens/member/home/performance_graph.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
@@ -27,44 +27,6 @@ class MemberProfileDetails extends StatefulWidget {
 }
 
 class _MemberProfileDetailsState extends State<MemberProfileDetails> {
-  List<TargetAnalyticsData> dummyAnalyticsList = [
-    TargetAnalyticsData(xAxis: 'Jan', performance: 0),
-    TargetAnalyticsData(xAxis: 'Feb', performance: 24),
-    TargetAnalyticsData(xAxis: 'Mar', performance: 16),
-    TargetAnalyticsData(xAxis: 'Apr', performance: 38),
-    TargetAnalyticsData(xAxis: 'May', performance: 54),
-    TargetAnalyticsData(xAxis: 'Jun', performance: 36),
-    TargetAnalyticsData(xAxis: 'Jul', performance: 42),
-    TargetAnalyticsData(xAxis: 'Aug', performance: 35),
-    TargetAnalyticsData(xAxis: 'Sep', performance: 38),
-    TargetAnalyticsData(xAxis: 'Oct', performance: 54),
-    TargetAnalyticsData(xAxis: 'Nov', performance: 38),
-    TargetAnalyticsData(xAxis: 'Dec', performance: 54),
-  ];
-
-  // Create dummy data
-  late TargetAnalyticsModel dummyData = TargetAnalyticsModel(
-    success: true,
-    message: 'Dummy Message',
-    data: TargetData(
-      title: 'Dummy Title',
-      sales: 100,
-      salesTarget: 100,
-      pendingSales: 100,
-      rank: 'Dummy Rank',
-      nextRank: 'Next Dummy Rank',
-      pendingRankSales: 100,
-      leadsAdded: 100,
-      leadsClosed: 100,
-      leadsConversion: 100,
-      demoScheduled: 100,
-      demoCompleted: 100,
-      hotLeads: 100,
-      coldLeads: 100,
-      analytics: dummyAnalyticsList,
-    ),
-  );
-
   final List<DashboardData> bottomNabBarItems = [
     DashboardData(
       title: 'My Dashboard',

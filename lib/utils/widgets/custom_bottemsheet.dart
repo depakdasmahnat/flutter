@@ -67,10 +67,10 @@ class _CustomModelBottomSheetState extends State<CustomModelBottomSheet> {
 }
 
 class MyDashBoardCard extends StatelessWidget {
-  int? tabIndex;
-  int? listIndex;
+  final int? tabIndex;
+  final int? listIndex;
 
-  MyDashBoardCard({
+  const MyDashBoardCard({
     this.tabIndex,
     this.listIndex,
     super.key,
@@ -106,7 +106,7 @@ class MyDashBoardCard extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   decoration: ShapeDecoration(
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       begin: Alignment(0.61, -0.79),
                       end: Alignment(-0.61, 0.79),
                       colors: [Color(0xFFFF2600), Color(0xFFFF6130)],
@@ -131,7 +131,7 @@ class MyDashBoardCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Icon(Icons.more_vert)
+              const Icon(Icons.more_vert)
             ],
           )
         : tabIndex == 3
@@ -191,7 +191,7 @@ class MyDashBoardCard extends StatelessWidget {
                     onTap: () {},
                     child: Container(
                       decoration: ShapeDecoration(
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           begin: Alignment(0.00, -1.00),
                           end: Alignment(0, 1),
                           colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
@@ -270,7 +270,7 @@ class MyDashBoardCard extends StatelessWidget {
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
-                          Icon(Icons.more_vert)
+                          const Icon(Icons.more_vert)
                         ],
                       )
                     : tabIndex == 6
@@ -347,7 +347,7 @@ class MyDashBoardCard extends StatelessWidget {
                                     onTap: () {},
                                     child: Container(
                                       decoration: ShapeDecoration(
-                                        gradient: LinearGradient(
+                                        gradient: const LinearGradient(
                                           begin: Alignment(0.61, -0.79),
                                           end: Alignment(-0.61, 0.79),
                                           colors: [Color(0xFFFF2600), Color(0xFFFF6130)],
@@ -387,7 +387,7 @@ class MyDashBoardCard extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Icon(Icons.more_vert)
+                                  const Icon(Icons.more_vert)
                                 ],
                               )
                             : tabIndex == 8
@@ -421,7 +421,7 @@ class MyDashBoardCard extends StatelessWidget {
                                         onTap: () {},
                                         child: Container(
                                           decoration: ShapeDecoration(
-                                            gradient: LinearGradient(
+                                            gradient: const LinearGradient(
                                               begin: Alignment(0.61, -0.79),
                                               end: Alignment(-0.61, 0.79),
                                               colors: [Color(0xFFFF2600), Color(0xFFFF6130)],
@@ -480,7 +480,7 @@ class MyDashBoardCard extends StatelessWidget {
                                             onTap: () {},
                                             child: Container(
                                               decoration: ShapeDecoration(
-                                                gradient: LinearGradient(
+                                                gradient: const LinearGradient(
                                                   begin: Alignment(0.61, -0.79),
                                                   end: Alignment(-0.61, 0.79),
                                                   colors: [Color(0xFFFF2600), Color(0xFFFF6130)],
@@ -509,7 +509,7 @@ class MyDashBoardCard extends StatelessWidget {
                                             onTap: () {},
                                             child: Container(
                                               decoration: ShapeDecoration(
-                                                gradient: LinearGradient(
+                                                gradient: const LinearGradient(
                                                   begin: Alignment(0.00, -1.00),
                                                   end: Alignment(0, 1),
                                                   colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
@@ -557,7 +557,7 @@ class MyDashBoardCard extends StatelessWidget {
                                             onTap: () {},
                                             child: Container(
                                               decoration: ShapeDecoration(
-                                                gradient: LinearGradient(
+                                                gradient: const LinearGradient(
                                                   begin: Alignment(0.00, -1.00),
                                                   end: Alignment(0, 1),
                                                   colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],

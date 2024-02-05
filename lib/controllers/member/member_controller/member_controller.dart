@@ -6,6 +6,7 @@ import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/core/services/database/local_database.dart';
+import 'package:mrwebbeast/models/member/dashboard/achievers_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -1364,5 +1365,59 @@ class MembersController extends ChangeNotifier {
     }
 
     return dashboardStatesData;
+  }
+
+  /// 7) Achievers API...
+
+  bool loadingAchievers = true;
+  AchieversModel? achieversModel;
+  List<AchieversData>? achievers;
+
+  Future<List<AchieversData>?> fetchAchievers({
+    String? search,
+    String? filter,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingAchievers = true;
+        achieversModel = null;
+        achievers = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingAchievers = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService().get(endPoint: ApiEndpoints.getAchievers, queryParameters: {
+          'search_key': search ?? '',
+          'filter': filter ?? '',
+        });
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          AchieversModel responseData = AchieversModel.fromJson(json);
+          if (responseData.status == true) {
+            achievers = responseData.data;
+
+            debugPrint('achieversNodes ${achievers?.length}');
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return achievers;
   }
 }

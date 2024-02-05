@@ -253,18 +253,19 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           gradient: limeGradient,
                           onTap: () async {
                             await showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                clipBehavior: Clip.antiAlias,
-                                isScrollControlled: true,
-                                shape: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-                                builder: (context) => CustomModelBottomSheet(
-                                      title: 'New Lists',
-                                      tabIndex: myDashboard ? 7 : 4,
-                                      listItem: 14,
-                                    ));
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              clipBehavior: Clip.antiAlias,
+                              isScrollControlled: true,
+                              shape: const OutlineInputBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(18), topRight: Radius.circular(18))),
+                              builder: (context) => CustomModelBottomSheet(
+                                title: 'New Lists',
+                                tabIndex: myDashboard ? 7 : 4,
+                                listItem: 14,
+                              ),
+                            );
                           },
                         ),
                         AnalyticsCard(
@@ -429,6 +430,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           width: size.width,
                           onTap: () {
                             dashBoardIndex = index;
+                            fetchDashboardStates();
                             setState(() {});
                           },
                         ),

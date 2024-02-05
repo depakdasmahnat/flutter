@@ -2,362 +2,146 @@ import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../models/member/network/pinnacle_list_model.dart';
 
 class NetworkPinnacleTable extends StatefulWidget {
   /// Creates the home page.
-  const NetworkPinnacleTable({super.key});
+  const NetworkPinnacleTable({super.key, this.pinnacleList});
+
+  final List<PinnacleListData>? pinnacleList;
 
   @override
   _NetworkPinnacleTableState createState() => _NetworkPinnacleTableState();
 }
 
 class _NetworkPinnacleTableState extends State<NetworkPinnacleTable> {
-  List<PinnacleData> pinnacles = <PinnacleData>[];
-  late EmployeeDataSource employeeDataSource;
-  List<PinnacleData> getPinnacles = [
-    PinnacleData(
-      profilePic: 'JohnDoe.jpg',
-      name: 'John Doe',
-      target: 30,
-      pending: 30,
-      conversion: 85,
-      leads: 12,
-      demo: 6,
-      training: 20,
-      progress: 45,
-      call: '+91 9876543210',
-      achievement: '6A2',
-    ),
-    PinnacleData(
-      profilePic: 'JaneSmith.jpg',
-      name: 'Jane Smith',
-      target: 40,
-      pending: 25,
-      conversion: 75,
-      leads: 15,
-      demo: 8,
-      training: 18,
-      progress: 50,
-      call: '+91 9876543211',
-      achievement: '5B1',
-    ),
-    PinnacleData(
-      profilePic: 'BobJohnson.jpg',
-      name: 'Bob Johnson',
-      target: 35,
-      pending: 20,
-      conversion: 80,
-      leads: 10,
-      demo: 5,
-      training: 22,
-      progress: 40,
-      call: '+91 9876543212',
-      achievement: '7C3',
-    ),
-    PinnacleData(
-      profilePic: 'AliceWilliams.jpg',
-      name: 'Alice Williams',
-      target: 50,
-      pending: 15,
-      conversion: 90,
-      leads: 18,
-      demo: 10,
-      training: 25,
-      progress: 55,
-      call: '+91 9876543213',
-      achievement: '8A1',
-    ),
-    PinnacleData(
-      profilePic: 'CharlieBrown.jpg',
-      name: 'Charlie Brown',
-      target: 45,
-      pending: 18,
-      conversion: 78,
-      leads: 14,
-      demo: 7,
-      training: 19,
-      progress: 48,
-      call: '+91 9876543214',
-      achievement: '5B2',
-    ),
-    PinnacleData(
-      profilePic: 'EvaMiller.jpg',
-      name: 'Eva Miller',
-      target: 32,
-      pending: 22,
-      conversion: 82,
-      leads: 11,
-      demo: 6,
-      training: 21,
-      progress: 42,
-      call: '+91 9876543219',
-      achievement: '4C1',
-    ),
-    PinnacleData(
-      profilePic: 'JohnDoe.jpg',
-      name: 'John Doe',
-      target: 30,
-      pending: 30,
-      conversion: 85,
-      leads: 12,
-      demo: 6,
-      training: 20,
-      progress: 45,
-      call: '+91 9876543210',
-      achievement: '6A2',
-    ),
-    PinnacleData(
-      profilePic: 'JaneSmith.jpg',
-      name: 'Jane Smith',
-      target: 40,
-      pending: 25,
-      conversion: 75,
-      leads: 15,
-      demo: 8,
-      training: 18,
-      progress: 50,
-      call: '+91 9876543211',
-      achievement: '5B1',
-    ),
-    PinnacleData(
-      profilePic: 'BobJohnson.jpg',
-      name: 'Bob Johnson',
-      target: 35,
-      pending: 20,
-      conversion: 80,
-      leads: 10,
-      demo: 5,
-      training: 22,
-      progress: 40,
-      call: '+91 9876543212',
-      achievement: '7C3',
-    ),
-    PinnacleData(
-      profilePic: 'AliceWilliams.jpg',
-      name: 'Alice Williams',
-      target: 50,
-      pending: 15,
-      conversion: 90,
-      leads: 18,
-      demo: 10,
-      training: 25,
-      progress: 55,
-      call: '+91 9876543213',
-      achievement: '8A1',
-    ),
-    PinnacleData(
-      profilePic: 'CharlieBrown.jpg',
-      name: 'Charlie Brown',
-      target: 45,
-      pending: 18,
-      conversion: 78,
-      leads: 14,
-      demo: 7,
-      training: 19,
-      progress: 48,
-      call: '+91 9876543214',
-      achievement: '5B2',
-    ),
-    PinnacleData(
-      profilePic: 'EvaMiller.jpg',
-      name: 'Eva Miller',
-      target: 32,
-      pending: 22,
-      conversion: 82,
-      leads: 11,
-      demo: 6,
-      training: 21,
-      progress: 42,
-      call: '+91 9876543219',
-      achievement: '4C1',
-    ),
-    PinnacleData(
-      profilePic: 'JohnDoe.jpg',
-      name: 'John Doe',
-      target: 30,
-      pending: 30,
-      conversion: 85,
-      leads: 12,
-      demo: 6,
-      training: 20,
-      progress: 45,
-      call: '+91 9876543210',
-      achievement: '6A2',
-    ),
-    PinnacleData(
-      profilePic: 'JaneSmith.jpg',
-      name: 'Jane Smith',
-      target: 40,
-      pending: 25,
-      conversion: 75,
-      leads: 15,
-      demo: 8,
-      training: 18,
-      progress: 50,
-      call: '+91 9876543211',
-      achievement: '5B1',
-    ),
-    PinnacleData(
-      profilePic: 'BobJohnson.jpg',
-      name: 'Bob Johnson',
-      target: 35,
-      pending: 20,
-      conversion: 80,
-      leads: 10,
-      demo: 5,
-      training: 22,
-      progress: 40,
-      call: '+91 9876543212',
-      achievement: '7C3',
-    ),
-    PinnacleData(
-      profilePic: 'AliceWilliams.jpg',
-      name: 'Alice Williams',
-      target: 50,
-      pending: 15,
-      conversion: 90,
-      leads: 18,
-      demo: 10,
-      training: 25,
-      progress: 55,
-      call: '+91 9876543213',
-      achievement: '8A1',
-    ),
-    PinnacleData(
-      profilePic: 'CharlieBrown.jpg',
-      name: 'Charlie Brown',
-      target: 45,
-      pending: 18,
-      conversion: 78,
-      leads: 14,
-      demo: 7,
-      training: 19,
-      progress: 48,
-      call: '+91 9876543214',
-      achievement: '5B2',
-    ),
-    PinnacleData(
-      profilePic: 'EvaMiller.jpg',
-      name: 'Eva Miller',
-      target: 32,
-      pending: 22,
-      conversion: 82,
-      leads: 11,
-      demo: 6,
-      training: 21,
-      progress: 42,
-      call: '+91 9876543219',
-      achievement: '4C1',
-    ),
-  ];
+  late List<PinnacleListData>? pinnacles = widget.pinnacleList;
+  EmployeeDataSource? employeeDataSource;
+  late List<PinnacleListData>? getPinnacles = widget.pinnacleList;
 
   @override
   void initState() {
     super.initState();
-    pinnacles = getPinnacles;
-    employeeDataSource = EmployeeDataSource(employeeData: pinnacles);
+    if (pinnacles != null) {
+      employeeDataSource = EmployeeDataSource(employeeData: pinnacles);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SfDataGrid(
-      footerHeight: 100,
-      footer: const SizedBox(),
-      source: employeeDataSource,
-      shrinkWrapRows: true,
-      columns: [
-        GridColumn(
-          maximumWidth: 50,
-          columnName: PinnaclesHeadings.user.value,
-          label: GridHeading(title: PinnaclesHeadings.user.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.name.value,
-          label: GridHeading(title: PinnaclesHeadings.name.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.target.value,
-          label: GridHeading(title: PinnaclesHeadings.target.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.pending.value,
-          label: GridHeading(title: PinnaclesHeadings.pending.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.conversion.value,
-          label: GridHeading(title: PinnaclesHeadings.conversion.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.leads.value,
-          label: GridHeading(title: PinnaclesHeadings.leads.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.demo.value,
-          label: GridHeading(title: PinnaclesHeadings.demo.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.training.value,
-          label: GridHeading(title: PinnaclesHeadings.training.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.progress.value,
-          label: GridHeading(title: PinnaclesHeadings.progress.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.call.value,
-          label: GridHeading(title: PinnaclesHeadings.call.value),
-        ),
-        GridColumn(
-          columnName: PinnaclesHeadings.achievement.value,
-          label: GridHeading(title: PinnaclesHeadings.achievement.value),
-        ),
-      ],
-    );
+    return employeeDataSource != null
+        ? SfDataGrid(
+            footerHeight: 100,
+            footer: const SizedBox(),
+            source: employeeDataSource!,
+            shrinkWrapRows: true,
+            columns: [
+              GridColumn(
+                maximumWidth: 50,
+                columnName: PinnaclesHeadings.user.value,
+                label: GridHeading(title: PinnaclesHeadings.user.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.name.value,
+                label: GridHeading(title: PinnaclesHeadings.name.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.target.value,
+                label: GridHeading(title: PinnaclesHeadings.target.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.pending.value,
+                label: GridHeading(title: PinnaclesHeadings.pending.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.conversion.value,
+                label: GridHeading(title: PinnaclesHeadings.conversion.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.leads.value,
+                label: GridHeading(title: PinnaclesHeadings.leads.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.demo.value,
+                label: GridHeading(title: PinnaclesHeadings.demo.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.training.value,
+                label: GridHeading(title: PinnaclesHeadings.training.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.progress.value,
+                label: GridHeading(title: PinnaclesHeadings.progress.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.call.value,
+                label: GridHeading(title: PinnaclesHeadings.call.value),
+              ),
+              GridColumn(
+                columnName: PinnaclesHeadings.achievement.value,
+                label: GridHeading(title: PinnaclesHeadings.achievement.value),
+              ),
+            ],
+          )
+        : const NoDataFound();
   }
 }
 
 class EmployeeDataSource extends DataGridSource {
+  String defaultText = '__';
+
   /// Creates the employee data source class with required details.
-  EmployeeDataSource({required List<PinnacleData> employeeData}) {
-    _employeeData = employeeData.map<DataGridRow>(
+  EmployeeDataSource({required List<PinnacleListData>? employeeData}) {
+    _employeeData = employeeData!.map<DataGridRow>(
       (data) {
         return DataGridRow(
           cells: [
             DataGridCell(
               columnName: PinnaclesHeadings.user.value,
-              value: ImageView(
-                height: 24,
-                width: 24,
-                isAvatar: true,
-                assetImage: '${data.profilePic}',
-                margin: const EdgeInsets.only(right: 4),
+              value: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ImageView(
+                    height: 30,
+                    width: 30,
+                    isAvatar: true,
+                    borderRadiusValue: 30,
+                    backgroundColor: Colors.grey.shade300,
+                    fit: BoxFit.cover,
+                    networkImage: '${data.profilePic}',
+                    margin: const EdgeInsets.only(right: 4),
+                  ),
+                ],
               ),
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.name.value,
-              value: GridHeading(title: '${data.name}'),
+              value: GridHeading(title: data.name ?? defaultText),
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.target.value,
-              value: GridHeading(title: '${data.target}'),
+              value: GridHeading(title: '${data.target ?? defaultText}'),
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.pending.value,
-              value: GridHeading(title: '${data.pending}'),
+              value: GridHeading(title: '${data.pending ?? defaultText}'),
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.conversion.value,
-              value: GridHeading(title: '${data.conversion}%'),
+              value: GridHeading(title: '${data.conversion ?? 0}%'),
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.leads.value,
-              value: GridHeading(title: '${data.leads}'),
+              value: GridHeading(title: '${data.lists ?? defaultText}'),
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.demo.value,
-              value: GridHeading(title: '${data.demo}'),
+              value: GridHeading(title: '${data.demo ?? defaultText}'),
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.training.value,
@@ -406,7 +190,9 @@ class EmployeeDataSource extends DataGridSource {
                     borderRadiusValue: 50,
                     color: Colors.black,
                     assetImage: AppAssets.call,
-                    onTap: () {},
+                    onTap: () {
+                      launchUrl(Uri.parse('tel:${data.call}'));
+                    },
                     padding: const EdgeInsets.all(8),
                   ),
                 ],
@@ -414,7 +200,7 @@ class EmployeeDataSource extends DataGridSource {
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.achievement.value,
-              value: GridHeading(title: data.achievement),
+              value: GridHeading(title: data.achievement ?? defaultText),
             ),
           ],
         );

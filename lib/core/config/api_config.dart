@@ -88,6 +88,12 @@ class ApiEndpoints {
   static const String ref = 'generate_referral_link';
   static const String memberProfile = 'fetch_dashboard_stats?member_id=';
   static const String addTarget = 'add_target';
+  static const String fetchAllPinnacleMembers = 'fetch_all_pinnacle_members';
+  static const String fetchAllMembers = 'fetch_all_members';
+  static const String getAchievers = 'get_achievers';
+  static const String fetchToDo = 'fetch_to_do';
+  static const String fetchAllDemos = 'fetch_all_demos';
+  static const String fetchTarget = 'fetch_target';
 
   // Lead apis
   static const String fetchLead = 'fetch_leads?';
@@ -100,8 +106,7 @@ class ApiEndpoints {
   static const String fetchFeedCategories = 'fetch_feed_categories';
   static const String getComments = 'get_comments';
   static const String feedComment = 'feed_comment';
-  static const String fetchResourceDetails =
-      'fetch_resources?page=1&category_id=';
+  static const String fetchResourceDetails = 'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
 

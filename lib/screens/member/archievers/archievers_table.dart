@@ -1,269 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../../models/member/dashboard/achievers_model.dart';
 
 class AchieversTable extends StatefulWidget {
   /// Creates the home page.
-  const AchieversTable({super.key});
+  const AchieversTable({super.key, this.achievers});
+
+  final List<AchieversData>? achievers;
 
   @override
   _AchieversTableState createState() => _AchieversTableState();
 }
 
 class _AchieversTableState extends State<AchieversTable> {
-  List<Employee> employees = <Employee>[];
-  late EmployeeDataSource employeeDataSource;
+  late List<AchieversData>? achievers = widget.achievers;
+  EmployeeDataSource? employeeDataSource;
 
   @override
   void initState() {
     super.initState();
-    employees = getEmployeeData();
-    employeeDataSource = EmployeeDataSource(employeeData: employees);
+    if (achievers != null) {
+      employeeDataSource = EmployeeDataSource(employeeData: achievers);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SfDataGrid(
-      source: employeeDataSource,
-      shrinkWrapRows: true,
-      columns: [
-        GridColumn(
-          maximumWidth: 50,
-          columnName: AchieversTableHeadings.rank.value,
-          label: GridHeading(title: AchieversTableHeadings.rank.value),
-        ),
-        GridColumn(
-          minimumWidth: 120,
-          columnName: AchieversTableHeadings.name.value,
-          label: GridHeading(title: AchieversTableHeadings.name.value),
-        ),
-        GridColumn(
-          columnName: AchieversTableHeadings.sales.value,
-          label: GridHeading(title: AchieversTableHeadings.sales.value),
-        ),
-        GridColumn(
-          columnName: AchieversTableHeadings.demo.value,
-          label: GridHeading(title: AchieversTableHeadings.demo.value),
-        ),
-        GridColumn(
-          columnName: AchieversTableHeadings.closing.value,
-          label: GridHeading(title: AchieversTableHeadings.closing.value),
-        ),
-        GridColumn(
-          minimumWidth: 140,
-          columnName: AchieversTableHeadings.appDownloads.value,
-          label: GridHeading(title: AchieversTableHeadings.appDownloads.value),
-        ),
-        GridColumn(
-          columnName: AchieversTableHeadings.level.value,
-          label: GridHeading(title: AchieversTableHeadings.level.value),
-        ),
-        GridColumn(
-          minimumWidth: 140,
-          columnName: AchieversTableHeadings.achievement.value,
-          label: GridHeading(title: AchieversTableHeadings.achievement.value),
-        ),
-      ],
-    );
-  }
-
-  List<Employee> getEmployeeData() {
-    return [
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'John Doe',
-        sales: 150,
-        demo: 20,
-        closing: 10,
-        appDownloads: 500,
-        level: 3,
-        achievement: 'Top Performer',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'Alice Smith',
-        sales: 100,
-        demo: 15,
-        closing: 5,
-        appDownloads: 300,
-        level: 2,
-        achievement: 'Exceeded Targets',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'John Doe',
-        sales: 150,
-        demo: 20,
-        closing: 10,
-        appDownloads: 500,
-        level: 3,
-        achievement: 'Top Performer',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'Alice Smith',
-        sales: 100,
-        demo: 15,
-        closing: 5,
-        appDownloads: 300,
-        level: 2,
-        achievement: 'Exceeded Targets',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'John Doe',
-        sales: 150,
-        demo: 20,
-        closing: 10,
-        appDownloads: 500,
-        level: 3,
-        achievement: 'Top Performer',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'Alice Smith',
-        sales: 100,
-        demo: 15,
-        closing: 5,
-        appDownloads: 300,
-        level: 2,
-        achievement: 'Exceeded Targets',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'John Doe',
-        sales: 150,
-        demo: 20,
-        closing: 10,
-        appDownloads: 500,
-        level: 3,
-        achievement: 'Top Performer',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'Alice Smith',
-        sales: 100,
-        demo: 15,
-        closing: 5,
-        appDownloads: 300,
-        level: 2,
-        achievement: 'Exceeded Targets',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'John Doe',
-        sales: 150,
-        demo: 20,
-        closing: 10,
-        appDownloads: 500,
-        level: 3,
-        achievement: 'Top Performer',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'Alice Smith',
-        sales: 100,
-        demo: 15,
-        closing: 5,
-        appDownloads: 300,
-        level: 2,
-        achievement: 'Exceeded Targets',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'John Doe',
-        sales: 150,
-        demo: 20,
-        closing: 10,
-        appDownloads: 500,
-        level: 3,
-        achievement: 'Top Performer',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'Alice Smith',
-        sales: 100,
-        demo: 15,
-        closing: 5,
-        appDownloads: 300,
-        level: 2,
-        achievement: 'Exceeded Targets',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'John Doe',
-        sales: 150,
-        demo: 20,
-        closing: 10,
-        appDownloads: 500,
-        level: 3,
-        achievement: 'Top Performer',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'Alice Smith',
-        sales: 100,
-        demo: 15,
-        closing: 5,
-        appDownloads: 300,
-        level: 2,
-        achievement: 'Exceeded Targets',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'John Doe',
-        sales: 150,
-        demo: 20,
-        closing: 10,
-        appDownloads: 500,
-        level: 3,
-        achievement: 'Top Performer',
-      ),
-      Employee(
-        rank: AppAssets.trophyIcon,
-        profilePic: AppAssets.avatarImage,
-        name: 'Alice Smith',
-        sales: 100,
-        demo: 15,
-        closing: 5,
-        appDownloads: 300,
-        level: 2,
-        achievement: 'Exceeded Targets',
-      ),
-    ];
+    return employeeDataSource != null
+        ? SfDataGrid(
+            source: employeeDataSource!,
+            shrinkWrapRows: true,
+            columns: [
+              GridColumn(
+                maximumWidth: 50,
+                columnName: AchieversTableHeadings.rank.value,
+                label: GridHeading(title: AchieversTableHeadings.rank.value),
+              ),
+              GridColumn(
+                minimumWidth: 120,
+                columnName: AchieversTableHeadings.name.value,
+                label: GridHeading(title: AchieversTableHeadings.name.value),
+              ),
+              GridColumn(
+                columnName: AchieversTableHeadings.sales.value,
+                label: GridHeading(title: AchieversTableHeadings.sales.value),
+              ),
+              GridColumn(
+                columnName: AchieversTableHeadings.demo.value,
+                label: GridHeading(title: AchieversTableHeadings.demo.value),
+              ),
+              GridColumn(
+                columnName: AchieversTableHeadings.closing.value,
+                label: GridHeading(title: AchieversTableHeadings.closing.value),
+              ),
+              GridColumn(
+                minimumWidth: 140,
+                columnName: AchieversTableHeadings.appDownloads.value,
+                label: GridHeading(title: AchieversTableHeadings.appDownloads.value),
+              ),
+              GridColumn(
+                columnName: AchieversTableHeadings.level.value,
+                label: GridHeading(title: AchieversTableHeadings.level.value),
+              ),
+              GridColumn(
+                minimumWidth: 140,
+                columnName: AchieversTableHeadings.achievement.value,
+                label: GridHeading(title: AchieversTableHeadings.achievement.value),
+              ),
+            ],
+          )
+        : const NoDataFound();
   }
 }
 
 class EmployeeDataSource extends DataGridSource {
   /// Creates the employee data source class with required details.
-  EmployeeDataSource({required List<Employee> employeeData}) {
-    _employeeData = employeeData.map<DataGridRow>(
+  EmployeeDataSource({required List<AchieversData>? employeeData}) {
+    _employeeData = employeeData!.map<DataGridRow>(
       (e) {
         return DataGridRow(
           cells: [
             DataGridCell(
               columnName: AchieversTableHeadings.rank.value,
-              value: ImageView(
-                height: 24,
-                width: 24,
-                assetImage: '${e.rank}',
-                margin: const EdgeInsets.only(),
+              value: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ImageView(
+                    height: 28,
+                    width: 28,
+                    assetImage: AppAssets.trophyIcon,
+                    margin: EdgeInsets.only(),
+                  ),
+                ],
               ),
             ),
             DataGridCell(
@@ -271,12 +103,14 @@ class EmployeeDataSource extends DataGridSource {
               value: Row(
                 children: [
                   ImageView(
-                    height: 24,
-                    width: 24,
-                    assetImage: '${e.profilePic}',
+                    height: 28,
+                    width: 28,
+                    borderRadiusValue: 30,
+                    isAvatar: true,
+                    assetImage: '${e.profile_pic}',
                     margin: const EdgeInsets.only(right: 4),
                   ),
-                  GridHeading(title: '${e.name}'),
+                  GridHeading(title: '${e.firstName}'),
                 ],
               ),
             ),
@@ -364,27 +198,4 @@ enum AchieversTableHeadings {
   final String value;
 
   const AchieversTableHeadings(this.value);
-}
-
-class Employee {
-  final String? rank;
-  final String? profilePic;
-  final String? name;
-  final num? sales;
-  final num? demo;
-  final num? closing;
-  final num? appDownloads;
-  final num? level;
-  final String? achievement;
-
-  Employee(
-      {required this.rank,
-      required this.profilePic,
-      required this.name,
-      required this.sales,
-      required this.demo,
-      required this.closing,
-      required this.appDownloads,
-      required this.level,
-      required this.achievement});
 }
