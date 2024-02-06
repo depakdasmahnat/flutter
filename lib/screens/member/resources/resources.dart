@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/auth_model/fetchinterestcategory.dart';
+import '../../../models/guest_Model/fetchguestproduct.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
+import '../../../utils/widgets/loading_screen.dart';
+import '../../guest/product/guest_product_details.dart';
+import '../../guest/resource&Demo/resource_and_demo.dart';
 
 class ResourcesScreen extends StatefulWidget {
   const ResourcesScreen({super.key});
@@ -24,197 +33,262 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
   ];
 
   double? trainingProgress = 75;
-
+  TextEditingController searchController = TextEditingController();
   int dashBoardIndex = 0;
+  Fetchguestproduct? fetchGuestProduct;
+
+  Future fetchProduct({bool? loadingNext}) async {
+    return await context.read<GuestControllers>().fetchProduct(
+          context: context,
+          page: '1',
+        );
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      context.read<GuestControllers>().fetchInterestCategories(context: context, type: 'Resource');
+      fetchProduct();
+    });
+    super.initState();
+  }
+
+  List<ResourceCategoryData>? categories;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Resources'),
-      ),
-      body: ListView(
-        children: [
-          const Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-                child: Text(
-                  'Products',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+    return Consumer<GuestControllers>(builder: (context, controller, child) {
+      fetchGuestProduct = controller.fetchguestProduct;
+
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Resources'),
+        ),
+        body: ListView(
+          children: [
+            const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                  child: Text(
+                    'Products',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ),
+            if (fetchGuestProduct?.data.haveData == true)
+              SizedBox(
+                height: 250,
+                child: ListView.builder(
+                  itemCount: fetchGuestProduct?.data?.length ?? 0,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(left: kPadding),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    var data = fetchGuestProduct?.data?.elementAt(index);
+
+                    return ProductCard(
+                      index: index,
+                      data: data,
+                      controller: controller,
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
-          SizedBox(
-            height: 300,
-            child: ListView.builder(
-              itemCount: 8,
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(left: kPadding),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return ProductCard(index: index);
-              },
-            ),
-          ),
-          const CustomTextField(
-            hintText: 'Search',
-            readOnly: true,
-            hintStyle: TextStyle(color: Colors.white),
-            prefixIcon: ImageView(
-              height: 20,
-              width: 20,
-              borderRadiusValue: 0,
-              color: Colors.white,
-              margin: EdgeInsets.only(left: kPadding, right: kPadding),
-              fit: BoxFit.contain,
-              assetImage: AppAssets.searchIcon,
-            ),
-            margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
-          ),
-          const Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-                child: Text(
-                  'All Videos',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
+            CustomTextField(
+              hintText: 'Search',
+              controller: searchController,
+              hintStyle: const TextStyle(color: Colors.white),
+              prefixIcon: ImageView(
+                height: 20,
+                width: 20,
+                borderRadiusValue: 0,
+                color: Colors.white,
+                margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+                fit: BoxFit.contain,
+                assetImage: AppAssets.searchIcon,
+                onTap: () {
+                  fetchProduct();
+                },
               ),
-            ],
-          ),
-          GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio:
-                ((size.height - kToolbarHeight - 24) / (size.height - kToolbarHeight - 24) / 0.85),
-            controller: ScrollController(keepScrollOffset: false),
-            padding: const EdgeInsets.only(bottom: 100, left: 16, right: 16, top: 8),
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: List.generate(
-              item.length,
-              (index) {
-                return InkWell(
-                    onTap: () {
-                      context.push(Routs.resourceAndDemo);
-                    },
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(18))
-                          // image: DecorationImage(
-                          //   image: AssetImage(AppAssets.geustProduct,),
-                          //       fit: BoxFit.contain
-                          // )
-                          ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(6),
-                              child: Image.asset(
-                                item[index]['image'],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Text(
-                              item[index]['title'],
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500, height: 2),
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ));
+              onEditingComplete: () {
+                fetchProduct();
               },
+              margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
             ),
-          ),
-        ],
-      ),
-    );
+            const Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                  child: Text(
+                    'All Videos',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ),
+            Consumer<GuestControllers>(
+              builder: (context, controller, child) {
+                categories = controller.fetchInterestCategory?.data;
+                return controller.fetchCategoryLoader == true
+                    ? const LoadingScreen(message: 'Loading Resources...')
+                    : (categories.haveData)
+                        ? GridView.builder(
+                            itemCount: categories?.length ?? 0,
+                            controller: ScrollController(keepScrollOffset: false),
+                            padding: const EdgeInsets.only(bottom: 100),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: ((size.height - kToolbarHeight - 24) /
+                                  (size.height - kToolbarHeight - 24) /
+                                  0.85),
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = categories?[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                    onTap: () {
+                                      context.push(Routs.resourceAndDemo,
+                                          extra: ResourceAndDemo(category: data));
+                                    },
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(Radius.circular(18))),
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Flexible(
+                                              child: ImageView(
+                                                networkImage: '${data?.image}',
+                                                fit: BoxFit.cover,
+                                                margin: const EdgeInsets.all(6),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                                              child: Text(
+                                                data?.name ?? '',
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                              );
+                            },
+                          )
+                        : const NoDataFound(message: 'No Resources Found');
+              },
+            )
+          ],
+        ),
+      );
+    });
   }
 }
 
 class ProductCard extends StatelessWidget {
-  final int? index;
+  final int index;
+  final Data? data;
+  final GuestControllers? controller;
 
   const ProductCard({
-    this.index,
+    required this.index,
     super.key,
+    this.data,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 200,
-          margin: const EdgeInsets.only(right: kPadding),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(22)),
-            gradient: index == 0 ? primaryGradient : inActiveGradient,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const ImageView(
-                  assetImage: AppAssets.geustProduct,
-                  margin: EdgeInsets.zero,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Text(
-                    'Reverse Osmosis PVC Kangen Water Mach...',
-                    style: TextStyle(
-                      color: index == 0 ? Colors.black : Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () {
+        context.push(Routs.guestProductDetail,
+            extra: GusetProductDetails(
+              productId: controller?.fetchguestProduct?.data?[index].id.toString() ?? '',
+            ));
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 180,
+            margin: const EdgeInsets.only(right: kPadding),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(22)),
+              gradient: index == 0 ? primaryGradient : inActiveGradient,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ImageView(
+                    networkImage: '${data?.productImage}',
+                    margin: EdgeInsets.zero,
+                    borderRadiusValue: 8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Text(
+                      '${data?.name}',
+                      style: TextStyle(
+                        color: index == 0 ? Colors.black : Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
                     ),
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '₹ 3,43,000/',
-                        style: TextStyle(
-                          color: index == 0 ? Colors.black : Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '₹ ${data?.price}/',
+                          style: TextStyle(
+                            color: index == 0 ? Colors.black : Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        'Unit',
-                        style: TextStyle(
-                          color: index == 0 ? Colors.black : Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                        Text(
+                          'Unit',
+                          style: TextStyle(
+                            color: index == 0 ? Colors.black : Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
