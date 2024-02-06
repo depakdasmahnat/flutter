@@ -80,6 +80,8 @@ class ApiService {
       final response = await http
           .post(uri, headers: headers ?? defaultHeaders(), body: body)
           .timeout(const Duration(seconds: timeOutDuration));
+      print("check edit responce ${response.body}");
+      print("check edit statusCode ${response.statusCode}");
       return ErrorHandler.processResponse(
           response: response, showError: showError);
     } catch (e, s) {

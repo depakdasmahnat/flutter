@@ -159,7 +159,6 @@ class NewJoiner extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return
       Column(
-
         children: [
           image?.isEmpty==true
               ? const CircleAvatar(

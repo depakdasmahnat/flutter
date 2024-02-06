@@ -109,15 +109,15 @@ class _WhyAreYouHereState extends State<WhyAreYouHere> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      const Text(
-                        'Choose as many as you like',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          height: 1,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      // const Text(
+                      //   'Choose as many as you like',
+                      //   style: TextStyle(
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.w400,
+                      //     height: 1,
+                      //   ),
+                      //   textAlign: TextAlign.center,
+                      // ),
                     ],
                   ),
                 ),

@@ -186,7 +186,7 @@ class AuthControllers extends ChangeNotifier {
           GuestData? guest = context.read<LocalDatabase>().guest;
 
           showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
-          context.pushNamed(responseData?.url??Routs.interests,);
+          context.pushReplacementNamed(responseData?.url??Routs.interests,);
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);

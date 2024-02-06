@@ -52,9 +52,9 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       await context.read<GuestControllers>().fetchState(
             context: context,
           );
-      gender = fetchGuestProfileModel?.data?.gender;
+      gender = fetchGuestProfileModel?.data?.gender??'';
       genderHint = fetchGuestProfileModel?.data?.gender??'Select Gender';
-      refType = fetchGuestProfileModel?.data?.leadRefType.toString()??'';
+      refType = fetchGuestProfileModel?.data?.leadRefType??'';
       refTypeHint = fetchGuestProfileModel?.data?.leadRefType ?? 'Select Ref Type';
       occupation = fetchGuestProfileModel?.data?.occupation??'';
       occupationHint = fetchGuestProfileModel?.data?.occupation??'Select Occupation';
@@ -65,8 +65,8 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       pinCodeController.text = fetchGuestProfileModel?.data?.pincode ?? '';
       addressController.text = fetchGuestProfileModel?.data?.address ?? '';
       stateName = fetchGuestProfileModel?.data?.stateName ?? 'Select State';
-      stateId = fetchGuestProfileModel?.data?.stateId.toString() ?? '';
-      cityId = fetchGuestProfileModel?.data?.cityId.toString() ?? '';
+      stateId = fetchGuestProfileModel?.data?.stateId.toString()=='null' ? '':fetchGuestProfileModel?.data?.stateId.toString()??'';
+      cityId = fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':fetchGuestProfileModel?.data?.cityId.toString()??'';
       cityName = fetchGuestProfileModel?.data?.cityName?? 'Select City';
       firsNameController.text = fetchGuestProfileModel?.data?.firstName??'';
       lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
