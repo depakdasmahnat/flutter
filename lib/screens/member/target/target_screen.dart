@@ -14,6 +14,7 @@ import 'package:mrwebbeast/utils/widgets/custom_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 
@@ -26,7 +27,7 @@ class TargetScreen extends StatefulWidget {
 
 class _TargetScreenState extends State<TargetScreen> {
   TargetData? targetData;
-  List<TargetAnalytics>? analytics;
+  List<DashboardAnalytics>? analytics;
   int dashBoardIndex = 0;
   String? selectedDuration = DurationFilterMenu.monthly.label;
 
@@ -81,24 +82,25 @@ class _TargetScreenState extends State<TargetScreen> {
                                   onChange: (String? val) {
                                     selectedDuration = val;
                                     setState(() {});
+                                    fetchTarget();
                                   },
                                 ),
                               ],
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: kPadding, left: 8, right: 8),
+                          Padding(
+                            padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
                             child: Row(
                               children: [
                                 MySalesTarget(
-                                  pending: '06',
-                                  target: '60',
-                                  archived: '54',
+                                  pending: '${targetData?.pendingTarget ?? ''}',
+                                  target: '${targetData?.salesTarget ?? ''}',
+                                  archived: '${targetData?.achievedTarget ?? ''}',
                                 ),
                                 MyRankTarget(
-                                  level: '6A',
-                                  rank: '6A2',
-                                  target: '92',
+                                  level: targetData?.currentRank ?? '',
+                                  rank: targetData?.targetRank ?? '',
+                                  target: '${targetData?.pendingRankTarget ?? ''}',
                                 ),
                               ],
                             ),
@@ -134,12 +136,12 @@ class _TargetScreenState extends State<TargetScreen> {
                               ],
                             ),
                           ),
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
-                          //   child: PerformanceGraph(
-                          //     analytics: dummyAnalyticsList,
-                          //   ),
-                          // ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
+                            child: PerformanceGraph(
+                              analytics: analytics,
+                            ),
+                          ),
                         ],
                       ),
                       Column(
@@ -150,7 +152,7 @@ class _TargetScreenState extends State<TargetScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'A,B members target',
+                                  'Pinnacle target',
                                   style: headingTextStyle(),
                                 ),
                                 GraphDurationFilter(
@@ -158,65 +160,29 @@ class _TargetScreenState extends State<TargetScreen> {
                                   onChange: (String? val) {
                                     selectedDuration = val;
                                     setState(() {});
+                                    fetchTarget();
                                   },
                                 ),
                               ],
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: kPadding, left: 8, right: 8),
+                          Padding(
+                            padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
                             child: Row(
                               children: [
                                 MySalesTarget(
-                                  pending: '06',
-                                  target: '60',
-                                  archived: '54',
+                                  pending: '${targetData?.pinnaclePendingTarget ?? ''}',
+                                  target: '${targetData?.pinnacleAchievedTarget ?? ''}',
+                                  archived: '${targetData?.pinnacleAchievedTarget ?? ''}',
                                 ),
                                 MyRankTarget(
-                                  level: '6A',
-                                  rank: '6A2',
-                                  target: '92',
+                                  level: targetData?.currentRank ?? '',
+                                  rank: targetData?.targetRank ?? '',
+                                  target: '${targetData?.pendingRankTarget ?? ''}',
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Monthly Performance Graph',
-                                  style: headingTextStyle(),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                  decoration: BoxDecoration(
-                                    gradient: inActiveGradient,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 4),
-                                        child: Text(
-                                          '6A2',
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      Icon(Icons.keyboard_arrow_down_rounded, size: 18)
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
-                          //   child: PerformanceGraph(
-                          //     analytics: dummyAnalyticsList,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ],

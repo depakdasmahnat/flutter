@@ -179,12 +179,12 @@ class GoalCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AspectRatio(
-            aspectRatio: 16/9,
+            aspectRatio: 16 / 9,
             child: ImageView(
               height: imageHeight,
               borderRadiusValue: 16,
               margin: const EdgeInsets.all(12),
-              fit: fit ?? BoxFit.contain,
+              fit: BoxFit.cover,
               networkImage: '${goal?.image}',
             ),
           ),

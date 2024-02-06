@@ -124,11 +124,11 @@ class DashBoardState extends State<DashBoard> {
                           ImageView(
                             height: 36,
                             width: 36,
-                            border: Border.all(color: Colors.white),
+                            border: Border.all(color: Colors.grey),
                             borderRadiusValue: 50,
                             isAvatar: true,
                             margin: const EdgeInsets.only(left: 8, right: 8),
-                            fit: BoxFit.contain,
+                            fit: BoxFit.cover,
                             networkImage: '${localDatabase.member?.profilePhoto}',
                             onTap: () {
                               context.pushNamed(Routs.memberProfile);

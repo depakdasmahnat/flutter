@@ -1,27 +1,38 @@
 import 'dart:convert';
-DashboardStatesModel dashboardStatesModelFromJson(String str) => DashboardStatesModel.fromJson(json.decode(str));
+
+DashboardStatesModel dashboardStatesModelFromJson(String str) =>
+    DashboardStatesModel.fromJson(json.decode(str));
+
 String dashboardStatesModelToJson(DashboardStatesModel data) => json.encode(data.toJson());
+
 class DashboardStatesModel {
   DashboardStatesModel({
-      this.status, 
-      this.message, 
-      this.data,});
+    this.status,
+    this.message,
+    this.data,
+  });
 
   DashboardStatesModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? DashboardStatesData.fromJson(json['data']) : null;
   }
+
   bool? status;
   String? message;
   DashboardStatesData? data;
-DashboardStatesModel copyWith({  bool? status,
-  String? message,
-  DashboardStatesData? data,
-}) => DashboardStatesModel(  status: status ?? this.status,
-  message: message ?? this.message,
-  data: data ?? this.data,
-);
+
+  DashboardStatesModel copyWith({
+    bool? status,
+    String? message,
+    DashboardStatesData? data,
+  }) =>
+      DashboardStatesModel(
+        status: status ?? this.status,
+        message: message ?? this.message,
+        data: data ?? this.data,
+      );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
@@ -31,49 +42,52 @@ DashboardStatesModel copyWith({  bool? status,
     }
     return map;
   }
-
 }
 
 DashboardStatesData dataFromJson(String str) => DashboardStatesData.fromJson(json.decode(str));
+
 String dataToJson(DashboardStatesData data) => json.encode(data.toJson());
+
 class DashboardStatesData {
   DashboardStatesData({
-      this.id, 
-      this.firstName, 
-      this.lastName, 
-      this.mobile, 
-      this.email, 
-      this.enagicId, 
-      this.memberId, 
-      this.path, 
-      this.profilePhoto, 
-      this.address, 
-      this.stateId, 
-      this.stateName, 
-      this.cityId, 
-      this.cityName, 
-      this.pincode, 
-      this.rank, 
-      this.title, 
-      this.nextRank, 
-      this.memberCounts, 
-      this.sales, 
-      this.salesTarget, 
-      this.pendingSales, 
-      this.achievedSales, 
-      this.pendingRankSales, 
-      this.currentRank, 
-      this.targetRank, 
-      this.rankPendingSales, 
-      this.leadsAdded, 
-      this.leadsClosed, 
-      this.leadsConversion, 
-      this.demoScheduled, 
-      this.demoCompleted, 
-      this.hotLeads, 
-      this.warmLeads, 
-      this.coldLeads, 
-      this.analytics,});
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.mobile,
+    this.email,
+    this.enagicId,
+    this.memberId,
+    this.path,
+    this.profilePhoto,
+    this.address,
+    this.stateId,
+    this.stateName,
+    this.cityId,
+    this.cityName,
+    this.pincode,
+    this.rank,
+    this.title,
+    this.nextRank,
+    this.memberCounts,
+    this.sales,
+    this.salesTarget,
+    this.pendingSales,
+    this.achievedSales,
+    this.pendingRankSales,
+    this.currentRank,
+    this.targetRank,
+    this.rankPendingSales,
+    this.leadsAdded,
+    this.leadsClosed,
+    this.leadsConversion,
+    this.demoScheduled,
+    this.demoCompleted,
+    this.hotLeads,
+    this.warmLeads,
+    this.coldLeads,
+    this.total_turnover,
+    this.analytics,
+  });
 
   DashboardStatesData.fromJson(dynamic json) {
     id = json['id'];
@@ -111,6 +125,7 @@ class DashboardStatesData {
     hotLeads = json['hotLeads'];
     warmLeads = json['warmLeads'];
     coldLeads = json['coldLeads'];
+    total_turnover = json['total_turnover'];
     if (json['analytics'] != null) {
       analytics = [];
       json['analytics'].forEach((v) {
@@ -118,6 +133,7 @@ class DashboardStatesData {
       });
     }
   }
+
   num? id;
   String? firstName;
   String? lastName;
@@ -153,80 +169,88 @@ class DashboardStatesData {
   num? hotLeads;
   num? warmLeads;
   num? coldLeads;
+  String? total_turnover;
   List<DashboardAnalytics>? analytics;
-DashboardStatesData copyWith({  num? id,
-  String? firstName,
-  String? lastName,
-  String? mobile,
-  String? email,
-  String? enagicId,
-  String? memberId,
-  dynamic path,
-  String? profilePhoto,
-  dynamic address,
-  dynamic stateId,
-  dynamic stateName,
-  dynamic cityId,
-  dynamic cityName,
-  dynamic pincode,
-  dynamic rank,
-  String? title,
-  dynamic nextRank,
-  num? memberCounts,
-  num? sales,
-  num? salesTarget,
-  num? pendingSales,
-  num? achievedSales,
-  num? pendingRankSales,
-  num? currentRank,
-  num? targetRank,
-  num? rankPendingSales,
-  num? leadsAdded,
-  num? leadsClosed,
-  num? leadsConversion,
-  num? demoScheduled,
-  num? demoCompleted,
-  num? hotLeads,
-  num? warmLeads,
-  num? coldLeads,
-  List<DashboardAnalytics>? analytics,
-}) => DashboardStatesData(  id: id ?? this.id,
-  firstName: firstName ?? this.firstName,
-  lastName: lastName ?? this.lastName,
-  mobile: mobile ?? this.mobile,
-  email: email ?? this.email,
-  enagicId: enagicId ?? this.enagicId,
-  memberId: memberId ?? this.memberId,
-  path: path ?? this.path,
-  profilePhoto: profilePhoto ?? this.profilePhoto,
-  address: address ?? this.address,
-  stateId: stateId ?? this.stateId,
-  stateName: stateName ?? this.stateName,
-  cityId: cityId ?? this.cityId,
-  cityName: cityName ?? this.cityName,
-  pincode: pincode ?? this.pincode,
-  rank: rank ?? this.rank,
-  title: title ?? this.title,
-  nextRank: nextRank ?? this.nextRank,
-  memberCounts: memberCounts ?? this.memberCounts,
-  sales: sales ?? this.sales,
-  salesTarget: salesTarget ?? this.salesTarget,
-  pendingSales: pendingSales ?? this.pendingSales,
-  achievedSales: achievedSales ?? this.achievedSales,
-  pendingRankSales: pendingRankSales ?? this.pendingRankSales,
-  currentRank: currentRank ?? this.currentRank,
-  targetRank: targetRank ?? this.targetRank,
-  rankPendingSales: rankPendingSales ?? this.rankPendingSales,
-  leadsAdded: leadsAdded ?? this.leadsAdded,
-  leadsClosed: leadsClosed ?? this.leadsClosed,
-  leadsConversion: leadsConversion ?? this.leadsConversion,
-  demoScheduled: demoScheduled ?? this.demoScheduled,
-  demoCompleted: demoCompleted ?? this.demoCompleted,
-  hotLeads: hotLeads ?? this.hotLeads,
-  warmLeads: warmLeads ?? this.warmLeads,
-  coldLeads: coldLeads ?? this.coldLeads,
-  analytics: analytics ?? this.analytics,
-);
+
+  DashboardStatesData copyWith({
+    num? id,
+    String? firstName,
+    String? lastName,
+    String? mobile,
+    String? email,
+    String? enagicId,
+    String? memberId,
+    dynamic path,
+    String? profilePhoto,
+    dynamic address,
+    dynamic stateId,
+    dynamic stateName,
+    dynamic cityId,
+    dynamic cityName,
+    dynamic pincode,
+    dynamic rank,
+    String? title,
+    dynamic nextRank,
+    num? memberCounts,
+    num? sales,
+    num? salesTarget,
+    num? pendingSales,
+    num? achievedSales,
+    num? pendingRankSales,
+    num? currentRank,
+    num? targetRank,
+    num? rankPendingSales,
+    num? leadsAdded,
+    num? leadsClosed,
+    num? leadsConversion,
+    num? demoScheduled,
+    num? demoCompleted,
+    num? hotLeads,
+    num? warmLeads,
+    num? coldLeads,
+    String? totalTurnover,
+    List<DashboardAnalytics>? analytics,
+  }) =>
+      DashboardStatesData(
+        id: id ?? this.id,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        mobile: mobile ?? this.mobile,
+        email: email ?? this.email,
+        enagicId: enagicId ?? this.enagicId,
+        memberId: memberId ?? this.memberId,
+        path: path ?? this.path,
+        profilePhoto: profilePhoto ?? this.profilePhoto,
+        address: address ?? this.address,
+        stateId: stateId ?? this.stateId,
+        stateName: stateName ?? this.stateName,
+        cityId: cityId ?? this.cityId,
+        cityName: cityName ?? this.cityName,
+        pincode: pincode ?? this.pincode,
+        rank: rank ?? this.rank,
+        title: title ?? this.title,
+        nextRank: nextRank ?? this.nextRank,
+        memberCounts: memberCounts ?? this.memberCounts,
+        sales: sales ?? this.sales,
+        salesTarget: salesTarget ?? this.salesTarget,
+        pendingSales: pendingSales ?? this.pendingSales,
+        achievedSales: achievedSales ?? this.achievedSales,
+        pendingRankSales: pendingRankSales ?? this.pendingRankSales,
+        currentRank: currentRank ?? this.currentRank,
+        targetRank: targetRank ?? this.targetRank,
+        rankPendingSales: rankPendingSales ?? this.rankPendingSales,
+        leadsAdded: leadsAdded ?? this.leadsAdded,
+        leadsClosed: leadsClosed ?? this.leadsClosed,
+        leadsConversion: leadsConversion ?? this.leadsConversion,
+        demoScheduled: demoScheduled ?? this.demoScheduled,
+        demoCompleted: demoCompleted ?? this.demoCompleted,
+        hotLeads: hotLeads ?? this.hotLeads,
+        warmLeads: warmLeads ?? this.warmLeads,
+        coldLeads: coldLeads ?? this.coldLeads,
+        total_turnover: totalTurnover ?? this.total_turnover,
+        analytics: analytics ?? this.analytics,
+      );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
@@ -264,37 +288,46 @@ DashboardStatesData copyWith({  num? id,
     map['hotLeads'] = hotLeads;
     map['warmLeads'] = warmLeads;
     map['coldLeads'] = coldLeads;
+    map['total_turnover'] = total_turnover;
     if (analytics != null) {
       map['analytics'] = analytics?.map((v) => v.toJson()).toList();
     }
     return map;
   }
-
 }
 
 DashboardAnalytics analyticsFromJson(String str) => DashboardAnalytics.fromJson(json.decode(str));
+
 String analyticsToJson(DashboardAnalytics data) => json.encode(data.toJson());
+
 class DashboardAnalytics {
   DashboardAnalytics({
-      this.xaxis, 
-      this.yaxis, 
-      this.performance,});
+    this.xaxis,
+    this.yaxis,
+    this.performance,
+  });
 
   DashboardAnalytics.fromJson(dynamic json) {
     xaxis = json['xaxis'];
     yaxis = json['yaxis'];
     performance = json['performance'];
   }
+
   String? xaxis;
   num? yaxis;
   num? performance;
-DashboardAnalytics copyWith({  String? xaxis,
-  num? yaxis,
-  num? performance,
-}) => DashboardAnalytics(  xaxis: xaxis ?? this.xaxis,
-  yaxis: yaxis ?? this.yaxis,
-  performance: performance ?? this.performance,
-);
+
+  DashboardAnalytics copyWith({
+    String? xaxis,
+    num? yaxis,
+    num? performance,
+  }) =>
+      DashboardAnalytics(
+        xaxis: xaxis ?? this.xaxis,
+        yaxis: yaxis ?? this.yaxis,
+        performance: performance ?? this.performance,
+      );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['xaxis'] = xaxis;
@@ -302,5 +335,4 @@ DashboardAnalytics copyWith({  String? xaxis,
     map['performance'] = performance;
     return map;
   }
-
 }

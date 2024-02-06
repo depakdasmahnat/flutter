@@ -34,15 +34,16 @@ class _MemberProfileState extends State<MemberProfile> {
       body: ListView(
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ImageView(
-                height: 100,
-                width: 100,
-                border: Border.all(color: Colors.white),
+                height: 80,
+                width: 80,
+                border: Border.all(color: Colors.grey),
                 borderRadiusValue: 50,
                 isAvatar: true,
                 margin: const EdgeInsets.only(left: 8, right: 16),
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 networkImage: '${localDatabase.member?.profilePhoto}',
               ),
               Column(
@@ -104,7 +105,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                 padding: EdgeInsets.only(right: 8),
                                 child: Text(
                                   '6A2',
-                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
                                 ),
                               ),
                               ImageView(
@@ -125,7 +126,7 @@ class _MemberProfileState extends State<MemberProfile> {
                           child: const Row(
                             children: [
                               ImageView(
-                                height: 18,
+                                height: 14,
                                 assetImage: AppAssets.membersFilledIcon,
                                 margin: EdgeInsets.only(),
                               ),
@@ -133,7 +134,7 @@ class _MemberProfileState extends State<MemberProfile> {
                                 padding: EdgeInsets.only(left: 8),
                                 child: Text(
                                   'Members 54',
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                                 ),
                               ),
                             ],
@@ -158,11 +159,11 @@ class _MemberProfileState extends State<MemberProfile> {
                 const Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 8),
+                      padding: EdgeInsets.only(right: 8, bottom: 8),
                       child: Text(
                         'Achievements',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
                         ),
@@ -173,8 +174,8 @@ class _MemberProfileState extends State<MemberProfile> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ImageView(
-                          height: 55,
-                          width: 55,
+                          height: 45,
+                          width: 45,
                           assetImage: AppAssets.achievementIcon,
                           margin: EdgeInsets.only(),
                         ),
@@ -183,7 +184,7 @@ class _MemberProfileState extends State<MemberProfile> {
                           child: Text(
                             '6A2',
                             style: TextStyle(
-                              fontSize: 36,
+                              fontSize: 28,
                               fontWeight: FontWeight.w800,
                               color: Colors.white,
                             ),
@@ -218,15 +219,15 @@ class _MemberProfileState extends State<MemberProfile> {
                                 child: Text(
                                   '6A2',
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w800,
                                     color: Colors.black,
                                   ),
                                 ),
                               ),
                               ImageView(
-                                height: 28,
-                                width: 28,
+                                height: 24,
+                                width: 24,
                                 assetImage: AppAssets.achievementIcon,
                                 margin: EdgeInsets.only(),
                               ),
@@ -240,10 +241,7 @@ class _MemberProfileState extends State<MemberProfile> {
               ],
             ),
           ),
-          const TrainingProgress(
-            trainingProgress: 56,
-            margin: EdgeInsets.symmetric(horizontal: kPadding),
-          ),
+          const TrainingProgress(),
           const InviteLeadsCard(),
           Padding(
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),

@@ -187,7 +187,7 @@ class Analytics {
     yaxis = json['yaxis'];
     performance = json['performance'];
   }
-  num? xaxis;
+  String? xaxis;
   num? yaxis;
   num? performance;
 

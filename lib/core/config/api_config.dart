@@ -94,6 +94,7 @@ class ApiEndpoints {
   static const String fetchToDo = 'fetch_to_do';
   static const String fetchAllDemos = 'fetch_all_demos';
   static const String fetchTarget = 'fetch_target';
+  static const String fetchTrainingProcess = 'fetch_training_process';
 
   // Lead apis
   static const String fetchLead = 'fetch_leads?';
@@ -106,8 +107,7 @@ class ApiEndpoints {
   static const String fetchFeedCategories = 'fetch_feed_categories';
   static const String getComments = 'get_comments';
   static const String feedComment = 'feed_comment';
-  static const String fetchResourceDetails =
-      'fetch_resources?page=1&category_id=';
+  static const String fetchResourceDetails = 'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
 

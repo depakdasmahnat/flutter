@@ -4,9 +4,11 @@ import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../controllers/dashboard/dashboard_controller.dart';
+import '../../controllers/member/member_controller/member_controller.dart';
 import '../../core/config/app_assets.dart';
 import '../../core/constant/constant.dart';
 import '../../core/route/route_paths.dart';
+import '../../models/member/dashboard/traning_progress_model.dart';
 import '../../utils/widgets/training_progress.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -32,14 +34,7 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
             Divider(color: Colors.grey.shade700, thickness: 0),
-            TrainingProgress(
-              trainingProgress: 56,
-              title: 'Basic Training Progress',
-              onTap: () {
-                context.pushNamed(Routs.chapters);
-              },
-              margin: const EdgeInsets.only(top: 8, bottom: 8, left: kPadding, right: kPadding),
-            ),
+            const TrainingProgress(),
             Divider(color: Colors.grey.shade700, thickness: 0),
             CustomDrawerTile(
               activeImage: AppAssets.dashboardIcon,

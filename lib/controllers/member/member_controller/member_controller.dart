@@ -16,6 +16,7 @@ import '../../../models/feeds/demos_model.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/member/auth/member_data.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
+import '../../../models/member/dashboard/traning_progress_model.dart';
 import '../../../models/member/goals/goals_model.dart';
 import '../../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../../models/member/genrate_referal/genrateReferralModel.dart';
@@ -1419,5 +1420,50 @@ class MembersController extends ChangeNotifier {
     }
 
     return achievers;
+  }
+
+  bool loadingTrainingProgress = true;
+  TrainingProgressModel? trainingProgress;
+
+  Future<TrainingProgressModel?> fetchTrainingProgress() async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingTrainingProgress = true;
+        // trainingProgress = null;
+
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingTrainingProgress = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchTrainingProcess, // Update the endpoint
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          TrainingProgressModel responseData = TrainingProgressModel.fromJson(json);
+          if (responseData.status == true) {
+            trainingProgress = responseData;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return trainingProgress;
   }
 }

@@ -134,7 +134,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                                 ),
                               ),
                               Text(
-                                '₹ ${dashboardStatesData?.salesTarget ?? 0}',
+                                '₹ ${dashboardStatesData?.total_turnover ?? 0}',
                                 style: const TextStyle(
                                   fontSize: 32,
                                   color: Colors.black,
@@ -367,6 +367,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           titleFontSize: 14,
                           textColor: Colors.white,
                           gradient: redGradient,
+                          showArrow: false,
                           onTap: () {},
                         ),
                         AnalyticsCard(
@@ -377,6 +378,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           textColor: Colors.white,
                           gradient: primaryGradient,
                           minHeight: 100,
+                          showArrow: false,
                           onTap: () {},
                         ),
                         AnalyticsCard(
@@ -387,6 +389,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           gradient: blueGradient,
                           borderRadius: 24,
                           minHeight: 100,
+                          showArrow: false,
                           onTap: () {},
                         ),
                       ],

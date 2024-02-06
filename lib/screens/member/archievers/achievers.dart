@@ -120,19 +120,7 @@ class _AchieversState extends State<Achievers> {
                         onPressed: null,
                       ),
                       CustomPopupMenuEntry(
-                        label: 'Achievement',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Conversion Ratio',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Progress',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Training',
+                        label: 'Sales',
                         onPressed: null,
                       ),
                       CustomPopupMenuEntry(
@@ -140,7 +128,15 @@ class _AchieversState extends State<Achievers> {
                         onPressed: null,
                       ),
                       CustomPopupMenuEntry(
-                        label: 'Target',
+                        label: 'Closing',
+                        onPressed: null,
+                      ),
+                      CustomPopupMenuEntry(
+                        label: 'Achievement',
+                        onPressed: null,
+                      ),
+                      CustomPopupMenuEntry(
+                        label: 'App Downloads',
                         onPressed: null,
                       ),
                     ],

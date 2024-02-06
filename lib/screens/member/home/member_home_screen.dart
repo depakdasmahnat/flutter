@@ -5,8 +5,11 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
+import '../../../models/member/dashboard/traning_progress_model.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/training_progress.dart';
 import '../../guest/home/guest_profiles.dart';
@@ -52,13 +55,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
           ),
           const GuestProfiles(),
           const Banners(),
-          TrainingProgress(
-            trainingProgress: 56,
-            title: 'Basic Training Progress',
-            onTap: () {
-              context.pushNamed(Routs.chapters);
-            },
-          ),
+          const TrainingProgress(),
           GridView(
             shrinkWrap: true,
             padding: const EdgeInsets.all(kPadding),

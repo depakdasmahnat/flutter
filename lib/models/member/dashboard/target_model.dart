@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'dashboard_states_model.dart';
+
 TargetModel targetModelFromJson(String str) => TargetModel.fromJson(json.decode(str));
 
 String targetModelToJson(TargetModel data) => json.encode(data.toJson());
@@ -75,7 +77,7 @@ class TargetData {
     if (json['analytics'] != null) {
       analytics = [];
       json['analytics'].forEach((v) {
-        analytics?.add(TargetAnalytics.fromJson(v));
+        analytics?.add(DashboardAnalytics.fromJson(v));
       });
     }
     pinnaclePendingTarget = json['pinnacle_pending_target'];
@@ -91,7 +93,8 @@ class TargetData {
   String? targetRank;
   num? pendingRankTarget;
   num? conversionRatio;
-  List<TargetAnalytics>? analytics;
+
+  List<DashboardAnalytics>? analytics;
   num? pinnaclePendingTarget;
   num? pinnacleSalesTarget;
   num? pinnacleAchievedTarget;
@@ -105,7 +108,7 @@ class TargetData {
     String? targetRank,
     num? pendingRankTarget,
     num? conversionRatio,
-    List<TargetAnalytics>? analytics,
+    List<DashboardAnalytics>? analytics,
     num? pinnaclePendingTarget,
     num? pinnacleSalesTarget,
     num? pinnacleAchievedTarget,
@@ -145,43 +148,43 @@ class TargetData {
   }
 }
 
-TargetAnalytics analyticsFromJson(String str) => TargetAnalytics.fromJson(json.decode(str));
-
-String analyticsToJson(TargetAnalytics data) => json.encode(data.toJson());
-
-class TargetAnalytics {
-  TargetAnalytics({
-    this.xaxis,
-    this.yaxis,
-    this.performance,
-  });
-
-  TargetAnalytics.fromJson(dynamic json) {
-    xaxis = json['xaxis'];
-    yaxis = json['yaxis'];
-    performance = json['performance'];
-  }
-
-  String? xaxis;
-  num? yaxis;
-  num? performance;
-
-  TargetAnalytics copyWith({
-    String? xaxis,
-    num? yaxis,
-    num? performance,
-  }) =>
-      TargetAnalytics(
-        xaxis: xaxis ?? this.xaxis,
-        yaxis: yaxis ?? this.yaxis,
-        performance: performance ?? this.performance,
-      );
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['xaxis'] = xaxis;
-    map['yaxis'] = yaxis;
-    map['performance'] = performance;
-    return map;
-  }
-}
+// DashboardAnalytics analyticsFromJson(String str) => DashboardAnalytics.fromJson(json.decode(str));
+//
+// String analyticsToJson(DashboardAnalytics data) => json.encode(data.toJson());
+//
+// class DashboardAnalytics {
+//   DashboardAnalytics({
+//     this.xaxis,
+//     this.yaxis,
+//     this.performance,
+//   });
+//
+//   DashboardAnalytics.fromJson(dynamic json) {
+//     xaxis = json['xaxis'];
+//     yaxis = json['yaxis'];
+//     performance = json['performance'];
+//   }
+//
+//   String? xaxis;
+//   num? yaxis;
+//   num? performance;
+//
+//   DashboardAnalytics copyWith({
+//     String? xaxis,
+//     num? yaxis,
+//     num? performance,
+//   }) =>
+//       DashboardAnalytics(
+//         xaxis: xaxis ?? this.xaxis,
+//         yaxis: yaxis ?? this.yaxis,
+//         performance: performance ?? this.performance,
+//       );
+//
+//   Map<String, dynamic> toJson() {
+//     final map = <String, dynamic>{};
+//     map['xaxis'] = xaxis;
+//     map['yaxis'] = yaxis;
+//     map['performance'] = performance;
+//     return map;
+//   }
+// }

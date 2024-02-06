@@ -83,6 +83,7 @@ class _NetworkPinnacleTableState extends State<NetworkPinnacleTable> {
                 label: GridHeading(title: PinnaclesHeadings.call.value),
               ),
               GridColumn(
+
                 columnName: PinnaclesHeadings.achievement.value,
                 label: GridHeading(title: PinnaclesHeadings.achievement.value),
               ),

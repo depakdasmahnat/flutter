@@ -132,54 +132,6 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
               Expanded(
                 child: Row(
                   children: [
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: 100),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: SizedBox(
-                          width: 50,
-                          child: ListView.builder(
-                            itemCount: maxLevel,
-                            itemBuilder: (BuildContext context, int index) {
-                              bool currentLevel = currentUserLevel == (index + 1);
-
-                              return GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    gradient: currentLevel ? primaryGradient : whiteGradient,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        '${index + 1}',
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const Text(
-                                        'Level',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
                     if (graph.nodes.haveData)
                       Expanded(
                         child: InteractiveViewer(
