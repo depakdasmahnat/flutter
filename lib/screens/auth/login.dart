@@ -317,7 +317,7 @@ class _LoginState extends State<Login> {
       showReferral = true;
     }
     setState(() {});
-    print('check status ${validate?.status}');
+
   }
 
   Future sendOtp() async {

@@ -155,8 +155,7 @@ class NewJoiner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('check image $cityName');
-    print('check image ${cityName.runtimeType}');
+
     Size size = MediaQuery.of(context).size;
     return
       Column(

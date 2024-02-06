@@ -89,6 +89,7 @@ flutter_native_splash:
   image: assets/images/splash_screen.png
   android_gravity: center
   ios_content_mode: center
+
   # flutter pub run flutter_native_splash:create
 
   android_12:

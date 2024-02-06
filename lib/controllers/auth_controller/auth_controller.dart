@@ -117,6 +117,8 @@ class AuthControllers extends ChangeNotifier {
       context: context,
       future: response,
     ).then((response) async {
+
+
       if (response != null) {
         Map<String, dynamic> json = response;
         responseData = Sendotp.fromJson(json);
@@ -182,7 +184,7 @@ class AuthControllers extends ChangeNotifier {
         if (responseData?.status == true) {
           context.read<LocalDatabase>().saveGuestData(guest: responseData?.data);
           GuestData? guest = context.read<LocalDatabase>().guest;
-          debugPrint('guest ${guest?.firstName}');
+
           showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           context.pushNamed(responseData?.url??Routs.interests,);
         } else {
