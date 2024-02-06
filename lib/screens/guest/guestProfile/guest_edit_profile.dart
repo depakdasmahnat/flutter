@@ -119,6 +119,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 controller: mobileController,
                 title: 'Mobile No.',
                 hintText: 'Enter Mobile No.',
+                readOnly: true,
                 prefixIcon: const Padding(
                   padding: EdgeInsets.only(top: 3),
                   child: Text('+91'),
@@ -152,7 +153,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                   Expanded(
                     child: CustomTextFieldApp(
                       title: 'Date of Birth',
-                      hintText: 'dd/mm/yyyy',
+                      hintText: 'dd-mm-yyyy',
                       controller: dateControlller,
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
@@ -189,7 +190,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
 
                         if (pickedDate != null) {
                           dateControlller.text =
-                              "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                              "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
                         }
                       },
                       readOnly: true,

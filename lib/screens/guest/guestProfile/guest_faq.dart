@@ -21,6 +21,7 @@ class GuestFaq extends StatefulWidget {
 }
 
 class _GuestFaqState extends State<GuestFaq> {
+
   List item = [
     {
       'image': AppAssets.rocket,
@@ -58,7 +59,7 @@ class _GuestFaqState extends State<GuestFaq> {
 
   bool expend = false;
   int? changeIndex = -1;
-
+  int? tabIndex =-1;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -85,7 +86,7 @@ class _GuestFaqState extends State<GuestFaq> {
                   ),
                   CustomTextField(
                     hintText: 'Search',
-                    readOnly: true,
+
                     hintStyle: TextStyle(color: Colors.white),
                     prefixIcon: ImageView(
                       height: 20,
@@ -117,31 +118,29 @@ class _GuestFaqState extends State<GuestFaq> {
                             scrollDirection: Axis.horizontal,
                             itemCount: fetchInterestCategory?.data?.length ?? 0,
                             itemBuilder: (context, index) {
+
                               return Padding(
                                 padding: const EdgeInsets.only(left: 8.0, right: 8),
                                 child: GestureDetector(
                                   onTap: () async {
+                                    tabIndex =index;
+                                    setState(() {});
                                     await context.read<GuestControllers>().fetchFaqs(
                                         context: context,
                                         categoriesId:
                                             fetchInterestCategory?.data?[index].id.toString() ?? '');
+
                                   },
                                   child: Container(
                                     width: size.width * 0.34,
                                     // height: size.width*0.34,
-                                    decoration: ShapeDecoration(
-                                      gradient: index == 0
-                                          ? primaryGradient
-                                          : index == 1
-                                              ? const LinearGradient(
-                                                  colors: [Color(0xFFE1FF41), Color(0xFFE1FF41)])
-                                              : const LinearGradient(colors: [
-                                                  Colors.white,
-                                                  Colors.white,
-                                                ]),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(18),
-                                      ),
+                                    decoration:  BoxDecoration(
+
+                                      gradient: tabIndex ==index?primaryGradient: inActiveGradient,
+                                      borderRadius: const BorderRadius.all(Radius.circular(18)),
+
+
+
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.only(
@@ -155,15 +154,17 @@ class _GuestFaqState extends State<GuestFaq> {
                                               ? Image.asset(
                                                   AppAssets.rocket,
                                                   height: size.height * 0.04,
+                                            color:tabIndex ==index?Colors.black: Colors.white,
                                                 )
                                               : Image.network(
                                                   fetchInterestCategory?.data?[index].image ?? '',
                                                   height: size.height * 0.04,
+                                            color:tabIndex ==index?Colors.black: Colors.white,
                                                 ),
                                           Text(
                                             fetchInterestCategory?.data?[index].name ?? '',
-                                            style: const TextStyle(
-                                              color: Colors.black,
+                                            style:  TextStyle(
+                                              color:tabIndex ==index?Colors.black: Colors.white,
                                               fontSize: 12,
                                               height: 3,
                                               fontWeight: FontWeight.w400,
@@ -172,8 +173,8 @@ class _GuestFaqState extends State<GuestFaq> {
                                           ),
                                           Text(
                                             fetchInterestCategory?.data?[index].type ?? '',
-                                            style: const TextStyle(
-                                              color: Colors.black,
+                                            style:  TextStyle(
+                                              color:tabIndex ==index?Colors.black: Colors.white,
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                             ),

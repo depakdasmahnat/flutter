@@ -8,7 +8,9 @@ import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constant/gradients.dart';
+import '../../core/services/database/local_database.dart';
 import '../../models/auth_model/fetchinterestcategory.dart';
+import '../../models/auth_model/guest_data.dart';
 import '../../utils/widgets/gradient_button.dart';
 
 class InterestScreen extends StatefulWidget {
@@ -41,9 +43,11 @@ class _InterestScreenState extends State<InterestScreen> {
 
   @override
   Widget build(BuildContext context) {
+    GuestData? guest = context.read<LocalDatabase>().guest;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: [
           GradientButton(
             height: 30,
@@ -78,19 +82,19 @@ class _InterestScreenState extends State<InterestScreen> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: size.height * 0.05, bottom: 8),
-                  child: const Column(
+                  child:  Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Welcome Ayaan!',
-                        style: TextStyle(
+                        'Welcome  ${guest?.firstName}!',
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                           height: 1,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(top: 8, bottom: 8),
                         child: Text(
                           'Choose your interests for your future goal',

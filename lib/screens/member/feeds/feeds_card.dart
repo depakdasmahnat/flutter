@@ -167,21 +167,26 @@ class _FeedCardState extends State<FeedCard> {
                 if (data?.description != null && data?.fileType == FeedsFileType.article.value)
                   showMoreDescription(
                     context: context,
+
                     description: parseHtmlToText(htmlString: '${data?.description}'),
+
                     style: const TextStyle(
+                      // height: ,
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 2,
+
                     overFlow: TextOverflow.ellipsis,
                   )
                 else if (data?.description != null)
                   Padding(
-                    padding: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.only(top: 10,bottom: 5),
                     child: Text(
                       '${data?.description}',
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 13,
+
                         fontWeight: FontWeight.w400,
                       ),
                       textAlign: TextAlign.start,
@@ -189,7 +194,7 @@ class _FeedCardState extends State<FeedCard> {
                   ),
                 if (isFeeds == true)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.only(bottom: 12,top: 3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -199,7 +204,7 @@ class _FeedCardState extends State<FeedCard> {
                               Container(
                                 height: 18,
                                 width: 24,
-                                margin: const EdgeInsets.only(right: kPadding),
+                                margin: const EdgeInsets.only(right: kPadding,),
                                 child: const CupertinoActivityIndicator(),
                               )
                             else
@@ -213,9 +218,15 @@ class _FeedCardState extends State<FeedCard> {
                                       );
                                 },
                               ),
+                            const SizedBox(
+                              width: 10,
+                            ),
                             FeedMenu(
                               icon: AppAssets.chatIcon,
                               value: data?.comments,
+                            ),
+                            const SizedBox(
+                              width: 10,
                             ),
                             FeedMenu(
                               icon: AppAssets.shareIcon,
@@ -225,10 +236,10 @@ class _FeedCardState extends State<FeedCard> {
                             ),
                           ],
                         ),
-                        const FeedMenu(
-                          lastMenu: true,
-                          icon: AppAssets.bookmarkIcon,
-                        ),
+                        // const FeedMenu(
+                        //   lastMenu: true,
+                        //   icon: AppAssets.bookmarkIcon,
+                        // ),
                       ],
                     ),
                   ),
@@ -311,6 +322,7 @@ class FeedMenu extends StatelessWidget {
               onTap: null,
               assetImage: icon,
             ),
+
             if (value != null)
               Text(
                 '$value',

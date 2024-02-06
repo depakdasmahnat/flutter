@@ -57,6 +57,7 @@ class DashBoardState extends State<DashBoard> {
         return WillPopScope(
           onWillPop: onAppExit,
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             drawer: const CustomDrawer(),
             onDrawerChanged: (val) {},
             appBar: (userRole == UserRoles.member.value && dashBoardIndex == 0)

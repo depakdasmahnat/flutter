@@ -68,6 +68,7 @@ dependencies:
   youtube_player_iframe: ^4.0.4
   syncfusion_flutter_pdfviewer: ^22.2.9
 
+
   
 dev_dependencies:
   flutter_test:
@@ -85,9 +86,10 @@ dependency_overrides:
 flutter_native_splash:
   color: "#ffffff"
   color_dark: "#042a49"
-  image: assets/images/ic_launcher.png
+  image: assets/images/splash_screen.png
   android_gravity: center
   ios_content_mode: center
+
   # flutter pub run flutter_native_splash:create
 
   android_12:

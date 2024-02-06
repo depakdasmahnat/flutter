@@ -49,7 +49,7 @@ class MemberAuthControllers extends ChangeNotifier {
         builder: (context) {
           return CupertinoAlertDialog(
             title: const Text('Logout'),
-            content: const Text('Do you want To logout'),
+            content: const Text('Do you want to logout?'),
             actions: [
               TextButton(
                 onPressed: () {

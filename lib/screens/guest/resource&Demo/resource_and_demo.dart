@@ -74,9 +74,12 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
             child: ListView(
               shrinkWrap: true,
               children: [
-                const CustomTextField(
+                 CustomTextField(
                   hintText: 'Search',
-                  readOnly: true,
+                  onFieldSubmitted: (value) {
+
+                  },
+
                   hintStyle: TextStyle(color: Colors.white),
                   prefixIcon: ImageView(
                     height: 20,

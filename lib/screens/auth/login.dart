@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
+import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/validators.dart';
 import '../../../utils/widgets/custom_text_field.dart';
@@ -13,6 +15,7 @@ import '../../core/constant/gradients.dart';
 import '../../models/auth_model/sendotp.dart';
 import '../../models/auth_model/validatemobile.dart';
 import '../../utils/widgets/gradient_button.dart';
+import '../../utils/widgets/widgets.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -22,12 +25,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool checkValidate =false;
-  bool forReferral =false;
+  bool checkValidate = false;
+  bool forReferral = false;
+  bool showReferral = false;
+  bool checkBox = false;
   @override
   void initState() {
     super.initState();
   }
+
   // Validatemobile validate =Validatemobile();
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController lastNameCtrl = TextEditingController();
@@ -51,14 +57,14 @@ class _LoginState extends State<Login> {
           Form(
             key: signInFormKey,
             child: ListView(
-              padding: const EdgeInsets.only(left: 24, right: 24),
+              padding: const EdgeInsets.only(left: 24, right: 24, bottom: 150),
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: size.height * 0.19, bottom: 8),
-                  child: const Column(
+                  padding: EdgeInsets.only(top: size.height * 0.13, bottom: 8),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Welcome!',
                         style: TextStyle(
                           fontSize: 38,
@@ -68,8 +74,9 @@ class _LoginState extends State<Login> {
                         textAlign: TextAlign.center,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 8),
-                        child: Text(
+                        padding:
+                            EdgeInsets.only(top: 8, bottom: size.height * 0.06),
+                        child: const Text(
                           'Login now to continue your journey',
                           style: TextStyle(
                             fontSize: 16,
@@ -90,73 +97,81 @@ class _LoginState extends State<Login> {
                   validator: (val) {
                     return Validator.numberValidator(val);
                   },
-                  onChanged: (value) async{
 
+                  onChanged: (value) async {
                     if (value.length == 10) {
                       validatePhone();
-
                     }
                   },
                   hintText: 'Enter Mobile No.',
                   autofillHints: const [AutofillHints.telephoneNumberNational],
                   margin: const EdgeInsets.only(bottom: 24),
                 ),
-               if( checkValidate==true)
-                CustomTextField(
-                  controller: nameCtrl,
-                  autofocus: true,
-                  validator: (val) {
-                    return Validator.fullNameValidator(val);
-                  },
-                  onChanged: (value) {},
-                  hintText: 'Enter Full Name',
-                  autofillHints: const [AutofillHints.name],
-                  margin: const EdgeInsets.only(top: 1, bottom: 1),
-                ),
-                if( checkValidate==true)
-                CustomTextField(
-                  controller: lastNameCtrl,
-                  autofocus: true,
-                  validator: (val) {
-                    return Validator.fullNameValidator(val);
-                  },
-                  onChanged: (value) {},
-                  hintText: 'Enter Last Name',
-                  autofillHints: const [AutofillHints.name],
-                  margin: const EdgeInsets.only(top: 18),
-                ),
-                if( checkValidate==true)
+                if (checkValidate == true)
                   CustomTextField(
-                    controller: addressCtrl,
+                    controller: nameCtrl,
                     autofocus: true,
                     validator: (val) {
                       return Validator.fullNameValidator(val);
                     },
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp('[a-z]'))
+                    ],
+
                     onChanged: (value) {},
-                    hintText: 'Enter Address',
+                    hintText: 'Enter First Name',
+                    autofillHints: const [AutofillHints.name],
+                    margin: const EdgeInsets.only(top: 1, bottom: 1),
+                  ),
+                if (checkValidate == true)
+                  CustomTextField(
+                    controller: lastNameCtrl,
+                    autofocus: true,
+                    // validator: (val) {
+                    //   return Validator.fullNameValidator(val);
+                    // },
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp('[a-z]'))
+                    ],
+                    onChanged: (value) {},
+                    hintText: 'Enter Last Name',
+                    autofillHints: const [AutofillHints.name],
+                    margin: const EdgeInsets.only(top: 18),
+                  ),
+                if (checkValidate == true)
+                  CustomTextField(
+                    controller: addressCtrl,
+                    autofocus: true,
+                    validator: (val) {
+                      return Validator.flocationValidation(val);
+                    },
+                    onChanged: (value) {},
+                    hintText: 'Enter Location',
                     autofillHints: const [AutofillHints.name],
                     margin: const EdgeInsets.only(top: 18, bottom: 18),
                   ),
-                if(forReferral==false)
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    'Enter Referral Code',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
-                ),
-                if(forReferral==false)
-                CustomTextField(
-                  controller: referralCodeCtrl,
-                  autofocus: true,
+                // if(showReferral==true )
+                // const Padding(
+                //   padding: EdgeInsets.only(bottom: 12),
+                //   child: Text(
+                //     'Enter Referral Code',
+                //     style: TextStyle(color: Colors.black, fontSize: 12,fontWeight: FontWeight.w800),
+                //   ),
+                // ),
+                if (showReferral == true)
+                  CustomTextField(
+                    controller: referralCodeCtrl,
+                    autofocus: true,
+                    textCapitalization: TextCapitalization.characters,
+                    hintText: 'Referral Code',
 
-                  hintText: 'Referral code',
-                  validator: (value) {
-                    return Validator.numberValidator(value);
-                  },
-                  // autofillHints: const [AutofillHints.name],
-                  margin:  EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                ),
+                    validator: (value) {
+                      return Validator.referralValidator(value);
+                    },
+                    // autofillHints: const [AutofillHints.name],
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                  ),
               ],
             ),
           ),
@@ -166,38 +181,46 @@ class _LoginState extends State<Login> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(bottom: 16),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: [
-          //       // const Padding(
-          //       //   padding: EdgeInsets.only(right: 4),
-          //       //   child: Text(
-          //       //     'Don’t have an account?',
-          //       //     style: TextStyle(
-          //       //       color: Colors.white,
-          //       //       fontSize: 14,
-          //       //       fontWeight: FontWeight.w400,
-          //       //     ),
-          //       //     textAlign: TextAlign.start,
-          //       //   ),
-          //       // ),
-          //       // GestureDetector(
-          //       //   onTap: () {},
-          //       //   child: const Text(
-          //       //     'Register',
-          //       //     style: TextStyle(
-          //       //       color: Colors.white,
-          //       //       fontSize: 14,
-          //       //       fontWeight: FontWeight.w700,
-          //       //     ),
-          //       //     textAlign: TextAlign.start,
-          //       //   ),
-          //       // ),
-          //     ],
-          //   ),
-          // ),
+
+          Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 20,
+                  child: Checkbox(
+                    // fillColor: MaterialStateColor.resolveWith(
+                    //   (states) {
+                    //     return checkBox==false?Colors.black: Colors.black;
+                    //   },
+                    // ),
+                    focusColor: MaterialStateColor.resolveWith((states) {
+                      return Colors.black;
+                    }),
+                    // side: BorderSide.none,
+                    activeColor: MaterialStateColor.resolveWith((states) {
+                      return Colors.black;
+                    }),
+
+                    onChanged: (bool? value) {
+                      checkBox =value!;
+                      print("check false $checkBox" );
+                      setState(() {});
+                    }, value: checkBox,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width*0.04,
+                ),
+                CustomeText(
+                  text: 'I agree to the Terms and Conditions',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                )
+              ],
+            ),
+          ),
           GradientButton(
             height: 70,
             borderRadius: 18,
@@ -227,7 +250,7 @@ class _LoginState extends State<Login> {
             ),
           ),
           SizedBox(
-            height: size.height * 0.05,
+            height: size.height * 0.03,
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -274,36 +297,43 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
   Future validatePhone() async {
-    Validatemobile? validate= await  context.read<AuthControllers>().validateMobile(
-      context: context,
-      mobile: phoneCtrl.text,
-    );
-    if(validate?.status==true){
-      nameCtrl.text =validate?.data?.firstName??'';
-      lastNameCtrl.text =validate?.data?.lastName??'';
-      addressCtrl.text =validate?.data?.address??'';
-      checkValidate=true;
-      forReferral=true;
-    }else{
+    Validatemobile? validate = await context.read<AuthControllers>().validateMobile(context: context, mobile: phoneCtrl.text,);
+    if (validate?.status == true) {
+      nameCtrl.text = validate?.data?.firstName ?? '';
+      lastNameCtrl.text = validate?.data?.lastName ?? '';
+      addressCtrl.text = validate?.data?.address ?? '';
+      checkValidate = true;
+      forReferral = true;
+      showReferral = false;
+    } else {
       nameCtrl.clear();
       lastNameCtrl.clear();
       addressCtrl.clear();
       referralCodeCtrl.clear();
-      checkValidate=true;
-      forReferral=false;
+      checkValidate = true;
+      forReferral = false;
+      showReferral = true;
     }
     setState(() {});
-    print('check status ${validate?.status}');
-  }
-  Future sendOtp() async {
 
- await  context.read<AuthControllers>().sendOtp(
-      context: context,
-      mobile: phoneCtrl.text, isMobileValidated: forReferral, firstName:nameCtrl.text,
-      lastName: lastNameCtrl.text, referralCode: referralCodeCtrl.text,
-   address: addressCtrl.text
-    );
+  }
+
+  Future sendOtp() async {
+    if(checkBox==false){
+      showSnackBar(context: context, color: Colors.green, text:'Please check the terms & condition');
+    }else{
+      await context.read<AuthControllers>().sendOtp(
+          context: context,
+          mobile: phoneCtrl.text,
+          isMobileValidated: forReferral,
+          firstName: nameCtrl.text,
+          lastName: lastNameCtrl.text,
+          referralCode: referralCodeCtrl.text,
+          address: addressCtrl.text);
+    }
+
 
     // setState(() {});
     // print('check status ${validate?.status}');

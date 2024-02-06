@@ -121,7 +121,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                       children: [
                         Expanded(
                           child: Text(
-                            'we have sent a verification code to $countryCode ${mobileNo ?? 0}',
+                            'We have sent a verification code to $countryCode ${mobileNo ?? 0}',
                             style: const TextStyle(
                               fontSize: 15,
                               color: Colors.white,

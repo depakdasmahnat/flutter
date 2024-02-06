@@ -18,7 +18,10 @@ class Validator {
   ///Full Name
   static String? fullNameValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return '${fieldName ?? 'Full name'} is required';
+      return '${fieldName ?? 'First name'} is required';
+    } if(value.length<3){
+      return 'First name must be at least 3 characters.';
+
     }
     // final parts = value.split(' ');
     // if (parts.length < 2) {
@@ -32,6 +35,34 @@ class Validator {
     //     return 'Please enter a valid ${fieldName ?? 'full name'}';
     //   }
     // }
+    return null;
+  }
+  ///last  Name
+  // static String? lastNameValidator(String? value, [String? fieldName]) {
+  //   if(value!.length<3){
+  //     return 'Last name must be at least 3 characters.';
+  //   }
+  //   // final parts = value.split(' ');
+  //   // if (parts.length < 2) {
+  //   //   return 'Please enter your ${fieldName ?? 'full name'}';
+  //   // }
+  //   // for (var part in parts) {
+  //   //   if (part.length < 2) {
+  //   //     return 'Each word in your ${fieldName ?? 'full name'} must be at least 2 characters long';
+  //   //   }
+  //   //   if (!RegExp(r'^[a-zA-Z]+$').hasMatch(part)) {
+  //   //     return 'Please enter a valid ${fieldName ?? 'full name'}';
+  //   //   }
+  //   // }
+  //   return null;
+  // }
+  static String? flocationValidation(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Location'} is required';
+    }if(value.length<3){
+      return 'Location  must be at least 3 characters.';
+    }
+
     return null;
   }
 
@@ -101,14 +132,23 @@ class Validator {
   /// Validates that a value is a valid number format.
   static String? numberValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return '${fieldName ?? 'Number'} is required';
+      return '${fieldName ?? 'Mobile no'} is required';
     }
     if (double.tryParse(value) == null) {
-      return 'Invalid ${fieldName ?? 'number'} format';
+      return 'Invalid ${fieldName ?? 'mobile'} number';
     }
     return null;
   }
-
+  /// Referral code validation .
+  static String? referralValidator(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Referral code'} is required';
+    }
+    // if (double.tryParse(value) == null) {
+    //   return 'Invalid referral code';
+    // }
+    return null;
+  }
   /// Validates that a value is a valid alphanumeric format.
   static String? alphanumericValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {

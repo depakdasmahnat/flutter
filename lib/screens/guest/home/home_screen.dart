@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
   List<FeedsData>? feeds;
   FeedCategory? selectedFilter;
+
   DateTime currentDate = DateTime.now();
 
   late String formattedDate = DateFormat(dayFormat).format(currentDate);
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
-          categoryId: selectedFilter?.id,
+          categoryId: selectedFilter?.id??1,
           searchKey: searchController.text,
         );
   }
@@ -72,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<FeedsController>(builder: (context, controller, child) {
       feeds = controller.feeds;
       return Scaffold(
+
         appBar: AppBar(
           elevation: 0,
           title: Row(
@@ -122,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(bottom: bottomNavbarSize),
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 6),
+              padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 4,bottom: 8),
               child: Text(
                 'Congratulations to the new joinees',
                 style: TextStyle(
@@ -194,11 +196,21 @@ class _HomeScreenState extends State<HomeScreen> {
             //   ),
             // ),
 
-            const CustomTextField(
+             CustomTextField(
               hintText: 'Search',
-              readOnly: true,
+              controller: searchController,
+
+              onFieldSubmitted: (value)async {
+                await context.read<FeedsController>().fetchFeeds(
+                  context: context,
+                  isRefresh:  true ,
+                  loadingNext:  false,
+                  categoryId: selectedFilter?.id,
+                  searchKey: searchController.text,
+                );
+              },
               hintStyle: TextStyle(color: Colors.white),
-              prefixIcon: ImageView(
+              prefixIcon: const ImageView(
                 height: 20,
                 width: 20,
                 borderRadiusValue: 0,
@@ -207,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.contain,
                 assetImage: AppAssets.searchIcon,
               ),
-              margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
             ),
 
             // if (filters?.haveData == true)
@@ -221,11 +233,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.only(left: kPadding),
                       itemBuilder: (context, index) {
+
                         var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
-                        // bool isSelected = selectedFilter == data;
+                        selectedFilter ??= data;
                         return GradientButton(
-                          backgroundGradient:
-                              selectedFilter?.id == data?.id ? primaryGradient : inActiveGradient,
+                          backgroundGradient: selectedFilter?.id == data?.id ? primaryGradient : inActiveGradient,
                           borderWidth: 2,
                           borderRadius: 30,
                           onTap: () {

@@ -58,7 +58,7 @@ class _FeedDetailState extends State<FeedDetail> {
     Size size = MediaQuery.of(context).size;
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+
       appBar: AppBar(
         leading: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -114,8 +114,8 @@ class _FeedDetailState extends State<FeedDetail> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             ImageView(
-                              height: 45,
-                              width: 45,
+                              height: 33,
+                              width: 33,
                               networkImage: '${data?.profilePicture}',
                               isAvatar: true,
                               margin: const EdgeInsets.only(right: kPadding),
@@ -158,72 +158,69 @@ class _FeedDetailState extends State<FeedDetail> {
           );
         },
       ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ImageView(
-              height: 45,
-              width: 45,
-              isAvatar: true,
-              networkImage: localDatabase.userRole == UserRoles.guest.value
-                  ? '${localDatabase.guest?.profilePhoto}'
-                  : '${localDatabase.member?.profilePhoto}',
-              margin: const EdgeInsets.only(right: 4),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                child: Container(
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(width: 1, color: Color(0xFF383838)),
-                      borderRadius: BorderRadius.circular(28),
+      bottomSheet: Container(
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ImageView(
+                height: 40,
+                width: 40,
+                isAvatar: true,
+                networkImage: localDatabase.userRole == UserRoles.guest.value
+                    ? '${localDatabase.guest?.profilePhoto}'
+                    : '${localDatabase.member?.profilePhoto}',
+                margin: const EdgeInsets.only(right: 4),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Container(
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(width: 1, color: Color(0xFF383838)),
+                        borderRadius: BorderRadius.circular(28),
+                      ),
+                    ),
+                    child: TextFormField(
+                      controller: commentCtrl,
+                      decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.only(left: kPadding),
+                          hintText: '',
+                          border: InputBorder.none),
                     ),
                   ),
-                  child: TextFormField(
-                    controller: commentCtrl,
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.only(left: kPadding),
-                        hintText: '',
-                        border: InputBorder.none),
+                ),
+              ),
+              GestureDetector(
+                onTap: ()async {
+                  fetchFeedDetails();
+                 await context.read<FeedsController>().addComment(context: context, feedId: feedDetails?.id, comment: commentCtrl.text,).then((value) {
+                    commentCtrl.clear();
+                    setState(() {});
+                  });
+                },
+                child: Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Image.asset(
+                      AppAssets.sendIcon,
+                      height: size.height * 0.02,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                context
-                    .read<FeedsController>()
-                    .addComment(
-                      context: context,
-                      feedId: feedDetails?.id,
-                      comment: commentCtrl.text,
-                    )
-                    .then((value) {
-                  commentCtrl.clear();
-                  setState(() {});
-                });
-              },
-              child: Container(
-                clipBehavior: Clip.antiAlias,
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
-                    )),
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Image.asset(
-                    AppAssets.sendIcon,
-                    height: size.height * 0.02,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
