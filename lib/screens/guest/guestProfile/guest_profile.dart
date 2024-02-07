@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
@@ -51,7 +52,7 @@ class _GuestProfileState extends State<GuestProfile> {
                 height: size.height * 0.04,
               ),
               Text(
-                '${localDatabase.guest?.firstName ?? ''} ${localDatabase.guest?.lastName ?? ''}',
+                '${localDatabase.guest?.firstName.toCapitalizeFirst ?? ''} ${localDatabase.guest?.lastName.toCapitalizeFirst ?? ''}',
                 style: const TextStyle(
                     color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
                 textAlign: TextAlign.center,
@@ -105,6 +106,9 @@ class _GuestProfileState extends State<GuestProfile> {
                           height: size.height * 0.02,
                         ),
                         IconAndText(
+                          onTap: () {
+                            context.pushNamed(Routs.guestNotification);
+                          },
                           icon: AppAssets.notificationsIcon,
                           title: 'Notification ',
                         ),
@@ -142,36 +146,38 @@ class _GuestProfileState extends State<GuestProfile> {
                           title: 'Help & Support',
                           height: size.height * 0.021,
                           onTap: () {
-                            context.pushNamed(Routs.webView,
-                                extra: const WebViewScreen(
-                                  url: 'https://api.gtp.proapp.in/api/v1/help_and_support',
-                                ));
+                            context.pushNamed(Routs.helpAndSupport);
+                            // context.pushNamed(Routs.webView,
+                            //     extra: const WebViewScreen(
+                            //       url: 'https://api.gtp.proapp.in/api/v1/help_and_support',
+                            //     ));
                           },
                         ),
                         SizedBox(
                           height: size.height * 0.02,
                         ),
-                        IconAndText(
-                          icon: AppAssets.call,
-                          title: 'Contact us',
-                          onTap: () {
-                            context.pushNamed(Routs.webView,
-                                extra: const WebViewScreen(
-                                  url: 'https://api.gtp.proapp.in/api/v1/contact_us',
-                                ));
-                          },
-                        ),
-                        SizedBox(
-                          height: size.height * 0.02,
-                        ),
+                        // IconAndText(
+                        //   icon: AppAssets.call,
+                        //   title: 'Contact us',
+                        //   onTap: () {
+                        //     context.pushNamed(Routs.webView,
+                        //         extra: const WebViewScreen(
+                        //           url: 'https://api.gtp.proapp.in/api/v1/contact_us',
+                        //         ));
+                        //   },
+                        // ),
+                        // SizedBox(
+                        //   height: size.height * 0.02,
+                        // ),
                         IconAndText(
                           icon: AppAssets.lockIcon,
                           title: 'Privacy policy ',
                           onTap: () {
-                            context.pushNamed(Routs.webView,
-                                extra: const WebViewScreen(
-                                  url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
-                                ));
+                            context.pushNamed(Routs.privacyPolicy);
+                            // context.pushNamed(Routs.webView,
+                            //     extra: const WebViewScreen(
+                            //       url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                            //     ));
                           },
                         ),
                       ],
@@ -204,7 +210,7 @@ class _GuestProfileState extends State<GuestProfile> {
             left: size.width * 0.37,
             child: GestureDetector(
               onTap: () {
-                addImages();
+                // addImages();
               },
               child: ImageView(
                 height: 100,

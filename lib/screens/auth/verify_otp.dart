@@ -104,7 +104,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   const Padding(
                     padding: EdgeInsets.fromLTRB(24, 16, 24, 0),
                     child: Text(
-                      'OTP verification',
+                      'OTP Verification',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 38,

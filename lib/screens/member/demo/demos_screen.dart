@@ -37,11 +37,11 @@ class _DemosScreenState extends State<DemosScreen> {
           loadingNext: loadingNext ?? false,
           searchKey: searchController.text,
           filter: filter,
+      type:  true
         );
   }
 
   TextEditingController searchController = TextEditingController();
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -49,7 +49,6 @@ class _DemosScreenState extends State<DemosScreen> {
     });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,7 +172,6 @@ class _DemosScreenState extends State<DemosScreen> {
                             // physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               var data = demos?.elementAt(index);
-
                               return InkWell(
                                 onTap: () {
                                   // if(widget.type!='true'){

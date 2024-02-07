@@ -44,7 +44,8 @@ class MemberAuthControllers extends ChangeNotifier {
   }
 
   Future logOutPopup(context) async {
-    return showDialog(
+    return
+      showDialog(
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
@@ -72,6 +73,37 @@ class MemberAuthControllers extends ChangeNotifier {
             ],
           );
         });
+  }
+  Future confirmationPopup({
+    context,String? title,String? content,void Function()? onPressed
+}) async {
+    return
+      showDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title:  Text(title??''),
+              content:  Text(content??''),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  child: const Text(
+                    'No',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                TextButton(
+                  onPressed: onPressed,
+                  child: const Text(
+                    'Yes',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              ],
+            );
+          });
   }
 
   Future cancelRegistration({

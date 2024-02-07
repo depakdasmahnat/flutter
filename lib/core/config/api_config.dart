@@ -93,6 +93,7 @@ class ApiEndpoints {
   static const String getAchievers = 'get_achievers';
   static const String fetchToDo = 'fetch_to_do';
   static const String fetchAllDemos = 'fetch_all_demos';
+
   static const String fetchTarget = 'fetch_target';
 
   // Lead apis
@@ -110,6 +111,7 @@ class ApiEndpoints {
       'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
+  static const String guestDemo = 'fetch_demos';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

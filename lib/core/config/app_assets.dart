@@ -27,23 +27,17 @@ class AppAssets {
   static const String leadContact = 'assets/icons/Ic_lead_contact.png';
   static const String group = 'assets/icons/Group.png';
   static const String newJoiners = 'assets/icons/Ic_newjoiners.png';
-
   static const String geustProduct = 'assets/images/geust_product.png';
   static const String geustProductDteila = 'assets/images/guet_product_detail.png';
-
   static const String product = 'assets/images/product.png';
-
   static const String product1 = 'assets/images/product1.png';
   static const String product2 = 'assets/images/product2.png';
-
-  static const String appLogo = 'assets/images/logo.png';
+  static const String appLogo = 'assets/images/appLogo1.png';
   static const String getsprofile = 'assets/images/guest_profile.png';
-
   static const String homeFilledIcon = 'assets/icons/ic_home_filled.png';
   static const String networkFilledIcon = 'assets/icons/ic_network_filled.png';
   static const String leadsFilledIcon = 'assets/icons/ic_leads_filled.png';
   static const String membersFilledIcon = 'assets/icons/ic_members_filled.png';
-
   static const String searchIcon = 'assets/icons/ic_search.png';
   static const String notificationsIcon = 'assets/icons/ic_notification.png';
   static const String addIcon = 'assets/icons/ic_add.png';
@@ -51,7 +45,6 @@ class AppAssets {
   static const String tipsTricksIcon = 'assets/icons/ic_tips.png';
   static const String profileIcon = 'assets/icons/ic_members.png';
   static const String logoTextIcon = 'assets/icons/logo_text.png';
-
   static const String lockIcon = 'assets/icons/ic_lock.png';
   static const String lockFilledIcon = 'assets/icons/ic_lock_filled.png';
   static const String heartIcon = 'assets/icons/ic_heart.png';
@@ -77,7 +70,6 @@ class AppAssets {
   static const String upload = 'assets/icons/download.png';
   static const String congratulationsBanner = 'assets/images/congratulations_banner.png';
   static const String checkIcon = 'assets/icons/ic_check.png';
-
   static const String achieversIcon = 'assets/icons/ic_achievers.png';
   static const String videoIcons = 'assets/icons/ic_video.png';
   static const String filterIcons = 'assets/icons/ic_filter.png';
@@ -88,6 +80,7 @@ class AppAssets {
   static const String leadShare = 'assets/icons/Ic_lead_share.png';
   static const String fileIcon = 'assets/icons/ic_file.png';
   static const String pdfIcon = 'assets/icons/ic_pdf.png';
+  static const String fabIcon = 'assets/icons/Ic_fabicon.png';
 
   /// 2) Images...
 
@@ -95,7 +88,7 @@ class AppAssets {
   static const String noImage = 'assets/images/no_image.png';
   static const String avatarImage = 'assets/images/avatar_image.png';
   static const String welcomeScreen = 'assets/images/welcome_bg.png';
-  static const String moneyBg = 'assets/images/money_bg.png';
+  static const String moneyBg = 'assets/images/connect.png';
   static const String smartphoneBg = 'assets/images/smartphone_bg.png';
   static const String banner = 'assets/images/banner.png';
   static const String banner1 = 'assets/images/banner1.png';
@@ -126,4 +119,5 @@ class AppAssets {
   static const String admemberlist = 'assets/images/memberuser.png';
   // static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
   static const String authbackgroundimage = 'assets/images/login_background_Image.png';
+  static const String introVideo = 'assets/videos/intro_videos.mp4';
 }

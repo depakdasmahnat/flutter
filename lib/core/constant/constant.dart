@@ -68,4 +68,4 @@ Gradient statusGradient({required num? sale}) {
   return gradient;
 }
 
-String dayFormat = 'EEEE dd MMM';
+String dayFormat = 'EEE dd MMM';

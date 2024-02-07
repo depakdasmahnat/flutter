@@ -4,11 +4,13 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.da
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../core/config/api_config.dart';
 import '../../core/services/api/api_service.dart';
 import '../../core/services/database/local_database.dart';
 import '../../models/auth_model/fetchinterestcategory.dart';
+import '../../models/auth_model/guest_data.dart';
 import '../../models/common_apis/cityModel.dart';
 import '../../models/common_apis/commonbanner.dart';
 import '../../models/common_apis/stateModel.dart';
@@ -20,6 +22,7 @@ import '../../models/guest_Model/fetchfeedcategoriesmodel.dart';
 import '../../models/guest_Model/fetchguestproduct.dart';
 import '../../models/guest_Model/fetchnewjoiners.dart';
 import '../../models/guest_Model/fetchproductdetail.dart';
+import '../../models/guest_Model/guestDemoModel.dart';
 import '../../models/guest_Model/resourceModel.dart';
 import '../../models/member/faqs/fetchFaqsModel.dart';
 import '../../utils/widgets/widgets.dart';
@@ -471,6 +474,51 @@ class GuestControllers extends ChangeNotifier {
 
     return _resources;
   }
+  /// fetch guest demo
+  GuestDemoModel? guestDemoModel;
+  bool guestDemoLoader =false;
+  Future<GuestDemoModel?> fetchGuestDemo({
+    required BuildContext context,
+    // required String page,
+    // required String categoryId,
+  }) async {
+    refresh() {
+      guestDemoModel = null;
+      guestDemoLoader =false;
+
+      notifyListeners();
+    }
+    // //
+    apiResponseCompleted() {
+      guestDemoLoader =true;
+      notifyListeners();
+    }
+    //
+    refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.guestDemo,
+      )
+          .then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          GuestDemoModel responseData = GuestDemoModel.fromJson(json);
+          if (responseData.status == true) {
+            guestDemoModel = responseData;
+            notifyListeners();
+          }
+        }
+
+        apiResponseCompleted();
+      });
+    } catch (e, s) {
+      apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return guestDemoModel;
+  }
 
   /// 1) FAQs..
   // // FetchResourcesDetailModel? fetchResourcesDetailModel ;
@@ -614,6 +662,7 @@ class GuestControllers extends ChangeNotifier {
 
   /// 1) update profile ..
   // EditProfileModel? editProfileModel;
+  Map<String, dynamic>? uploadVideoResponse;
   Future<EditProfileModel?> editProfile({
     required BuildContext context,
     required String? firstName,
@@ -629,9 +678,10 @@ class GuestControllers extends ChangeNotifier {
     required String? pincode,
     required String? address,
     required String? illnessInFamily,
+    required XFile? file,
   }) async {
     FocusScope.of(context).unfocus();
-    Map<String, dynamic> body = {
+    Map<String, String> body = {
       'first_name': '$firstName',
       'last_name': '$lastName',
       'email': '$email',
@@ -648,9 +698,10 @@ class GuestControllers extends ChangeNotifier {
     };
 
     debugPrint('Sent Data is $body');
-    var response = ApiService().post(
+    var response = ApiService().multiPart(
       endPoint: ApiEndpoints.editProfile,
       body: body,
+      multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file?.path)] : [],
     );
 
 
@@ -662,20 +713,16 @@ class GuestControllers extends ChangeNotifier {
     ).then((response) async {
       if (response != null) {
         Map<String, dynamic> json = response;
-        editProfileModel = EditProfileModel.fromJson(json);
 
+        uploadVideoResponse = json;
+        notifyListeners();
+        editProfileModel = EditProfileModel.fromJson(json);
         if (editProfileModel?.status == true) {
-          // // context.read<LocalDatabase>().saveGuestData(guest: editProfileModel!.data);
+          context.read<LocalDatabase>().saveGuestData(guest: editProfileModel!.data);
           // GuestData? guest = context.read<LocalDatabase>().guest;
           // debugPrint('guest ${guest?.firstName}');
-          showSnackBar(
-              context: context,
-              text: editProfileModel?.message ?? 'Something went wong',
-              color: Colors.green);
+          showSnackBar(context: context, text: editProfileModel?.message ?? 'Something went wong', color: Colors.green);
           context.pop(context);
-          // context.pushNamed(
-          //   Routs.interests,
-          // );
         } else {
           showSnackBar(
               context: context, text: editProfileModel?.message ?? 'Something went wong', color: Colors.red);

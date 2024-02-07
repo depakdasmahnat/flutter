@@ -132,7 +132,7 @@ class _MemberSignInState extends State<MemberSignIn> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Continue',
+                      'Login',
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: GoogleFonts.urbanist().fontFamily,

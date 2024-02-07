@@ -25,7 +25,11 @@ import '../../screens/dashboard/dashboard.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
 import '../../screens/guest/guestProfile/guest_profile.dart';
+import '../../screens/guest/guest_check_demo/guest_check_demo.dart';
+import '../../screens/guest/guest_notification/guest_notification.dart';
+import '../../screens/guest/help&support/help&support.dart';
 import '../../screens/guest/home/home_screen.dart';
+import '../../screens/guest/pricavy_policy/privacy_policy.dart';
 import '../../screens/guest/product/guest_product.dart';
 import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/permission_screen.dart';
@@ -478,6 +482,31 @@ class RoutesConfig {
         path: Routs.demos,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const DemosScreen());
+        },
+      ), GoRoute(
+        name: Routs.guestDemo,
+        path: Routs.guestDemo,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestCheckDemo());
+        },
+      ),
+  GoRoute(
+        name: Routs.guestNotification,
+        path: Routs.guestNotification,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestNotification());
+        },
+      ),  GoRoute(
+        name: Routs.privacyPolicy,
+        path: Routs.privacyPolicy,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const PrivacyPolicy());
+        },
+      ),  GoRoute(
+        name: Routs.helpAndSupport,
+        path: Routs.helpAndSupport,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const HelpAndSupport());
         },
       ),
 

@@ -65,49 +65,41 @@ class _GuestFaqState extends State<GuestFaq> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(size.height * 0.24),
+          preferredSize: Size.fromHeight(size.height * 0.08),
           child: CustomAppBar(
             showLeadICon: true,
             title: 'FAQ',
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(size.height * 0.06),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'How can we help you?',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                  CustomTextField(
-                    hintText: 'Search',
 
-                    hintStyle: TextStyle(color: Colors.white),
-                    prefixIcon: ImageView(
-                      height: 20,
-                      width: 20,
-                      borderRadiusValue: 0,
-                      color: Colors.white,
-                      margin: EdgeInsets.only(left: kPadding, right: kPadding),
-                      fit: BoxFit.contain,
-                      assetImage: AppAssets.searchIcon,
-                    ),
-                    margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
-                  ),
-                ],
-              ),
-            ),
           )),
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
           fetchInterestCategory = controller.fetchInterestCategory;
-          return ListView(
+          return Column(
             children: [
+              Text(
+                'How can we help you?',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.start,
+              ),
+              CustomTextField(
+                hintText: 'Search',
+
+                hintStyle: TextStyle(color: Colors.white),
+                prefixIcon: ImageView(
+                  height: 20,
+                  width: 20,
+                  borderRadiusValue: 0,
+                  color: Colors.white,
+                  margin: EdgeInsets.only(left: kPadding, right: kPadding),
+                  fit: BoxFit.contain,
+                  assetImage: AppAssets.searchIcon,
+                ),
+                margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+              ),
               controller.fetchCategoryLoader == true
                   ? const LoadingScreen(message: 'Loading...')
                   : (fetchInterestCategory?.data.haveData == true)
@@ -163,11 +155,12 @@ class _GuestFaqState extends State<GuestFaq> {
                                                 ),
                                           Text(
                                             fetchInterestCategory?.data?[index].name ?? '',
-                                            style:  TextStyle(
+                                            style:
+                                            TextStyle(
                                               color:tabIndex ==index?Colors.black: Colors.white,
-                                              fontSize: 12,
-                                              height: 3,
-                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                              height: 2,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                             textAlign: TextAlign.start,
                                           ),
@@ -175,8 +168,9 @@ class _GuestFaqState extends State<GuestFaq> {
                                             fetchInterestCategory?.data?[index].type ?? '',
                                             style:  TextStyle(
                                               color:tabIndex ==index?Colors.black: Colors.white,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+
+                                              fontWeight: FontWeight.w400,
                                             ),
                                             textAlign: TextAlign.start,
                                           ),
@@ -196,7 +190,7 @@ class _GuestFaqState extends State<GuestFaq> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomeText(
-                      text: 'Top Questions',
+                      text: 'FAQ questions',
                       color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
@@ -260,62 +254,64 @@ class _GuestFaqState extends State<GuestFaq> {
               //   ),
               // ),
 
-              controller.fetchFaqsLoader == true
-                  ? const LoadingScreen(
-                      heightFactor: 0.5,
-                    )
-                  : (controller.fetchFaqsModel?.data?.haveData == true)
-                      ? ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: controller.fetchFaqsModel?.data?.length ?? 0,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-                              child: Container(
-                                decoration: ShapeDecoration(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                    gradient: expend == true && changeIndex == index
-                                        ? primaryGradient
-                                        : const LinearGradient(
-                                            colors: [Color(0xFF1B1B1B), Color(0xFF1B1B1B)])),
-                                child: ExpansionTile(
-                                  iconColor:
-                                      expend == true && changeIndex == index ? Colors.black : Colors.white,
-                                  onExpansionChanged: (value) {
-                                    expend = value;
-                                    changeIndex = index;
-                                    setState(() {});
-                                  },
-                                  title: CustomeText(
-                                    text: controller.fetchFaqsModel?.data?[index].question,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                    color:
+              Expanded(
+                child: controller.fetchFaqsLoader == true
+                    ? const LoadingScreen(
+                        heightFactor: 0.5,
+                      )
+                    : (controller.fetchFaqsModel?.data?.haveData == true)
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller.fetchFaqsModel?.data?.length ?? 0,
+                            // physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                                child: Container(
+                                  decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(18),
+                                      ),
+                                      gradient: expend == true && changeIndex == index
+                                          ? primaryGradient
+                                          : const LinearGradient(
+                                              colors: [Color(0xFF1B1B1B), Color(0xFF1B1B1B)])),
+                                  child: ExpansionTile(
+                                    iconColor:
                                         expend == true && changeIndex == index ? Colors.black : Colors.white,
+                                    onExpansionChanged: (value) {
+                                      expend = value;
+                                      changeIndex = index;
+                                      setState(() {});
+                                    },
+                                    title: CustomeText(
+                                      text: controller.fetchFaqsModel?.data?[index].question,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          expend == true && changeIndex == index ? Colors.black : Colors.white,
+                                    ),
+                                    children: <Widget>[
+                                      ListTile(
+                                          title: CustomeText(
+                                        text: controller.fetchFaqsModel?.data?[index].answer,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: expend == true && changeIndex == index
+                                            ? Colors.black
+                                            : Colors.white,
+                                      )),
+                                    ],
                                   ),
-                                  children: <Widget>[
-                                    ListTile(
-                                        title: CustomeText(
-                                      text: controller.fetchFaqsModel?.data?[index].answer,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: expend == true && changeIndex == index
-                                          ? Colors.black
-                                          : Colors.white,
-                                    )),
-                                  ],
                                 ),
-                              ),
-                            );
-                          },
-                        )
-                      : const NoDataFound(
-                          heightFactor: 0.5,
-                        )
+                              );
+                            },
+                          )
+                        : const NoDataFound(
+                            heightFactor: 0.5,
+                          ),
+              )
             ],
           );
         },
