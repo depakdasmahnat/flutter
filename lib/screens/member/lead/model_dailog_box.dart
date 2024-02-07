@@ -37,7 +37,7 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
   TextEditingController enagicConPassController=TextEditingController();
   List item =['Hot','Worm','Cold'];
   bool validate =true;
-  String priority='';
+  String priority='Hot';
   int? tabIndex=0;
   @override
   Widget build(BuildContext context) {

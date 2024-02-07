@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 
 import 'package:video_player/video_player.dart';
 
 import '../../core/config/app_assets.dart';
+import '../../core/route/route_paths.dart';
 
 
 class GtpVideo extends StatefulWidget {
@@ -21,12 +25,16 @@ class _GtpVideoState extends State<GtpVideo> {
 
   initVideo() {
     controller = VideoPlayerController.asset(AppAssets.introVideo);
+    // controller = VideoPlayerController.networkUrl( Uri.parse(
+    //   'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    // ),);
     futureController = controller!.initialize();
      controller?.play();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+    ]);
 
-     setState(() {
-
-     });
+     setState(() {});
   }
 
   @override
@@ -35,7 +43,19 @@ class _GtpVideoState extends State<GtpVideo> {
     controller!.addListener(() {
       if (controller!.value.isInitialized) {
         currentPosition.value = controller?.value;
+        if (controller!.value.position >= controller!.value.duration) {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp, // Change to desired orientation
+          ]);
+          controller?.pause();
+          context.pushNamed(Routs.dashboard);
+        }
+
+
       }
+      setState(() {
+
+      });
     });
     super.initState();
   }
@@ -45,9 +65,13 @@ class _GtpVideoState extends State<GtpVideo> {
     controller?.dispose();
     super.dispose();
   }
+  String formatDuration(Duration duration) {
+    return "${duration.inMinutes.remainder(60).toString().padLeft(2, '0')}:${duration.inSeconds.remainder(60).toString().padLeft(2, '0')}";
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
 
       body: FutureBuilder(
@@ -65,7 +89,8 @@ class _GtpVideoState extends State<GtpVideo> {
               },
               child:
               AspectRatio(
-                  aspectRatio: 16 / 9,
+                  // aspectRatio: controller!.value.aspectRatio,
+                  aspectRatio:2/1,
                   child: Stack(children: [
                     Positioned.fill(
                         child: Container(
@@ -83,10 +108,48 @@ class _GtpVideoState extends State<GtpVideo> {
                             ),
                             child: VideoPlayer(controller!))),
 
+
                   ])),
             );
           }
         },
+      ),
+      bottomSheet: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: VideoProgressIndicator(
+              controller!,
+              allowScrubbing: true,
+              padding: EdgeInsets.zero,
+              colors: const VideoProgressColors(
+                backgroundColor: Color(0xFF243771),
+                playedColor: Colors.white,
+                bufferedColor: Colors.black,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  formatDuration(controller!.value.position),
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text(
+                  formatDuration(controller!.value.duration),
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          )
+        ],
       ),
 
     );

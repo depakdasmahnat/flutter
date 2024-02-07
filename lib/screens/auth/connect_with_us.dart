@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
@@ -144,7 +145,11 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
                         onTap: () async {
                           await context.pushNamed(
                             Routs.gtpVideo,
-                          );
+                          ).whenComplete(() {
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitUp, // Change to desired orientation
+                            ]);
+                          },);
                           setState(() {});
                         },
                         child: Row(

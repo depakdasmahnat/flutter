@@ -187,9 +187,9 @@ class Analytics {
     yaxis = json['yaxis'];
     performance = json['performance'];
   }
-  num? xaxis;
-  num? yaxis;
-  num? performance;
+  String? xaxis;
+  int? yaxis;
+  int? performance;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
