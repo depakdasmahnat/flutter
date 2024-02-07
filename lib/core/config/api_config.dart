@@ -97,7 +97,9 @@ class ApiEndpoints {
   static const String fetchTrainingProcess = 'fetch_training_process';
 
   // Lead apis
+
   static const String fetchLead = 'fetch_leads?';
+  static const String levelWiseMemberCount = 'level_wise_member_count?';
 
   /// Guest Apis....
   static const String fetchJoiners = 'fetch_new_joinees';

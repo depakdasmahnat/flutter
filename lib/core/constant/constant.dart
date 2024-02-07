@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 
+import '../../models/dashboard/color_grades.dart';
 import 'colors.dart';
 
 const double kPadding = 16;
@@ -31,6 +32,32 @@ Gradient primaryGradientTransparent = LinearGradient(
     secondaryColor.withOpacity(0.53),
   ],
 );
+List<ColorGrades> colorGrades = [
+  ColorGrades(gradient: redGradient, percentage: 20),
+  ColorGrades(gradient: yellowGradient, percentage: 40),
+  ColorGrades(gradient: greenGradient, percentage: 60),
+  ColorGrades(gradient: skyBlueGradient, percentage: 80),
+  ColorGrades(gradient: purpleGradient, percentage: 100),
+];
+
+Gradient statusGradient({required num? progress}) {
+  num? value = num.tryParse('$progress') ?? 0;
+
+  Gradient gradient = primaryGradient;
+
+  if (value == 0 || value < 20) {
+    gradient = redGradient;
+  } else if (value < 40) {
+    gradient = yellowGradient;
+  } else if (value < 60) {
+    gradient = greenGradient;
+  } else if (value < 80) {
+    gradient = skyBlueGradient;
+  } else {
+    gradient = purpleGradient;
+  }
+  return gradient;
+}
 
 Color statusColor({required num? value}) {
   Color color = Colors.grey;
@@ -40,32 +67,13 @@ Color statusColor({required num? value}) {
   } else if (percentage < 40) {
     color = Colors.orangeAccent;
   } else if (percentage < 60) {
-    color = Colors.purple;
+    color = Colors.green;
   } else if (percentage < 80) {
     color = Colors.blue;
   } else {
-    color = Colors.green;
+    color = Colors.purple;
   }
   return color;
-}
-
-Gradient statusGradient({required num? sale}) {
-  num? sales = num.tryParse('$sale') ?? 0;
-
-  Gradient gradient = primaryGradient;
-
-  if (sales == 0 || sales < 20) {
-    gradient = redGradient;
-  } else if (sales < 40) {
-    gradient = yellowGradient;
-  } else if (sales < 60) {
-    gradient = purpleGradient;
-  } else if (sales < 80) {
-    gradient = blueGradient;
-  } else {
-    gradient = greenGradient;
-  }
-  return gradient;
 }
 
 String dayFormat = 'EEEE dd MMM';

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
@@ -193,6 +196,38 @@ class _DemosScreenState extends State<DemosScreen> {
           );
         },
       ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GradientButton(
+            height: 60,
+            borderRadius: 18,
+            backgroundGradient: primaryGradient,
+            blur: 20,
+            backgroundColor: Colors.transparent,
+            boxShadow: const [],
+            margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
+            onTap: () {
+              context.pushNamed(Routs.createDemo);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Create a Demo',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -224,6 +259,7 @@ class DemoCard extends StatelessWidget {
                 height: 24,
                 width: 24,
                 isAvatar: true,
+                borderRadiusValue: 40,
                 networkImage: '${data?.profilePhoto}',
                 margin: const EdgeInsets.only(right: 8),
               ),

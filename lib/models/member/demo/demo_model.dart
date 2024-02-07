@@ -71,6 +71,7 @@ class DemosData {
     this.remarks,
     this.firstName,
     this.lastName,
+    this.status,
     this.profilePhoto,
     this.path,
   });
@@ -86,6 +87,7 @@ class DemosData {
     firstName = json['first_name'];
     lastName = json['last_name'];
     profilePhoto = json['profile_photo'];
+    status = json['status'];
     path = json['path'];
   }
 
@@ -98,6 +100,7 @@ class DemosData {
   String? remarks;
   String? firstName;
   String? lastName;
+  String? status;
   dynamic profilePhoto;
   dynamic path;
 
@@ -111,6 +114,7 @@ class DemosData {
     String? remarks,
     String? firstName,
     String? lastName,
+    String? status,
     dynamic profilePhoto,
     dynamic path,
   }) =>
@@ -125,6 +129,7 @@ class DemosData {
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         profilePhoto: profilePhoto ?? this.profilePhoto,
+        status: status ?? this.status,
         path: path ?? this.path,
       );
 
@@ -141,6 +146,7 @@ class DemosData {
     map['last_name'] = lastName;
     map['profile_photo'] = profilePhoto;
     map['path'] = path;
+    map['status'] = status;
     return map;
   }
 }

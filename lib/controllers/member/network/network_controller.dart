@@ -10,6 +10,7 @@ import 'package:mrwebbeast/models/member/network/pinnacle_list_model.dart';
 import 'package:mrwebbeast/models/member/network/projection_view_model.dart';
 
 import '../../../core/services/api/api_service.dart';
+import '../../../models/member/network/level_wise_member_count_model.dart';
 import '../../../models/member/network/network_report_model.dart';
 import '../../../models/member/network/pinnacle_view_model.dart';
 import '../../../models/member/network/tree_graph_model.dart';
@@ -226,7 +227,7 @@ class NetworkControllers extends ChangeNotifier {
         DefaultModel responseData = DefaultModel.fromJson(json);
 
         if (responseData.status == true) {
-          fetchProjectionView();
+          fetchProjectionView(memberId: '${memberId ?? ''}');
           context.pop();
         } else {
           showError(context: context, message: responseData.message ?? 'Something Went Wrong');
@@ -344,7 +345,6 @@ class NetworkControllers extends ChangeNotifier {
   }
 
   /// 7) Network Reports API...
-
   bool loadingNetworkReports = true;
   PinnacleListModel? networkReportsModel;
   List<PinnacleListData>? networkReports;
@@ -398,5 +398,62 @@ class NetworkControllers extends ChangeNotifier {
     }
 
     return networkReports;
+  }
+
+  /// 8) level Wise Member Count API...
+  bool loadingLevelWiseMemberCountModel = true;
+  LevelWiseMemberCountModel? levelWiseMemberCountModel;
+
+  Future<LevelWiseMemberCountModel?> levelWiseMemberCount({
+    num? memberId,
+    required num? level,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingLevelWiseMemberCountModel = true;
+        levelWiseMemberCountModel = null;
+
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingLevelWiseMemberCountModel = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await loadingDialog(
+          context: context,
+          future: ApiService().get(
+            endPoint: ApiEndpoints.levelWiseMemberCount,
+            queryParameters: {
+              'member_id': '${memberId ?? ''}',
+              'level': '${level ?? ''}',
+            },
+          ),
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          LevelWiseMemberCountModel responseData = LevelWiseMemberCountModel.fromJson(json);
+          if (responseData.status == true) {
+            levelWiseMemberCountModel = responseData;
+
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return levelWiseMemberCountModel;
   }
 }

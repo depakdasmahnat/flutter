@@ -7,6 +7,28 @@ enum UserRoles {
   const UserRoles(this.value);
 }
 
+enum LeadsStatus {
+  newLead('New'),
+  invitationCall('Invitation Call'),
+  demoScheduled('Demo Scheduled'),
+  followUp('Follow Up'),
+  closed('Closed');
+
+  final String value;
+
+  const LeadsStatus(this.value);
+}
+
+enum LeadPriorityFilters {
+  hot('Hot'),
+  warm('Warm'),
+  cold('Cold');
+
+  final String value;
+
+  const LeadPriorityFilters(this.value);
+}
+
 enum Roles {
   admin('Admin'),
   premium('Premium'),

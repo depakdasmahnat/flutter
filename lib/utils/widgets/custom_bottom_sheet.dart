@@ -117,7 +117,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   late BoxConstraints? constraints = widget.constraints;
   late Alignment? bottomNavBarAlignment = widget.bottomNavBarAlignment;
   late MainAxisSize? mainAxisSize = widget.mainAxisSize;
-  late double borderRadius = widget.borderRadius ?? 18;
+  late double borderRadius = widget.borderRadius ?? 36;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           constraints: constraints,
           decoration: BoxDecoration(
-            color: context.containerColor,
+            color: Colors.black,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(borderRadius), topRight: Radius.circular(borderRadius)),
           ),

@@ -48,6 +48,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      dateTime = DateTime.now();
+      setState(() {});
       fetchToDos();
     });
   }
@@ -110,8 +112,14 @@ class _ToDoScreenState extends State<ToDoScreen> {
                       child: GestureDetector(
                         onTap: () {
                           filter = e;
-                          dateTime = null;
-                          formattedDate = null;
+
+                          if (filter == tabs.first) {
+                            dateTime = DateTime.now();
+                            formattedDate = null;
+                          } else {
+                            dateTime = null;
+                            formattedDate = null;
+                          }
 
                           setState(() {});
                           fetchToDos();
@@ -202,7 +210,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 12),
                             decoration: BoxDecoration(
                               gradient: inActiveGradient,
-                              borderRadius: BorderRadius.circular(30),
+                              borderRadius: BorderRadius.circular(24),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -215,7 +223,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                                       'Complete Your Training',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 22,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -333,15 +341,14 @@ class TaskCard extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              constraints: BoxConstraints(minHeight: minHeight ?? 120),
               padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
               decoration: BoxDecoration(
                 gradient: gradient ?? inActiveGradient,
-                borderRadius: BorderRadius.circular(32),
+                borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
                     children: [
@@ -349,7 +356,7 @@ class TaskCard extends StatelessWidget {
                         '${sales ?? 0}',
                         style: TextStyle(
                           color: darkMode == true ? Colors.white : Colors.black,
-                          fontSize: 46,
+                          fontSize: 36,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -375,7 +382,7 @@ class TaskCard extends StatelessWidget {
                               '($value) $status',
                               style: TextStyle(
                                   color: darkMode == true ? Colors.grey : Colors.grey.shade700,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,

@@ -22,14 +22,6 @@ class NetworkProjection extends StatefulWidget {
 }
 
 class NetworkProjectionState extends State<NetworkProjection> {
-  List<ColorGrades> colorGrades = [
-    ColorGrades(gradient: redGradient, percentage: 20),
-    ColorGrades(gradient: yellowGradient, percentage: 40),
-    ColorGrades(gradient: greenGradient, percentage: 60),
-    ColorGrades(gradient: skyBlueGradient, percentage: 80),
-    ColorGrades(gradient: purpleGradient, percentage: 100),
-  ];
-
   int currentUserLevel = 2;
   int maxLevel = 14;
   Graph graph = Graph()..isTree = true;
@@ -59,9 +51,9 @@ class NetworkProjectionState extends State<NetworkProjection> {
 
       setState(() {});
       builder
-        ..siblingSeparation = (50)
-        ..levelSeparation = (50)
-        ..subtreeSeparation = (100)
+        ..siblingSeparation = (35)
+        ..levelSeparation = (35)
+        ..subtreeSeparation = (35)
         ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
       setState(() {});
     }
@@ -84,36 +76,53 @@ class NetworkProjectionState extends State<NetworkProjection> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: kPadding),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Row(
-                children: colorGrades.map(
-                  (e) {
-                    return Expanded(
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          height: 32,
-                          decoration: BoxDecoration(
-                            gradient: e.gradient,
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${e.percentage}%',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    'Progress PH bar',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Row(
+                    children: colorGrades.map(
+                      (e) {
+                        return Expanded(
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 32,
+                              decoration: BoxDecoration(
+                                gradient: e.gradient,
                               ),
-                              overflow: TextOverflow.ellipsis,
+                              child: Center(
+                                child: Text(
+                                  '${e.percentage}%',
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -236,13 +245,13 @@ class NetworkProjectionState extends State<NetworkProjection> {
           Container(
             margin: const EdgeInsets.only(bottom: 2),
             decoration: BoxDecoration(
-              gradient: primaryGradient,
+              gradient: greyGradient,
               borderRadius: BorderRadius.circular(50),
             ),
             child: Center(
               child: ImageView(
-                height: 30,
-                width: 30,
+                height: 32,
+                width: 32,
                 isAvatar: true,
                 borderRadiusValue: 40,
                 border: Border.all(color: Colors.black, width: 2),

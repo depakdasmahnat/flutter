@@ -73,7 +73,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
+            margin: const EdgeInsets.only(left: kPadding,right: kPadding,top: 12,bottom: 12),
             decoration: BoxDecoration(
               gradient: inActiveGradient,
               borderRadius: BorderRadius.circular(12),

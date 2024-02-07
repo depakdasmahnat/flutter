@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/screens/member/home/duration_popup.dart';
 import 'package:mrwebbeast/screens/member/home/performance_graph.dart';
+import 'package:mrwebbeast/utils/widgets/custom_bottom_sheet.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +20,7 @@ import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../dashboard/dashboard.dart';
 import '../../guest/home/home_screen.dart';
+import '../lead/leads_popup.dart';
 
 class MemberDashBoard extends StatefulWidget {
   const MemberDashBoard({super.key, this.memberId});
@@ -252,18 +255,11 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           value: '${dashboardStatesData?.memberCounts ?? 0}',
                           gradient: limeGradient,
                           onTap: () async {
-                            await showModalBottomSheet(
-                              backgroundColor: Colors.transparent,
+                            CustomBottomSheet.show(
                               context: context,
-                              clipBehavior: Clip.antiAlias,
-                              isScrollControlled: true,
-                              shape: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-                              builder: (context) => CustomModelBottomSheet(
+                              body: LeadsPopup(
                                 title: 'New Lists',
-                                tabIndex: myDashboard ? 7 : 4,
-                                listItem: 14,
+                                status: LeadsStatus.newLead.value,
                               ),
                             );
                           },
@@ -273,19 +269,13 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           value: '${dashboardStatesData?.demoScheduled ?? 0}',
                           gradient: targetGradient,
                           onTap: () async {
-                            await showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                clipBehavior: Clip.antiAlias,
-                                isScrollControlled: true,
-                                shape: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-                                builder: (context) => CustomModelBottomSheet(
-                                      title: 'Demo Scheduled',
-                                      tabIndex: myDashboard ? 8 : 5,
-                                      listItem: 14,
-                                    ));
+                            CustomBottomSheet.show(
+                              context: context,
+                              body: LeadsPopup(
+                                title: 'Demo Scheduled',
+                                status: LeadsStatus.demoScheduled.value,
+                              ),
+                            );
                           },
                         ),
                         AnalyticsCard(
@@ -293,19 +283,13 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           value: '${dashboardStatesData?.demoCompleted ?? 0}',
                           gradient: targetGradient,
                           onTap: () async {
-                            await showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                clipBehavior: Clip.antiAlias,
-                                isScrollControlled: true,
-                                shape: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-                                builder: (context) => CustomModelBottomSheet(
-                                      title: 'Demo Done',
-                                      tabIndex: myDashboard ? 9 : 4,
-                                      listItem: 14,
-                                    ));
+                            CustomBottomSheet.show(
+                              context: context,
+                              body: LeadsPopup(
+                                title: 'Demo Competed',
+                                status: LeadsStatus.followUp.value,
+                              ),
+                            );
                           },
                         ),
                       ],
@@ -321,19 +305,13 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           flex: 2,
                           gradient: primaryGradient,
                           onTap: () async {
-                            await showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                clipBehavior: Clip.antiAlias,
-                                isScrollControlled: true,
-                                shape: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-                                builder: (context) => CustomModelBottomSheet(
-                                      title: 'Demo Done',
-                                      tabIndex: myDashboard ? 10 : 6,
-                                      listItem: 14,
-                                    ));
+                            CustomBottomSheet.show(
+                              context: context,
+                              body: LeadsPopup(
+                                title: 'Leads Closed',
+                                status: LeadsStatus.closed.value,
+                              ),
+                            );
                           },
                         ),
                         AnalyticsCard(

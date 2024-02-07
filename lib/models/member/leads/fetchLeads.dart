@@ -1,14 +1,18 @@
 import 'dart:convert';
 import 'dart:core';
+
 FetchLeads fetchLeadsFromJson(String str) => FetchLeads.fromJson(json.decode(str));
+
 String fetchLeadsToJson(FetchLeads data) => json.encode(data.toJson());
+
 class FetchLeads {
   FetchLeads({
-      this.status, 
-      this.message, 
-      this.dataRecords, 
-      this.stats, 
-      this.data,});
+    this.status,
+    this.message,
+    this.dataRecords,
+    this.stats,
+    this.data,
+  });
 
   FetchLeads.fromJson(dynamic json) {
     status = json['status'];
@@ -22,6 +26,7 @@ class FetchLeads {
       });
     }
   }
+
   bool? status;
   String? message;
   DataRecords? dataRecords;
@@ -43,32 +48,32 @@ class FetchLeads {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
+
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      this.id, 
-      this.firstName, 
-      this.lastName, 
-      this.mobile, 
-      this.profilePhoto, 
-      this.path, 
-      this.address, 
-      this.stateName, 
-      this.cityName, 
-      this.status, 
-      this.priority, 
-      this.parentId, 
-      this.demoId, 
-      this.demoDate, 
-      this.demoTime, 
-      this.remarks, 
-      this.demoStatus,
-      this.memberId,
-
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.mobile,
+    this.profilePhoto,
+    this.path,
+    this.address,
+    this.stateName,
+    this.cityName,
+    this.status,
+    this.priority,
+    this.parentId,
+    this.demoId,
+    this.demoDate,
+    this.demoTime,
+    this.remarks,
+    this.demoStatus,
+    this.memberId,
   });
 
   Data.fromJson(dynamic json) {
@@ -91,6 +96,7 @@ class Data {
     demoStatus = json['demo_status'];
     memberId = json['member_id'];
   }
+
   num? id;
   String? firstName;
   String? lastName;
@@ -132,21 +138,23 @@ class Data {
     map['member_id'] = memberId;
     return map;
   }
-
 }
 
 Stats statsFromJson(String str) => Stats.fromJson(json.decode(str));
+
 String statsToJson(Stats data) => json.encode(data.toJson());
+
 class Stats {
   Stats({
-      this.new1,
-      this.invitationCall, 
-      this.demoScheduled, 
-      this.followup, 
-      this.closed, 
-      this.hot, 
-      this.warm, 
-      this.cold,});
+    this.new1,
+    this.invitationCall,
+    this.demoScheduled,
+    this.followup,
+    this.closed,
+    this.hot,
+    this.warm,
+    this.cold,
+  });
 
   Stats.fromJson(dynamic json) {
     new1 = json['new'];
@@ -158,6 +166,7 @@ class Stats {
     warm = json['warm'];
     cold = json['cold'];
   }
+
   num? new1;
   num? invitationCall;
   num? demoScheduled;
@@ -179,22 +188,25 @@ class Stats {
     map['cold'] = cold;
     return map;
   }
-
 }
 
 DataRecords dataRecordsFromJson(String str) => DataRecords.fromJson(json.decode(str));
+
 String dataRecordsToJson(DataRecords data) => json.encode(data.toJson());
+
 class DataRecords {
   DataRecords({
-      this.totalPage, 
-      this.limit, 
-      this.page,});
+    this.totalPage,
+    this.limit,
+    this.page,
+  });
 
   DataRecords.fromJson(dynamic json) {
     totalPage = json['total_page'];
     limit = json['limit'];
     page = json['page'];
   }
+
   num? totalPage;
   num? limit;
   num? page;
@@ -206,5 +218,4 @@ class DataRecords {
     map['page'] = page;
     return map;
   }
-
 }

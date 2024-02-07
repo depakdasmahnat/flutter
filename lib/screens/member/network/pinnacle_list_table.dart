@@ -83,7 +83,6 @@ class _NetworkPinnacleTableState extends State<NetworkPinnacleTable> {
                 label: GridHeading(title: PinnaclesHeadings.call.value),
               ),
               GridColumn(
-
                 columnName: PinnaclesHeadings.achievement.value,
                 label: GridHeading(title: PinnaclesHeadings.achievement.value),
               ),
@@ -224,9 +223,10 @@ class EmployeeDataSource extends DataGridSource {
 }
 
 class GridHeading extends StatelessWidget {
-  const GridHeading({super.key, this.title});
+  const GridHeading({super.key, this.title, this.mainAxisAlignment});
 
   final String? title;
+  final MainAxisAlignment? mainAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -234,6 +234,7 @@ class GridHeading extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8),
       alignment: Alignment.center,
       child: Row(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         children: [
           Text(
             '$title',
@@ -242,6 +243,8 @@ class GridHeading extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.w400,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.start,
           ),
         ],

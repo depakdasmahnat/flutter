@@ -47,7 +47,7 @@ class NetworkPinnacleListState extends State<NetworkPinnacleList> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+            padding: const EdgeInsets.only( bottom: kPadding),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: SizedBox(
@@ -126,7 +126,7 @@ class NetworkPinnacleListState extends State<NetworkPinnacleList> {
           Container(
             margin: const EdgeInsets.only(bottom: 2),
             decoration: BoxDecoration(
-              gradient: primaryGradient,
+              gradient: statusGradient(progress: data?.percentage),
               borderRadius: BorderRadius.circular(50),
             ),
             child: Center(
@@ -137,7 +137,7 @@ class NetworkPinnacleListState extends State<NetworkPinnacleList> {
                 borderRadiusValue: 40,
                 border: Border.all(color: Colors.black, width: 2),
                 margin: const EdgeInsets.all(3),
-                assetImage: 'AppAssets.appIcon',
+                assetImage: '${data?.profilePic}',
               ),
             ),
           ),

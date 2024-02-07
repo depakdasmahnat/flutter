@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -160,58 +161,34 @@ class _ExamQuizState extends State<ExamQuiz> {
                 ),
             ],
           ),
-          bottomSheet: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               GradientButton(
-                height: 50,
-                width: 120,
-                borderRadius: 8,
-                border: Border.all(color: Colors.white),
-                backgroundColor: Colors.black,
+                height: 60,
+                borderRadius: 18,
+                backgroundGradient: primaryGradient,
+                blur: 20,
+                backgroundColor: Colors.transparent,
+                boxShadow: const [],
+                margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
                 onTap: () {
-                  context.pop();
+                  // context.pushNamed(Routs.createDemo);
                 },
-                margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Previous',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Submit',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: GoogleFonts.urbanist().fontFamily,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              GradientButton(
-                height: 50,
-                width: 120,
-                borderRadius: 8,
-                backgroundGradient: whiteGradient,
-                margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
-                onTap: () {
-                  context.pop();
-                },
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Next',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

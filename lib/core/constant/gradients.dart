@@ -51,6 +51,14 @@ Gradient targetGradient = LinearGradient(
   ],
 );
 
+Gradient greyGradient = const LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Color(0xffF3F3F3),
+    Color(0xffE0E0E0),
+  ],
+);
 Gradient limeGradient = const LinearGradient(
   end: Alignment.bottomLeft,
   begin: Alignment.topRight,

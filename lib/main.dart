@@ -11,6 +11,7 @@ import 'controllers/dashboard/dashboard_controller.dart';
 import 'controllers/feeds/feeds_controller.dart';
 import 'controllers/guest_controller/guest_controller.dart';
 import 'controllers/member/events/events_controller.dart';
+import 'controllers/member/leads/leads_controllers.dart';
 import 'controllers/member/member_auth_controller.dart';
 import 'controllers/member/member_controller/demo_controller.dart';
 import 'controllers/member/member_controller/member_controller.dart';
@@ -65,6 +66,7 @@ Future main() async {
       ChangeNotifierProvider(create: (context) => TrainingControllers()),
       ChangeNotifierProvider(create: (context) => EventsControllers()),
       ChangeNotifierProvider(create: (context) => DemoController()),
+      ChangeNotifierProvider(create: (context) => ListsControllers()),
     ],
     child: const MyApp(),
   ));

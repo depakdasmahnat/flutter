@@ -115,7 +115,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   ),
                 ],
               ),
-              const TrainingProgress(),
+              TrainingProgress(
+                onTap: () {},
+              ),
               CustomTextField(
                 hintText: 'Search',
                 controller: searchController,

@@ -43,7 +43,10 @@ class _AchieversTableState extends State<AchieversTable> {
               GridColumn(
                 minimumWidth: 120,
                 columnName: AchieversTableHeadings.name.value,
-                label: GridHeading(title: AchieversTableHeadings.name.value),
+                label: GridHeading(
+                  title: AchieversTableHeadings.name.value,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                ),
               ),
               GridColumn(
                 columnName: AchieversTableHeadings.sales.value,
@@ -108,7 +111,7 @@ class EmployeeDataSource extends DataGridSource {
                     borderRadiusValue: 30,
                     isAvatar: true,
                     assetImage: '${e.profile_pic}',
-                    margin: const EdgeInsets.only(right: 4),
+                    margin: EdgeInsets.zero,
                   ),
                   GridHeading(title: '${e.firstName}'),
                 ],
@@ -159,9 +162,10 @@ class EmployeeDataSource extends DataGridSource {
 }
 
 class GridHeading extends StatelessWidget {
-  const GridHeading({super.key, this.title});
+  const GridHeading({super.key, this.title, this.mainAxisAlignment});
 
   final String? title;
+  final MainAxisAlignment? mainAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -169,6 +173,7 @@ class GridHeading extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8),
       alignment: Alignment.center,
       child: Row(
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.center,
         children: [
           Text(
             '$title',
@@ -177,6 +182,8 @@ class GridHeading extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.w400,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.start,
           ),
         ],

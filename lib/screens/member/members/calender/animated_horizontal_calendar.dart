@@ -115,7 +115,7 @@ class _CalendarState extends State<AnimatedHorizontalCalendar> {
             itemBuilder: (context, index) {
               DateTime? _date = _startDate?.add(Duration(days: index));
               int? diffDays = _date?.difference(selectedCalenderDate).inDays;
-              bool isSelected = widget.selectedDate == _date;
+              bool isSelected = widget.selectedDate?.day == _date?.day;
 
               return Container(
                 alignment: Alignment.centerLeft,

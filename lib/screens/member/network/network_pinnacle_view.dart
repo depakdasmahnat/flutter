@@ -25,15 +25,8 @@ class NetworkPinnacleView extends StatefulWidget {
 }
 
 class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
-  List<ColorGrades> colorGrades = [
-    ColorGrades(gradient: redGradient, percentage: 20),
-    ColorGrades(gradient: yellowGradient, percentage: 40),
-    ColorGrades(gradient: greenGradient, percentage: 60),
-    ColorGrades(gradient: skyBlueGradient, percentage: 80),
-    ColorGrades(gradient: purpleGradient, percentage: 100),
-  ];
+  int? currentUserLevel;
 
-  int currentUserLevel = 2;
   int maxLevel = 14;
   Graph graph = Graph()..isTree = true;
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
@@ -60,9 +53,9 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
 
       setState(() {});
       builder
-        ..siblingSeparation = (50)
-        ..levelSeparation = (50)
-        ..subtreeSeparation = (100)
+        ..siblingSeparation = (35)
+        ..levelSeparation = (35)
+        ..subtreeSeparation = (35)
         ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
       setState(() {});
     }
@@ -89,33 +82,53 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
               padding: const EdgeInsets.symmetric(horizontal: kPadding),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Row(
-                  children: colorGrades.map(
-                    (e) {
-                      return Expanded(
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 32,
-                            decoration: BoxDecoration(
-                              gradient: e.gradient,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${e.percentage}%',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 4),
+                      child: Text(
+                        'Progress PH bar',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
                         ),
-                      );
-                    },
-                  ).toList(),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Row(
+                        children: colorGrades.map(
+                          (e) {
+                            return Expanded(
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  height: 32,
+                                  decoration: BoxDecoration(
+                                    gradient: e.gradient,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${e.percentage}%',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -142,7 +155,10 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                               bool currentLevel = currentUserLevel == (index + 1);
 
                               return GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  currentUserLevel = (index + 1);
+                                  controller.levelWiseMemberCount(level: currentUserLevel);
+                                },
                                 child: Container(
                                   height: 60,
                                   decoration: BoxDecoration(
@@ -168,6 +184,28 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
                                         ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
+                                      if (currentLevel &&
+                                          controller.levelWiseMemberCountModel?.remainingMembers != null)
+                                        Column(
+                                          children: [
+                                            Text(
+                                              '${controller.levelWiseMemberCountModel?.remainingMembers}',
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.black,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const Text(
+                                              'Pending',
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -243,15 +281,16 @@ class NetworkPinnacleViewState extends State<NetworkPinnacleView> {
               Container(
                 margin: const EdgeInsets.only(bottom: 2),
                 decoration: BoxDecoration(
-                  gradient: statusGradient(sale: data?.sales),
+                  gradient: statusGradient(progress: data?.percentage),
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: Center(
                   child: ImageView(
-                    height: 38,
-                    width: 38,
+                    height: 32,
+                    width: 32,
                     isAvatar: true,
                     borderRadiusValue: 40,
+                    fit: BoxFit.cover,
                     border: Border.all(color: Colors.black, width: 2),
                     margin: const EdgeInsets.all(3),
                     networkImage: '${data?.profilePic}',
