@@ -39,7 +39,7 @@ class _GuestCheckDemoState extends State<GuestCheckDemo> {
       body: Consumer<GuestControllers>(
 
         builder: (context, controller, child) {
-          print("check lenth ${ controller.guestDemoModel?.data?.length}");
+
           return controller.guestDemoLoader==false?const LoadingScreen(heightFactor: 0.7):
           ListView.builder(
             shrinkWrap: true,
@@ -49,7 +49,7 @@ class _GuestCheckDemoState extends State<GuestCheckDemo> {
               return FeedCardForDemo(
                 index: index,
                 data: data,
-                isFeeds: false,
+                // isFeeds: false,
               );
             },);
         },

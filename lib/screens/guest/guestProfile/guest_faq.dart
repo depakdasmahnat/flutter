@@ -347,8 +347,10 @@ class CustomeText extends StatelessWidget {
       text ?? '',
       maxLines: maxLines,
       style: TextStyle(
+
           overflow: TextOverflow.ellipsis,
           color: color,
+
           fontSize: fontSize,
           fontWeight: fontWeight,
           height: textHeight),

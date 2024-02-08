@@ -233,9 +233,11 @@ class MemberAuthControllers extends ChangeNotifier {
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
 
         if (responseData.status == true) {
+
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
+          notifyListeners();
         } else {
           showError(context: context, message: responseData.message ?? 'Something Went Wrong');
         }

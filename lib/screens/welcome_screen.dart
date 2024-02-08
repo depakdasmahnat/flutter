@@ -26,7 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(AppAssets.firstScreenVideo),
+                  image: AssetImage(AppAssets.firstScreenVideo1),
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.high,
                   isAntiAlias: true),
@@ -59,7 +59,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
                 GradientText(

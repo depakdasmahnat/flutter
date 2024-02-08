@@ -10,6 +10,7 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.d
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
@@ -26,6 +27,15 @@ class GuestProfile extends StatefulWidget {
 }
 
 class _GuestProfileState extends State<GuestProfile> {
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+   await context.read<GuestControllers>().fetchGuestProfile(
+        context: context,
+      );
+
+    });
+    super.initState();
+  }
   File? image;
   @override
   Widget build(BuildContext context) {
@@ -85,7 +95,11 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.edit,
                           title: 'Profile Edit',
                           onTap: () {
-                            context.push(Routs.guestEditProfile);
+                            context.push(Routs.guestEditProfile).whenComplete(() async{
+                              await context.read<GuestControllers>().fetchGuestProfile(
+                                context: context,
+                              );
+                            },);
                           },
                         ),
                         SizedBox(
@@ -208,17 +222,25 @@ class _GuestProfileState extends State<GuestProfile> {
           Positioned(
             top: size.height * 0.11,
             left: size.width * 0.37,
-            child: GestureDetector(
-              onTap: () {
-                // addImages();
+            child: Consumer<GuestControllers>(
+              builder: (context, controller, child) {
+                return         GestureDetector(
+                  onTap: () {
+                    // addImages();
+                  },
+                  child: ImageView(
+                    height: 100,
+                    width: 100,
+                    networkImage: controller.fetchGuestProfileModel?.data?.profilePhoto,
+                    isAvatar: true,
+                    borderRadiusValue: 50,
+                    fit: BoxFit.cover,
+                    margin: EdgeInsets.zero,
+                  ),
+                );
               },
-              child: ImageView(
-                height: 100,
-                width: 100,
-                networkImage: '${localDatabase.guest?.profilePhoto}',
-                isAvatar: true,
-                margin: EdgeInsets.zero,
-              ),
+
+
             ),
           )
         ],

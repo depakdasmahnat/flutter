@@ -184,7 +184,6 @@ class AuthControllers extends ChangeNotifier {
         if (responseData?.status == true) {
           context.read<LocalDatabase>().saveGuestData(guest: responseData?.data);
           GuestData? guest = context.read<LocalDatabase>().guest;
-
           showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           context.pushReplacementNamed(responseData?.url??Routs.interests,);
         } else {
@@ -396,4 +395,9 @@ class AuthControllers extends ChangeNotifier {
 //
 //   return fetchInterestCategory;
 // }
+
+
+
+
+
 }

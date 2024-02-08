@@ -112,6 +112,7 @@ class ApiEndpoints {
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
   static const String guestDemo = 'fetch_demos';
+  static const String attend = 'attend_event';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

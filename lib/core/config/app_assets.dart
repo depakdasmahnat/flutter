@@ -110,6 +110,7 @@ class AppAssets {
 
   ///3)  Videos...
   static const String firstScreenVideo = 'assets/videos/video.gif';
+  static const String firstScreenVideo1 = 'assets/videos/gtp_videos.gif';
 
   ///4)  ExtraImage...
 

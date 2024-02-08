@@ -14,6 +14,7 @@ import '../../models/auth_model/guest_data.dart';
 import '../../models/common_apis/cityModel.dart';
 import '../../models/common_apis/commonbanner.dart';
 import '../../models/common_apis/stateModel.dart';
+import '../../models/default/default_model.dart';
 import '../../models/feeds/feeds_data.dart';
 import '../../models/guest_Model/editProfileModel.dart';
 import '../../models/guest_Model/fetchGuestProfile.dart';
@@ -718,7 +719,7 @@ class GuestControllers extends ChangeNotifier {
         notifyListeners();
         editProfileModel = EditProfileModel.fromJson(json);
         if (editProfileModel?.status == true) {
-          context.read<LocalDatabase>().saveGuestData(guest: editProfileModel!.data);
+          // context.read<LocalDatabase>().saveGuestData(guest: editProfileModel!.data);
           // GuestData? guest = context.read<LocalDatabase>().guest;
           // debugPrint('guest ${guest?.firstName}');
           showSnackBar(context: context, text: editProfileModel?.message ?? 'Something went wong', color: Colors.green);
@@ -823,5 +824,50 @@ class GuestControllers extends ChangeNotifier {
     }
 
     return fetchFaqsModel;
+  }
+
+
+
+  /// 1) attend event..
+  Future<DefaultModel?> attendEvent({
+    required BuildContext context,
+    required String? eventId,
+    required String? feedback,
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'event_id': '$eventId',
+      'feedback': '$feedback',
+
+    };
+
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.attend,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+
+
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          context.pop();
+        } else {
+          showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
+        }
+      }
+    });
+    // return responseData;
   }
 }

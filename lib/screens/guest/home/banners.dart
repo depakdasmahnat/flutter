@@ -6,7 +6,11 @@ import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/constant.dart';
+import '../../../core/services/database/local_database.dart';
+import '../../../models/auth_model/guest_data.dart';
+import '../../../models/member/auth/member_data.dart';
 import '../../../utils/widgets/image_view.dart';
+import '../../member/lead/model_dailog_box.dart';
 
 class Banners extends StatefulWidget {
   const Banners({
@@ -31,9 +35,23 @@ class _BannersState extends State<Banners> {
       // print("check banner ${banner?.data?[0].image}");
     });
   }
+  Future<void> _showDialog(
+      BuildContext context, String? eventId,) async {
+    return showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (BuildContext context) {
+        return   ModelDialogBoxForBanner(
+          eventID: eventId??'',
 
+
+        ) ;
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
+    MemberData? memberData = context.read<LocalDatabase>().member;
     Size size = MediaQuery.of(context).size;
     return Consumer<GuestControllers>(
       builder: (context, controller, child) {
@@ -54,6 +72,7 @@ class _BannersState extends State<Banners> {
                             bannerIndex = val;
                             setState(() {});
                           },
+
                           autoPlayInterval: const Duration(seconds: 3),
                           autoPlayAnimationDuration: const Duration(milliseconds: 1200),
                           autoPlayCurve: Curves.fastOutSlowIn,
@@ -72,7 +91,13 @@ class _BannersState extends State<Banners> {
                                 // backgroundColor: Colors.grey.shade300,
                                 borderRadiusValue: 18,
                                 backgroundColor: Colors.grey.shade200,
-                                onTap: () {},
+                                onTap: () {
+
+                                  if(memberData?.role=="Member"){
+                                    _showDialog(context, controller.banner?.data?[bannerIndex].id.toString());
+                                  }
+
+                                },
                                 fit: BoxFit.cover,
                                 margin: const EdgeInsets.symmetric(horizontal: kPadding),
 
