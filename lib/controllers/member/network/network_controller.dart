@@ -352,6 +352,7 @@ class NetworkControllers extends ChangeNotifier {
   Future<List<PinnacleListData>?> fetchNetworkReports({
     String? search,
     String? filter,
+    String? memberId,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -375,6 +376,7 @@ class NetworkControllers extends ChangeNotifier {
           queryParameters: {
             'search_key': search ?? '',
             'filter': filter ?? '',
+            'member_id': memberId ?? '',
           },
         );
 

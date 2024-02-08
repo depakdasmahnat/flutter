@@ -59,6 +59,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
     return await context.read<MembersController>().fetchDashboardStates(
           memberId: memberId,
           filter: selectedDuration,
+          tab: dashBoardIndex == 0 ? 'Dashboard' : 'Members',
         );
   }
 

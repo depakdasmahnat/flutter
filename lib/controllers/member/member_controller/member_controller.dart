@@ -15,6 +15,7 @@ import '../../../models/default/default_model.dart';
 import '../../../models/feeds/demos_model.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/member/auth/member_data.dart';
+import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../models/member/dashboard/traning_progress_model.dart';
 import '../../../models/member/goals/goals_model.dart';
@@ -812,7 +813,6 @@ class MembersController extends ChangeNotifier {
     if (context != null) {
       onRefresh() {
         memberProfileLoader = false;
-        fetchMemberProfileModel = null;
         notifyListeners();
       }
 
@@ -1322,6 +1322,7 @@ class MembersController extends ChangeNotifier {
   Future<DashboardStatesData?> fetchDashboardStates({
     num? memberId,
     String? filter,
+    String? tab,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -1345,7 +1346,8 @@ class MembersController extends ChangeNotifier {
           endPoint: ApiEndpoints.fetchDashboardStats,
           queryParameters: {
             'member_id': '${memberId ?? member?.id}',
-            'filter': '$filter',
+            'filter': filter ?? '',
+            'tab': tab ?? '',
           },
         );
 
@@ -1465,5 +1467,55 @@ class MembersController extends ChangeNotifier {
     }
 
     return trainingProgress;
+  }
+
+  /// 7) Achievers API...
+
+  bool loadingAchievementBadges = true;
+  AchievementBadgesModel? achievementBadges;
+
+  Future<AchievementBadgesModel?> fetchAchievementBadges({
+    String? memberId,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingAchievementBadges = true;
+        achievementBadges = null;
+
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingAchievementBadges = false;
+        notifyListeners();
+      }
+
+      MemberData? member = LocalDatabase().member;
+      onRefresh();
+      try {
+        var response = await ApiService().get(endPoint: ApiEndpoints.achievementBadges, queryParameters: {
+          'member_id': memberId ?? '${member?.id}',
+        });
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          AchievementBadgesModel responseData = AchievementBadgesModel.fromJson(json);
+          if (responseData.status == true) {
+            achievementBadges = responseData;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return achievementBadges;
   }
 }

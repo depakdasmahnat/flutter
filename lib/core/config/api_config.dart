@@ -95,6 +95,7 @@ class ApiEndpoints {
   static const String fetchAllDemos = 'fetch_all_demos';
   static const String fetchTarget = 'fetch_target';
   static const String fetchTrainingProcess = 'fetch_training_process';
+  static const String achievementBadges = 'achievement_badges';
 
   // Lead apis
 
