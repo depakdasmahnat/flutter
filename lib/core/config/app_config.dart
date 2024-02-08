@@ -29,6 +29,7 @@ class AppConfig {
   static const String mapAddressesApiKey = 'AIzaSyAaq-CLNOFfMMtll9c3LV2wpFTITExbud4';
   static const String contactEmail = 'mrwebbeast@gmail.com';
   static const String contactNumber = '+91 7559721016';
+  static const String shareApp = '';
 
   ///Notification Channel Id...
   static const String chanelName = 'MrWebBeast';

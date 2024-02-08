@@ -186,10 +186,14 @@ class CompletedLeadsCard extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   decoration: ShapeDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment(0.61, -0.79),
-                      end: Alignment(-0.61, 0.79),
-                      colors: [Color(0xFFFF2600), Color(0xFFFF6130)],
+                    gradient: LinearGradient(
+                      begin: const Alignment(0.61, -0.79),
+                      end: const Alignment(-0.61, 0.79),
+                      colors: lead?.priority == LeadPriorityFilters.hot.value
+                          ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                          : lead?.priority == LeadPriorityFilters.warm.value
+                              ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                              : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(39),
@@ -308,10 +312,14 @@ class ScheduledLeadsCard extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   decoration: ShapeDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment(0.61, -0.79),
-                      end: Alignment(-0.61, 0.79),
-                      colors: [Color(0xFFFF2600), Color(0xFFFF6130)],
+                    gradient: LinearGradient(
+                      begin: const Alignment(0.61, -0.79),
+                      end: const Alignment(-0.61, 0.79),
+                      colors: lead?.priority == LeadPriorityFilters.hot.value
+                          ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                          : lead?.priority == LeadPriorityFilters.warm.value
+                              ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                              : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(39),
@@ -410,10 +418,14 @@ class NewLeadsCard extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   decoration: ShapeDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment(0.61, -0.79),
-                      end: Alignment(-0.61, 0.79),
-                      colors: [Color(0xFFFF2600), Color(0xFFFF6130)],
+                    gradient: LinearGradient(
+                      begin: const Alignment(0.61, -0.79),
+                      end: const Alignment(-0.61, 0.79),
+                      colors: lead?.priority == LeadPriorityFilters.hot.value
+                          ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                          : lead?.priority == LeadPriorityFilters.warm.value
+                              ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                              : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(39),
@@ -537,10 +549,14 @@ class LeadsCard extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   decoration: ShapeDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment(0.61, -0.79),
-                      end: Alignment(-0.61, 0.79),
-                      colors: [Color(0xFFFF2600), Color(0xFFFF6130)],
+                    gradient: LinearGradient(
+                      begin: const Alignment(0.61, -0.79),
+                      end: const Alignment(-0.61, 0.79),
+                      colors: lead?.priority == LeadPriorityFilters.hot.value
+                          ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                          : lead?.priority == LeadPriorityFilters.warm.value
+                              ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                              : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(39),
@@ -649,10 +665,14 @@ class ClosedLeadsCard extends StatelessWidget {
               onTap: () {},
               child: Container(
                 decoration: ShapeDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment(0.00, -1.00),
-                    end: Alignment(0, 1),
-                    colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+                  gradient: LinearGradient(
+                    begin: const Alignment(0.61, -0.79),
+                    end: const Alignment(-0.61, 0.79),
+                    colors: lead?.priority == LeadPriorityFilters.hot.value
+                        ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                        : lead?.priority == LeadPriorityFilters.warm.value
+                            ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                            : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),

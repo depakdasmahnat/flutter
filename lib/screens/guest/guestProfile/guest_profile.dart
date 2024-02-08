@@ -9,10 +9,12 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
+import '../../../core/config/app_config.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
 import '../../../utils/widgets/web_view_screen.dart';
@@ -29,14 +31,15 @@ class GuestProfile extends StatefulWidget {
 class _GuestProfileState extends State<GuestProfile> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-   await context.read<GuestControllers>().fetchGuestProfile(
-        context: context,
-      );
-
+      await context.read<GuestControllers>().fetchGuestProfile(
+            context: context,
+          );
     });
     super.initState();
   }
+
   File? image;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -57,7 +60,6 @@ class _GuestProfileState extends State<GuestProfile> {
                         ),
                         fit: BoxFit.cover),
                   )),
-
               SizedBox(
                 height: size.height * 0.04,
               ),
@@ -80,7 +82,6 @@ class _GuestProfileState extends State<GuestProfile> {
                       color: Colors.white, fontSize: 15, fontWeight: FontWeight.w400, height: 1.2),
                   textAlign: TextAlign.center,
                 ),
-
               Padding(
                 padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 child: Card(
@@ -95,11 +96,13 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.edit,
                           title: 'Profile Edit',
                           onTap: () {
-                            context.push(Routs.guestEditProfile).whenComplete(() async{
-                              await context.read<GuestControllers>().fetchGuestProfile(
-                                context: context,
-                              );
-                            },);
+                            context.push(Routs.guestEditProfile).whenComplete(
+                              () async {
+                                await context.read<GuestControllers>().fetchGuestProfile(
+                                      context: context,
+                                    );
+                              },
+                            );
                           },
                         ),
                         SizedBox(
@@ -131,7 +134,10 @@ class _GuestProfileState extends State<GuestProfile> {
                         ),
                         IconAndText(
                           icon: AppAssets.setting,
-                          title: 'Setting ',
+                          title: 'Setting',
+                          onTap: () {
+                            context.pushNamed(Routs.settings);
+                          },
                         ),
                         SizedBox(
                           height: size.height * 0.02,
@@ -139,6 +145,9 @@ class _GuestProfileState extends State<GuestProfile> {
                         IconAndText(
                           icon: AppAssets.shareIcon,
                           title: 'Share App ',
+                          onTap: () {
+                            Share.share(AppConfig.shareApp);
+                          },
                         )
                       ],
                     ),
@@ -199,24 +208,7 @@ class _GuestProfileState extends State<GuestProfile> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-                child: GestureDetector(
-                  onTap: () {
-                    context.read<MemberAuthControllers>().logOutPopup(context);
-                  },
-                  child: Card(
-                    type: false,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
-                      child: IconAndText(
-                        icon: AppAssets.logout,
-                        title: 'Sign Out',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+
             ],
           ),
           Positioned(
@@ -224,7 +216,7 @@ class _GuestProfileState extends State<GuestProfile> {
             left: size.width * 0.37,
             child: Consumer<GuestControllers>(
               builder: (context, controller, child) {
-                return         GestureDetector(
+                return GestureDetector(
                   onTap: () {
                     // addImages();
                   },
@@ -239,14 +231,13 @@ class _GuestProfileState extends State<GuestProfile> {
                   ),
                 );
               },
-
-
             ),
           )
         ],
       ),
     );
   }
+
   Future<void> updateProfileImage({required ImageSource source}) async {
     final pickedImg = await ImagePicker().pickImage(source: source);
     setState(() {

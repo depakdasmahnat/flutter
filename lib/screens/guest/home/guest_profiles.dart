@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
@@ -31,8 +32,72 @@ class _GuestProfilesState extends State<GuestProfiles> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Consumer<GuestControllers>(
       builder: (context, controller, child) {
+        List<Widget> widgets = [
+          Column(
+            children: [
+              Container(
+                height: 45,
+                width: 45,
+                margin: const EdgeInsets.only(bottom: 4),
+                decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+
+                    children: [
+                      Text(
+                        '07 Days',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 8,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      Text(
+                        '${controller.fetchnewjoiners?.data?.counts}',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: FontWeight.w800,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Text(
+                'New\nMembers Join',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 9,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
+                    fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ];
+
+        controller.fetchnewjoiners?.data?.members?.forEach((element) {
+          widgets.add(
+            NewJoiner(
+              image: element.profilePhoto ?? '',
+              firstName: element.firstName ?? '',
+              cityName: element.cityName ?? '',
+            ),
+          );
+        });
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: kPadding),
           child: SizedBox(
@@ -43,98 +108,14 @@ class _GuestProfilesState extends State<GuestProfiles> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
-                        child: CupertinoActivityIndicator(
-                            radius: 15, color: CupertinoColors.white),
+                        child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
                       ),
                     ],
                   )
-                :
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                   children: [
-                     Column(
-
-                       children: [
-                         Container(
-                           decoration: BoxDecoration(
-                               shape: BoxShape.circle,
-                               gradient: primaryGradient),
-                           child: Padding(
-                             padding: const EdgeInsets.all(6),
-                             child: Column(
-                               crossAxisAlignment:  CrossAxisAlignment.center,
-                               mainAxisSize: MainAxisSize.min,
-                               children: [
-                                 Text(
-                                   '07 Days',
-                                   style: TextStyle(
-                                     color: Colors.black,
-                                     fontSize: 8,
-                                     fontFamily:
-                                     GoogleFonts.urbanist().fontFamily,
-                                     fontWeight: FontWeight.w700,
-                                   ),
-                                   textAlign: TextAlign.start,
-                                 ),
-                                 Text(
-                                   '${controller.fetchnewjoiners?.data?.counts}',
-                                   style: TextStyle(
-                                     color: Colors.black,
-                                     fontSize: 26,
-                                     height: 1,
-                                     fontFamily:
-                                     GoogleFonts.urbanist().fontFamily,
-                                     fontWeight: FontWeight.w800,
-                                   ),
-                                   textAlign: TextAlign.start,
-                                 ),
-                               ],
-                             ),
-                           ),
-                         ),
-                         Text(
-                           'New\nMembers Join',
-                           style: TextStyle(
-                               color: Colors.white,
-                               fontSize: 8,
-                               fontFamily: GoogleFonts.urbanist().fontFamily,
-                               fontWeight: FontWeight.w500,
-                               height: 1),
-                           textAlign: TextAlign.center,
-                         ),
-                       ],
-                     ),
-                     NewJoiner(
-                       image: controller.fetchnewjoiners?.data?.members?[0].profilePhoto??'',
-                       firstName:  controller.fetchnewjoiners?.data?.members?[0].firstName??'',
-                       cityName: controller.fetchnewjoiners?.data?.members?[0].cityName??'',
-
-                     ),
-                     NewJoiner(
-                       image: controller.fetchnewjoiners?.data?.members?[1].profilePhoto??'',
-                       firstName:  controller.fetchnewjoiners?.data?.members?[1].firstName??'',
-                       cityName: controller.fetchnewjoiners?.data?.members?[1].cityName??'',
-
-                     ),
-                     NewJoiner(
-                       image: controller.fetchnewjoiners?.data?.members?[2].profilePhoto??'',
-                       firstName:  controller.fetchnewjoiners?.data?.members?[2].firstName??'',
-                       cityName: controller.fetchnewjoiners?.data?.members?[2].cityName??'',
-
-                     ),
-                     NewJoiner(
-                       image: controller.fetchnewjoiners?.data?.members?[3].profilePhoto??'',
-                       firstName:  controller.fetchnewjoiners?.data?.members?[3].firstName??'',
-                       cityName: controller.fetchnewjoiners?.data?.members?[4].cityName??'',
-
-                     ),
-                     NewJoiner(
-                       image: controller.fetchnewjoiners?.data?.members?[4].profilePhoto??'',
-                       firstName:  controller.fetchnewjoiners?.data?.members?[4].firstName??'',
-                       cityName: controller.fetchnewjoiners?.data?.members?[4].cityName??'',
-                     ),
-                   ],
-                ),
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: widgets,
+                  ),
           ),
         );
       },
@@ -146,60 +127,67 @@ class NewJoiner extends StatelessWidget {
   String? image;
   String? firstName;
   String? cityName;
+
   NewJoiner({
-     this.image,
-     this.firstName,
-     this.cityName,
+    this.image,
+    this.firstName,
+    this.cityName,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
-    return
-      Column(
-        children: [
-          image?.isEmpty==true
-              ? const CircleAvatar(
-            // maxRadius: size.height * 0.03,
-            // minRadius: size.height * 0.03,
-            backgroundImage: AssetImage(AppAssets.getsprofile),
-          )
-              : CircleAvatar(
-            // maxRadius: size.height * 0.03,
-            // minRadius: size.height * 0.03,
-            backgroundImage: NetworkImage(
-              image??'',
-            ),
-          ),
-          SizedBox(
-            width: 40,
-            child: Text(
-              firstName??'Deepak',
-              maxLines: 1,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontFamily: GoogleFonts.urbanist().fontFamily,
-                fontWeight: FontWeight.w500,
-                overflow: TextOverflow.ellipsis,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Text(
-            cityName?.isEmpty==true?'Raipur':cityName??'',
+    return Column(
+      children: [
+        // image?.isEmpty == true
+        //     ? const CircleAvatar(
+        //         // maxRadius: size.height * 0.03,
+        //         // minRadius: size.height * 0.03,
+        //         backgroundImage: AssetImage(AppAssets.getsprofile),
+        //       )
+        //     : CircleAvatar(
+        //         // maxRadius: size.height * 0.03,
+        //         // minRadius: size.height * 0.03,
+        //         backgroundImage: NetworkImage(
+        //           image ?? '',
+        //         ),
+        //       ),
+        ImageView(
+          height: 45,
+          width: 45,
+          backgroundColor: Colors.grey.shade200,
+          borderRadiusValue: 30,
+          isAvatar: true,
+          margin: const EdgeInsets.only(bottom: 4),
+          networkImage: image ?? '',
+        ),
+        SizedBox(
+          width: 40,
+          child: Text(
+            firstName ?? 'Deepak',
+            maxLines: 1,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 8,
+              fontSize: 12,
               fontFamily: GoogleFonts.urbanist().fontFamily,
               fontWeight: FontWeight.w500,
+              overflow: TextOverflow.ellipsis,
             ),
             textAlign: TextAlign.center,
           ),
-        ],
-      );
+        ),
+        Text(
+          cityName?.isEmpty == true ? 'Raipur' : cityName ?? '',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 8,
+            fontFamily: GoogleFonts.urbanist().fontFamily,
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
   }
 }
-

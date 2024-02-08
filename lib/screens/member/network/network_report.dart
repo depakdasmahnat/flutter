@@ -88,7 +88,7 @@ class _NetworkReportState extends State<NetworkReport> {
                     items: [
                       CustomPopupMenuEntry(
                         value: '',
-                        label: 'None',
+                        label: 'All',
                         onPressed: () {
                           filter = null;
                         },

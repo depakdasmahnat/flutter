@@ -109,14 +109,17 @@ class DashBoardState extends State<DashBoard> {
                       ],
                     ),
                     actions: [
-                      const ImageView(
+                      ImageView(
                         height: 24,
                         width: 24,
                         borderRadiusValue: 0,
                         color: Colors.white,
-                        margin: EdgeInsets.only(left: 8, right: 8),
+                        margin: const EdgeInsets.only(left: 8, right: 8),
                         fit: BoxFit.contain,
                         assetImage: AppAssets.notificationsIcon,
+                        onTap: () {
+                          context.pushNamed(Routs.guestNotification);
+                        },
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,

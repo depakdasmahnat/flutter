@@ -5,7 +5,7 @@ import '../../models/dashboard/color_grades.dart';
 import 'colors.dart';
 
 const double kPadding = 16;
-const double bottomNavbarSize = 120;
+const double bottomNavbarSize = 100;
 const double kMargin = 16;
 const double kBorderRadius = 24;
 

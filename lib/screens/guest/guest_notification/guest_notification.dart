@@ -16,7 +16,7 @@ class GuestNotification extends StatefulWidget {
 class _GuestNotificationState extends State<GuestNotification> {
   @override
   Widget build(BuildContext context) {
-    Color textColo =Color(0xffB5B5B5);
+    Color textColo = const Color(0xffB5B5B5);
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -26,9 +26,11 @@ class _GuestNotificationState extends State<GuestNotification> {
             showLeadICon: true,
             title: 'Notification',
           )),
-      body:Padding(
+      body: Padding(
         padding: const EdgeInsets.all(kPadding),
         child: ListView(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,25 +49,24 @@ class _GuestNotificationState extends State<GuestNotification> {
                 ),
               ],
             ),
-            SizedBox(
-              height: size.height*0.4,
-              child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                return   Padding(
+            ListView.builder(
+              itemCount: 3,
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(bottom: 24),
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-
-
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: size.height * 0.08,
-                            width: size.height * 0.08,
+                            height: 60,
+                            width: 60,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(14),
                               clipBehavior: Clip.antiAlias,
@@ -87,13 +88,13 @@ class _GuestNotificationState extends State<GuestNotification> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: textColo,
-
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 4,
                               ),
                               CustomeText(
-                                text: 'New nontoxic powder uses sunlight to\nquickly disinfect contaminated dr..',
+                                text:
+                                    'New nontoxic powder uses sunlight to\nquickly disinfect contaminated dr..',
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: textColo,
@@ -107,120 +108,108 @@ class _GuestNotificationState extends State<GuestNotification> {
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: textColo,
-
                       ),
-
-
                     ],
                   ),
                 );
-              },),
+              },
             ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CustomeText(
-              text: 'New Events',
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomeText(
+                  text: 'New Events',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+                CustomeText(
+                  text: 'Mark all as read',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: textColo,
+                ),
+              ],
             ),
-            CustomeText(
-              text: 'Mark all as read',
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: textColo,
-            ),
-          ],
-        ),
-        SizedBox(
-          height: size.height*0.43,
-          child: ListView.builder(
-            itemCount: 3,
-            physics: BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return   Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-
-
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: size.height * 0.08,
-                          width: size.height * 0.08,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
-                            clipBehavior: Clip.antiAlias,
-                            child: Image.asset(
-                              AppAssets.product1,
-                              fit: BoxFit.cover,
+            ListView.builder(
+              itemCount: 3,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 60,
+                            width: 60,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(14),
+                              clipBehavior: Clip.antiAlias,
+                              child: Image.asset(
+                                AppAssets.product1,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomeText(
-                              text: 'Goa event',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            CustomeText(
-                              text: 'New nontoxic powder uses sunlight to\nquickly disinfect contaminated dr..',
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: textColo,
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        CustomeText(
-                          text: '3m ago',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: textColo,
-
-                        ),
-                        const SizedBox(
-                          height: 7,
-                        ),
-                        CircleAvatar(
-                          maxRadius: size.height * 0.03,
-                          backgroundColor: Colors.transparent,
-                          backgroundImage: const AssetImage(AppAssets.userImage),
-                        )
-                      ],
-                    ),
-
-
-                  ],
-                ),
-              );
-            },),
-        )
-
-
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomeText(
+                                text: 'Goa event',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              CustomeText(
+                                text:
+                                    'New nontoxic powder uses sunlight to\nquickly disinfect contaminated dr..',
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: textColo,
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          CustomeText(
+                            text: '3m ago',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: textColo,
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          CircleAvatar(
+                            maxRadius: size.height * 0.03,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: const AssetImage(AppAssets.userImage),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            )
           ],
         ),
-      ) ,
-
+      ),
     );
   }
 }

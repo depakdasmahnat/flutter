@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
+import 'package:mrwebbeast/core/config/app_config.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/screens/member/invite/invite_leads_card.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/training_progress.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
@@ -140,7 +142,7 @@ class _MemberProfileState extends State<MemberProfile> {
                               gradient: inActiveGradient,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child:  Row(
+                            child: Row(
                               children: [
                                 const ImageView(
                                   height: 14,
@@ -148,13 +150,13 @@ class _MemberProfileState extends State<MemberProfile> {
                                   margin: EdgeInsets.only(),
                                 ),
                                 if (achievementBadges != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Text(
-                                    'Members ${achievementBadges?.members??0}',
-                                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8),
+                                    child: Text(
+                                      'Members ${achievementBadges?.members ?? 0}',
+                                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                           ),
@@ -298,6 +300,9 @@ class _MemberProfileState extends State<MemberProfile> {
                       IconAndText(
                         icon: AppAssets.notificationsIcon,
                         title: 'Notification ',
+                        onTap: () {
+                          context.pushNamed(Routs.guestNotification);
+                        },
                       ),
                       SizedBox(
                         height: size.height * 0.02,
@@ -305,6 +310,9 @@ class _MemberProfileState extends State<MemberProfile> {
                       IconAndText(
                         icon: AppAssets.setting,
                         title: 'Setting ',
+                        onTap: () {
+                          context.pushNamed(Routs.settings);
+                        },
                       ),
                       SizedBox(
                         height: size.height * 0.02,
@@ -312,6 +320,9 @@ class _MemberProfileState extends State<MemberProfile> {
                       IconAndText(
                         icon: AppAssets.shareIcon,
                         title: 'Share App ',
+                        onTap: () {
+                          Share.share(AppConfig.shareApp);
+                        },
                       )
                     ],
                   ),
@@ -332,44 +343,33 @@ class _MemberProfileState extends State<MemberProfile> {
                         icon: AppAssets.membersIcon,
                         title: 'Help & Support',
                         height: size.height * 0.021,
+                        onTap: () {
+                          context.pushNamed(Routs.helpAndSupport);
+                        },
                       ),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      IconAndText(
-                        icon: AppAssets.call,
-                        title: 'Contact us',
-                      ),
+                      // SizedBox(
+                      //   height: size.height * 0.02,
+                      // ),
+                      // IconAndText(
+                      //   icon: AppAssets.call,
+                      //   title: 'Contact us',
+                      // ),
                       SizedBox(
                         height: size.height * 0.02,
                       ),
                       IconAndText(
                         icon: AppAssets.lockIcon,
                         title: 'Privacy policy ',
+                        onTap: () {
+                          context.pushNamed(Routs.privacyPolicy);
+                        },
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-              child: GestureDetector(
-                onTap: () {
-                  context.read<MemberAuthControllers>().logOutPopup(context);
-                },
-                child: Card(
-                  type: false,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
-                    child: IconAndText(
-                      icon: AppAssets.logout,
-                      title: 'Sign Out',
-                    ),
-                  ),
-                ),
-              ),
-            ),
+
           ],
         );
       }),

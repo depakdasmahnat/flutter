@@ -109,7 +109,7 @@ class _DemosScreenState extends State<DemosScreen> {
                         items: [
                           CustomPopupMenuEntry(
                             value: '',
-                            label: 'None',
+                            label: 'All',
                             onPressed: () {
                               filter = null;
                             },
