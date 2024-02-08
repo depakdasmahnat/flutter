@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,8 @@ import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/appbar.dart';
 
-import '../../../utils/widgets/custom_bottemsheet.dart';
+import '../../../utils/widgets/custom_back_button.dart';
+
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../dashboard/more_menu.dart';
@@ -35,7 +37,7 @@ class _LeadState extends State<Lead> {
   int tabIndex = 0;
 
   List tabItem = [
-    'New Listed',
+    'Newly Listed',
     'Invitation Call',
     'Demo Scheduled',
     'Follow Up',
@@ -44,7 +46,7 @@ class _LeadState extends State<Lead> {
   List item = [
     {
       'image': '08',
-      'first': 'Leads\nAdded',
+      'first': 'Added to\nlist',
       'second': 'Getting Started',
       'gradiant': primaryGradient,
       'color': const Color(0xFFE1FF41),
@@ -110,8 +112,8 @@ class _LeadState extends State<Lead> {
                             Container(
                                 width: double.infinity,
                                 clipBehavior: Clip.antiAlias,
-                                decoration: ShapeDecoration(
-                                  gradient: const LinearGradient(
+                                decoration: const ShapeDecoration(
+                                  gradient: LinearGradient(
                                     begin: Alignment(0.00, -1.00),
                                     end: Alignment(0, 1),
                                     colors: [
@@ -120,64 +122,86 @@ class _LeadState extends State<Lead> {
                                     ],
                                   ),
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
                                   ),
                                 ),
-                                child: Center(
-                                  child: SizedBox(
-                                    height: size.height * 0.07,
-                                    child: ListView.builder(
-                                      itemCount: tabItem.length,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        return InkWell(
-                                          onTap: () async {
-                                            tabIndex = index;
-                                            status = tabItem[index];
-                                            if(status=='New Listed'){
-                                              status ='New';
-                                            }
+                                child: Stack(
+                                 children: [
+                                   Center(
+                                     child: SizedBox(
+                                       height: size.height * 0.07,
+                                       child:
+                                       ListView.builder(
+                                         itemCount: tabItem.length,
+                                         shrinkWrap: true,
+                                         scrollDirection: Axis.horizontal,
+                                         itemBuilder: (context, index) {
+                                           return InkWell(
+                                             onTap: () async {
+                                               tabIndex = index;
+                                               status = tabItem[index];
+                                               if(status=='Newly Listed'){
+                                                 status ='New';
+                                               }
+                                               setState(() {});
+                                               await context.read<MembersController>().fetchLeads(status: status, priority: '', page: '1');
 
-                                            setState(() {});
-                                            await context.read<MembersController>().fetchLeads(status: status, priority: '', page: '1');
+                                             },
+                                             child: Padding(
+                                               padding: const EdgeInsets.all(8.0),
+                                               child: Container(
+                                                 width: size.width * 0.3,
+                                                 height: size.width * 0.06,
+                                                 decoration: ShapeDecoration(
+                                                   gradient: index == tabIndex
+                                                       ? primaryGradient
+                                                       : null,
+                                                   shape: RoundedRectangleBorder(
+                                                     borderRadius:
+                                                     BorderRadius.circular(10),
+                                                   ),
+                                                 ),
+                                                 child: Center(
+                                                     child: CustomeText(
+                                                       text: tabItem[index],
+                                                       fontSize: 14,
+                                                       fontWeight: FontWeight.w600,
+                                                       color: index == tabIndex
+                                                           ? Colors.black
+                                                           : Colors.white,
+                                                     )),
+                                               ),
+                                             ),
+                                           );
+                                         },
+                                       ),
+                                     ),
+                                   ),
+                                    Positioned(
+                                     top: size.height*0.01,
+                                     right: 5,
+                                     child: const Row(
+                                       mainAxisAlignment: MainAxisAlignment.end,
+                                       crossAxisAlignment: CrossAxisAlignment.center,
+                                       children: [
+                                         CustomBackButton(
+                                           iconSize: 17,
+                                           padding: EdgeInsets.all(3),
 
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              width: size.width * 0.3,
-                                              height: size.width * 0.06,
-                                              decoration: ShapeDecoration(
-                                                gradient: index == tabIndex
-                                                    ? primaryGradient
-                                                    : null,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              child: Center(
-                                                  child: CustomeText(
-                                                text: tabItem[index],
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600,
-                                                color: index == tabIndex
-                                                    ? Colors.black
-                                                    : Colors.white,
-                                              )),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
+                                           icon: AntDesign.right,
+                                         ),
+                                       ],
+                                     ),
+                                   )
+
+                                 ],
+
                                 )),
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.12,
                                   child: Align(
                                     alignment: Alignment.topCenter,
                                     child: ListView(
@@ -198,7 +222,7 @@ class _LeadState extends State<Lead> {
                                             ),
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 8.0, top: 8, bottom: 8),
+                                                  left: 8.0, top: 6, bottom: 6),
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -209,15 +233,15 @@ class _LeadState extends State<Lead> {
                                                   CustomeText(
                                                     text:
                                                         '${controller.fetchLeadsModel?.stats?.new1}',
-                                                    fontSize: 31,
+                                                    fontSize: 28,
                                                     fontWeight: FontWeight.w700,
                                                     color: Colors.black,
                                                   ),
                                                   const Text(
-                                                    'Leads\nAdded',
+                                                    'Added\nto list',
                                                     style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -256,7 +280,7 @@ class _LeadState extends State<Lead> {
                                                   CustomeText(
                                                     text:
                                                         '${controller.fetchLeadsModel?.stats?.invitationCall}',
-                                                    fontSize: 31,
+                                                    fontSize: 28,
                                                     fontWeight: FontWeight.w700,
                                                     color: Colors.black,
                                                   ),
@@ -264,7 +288,7 @@ class _LeadState extends State<Lead> {
                                                     'Demo\nScheduled',
                                                     style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -303,7 +327,7 @@ class _LeadState extends State<Lead> {
                                                   CustomeText(
                                                     text:
                                                         '${controller.fetchLeadsModel?.stats?.followup}',
-                                                    fontSize: 31,
+                                                    fontSize: 28,
                                                     fontWeight: FontWeight.w700,
                                                     color: Colors.black,
                                                   ),
@@ -311,7 +335,7 @@ class _LeadState extends State<Lead> {
                                                     'Demo\nDone',
                                                     style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 14,
+                                                      fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -350,7 +374,7 @@ class _LeadState extends State<Lead> {
                                                   CustomeText(
                                                     text:
                                                         '${controller.fetchLeadsModel?.stats?.closed}',
-                                                    fontSize: 31,
+                                                    fontSize: 28,
                                                     fontWeight: FontWeight.w700,
                                                     color: Colors.white,
                                                   ),
@@ -358,7 +382,7 @@ class _LeadState extends State<Lead> {
                                                     'Leads\nClosed',
                                                     style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 14,
+                                                      fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w600,
                                                     ),
@@ -475,7 +499,7 @@ class _LeadState extends State<Lead> {
                                                   color: Colors.white,
                                                 ),
                                                 const Text(
-                                                  'Warn Leads',
+                                                  'Warm Leads',
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15,
@@ -542,7 +566,7 @@ class _LeadState extends State<Lead> {
                                 const Expanded(
                                   child: CustomTextField(
                                     hintText: 'Search',
-                                    readOnly: true,
+
                                     hintStyle: TextStyle(color: Colors.white),
                                     prefixIcon: ImageView(
                                       height: 20,
@@ -618,6 +642,9 @@ class _LeadState extends State<Lead> {
                                           const PopupMenuItem(
                                             value: 'Cold',
                                             child: Text('Cold'),
+                                          ),   const PopupMenuItem(
+                                            value: 'Warm',
+                                            child: Text('Warm'),
                                           ),
                                         ],
                                       ),
@@ -781,12 +808,9 @@ class RowCart extends StatelessWidget {
                   )
                       :
                   CircleAvatar(
+                    backgroundImage: NetworkImage(image ?? ''),
                     maxRadius: size.height * 0.02,
-                    child: Image.network(
-                      image ?? '',
-                      // height: size.height * 0.04,
-                      height: size.height * 0.04,
-                    ),
+
 
                   ),
                   const SizedBox(
@@ -803,10 +827,57 @@ class RowCart extends StatelessWidget {
                   ),
                 ],
               ),
-              CustomeText(
-                text: city ?? '--',
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+              SizedBox(
+                width: size.width*0.14,
+                child: CustomeText(
+                  text: city ?? 'Raipur(CG)',
+                  fontSize: 12,
+                  maxLines: 1,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  decoration: ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: const Alignment(0.61, -0.79),
+                      end: const Alignment(-0.61, 0.79),
+                      colors: priority == 'Hot'
+                          ? [
+                        const Color(0xFFFF2600),
+                        const Color(0xFFFF6130)
+                      ]
+                          : priority == 'Warm'
+                          ? [
+                        const Color(0xFFFDDC9C),
+                        const Color(0xFFDDA53B)
+                      ]
+                          : [
+                        const Color(0xFF3CDCDC),
+                        const Color(0xFF12BCBC)
+                      ],
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(39),
+                    ),
+                  ),
+                  child: SizedBox(
+                    width: size.width * 0.11,
+                    child: Center(
+                      child: Padding(
+                        padding:
+                        const EdgeInsets.only(top: 4, bottom: 4),
+                        child: CustomeText(
+                          text: priority ?? '',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
               Container(
                 decoration: const BoxDecoration(
@@ -904,13 +975,8 @@ class RowCart extends StatelessWidget {
                       )
                           :
                       CircleAvatar(
+                        backgroundImage: NetworkImage(image ?? ''),
                         maxRadius: size.height * 0.02,
-                        child: Image.network(
-                          image ?? '',
-                          // height: size.height * 0.04,
-                          height: size.height * 0.04,
-                        ),
-
                       ),
                       const SizedBox(
                         width: 5,
@@ -926,21 +992,26 @@ class RowCart extends StatelessWidget {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    width: size.width*0.14,
+                    child: CustomeText(
+                      text: city ?? 'Raipur(CG)',
+                      fontSize: 12,
+                      maxLines: 1,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   CustomeText(
-                    text: date ?? '',
+                    text: date ?? '07-02-2024',
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
                   CustomeText(
-                    text: time ?? '',
+                    text: time ?? '12:02 AM',
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
-                  CustomeText(
-                    text: 'Offline',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
+
                   GestureDetector(
                     onTap: () {
                       context
@@ -997,13 +1068,8 @@ class RowCart extends StatelessWidget {
                           )
                               :
                           CircleAvatar(
+                            backgroundImage: NetworkImage(image ?? ''),
                             maxRadius: size.height * 0.02,
-                            child: Image.network(
-                              image ?? '',
-                              // height: size.height * 0.04,
-                              height: size.height * 0.04,
-                            ),
-
                           ),
                           const SizedBox(
                             width: 5,
@@ -1020,10 +1086,20 @@ class RowCart extends StatelessWidget {
                         ],
                       ),
                       CustomeText(
-                        text: city ?? '',
+                        text: date ?? '07-02-2024',
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
+                      CustomeText(
+                        text: time ?? '12:02 AM',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      // CustomeText(
+                      //   text: city ?? 'Bhilai',
+                      //   fontSize: 12,
+                      //   fontWeight: FontWeight.w500,
+                      // ),
                       InkWell(
                         onTap: () {},
                         child: Container(
@@ -1036,7 +1112,7 @@ class RowCart extends StatelessWidget {
                                       const Color(0xFFFF2600),
                                       const Color(0xFFFF6130)
                                     ]
-                                  : priority == 'Warm'
+                                  : priority == 'Worm'
                                       ? [
                                           const Color(0xFFFDDC9C),
                                           const Color(0xFFDDA53B)
@@ -1150,7 +1226,10 @@ class RowCart extends StatelessWidget {
                             children: [
                               image == null
                                   ? Image.asset(AppAssets.u1)
-                                  : Image.network(image ?? ''),
+                                  :  CircleAvatar(
+                                backgroundImage: NetworkImage(image ?? ''),
+                                maxRadius: size.height * 0.02,
+                              ),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -1166,7 +1245,7 @@ class RowCart extends StatelessWidget {
                             ],
                           ),
                           CustomeText(
-                            text: city ?? '',
+                            text: city ?? 'Durg',
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -1310,13 +1389,8 @@ class RowCart extends StatelessWidget {
                                   )
                                       :
                                   CircleAvatar(
+                                    backgroundImage: NetworkImage(image ?? ''),
                                     maxRadius: size.height * 0.02,
-                                    child: Image.network(
-                                      image ?? '',
-                                      // height: size.height * 0.04,
-                                      height: size.height * 0.04,
-                                    ),
-
                                   ),
                                   const SizedBox(
                                     width: 5,
@@ -1373,7 +1447,10 @@ class RowCart extends StatelessWidget {
                                 children: [
                                   image == null
                                       ? Image.asset(AppAssets.u1)
-                                      : Image.network(image ?? ''),
+                                      :  CircleAvatar(
+                                    backgroundImage: NetworkImage(image ?? ''),
+                                    maxRadius: size.height * 0.02,
+                                  ),
                                   const SizedBox(
                                     width: 5,
                                   ),

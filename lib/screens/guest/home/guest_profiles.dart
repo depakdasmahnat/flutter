@@ -159,7 +159,6 @@ class NewJoiner extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return
       Column(
-
         children: [
           image?.isEmpty==true
               ? const CircleAvatar(
@@ -174,17 +173,20 @@ class NewJoiner extends StatelessWidget {
               image??'',
             ),
           ),
-          Text(
-            firstName??'Deepak',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-
-              fontFamily: GoogleFonts.urbanist().fontFamily,
-              fontWeight: FontWeight.w500,
-              overflow: TextOverflow.ellipsis,
+          SizedBox(
+            width: 40,
+            child: Text(
+              firstName??'Deepak',
+              maxLines: 1,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontFamily: GoogleFonts.urbanist().fontFamily,
+                fontWeight: FontWeight.w500,
+                overflow: TextOverflow.ellipsis,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
           Text(
             cityName?.isEmpty==true?'Raipur':cityName??'',

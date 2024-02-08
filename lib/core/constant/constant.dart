@@ -76,4 +76,4 @@ Color statusColor({required num? value}) {
   return color;
 }
 
-String dayFormat = 'EEEE dd MMM';
+String dayFormat = 'EEE dd MMM';

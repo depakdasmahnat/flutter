@@ -1,11 +1,16 @@
 import 'dart:convert';
-FetchMemberProfileModel fetchMemberProfileModelFromJson(String str) => FetchMemberProfileModel.fromJson(json.decode(str));
-String fetchMemberProfileModelToJson(FetchMemberProfileModel data) => json.encode(data.toJson());
+
+FetchMemberProfileModel fetchMemberProfileModelFromJson(String str) =>
+    FetchMemberProfileModel.fromJson(json.decode(str));
+String fetchMemberProfileModelToJson(FetchMemberProfileModel data) =>
+    json.encode(data.toJson());
+
 class FetchMemberProfileModel {
   FetchMemberProfileModel({
-      this.status, 
-      this.message, 
-      this.data,});
+    this.status,
+    this.message,
+    this.data,
+  });
 
   FetchMemberProfileModel.fromJson(dynamic json) {
     status = json['status'];
@@ -25,44 +30,45 @@ class FetchMemberProfileModel {
     }
     return map;
   }
-
 }
 
 Data dataFromJson(String str) => Data.fromJson(json.decode(str));
 String dataToJson(Data data) => json.encode(data.toJson());
+
 class Data {
   Data({
-      this.id, 
-      this.firstName,
-      this.lastName,
-      this.enagicId,
-      this.memberId,
-      this.mobile, 
-      this.path, 
-      this.profilePhoto, 
-      this.address, 
-      this.stateId, 
-      this.stateName, 
-      this.cityId, 
-      this.cityName, 
-      this.pincode, 
-      this.rank, 
-      this.title, 
-      this.nextRank, 
-      this.sales, 
-      this.salesTarget, 
-      this.pendingSales, 
-      this.pendingRankSales, 
-      this.leadsAddded, 
-      this.leadsClosed, 
-      this.leadsConversion, 
-      this.demoScheduled, 
-      this.demoCompleted, 
-      this.hotLeads, 
-      this.coldLeads, 
-      this.memberCounts,
-      this.achievedSales,
-      this.analytics,});
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.enagicId,
+    this.memberId,
+    this.mobile,
+    this.path,
+    this.profilePhoto,
+    this.address,
+    this.stateId,
+    this.stateName,
+    this.cityId,
+    this.cityName,
+    this.pincode,
+    this.rank,
+    this.title,
+    this.nextRank,
+    this.sales,
+    this.salesTarget,
+    this.pendingSales,
+    this.pendingRankSales,
+    this.leadsAddded,
+    this.leadsClosed,
+    this.leadsConversion,
+    this.demoScheduled,
+    this.demoCompleted,
+    this.hotLeads,
+    this.coldLeads,
+    this.memberCounts,
+    this.achievedSales,
+    this.analytics,
+  });
 
   Data.fromJson(dynamic json) {
     id = json['id'];
@@ -171,16 +177,17 @@ class Data {
     }
     return map;
   }
-
 }
 
 Analytics analyticsFromJson(String str) => Analytics.fromJson(json.decode(str));
 String analyticsToJson(Analytics data) => json.encode(data.toJson());
+
 class Analytics {
   Analytics({
-      this.xaxis, 
-      this.yaxis, 
-      this.performance,});
+    this.xaxis,
+    this.yaxis,
+    this.performance,
+  });
 
   Analytics.fromJson(dynamic json) {
     xaxis = json['xaxis'];
@@ -188,8 +195,8 @@ class Analytics {
     performance = json['performance'];
   }
   String? xaxis;
-  num? yaxis;
-  num? performance;
+  int? yaxis;
+  int? performance;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -198,5 +205,4 @@ class Analytics {
     map['performance'] = performance;
     return map;
   }
-
 }

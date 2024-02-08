@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
-import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
-import 'package:mrwebbeast/core/route/route_paths.dart';
+
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/validators.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/constant/gradients.dart';
-import '../../models/auth_model/sendotp.dart';
+
 import '../../models/auth_model/validatemobile.dart';
 import '../../utils/widgets/gradient_button.dart';
 import '../../utils/widgets/widgets.dart';
@@ -64,9 +63,9 @@ class _LoginState extends State<Login> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Welcome!',
-                        style: TextStyle(
+                       Text(
+                        checkValidate==false?  'Welcome!' :'Register',
+                        style: const TextStyle(
                           fontSize: 38,
                           fontWeight: FontWeight.w500,
                           height: 1,
@@ -76,9 +75,9 @@ class _LoginState extends State<Login> {
                       Padding(
                         padding:
                             EdgeInsets.only(top: 8, bottom: size.height * 0.06),
-                        child: const Text(
-                          'Login now to continue your journey',
-                          style: TextStyle(
+                        child:  Text(
+                          checkValidate==false?  'Login now to continue your journey':'Fill your true information',
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             height: 1,
@@ -97,7 +96,6 @@ class _LoginState extends State<Login> {
                   validator: (val) {
                     return Validator.numberValidator(val);
                   },
-
                   onChanged: (value) async {
                     if (value.length == 10) {
                       validatePhone();
@@ -182,11 +180,13 @@ class _LoginState extends State<Login> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
 
+          if (checkValidate == true)
           Padding(
             padding: const EdgeInsets.only(left: 24),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+
                 SizedBox(
                   width: 20,
                   child: Checkbox(
@@ -205,7 +205,7 @@ class _LoginState extends State<Login> {
 
                     onChanged: (bool? value) {
                       checkBox =value!;
-                      print("check false $checkBox" );
+
                       setState(() {});
                     }, value: checkBox,
                   ),
@@ -216,6 +216,7 @@ class _LoginState extends State<Login> {
                 CustomeText(
                   text: 'I agree to the Terms and Conditions',
                   fontSize: 14,
+                  // color: Colors.black,
                   fontWeight: FontWeight.w500,
                 )
               ],
@@ -225,7 +226,7 @@ class _LoginState extends State<Login> {
             height: 70,
             borderRadius: 18,
             blur: 10,
-            backgroundGradient: primaryGradientTransparent,
+            backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
             margin: const EdgeInsets.only(left: 16, right: 24),
@@ -238,7 +239,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Continue',
+                  checkValidate == true?'Register':'Login',
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -304,9 +305,12 @@ class _LoginState extends State<Login> {
       nameCtrl.text = validate?.data?.firstName ?? '';
       lastNameCtrl.text = validate?.data?.lastName ?? '';
       addressCtrl.text = validate?.data?.address ?? '';
-      checkValidate = true;
+      checkValidate = false;
       forReferral = true;
       showReferral = false;
+      checkBox =true;
+      setState(() {});
+
     } else {
       nameCtrl.clear();
       lastNameCtrl.clear();

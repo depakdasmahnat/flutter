@@ -90,7 +90,7 @@ class LocalDatabase extends ChangeNotifier {
     this.member = member;
     database.put('member', member);
     _setUserRole(member?.role);
-    debugPrint('user fullName ${member?.firstName}');
+    debugPrint('user fullName ${member?.role}');
     notifyListeners();
     BuildContext? context = MyApp.navigatorKey.currentContext;
     if (context != null) {

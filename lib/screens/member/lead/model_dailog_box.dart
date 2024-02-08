@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
@@ -37,7 +39,7 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
   TextEditingController enagicConPassController=TextEditingController();
   List item =['Hot','Worm','Cold'];
   bool validate =true;
-  String priority='';
+  String priority='Hot';
   int? tabIndex=0;
   @override
   Widget build(BuildContext context) {
@@ -553,6 +555,119 @@ class _ModelDialogBox1State extends State<ModelDialogBox1> {
       },
 
 
+    );
+  }
+}
+
+
+
+class ModelDialogBoxForBanner extends StatefulWidget {
+  final String eventID;
+
+  const ModelDialogBoxForBanner({super.key,required this.eventID,});
+  @override
+  State<ModelDialogBoxForBanner> createState() => _ModelDialogBoxForBannerState();
+}
+class _ModelDialogBoxForBannerState extends State<ModelDialogBoxForBanner> {
+  String nameType ='';
+  int tabIndex=-1;
+  List item =['I Will  Attend','Attend with others','Not interested'];
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return  Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Container(
+            // height: size.height*0.4,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(18),
+
+            ),
+            child:
+             Padding(
+              padding: const EdgeInsets.all(kPadding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [CustomBackButton(
+                      icon: AntDesign.close,
+                    )],
+                  ),
+                  CustomeText(
+                    text: 'Do you want to Attend',
+                    fontSize: 32,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  CustomeText(
+                    text: 'this event',
+                    fontSize: 32,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  SizedBox(
+                    height: size.height*0.05,
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: item.length??0,
+                    itemBuilder: (context, index) {
+                    return    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: GradientButton(
+                        height: 70,
+                        borderRadius: 18,
+                        blur: 10,
+                        backgroundGradient:tabIndex==index?primaryGradient: inActiveGradient,
+                        backgroundColor: Colors.transparent,
+                        boxShadow: const [],
+                        margin: const EdgeInsets.only(left: 16, right: 24),
+                        onTap: () async{
+                          nameType =item[index];
+                          tabIndex =index;
+                          setState(() {});
+                          print(" ecent id ${widget.eventID}");
+                        await  context.read<GuestControllers>().attendEvent(context: context, eventId: widget.eventID, feedback: nameType);
+                          ;
+
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              item[index],
+                              style: TextStyle(
+                                color:tabIndex==index?Colors.black: Colors.white,
+                                fontFamily: GoogleFonts.urbanist().fontFamily,
+                                fontWeight:tabIndex==index?FontWeight.w800 :FontWeight.w600,
+                                fontSize:tabIndex==index? 19:16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },)
+
+
+                ],
+              )
+
+            ),
+
+          ),
+        ),
+      ),
     );
   }
 }

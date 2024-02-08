@@ -12,10 +12,22 @@
 @import app_settings;
 #endif
 
+#if __has_include(<auto_orientation/AutoOrientationPlugin.h>)
+#import <auto_orientation/AutoOrientationPlugin.h>
+#else
+@import auto_orientation;
+#endif
+
 #if __has_include(<awesome_notifications/AwesomeNotificationsPlugin.h>)
 #import <awesome_notifications/AwesomeNotificationsPlugin.h>
 #else
 @import awesome_notifications;
+#endif
+
+#if __has_include(<connectivity_plus/ConnectivityPlusPlugin.h>)
+#import <connectivity_plus/ConnectivityPlusPlugin.h>
+#else
+@import connectivity_plus;
 #endif
 
 #if __has_include(<device_info_plus/FPPDeviceInfoPlusPlugin.h>)
@@ -142,7 +154,9 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AppSettingsPlugin registerWithRegistrar:[registry registrarForPlugin:@"AppSettingsPlugin"]];
+  [AutoOrientationPlugin registerWithRegistrar:[registry registrarForPlugin:@"AutoOrientationPlugin"]];
   [AwesomeNotificationsPlugin registerWithRegistrar:[registry registrarForPlugin:@"AwesomeNotificationsPlugin"]];
+  [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FPPDeviceInfoPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"FPPDeviceInfoPlusPlugin"]];
   [FLTFirebaseAnalyticsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAnalyticsPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];

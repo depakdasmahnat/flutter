@@ -21,9 +21,19 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin app_settings, com.spencerccf.app_settings.AppSettingsPlugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new de.bytepark.autoorientation.AutoOrientationPlugin());
+    } catch (Exception e) {
+      Log.e(TAG, "Error registering plugin auto_orientation, de.bytepark.autoorientation.AutoOrientationPlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new me.carda.awesome_notifications.AwesomeNotificationsPlugin());
     } catch (Exception e) {
       Log.e(TAG, "Error registering plugin awesome_notifications, me.carda.awesome_notifications.AwesomeNotificationsPlugin", e);
+    }
+    try {
+      flutterEngine.getPlugins().add(new dev.fluttercommunity.plus.connectivity.ConnectivityPlugin());
+    } catch (Exception e) {
+      Log.e(TAG, "Error registering plugin connectivity_plus, dev.fluttercommunity.plus.connectivity.ConnectivityPlugin", e);
     }
     try {
       flutterEngine.getPlugins().add(new dev.fluttercommunity.plus.device_info.DeviceInfoPlusPlugin());

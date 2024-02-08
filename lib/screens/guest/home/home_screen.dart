@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.only(bottom: bottomNavbarSize),
+          padding: const EdgeInsets.only(bottom: bottomNavbarSize,left: 4,right: 4),
           children: [
             Padding(
               padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 4,bottom: 8),
@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.transparent,
               boxShadow: const [],
               onTap: () {
-                context.pushNamed(Routs.demos);
+                context.pushNamed(Routs.guestDemo);
               },
               margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
               child: Row(
@@ -199,7 +199,6 @@ class _HomeScreenState extends State<HomeScreen> {
              CustomTextField(
               hintText: 'Search',
               controller: searchController,
-
               onFieldSubmitted: (value)async {
                 await context.read<FeedsController>().fetchFeeds(
                   context: context,
@@ -223,15 +222,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // if (filters?.haveData == true)
-            Consumer<GuestControllers>(
-              builder: (context, value, child) {
-                return SizedBox(
-                  height: 40,
-                  child: Center(
+            Padding(
+              padding: const EdgeInsets.only(left: kPadding,right: kPadding),
+              child: Consumer<GuestControllers>(
+                builder: (context, value, child) {
+                  return SizedBox(
+                    height: 40,
                     child: ListView.builder(
                       itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.only(left: kPadding),
+                      // padding: const EdgeInsets.only(left: 20,),
                       itemBuilder: (context, index) {
 
                         var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
@@ -258,9 +258,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       },
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
             if (controller.loadingFeeds)
               const LoadingScreen(

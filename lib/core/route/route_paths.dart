@@ -68,4 +68,8 @@ class Routs {
   static const String webView1 = '/webView';
   static const String shceduledDemoForm = '/shceduledDemoForm';
   static const String modelDialogBox = '/modelDialogBox';
+  static const String guestNotification = '/guestNotification';
+  static const String helpAndSupport = '/helpAndSupport';
+  static const String privacyPolicy = '/privacyPolicy';
+  static const String guestDemo = '/guestDemo';
 }

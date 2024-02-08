@@ -29,6 +29,9 @@ Future main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalDatabase.initialize();
   await NotificationController.initialize();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // Change to desired orientation
+  ]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(
       // DevicePreview(
@@ -49,7 +52,7 @@ Future main() async {
       //     ],
       //     child: const MyApp(),
       //   ), // Wrap your app
-      // ),
+      // ),);
       MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => DashboardController()),

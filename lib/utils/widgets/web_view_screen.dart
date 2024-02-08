@@ -59,29 +59,36 @@ class WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     debugPrint('Web Url :- ${widget.url}');
-    return CustomScrollView(
-      slivers: [
-        // SliverAppBar(
-        //   elevation: 0,
-        //   title: Text(widget.title ?? 'Google'),
-        //   centerTitle: true,
-        //   snap: true,
-        //   pinned: true,
-        //   floating: true,
-        //   expandedHeight: 230,
-        // ),
-        SliverFillRemaining(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              WebViewWidget(
-                controller: controller,
-              ),
-              if (isLoading == true) const CircularProgressIndicator(),
-            ],
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body:
+     CustomScrollView(
+
+        slivers: [
+          // SliverAppBar(
+          //   elevation: 0,
+          //   title: Text(widget.title ?? 'Google'),
+          //   centerTitle: true,
+          //   snap: true,
+          //   pinned: true,
+          //   floating: true,
+          //   expandedHeight: 230,
+          // ),
+          SliverFillRemaining(
+
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                WebViewWidget(
+
+                  controller: controller,
+                ),
+                if (isLoading == true) const CircularProgressIndicator(),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

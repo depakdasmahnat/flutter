@@ -56,12 +56,14 @@ class Data {
     num? id,
     String? image,
     String? path,
+    String? type,
     num? position,
   }) {
     _id = id;
     _image = image;
     _path = path;
     _position = position;
+    _type = type;
   }
 
   Data.fromJson(dynamic json) {
@@ -69,16 +71,19 @@ class Data {
     _image = json['image'];
     _path = json['path'];
     _position = json['position'];
+    _type = json['type'];
   }
 
   num? _id;
   String? _image;
   String? _path;
+  String? _type;
   num? _position;
 
   num? get id => _id;
 
   String? get image => _image;
+  String? get type => _type;
 
   String? get path => _path;
 
@@ -90,6 +95,7 @@ class Data {
     map['image'] = _image;
     map['path'] = _path;
     map['position'] = _position;
+    map['type'] = _type;
     return map;
   }
 }

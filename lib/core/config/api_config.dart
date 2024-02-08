@@ -93,6 +93,7 @@ class ApiEndpoints {
   static const String getAchievers = 'get_achievers';
   static const String fetchToDo = 'fetch_to_do';
   static const String fetchAllDemos = 'fetch_all_demos';
+
   static const String fetchTarget = 'fetch_target';
   static const String fetchTrainingProcess = 'fetch_training_process';
   static const String achievementBadges = 'achievement_badges';
@@ -113,6 +114,8 @@ class ApiEndpoints {
   static const String fetchResourceDetails = 'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
+  static const String guestDemo = 'fetch_demos';
+  static const String attend = 'attend_event';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

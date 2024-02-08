@@ -1,18 +1,26 @@
+import 'dart:io';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controllers/member/member_auth_controller.dart';
+import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/services/database/local_database.dart';
 import '../../../models/guest_Model/fetchGuestProfile.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
+import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
+import '../../../utils/widgets/widgets.dart';
+import 'guest_faq.dart';
 
 class GuestEditProfile extends StatefulWidget {
   const GuestEditProfile({super.key});
@@ -42,6 +50,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   String stateName = '';
   String cityId = '';
   String cityName = '';
+  File? image;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -52,9 +61,9 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       await context.read<GuestControllers>().fetchState(
             context: context,
           );
-      gender = fetchGuestProfileModel?.data?.gender;
+      gender = fetchGuestProfileModel?.data?.gender??'';
       genderHint = fetchGuestProfileModel?.data?.gender??'Select Gender';
-      refType = fetchGuestProfileModel?.data?.leadRefType.toString()??'';
+      refType = fetchGuestProfileModel?.data?.leadRefType??'';
       refTypeHint = fetchGuestProfileModel?.data?.leadRefType ?? 'Select Ref Type';
       occupation = fetchGuestProfileModel?.data?.occupation??'';
       occupationHint = fetchGuestProfileModel?.data?.occupation??'Select Occupation';
@@ -65,14 +74,82 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       pinCodeController.text = fetchGuestProfileModel?.data?.pincode ?? '';
       addressController.text = fetchGuestProfileModel?.data?.address ?? '';
       stateName = fetchGuestProfileModel?.data?.stateName ?? 'Select State';
-      stateId = fetchGuestProfileModel?.data?.stateId.toString() ?? '';
-      cityId = fetchGuestProfileModel?.data?.cityId.toString() ?? '';
+      stateId = fetchGuestProfileModel?.data?.stateId.toString()=='null' ? '':fetchGuestProfileModel?.data?.stateId.toString()??'';
+      cityId = fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':fetchGuestProfileModel?.data?.cityId.toString()??'';
       cityName = fetchGuestProfileModel?.data?.cityName?? 'Select City';
       firsNameController.text = fetchGuestProfileModel?.data?.firstName??'';
       lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
       mobileController.text = fetchGuestProfileModel?.data?.mobile??'';
     });
     super.initState();
+  }
+  Future<void> updateProfileImage({required ImageSource source}) async {
+    final pickedImg = await ImagePicker().pickImage(source: source);
+    setState(() {
+      if (pickedImg != null) {
+        image = File(pickedImg.path);
+      }
+    });
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
+  }
+  Future addImages() async {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(24),
+                topLeft: Radius.circular(24),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Change Profile Pic',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        updateProfileImage(source: ImageSource.camera);
+                      },
+                      child: pickImageButton(
+                        context: context,
+                        text: 'Camera',
+                        icon: Icons.camera,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        updateProfileImage(source: ImageSource.gallery);
+                      },
+                      child: pickImageButton(
+                        context: context,
+                        text: 'Gallery',
+                        icon: Icons.photo,
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
   @override
   Widget build(BuildContext context) {
@@ -97,15 +174,62 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           const LoadingScreen(message: 'Loading Profile...'):ListView(
             padding: EdgeInsets.only(bottom: size.height * 0.13),
             children: [
+              SizedBox(
+                height: size.height*0.03,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [
+                  ImageView(
+                    onTap: () async{
+                      await  addImages();
+                    },
+                    height: 100,
+                    width: 100,
+                    file: File(image?.path??''),
+                    // width: 100,
+                    border: Border.all(color: Colors.white),
+                    borderRadiusValue: 50,
+                    isAvatar: true,
+                    margin: const EdgeInsets.only(left: 8, right: 16),
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              ),
+              GestureDetector(
+                onTap: () async{
+                  await   addImages();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(AppAssets.upload,height: size.height*0.02),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    CustomeText(
+                      text: 'Upload image',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: size.height*0.03,
+              ),
               CustomTextFieldApp(
                 title: 'First Name',
                 controller: firsNameController,
                 hintText: 'Enter First Name',
+                readOnly: true,
               ),
               CustomTextFieldApp(
                 controller: lastNameController,
                 title: 'Last Name',
                 hintText: 'Enter Last Name',
+                readOnly: true,
               ),
               CustomDropdown(
                 hintText: genderHint,
@@ -117,6 +241,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
               ),
               CustomTextFieldApp(
                 controller: mobileController,
+
                 title: 'Mobile No.',
                 hintText: 'Enter Mobile No.',
                 readOnly: true,
@@ -287,21 +412,32 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             margin: const EdgeInsets.only(
                 left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () async {
-              await context.read<GuestControllers>().editProfile(
-                  context: context,
-                  firstName: firsNameController.text,
-                  lastName: lastNameController.text,
-                  email: emailController.text,
-                  gender: gender,
-                  leadRefType: refType,
-                  occupation: occupation,
-                  dob: dateControlller.text,
-                  familyMembers: familyMemberController.text,
-                  stateId: stateId,
-                  cityId: cityId,
-                  pincode: pinCodeController.text,
-                  address: addressController.text,
-                  illnessInFamily: diseaseController.text);
+            await  context.read<MemberAuthControllers>().confirmationPopup(
+                context: context,
+                title: 'Confirm Changes',
+                content: 'Are you sure you want to submit the updated profile information ',
+                onPressed: ()async {
+                  await context.read<GuestControllers>().editProfile(
+                      context: context,
+                      firstName: firsNameController.text,
+                      lastName: lastNameController.text,
+                      email: emailController.text,
+                      gender: gender,
+                      leadRefType: refType,
+                      occupation: occupation,
+                      dob: dateControlller.text,
+                      familyMembers: familyMemberController.text,
+                      stateId: stateId,
+                      cityId: cityId,
+                      pincode: pinCodeController.text,
+                      address: addressController.text,
+                      illnessInFamily: diseaseController.text,
+                    file: XFile(image?.path??'')
+                  );
+                },
+
+              );
+
               // context.pushNamed(Routs.questions);
             },
             child: Row(

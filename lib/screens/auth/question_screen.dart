@@ -75,81 +75,87 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               ),
             ],
           ),
-          body:ListView(
+          body:Padding(
             padding: const EdgeInsets.only(left: 24, right: 24),
-            children: [
-              SizedBox(
-                height:   size.height * 0.05
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 8),
-                child: Text(
-                  controller.question1,
-                  style: const TextStyle(
-                    fontSize: 38,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // padding: const EdgeInsets.only(left: 24, right: 24),
+              children: [
+                SizedBox(
+                  height:   size.height * 0.05
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  child: Text(
+                    controller.question1,
+                    style: const TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.w400,
+                      height: 1,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const Text(
+                  'Select your answers',
+                  style: TextStyle(
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
                     height: 1,
                   ),
                   textAlign: TextAlign.center,
                 ),
-              ),
-              const Text(
-                'Select your answers',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  height: 1,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              fetchQuestions?.data?[0].answers?.isNotEmpty==true?
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: fetchQuestions?.data?[0].answers?.length??0,
-                padding: const EdgeInsets.only(top: 24),
-                itemBuilder: (context, index) {
+                Expanded(
+                  child: fetchQuestions?.data?[0].answers?.isNotEmpty==true?
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: fetchQuestions?.data?[0].answers?.length??0,
+                    padding: const EdgeInsets.only(top: 24),
+                    itemBuilder: (context, index) {
 
 
-                  return GradientButton(
-                    height: 50,
-                    borderRadius: 8,
-                    backgroundGradient: tabIndex==index ? primaryGradient : inActiveGradient,
-                    backgroundColor: Colors.transparent,
-                    boxShadow: const [],
-                    margin: const EdgeInsets.only(bottom: 6, top: 6),
-                    onTap: () {
-                      tabIndex =index;
-                      ans =fetchQuestions?.data?[0].answers?[index]??'';
-                      setState(() {});
+                      return GradientButton(
+                        height: 50,
+                        borderRadius: 8,
+                        backgroundGradient: tabIndex==index ? primaryGradient : inActiveGradient,
+                        backgroundColor: Colors.transparent,
+                        boxShadow: const [],
+                        margin: const EdgeInsets.only(bottom: 6, top: 6),
+                        onTap: () {
+                          tabIndex =index;
+                          ans =fetchQuestions?.data?[0].answers?[index]??'';
+                          setState(() {});
 
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          fetchQuestions?.data?[0].answers?[index]??'',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: GoogleFonts.urbanist().fontFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              fetchQuestions?.data?[0].answers?[index]??'',
+                              style: TextStyle(
+                                color: tabIndex==index?Colors.black: Colors.white,
+                                fontFamily: GoogleFonts.urbanist().fontFamily,
+                                fontWeight: FontWeight.w600,
+                                fontSize: tabIndex == index?17: 14,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ):
-              Center(
-                child: CustomeText(
-                  text: 'No Data Found!',
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
+                      );
+                    },
+                  ):
+                  Center(
+                    child: CustomeText(
+                      text: 'No Data Found!',
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
 
-                ),
-              )
-            ],
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
           bottomNavigationBar: ans.isNotEmpty
         ? Column(
@@ -174,7 +180,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Continue',
+                    'Next',
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: GoogleFonts.urbanist().fontFamily,

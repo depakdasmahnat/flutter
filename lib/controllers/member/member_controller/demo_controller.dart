@@ -32,6 +32,7 @@ class DemoController extends ChangeNotifier {
     String? searchKey,
     String? filter,
     String? limit,
+    bool? type
   }) async {
     String modelingData = 'DemosData';
     debugPrint('Fetching $modelingData Data...');
@@ -51,7 +52,6 @@ class DemoController extends ChangeNotifier {
       loadingDemos = false;
       notifyListeners();
     }
-
     if (isRefresh) {
       onRefresh();
     }
@@ -69,16 +69,15 @@ class DemoController extends ChangeNotifier {
       if (demosIndex <= demosTotal) {
         var response = await ApiService().get(
           endPoint: ApiEndpoints.fetchAllDemos,
+          // endPoint: ApiEndpoints.fetchAllDemos,
           queryParameters: body,
         );
-
         DemosModel? responseData;
         if (response != null) {
           Map<String, dynamic> json = response;
           responseData = DemosModel.fromJson(json);
           _demosModel = responseData;
         }
-
         if (responseData?.status == true) {
           debugPrint('Current Page $demosTotal');
           debugPrint(responseData?.message);

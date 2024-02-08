@@ -44,7 +44,8 @@ class MemberAuthControllers extends ChangeNotifier {
   }
 
   Future logOutPopup(context) async {
-    return showDialog(
+    return
+      showDialog(
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
@@ -72,6 +73,37 @@ class MemberAuthControllers extends ChangeNotifier {
             ],
           );
         });
+  }
+  Future confirmationPopup({
+    context,String? title,String? content,void Function()? onPressed
+}) async {
+    return
+      showDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title:  Text(title??''),
+              content:  Text(content??''),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  child: const Text(
+                    'No',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                TextButton(
+                  onPressed: onPressed,
+                  child: const Text(
+                    'Yes',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              ],
+            );
+          });
   }
 
   Future cancelRegistration({
@@ -201,9 +233,11 @@ class MemberAuthControllers extends ChangeNotifier {
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
 
         if (responseData.status == true) {
+
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
+          notifyListeners();
         } else {
           showError(context: context, message: responseData.message ?? 'Something Went Wrong');
         }

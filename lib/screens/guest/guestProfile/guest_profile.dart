@@ -6,9 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/route/route_paths.dart';
@@ -25,6 +27,15 @@ class GuestProfile extends StatefulWidget {
 }
 
 class _GuestProfileState extends State<GuestProfile> {
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+   await context.read<GuestControllers>().fetchGuestProfile(
+        context: context,
+      );
+
+    });
+    super.initState();
+  }
   File? image;
   @override
   Widget build(BuildContext context) {
@@ -51,7 +62,7 @@ class _GuestProfileState extends State<GuestProfile> {
                 height: size.height * 0.04,
               ),
               Text(
-                '${localDatabase.guest?.firstName ?? ''} ${localDatabase.guest?.lastName ?? ''}',
+                '${localDatabase.guest?.firstName.toCapitalizeFirst ?? ''} ${localDatabase.guest?.lastName.toCapitalizeFirst ?? ''}',
                 style: const TextStyle(
                     color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
                 textAlign: TextAlign.center,
@@ -84,7 +95,11 @@ class _GuestProfileState extends State<GuestProfile> {
                           icon: AppAssets.edit,
                           title: 'Profile Edit',
                           onTap: () {
-                            context.push(Routs.guestEditProfile);
+                            context.push(Routs.guestEditProfile).whenComplete(() async{
+                              await context.read<GuestControllers>().fetchGuestProfile(
+                                context: context,
+                              );
+                            },);
                           },
                         ),
                         SizedBox(
@@ -105,6 +120,9 @@ class _GuestProfileState extends State<GuestProfile> {
                           height: size.height * 0.02,
                         ),
                         IconAndText(
+                          onTap: () {
+                            context.pushNamed(Routs.guestNotification);
+                          },
                           icon: AppAssets.notificationsIcon,
                           title: 'Notification ',
                         ),
@@ -142,36 +160,38 @@ class _GuestProfileState extends State<GuestProfile> {
                           title: 'Help & Support',
                           height: size.height * 0.021,
                           onTap: () {
-                            context.pushNamed(Routs.webView,
-                                extra: const WebViewScreen(
-                                  url: 'https://api.gtp.proapp.in/api/v1/help_and_support',
-                                ));
+                            context.pushNamed(Routs.helpAndSupport);
+                            // context.pushNamed(Routs.webView,
+                            //     extra: const WebViewScreen(
+                            //       url: 'https://api.gtp.proapp.in/api/v1/help_and_support',
+                            //     ));
                           },
                         ),
                         SizedBox(
                           height: size.height * 0.02,
                         ),
-                        IconAndText(
-                          icon: AppAssets.call,
-                          title: 'Contact us',
-                          onTap: () {
-                            context.pushNamed(Routs.webView,
-                                extra: const WebViewScreen(
-                                  url: 'https://api.gtp.proapp.in/api/v1/contact_us',
-                                ));
-                          },
-                        ),
-                        SizedBox(
-                          height: size.height * 0.02,
-                        ),
+                        // IconAndText(
+                        //   icon: AppAssets.call,
+                        //   title: 'Contact us',
+                        //   onTap: () {
+                        //     context.pushNamed(Routs.webView,
+                        //         extra: const WebViewScreen(
+                        //           url: 'https://api.gtp.proapp.in/api/v1/contact_us',
+                        //         ));
+                        //   },
+                        // ),
+                        // SizedBox(
+                        //   height: size.height * 0.02,
+                        // ),
                         IconAndText(
                           icon: AppAssets.lockIcon,
                           title: 'Privacy policy ',
                           onTap: () {
-                            context.pushNamed(Routs.webView,
-                                extra: const WebViewScreen(
-                                  url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
-                                ));
+                            context.pushNamed(Routs.privacyPolicy);
+                            // context.pushNamed(Routs.webView,
+                            //     extra: const WebViewScreen(
+                            //       url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                            //     ));
                           },
                         ),
                       ],
@@ -202,17 +222,25 @@ class _GuestProfileState extends State<GuestProfile> {
           Positioned(
             top: size.height * 0.11,
             left: size.width * 0.37,
-            child: GestureDetector(
-              onTap: () {
-                addImages();
+            child: Consumer<GuestControllers>(
+              builder: (context, controller, child) {
+                return         GestureDetector(
+                  onTap: () {
+                    // addImages();
+                  },
+                  child: ImageView(
+                    height: 100,
+                    width: 100,
+                    networkImage: controller.fetchGuestProfileModel?.data?.profilePhoto,
+                    isAvatar: true,
+                    borderRadiusValue: 50,
+                    fit: BoxFit.cover,
+                    margin: EdgeInsets.zero,
+                  ),
+                );
               },
-              child: ImageView(
-                height: 100,
-                width: 100,
-                networkImage: '${localDatabase.guest?.profilePhoto}',
-                isAvatar: true,
-                margin: EdgeInsets.zero,
-              ),
+
+
             ),
           )
         ],

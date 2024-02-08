@@ -80,102 +80,84 @@ class _WhyAreYouHereState extends State<WhyAreYouHere> {
         builder: (context, controller, child) {
           return Form(
             key: signInFormKey,
-            child: ListView(
+            child: Padding(
               padding: const EdgeInsets.only(left: 24, right: 24),
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: size.height * 0.05, bottom: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Text(
-                      //   'Welcome Ayaan!',
-                      //   style: TextStyle(
-                      //     fontSize: 18,
-                      //     fontWeight: FontWeight.w500,
-                      //     height: 1,
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8, bottom: 8),
-                        child: Text(
-                          widget.question,
-                          style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w400,
-                            height: 1,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      const Text(
-                        'Choose as many as you like',
-                        style: TextStyle(
-                          fontSize: 16,
+              child: Column(
+                // padding: const EdgeInsets.only(left: 24, right: 24),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: size.height * 0.05, bottom: 8),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
+                      child: Text(
+                        widget.question,
+                        style: const TextStyle(
+                          fontSize: 32,
                           fontWeight: FontWeight.w400,
                           height: 1,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                    ],
+                    ),
                   ),
-                ),
-                widget.item.isNotEmpty == true
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.item.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.only(top: 24, bottom: kPadding),
-                        itemBuilder: (context, index) {
-                          // var data = interests.elementAt(index);
-                          // bool isSelected = selectedInterests.contains(data);
+                  Expanded(
+                    child: widget.item.isNotEmpty == true
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: widget.item.length,
+                            // physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.only(top: 24, bottom: kPadding),
+                            itemBuilder: (context, index) {
+                              // var data = interests.elementAt(index);
+                              // bool isSelected = selectedInterests.contains(data);
 
-                          return GradientButton(
-                            height: 50,
-                            borderRadius: 8,
-                            backgroundGradient: tabIndex == index ? primaryGradient : inActiveGradient,
-                            backgroundColor: Colors.transparent,
-                            boxShadow: const [],
-                            margin: const EdgeInsets.only(bottom: 6, top: 6),
-                            onTap: () {
-                              tabIndex = index;
-                              question = widget.item[index];
-                              print("checkk name $question");
-                              // if (isSelected) {
-                              //   selectedInterests.remove(data);
-                              // } else {
-                              //   selectedInterests.add(data);
-                              // }
-                              // categoryId =fetchInterestCategory?.data?[index].id.toString()??'';
-                              setState(() {});
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  widget.item[index] ?? '',
-                                  style: TextStyle(
-                                    color: tabIndex == index ? Colors.black : Colors.white,
-                                    fontFamily: GoogleFonts.urbanist().fontFamily,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                  ),
+                              return GradientButton(
+                                height: 50,
+                                borderRadius: 8,
+                                backgroundGradient: tabIndex == index ? primaryGradient : inActiveGradient,
+                                backgroundColor: Colors.transparent,
+                                boxShadow: const [],
+                                margin: const EdgeInsets.only(bottom: 6, top: 6),
+                                onTap: () {
+                                  tabIndex = index;
+                                  question = widget.item[index];
+                                  print("checkk name $question");
+                                  // if (isSelected) {
+                                  //   selectedInterests.remove(data);
+                                  // } else {
+                                  //   selectedInterests.add(data);
+                                  // }
+                                  // categoryId =fetchInterestCategory?.data?[index].id.toString()??'';
+                                  setState(() {});
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      widget.item[index] ?? '',
+                                      style: TextStyle(
+                                        color: tabIndex == index ? Colors.black : Colors.white,
+                                        fontFamily: GoogleFonts.urbanist().fontFamily,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize:tabIndex == index ?17: 14,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              );
+                            },
+                          )
+                        : Center(
+                            child: CustomeText(
+                              text: 'No Data Found!',
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
                             ),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: CustomeText(
-                          text: 'No Data Found!',
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )
-              ],
+                          ),
+                  )
+                ],
+              ),
             ),
           );
         },
@@ -200,7 +182,7 @@ class _WhyAreYouHereState extends State<WhyAreYouHere> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Continue',
+                        'Next',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: GoogleFonts.urbanist().fontFamily,
