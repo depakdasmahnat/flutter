@@ -58,38 +58,72 @@ class DashBoardState extends State<DashBoard> {
 
   @override
   Widget build(BuildContext context) {
-    DashboardController controller = Provider.of<DashboardController>(context);
-    dashBoardIndex = controller.dashBoardIndex;
-    double imageSize = deviceSpecificValue(context: context, device: 24, tablet: 36).toDouble();
-    return WillPopScope(
-      onWillPop: onAppExit,
-      child: Scaffold(
-        body: Builder(builder: (BuildContext context) {
-          return dashboardScreens.elementAt(dashBoardIndex).widget!;
-        }),
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8),
-          child: BottomNavigationBar(
-            currentIndex: dashBoardIndex,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: Theme.of(context).primaryColor,
-            unselectedItemColor: Colors.grey.shade400,
-            showUnselectedLabels: false,
-            selectedFontSize: 0,
-            items: List.generate(
-              dashboardScreens.length,
-              (index) {
-                bool selected = index == dashBoardIndex;
-                var data = dashboardScreens.elementAt(index);
-                Color color = selected ? primaryColor : Colors.grey.shade400;
-                return BottomNavigationBarItem(
-                  tooltip: "${data.title}",
-                  label: "",
-                  icon: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
+    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
+    debugPrint('deviceToken ${localDatabase.deviceToken}');
+    // DashboardController dashboardController = Provider.of<DashboardController>(context);
+    Size size = MediaQuery.sizeOf(context);
+    return Consumer<DashboardController>(
+      builder: (context, controller, child) {
+        dashBoardIndex = controller.dashBoardIndex;
+        userRole = controller.userRole;
+        return WillPopScope(
+          onWillPop: onAppExit,
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            drawer: const CustomDrawer(),
+            onDrawerChanged: (val) {},
+            appBar: (userRole == UserRoles.member.value && dashBoardIndex == 0)
+                ? AppBar(
+                    elevation: 0,
+                    leadingWidth: 0,
+                    leading: const SizedBox(),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Builder(builder: (context) {
+                          return ImageView(
+                            height: 40,
+                            width: 40,
+                            assetImage: AppAssets.drawerIcon,
+                            margin: const EdgeInsets.only(right: kPadding),
+                            onTap: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                          );
+                        }),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width:180,
+                              child: GradientText(
+                                'Welcome ${localDatabase.member?.firstName ?? 'Member'}',
+                                gradient: primaryGradient,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  overflow: TextOverflow.ellipsis,
+                                  fontFamily: GoogleFonts.urbanist().fontFamily,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                maxLines: 1,
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                            Text(
+                              formattedDate,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: GoogleFonts.urbanist().fontFamily,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    actions: [
                       ImageView(
                         height: imageSize,
                         width: imageSize,
