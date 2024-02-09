@@ -184,7 +184,7 @@ class _LeadState extends State<Lead> {
                             Padding(
                               padding: const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
-                                  height: size.height * 0.12,
+                                  height: size.height * 0.11,
                                   child: Align(
                                     alignment: Alignment.topCenter,
                                     child: ListView(
@@ -202,7 +202,7 @@ class _LeadState extends State<Lead> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                                              padding: const EdgeInsets.only(left: 8.0, top: 4, bottom: 4),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
@@ -218,7 +218,7 @@ class _LeadState extends State<Lead> {
                                                     'Added\nto list',
                                                     style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       fontWeight: FontWeight.w600,
                                                     ),
                                                     textAlign: TextAlign.start,
@@ -240,7 +240,7 @@ class _LeadState extends State<Lead> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
@@ -257,7 +257,7 @@ class _LeadState extends State<Lead> {
                                                     'Demo\nScheduled',
                                                     style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       fontWeight: FontWeight.w600,
                                                     ),
                                                     textAlign: TextAlign.start,
@@ -279,7 +279,7 @@ class _LeadState extends State<Lead> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
@@ -295,7 +295,7 @@ class _LeadState extends State<Lead> {
                                                     'Demo\nDone',
                                                     style: TextStyle(
                                                       color: Colors.black,
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       fontWeight: FontWeight.w600,
                                                     ),
                                                     textAlign: TextAlign.start,
@@ -317,7 +317,7 @@ class _LeadState extends State<Lead> {
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.min,
@@ -333,7 +333,7 @@ class _LeadState extends State<Lead> {
                                                     'Leads\nClosed',
                                                     style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       fontWeight: FontWeight.w600,
                                                     ),
                                                     textAlign: TextAlign.start,
@@ -362,7 +362,7 @@ class _LeadState extends State<Lead> {
                             Padding(
                               padding: const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     physics: const NeverScrollableScrollPhysics(),
@@ -379,7 +379,7 @@ class _LeadState extends State<Lead> {
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
@@ -387,7 +387,7 @@ class _LeadState extends State<Lead> {
                                               children: [
                                                 CustomeText(
                                                   text: '${controller.fetchLeadsModel?.stats?.hot}',
-                                                  fontSize: 31,
+                                                  fontSize: 28,
                                                   fontWeight: FontWeight.w700,
                                                   color: Colors.white,
                                                 ),
@@ -395,7 +395,7 @@ class _LeadState extends State<Lead> {
                                                   'Hot Leads',
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 15,
+                                                    fontSize: 12,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                   textAlign: TextAlign.start,
@@ -417,7 +417,7 @@ class _LeadState extends State<Lead> {
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
@@ -425,7 +425,7 @@ class _LeadState extends State<Lead> {
                                               children: [
                                                 CustomeText(
                                                   text: '${controller.fetchLeadsModel?.stats?.warm}',
-                                                  fontSize: 31,
+                                                  fontSize: 28,
                                                   fontWeight: FontWeight.w700,
                                                   color: Colors.white,
                                                 ),
@@ -433,7 +433,7 @@ class _LeadState extends State<Lead> {
                                                   'Warm Leads',
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 15,
+                                                    fontSize: 12,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                   textAlign: TextAlign.start,
@@ -455,7 +455,7 @@ class _LeadState extends State<Lead> {
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisSize: MainAxisSize.min,
@@ -463,7 +463,7 @@ class _LeadState extends State<Lead> {
                                               children: [
                                                 CustomeText(
                                                   text: '${controller.fetchLeadsModel?.stats?.cold}',
-                                                  fontSize: 31,
+                                                  fontSize: 28,
                                                   fontWeight: FontWeight.w700,
                                                   color: Colors.white,
                                                 ),
@@ -471,7 +471,7 @@ class _LeadState extends State<Lead> {
                                                   'Cold Leads',
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 15,
+                                                    fontSize: 12,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                   textAlign: TextAlign.start,

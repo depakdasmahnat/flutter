@@ -547,6 +547,7 @@ class CustomDropdown extends StatelessWidget {
   String? hintText;
   List? listItem;
   String? selectedItem;
+  bool? showSearchBox ;
   TextEditingController? controller;
   final void Function(dynamic)? onChanged;
 
@@ -557,6 +558,7 @@ class CustomDropdown extends StatelessWidget {
     this.controller,
     this.onChanged,
     this.selectedItem,
+    this.showSearchBox,
     super.key,
   });
 
@@ -591,15 +593,17 @@ class CustomDropdown extends StatelessWidget {
               padding: const EdgeInsets.only(left: 8.0),
               child:
               DropdownSearch<String>(
-                dropdownButtonProps: const DropdownButtonProps(
-                    padding: EdgeInsets.only(bottom: 10),
 
+                dropdownButtonProps: const DropdownButtonProps(
+
+                    padding: EdgeInsets.only(bottom: 10),
                     icon: Icon(
                       CupertinoIcons.chevron_down,
                       size: 18,
                     )),
                 // selectedItem: selectedItem,
-                popupProps: const PopupProps.menu(
+                popupProps:  PopupProps.menu(
+                  showSearchBox: showSearchBox??false,
                   menuProps: MenuProps(
                     backgroundColor: Color(0xFF1B1B1B),
                   ),

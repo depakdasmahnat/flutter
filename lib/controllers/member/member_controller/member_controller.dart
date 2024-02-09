@@ -1186,6 +1186,7 @@ class MembersController extends ChangeNotifier {
     required BuildContext context,
     required String name,
     required String eventType,
+    required String mode,
     required String meetingLink,
     required String city,
     required String description,
@@ -1194,6 +1195,7 @@ class MembersController extends ChangeNotifier {
     required String endDate,
     required String endTime,
     required String memberIds,
+    required String meetingType,
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -1202,6 +1204,7 @@ class MembersController extends ChangeNotifier {
       Map<String, String> body = {
         'name': name,
         'type': eventType,
+        'mode': mode,
         'meeting_link': meetingLink,
         'location': city,
         'description': description,
@@ -1210,6 +1213,7 @@ class MembersController extends ChangeNotifier {
         'end_date': endDate,
         'end_time': endTime,
         'member_ids': memberIds,
+        'meeting_type': meetingType,
       };
       debugPrint('Sent Data is $body');
       //Processing API...

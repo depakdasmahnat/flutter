@@ -119,7 +119,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Query message',
+                            'Send',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: GoogleFonts.urbanist().fontFamily,

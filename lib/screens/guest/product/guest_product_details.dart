@@ -125,38 +125,44 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                       SizedBox(
                         height: size.height * 0.03,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Brand Kangen',
-                          rightTitle: 'Water Machine Price',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Usage/Application',
-                          rightTitle: 'Kangen Water Machine Price ',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Water Storage Capacity',
-                          rightTitle: '4000 L',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Purification Capacity',
-                          rightTitle: 'Kangen Water Machine Price',
-                        ),
-                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:controller.fetchproductDetail?.data?.specifications?.length??0 ,
+                        itemBuilder: (context, index) {
+                        return   Padding(
+                          padding: const EdgeInsets.only(
+                              left: kPadding, right: kPadding),
+                          child: DetailList(
+                            leftTitle: '${controller.fetchproductDetail?.data?.specifications?[index].title}',
+                            rightTitle: '${controller.fetchproductDetail?.data?.specifications?[index].value}',
+                          ),
+                        );
+                      },),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       left: kPadding, right: kPadding),
+                      //   child: DetailList(
+                      //     leftTitle: 'Usage/Application',
+                      //     rightTitle: 'Kangen Water Machine Price ',
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       left: kPadding, right: kPadding),
+                      //   child: DetailList(
+                      //     leftTitle: 'Water Storage Capacity',
+                      //     rightTitle: '4000 L',
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       left: kPadding, right: kPadding),
+                      //   child: DetailList(
+                      //     leftTitle: 'Purification Capacity',
+                      //     rightTitle: 'Kangen Water Machine Price',
+                      //   ),
+                      // ),
                       SizedBox(
                         height: size.height * 0.03,
                       ),

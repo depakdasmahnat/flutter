@@ -294,14 +294,22 @@ class _GuestFaqState extends State<GuestFaq> {
                                     ),
                                     children: <Widget>[
                                       ListTile(
-                                          title: CustomeText(
-                                        text: controller.fetchFaqsModel?.data?[index].answer,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: expend == true && changeIndex == index
-                                            ? Colors.black
-                                            : Colors.white,
-                                      )),
+                                          title: Text(controller.fetchFaqsModel?.data?[index].answer??'',style: TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            color: expend == true && changeIndex == index
+                                                ? Colors.black
+                                                : Colors.white,
+                                          ),)
+                                      //     CustomeText(
+                                      //   text: controller.fetchFaqsModel?.data?[index].answer,
+                                      //   fontSize: 14,
+                                      //   fontWeight: FontWeight.w400,
+                                      //   color: expend == true && changeIndex == index
+                                      //       ? Colors.black
+                                      //       : Colors.white,
+                                      // )
+                                      ),
                                     ],
                                   ),
                                 ),
