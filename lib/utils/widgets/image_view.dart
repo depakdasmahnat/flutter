@@ -2,17 +2,14 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/route/route_paths.dart';
-import 'package:mrwebbeast/utils/widgets/image_opener.dart';
 
-import '../../core/config/app_assets.dart';
+import '../../core/config/app_images.dart';
 import '../../core/constant/colors.dart';
 
 /// Required cached_network_image: ^3.2.2]
 class ImageView extends StatelessWidget {
   const ImageView({
-    super.key,
+    Key? key,
     this.assetImage,
     this.networkImage,
     this.height,
@@ -32,8 +29,9 @@ class ImageView extends StatelessWidget {
     this.boxShadow,
     this.padding,
     this.isAvatar,
-    this.fullScreenMode,
-  });
+  })  : assert((assetImage != null || networkImage != null || file != null),
+            "Use at least one Image Types from Assert,File, Network Image"),
+        super(key: key);
 
   final String? assetImage;
   final String? networkImage;
@@ -57,23 +55,11 @@ class ImageView extends StatelessWidget {
   final List<BoxShadow>? boxShadow;
   final double defaultBorderRadius = 0;
   final bool? isAvatar;
-  final bool? fullScreenMode;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ??
-          ((fullScreenMode == true)
-              ? () {
-                  context.pushNamed(Routs.imageOpener,
-                      extra: ImageOpener(
-                        assetImage: assetImage,
-                        networkImage: networkImage,
-                        file: file,
-                        isAvatar: isAvatar,
-                      ));
-                }
-              : null),
+      onTap: onTap,
       child: Container(
         height: height,
         width: width,
@@ -104,14 +90,14 @@ class ImageView extends StatelessWidget {
         height: height,
         width: width,
         fit: fit,
-        imageUrl: '$networkImage',
+        imageUrl: "$networkImage",
         placeholder: (context, url) => cacheLoadingImage(context: context, url: url),
         errorWidget: (context, url, error) =>
             errorWidget ?? cacheImageError(context: context, url: url, isAvatar: isAvatar),
       );
     } else if (assetImage != null) {
       return Image.asset(
-        '$assetImage',
+        "$assetImage",
         color: color,
         height: height,
         width: width,
@@ -137,10 +123,9 @@ class ImageView extends StatelessWidget {
         height: height,
         width: width,
         fit: fit,
-        imageUrl: '$networkImage',
+        imageUrl: "$networkImage",
         placeholder: (context, url) => cacheLoadingImage(context: context, url: url),
-        errorWidget: (context, url, error) =>
-            errorWidget ?? cacheImageError(context: context, url: url, isAvatar: isAvatar),
+        errorWidget: (context, url, error) => errorWidget ?? cacheImageError(context: context, url: url),
       );
     }
   }
@@ -150,10 +135,10 @@ class ImageView extends StatelessWidget {
     required BuildContext context,
     required String? url,
   }) {
-    return SizedBox(
-      height: height ?? 10,
-      width: width ?? 10,
-      child: const Center(
+    return const SizedBox(
+      height: 10,
+      width: 10,
+      child: Center(
         child: CupertinoActivityIndicator(color: primaryColor),
       ),
     );
@@ -165,11 +150,11 @@ class ImageView extends StatelessWidget {
     bool? isAvatar,
   }) {
     return Image.asset(
-      isAvatar == true ? AppAssets.avatarImage : AppAssets.noImage,
+      isAvatar == true ? AppImages.avatarImage : AppImages.noImage,
       color: color,
       height: height,
       width: width,
-      fit: BoxFit.contain,
+      fit: fit ?? BoxFit.cover,
       errorBuilder: (context, error, stackTrace) =>
           imageError(context: context, error: error, stackTrace: stackTrace),
     );
@@ -201,11 +186,11 @@ class ImageView extends StatelessWidget {
     StackTrace? stackTrace,
   }) {
     return Image.asset(
-      isAvatar == true ? AppAssets.avatarImage : AppAssets.noImage,
+      isAvatar == true ? AppImages.avatarImage : AppImages.noImage,
       color: color,
       height: height,
       width: width,
-      fit: BoxFit.contain,
+      fit: fit ?? BoxFit.cover,
       errorBuilder: (context, error, stackTrace) =>
           imageError(context: context, error: error, stackTrace: stackTrace, isAvatar: isAvatar),
     );

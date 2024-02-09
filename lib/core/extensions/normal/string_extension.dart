@@ -3,7 +3,7 @@ extension StringExtenstion on String {
   String get toCapitalizeFirst {
     String text;
     if (length >= 1) {
-      text = '${this[0].toUpperCase()}${substring(1, length)}';
+      text = "${this[0].toUpperCase()}${substring(1, length)}";
     } else {
       text = toUpperCase();
     }

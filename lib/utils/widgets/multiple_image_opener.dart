@@ -1,27 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gaas/utils/widgets/image_view.dart';
 
-import '../../core/config/app_assets.dart';
-import 'image_view.dart';
+import '../../core/config/app_images.dart';
 
 class MultipleImageOpener extends StatefulWidget {
-  const MultipleImageOpener(
-      {Key? key, this.assetImages, this.networkImages, this.files, this.initialIndex = 0, this.isAvatar})
+  const MultipleImageOpener({Key? key, this.imageUrls, this.networkImages, this.files, this.initialIndex = 0})
       : super(key: key);
 
-  final List<String?>? assetImages;
+  final List<String?>? imageUrls;
   final List<String?>? networkImages;
   final List<File?>? files;
   final int? initialIndex;
-  final bool? isAvatar;
 
   @override
   State<MultipleImageOpener> createState() => _MultipleImageOpenerState();
 }
 
 class _MultipleImageOpenerState extends State<MultipleImageOpener> {
-  late bool? isAvatar = widget.isAvatar;
   late List<String?>? assetImages;
   late PageController _pageController;
   int _currentPage = 0;
@@ -29,7 +26,7 @@ class _MultipleImageOpenerState extends State<MultipleImageOpener> {
   @override
   void initState() {
     super.initState();
-    assetImages = widget.assetImages;
+    assetImages = widget.imageUrls;
     _currentPage = widget.initialIndex ?? 0;
     _pageController = PageController(initialPage: _currentPage);
   }
@@ -66,8 +63,8 @@ class _MultipleImageOpenerState extends State<MultipleImageOpener> {
   }
 
   int _getImageCount() {
-    if (widget.assetImages != null) {
-      return widget.assetImages!.length;
+    if (widget.imageUrls != null) {
+      return widget.imageUrls!.length;
     } else if (widget.networkImages != null) {
       return widget.networkImages!.length;
     } else if (widget.files != null) {
@@ -77,27 +74,24 @@ class _MultipleImageOpenerState extends State<MultipleImageOpener> {
   }
 
   Widget _buildImageAtIndex(int index) {
-    if (widget.networkImages != null && widget.networkImages?.isNotEmpty == true) {
+    if (widget.networkImages != null && widget.networkImages!.isNotEmpty) {
       return ImageView(
-        networkImage: widget.networkImages![index] ?? '',
-        margin: EdgeInsets.zero,
-        isAvatar: isAvatar,
-      );
-    } else if (assetImages != null && assetImages?.isNotEmpty == true) {
-      return ImageView(
-        assetImage: assetImages![index] ?? AppAssets.noImage,
-        isAvatar: isAvatar,
+        networkImage: widget.networkImages![index] ?? "",
         margin: EdgeInsets.zero,
       );
-    } else if (widget.files != null && widget.files?.isNotEmpty == true) {
+    } else if (assetImages != null && assetImages!.isNotEmpty) {
+      return ImageView(
+        assetImage: assetImages![index] ?? AppImages.noImage,
+        margin: EdgeInsets.zero,
+      );
+    } else if (widget.files != null && widget.files!.isNotEmpty) {
       return ImageView(
         file: widget.files![index],
-        isAvatar: isAvatar,
         margin: EdgeInsets.zero,
       );
     } else {
       return const ImageView(
-        assetImage: AppAssets.noImage,
+        assetImage: AppImages.noImage,
         margin: EdgeInsets.zero,
       );
     }

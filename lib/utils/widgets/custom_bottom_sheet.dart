@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/constant/constant.dart';
-import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
+
+import '../../core/constant/colors.dart';
 
 class CustomBottomSheet extends StatefulWidget {
   const CustomBottomSheet({
@@ -73,7 +73,7 @@ class CustomBottomSheet extends StatefulWidget {
             topRight: Radius.circular(defaultBorderRadius),
           ),
         ),
-        backgroundColor: context.containerColor,
+        backgroundColor: Colors.white,
         useSafeArea: true,
         isDismissible: isDismissible ?? true,
         enableDrag: enableDrag ?? true,
@@ -117,10 +117,12 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   late BoxConstraints? constraints = widget.constraints;
   late Alignment? bottomNavBarAlignment = widget.bottomNavBarAlignment;
   late MainAxisSize? mainAxisSize = widget.mainAxisSize;
-  late double borderRadius = widget.borderRadius ?? 36;
+  late double borderRadius = widget.borderRadius ?? 18;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return SafeArea(
       child: ClipRRect(
         borderRadius: BorderRadius.only(
@@ -131,7 +133,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           constraints: constraints,
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: Colors.white,
+            border: Border.all(color: primaryColor),
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(borderRadius), topRight: Radius.circular(borderRadius)),
           ),
@@ -145,8 +148,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: 24, right: 8, top: kPadding, bottom: showTitleDivider ? kPadding : 0),
+                          padding:
+                              EdgeInsets.only(left: 24, right: 8, top: 10, bottom: showTitleDivider ? 8 : 0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -160,9 +163,10 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '$title',
+                                          "$title",
                                           style: const TextStyle(
                                             fontSize: 16,
+                                            color: Colors.black,
                                             fontWeight: FontWeight.w700,
                                           ),
                                           textAlign: TextAlign.start,
@@ -177,7 +181,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                         },
                                         child: const Icon(
                                           CupertinoIcons.multiply,
-                                          color: Colors.white,
+                                          color: primaryColor,
                                         ),
                                       )
                                     else
@@ -187,7 +191,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                               ),
                               if (subTitle != null)
                                 Text(
-                                  '$subTitle',
+                                  "$subTitle",
                                   style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey.shade400,

@@ -1,13 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GradientButton extends StatelessWidget {
   final GradientBorderPainter? _painter;
-  final Widget? child;
+  final Widget child;
   final VoidCallback? onTap;
-  final double? borderRadius;
+  final double? radius;
   final double? height;
   final double? width;
   final EdgeInsets? padding;
@@ -16,19 +14,15 @@ class GradientButton extends StatelessWidget {
   final BoxDecoration? decoration;
   final Color? backgroundColor;
   final Gradient? backgroundGradient;
-  final double? blur;
-
-  final double? minSize;
-  final Border? border;
   final List<BoxShadow>? boxShadow;
 
   GradientButton({
     super.key,
-    this.child,
+    required this.child,
     this.onTap,
     Gradient? gradient,
     this.borderWidth,
-    this.borderRadius,
+    this.radius,
     this.padding,
     this.margin,
     this.decoration,
@@ -37,13 +31,10 @@ class GradientButton extends StatelessWidget {
     this.boxShadow,
     this.height,
     this.width,
-    this.blur,
-    this.minSize,
-    this.border,
   }) : _painter = gradient != null
             ? GradientBorderPainter(
                 strokeWidth: borderWidth ?? 1,
-                radius: borderRadius ?? 12,
+                radius: radius ?? 12,
                 gradient: gradient,
               )
             : null;
@@ -51,40 +42,28 @@ class GradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoButton(
-      minSize: minSize ?? 0,
       borderRadius: buildBorderRadius(),
       onPressed: onTap,
       padding: EdgeInsets.zero,
-      child: Padding(
-        padding: margin ?? EdgeInsets.zero,
-        child: ClipRRect(
+      child: Container(
+        margin: margin ?? EdgeInsets.zero,
+        decoration: BoxDecoration(
+          color: backgroundGradient == null ? (backgroundColor ?? Colors.transparent) : null,
+          gradient: backgroundGradient,
           borderRadius: buildBorderRadius(),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: blur ?? 0, sigmaY: blur ?? 0),
+          boxShadow: boxShadow,
+        ),
+        child: CustomPaint(
+          painter: _painter,
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: onTap,
             child: Container(
               height: height,
               width: width,
-              decoration: BoxDecoration(
-                color: backgroundGradient == null ? (backgroundColor ?? Colors.transparent) : null,
-                gradient: backgroundGradient,
-                border: border,
-                borderRadius: buildBorderRadius(),
-                boxShadow: boxShadow,
-              ),
-              child: CustomPaint(
-                painter: _painter,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: onTap,
-                  child: Container(
-                    height: height,
-                    width: width,
-                    decoration: decoration,
-                    padding: padding,
-                    child: child,
-                  ),
-                ),
-              ),
+              decoration: decoration,
+              padding: padding,
+              child: child,
             ),
           ),
         ),
@@ -92,7 +71,7 @@ class GradientButton extends StatelessWidget {
     );
   }
 
-  BorderRadius buildBorderRadius() => BorderRadius.circular(borderRadius ?? 12);
+  BorderRadius buildBorderRadius() => BorderRadius.circular(radius ?? 12);
 }
 
 class DemoBorderPainter extends CustomPainter {

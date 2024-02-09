@@ -3,36 +3,168 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
+import 'package:gaas/core/enums/enums.dart';
+import 'package:gaas/core/extensions/null_safe/null_safe_list_extensions.dart';
+import 'package:gaas/main.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/constant/colors.dart';
-import 'package:mrwebbeast/core/constant/gradients.dart';
-import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
-import 'package:mrwebbeast/core/route/route_paths.dart';
 
-import '../../app.dart';
+import '../../core/config/app_images.dart';
+import '../../core/constant/colors.dart';
+import '../../core/constant/gradients.dart';
+import '../../models/partner/auth/check_timeline_status.dart';
+import '../../route/route_paths.dart';
+import '../../screens/partner/setup/select_timeslots.dart';
+import '../widgets/image_view.dart';
+import 'package:html/parser.dart' show parse;
 
-Widget backButton({required Icon icon}) {
-  return Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(25),
-      border: Border.all(color: Colors.black.withOpacity(0.2), width: 0.3),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.4),
-          offset: const Offset(-2, -2),
-          blurRadius: 4,
+Color mainThemeColor = Colors.blue;
+
+Widget appTitle(BuildContext context) {
+  return RichText(
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: "Quiz ",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.blue.shade400,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        BoxShadow(
-          color: Colors.white.withOpacity(0.8),
-          offset: const Offset(2, 2),
-          blurRadius: 4,
+        const TextSpan(
+          text: "Mania",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.orange,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     ),
-    child: Padding(
-      padding: const EdgeInsets.all(2.0),
-      child: icon,
+  );
+}
+
+Widget showMoreDescription({
+  required BuildContext context,
+  required String? description,
+  TextStyle? style,
+  int? maxLines,
+  TextOverflow? overFlow,
+}) {
+  return RichText(
+    maxLines: maxLines,
+    overflow: overFlow ?? TextOverflow.clip,
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: "$description",
+          style: style ??
+              TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade800,
+                fontWeight: FontWeight.w400,
+              ),
+        ),
+        // const TextSpan(
+        //   text: "Show More",
+        //   style: TextStyle(
+        //     fontSize: 12,
+        //     color: primaryColor,
+        //     fontWeight: FontWeight.bold,
+        //   ),
+        // ),
+      ],
+    ),
+  );
+}
+
+Widget customTitle({
+  required BuildContext context,
+  required String text,
+  required String text2,
+}) {
+  return RichText(
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: text,
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.blue.shade400,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        TextSpan(
+          text: text2,
+          style: const TextStyle(
+            fontSize: 20,
+            color: Colors.orange,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget contentText({required String text}) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+    child: Row(
+      children: [
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.start,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget backButton({
+  required BuildContext context,
+  IconData? icon,
+  EdgeInsets? margin,
+  GestureTapCallback? onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap ??
+        () {
+          context.pop();
+        },
+    child: Container(
+      margin: margin ?? const EdgeInsets.only(left: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(25),
+        border: Border.all(color: Colors.black.withOpacity(0.2), width: 0.3),
+        boxShadow: [
+          BoxShadow(
+            color: primaryColor.withOpacity(0.3),
+            offset: const Offset(-2, -2),
+            blurRadius: 4,
+          ),
+          BoxShadow(
+            color: Colors.white.withOpacity(0.8),
+            offset: const Offset(2, 2),
+            blurRadius: 4,
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Icon(
+          icon ?? Icons.arrow_back,
+          color: primaryColor,
+        ),
+      ),
     ),
   );
 }
@@ -42,6 +174,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
   required String text,
   Color? color,
   Color? textColor,
+  Color? iconColor,
   IconData? icon,
   Duration? duration,
 }) {
@@ -50,40 +183,33 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
     SnackBar(
       margin: const EdgeInsets.all(10),
       shape: const StadiumBorder(),
-      duration: duration ?? const Duration(milliseconds: 3000),
+      duration: duration ?? const Duration(milliseconds: 2400),
       behavior: SnackBarBehavior.floating,
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
+          Flexible(
             child: Text(
               text,
               style: TextStyle(color: textColor ?? Colors.white),
             ),
           ),
           Icon(
-            icon ?? CupertinoIcons.checkmark_alt_circle,
-            color: Colors.white,
+            icon ?? Icons.check_circle,
+            color: iconColor ?? Colors.white,
           ),
         ],
       ),
-      backgroundColor: color ?? Colors.black,
+      backgroundColor: color ?? primaryColor,
     ),
   );
 }
 
-ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showError({
-  required BuildContext context,
-  required String? message,
-}) {
-  return showSnackBar(context: context, text: message ?? 'Something Went Wrong', color: Colors.red);
-}
-
 void showBanner({
-  required BuildContext context,
   required String text,
   required Color color,
 }) {
+  BuildContext context = MyApp.navigatorKey.currentContext!;
   ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
   ScaffoldMessenger.of(context).showMaterialBanner(
     MaterialBanner(
@@ -102,7 +228,7 @@ void showBanner({
               ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
             },
             child: const Text(
-              'Ok',
+              "Ok",
               style: TextStyle(
                 color: Colors.blue,
               ),
@@ -130,14 +256,14 @@ Future showLoading({required BuildContext context, required String text}) {
                     padding: EdgeInsets.all(8.0),
                     child: CupertinoActivityIndicator(
                       radius: 14,
-                      color: primaryColor,
+                      color: Colors.blue,
                     ),
                   ),
                   const SizedBox(width: 20),
                   Text(
                     text,
                     style: const TextStyle(
-                      color: primaryColor,
+                      color: Colors.blue,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                     ),
@@ -176,21 +302,21 @@ Widget termsAndConditions(BuildContext context) {
     text: TextSpan(
       style: defaultStyle,
       children: <TextSpan>[
-        const TextSpan(text: 'I agree to accept your '),
+        const TextSpan(text: "I agree to accept your "),
         TextSpan(
-            text: 'Privacy Policy ',
+            text: "Privacy Policy ",
             style: linkStyle,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                debugPrint('Privacy Policy');
+                debugPrint("Privacy Policy");
               }),
         const TextSpan(text: 'and  '),
         TextSpan(
-            text: 'Terms of Service ',
+            text: "Terms of Service ",
             style: linkStyle,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                debugPrint('Terms of Service');
+                debugPrint("Terms of Service");
               }),
       ],
     ),
@@ -240,6 +366,79 @@ Widget rowBox({
   );
 }
 
+Widget rowBox1({
+  required BuildContext context,
+  required Color circleColor1,
+  required Color circleColor2,
+  required Text text1,
+  required Text text2,
+  required Icon icon1,
+  required Icon icon2,
+  required GestureTapCallback onTap1,
+  required GestureTapCallback onTap2,
+}) {
+  return Row(
+    children: [
+      Expanded(
+        flex: 5,
+        child: InkWell(
+          onTap: onTap1,
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(6, 0, 0, 6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color: Theme.of(context).primaryColor,
+            ),
+            height: 80,
+            child: Row(
+              children: [
+                const SizedBox(width: 16),
+                CircleAvatar(
+                  backgroundColor: circleColor1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: icon1,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                text1,
+              ],
+            ),
+          ),
+        ),
+      ),
+      Expanded(
+        flex: 5,
+        child: InkWell(
+          onTap: onTap2,
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(6, 0, 6, 6),
+            height: 80,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(6),
+              color: Theme.of(context).primaryColor,
+            ),
+            child: Row(
+              children: [
+                const SizedBox(width: 16),
+                CircleAvatar(
+                  backgroundColor: circleColor2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: icon2,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                text2
+              ],
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
 Future showLoader({
   required BuildContext context,
   required String text,
@@ -266,15 +465,15 @@ Future showLoader({
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: CircularProgressIndicator(
-                        color: backgroundColor ?? context.colorScheme.primary,
+                        color: backgroundColor ?? primaryColor,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                       child: Text(
                         text,
-                        style: TextStyle(
-                          color: context.colorScheme.primary,
+                        style: const TextStyle(
+                          color: primaryColor,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -297,13 +496,13 @@ void copyText({
   Color? textColor,
 }) {
   Clipboard.setData(ClipboardData(text: textToCopy));
-  showSnackBar(context: context, text: message);
+  showSnackBar(context: context, text: message, color: color ?? Colors.blueAccent);
 }
 
-InkWell notificationBadge(context) {
+InkWell notificationBadge({required BuildContext context}) {
   return InkWell(
     onTap: () {
-      Navigator.pushNamed(context, Routs.notifications);
+      context.pushNamed(Routs.notifications);
     },
     child: Container(
       height: 40,
@@ -337,70 +536,180 @@ Column leadingButton({required BuildContext context}) {
   );
 }
 
+imageChips({
+  required String? text,
+  bool selected = false,
+  String? imageUrl,
+  Color? iconColor,
+  EdgeInsets? margin,
+  EdgeInsets? padding,
+  bool? firstChip,
+  bool? leftSideIcon,
+  double? fontSize,
+  double? height,
+  double? width,
+  double? imageHeight,
+  double? imageWidth,
+  double? borderRadius,
+  FontWeight? fontWeight,
+  bool networkImage = false,
+  VoidCallback? onPressed,
+}) {
+  Color imageColor = iconColor ?? Colors.grey;
+
+  Widget imageWidget() {
+    Widget widget = Container();
+    if (networkImage == true) {
+      widget = ImageView(
+        height: imageHeight ?? 14,
+        width: imageWidth ?? 14,
+        borderRadiusValue: 0,
+        color: selected ? Colors.white : imageColor,
+        margin: EdgeInsets.only(left: leftSideIcon == true ? 0 : 8, right: leftSideIcon == true ? 8 : 0),
+        networkImage: imageUrl,
+        fit: BoxFit.contain,
+      );
+    } else {
+      widget = ImageView(
+        height: imageHeight ?? 14,
+        width: imageWidth ?? 14,
+        borderRadiusValue: 0,
+        color: selected ? Colors.white : imageColor,
+        margin: EdgeInsets.only(left: leftSideIcon == true ? 0 : 8, right: leftSideIcon == true ? 8 : 0),
+        assetImage: imageUrl,
+        fit: BoxFit.contain,
+      );
+    }
+    return widget;
+  }
+
+  return CupertinoButton(
+    padding: EdgeInsets.zero,
+    onPressed: onPressed,
+    child: Container(
+      height: height,
+      width: width,
+      margin: margin ?? EdgeInsets.only(left: firstChip == true ? 16 : 0, right: 12, top: 6, bottom: 6),
+      padding: padding ?? const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+      decoration: BoxDecoration(
+        color: selected ? null : Colors.white,
+        gradient: selected ? primaryGradient : null,
+        borderRadius: BorderRadius.circular(borderRadius ?? 10),
+        boxShadow: [
+          BoxShadow(
+              offset: const Offset(2, 2),
+              color: Colors.grey.shade300,
+              // Shadow for bottom right corner
+              blurRadius: 4,
+              spreadRadius: 0,
+              blurStyle: selected ? BlurStyle.inner : BlurStyle.normal),
+          BoxShadow(
+              offset: const Offset(-1, -1),
+              color: Colors.grey.shade100,
+              // Shadow for bottom right corner
+              blurRadius: 4,
+              spreadRadius: 0,
+              blurStyle: selected ? BlurStyle.inner : BlurStyle.normal),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (imageUrl != null && leftSideIcon == true) imageWidget(),
+          Text(
+            "$text",
+            style: TextStyle(
+              fontSize: fontSize ?? 12,
+              color: selected ? Colors.white : Colors.black,
+              fontWeight: fontWeight ?? FontWeight.w400,
+            ),
+          ),
+          if (imageUrl != null && leftSideIcon == null) imageWidget(),
+        ],
+      ),
+    ),
+  );
+}
+
 customRow({
   required String? title1,
   required String? title2,
   IconData? icon1,
   IconData? icon2,
+  bool? showDivider,
   bool? lastDetail,
+  TextStyle? title1Style,
+  TextStyle? title2Style,
+  EdgeInsets? padding,
 }) {
   return Padding(
-    padding: EdgeInsets.only(top: 8, bottom: lastDetail == true ? 16 : 0),
-    child: Row(
-      children: <Widget>[
-        Expanded(
-            child: Row(
-          children: [
-            if (icon1 != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: Icon(
-                  icon1,
-                  size: 18,
-                  color: Colors.black,
-                ),
-              ),
-            if (title1 != null)
-              Expanded(
-                child: Text(
-                  title1,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-          ],
-        )),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              if (icon2 != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 6),
-                  child: Icon(
-                    icon2,
-                    size: 18,
-                    color: Colors.black,
-                  ),
-                ),
-              if (title2 != null)
-                Expanded(
-                  child: Text(
-                    title2,
-                    style: const TextStyle(
+    padding: padding ?? EdgeInsets.only(top: 12, bottom: lastDetail == true ? 16 : 0, left: 16, right: 16),
+    child: Column(
+      children: [
+        Row(
+          children: <Widget>[
+            Expanded(
+                child: Row(
+              children: [
+                if (icon1 != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: Icon(
+                      icon1,
+                      size: 18,
                       color: Colors.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
                     ),
-                    textAlign: TextAlign.right,
                   ),
-                ),
-            ],
+                if (title1 != null)
+                  Expanded(
+                    child: Text(
+                      title1,
+                      style: title1Style ??
+                          const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                  ),
+              ],
+            )),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (icon2 != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: Icon(
+                        icon2,
+                        size: 18,
+                        color: Colors.black,
+                      ),
+                    ),
+                  if (title2 != null)
+                    Expanded(
+                      child: Text(
+                        title2,
+                        style: title2Style ??
+                            const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                ],
+              ),
+            )
+          ],
+        ),
+        if (showDivider == true)
+          Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 4),
+            child: Divider(color: Colors.grey.shade300, height: 0),
           ),
-        )
       ],
     ),
   );
@@ -431,36 +740,123 @@ headingText({
   );
 }
 
-Future<bool> onAppExit() async {
+pickImageButton({required String text, required IconData icon}) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(8, 16, 4, 16),
+    child: Container(
+      height: 45,
+      constraints: const BoxConstraints(
+        minWidth: 150.0,
+      ),
+      decoration: BoxDecoration(
+        color: primaryColor,
+        border: Border.all(color: primaryColor),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+            child: Icon(
+              icon,
+              color: Colors.white,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+            child: Text(
+              text,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget avatarImage({
+  double? radius,
+  Color? color,
+  String? imageUrl,
+  EdgeInsets? margin,
+}) {
+  return ImageView(
+    height: radius,
+    width: radius,
+    borderRadiusValue: 100,
+    networkImage: imageUrl,
+    assetImage: imageUrl == null ? AppImages.appIcon : null,
+    margin: margin ?? const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 12),
+  );
+}
+
+Set<OrderTypes>? getOrderTypes({required List<String>? orderTypes}) {
+  Set<OrderTypes>? selectedOrderTypes = {};
+
+  if (orderTypes?.haveData == true) {
+    for (String? orderTypeString in orderTypes ?? []) {
+      OrderTypes.values.any((element) {
+        bool haveOrderType = element.value == orderTypeString;
+        if (haveOrderType == true) {
+          selectedOrderTypes.add(element);
+        }
+
+        return haveOrderType;
+      });
+    }
+  }
+  return selectedOrderTypes;
+}
+
+Future<bool> updateTimeSlotsPopup({
+  required ServiceType? type,
+  required CheckTimeLinesStatus? timeLineStatus,
+}) async {
   BuildContext? context = MyApp.navigatorKey.currentContext;
   bool? shouldPop;
-
+  Set<OrderTypes>? orderTypes = getOrderTypes(orderTypes: timeLineStatus?.orderTypes);
+  debugPrint("partnerOrderTypes $orderTypes");
   if (context != null) {
     shouldPop = await showDialog(
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
             title: const Text(
-              'Close App',
-              style: TextStyle(color: Colors.red),
+              "Update TimeSlots",
+              style: TextStyle(color: primaryColor),
             ),
-            content: const Text('Are you sure you want to close the app ?'),
+            content:
+                Text(timeLineStatus?.message ?? "You have to update timeslots for ${timeLineStatus?.data} "),
             actions: [
               TextButton(
                 onPressed: () {
-                  context.pop(false);
+                  context.pop();
                 },
                 child: const Text(
-                  'No',
+                  "No",
                   style: TextStyle(color: Colors.red),
                 ),
               ),
               TextButton(
                 onPressed: () {
-                  context.pop(true);
+                  context.pop();
+                  context.pushNamed(Routs.selectTimeSlots,
+                      extra: SelectTimeSlots(
+                        editMode: false,
+                        timeLineStatus: timeLineStatus,
+                        type: type,
+                        selectedOrderTypes: orderTypes,
+                      ));
                 },
                 child: const Text(
-                  'Yes',
+                  "Update",
                   style: TextStyle(color: Colors.green),
                 ),
               )
@@ -472,43 +868,89 @@ Future<bool> onAppExit() async {
   return shouldPop ?? false;
 }
 
-pickImageButton({required BuildContext context, required String text, required IconData icon}) {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(8, 16, 4, 16),
-    child: Container(
-      height: 45,
-      constraints: const BoxConstraints(
-        minWidth: 150.0,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.black,
-        gradient: primaryGradient,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-            child: Icon(
-              icon,
-              color: Colors.black,
+Future<bool> onAppExit() async {
+  BuildContext? context = MyApp.navigatorKey.currentContext;
+  bool? shouldPop;
+
+  if (context != null) {
+    shouldPop = await showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: const Text(
+              "Close App",
+              style: TextStyle(color: Colors.red),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-            child: Text(
-              text,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+            content: const Text("Are you sure you want to close the app ?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const Text(
+                  "No",
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: const Text(
+                  "Yes",
+                  style: TextStyle(color: Colors.green),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  return shouldPop ?? false;
+}
+
+Future<bool> onPartnerDashboardBack() async {
+  BuildContext? context = MyApp.navigatorKey.currentContext;
+  bool? shouldPop;
+  if (context != null) {
+    shouldPop = await showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: const Text(
+              "Close Partner Profile",
+              style: TextStyle(color: Colors.red),
             ),
-          )
-        ],
-      ),
-    ),
-  );
+            content: const Text("Are you sure you want to close the partner profile?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const Text(
+                  "No",
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: const Text(
+                  "Yes",
+                  style: TextStyle(color: Colors.green),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  return shouldPop ?? false;
+}
+
+String parseHtmlToText({required String htmlString}) {
+  final document = parse(htmlString);
+  final String parsedText = parse(document.body!.text).documentElement!.text;
+  return parsedText;
 }

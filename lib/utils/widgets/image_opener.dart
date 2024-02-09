@@ -1,26 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gaas/utils/widgets/image_view.dart';
 
-import 'image_view.dart';
+import '../../core/config/app_images.dart';
 
 class ImageOpener extends StatefulWidget {
-  const ImageOpener({Key? key, this.assetImage, this.networkImage, this.file, this.isAvatar})
-      : super(key: key);
-  final String? assetImage;
+  const ImageOpener({Key? key, this.imageUrl, this.networkImage, this.file}) : super(key: key);
+  final String? imageUrl;
   final String? networkImage;
   final File? file;
-  final bool? isAvatar;
 
   @override
   State<ImageOpener> createState() => _ImageOpenerState();
 }
 
 class _ImageOpenerState extends State<ImageOpener> {
-  late String? assetImage = widget.assetImage;
+  late String? assetImage = widget.imageUrl;
   late String? networkImage = widget.networkImage;
   late File? file = widget.file;
-  late bool? isAvatar = widget.isAvatar;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class _ImageOpenerState extends State<ImageOpener> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: InteractiveViewer(
@@ -40,25 +38,21 @@ class _ImageOpenerState extends State<ImageOpener> {
         trackpadScrollCausesScale: true,
         child: networkImage != null
             ? ImageView(
-                networkImage: networkImage,
+                networkImage: "$networkImage",
                 margin: EdgeInsets.zero,
-                isAvatar: isAvatar,
               )
             : (assetImage != null)
                 ? ImageView(
                     assetImage: assetImage,
                     margin: EdgeInsets.zero,
-                    isAvatar: isAvatar,
                   )
                 : (file != null)
                     ? ImageView(
                         file: file,
-                        isAvatar: isAvatar,
                         margin: EdgeInsets.zero,
                       )
-                    : ImageView(
-                        networkImage: networkImage,
-                        isAvatar: isAvatar,
+                    : const ImageView(
+                        assetImage: AppImages.noImage,
                         margin: EdgeInsets.zero,
                       ),
       ),

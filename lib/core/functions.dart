@@ -46,7 +46,7 @@ num deviceSpecificValue({
   required BuildContext context,
   required num device,
   required num tablet,
-  num? desktop,
+   num? desktop,
 }) {
   double screenWidth = MediaQuery.of(context).size.width;
 
@@ -55,7 +55,7 @@ num deviceSpecificValue({
   } else if (screenWidth < 1200) {
     return tablet; // Tablet
   } else {
-    return desktop ?? tablet; // Desktop
+    return desktop ??tablet; // Desktop
   }
 }
 

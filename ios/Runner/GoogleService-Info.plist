@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>675296838791-0drt0iuktpqid4iajfo0i4g37sc9uele.apps.googleusercontent.com</string>
+	<string>74297037261-vel73psfl9n3750cmmeckp4i866uqaig.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.675296838791-0drt0iuktpqid4iajfo0i4g37sc9uele</string>
+	<string>com.googleusercontent.apps.74297037261-vel73psfl9n3750cmmeckp4i866uqaig</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCfJYG8Y9S23ybCG4r2CbTAsUy9fkYA7q8</string>
+	<string>AIzaSyBhsbMos1j0sEqxwfCrdi6u0CefkNEICoU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>675296838791</string>
+	<string>74297037261</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>app.sparkcars.in</string>
+	<string>app.gaas.com</string>
 	<key>PROJECT_ID</key>
-	<string>sparkcars-38c4c</string>
+	<string>gaas-us</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sparkcars-38c4c.appspot.com</string>
+	<string>gaas-us.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:675296838791:ios:398bd4bfacb3e4a8f7e422</string>
+	<string>1:74297037261:ios:92dd3f151cb7efb1483484</string>
 </dict>
 </plist>

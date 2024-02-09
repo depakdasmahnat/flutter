@@ -38,8 +38,8 @@ class CustomFutureLoader extends StatelessWidget {
     }).catchError((e) {
       /// Navigator.of(context).pop(val);
 
-      debugPrint('Future Progress Dialog Catch Error...');
-      debugPrint('Error is $e');
+      debugPrint("Future Progress Dialog Catch Error...");
+      debugPrint("Error is $e");
     });
 
     return WillPopScope(

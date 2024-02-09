@@ -1,57 +1,52 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LoadingScreen extends StatefulWidget {
+class LoadingScreen extends StatelessWidget {
   const LoadingScreen({
-    Key? key,
+    super.key,
     this.message,
     this.heightFactor,
-    this.color,
     this.widthFactor,
-  }) : super(key: key);
+    this.alignment,
+    this.color,
+    this.backgroundColor, this.fontSize,
+  })  : assert(widthFactor == null || widthFactor >= 0.0),
+        assert(heightFactor == null || heightFactor >= 0.0);
 
   final String? message;
   final double? heightFactor;
   final double? widthFactor;
   final Color? color;
-
-  @override
-  State<LoadingScreen> createState() => _LoadingScreenState();
-}
-
-class _LoadingScreenState extends State<LoadingScreen> {
-  late String? message = widget.message;
-  late double? heightFactor = widget.heightFactor;
-  late double? widthFactor = widget.widthFactor;
-  late Color? color = widget.color;
+  final Color? backgroundColor;
+  final double? fontSize;
+  final Alignment? alignment;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Center(
-      child: Container(
-        height: heightFactor != null ? (size.height * heightFactor!) : null,
-        width: widthFactor != null ? size.width * widthFactor! : size.width,
-        color: color ?? Colors.transparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CupertinoActivityIndicator(
-                color: color ?? Colors.white,
-                radius: 12,
-              ),
+    return Container(
+      color: backgroundColor ?? Colors.transparent,
+      height: (heightFactor ?? 0.8) * size.height,
+      width: (widthFactor ?? 1) * size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CupertinoActivityIndicator(
+              radius: 12,
+              color: color ?? Theme.of(context).primaryColor,
             ),
-            Text(
-              message ?? 'Loading Data...',
-              style: TextStyle(
-                color: color ?? Colors.white,
-              ),
-            ),
-          ],
-        ),
+          ),
+          Text(
+            message ?? "Loading Data...",
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: color ?? Theme.of(context).primaryColor,
+              fontSize: fontSize
+                ),
+          ),
+        ],
       ),
     );
   }
