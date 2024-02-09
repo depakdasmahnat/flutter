@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gaas/core/constant/shadows.dart';
 import 'package:shimmer/shimmer.dart';
+
+import '../core/constant/shadows.dart';
 
 Widget shimmerCard({
   Color? backgroundColor,
@@ -48,7 +49,7 @@ class Skeletons {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: primaryBoxShadow(),
+              boxShadow: primaryBoxShadow(context),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,7 +113,7 @@ class Skeletons {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
-        boxShadow: primaryBoxShadow(),
+        boxShadow: primaryBoxShadow(context),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -150,7 +151,7 @@ class Skeletons {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              boxShadow: primaryBoxShadow(),
+              boxShadow: primaryBoxShadow(context),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +186,7 @@ class Skeletons {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              boxShadow: primaryBoxShadow(),
+              boxShadow: primaryBoxShadow(context),
             ),
             child: Row(
               children: [

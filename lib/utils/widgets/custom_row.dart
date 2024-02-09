@@ -22,6 +22,7 @@ class CustomRow extends StatelessWidget {
   final TextStyle? titleStyle;
   final TextStyle? subTitleStyle;
   final EdgeInsets? padding;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,7 +46,7 @@ class CustomRow extends StatelessWidget {
                   if (title != null)
                     Expanded(
                       child: Text(
-                        "$title",
+                        '$title',
                         style: titleStyle ?? Theme.of(context).textTheme.labelLarge,
                       ),
                     ),
@@ -67,7 +68,7 @@ class CustomRow extends StatelessWidget {
                     if (subTitle != null)
                       Expanded(
                         child: Text(
-                          "$subTitle",
+                          '$subTitle',
                           style: subTitleStyle ?? Theme.of(context).textTheme.labelMedium,
                           textAlign: TextAlign.right,
                         ),
@@ -78,9 +79,9 @@ class CustomRow extends StatelessWidget {
             ],
           ),
           if (showDivider == true)
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 4),
-              child: Divider(color: Colors.grey.shade200, height: 0),
+            const Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 4),
+              child: Divider(height: 0),
             ),
         ],
       ),

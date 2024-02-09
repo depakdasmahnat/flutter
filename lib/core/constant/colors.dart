@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
-/// 1) Light Colors...
+MaterialColor createMaterialColor(Color color) {
+  Map<int, Color> swatch = {
+    50: color.withOpacity(0.1),
+    100: color.withOpacity(0.2),
+    200: color.withOpacity(0.3),
+    300: color.withOpacity(0.4),
+    400: color.withOpacity(0.5),
+    500: color.withOpacity(0.6),
+    600: color.withOpacity(0.7),
+    700: color.withOpacity(0.8),
+    800: color.withOpacity(0.9),
+    900: color.withOpacity(1.0),
+  };
+  return MaterialColor(color.value, swatch);
+}
 
-const Color primaryColor = Color(0xff7CBD1E);
-const Color secondaryColor = Color(0xff86C649);
-
-const Color buttonColor = Color(0xff7CBD1E);
-const Color primaryGrey = Color(0xffF5F5F6);
-const Color secondaryButtonColor = Color(0xff0C0C0D);
-const Color offerColor = Color(0xffFFC007);
-Color backgroundColor = Colors.grey.shade100;
-
-const Color scaffoldBackgroundColor = Color(0xffF5F5FA);
-//Text Colors.
-const Color primaryTextColor = Color(0xff00394C);
-
-/// 2) Dark Colors...
-const Color primaryDarkColor = Colors.lightBlue;
+const Color primaryColor = Color(0xFFDDA63C);
+const Color secondaryColor = Color(0xFFFEDC9D);

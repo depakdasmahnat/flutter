@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gaas/utils/widgets/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../core/services/api/api_service.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({Key? key, this.title, this.url}) : super(key: key);
@@ -37,7 +38,7 @@ class WebViewScreenState extends State<WebViewScreen> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            debugPrint("Progress is $progress");
+            debugPrint('Progress is $progress');
           },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {
@@ -52,32 +53,42 @@ class WebViewScreenState extends State<WebViewScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url ?? "www.google.com"));
+      ..loadRequest(Uri.parse(widget.url ?? 'www.google.com'), headers: ApiService().defaultHeaders());
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Web Url :- ${widget.url}');
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              backButton(context: context),
-            ],
-          ),
-          leadingWidth: 50,
-          title: Text(widget.title ?? "Google"),
-          centerTitle: true,
-        ),
-        body: Stack(
-          alignment: Alignment.center,
-          children: [
-            WebViewWidget(
-              controller: controller,
+      backgroundColor: Colors.black,
+      body:
+     CustomScrollView(
+
+        slivers: [
+          // SliverAppBar(
+          //   elevation: 0,
+          //   title: Text(widget.title ?? 'Google'),
+          //   centerTitle: true,
+          //   snap: true,
+          //   pinned: true,
+          //   floating: true,
+          //   expandedHeight: 230,
+          // ),
+          SliverFillRemaining(
+
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                WebViewWidget(
+
+                  controller: controller,
+                ),
+                if (isLoading == true) const CircularProgressIndicator(),
+              ],
             ),
-            if (isLoading == true) const CircularProgressIndicator()
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

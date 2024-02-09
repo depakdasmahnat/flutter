@@ -1,34 +1,160 @@
 import 'package:flutter/material.dart';
-import 'package:gaas/core/constant/colors.dart';
+import 'package:mrwebbeast/core/constant/colors.dart';
 
 ///Gradient
 
 Gradient primaryGradient = const LinearGradient(
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
   colors: [
-    secondaryColor,
     primaryColor,
+    secondaryColor,
   ],
-  stops: [0.13, 0.76],
+);
+Gradient primaryGradientBlur = const LinearGradient(
+  begin: Alignment(0.00, -1.00),
+  end: Alignment(0, 1),
+  colors: [Color(0xCCFDDC9C), Color(0xA5DDA53B)],
+);
+Gradient primaryGradientTransparent = LinearGradient(
+  begin: Alignment.bottomCenter,
+  end: Alignment.topCenter,
+  colors: [
+    primaryColor.withOpacity(0.65),
+    secondaryColor.withOpacity(0.53),
+  ],
 );
 
-Gradient inActiveGradient = LinearGradient(
-  begin: Alignment.bottomRight,
+Gradient inActiveGradient = const LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Color(0xff4A4A4A),
+    Color(0xff3B3B3B),
+  ],
+);
+Gradient blackGradient = const LinearGradient(
+  end: Alignment.bottomCenter,
+  begin: Alignment.topCenter,
+  colors: [
+    Color(0xff1C1C1C),
+    Color(0xff282828),
+  ],
+);
+
+Gradient targetGradient = LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Colors.grey.shade300,
+    Colors.grey.shade400,
+  ],
+);
+
+Gradient greyGradient = const LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Color(0xffF3F3F3),
+    Color(0xffE0E0E0),
+  ],
+);
+Gradient limeGradient = const LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Color(0xffD1F35A),
+    Color(0xffC0D968),
+  ],
+);
+
+Gradient blueGradient = const LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Color(0xff3CDCDC),
+    Color(0xff13BCBC),
+  ],
+);
+Gradient redGradient = const LinearGradient(
   end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
   colors: [
-    Colors.black,
-    const Color(0xff000000),
-    Colors.grey.shade600,
-  ],
-  stops: const [0, 0.42, 1],
-);
-Gradient locationCardGradient = LinearGradient(
-  colors: [
-    const Color(0xff000000).withOpacity(0.65),
-    Colors.grey.shade900.withOpacity(0.70),
+    Color(0xffFF2600),
+    Color(0xffFF6130),
   ],
 );
+Gradient yellowGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xffFEB000),
+    Color(0xffDCE901),
+  ],
+);
+Gradient greenGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xff17E402),
+    Color(0xff01B200),
+  ],
+);
+Gradient skyBlueGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xff029CD7),
+    Color(0xff2C4ED9),
+  ],
+);
+
+Gradient purpleGradient = const LinearGradient(
+  end: Alignment.topLeft,
+  begin: Alignment.bottomRight,
+  colors: [
+    Color(0xff5D27C8),
+    Color(0xff5A1D98),
+  ],
+);
+Gradient whiteGradient = const LinearGradient(
+  end: Alignment.bottomCenter,
+  begin: Alignment.topCenter,
+  colors: [
+    Color(0xffF3F3F3),
+    Color(0xffE0E0E0),
+  ],
+);
+
+Gradient feedsCardGradient = const LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Color(0xff1C1C1C),
+    Color(0xff282828),
+  ],
+);
+Gradient inActiveGradientTransparent = LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    const Color(0xff4A4A4A).withOpacity(0.61),
+    const Color(0xff3B3B3B).withOpacity(0.44),
+  ],
+);
+
+Gradient rainbowGradient = const LinearGradient(
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+  colors: [
+    Color(0xffCC0000),
+    Color(0xffFFEA30),
+    Color(0xff00E24D),
+    Color(0xff005BE2),
+    Color(0xff7F00E2),
+  ],
+);
+
 Gradient blankGradient = const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
   Colors.grey,
   Colors.grey,
@@ -36,73 +162,12 @@ Gradient blankGradient = const LinearGradient(begin: Alignment.topLeft, end: Ali
   0,
   0.100
 ]);
-Gradient glassMorphismGradient = LinearGradient(
-  colors: [
-    Colors.white.withOpacity(0.9),
-    Colors.white.withOpacity(0.6),
-  ],
-  begin: AlignmentDirectional.topStart,
-  end: AlignmentDirectional.bottomEnd,
-);
 
-Gradient primaryChipButtonGradient = LinearGradient(
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
-  colors: [
-    primaryColor.withOpacity(0.7),
-    secondaryColor.withOpacity(0.8),
-  ],
-);
-
-Gradient primaryGreyGradient = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
-  Colors.grey.shade500.withOpacity(0.8),
-  Colors.grey.shade600.withOpacity(0.8),
-  Colors.grey.shade800.withOpacity(0.8),
-], stops: const [
-  0.2,
-  0.6,
-  0.9
-]);
-
-Gradient carCardGradient = LinearGradient(
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
-  colors: [
-    const Color(0xff15E41E).withOpacity(0.9),
-    const Color(0xffC3FF1A),
-  ],
-);
 Gradient textFieldGradient = const LinearGradient(
   begin: Alignment.centerRight,
   end: Alignment.centerLeft,
   colors: [
-    Color(0xff0C0C0D),
-    Color(0xff35383F),
+    primaryColor,
+    secondaryColor,
   ],
-);
-Gradient primaryPinkGradient = LinearGradient(
-  begin: Alignment.centerLeft,
-  end: Alignment.centerRight,
-  colors: [
-    Colors.pinkAccent.withOpacity(0.4),
-    Colors.pinkAccent.withOpacity(0.4),
-  ],
-);
-Gradient primaryGreenGradient = LinearGradient(
-  begin: Alignment.centerLeft,
-  end: Alignment.centerRight,
-  colors: [
-    const Color(0xff0CF649).withOpacity(0.3),
-    const Color(0xff4FD012).withOpacity(0.3),
-  ],
-);
-
-Gradient backButtonGradient = const LinearGradient(
-  begin: Alignment.topLeft,
-  end: Alignment.bottomRight,
-  colors: [
-    Color(0xff15E41E),
-    Color(0xffC3FF1A),
-  ],
-  stops: [0, 1],
 );

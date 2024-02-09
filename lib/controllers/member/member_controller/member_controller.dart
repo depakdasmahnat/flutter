@@ -7,6 +7,8 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.da
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:mrwebbeast/models/member/dashboard/achievers_model.dart';
+import 'package:mrwebbeast/models/member/profile/member_profile_model.dart';
+import 'package:mrwebbeast/screens/member/home/member_profile_details.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -221,7 +223,7 @@ class MembersController extends ChangeNotifier {
 
   /// call log
   Future<void> callUser({String? mobileNo}) async {
-    final call = Uri.parse('tel:+91 $mobileNo');
+    final call = Uri.parse('tel:+91$mobileNo');
     if (await canLaunchUrl(call)) {
       launchUrl(call);
     } else {
@@ -800,52 +802,6 @@ class MembersController extends ChangeNotifier {
     return generateReferralModel;
   }
 
-  ///  fetch memberProfile...
-  FetchMemberProfileModel? fetchMemberProfileModel;
-  bool memberProfileLoader = false;
-
-  Future<FetchMemberProfileModel?> fetchMemberProfile({
-    required BuildContext context,
-    required String memberID,
-  }) async {
-    BuildContext? context = MyApp.navigatorKey.currentContext;
-
-    if (context != null) {
-      onRefresh() {
-        memberProfileLoader = false;
-        notifyListeners();
-      }
-
-      onComplete() {
-        memberProfileLoader = true;
-        notifyListeners();
-      }
-
-      onRefresh();
-      try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.memberProfile + memberID);
-
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          FetchMemberProfileModel responseData = FetchMemberProfileModel.fromJson(json);
-          if (responseData.status == true) {
-            fetchMemberProfileModel = responseData;
-            notifyListeners();
-          } else {
-            fetchMemberProfileModel = responseData;
-            notifyListeners();
-          }
-        }
-      } catch (e, s) {
-        onComplete();
-        ErrorHandler.catchError(e, s, true);
-      } finally {
-        onComplete();
-      }
-    }
-    return fetchMemberProfileModel;
-  }
-
   /// 1) fetch facilitator..
   FetchFacilitatorModel? fetchFacilitatorModel;
 
@@ -1186,7 +1142,6 @@ class MembersController extends ChangeNotifier {
     required BuildContext context,
     required String name,
     required String eventType,
-    required String mode,
     required String meetingLink,
     required String city,
     required String description,
@@ -1195,7 +1150,6 @@ class MembersController extends ChangeNotifier {
     required String endDate,
     required String endTime,
     required String memberIds,
-    required String meetingType,
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -1204,7 +1158,6 @@ class MembersController extends ChangeNotifier {
       Map<String, String> body = {
         'name': name,
         'type': eventType,
-        'mode': mode,
         'meeting_link': meetingLink,
         'location': city,
         'description': description,
@@ -1213,7 +1166,6 @@ class MembersController extends ChangeNotifier {
         'end_date': endDate,
         'end_time': endTime,
         'member_ids': memberIds,
-        'meeting_type': meetingType,
       };
       debugPrint('Sent Data is $body');
       //Processing API...
@@ -1521,5 +1473,53 @@ class MembersController extends ChangeNotifier {
     }
 
     return achievementBadges;
+  }
+
+  bool loadingMemberProfile = true;
+  MemberProfileModel? memberProfileModel;
+  MemberProfileData? memberProfile;
+
+  Future<MemberProfileData?> fetchMemberProfileDetails({
+    required String? memberId,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingMemberProfile = true;
+        memberProfileModel = null;
+        memberProfile = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingMemberProfile = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService().get(endPoint: ApiEndpoints.fetchMemberProfile, queryParameters: {
+          'member_id': '$memberId',
+        });
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          MemberProfileModel responseData = MemberProfileModel.fromJson(json);
+          if (responseData.status == true) {
+            memberProfile = responseData.data;
+            debugPrint('memberProfile');
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return memberProfile;
   }
 }

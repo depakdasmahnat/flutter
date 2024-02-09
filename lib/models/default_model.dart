@@ -7,26 +7,30 @@ String defaultModelToJson(DefaultModel data) => json.encode(data.toJson());
 class DefaultModel {
   DefaultModel({
     this.status,
-    this.id,
     this.message,
   });
 
   DefaultModel.fromJson(dynamic json) {
     status = json['status'];
-    id = json['id'];
     message = json['message'];
   }
 
   bool? status;
-  dynamic id;
   String? message;
+
+  DefaultModel copyWith({
+    bool? status,
+    String? message,
+  }) =>
+      DefaultModel(
+        status: status ?? this.status,
+        message: message ?? this.message,
+      );
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
-    map['id'] = id;
     map['message'] = message;
-
     return map;
   }
 }

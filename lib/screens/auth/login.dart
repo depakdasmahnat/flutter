@@ -113,7 +113,7 @@ class _LoginState extends State<Login> {
                       return Validator.fullNameValidator(val);
                     },
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                      FilteringTextInputFormatter.allow(RegExp('[a-z]'))
                     ],
 
                     onChanged: (value) {},

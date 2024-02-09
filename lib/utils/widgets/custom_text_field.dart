@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gaas/core/constant/colors.dart';
+
+import '../../core/constant/colors.dart';
+
+Color customTextFieldFilledColor = const Color(0xff1C1C1C);
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
-    Key? key,
+    super.key,
     this.controller,
+    this.textCapitalization,
     this.height,
     this.width,
     this.constraints,
@@ -86,9 +90,14 @@ class CustomTextField extends StatelessWidget {
     this.errorStyle,
     this.errorText,
     this.errorMaxLines,
-  }) : super(key: key);
+    this.labelStyle,
+    this.onTapOutside,
+    this.suffixIconConstraints,
+
+  });
 
   final TextEditingController? controller;
+  final BoxConstraints? suffixIconConstraints;
   final double? height;
   final double? width;
   final double? borderRadius;
@@ -97,6 +106,7 @@ class CustomTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
   final String? hintText;
+  final TextStyle? labelStyle;
   final TextStyle? hintStyle;
   final TextStyle? errorStyle;
   final String? labelText;
@@ -107,7 +117,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
-  final TextCapitalization textCapitalization = TextCapitalization.none;
+  final TextCapitalization? textCapitalization ;
   final TextInputAction? textInputAction;
   final TextStyle? style;
   final StrutStyle? strutStyle;
@@ -131,6 +141,7 @@ class CustomTextField extends StatelessWidget {
   final GestureTapCallback? onTap;
   final VoidCallback? onEditingComplete;
   final ValueChanged<String>? onFieldSubmitted;
+  final TapRegionCallback? onTapOutside;
 
   final FormFieldSetter<String>? onSaved;
   final List<TextInputFormatter>? inputFormatters;
@@ -142,6 +153,7 @@ class CustomTextField extends StatelessWidget {
   final Brightness? keyboardAppearance;
   final EdgeInsets? scrollPadding;
   final bool? enableInteractiveSelection;
+
   final TextSelectionControls? selectionControls;
   final InputCounterWidgetBuilder? buildCounter;
   final ScrollPhysics? scrollPhysics;
@@ -189,7 +201,7 @@ class CustomTextField extends StatelessWidget {
           Flexible(
             child: TextFormField(
               key: key,
-              initialValue: initialValue,
+
               controller: controller,
               keyboardType: keyboardType,
               autofocus: autofocus ?? false,
@@ -204,11 +216,12 @@ class CustomTextField extends StatelessWidget {
               onChanged: onChanged,
               onEditingComplete: onEditingComplete,
               onFieldSubmitted: onFieldSubmitted,
-              onTapOutside: (v) {
-                FocusScope.of(context).unfocus();
-              },
               enableSuggestions: enableSuggestions,
               enableInteractiveSelection: enableInteractiveSelection,
+              onTapOutside: onTapOutside ??
+                  (val) {
+                    FocusScope.of(context).unfocus();
+                  },
               focusNode: focusNode,
               keyboardAppearance: keyboardAppearance,
               maxLengthEnforcement: maxLengthEnforcement,
@@ -229,7 +242,7 @@ class CustomTextField extends StatelessWidget {
               cursorWidth: cursorWidth ?? 2.0,
               textAlign: textAlign ?? TextAlign.start,
               textDirection: textDirection,
-              textCapitalization: textCapitalization,
+              textCapitalization: textCapitalization??TextCapitalization.none,
               textInputAction: textInputAction,
               autocorrect: autocorrect ?? true,
               obscuringCharacter: obscuringCharacter ?? '•',
@@ -238,35 +251,37 @@ class CustomTextField extends StatelessWidget {
               scrollPadding: scrollPadding ?? const EdgeInsets.all(20.0),
               expands: expands ?? false,
               style: style ??
-                  TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey.shade700,
+                  const TextStyle(
+                    color: Colors.white,
                     fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 hintText: hintText,
+                suffixIconConstraints: suffixIconConstraints,
+                counterText: '',
                 errorText: errorText,
                 errorMaxLines: errorMaxLines,
-                errorStyle: errorStyle,
+                errorStyle: errorStyle ?? const TextStyle(color: Colors.red),
                 helperStyle: hintStyle,
                 labelText: labelText,
-                fillColor: fillColor ?? Colors.white,
+                fillColor: fillColor ?? customTextFieldFilledColor,
                 filled: filled ?? true,
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: primaryColor,
-                  fontSize: 14,
-                ),
-                hintStyle: hintStyle ??
+                labelStyle: labelStyle ??
                     const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
+                    ),
+                hintStyle: hintStyle ??
+                    TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
                 isDense: isDense,
                 isCollapsed: isCollapsed ?? false,
-                contentPadding: contentPadding ?? const EdgeInsets.fromLTRB(16, 12, 6, 12),
+                contentPadding: contentPadding ?? const EdgeInsets.fromLTRB(16, 20, 6, 20),
                 floatingLabelAlignment: floatingLabelAlignment,
                 prefix: prefix,
                 prefixIcon: prefixIcon,
@@ -296,8 +311,8 @@ class CustomTextField extends StatelessWidget {
 
   InputBorder inputBorder({Color? color, double? borderRadius, required BuildContext context}) {
     return OutlineInputBorder(
-      borderSide: BorderSide(color: color ?? primaryColor),
-      borderRadius: BorderRadius.circular(borderRadius ?? 12),
+      borderSide: BorderSide(color: color ?? const Color(0xff1C1C1C)),
+      borderRadius: BorderRadius.circular(borderRadius ?? 14),
     );
   }
 }

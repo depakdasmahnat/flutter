@@ -1,49 +1,40 @@
 {
   "project_info": {
-    "project_number": "74297037261",
-    "project_id": "gaas-us",
-    "storage_bucket": "gaas-us.appspot.com"
+    "project_number": "105753621770",
+    "project_id": "mrwebbeast",
+    "storage_bucket": "mrwebbeast.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:74297037261:android:9608c119199beacd483484",
+        "mobilesdk_app_id": "1:105753621770:android:7fdfcf54a7875076d276f3",
         "android_client_info": {
-          "package_name": "app.gaas.com"
+          "package_name": "app.developer.mrwebbeast"
         }
       },
       "oauth_client": [
         {
-          "client_id": "74297037261-ob1vc469ue104n22e1sdv7f1eunlq8k8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "app.gaas.com",
-            "certificate_hash": "188593d8ea180aa384d617f1bc9a1722f72d84f5"
-          }
-        },
-        {
-          "client_id": "74297037261-0taohe3m901ff2m2nbiam1bmghpb40jc.apps.googleusercontent.com",
+          "client_id": "105753621770-37jr0766to8bjnnlfl1sl19ek8cgki2q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBNXnkzMEfhKei-kcOXYd1ZdMUT8HHUQjQ"
+          "current_key": "AIzaSyAnOT__zQlWZN06HEHIZBxROfLzwGjHCl8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "74297037261-0taohe3m901ff2m2nbiam1bmghpb40jc.apps.googleusercontent.com",
+              "client_id": "105753621770-37jr0766to8bjnnlfl1sl19ek8cgki2q.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "74297037261-e709t6tk7jkgfkn99vpp399va0ubeb7c.apps.googleusercontent.com",
+              "client_id": "105753621770-as0kavg7miio3ckcvhs31u0v13rr6u6g.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "app.gaas.com",
-                "app_store_id": "376771144"
+                "bundle_id": "com.mrwebbeast.skeleton"
               }
             }
           ]
@@ -52,35 +43,34 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:74297037261:android:59b88288f08cc0e2483484",
+        "mobilesdk_app_id": "1:105753621770:android:47b00172cabd414cd276f3",
         "android_client_info": {
-          "package_name": "gaas.us.com"
+          "package_name": "com.mrwebbeast.skeleton"
         }
       },
       "oauth_client": [
         {
-          "client_id": "74297037261-0taohe3m901ff2m2nbiam1bmghpb40jc.apps.googleusercontent.com",
+          "client_id": "105753621770-37jr0766to8bjnnlfl1sl19ek8cgki2q.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBNXnkzMEfhKei-kcOXYd1ZdMUT8HHUQjQ"
+          "current_key": "AIzaSyAnOT__zQlWZN06HEHIZBxROfLzwGjHCl8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "74297037261-0taohe3m901ff2m2nbiam1bmghpb40jc.apps.googleusercontent.com",
+              "client_id": "105753621770-37jr0766to8bjnnlfl1sl19ek8cgki2q.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "74297037261-e709t6tk7jkgfkn99vpp399va0ubeb7c.apps.googleusercontent.com",
+              "client_id": "105753621770-as0kavg7miio3ckcvhs31u0v13rr6u6g.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "app.gaas.com",
-                "app_store_id": "376771144"
+                "bundle_id": "com.mrwebbeast.skeleton"
               }
             }
           ]

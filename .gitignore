@@ -42,3 +42,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+*.lock
+*.bin
+android/.gradle/buildOutputCleanup/outputFiles.bin
+*.probe
+*.probe
