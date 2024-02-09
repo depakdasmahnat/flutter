@@ -196,17 +196,13 @@ class DashBoardState extends State<DashBoard> {
 
 class CustomBottomNavBar extends StatelessWidget {
   final int index;
-
   final int dashBoardIndex;
-
   final double? height;
   final double? width;
   final bool? alwaysShowLabel;
-
   final DashboardData data;
   final GestureTapCallback? onTap;
   final EdgeInsets? imageMargin;
-
   const CustomBottomNavBar({
     super.key,
     required this.index,
@@ -222,7 +218,6 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool selected = dashBoardIndex == index;
-
     return GestureDetector(
       onTap: onTap ??
           () {
