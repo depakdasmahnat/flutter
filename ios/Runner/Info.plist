@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Sparkcars</string>
+	<string>GTP</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Sparkcars</string>
+	<string>GTP</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -36,12 +36,6 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera to take a picture for Kyc Documentens</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We will use your location to help you find nearby charging stations.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We will use your location to help you find nearby charging stations.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We will use your location to help you find nearby charging stations.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photos to upload pictures for Kyc Documents</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

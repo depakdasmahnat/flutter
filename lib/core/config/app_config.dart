@@ -8,7 +8,7 @@ class AppConfig {
   static const String name = 'MrWebBeast';
   static const String version = '1.0';
 
-  static const String packageName = 'app.developer.mrwebbeast';
+  static const String packageName = 'app.gtp.com';
 
   static const String playStoreUrl = 'https://play.google.com/store/apps/details?id=$packageName';
   static const String appStoreUrl = 'https://apps.apple.com/us/app/emuvv/id6462873844';

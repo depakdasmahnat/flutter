@@ -1,79 +1,26 @@
 {
   "project_info": {
-    "project_number": "105753621770",
-    "project_id": "mrwebbeast",
-    "storage_bucket": "mrwebbeast.appspot.com"
+    "project_number": "179240455941",
+    "project_id": "gtp-app",
+    "storage_bucket": "gtp-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:105753621770:android:7fdfcf54a7875076d276f3",
+        "mobilesdk_app_id": "1:179240455941:android:473e601cea99d2bbb3f16c",
         "android_client_info": {
-          "package_name": "app.developer.mrwebbeast"
+          "package_name": "app.gtp.com"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "105753621770-37jr0766to8bjnnlfl1sl19ek8cgki2q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAnOT__zQlWZN06HEHIZBxROfLzwGjHCl8"
+          "current_key": "AIzaSyDJUwcr1uGQ8vUoIja1ShJuIrWFwmLtAxw"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "105753621770-37jr0766to8bjnnlfl1sl19ek8cgki2q.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "105753621770-as0kavg7miio3ckcvhs31u0v13rr6u6g.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.mrwebbeast.skeleton"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:105753621770:android:47b00172cabd414cd276f3",
-        "android_client_info": {
-          "package_name": "com.mrwebbeast.skeleton"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "105753621770-37jr0766to8bjnnlfl1sl19ek8cgki2q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAnOT__zQlWZN06HEHIZBxROfLzwGjHCl8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "105753621770-37jr0766to8bjnnlfl1sl19ek8cgki2q.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "105753621770-as0kavg7miio3ckcvhs31u0v13rr6u6g.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.mrwebbeast.skeleton"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
