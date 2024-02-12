@@ -223,10 +223,10 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                'Steps 35/60',
-                                style:
-                                    TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                              Text(
+                                'Steps ${memberProfile?.chapters ?? ''}',
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                               ),
                               Text(
                                 '${(trainingProgress ?? 0).toStringAsFixed(0)}%',

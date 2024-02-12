@@ -30,6 +30,7 @@ class Routs {
   static const String feedDetail = '/feedDetail';
   static const String examQuiz = '/examQuiz';
   static const String toDoScreen = '/toDoScreen';
+  static const String examReport = '/examReport';
   static const String goals = '/goals';
   static const String createGoal = '/createGoal';
   static const String viewPdf = '/viewPdf';

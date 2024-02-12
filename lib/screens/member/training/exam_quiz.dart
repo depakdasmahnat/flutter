@@ -3,12 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/training/training_controller.dart';
+import '../../../core/route/route_paths.dart';
 import '../../../models/member/training/quiz_model.dart';
+import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 
@@ -45,6 +48,9 @@ class _ExamQuizState extends State<ExamQuiz> {
         quizzes = controller.quizzes;
         return Scaffold(
           appBar: AppBar(
+            leading: const Column(
+              children: [CustomBackButton()],
+            ),
             title: const Text(
               'Test',
             ),
@@ -122,10 +128,9 @@ class _ExamQuizState extends State<ExamQuiz> {
                                 backgroundColor: isSelected ? null : Colors.white,
                                 onTap: () {
                                   quizzes?[index].selectedAnswer = option;
-                                  context.read<TrainingControllers>().submitUsersAnswer(
+                                  context.read<TrainingControllers>().selectUsersAnswer(
                                         context: context,
                                         index: index,
-                                        questionId: data?.id,
                                         answer: option,
                                       );
 
@@ -174,7 +179,11 @@ class _ExamQuizState extends State<ExamQuiz> {
                 boxShadow: const [],
                 margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
                 onTap: () {
-                  // context.pushNamed(Routs.createDemo);
+
+                  context.read<TrainingControllers>().submitUsersAnswer(
+                        context: context,
+                        chapterId: chapterId,
+                      );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

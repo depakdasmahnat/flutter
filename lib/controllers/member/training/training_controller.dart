@@ -1,14 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/app.dart';
 import 'package:mrwebbeast/core/config/api_config.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/models/default/default_model.dart';
 import 'package:mrwebbeast/models/member/training/chapter_details_model.dart';
 import 'package:mrwebbeast/models/member/training/chapters_model.dart';
 import 'package:mrwebbeast/models/member/training/quiz_model.dart';
+import 'package:mrwebbeast/screens/member/training/exam_report.dart';
 
 import '../../../core/services/api/api_service.dart';
+import '../../../models/member/training/quiz_report_model.dart';
 import '../../../models/member/training/training_categories_model.dart';
 import '../../../utils/widgets/widgets.dart';
 
@@ -221,19 +229,38 @@ class TrainingControllers extends ChangeNotifier {
   }
 
   /// 4) submit Users Answer API...
-  Future submitUsersAnswer({
+  Future selectUsersAnswer({
     required BuildContext context,
     required int index,
-    required num? questionId,
     required String? answer,
   }) async {
     FocusScope.of(context).unfocus();
     quizzes?[index].selectedAnswer = answer;
     notifyListeners();
+  }
 
+  Future submitUsersAnswer({
+    required BuildContext context,
+    required num? chapterId,
+  }) async {
+    FocusScope.of(context).unfocus();
+    List<Map<String, String>> testAns = [];
+    if (quizzes?.any((element) => element.selectedAnswer != null) == false) {
+      showSnackBar(context: context, text: 'Select at least 1 Answer');
+      return true;
+    }
+
+    quizzes?.forEach((element) {
+      testAns.add(
+        {
+          'id': '${element.id}',
+          'selected_answer': '${element.selectedAnswer}',
+        },
+      );
+    });
     Map<String, String> body = {
-      'question_id': '$questionId',
-      'answer': '$answer',
+      'chapter_id': '$chapterId',
+      'test_ans': jsonEncode(testAns),
     };
 
     debugPrint('Sent Data is $body');
@@ -248,9 +275,10 @@ class TrainingControllers extends ChangeNotifier {
 
       if (response != null && context.mounted) {
         Map<String, dynamic> json = response;
-        DefaultModel responseData = DefaultModel.fromJson(json);
-
+        QuizReportModel responseData = QuizReportModel.fromJson(json);
         if (responseData.status == true) {
+          context.firstRoute();
+          context.pushNamed(Routs.examReport, extra: ExamReport(report: responseData));
         } else {
           showError(context: context, message: responseData.message ?? 'Something Went Wrong');
         }

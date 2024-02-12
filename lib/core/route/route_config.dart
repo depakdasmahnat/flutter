@@ -58,6 +58,7 @@ import '../../screens/member/todo/todo_screen.dart';
 import '../../screens/member/training/chapter_details.dart';
 import '../../screens/member/training/chapters_screen.dart';
 import '../../screens/member/training/exam_quiz.dart';
+import '../../screens/member/training/exam_report.dart';
 import '../../screens/member/training/training_screen.dart';
 import '../../screens/notifications/notifications.dart';
 import '../../screens/welcome_screen.dart';
@@ -395,11 +396,22 @@ class RoutesConfig {
           return materialPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
         },
       ),
+
       GoRoute(
         name: Routs.toDoScreen,
         path: Routs.toDoScreen,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const ToDoScreen());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.examReport,
+        path: Routs.examReport,
+        pageBuilder: (context, state) {
+          ExamReport? data = state.extra as ExamReport?;
+
+          return materialPage(state: state, child: ExamReport(report: data?.report));
         },
       ),
       GoRoute(
@@ -491,26 +503,29 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const DemosScreen());
         },
-      ), GoRoute(
+      ),
+      GoRoute(
         name: Routs.guestDemo,
         path: Routs.guestDemo,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const GuestCheckDemo());
         },
       ),
-  GoRoute(
+      GoRoute(
         name: Routs.guestNotification,
         path: Routs.guestNotification,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const GuestNotification());
         },
-      ),  GoRoute(
+      ),
+      GoRoute(
         name: Routs.privacyPolicy,
         path: Routs.privacyPolicy,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const PrivacyPolicy());
         },
-      ),  GoRoute(
+      ),
+      GoRoute(
         name: Routs.helpAndSupport,
         path: Routs.helpAndSupport,
         pageBuilder: (context, state) {

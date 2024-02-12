@@ -73,6 +73,7 @@ class MemberProfileData {
     this.achievedSales,
     this.currentRank,
     this.targetRank,
+    this.chapters,
     this.rankPendingSales,
     this.allLists,
     this.demoSchedule,
@@ -105,6 +106,7 @@ class MemberProfileData {
     achievedSales = json['achieved_sales'];
     currentRank = json['current_rank'];
     targetRank = json['target_rank'];
+    chapters = json['chapters'];
     rankPendingSales = json['rank_pending_sales'];
     allLists = json['all_lists'];
     demoSchedule = json['demo_schedule'];
@@ -141,6 +143,7 @@ class MemberProfileData {
   num? achievedSales;
   String? currentRank;
   String? targetRank;
+  String? chapters;
   num? rankPendingSales;
   num? allLists;
   num? demoSchedule;
@@ -172,6 +175,7 @@ class MemberProfileData {
     num? achievedSales,
     String? currentRank,
     String? targetRank,
+    String? chapters,
     num? rankPendingSales,
     num? allLists,
     num? demoSchedule,
@@ -203,6 +207,7 @@ class MemberProfileData {
         achievedSales: achievedSales ?? this.achievedSales,
         currentRank: currentRank ?? this.currentRank,
         targetRank: targetRank ?? this.targetRank,
+        chapters: chapters ?? this.chapters,
         rankPendingSales: rankPendingSales ?? this.rankPendingSales,
         allLists: allLists ?? this.allLists,
         demoSchedule: demoSchedule ?? this.demoSchedule,
@@ -236,6 +241,7 @@ class MemberProfileData {
     map['achieved_sales'] = achievedSales;
     map['current_rank'] = currentRank;
     map['target_rank'] = targetRank;
+    map['chapters'] = chapters;
     map['rank_pending_sales'] = rankPendingSales;
     map['all_lists'] = allLists;
     map['demo_schedule'] = demoSchedule;
@@ -250,5 +256,3 @@ class MemberProfileData {
     return map;
   }
 }
-
-
