@@ -58,7 +58,6 @@ class _FeedDetailState extends State<FeedDetail> {
     Size size = MediaQuery.of(context).size;
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
     return Scaffold(
-
       appBar: AppBar(
         leading: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -168,6 +167,8 @@ class _FeedDetailState extends State<FeedDetail> {
               ImageView(
                 height: 40,
                 width: 40,
+                borderRadiusValue: 50,
+                fit: BoxFit.cover,
                 isAvatar: true,
                 networkImage: localDatabase.userRole == UserRoles.guest.value
                     ? '${localDatabase.guest?.profilePhoto}'
@@ -195,9 +196,16 @@ class _FeedDetailState extends State<FeedDetail> {
                 ),
               ),
               GestureDetector(
-                onTap: ()async {
+                onTap: () async {
                   fetchFeedDetails();
-                 await context.read<FeedsController>().addComment(context: context, feedId: feedDetails?.id, comment: commentCtrl.text,).then((value) {
+                  await context
+                      .read<FeedsController>()
+                      .addComment(
+                        context: context,
+                        feedId: feedDetails?.id,
+                        comment: commentCtrl.text,
+                      )
+                      .then((value) {
                     commentCtrl.clear();
                     setState(() {});
                   });

@@ -40,6 +40,7 @@ class FeedCard extends StatefulWidget {
 class _FeedCardState extends State<FeedCard> {
   late FeedsData? data = widget.data;
   late bool? isFeeds = widget.isFeeds;
+
   @override
   void initState() {
     super.initState();
@@ -158,8 +159,8 @@ class _FeedCardState extends State<FeedCard> {
                       '${data?.title}',
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                       ),
                       textAlign: TextAlign.start,
                     ),
@@ -168,24 +169,22 @@ class _FeedCardState extends State<FeedCard> {
                   showMoreDescription(
                     context: context,
                     description: parseHtmlToText(htmlString: '${data?.description}'),
-
                     style: const TextStyle(
-                      // height: ,
+                      color: Colors.grey,
+                      fontSize: 13,
                       fontWeight: FontWeight.w400,
                     ),
-                    maxLines: 2,
-
+                    maxLines: 3,
                     overFlow: TextOverflow.ellipsis,
                   )
                 else if (data?.description != null)
                   Padding(
-                    padding: const EdgeInsets.only(top: 10,bottom: 5),
+                    padding: const EdgeInsets.only(top: 10, bottom: 5),
                     child: Text(
                       '${data?.description}',
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 13,
-
                         fontWeight: FontWeight.w400,
                       ),
                       textAlign: TextAlign.start,
@@ -193,7 +192,7 @@ class _FeedCardState extends State<FeedCard> {
                   ),
                 if (isFeeds == true)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 12,top: 3),
+                    padding: const EdgeInsets.only(bottom: 12, top: 3),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -203,7 +202,9 @@ class _FeedCardState extends State<FeedCard> {
                               Container(
                                 height: 18,
                                 width: 24,
-                                margin: const EdgeInsets.only(right: kPadding,),
+                                margin: const EdgeInsets.only(
+                                  right: kPadding,
+                                ),
                                 child: const CupertinoActivityIndicator(),
                               )
                             else
@@ -321,7 +322,6 @@ class FeedMenu extends StatelessWidget {
               onTap: null,
               assetImage: icon,
             ),
-
             if (value != null)
               Text(
                 '$value',
@@ -345,7 +345,6 @@ String parseHtmlToText({required String htmlString}) {
   return parsedText;
 }
 
-
 class FeedCardForDemo extends StatefulWidget {
   const FeedCardForDemo({
     super.key,
@@ -365,10 +364,12 @@ class FeedCardForDemo extends StatefulWidget {
 class _FeedCardForDemoState extends State<FeedCardForDemo> {
   late DataForDemo? data = widget.data;
   late bool? isFeeds = widget.isFeeds;
+
   @override
   void initState() {
     super.initState();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -426,48 +427,48 @@ class _FeedCardForDemoState extends State<FeedCardForDemo> {
               //     ),
               //   )
               else if (data?.fileType == 'Video')
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                    child: VideoPlayerCard(
-                      url: '${data?.file}',
-                      borderRadius: 18,
-                    ),
-                  )
-                else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                      child: YoutubeVideoPlayerCard(
-                        url: '${data?.file}',
-                        borderRadius: 18,
-                      ),
-                    )
-                  else if (data?.fileType == 'PDF' && data?.file != null)
-                      ImageView(
-                        height: 150,
-                        borderRadiusValue: 18,
-                        margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                        backgroundColor: Colors.transparent,
-                        fit: BoxFit.cover,
-                        assetImage: AppAssets.pdfIcon,
-                        onTap: () {
-                          context.pushNamed(Routs.viewPdf,
-                              extra: PDFViewer(
-                                pdfUrl: '${data?.file}',
-                              ));
-                        },
-                      )
-                    else if (data?.file != null)
-                        ImageView(
-                          height: 150,
-                          borderRadiusValue: 18,
-                          margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                          backgroundColor: Colors.transparent,
-                          fit: BoxFit.cover,
-                          assetImage: AppAssets.fileIcon,
-                          onTap: () {
-                            launchUrl(Uri.parse('${data?.file}'));
-                          },
-                        )
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  child: VideoPlayerCard(
+                    url: '${data?.file}',
+                    borderRadius: 18,
+                  ),
+                )
+              else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  child: YoutubeVideoPlayerCard(
+                    url: '${data?.file}',
+                    borderRadius: 18,
+                  ),
+                )
+              else if (data?.fileType == 'PDF' && data?.file != null)
+                ImageView(
+                  height: 150,
+                  borderRadiusValue: 18,
+                  margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  backgroundColor: Colors.transparent,
+                  fit: BoxFit.cover,
+                  assetImage: AppAssets.pdfIcon,
+                  onTap: () {
+                    context.pushNamed(Routs.viewPdf,
+                        extra: PDFViewer(
+                          pdfUrl: '${data?.file}',
+                        ));
+                  },
+                )
+              else if (data?.file != null)
+                ImageView(
+                  height: 150,
+                  borderRadiusValue: 18,
+                  margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  backgroundColor: Colors.transparent,
+                  fit: BoxFit.cover,
+                  assetImage: AppAssets.fileIcon,
+                  onTap: () {
+                    launchUrl(Uri.parse('${data?.file}'));
+                  },
+                )
             ],
           ),
           Padding(
