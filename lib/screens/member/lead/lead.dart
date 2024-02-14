@@ -22,6 +22,7 @@ import '../../dashboard/more_menu.dart';
 import '../../guest/guestProfile/guest_faq.dart';
 import '../demo/create_demo.dart';
 import '../home/member_profile_details.dart';
+import '../profile/profile.dart';
 import 'custom_popup_menu.dart';
 import 'demo_don_form.dart';
 import 'model_dailog_box.dart';
@@ -708,8 +709,10 @@ class RowCart extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  context.pushNamed(Routs.memberProfileDetails,
-                      extra: MemberProfileDetails(memberId: '$memberId'));
+                  // context.pushNamed(Routs.memberProfileDetails,
+                  //     extra: MemberProfileDetails(memberId: '$memberId'));
+                  context.pushNamed(Routs.leadMemberProfile,
+                      extra: GuestProfileDetails(guestId: '$guestId'));
                 },
                 child: Row(
                   children: [

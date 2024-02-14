@@ -13,15 +13,20 @@ import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../controllers/member/network/network_controller.dart';
 import '../../../core/constant/enums.dart';
 import '../../../models/dashboard/dashboard_data.dart';
+import '../../../models/member/network/pinnacle_list_model.dart';
 import '../../../models/member/profile/member_profile_model.dart';
+import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/custom_bottom_sheet.dart';
+import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../guest/home/home_screen.dart';
+import '../network/pinnacle_list_table.dart';
 
 class MemberProfileDetails extends StatefulWidget {
   final String memberId;
@@ -59,11 +64,25 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
         );
   }
 
+  List<PinnacleListData>? pinnacleList;
+  TextEditingController searchController = TextEditingController();
+
+  Future fetchPinnacleList() async {
+    pinnacleList = await context.read<NetworkControllers>().fetchNetworkReports(
+          search: searchController.text,
+          filter: filter,
+          memberId: widget.memberId,
+        );
+  }
+
+  String? filter;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
         fetchMemberProfileDetails();
+        fetchPinnacleList();
       },
     );
     super.initState();
@@ -72,6 +91,9 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    NetworkControllers networkControllers = Provider.of<NetworkControllers>(context);
+    pinnacleList = networkControllers.networkReports;
+
     return Consumer<MembersController>(
       builder: (context, controller, child) {
         memberProfile = controller.memberProfile;
@@ -422,6 +444,126 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                           analytics: memberProfile?.analytics,
                         ),
                       ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Partners',
+                            style: headingTextStyle(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: kPadding),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: CustomTextField(
+                                  hintText: 'Search',
+                                  controller: searchController,
+                                  hintStyle: const TextStyle(color: Colors.white),
+                                  prefixIcon: ImageView(
+                                    height: 20,
+                                    width: 20,
+                                    borderRadiusValue: 0,
+                                    color: Colors.white,
+                                    margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+                                    fit: BoxFit.contain,
+                                    assetImage: AppAssets.searchIcon,
+                                    onTap: () {
+                                      fetchPinnacleList();
+                                    },
+                                  ),
+                                  onEditingComplete: () {
+                                    fetchPinnacleList();
+                                  },
+                                  margin: const EdgeInsets.only(
+                                      left: kPadding, right: kPadding, bottom: kPadding),
+                                ),
+                              ),
+                              CustomPopupMenu(
+                                items: [
+                                  CustomPopupMenuEntry(
+                                    value: '',
+                                    label: 'All',
+                                    onPressed: () {
+                                      filter = null;
+                                    },
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Level',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Achievement',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Conversion Ratio',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Progress',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Training',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Demo',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Target',
+                                    onPressed: null,
+                                  ),
+                                ],
+                                onChange: (String? val) {
+                                  filter = val;
+                                  setState(() {});
+                                  fetchPinnacleList();
+                                },
+                                child: GradientButton(
+                                  height: 60,
+                                  width: 60,
+                                  margin: const EdgeInsets.only(left: 8, right: kPadding, bottom: kPadding),
+                                  backgroundGradient: blackGradient,
+                                  child: const ImageView(
+                                    height: 28,
+                                    width: 28,
+                                    assetImage: AppAssets.filterIcons,
+                                    margin: EdgeInsets.zero,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        if (networkControllers.loadingNetworkReports)
+                          const LoadingScreen(
+                            heightFactor: 0.2,
+                            message: 'Loading Partners',
+                          )
+                        else if (pinnacleList.haveData)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kPadding),
+                            child: NetworkPinnacleTable(
+                              pinnacleList: pinnacleList,
+                            ),
+                          )
+                        else
+                          const NoDataFound(
+                            heightFactor: 0.2,
+                            message: 'No Partners Found',
+                          ),
+                      ],
+                    )
                   ],
                 ),
           bottomSheet: memberProfile?.mobile != null
@@ -628,11 +770,12 @@ class MySalesTarget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                    height: 20,
-                    child: VerticalDivider(
-                      color: Colors.black,
-                      thickness: 1,
-                    )),
+                  height: 20,
+                  child: VerticalDivider(
+                    color: Colors.black,
+                    thickness: 1,
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [

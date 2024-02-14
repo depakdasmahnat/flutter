@@ -11,9 +11,10 @@ import '../../../models/member/network/pinnacle_list_model.dart';
 
 class NetworkPinnacleTable extends StatefulWidget {
   /// Creates the home page.
-  const NetworkPinnacleTable({super.key, this.pinnacleList});
+  const NetworkPinnacleTable({super.key, this.pinnacleList, this.verticalScrollPhysics});
 
   final List<PinnacleListData>? pinnacleList;
+  final ScrollPhysics? verticalScrollPhysics;
 
   @override
   _NetworkPinnacleTableState createState() => _NetworkPinnacleTableState();
@@ -21,6 +22,8 @@ class NetworkPinnacleTable extends StatefulWidget {
 
 class _NetworkPinnacleTableState extends State<NetworkPinnacleTable> {
   late List<PinnacleListData>? pinnacles = widget.pinnacleList;
+  late ScrollPhysics? verticalScrollPhysics = widget.verticalScrollPhysics;
+
   EmployeeDataSource? employeeDataSource;
   late List<PinnacleListData>? getPinnacles = widget.pinnacleList;
 
@@ -38,6 +41,7 @@ class _NetworkPinnacleTableState extends State<NetworkPinnacleTable> {
         ? SfDataGrid(
             footerHeight: 100,
             footer: const SizedBox(),
+            verticalScrollPhysics: verticalScrollPhysics ?? const BouncingScrollPhysics(),
             source: employeeDataSource!,
             shrinkWrapRows: true,
             columns: [
@@ -121,7 +125,14 @@ class EmployeeDataSource extends DataGridSource {
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.name.value,
-              value: GridHeading(title: data.name ?? defaultText),
+              value: Align(
+                alignment: Alignment.center,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: GridHeading(title: data.name ?? defaultText),
+                ),
+              ),
             ),
             DataGridCell(
               columnName: PinnaclesHeadings.target.value,

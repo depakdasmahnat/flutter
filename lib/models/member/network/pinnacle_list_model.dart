@@ -1,15 +1,25 @@
 import 'dart:convert';
+
 PinnacleListModel pinnacleListModelFromJson(String str) => PinnacleListModel.fromJson(json.decode(str));
+
 String pinnacleListModelToJson(PinnacleListModel data) => json.encode(data.toJson());
+
 class PinnacleListModel {
   PinnacleListModel({
-      this.status, 
-      this.message, 
-      this.data,});
+    this.status,
+    this.message,
+    this.salesTarget,
+    this.pendingTarget,
+    this.achievedTarget,
+    this.data,
+  });
 
   PinnacleListModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
+    salesTarget = json['sales_target'];
+    pendingTarget = json['pending_target'];
+    achievedTarget = json['achieved_target'];
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
@@ -17,44 +27,64 @@ class PinnacleListModel {
       });
     }
   }
+
   bool? status;
   String? message;
+  num? salesTarget;
+  num? pendingTarget;
+  num? achievedTarget;
   List<PinnacleListData>? data;
-PinnacleListModel copyWith({  bool? status,
-  String? message,
-  List<PinnacleListData>? data,
-}) => PinnacleListModel(  status: status ?? this.status,
-  message: message ?? this.message,
-  data: data ?? this.data,
-);
+
+  PinnacleListModel copyWith({
+    bool? status,
+    String? message,
+    num? salesTarget,
+    num? pendingTarget,
+    num? achievedTarget,
+    List<PinnacleListData>? data,
+  }) =>
+      PinnacleListModel(
+        status: status ?? this.status,
+        message: message ?? this.message,
+        salesTarget: salesTarget ?? this.salesTarget,
+        pendingTarget: pendingTarget ?? this.pendingTarget,
+        achievedTarget: achievedTarget ?? this.achievedTarget,
+        data: data ?? this.data,
+      );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['message'] = message;
+    map['sales_target'] = salesTarget;
+    map['pending_target'] = pendingTarget;
+    map['achieved_target'] = achievedTarget;
     if (data != null) {
       map['data'] = data?.map((v) => v.toJson()).toList();
     }
     return map;
   }
-
 }
 
 PinnacleListData dataFromJson(String str) => PinnacleListData.fromJson(json.decode(str));
+
 String dataToJson(PinnacleListData data) => json.encode(data.toJson());
+
 class PinnacleListData {
   PinnacleListData({
-      this.id, 
-      this.profilePic, 
-      this.name, 
-      this.target, 
-      this.pending, 
-      this.conversion, 
-      this.lists, 
-      this.demo, 
-      this.training, 
-      this.progress, 
-      this.call, 
-      this.achievement,});
+    this.id,
+    this.profilePic,
+    this.name,
+    this.target,
+    this.pending,
+    this.conversion,
+    this.lists,
+    this.demo,
+    this.training,
+    this.progress,
+    this.call,
+    this.achievement,
+  });
 
   PinnacleListData.fromJson(dynamic json) {
     id = json['id'];
@@ -70,6 +100,7 @@ class PinnacleListData {
     call = json['call'];
     achievement = json['achievement'];
   }
+
   num? id;
   String? profilePic;
   String? name;
@@ -82,31 +113,36 @@ class PinnacleListData {
   num? progress;
   String? call;
   String? achievement;
-PinnacleListData copyWith({  num? id,
-  String? profilePic,
-  String? name,
-  num? target,
-  num? pending,
-  num? conversion,
-  num? lists,
-  num? demo,
-  num? training,
-  num? progress,
-  String? call,
-  String? achievement,
-}) => PinnacleListData(  id: id ?? this.id,
-  profilePic: profilePic ?? this.profilePic,
-  name: name ?? this.name,
-  target: target ?? this.target,
-  pending: pending ?? this.pending,
-  conversion: conversion ?? this.conversion,
-  lists: lists ?? this.lists,
-  demo: demo ?? this.demo,
-  training: training ?? this.training,
-  progress: progress ?? this.progress,
-  call: call ?? this.call,
-  achievement: achievement ?? this.achievement,
-);
+
+  PinnacleListData copyWith({
+    num? id,
+    String? profilePic,
+    String? name,
+    num? target,
+    num? pending,
+    num? conversion,
+    num? lists,
+    num? demo,
+    num? training,
+    num? progress,
+    String? call,
+    String? achievement,
+  }) =>
+      PinnacleListData(
+        id: id ?? this.id,
+        profilePic: profilePic ?? this.profilePic,
+        name: name ?? this.name,
+        target: target ?? this.target,
+        pending: pending ?? this.pending,
+        conversion: conversion ?? this.conversion,
+        lists: lists ?? this.lists,
+        demo: demo ?? this.demo,
+        training: training ?? this.training,
+        progress: progress ?? this.progress,
+        call: call ?? this.call,
+        achievement: achievement ?? this.achievement,
+      );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
@@ -123,5 +159,4 @@ PinnacleListData copyWith({  num? id,
     map['achievement'] = achievement;
     return map;
   }
-
 }

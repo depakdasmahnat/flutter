@@ -69,6 +69,7 @@ class ApiEndpoints {
   static const String fetchDashboardStats = 'fetch_dashboard_stats';
   static const String generateReferralLink = 'generate_referral_link';
   static const String fetchMemberProfile = 'fetch_member_profile';
+  static const String guestProfile = 'guest_profile';
 
   /// Training Apis
 

@@ -9,6 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/services/api/api_service.dart';
 
 import '../../../models/member/dashboard/achievement_badges_model.dart';
+import '../../../models/member/leads/leads_member_details.dart';
 import '../../../models/member/leads/leads_model.dart';
 import '../../../models/member/todo/to_do_model.dart';
 
@@ -197,5 +198,56 @@ class ListsControllers extends ChangeNotifier {
     return toDos;
   }
 
+  bool loadingGuestProfileDetails = true;
+  GuestProfileDetails? guestProfileDetailsModel;
+  GuestProfileDetailsData? guestProfileDetails;
 
+  Future<GuestProfileDetailsData?> fetchGuestProfileDetails({
+    String? guestId,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      // Define these functions outside the conditional block to avoid redefining them every time
+      void onRefresh() {
+        loadingGuestProfileDetails = true;
+        guestProfileDetailsModel = null;
+        guestProfileDetails = null;
+        notifyListeners();
+      }
+
+      void onComplete() {
+        loadingGuestProfileDetails = false;
+        notifyListeners();
+      }
+
+      onRefresh(); // Call onRefresh to set loading state
+
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchGuestProfile,
+          queryParameters: {
+            'guest_id': guestId ?? '',
+          },
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          GuestProfileDetails responseData = GuestProfileDetails.fromJson(json);
+          if (responseData.status == true) {
+            guestProfileDetails = responseData.data;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete(); // Handle loading state changes even in case of errors
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete(); // Make sure loading state changes are reflected
+      }
+    }
+
+    return guestProfileDetails;
+  }
 }

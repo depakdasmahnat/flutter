@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/constant/colors.dart';
 
 class CustomPopupMenuEntry {
   final String? value;
   final String label;
   final IconData? icon;
+  final Color? color;
   final Function()? onPressed;
 
   CustomPopupMenuEntry({
     this.value,
     required this.label,
     this.icon,
+    this.color,
     required this.onPressed,
   });
 }
@@ -41,13 +44,13 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
         widget.items?.length ?? 0,
         (index) {
           var menuEntry = widget.items![index];
+          bool isSelected = menuEntry.label == widget.value;
 
           return PopupMenuItem(
             value: menuEntry.label,
             height: 30,
             onTap: () {
               _onTap(menuEntry);
-
               widget.onChange(menuEntry.value ?? menuEntry.label);
             },
             padding: EdgeInsets.zero,
@@ -56,9 +59,9 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
               children: [
                 Text(
                   menuEntry.label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: Colors.black,
+                    color: isSelected ? primaryColor : (menuEntry.color ?? Colors.black),
                     letterSpacing: 0.2,
                     fontWeight: FontWeight.w600,
                   ),

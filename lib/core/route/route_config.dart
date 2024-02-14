@@ -51,6 +51,7 @@ import '../../screens/member/members/calendar.dart';
 import '../../screens/member/network/network_report.dart';
 import '../../screens/member/profile/account_settings.dart';
 import '../../screens/member/profile/member_edit_profile.dart';
+import '../../screens/member/profile/profile.dart';
 import '../../screens/member/resources/resources.dart';
 import '../../screens/member/target/create_target.dart';
 import '../../screens/member/target/target_screen.dart';
@@ -396,7 +397,18 @@ class RoutesConfig {
           return materialPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
         },
       ),
-
+      GoRoute(
+        name: Routs.leadMemberProfile,
+        path: Routs.leadMemberProfile,
+        pageBuilder: (context, state) {
+          GuestProfileDetails? data = state.extra as GuestProfileDetails?;
+          return materialPage(
+              state: state,
+              child: GuestProfileDetails(
+                guestId: data?.guestId,
+              ));
+        },
+      ),
       GoRoute(
         name: Routs.toDoScreen,
         path: Routs.toDoScreen,

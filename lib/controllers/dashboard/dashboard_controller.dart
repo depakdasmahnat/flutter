@@ -108,7 +108,7 @@ class DashboardController extends ChangeNotifier {
       widget: const Lead(),
     ),
     DashboardData(
-      title: 'Members',
+      title: 'Partners',
       activeImage: AppAssets.membersFilledIcon,
       inActiveImage: AppAssets.membersIcon,
       widget: const MemberScreen(),
