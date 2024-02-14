@@ -674,4 +674,105 @@ class _ModelDialogBoxForBannerState extends State<ModelDialogBoxForBanner> {
 
 
 
+class ModelDialogBoxForRescheduled extends StatefulWidget {
+  final String eventID;
+
+  const ModelDialogBoxForRescheduled({super.key,required this.eventID,});
+  @override
+  State<ModelDialogBoxForRescheduled> createState() => _ModelDialogBoxForRescheduledState();
+}
+class _ModelDialogBoxForRescheduledState extends State<ModelDialogBoxForRescheduled> {
+  String nameType ='';
+  int tabIndex=-1;
+  List item =['I Will  Attend','Attend with others','Not interested'];
+  Color? pupUpTextColor =const Color(0xFFA0A0A0);
+  @override
+  Widget build(BuildContext context) {
+
+    Size size = MediaQuery.of(context).size;
+    return  Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Padding(
+        padding: const EdgeInsets.all(35),
+        child: Center(
+          child: Container(
+            // height: size.height*0.4,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xFF1C1C1C),
+              borderRadius: BorderRadius.circular(18),
+
+            ),
+            child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: size.height*0.02,
+                ),
+                CustomeText(
+                  text: 'No answer',
+                  fontSize: 18,
+                  color:pupUpTextColor,
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(
+                  height: size.height*0.02,
+                ),
+                const Divider(
+                  thickness: 2,
+                  color: Color(0xFF212121),
+                ),
+                SizedBox(
+                  height: size.height*0.02,
+                ),
+                CustomeText(
+                  text: 'Could not connect',
+                  fontSize: 18,
+                  color:pupUpTextColor,
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(
+                  height: size.height*0.02,
+                ),
+                const Divider(
+                  thickness: 2,
+                  color: Color(0xFF212121),
+                ),
+                SizedBox(
+                  height: size.height*0.02,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    context.pop();
+                  },
+                  child: CustomeText(
+
+                    text: 'Call back request',
+                    fontSize: 18,
+                    color:pupUpTextColor,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(
+                  height: size.height*0.02,
+                ),
+                const Divider(
+                  thickness: 2,
+                  color: Color(0xFF212121),
+                )
+
+
+              ],
+            ),
+
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 

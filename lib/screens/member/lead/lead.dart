@@ -8,14 +8,18 @@ import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controllers/auth_controller/auth_controller.dart';
+import '../../../controllers/member/leads/leads_controllers.dart';
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
+import '../../../core/constant/colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/appbar.dart';
 
 import '../../../utils/widgets/custom_back_button.dart';
 
+import '../../../utils/widgets/custom_bottom_sheet.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../dashboard/more_menu.dart';
@@ -24,6 +28,7 @@ import '../demo/create_demo.dart';
 import '../home/member_profile_details.dart';
 import 'custom_popup_menu.dart';
 import 'demo_don_form.dart';
+import 'leads_popup.dart';
 import 'model_dailog_box.dart';
 
 class Lead extends StatefulWidget {
@@ -36,7 +41,13 @@ class Lead extends StatefulWidget {
 class _LeadState extends State<Lead> {
   int tabIndex = 0;
 
-  List tabItem = ['Newly Listed', 'Invitation Call', 'Demo Scheduled', 'Follow Up', 'Closed'];
+  List tabItem = [
+    'Newly Listed',
+    'Invitation Call',
+    'Demo Scheduled',
+    'Follow Up',
+    'Closed'
+  ];
   List item = [
     {
       'image': '08',
@@ -74,7 +85,9 @@ class _LeadState extends State<Lead> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context.read<MembersController>().fetchLeads(status: '', priority: '', page: '1');
+      await context
+          .read<MembersController>()
+          .fetchLeads(status: 'New', priority: '', page: '1');
     });
     super.initState();
   }
@@ -90,11 +103,12 @@ class _LeadState extends State<Lead> {
                 ? PreferredSize(
                     preferredSize: Size.fromHeight(size.height * 0.54),
                     child: const Center(
-                      child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                      child: CupertinoActivityIndicator(
+                          radius: 15, color: CupertinoColors.white),
                     ),
                   )
                 : PreferredSize(
-                    preferredSize: Size.fromHeight(size.height * 0.54),
+                    preferredSize: Size.fromHeight(size.height * 0.4),
                     child: CustomAppBar(
                       showLeadICon: false,
                       title: 'List',
@@ -104,251 +118,242 @@ class _LeadState extends State<Lead> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                                width: double.infinity,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: const ShapeDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment(0.00, -1.00),
-                                    end: Alignment(0, 1),
-                                    colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)],
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
-                                  ),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    Center(
-                                      child: SizedBox(
-                                        height: size.height * 0.07,
-                                        child: ListView.builder(
-                                          itemCount: tabItem.length,
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) {
-                                            return InkWell(
-                                              onTap: () async {
-                                                tabIndex = index;
-                                                status = tabItem[index];
-                                                if (status == 'Newly Listed') {
-                                                  status = 'New';
-                                                }
-                                                setState(() {});
-                                                await context
-                                                    .read<MembersController>()
-                                                    .fetchLeads(status: status, priority: '', page: '1');
-                                              },
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  width: size.width * 0.3,
-                                                  height: size.width * 0.06,
-                                                  decoration: ShapeDecoration(
-                                                    gradient: index == tabIndex ? primaryGradient : null,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                    ),
-                                                  ),
-                                                  child: Center(
-                                                      child: CustomeText(
-                                                    text: tabItem[index],
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: index == tabIndex ? Colors.black : Colors.white,
-                                                  )),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: size.height * 0.01,
-                                      right: 5,
-                                      child: const Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          CustomBackButton(
-                                            iconSize: 17,
-                                            padding: EdgeInsets.all(3),
-                                            icon: AntDesign.right,
-                                          ),
-                                        ],
-                                      ),
-                                    )
+                              height: size.width * 0.15,
+                              width: double.infinity,
+                              clipBehavior: Clip.antiAlias,
+                              decoration: const ShapeDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment(0.00, -1.00),
+                                  end: Alignment(0, 1),
+                                  colors: [
+                                    Color(0xFF3B3B3B),
+                                    Color(0xFF4A4A4A)
                                   ],
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(left: kPadding, top: 8),
-                              child: SizedBox(
-                                  height: size.height * 0.11,
-                                  child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: Container(
-                                            width: size.width * 0.22,
-                                            decoration: ShapeDecoration(
-                                              gradient: primaryGradient,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 4, bottom: 4),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.new1}',
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.black,
-                                                  ),
-                                                  const Text(
-                                                    'Added\nto list',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10)),
+                                ),
+                              ),
+                              child: ListView.builder(
+                                itemCount: tabItem.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () async {
+                                      tabIndex = index;
+                                      status = tabItem[index];
+                                      if (status == 'Newly Listed') {
+                                        status = 'New';
+                                      }
+                                      setState(() {});
+                                      await context
+                                          .read<MembersController>()
+                                          .fetchLeads(
+                                              status: status,
+                                              priority: '',
+                                              page: '1');
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        width: size.width * 0.3,
+                                        height: size.width * 0.06,
+                                        decoration: ShapeDecoration(
+                                          gradient: index == tabIndex
+                                              ? primaryGradient
+                                              : null,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: Container(
-                                            width: size.width * 0.22,
-                                            decoration: ShapeDecoration(
-                                              gradient: const LinearGradient(
-                                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomeText(
-                                                    text:
-                                                        '${controller.fetchLeadsModel?.stats?.invitationCall}',
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.black,
-                                                  ),
-                                                  const Text(
-                                                    'Demo\nScheduled',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: Container(
-                                            width: size.width * 0.22,
-                                            decoration: ShapeDecoration(
-                                              gradient: const LinearGradient(
-                                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.followup}',
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.black,
-                                                  ),
-                                                  const Text(
-                                                    'Demo\nDone',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: Container(
-                                            width: size.width * 0.22,
-                                            decoration: ShapeDecoration(
-                                              gradient: const LinearGradient(
-                                                  colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)]),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.closed}',
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.white,
-                                                  ),
-                                                  const Text(
-                                                    'Leads\nClosed',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                        child: Center(
+                                            child: CustomeText(
+                                          text: tabItem[index],
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          color: index == tabIndex
+                                              ? Colors.black
+                                              : Colors.white,
+                                        )),
+                                      ),
                                     ),
-                                  )),
+                                  );
+                                },
+                              ),
                             ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: kPadding, top: 8),
+                            //   child: SizedBox(
+                            //       height: size.height * 0.11,
+                            //       child: Align(
+                            //         alignment: Alignment.topCenter,
+                            //         child: ListView(
+                            //           scrollDirection: Axis.horizontal,
+                            //
+                            //           children: [
+                            //             Padding(
+                            //               padding: const EdgeInsets.all(3),
+                            //               child: Container(
+                            //                 width: size.width * 0.22,
+                            //                 decoration: ShapeDecoration(
+                            //                   gradient: primaryGradient,
+                            //                   shape: RoundedRectangleBorder(
+                            //                     borderRadius: BorderRadius.circular(18),
+                            //                   ),
+                            //                 ),
+                            //                 child: Padding(
+                            //                   padding: const EdgeInsets.only(left: 8.0, top: 4, bottom: 4),
+                            //                   child: Column(
+                            //                     crossAxisAlignment: CrossAxisAlignment.start,
+                            //                     mainAxisSize: MainAxisSize.min,
+                            //                     mainAxisAlignment: MainAxisAlignment.center,
+                            //                     children: [
+                            //                       CustomeText(
+                            //                         text: '${controller.fetchLeadsModel?.stats?.new1}',
+                            //                         fontSize: 28,
+                            //                         fontWeight: FontWeight.w700,
+                            //                         color: Colors.black,
+                            //                       ),
+                            //                       const Text(
+                            //                         'Added\nto list',
+                            //                         style: TextStyle(
+                            //                           color: Colors.black,
+                            //                           fontSize: 12,
+                            //                           fontWeight: FontWeight.w600,
+                            //                         ),
+                            //                         textAlign: TextAlign.start,
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //             Padding(
+                            //               padding: const EdgeInsets.all(3),
+                            //               child: Container(
+                            //                 width: size.width * 0.22,
+                            //                 decoration: ShapeDecoration(
+                            //                   gradient: const LinearGradient(
+                            //                       colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
+                            //                   shape: RoundedRectangleBorder(
+                            //                     borderRadius: BorderRadius.circular(18),
+                            //                   ),
+                            //                 ),
+                            //                 child: Padding(
+                            //                   padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                            //                   child: Column(
+                            //                     crossAxisAlignment: CrossAxisAlignment.start,
+                            //                     mainAxisSize: MainAxisSize.min,
+                            //                     mainAxisAlignment: MainAxisAlignment.center,
+                            //                     children: [
+                            //                       CustomeText(
+                            //                         text:
+                            //                         '${controller.fetchLeadsModel?.stats?.invitationCall}',
+                            //                         fontSize: 28,
+                            //                         fontWeight: FontWeight.w700,
+                            //                         color: Colors.black,
+                            //                       ),
+                            //                       const Text(
+                            //                         'Demo\nScheduled',
+                            //                         style: TextStyle(
+                            //                           color: Colors.black,
+                            //                           fontSize: 12,
+                            //                           fontWeight: FontWeight.w600,
+                            //                         ),
+                            //                         textAlign: TextAlign.start,
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //             Padding(
+                            //               padding: const EdgeInsets.all(3),
+                            //               child: Container(
+                            //                 width: size.width * 0.22,
+                            //                 decoration: ShapeDecoration(
+                            //                   gradient: const LinearGradient(
+                            //                       colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
+                            //                   shape: RoundedRectangleBorder(
+                            //                     borderRadius: BorderRadius.circular(18),
+                            //                   ),
+                            //                 ),
+                            //                 child: Padding(
+                            //                   padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                            //                   child: Column(
+                            //                     crossAxisAlignment: CrossAxisAlignment.start,
+                            //                     mainAxisSize: MainAxisSize.min,
+                            //                     mainAxisAlignment: MainAxisAlignment.center,
+                            //                     children: [
+                            //                       CustomeText(
+                            //                         text: '${controller.fetchLeadsModel?.stats?.followup}',
+                            //                         fontSize: 28,
+                            //                         fontWeight: FontWeight.w700,
+                            //                         color: Colors.black,
+                            //                       ),
+                            //                       const Text(
+                            //                         'Demo\nDone',
+                            //                         style: TextStyle(
+                            //                           color: Colors.black,
+                            //                           fontSize: 12,
+                            //                           fontWeight: FontWeight.w600,
+                            //                         ),
+                            //                         textAlign: TextAlign.start,
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //             Padding(
+                            //               padding: const EdgeInsets.all(3),
+                            //               child: Container(
+                            //                 width: size.width * 0.22,
+                            //                 decoration: ShapeDecoration(
+                            //                   gradient: const LinearGradient(
+                            //                       colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)]),
+                            //                   shape: RoundedRectangleBorder(
+                            //                     borderRadius: BorderRadius.circular(18),
+                            //                   ),
+                            //                 ),
+                            //                 child: Padding(
+                            //                   padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                            //                   child: Column(
+                            //                     crossAxisAlignment: CrossAxisAlignment.start,
+                            //                     mainAxisSize: MainAxisSize.min,
+                            //                     mainAxisAlignment: MainAxisAlignment.center,
+                            //                     children: [
+                            //                       CustomeText(
+                            //                         text: '${controller.fetchLeadsModel?.stats?.closed}',
+                            //                         fontSize: 28,
+                            //                         fontWeight: FontWeight.w700,
+                            //                         color: Colors.white,
+                            //                       ),
+                            //                       const Text(
+                            //                         'Leads\nClosed',
+                            //                         style: TextStyle(
+                            //                           color: Colors.white,
+                            //                           fontSize: 12,
+                            //                           fontWeight: FontWeight.w600,
+                            //                         ),
+                            //                         textAlign: TextAlign.start,
+                            //                       ),
+                            //                     ],
+                            //                   ),
+                            //                 ),
+                            //               ),
+                            //             ),
+                            //           ],
+                            //         ),
+                            //       )),
+                            // ),
                             Padding(
-                              padding: const EdgeInsets.only(left: kPadding, top: 8),
+                              padding:
+                                  const EdgeInsets.only(left: kPadding, top: 8),
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: CustomeText(
@@ -360,126 +365,67 @@ class _LeadState extends State<Lead> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: kPadding, top: 8),
+                              padding:
+                                  const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
                                   height: size.height * 0.1,
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
-                                    physics: const NeverScrollableScrollPhysics(),
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(3),
-                                        child: Container(
-                                          width: size.width * 0.3,
-                                          decoration: ShapeDecoration(
-                                            gradient: const LinearGradient(
-                                                colors: [Color(0xFFFF2600), Color(0xFFFF6130)]),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.hot}',
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                ),
-                                                const Text(
-                                                  'Hot Leads',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
+                                      LeadType(
+                                        value: controller
+                                            .fetchLeadsModel?.stats?.hot
+                                            .toString(),
+                                        subHeading: 'Hot Leads',
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(3),
-                                        child: Container(
-                                          width: size.width * 0.3,
-                                          decoration: ShapeDecoration(
-                                            gradient: const LinearGradient(
-                                                colors: [Color(0xFFFDDC9C), Color(0xFFDDA53B)]),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.warm}',
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                ),
-                                                const Text(
-                                                  'Warm Leads',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
+                                      LeadType(
+                                        value: controller
+                                            .fetchLeadsModel?.stats?.warm
+                                            .toString(),
+                                        subHeading: 'Warm Leads',
+                                        colors: const [
+                                          Color(0xFFFDDC9C),
+                                          Color(0xFFDDA53B)
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(3),
-                                        child: Container(
-                                          width: size.width * 0.3,
-                                          decoration: ShapeDecoration(
-                                            gradient: const LinearGradient(
-                                                colors: [Color(0xFF3CDCDC), Color(0xFF12BCBC)]),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
+                                      LeadType(
+                                        value: controller
+                                            .fetchLeadsModel?.stats?.cold
+                                            .toString(),
+                                        subHeading: 'Cold Leads',
+                                        colors: const [
+                                          Color(0xFF3CDCDC),
+                                          Color(0xFF12BCBC)
+                                        ],
+                                      ),
+                                      LeadType(
+                                        onTap: () {
+                                          CustomBottomSheet.show(
+                                            context: context,
+                                            body: const LeadsPopup(
+                                              title: 'Bin',
+                                              status: 'Bin',
                                             ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.cold}',
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                ),
-                                                const Text(
-                                                  'Cold Leads',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
+                                          );
+                                        },
+                                        value: controller
+                                            .fetchLeadsModel?.stats?.bin
+                                            .toString(),
+                                        subHeading: 'Bin',
+                                        colors: const [
+                                          Color(0xFF3B3B3B),
+                                          Color(0xFF4A4A4A)
+                                        ],
+                                      ),
+                                      LeadType(
+                                        value: controller.fetchLeadsModel?.stats
+                                            ?.appDownloads
+                                            .toString(),
+                                        subHeading: 'App Downloads',
+                                        colors: const [
+                                          Color(0xFF3B3B3B),
+                                          Color(0xFF4A4A4A)
+                                        ],
                                       ),
                                     ],
                                   )),
@@ -495,16 +441,21 @@ class _LeadState extends State<Lead> {
                                       width: 20,
                                       borderRadiusValue: 0,
                                       color: Colors.white,
-                                      margin: EdgeInsets.only(left: kPadding, right: kPadding),
+                                      margin: EdgeInsets.only(
+                                          left: kPadding, right: kPadding),
                                       fit: BoxFit.contain,
                                       assetImage: AppAssets.searchIcon,
                                     ),
                                     margin: EdgeInsets.only(
-                                        left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+                                        left: kPadding,
+                                        right: kPadding,
+                                        top: kPadding,
+                                        bottom: kPadding),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: kPadding),
+                                  padding:
+                                      const EdgeInsets.only(right: kPadding),
                                   child: GestureDetector(
                                     onTap: () async {},
                                     child: Container(
@@ -512,10 +463,14 @@ class _LeadState extends State<Lead> {
                                         gradient: const LinearGradient(
                                           begin: Alignment(0.00, -1.00),
                                           end: Alignment(0, 1),
-                                          colors: [Color(0xFF383838), Color(0xFF282828)],
+                                          colors: [
+                                            Color(0xFF383838),
+                                            Color(0xFF282828)
+                                          ],
                                         ),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(21.60),
+                                          borderRadius:
+                                              BorderRadius.circular(21.60),
                                         ),
                                       ),
                                       child: PopupMenuButton(
@@ -529,9 +484,13 @@ class _LeadState extends State<Lead> {
                                         onSelected: (value) async {
                                           await context
                                               .read<MembersController>()
-                                              .fetchLeads(status: status, priority: value, page: '1');
+                                              .fetchLeads(
+                                                  status: status,
+                                                  priority: value,
+                                                  page: '1');
                                         },
-                                        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                                        itemBuilder: (BuildContext context) =>
+                                            <PopupMenuEntry>[
                                           const PopupMenuItem(
                                             value: 'Newest',
                                             child: Text('Newest'),
@@ -572,11 +531,13 @@ class _LeadState extends State<Lead> {
                 controller.fetchLeadsModel?.data?.isEmpty == true
                     ? const NoDataFound()
                     : ListView.builder(
-                        itemCount: controller.fetchLeadsModel?.data?.length ?? 0,
+                        itemCount:
+                            controller.fetchLeadsModel?.data?.length ?? 0,
                         padding: EdgeInsets.only(bottom: size.height * 0.13),
                         itemBuilder: (context, index) {
                           return Padding(
-                              padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                              padding: const EdgeInsets.only(
+                                  left: kPadding, right: kPadding),
                               child: Container(
                                 decoration: decoration,
                                 child: Padding(
@@ -584,16 +545,29 @@ class _LeadState extends State<Lead> {
                                     child: RowCart(
                                       tabIndex: tabIndex,
                                       listIndex: index,
-                                      guestId: controller.fetchLeadsModel?.data?[index].id.toString(),
-                                      image: controller.fetchLeadsModel?.data?[index].profilePhoto,
-                                      name: controller.fetchLeadsModel?.data?[index].firstName,
-                                      city: controller.fetchLeadsModel?.data?[index].cityName,
-                                      phone: controller.fetchLeadsModel?.data?[index].mobile,
-                                      date: controller.fetchLeadsModel?.data?[index].demoDate,
-                                      time: controller.fetchLeadsModel?.data?[index].demoTime,
-                                      priority: controller.fetchLeadsModel?.data?[index].priority,
-                                      demoId: controller.fetchLeadsModel?.data?[index].demoId.toString(),
-                                      memberId: controller.fetchLeadsModel?.data?[index].memberId.toString(),
+                                      guestId: controller
+                                          .fetchLeadsModel?.data?[index].id
+                                          .toString(),
+                                      image: controller.fetchLeadsModel
+                                          ?.data?[index].profilePhoto,
+                                      name: controller.fetchLeadsModel
+                                          ?.data?[index].firstName,
+                                      city: controller.fetchLeadsModel
+                                          ?.data?[index].cityName,
+                                      phone: controller
+                                          .fetchLeadsModel?.data?[index].mobile,
+                                      date: controller.fetchLeadsModel
+                                          ?.data?[index].demoDate,
+                                      time: controller.fetchLeadsModel
+                                          ?.data?[index].demoTime,
+                                      priority: controller.fetchLeadsModel
+                                          ?.data?[index].priority,
+                                      demoId: controller
+                                          .fetchLeadsModel?.data?[index].demoId
+                                          .toString(),
+                                      memberId: controller.fetchLeadsModel
+                                          ?.data?[index].memberId
+                                          .toString(),
                                     )),
                               ));
                         },
@@ -602,10 +576,13 @@ class _LeadState extends State<Lead> {
                   Padding(
                     padding: EdgeInsets.only(bottom: size.height * 0.1),
                     child: Container(
-                      decoration:
-                          controller.showItem ? BoxDecoration(color: Colors.grey.withOpacity(0.1)) : null,
+                      decoration: controller.showItem
+                          ? BoxDecoration(color: Colors.grey.withOpacity(0.1))
+                          : null,
                       child: Column(
-                        mainAxisSize: controller.showItem ? MainAxisSize.max : MainAxisSize.min,
+                        mainAxisSize: controller.showItem
+                            ? MainAxisSize.max
+                            : MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           if (controller.showItem == true)
@@ -632,7 +609,8 @@ class _LeadState extends State<Lead> {
                         // }
                       },
                       child: Container(
-                        decoration: BoxDecoration(gradient: primaryGradient, shape: BoxShape.circle),
+                        decoration: BoxDecoration(
+                            gradient: primaryGradient, shape: BoxShape.circle),
                         child: Padding(
                           padding: const EdgeInsets.all(kPadding),
                           child: Image.asset(
@@ -650,7 +628,812 @@ class _LeadState extends State<Lead> {
   }
 }
 
-class RowCart extends StatelessWidget {
+// class RowCart extends StatelessWidget {
+//   int? tabIndex;
+//   int? listIndex;
+//   String? guestId;
+//   String? image;
+//   String? name;
+//   String? city;
+//   String? phone;
+//   String? date;
+//   String? time;
+//   String? priority;
+//   String? demoId;
+//   String? memberId;
+//
+//   RowCart({
+//     this.tabIndex,
+//     this.listIndex,
+//     this.guestId,
+//     this.image,
+//     this.name,
+//     this.city,
+//     this.phone,
+//     this.date,
+//     this.time,
+//     this.priority,
+//     this.demoId,
+//     this.memberId,
+//     super.key,
+//   });
+//
+//   Future<void> _showDialog(
+//       BuildContext context,
+//       String? guestId,
+//       String? feedback,
+//       bool changePopUp,
+//       ) async {
+//     return showDialog(
+//       context: context,
+//       barrierColor: Colors.transparent,
+//       builder: (BuildContext context) {
+//         return ModelDialogBox(
+//           guestId: guestId ?? '',
+//           feedback: feedback ?? '',
+//           changePopUp: changePopUp,
+//         );
+//       },
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     Size size = MediaQuery.of(context).size;
+//     return tabIndex == 0
+//         ? Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         GestureDetector(
+//           onTap: () {
+//             context.pushNamed(Routs.memberProfileDetails,
+//                 extra: MemberProfileDetails(memberId: '$memberId'));
+//           },
+//           child: Row(
+//             children: [
+//               image == null
+//                   ? CircleAvatar(
+//                 maxRadius: size.height * 0.02,
+//                 child: Image.asset(
+//                   AppAssets.userIcon,
+//                   height: 15,
+//                 ),
+//               )
+//                   : CircleAvatar(
+//                 backgroundImage: NetworkImage(image ?? ''),
+//                 maxRadius: size.height * 0.02,
+//               ),
+//               const SizedBox(
+//                 width: 5,
+//               ),
+//               SizedBox(
+//                 width: size.width * 0.12,
+//                 child: CustomeText(
+//                   text: name ?? '',
+//                   maxLines: 1,
+//                   fontSize: 12,
+//                   fontWeight: FontWeight.w500,
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//
+//         Row(
+//           children: [
+//             InkWell(
+//               onTap: () {},
+//               child: Container(
+//                 decoration: ShapeDecoration(
+//                   gradient: LinearGradient(
+//                     begin: const Alignment(0.61, -0.79),
+//                     end: const Alignment(-0.61, 0.79),
+//                     colors: priority == 'Hot'
+//                         ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+//                         : priority == 'Warm'
+//                         ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+//                         : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+//                   ),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(39),
+//                   ),
+//                 ),
+//                 child: SizedBox(
+//                   width: size.width * 0.11,
+//                   child: Center(
+//                     child: CustomPopUpMenu(
+//                       showText: true,
+//                       priority: priority,
+//                       onSelected: (v) async {
+//                         await context
+//                             .read<MembersController>()
+//                             .updateLeadPriority(
+//                             context: context,
+//                             guestId: guestId,
+//                             feedback: '',
+//                             priority: v,
+//                             remark: '')
+//                             .whenComplete(
+//                               () async {
+//                             await context
+//                                 .read<MembersController>()
+//                                 .fetchLeads(status: 'New', priority: '', page: '1');
+//                           },
+//                         );
+//                       },
+//                       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+//                         PopupMenuItem(
+//                           // height: size.height*0.05,
+//                           value: 'Hot',
+//                           child: Padding(
+//                             padding: const EdgeInsets.only(left: 10.0),
+//                             child: CustomeText(
+//                               text: 'Hot',
+//                               color: Colors.black,
+//                               fontWeight: FontWeight.w600,
+//                               fontSize: 12,
+//                             ),
+//                           ),
+//                         ),
+//
+//                         PopupMenuItem(
+//                           value: 'Warm',
+//                           height: size.height * 0.04,
+//                           child: Padding(
+//                             padding: const EdgeInsets.only(left: 10.0),
+//                             child: CustomeText(
+//                               text: 'Warm',
+//                               color: Colors.black,
+//                               fontWeight: FontWeight.w600,
+//                               fontSize: 12,
+//                             ),
+//                           ),
+//                         ),
+//                         PopupMenuItem(
+//                           value: 'Cold',
+//                           height: size.height * 0.04,
+//                           child: Padding(
+//                             padding: const EdgeInsets.only(left: 10.0),
+//                             child: CustomeText(
+//                               text: 'Cold',
+//                               color: Colors.black,
+//                               fontWeight: FontWeight.w600,
+//                               fontSize: 12,
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             const SizedBox(
+//               width: 10,
+//             ),
+//             InkWell(
+//               onTap: () async{
+//
+//                 await context.read<MembersController>().updateLeadStatus(
+//                   context: context,
+//                   guestId: guestId,
+//                   status: 'Invitation Call',
+//                 );
+//
+//               },
+//               child: Container(
+//                 decoration: ShapeDecoration(
+//                   gradient:primaryGradient,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(39),
+//                   ),
+//                 ),
+//                 child: Padding(
+//                   padding: const EdgeInsets.only(left: 8.0,right: 8,top: 4,bottom: 4),
+//                   child: CustomeText(
+//                     text: 'Move to IC',
+//                     fontWeight: FontWeight.w500,
+//                     fontSize: 10,
+//                     color: Colors.black,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         // Container(
+//         //   decoration: const BoxDecoration(color: Color(0xFFD9D9D9), shape: BoxShape.circle),
+//         //   child: GestureDetector(
+//         //     onTap: () async {
+//         //       await context.read<MembersController>().callUser(
+//         //         mobileNo: phone,
+//         //       );
+//         //       await context.read<MembersController>().updateLeadStatus(
+//         //         context: context,
+//         //         guestId: guestId,
+//         //         status: 'Invitation Call',
+//         //       );
+//         //     },
+//         //     child: Padding(
+//         //       padding: const EdgeInsets.all(1),
+//         //       child: ImageView(
+//         //         assetImage: AppAssets.call,
+//         //         height: size.height * 0.02,
+//         //         color: Colors.black,
+//         //       ),
+//         //     ),
+//         //   ),
+//         // ),
+//         // PopupMenuButton(
+//         //   color: CupertinoColors.white,
+//         //   //  onSelected: (value) async{
+//         //   //    print('check menu ${guestId}');
+//         //   //
+//         //   // // await   showDialog<String>(
+//         //   // //      context: context,
+//         //   // //      builder: (BuildContext context) => ModelDialogBox(guestId:guestId??'' ,status: 'Invitation Call',)
+//         //   // //    );
+//         //   //   // await context.pushNamed(Routs.modelDialogBox,extra: ModelDialogBox(guestId: '1',));
+//         //   //
+//         //   //  },
+//         //   shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+//         //   onSelected: (value) {
+//         //     print(value);
+//         //     _showDialog(context, guestId, value, false).whenComplete(
+//         //           () async {
+//         //         await context
+//         //             .read<MembersController>()
+//         //             .fetchLeads(status: 'New ', priority: '', page: '1');
+//         //       },
+//         //     );
+//         //   },
+//         //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+//         //     PopupMenuItem(
+//         //       // height: size.height*0.05,
+//         //       value: 'Interested',
+//         //       child: Padding(
+//         //         padding: const EdgeInsets.only(left: 10.0),
+//         //         child: CustomeText(
+//         //           text: 'Interested',
+//         //           color: Colors.black,
+//         //           fontWeight: FontWeight.w600,
+//         //           fontSize: 12,
+//         //         ),
+//         //       ),
+//         //     ),
+//         //     PopupMenuItem(
+//         //       value: 'Not confirm',
+//         //       height: size.height * 0.04,
+//         //       child: Padding(
+//         //         padding: const EdgeInsets.only(left: 10.0),
+//         //         child: CustomeText(
+//         //           text: 'Not confirm',
+//         //           color: Colors.black,
+//         //           fontWeight: FontWeight.w600,
+//         //           fontSize: 12,
+//         //         ),
+//         //       ),
+//         //     ),
+//         //   ],
+//         //   child: const Icon(Icons.more_vert),
+//         // ),
+//       ],
+//     )
+//         : tabIndex == 1
+//         ? Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: [
+//         Row(
+//           children: [
+//             // image==null?
+//             // Image.asset(AppAssets.u1):Image.network(image??'',height: size.height*0.04,width:size.width*0.04 ,),
+//             image == null
+//                 ? CircleAvatar(
+//               maxRadius: size.height * 0.02,
+//               child: Image.asset(
+//                 AppAssets.userIcon,
+//                 height: 15,
+//               ),
+//             )
+//                 : CircleAvatar(
+//               backgroundImage: NetworkImage(image ?? ''),
+//               maxRadius: size.height * 0.02,
+//             ),
+//             const SizedBox(
+//               width: 5,
+//             ),
+//             SizedBox(
+//               width: size.width * 0.12,
+//               child: CustomeText(
+//                 text: name ?? '',
+//                 maxLines: 1,
+//                 fontSize: 12,
+//                 fontWeight: FontWeight.w500,
+//               ),
+//             ),
+//           ],
+//         ),
+//         SizedBox(
+//           width: size.width * 0.14,
+//           child: CustomeText(
+//             text: city ?? 'Raipur(CG)',
+//             fontSize: 12,
+//             maxLines: 1,
+//             fontWeight: FontWeight.w500,
+//           ),
+//         ),
+//         CustomeText(
+//           text: date ?? '07-02-2024',
+//           fontSize: 12,
+//           fontWeight: FontWeight.w500,
+//         ),
+//         CustomeText(
+//           text: time ?? '12:02 AM',
+//           fontSize: 12,
+//           fontWeight: FontWeight.w500,
+//         ),
+//         GestureDetector(
+//           onTap: () {
+//             context
+//                 .pushNamed(Routs.createDemo,
+//                 extra: CreateDemo(
+//                   guestId: guestId ?? '',
+//                   name: name,
+//                   image: image,
+//                 ))
+//                 .whenComplete(
+//                   () async {
+//                 await context
+//                     .read<MembersController>()
+//                     .fetchLeads(status: 'Invitation Call ', priority: '', page: '1');
+//               },
+//             );
+//           },
+//           child: Container(
+//             decoration: ShapeDecoration(
+//               gradient: const LinearGradient(
+//                 begin: Alignment(0.00, -1.00),
+//                 end: Alignment(0, 1),
+//                 colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+//               ),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(50),
+//               ),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+//               child: CustomeText(
+//                 text: 'Demo',
+//                 fontWeight: FontWeight.w500,
+//                 fontSize: 10,
+//                 color: Colors.black,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     )
+//         : tabIndex == 2
+//         ? Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: [
+//         Row(
+//           children: [
+//             image == null
+//                 ? CircleAvatar(
+//               maxRadius: size.height * 0.02,
+//               child: Image.asset(
+//                 AppAssets.userIcon,
+//                 height: 15,
+//               ),
+//             )
+//                 : CircleAvatar(
+//               backgroundImage: NetworkImage(image ?? ''),
+//               maxRadius: size.height * 0.02,
+//             ),
+//             const SizedBox(
+//               width: 5,
+//             ),
+//             SizedBox(
+//               width: size.width * 0.12,
+//               child: CustomeText(
+//                 text: name ?? '',
+//                 fontSize: 12,
+//                 fontWeight: FontWeight.w500,
+//                 maxLines: 1,
+//               ),
+//             ),
+//           ],
+//         ),
+//         CustomeText(
+//           text: date ?? '07-02-2024',
+//           fontSize: 12,
+//           fontWeight: FontWeight.w500,
+//         ),
+//         CustomeText(
+//           text: time ?? '12:02 AM',
+//           fontSize: 12,
+//           fontWeight: FontWeight.w500,
+//         ),
+//         // CustomeText(
+//         //   text: city ?? 'Bhilai',
+//         //   fontSize: 12,
+//         //   fontWeight: FontWeight.w500,
+//         // ),
+//         InkWell(
+//           onTap: () {},
+//           child: Container(
+//             decoration: ShapeDecoration(
+//               gradient: LinearGradient(
+//                 begin: const Alignment(0.61, -0.79),
+//                 end: const Alignment(-0.61, 0.79),
+//                 colors: priority == 'Hot'
+//                     ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+//                     : priority == 'Worm'
+//                     ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+//                     : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+//               ),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(39),
+//               ),
+//             ),
+//             child: SizedBox(
+//               width: size.width * 0.11,
+//               child: Center(
+//                 child: Padding(
+//                   padding: const EdgeInsets.only(top: 4, bottom: 4),
+//                   child: CustomeText(
+//                     text: priority ?? '',
+//                     fontWeight: FontWeight.w500,
+//                     fontSize: 10,
+//                     color: Colors.white,
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//         CustomPopUpMenu(
+//           onSelected: (v) async {
+//             if (v == 'Demo done') {
+//               await showModalBottomSheet(
+//                   backgroundColor: Colors.transparent,
+//                   context: context,
+//                   clipBehavior: Clip.antiAlias,
+//                   isScrollControlled: true,
+//                   shape: const OutlineInputBorder(
+//                       borderRadius: BorderRadius.only(
+//                           topLeft: Radius.circular(18), topRight: Radius.circular(18))),
+//                   builder: (context) => DemoDoneForm(
+//                     title: 'List Update',
+//                     demoId: demoId,
+//                   )).whenComplete(
+//                     () async {
+//                   await context
+//                       .read<MembersController>()
+//                       .fetchLeads(status: 'Demo Sheduled', priority: '', page: '1');
+//                 },
+//               );
+//             } else {
+//               context
+//                   .pushNamed(Routs.createDemo,
+//                   extra: CreateDemo(
+//                     guestId: guestId ?? '',
+//                     name: name,
+//                     image: image,
+//                   ))
+//                   .whenComplete(
+//                     () async {
+//                   await context
+//                       .read<MembersController>()
+//                       .fetchLeads(status: 'Demo Scheduled', priority: '', page: '1');
+//                 },
+//               );
+//             }
+//           },
+//           itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+//             PopupMenuItem(
+//               // height: size.height*0.05,
+//               value: 'Demo done',
+//               child: Padding(
+//                 padding: const EdgeInsets.only(left: 10.0),
+//                 child: CustomeText(
+//                   text: 'Demo done',
+//                   color: Colors.black,
+//                   fontWeight: FontWeight.w600,
+//                   fontSize: 12,
+//                 ),
+//               ),
+//             ),
+//             PopupMenuItem(
+//               value: 'Reschedule',
+//               height: size.height * 0.04,
+//               child: Padding(
+//                 padding: const EdgeInsets.only(left: 10.0),
+//                 child: CustomeText(
+//                   text: 'Reschedule',
+//                   color: Colors.black,
+//                   fontWeight: FontWeight.w600,
+//                   fontSize: 12,
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ],
+//     )
+//         : tabIndex == 3
+//         ? Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: [
+//         Row(
+//           children: [
+//             image == null
+//                 ? Image.asset(AppAssets.u1)
+//                 : CircleAvatar(
+//               backgroundImage: NetworkImage(image ?? ''),
+//               maxRadius: size.height * 0.02,
+//             ),
+//             const SizedBox(
+//               width: 5,
+//             ),
+//             SizedBox(
+//               width: size.width * 0.12,
+//               child: CustomeText(
+//                 text: name ?? '',
+//                 fontSize: 12,
+//                 maxLines: 1,
+//                 fontWeight: FontWeight.w500,
+//               ),
+//             ),
+//           ],
+//         ),
+//         CustomeText(
+//           text: city ?? 'Durg',
+//           fontSize: 12,
+//           fontWeight: FontWeight.w500,
+//         ),
+//         Container(
+//           decoration: ShapeDecoration(
+//             gradient: LinearGradient(
+//               begin: const Alignment(0.61, -0.79),
+//               end: const Alignment(-0.61, 0.79),
+//               colors: priority == 'Warm'
+//                   ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+//                   : priority == 'Hot'
+//                   ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+//                   : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+//             ),
+//             shape: RoundedRectangleBorder(
+//               borderRadius: BorderRadius.circular(39),
+//             ),
+//           ),
+//           child: SizedBox(
+//             width: size.width * 0.11,
+//             child: Center(
+//               child: Padding(
+//                 padding: const EdgeInsets.only(top: 4, bottom: 4),
+//                 child:
+//                 CustomPopUpMenu(
+//                   showText: true,
+//                   priority: priority,
+//                   onSelected: (v) async {
+//                     await context
+//                         .read<MembersController>()
+//                         .updateLeadPriority(
+//                         context: context,
+//                         guestId: guestId,
+//                         feedback: '',
+//                         priority: v,
+//                         remark: '')
+//                         .whenComplete(
+//                           () async {
+//                         await context
+//                             .read<MembersController>()
+//                             .fetchLeads(status: ' Follow Up', priority: '', page: '1');
+//                       },
+//                     );
+//                   },
+//                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+//                     PopupMenuItem(
+//                       // height: size.height*0.05,
+//                       value: 'Hot',
+//                       child: Padding(
+//                         padding: const EdgeInsets.only(left: 10.0),
+//                         child: CustomeText(
+//                           text: 'Hot',
+//                           color: Colors.black,
+//                           fontWeight: FontWeight.w600,
+//                           fontSize: 12,
+//                         ),
+//                       ),
+//                     ),
+//                     PopupMenuItem(
+//                       value: 'Warm',
+//                       height: size.height * 0.04,
+//                       child: Padding(
+//                         padding: const EdgeInsets.only(left: 10.0),
+//                         child: CustomeText(
+//                           text: 'Warm',
+//                           color: Colors.black,
+//                           fontWeight: FontWeight.w600,
+//                           fontSize: 12,
+//                         ),
+//                       ),
+//                     ),
+//                     PopupMenuItem(
+//                       value: 'Cold',
+//                       height: size.height * 0.04,
+//                       child: Padding(
+//                         padding: const EdgeInsets.only(left: 10.0),
+//                         child: CustomeText(
+//                           text: 'Cold',
+//                           color: Colors.black,
+//                           fontWeight: FontWeight.w600,
+//                           fontSize: 12,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//         GestureDetector(
+//           onTap: () {
+//             _showDialog(context, guestId, '', true).whenComplete(
+//                   () async {
+//                 await context
+//                     .read<MembersController>()
+//                     .fetchLeads(status: 'Follow Up', priority: '', page: '1');
+//               },
+//             );
+//           },
+//           child: Container(
+//             decoration: ShapeDecoration(
+//               gradient: const LinearGradient(
+//                 begin: Alignment(0.00, -1.00),
+//                 end: Alignment(0, 1),
+//                 colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+//               ),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(50),
+//               ),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+//               child: CustomeText(
+//                 text: 'Close',
+//                 fontWeight: FontWeight.w500,
+//                 fontSize: 10,
+//                 color: Colors.black,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     )
+//         : tabIndex == 4
+//         ? Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: [
+//         Row(
+//           children: [
+//             image == null
+//                 ? CircleAvatar(
+//               maxRadius: size.height * 0.02,
+//               child: Image.asset(
+//                 AppAssets.userIcon,
+//                 height: 15,
+//               ),
+//             )
+//                 : CircleAvatar(
+//               backgroundImage: NetworkImage(image ?? ''),
+//               maxRadius: size.height * 0.02,
+//             ),
+//             const SizedBox(
+//               width: 5,
+//             ),
+//             CustomeText(
+//               text: name ?? '',
+//               fontSize: 12,
+//               fontWeight: FontWeight.w500,
+//             ),
+//           ],
+//         ),
+//         CustomeText(
+//           text: city ?? 'Raipur',
+//           fontSize: 12,
+//           fontWeight: FontWeight.w500,
+//         ),
+//         GestureDetector(
+//           onTap: () {
+//             context.pushNamed(Routs.memberProfileDetails,
+//                 extra: MemberProfileDetails(
+//                   memberId: memberId ?? '',
+//                 ));
+//           },
+//           child: Container(
+//             decoration: ShapeDecoration(
+//               gradient: const LinearGradient(
+//                 begin: Alignment(0.00, -1.00),
+//                 end: Alignment(0, 1),
+//                 colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+//               ),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(50),
+//               ),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+//               child: CustomeText(
+//                 text: 'View Profile',
+//                 fontWeight: FontWeight.w500,
+//                 fontSize: 10,
+//                 color: Colors.black,
+//               ),
+//             ),
+//           ),
+//         ),
+//         // const Icon(Icons.more_vert)
+//       ],
+//     )
+//         : Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: [
+//         Row(
+//           children: [
+//             image == null
+//                 ? Image.asset(AppAssets.u1)
+//                 : CircleAvatar(
+//               backgroundImage: NetworkImage(image ?? ''),
+//               maxRadius: size.height * 0.02,
+//             ),
+//             const SizedBox(
+//               width: 5,
+//             ),
+//             CustomeText(
+//               text: name ?? '',
+//               fontSize: 12,
+//               fontWeight: FontWeight.w500,
+//             ),
+//           ],
+//         ),
+//         CustomeText(
+//           text: city ?? '',
+//           fontSize: 12,
+//           fontWeight: FontWeight.w500,
+//         ),
+//         InkWell(
+//           onTap: () {},
+//           child: Container(
+//             decoration: ShapeDecoration(
+//               gradient: const LinearGradient(
+//                 begin: Alignment(0.00, -1.00),
+//                 end: Alignment(0, 1),
+//                 colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+//               ),
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(50),
+//               ),
+//             ),
+//             child: Padding(
+//               padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+//               child: CustomeText(
+//                 text: 'View Profile',
+//                 fontWeight: FontWeight.w500,
+//                 fontSize: 10,
+//                 color: Colors.black,
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+class RowCart extends StatefulWidget {
   int? tabIndex;
   int? listIndex;
   String? guestId;
@@ -663,7 +1446,6 @@ class RowCart extends StatelessWidget {
   String? priority;
   String? demoId;
   String? memberId;
-
   RowCart({
     this.tabIndex,
     this.listIndex,
@@ -680,40 +1462,53 @@ class RowCart extends StatelessWidget {
     super.key,
   });
 
+  @override
+  State<RowCart> createState() => _RowCartState();
+}
+
+class _RowCartState extends State<RowCart> {
   Future<void> _showDialog(
     BuildContext context,
     String? guestId,
     String? feedback,
     bool changePopUp,
+      bool? changePopup,
   ) async {
     return showDialog(
       context: context,
       barrierColor: Colors.transparent,
       builder: (BuildContext context) {
-        return ModelDialogBox(
+        return changePopup==false?
+        ModelDialogBox(
           guestId: guestId ?? '',
           feedback: feedback ?? '',
           changePopUp: changePopUp,
-        );
+        ):ModelDialogBoxForRescheduled(
+  eventID: '',
+  );
       },
     );
   }
 
+  Color? pupUpTextColor =const Color(0xFFA0A0A0);
+
+  int? newIndex = -1;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return tabIndex == 0
+    return widget.tabIndex == 0
         ? Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
                 onTap: () {
                   context.pushNamed(Routs.memberProfileDetails,
-                      extra: MemberProfileDetails(memberId: '$memberId'));
+                      extra:
+                          MemberProfileDetails(memberId: '${widget.memberId}'));
                 },
                 child: Row(
                   children: [
-                    image == null
+                    widget.image == null
                         ? CircleAvatar(
                             maxRadius: size.height * 0.02,
                             child: Image.asset(
@@ -722,7 +1517,7 @@ class RowCart extends StatelessWidget {
                             ),
                           )
                         : CircleAvatar(
-                            backgroundImage: NetworkImage(image ?? ''),
+                            backgroundImage: NetworkImage(widget.image ?? ''),
                             maxRadius: size.height * 0.02,
                           ),
                     const SizedBox(
@@ -731,7 +1526,7 @@ class RowCart extends StatelessWidget {
                     SizedBox(
                       width: size.width * 0.12,
                       child: CustomeText(
-                        text: name ?? '',
+                        text: widget.name ?? '',
                         maxLines: 1,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -740,211 +1535,137 @@ class RowCart extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                width: size.width * 0.14,
-                child: CustomeText(
-                  text: city ?? 'Raipur(CG)',
-                  fontSize: 12,
-                  maxLines: 1,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  decoration: ShapeDecoration(
-                    gradient: LinearGradient(
-                      begin: const Alignment(0.61, -0.79),
-                      end: const Alignment(-0.61, 0.79),
-                      colors: priority == 'Hot'
-                          ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-                          : priority == 'Warm'
-                              ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-                              : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(39),
-                    ),
-                  ),
-                  child: SizedBox(
-                    width: size.width * 0.11,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4, bottom: 4),
-                        child: CustomeText(
-                          text: priority ?? '',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                decoration: const BoxDecoration(color: Color(0xFFD9D9D9), shape: BoxShape.circle),
-                child: GestureDetector(
-                  onTap: () async {
-                    await context.read<MembersController>().callUser(
-                          mobileNo: phone,
-                        );
-                    await context.read<MembersController>().updateLeadStatus(
-                          context: context,
-                          guestId: guestId,
-                          status: 'Invitation Call',
-                        );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(1),
-                    child: ImageView(
-                      assetImage: AppAssets.call,
-                      height: size.height * 0.02,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-              PopupMenuButton(
-                color: CupertinoColors.white,
-                //  onSelected: (value) async{
-                //    print('check menu ${guestId}');
-                //
-                // // await   showDialog<String>(
-                // //      context: context,
-                // //      builder: (BuildContext context) => ModelDialogBox(guestId:guestId??'' ,status: 'Invitation Call',)
-                // //    );
-                //   // await context.pushNamed(Routs.modelDialogBox,extra: ModelDialogBox(guestId: '1',));
-                //
-                //  },
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-                onSelected: (value) {
-                  print(value);
-                  _showDialog(context, guestId, value, false).whenComplete(
-                    () async {
-                      await context
-                          .read<MembersController>()
-                          .fetchLeads(status: 'New ', priority: '', page: '1');
-                    },
-                  );
-                },
-                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                  PopupMenuItem(
-                    // height: size.height*0.05,
-                    value: 'Interested',
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: CustomeText(
-                        text: 'Interested',
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    value: 'Not confirm',
-                    height: size.height * 0.04,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: CustomeText(
-                        text: 'Not confirm',
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ],
-                child: const Icon(Icons.more_vert),
-              ),
-            ],
-          )
-        : tabIndex == 1
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      // image==null?
-                      // Image.asset(AppAssets.u1):Image.network(image??'',height: size.height*0.04,width:size.width*0.04 ,),
-                      image == null
-                          ? CircleAvatar(
-                              maxRadius: size.height * 0.02,
-                              child: Image.asset(
-                                AppAssets.userIcon,
-                                height: 15,
-                              ),
-                            )
-                          : CircleAvatar(
-                              backgroundImage: NetworkImage(image ?? ''),
-                              maxRadius: size.height * 0.02,
-                            ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: size.width * 0.12,
-                        child: CustomeText(
-                          text: name ?? '',
-                          maxLines: 1,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        gradient: LinearGradient(
+                          begin: const Alignment(0.61, -0.79),
+                          end: const Alignment(-0.61, 0.79),
+                          colors: widget.priority == 'Hot'
+                              ? [
+                                  const Color(0xFFFF2600),
+                                  const Color(0xFFFF6130)
+                                ]
+                              : widget.priority == 'Warm'
+                                  ? [
+                                      const Color(0xFFFDDC9C),
+                                      const Color(0xFFDDA53B)
+                                    ]
+                                  : [
+                                      const Color(0xFF3CDCDC),
+                                      const Color(0xFF12BCBC)
+                                    ],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(39),
                         ),
                       ),
-                    ],
-                  ),
-                  SizedBox(
-                    width: size.width * 0.14,
-                    child: CustomeText(
-                      text: city ?? 'Raipur(CG)',
-                      fontSize: 12,
-                      maxLines: 1,
-                      fontWeight: FontWeight.w500,
+                      child:
+                      SizedBox(
+                        width: size.width * 0.11,
+                        child: Center(
+                          child: CustomPopUpMenu(
+                            showText: true,
+                            priority: widget.priority,
+                            onSelected: (v) async {
+                              await context
+                                  .read<MembersController>()
+                                  .updateLeadPriority(
+                                      context: context,
+                                      guestId: widget.guestId,
+                                      feedback: '',
+                                      priority: v,
+                                      remark: '')
+                                  .whenComplete(
+                                () async {
+                                  await context
+                                      .read<MembersController>()
+                                      .fetchLeads(
+                                          status: 'New',
+                                          priority: '',
+                                          page: '1');
+                                },
+                              );
+                            },
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry>[
+                              PopupMenuItem(
+                                // height: size.height*0.05,
+                                value: 'Hot',
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: CustomeText(
+                                    text: 'Hot',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'Warm',
+                                height: size.height * 0.04,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: CustomeText(
+                                    text: 'Warm',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'Cold',
+                                height: size.height * 0.04,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: CustomeText(
+                                    text: 'Cold',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  CustomeText(
-                    text: date ?? '07-02-2024',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                  const SizedBox(
+                    width: 10,
                   ),
-                  CustomeText(
-                    text: time ?? '12:02 AM',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context
-                          .pushNamed(Routs.createDemo,
-                              extra: CreateDemo(
-                                guestId: guestId ?? '',
-                                name: name,
-                                image: image,
-                              ))
-                          .whenComplete(
-                        () async {
-                          await context
-                              .read<MembersController>()
-                              .fetchLeads(status: 'Invitation Call ', priority: '', page: '1');
-                        },
-                      );
+                  InkWell(
+                    onTap: () async {
+                      newIndex = widget.listIndex;
+                      setState(() {});
+                      await context.read<MembersController>().updateLeadStatus(
+                            context: context,
+                            guestId: widget.guestId,
+                            status: 'Invitation Call',
+                          );
                     },
                     child: Container(
                       decoration: ShapeDecoration(
-                        gradient: const LinearGradient(
-                          begin: Alignment(0.00, -1.00),
-                          end: Alignment(0, 1),
-                          colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
-                        ),
+                        gradient: newIndex == widget.listIndex
+                            ? primaryGradient
+                            : LinearGradient(
+                                colors: [Colors.white, Colors.white]),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(39),
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+                        padding: const EdgeInsets.only(
+                            left: 8.0, right: 8, top: 4, bottom: 4),
                         child: CustomeText(
-                          text: 'Demo',
+                          text: 'Move to IC',
                           fontWeight: FontWeight.w500,
                           fontSize: 10,
                           color: Colors.black,
@@ -953,14 +1674,426 @@ class RowCart extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              // Container(
+              //   decoration: const BoxDecoration(color: Color(0xFFD9D9D9), shape: BoxShape.circle),
+              //   child: GestureDetector(
+              //     onTap: () async {
+              //       await context.read<MembersController>().callUser(
+              //         mobileNo: phone,
+              //       );
+              //       await context.read<MembersController>().updateLeadStatus(
+              //         context: context,
+              //         guestId: guestId,
+              //         status: 'Invitation Call',
+              //       );
+              //     },
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(1),
+              //       child: ImageView(
+              //         assetImage: AppAssets.call,
+              //         height: size.height * 0.02,
+              //         color: Colors.black,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // PopupMenuButton(
+              //   color: CupertinoColors.white,
+              //   //  onSelected: (value) async{
+              //   //    print('check menu ${guestId}');
+              //   //
+              //   // // await   showDialog<String>(
+              //   // //      context: context,
+              //   // //      builder: (BuildContext context) => ModelDialogBox(guestId:guestId??'' ,status: 'Invitation Call',)
+              //   // //    );
+              //   //   // await context.pushNamed(Routs.modelDialogBox,extra: ModelDialogBox(guestId: '1',));
+              //   //
+              //   //  },
+              //   shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+              //   onSelected: (value) {
+              //     print(value);
+              //     _showDialog(context, guestId, value, false).whenComplete(
+              //           () async {
+              //         await context
+              //             .read<MembersController>()
+              //             .fetchLeads(status: 'New ', priority: '', page: '1');
+              //       },
+              //     );
+              //   },
+              //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+              //     PopupMenuItem(
+              //       // height: size.height*0.05,
+              //       value: 'Interested',
+              //       child: Padding(
+              //         padding: const EdgeInsets.only(left: 10.0),
+              //         child: CustomeText(
+              //           text: 'Interested',
+              //           color: Colors.black,
+              //           fontWeight: FontWeight.w600,
+              //           fontSize: 12,
+              //         ),
+              //       ),
+              //     ),
+              //     PopupMenuItem(
+              //       value: 'Not confirm',
+              //       height: size.height * 0.04,
+              //       child: Padding(
+              //         padding: const EdgeInsets.only(left: 10.0),
+              //         child: CustomeText(
+              //           text: 'Not confirm',
+              //           color: Colors.black,
+              //           fontWeight: FontWeight.w600,
+              //           fontSize: 12,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              //   child: const Icon(Icons.more_vert),
+              // ),
+            ],
+          )
+        : widget.tabIndex == 1
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      // image==null?
+                      // Image.asset(AppAssets.u1):Image.network(image??'',height: size.height*0.04,width:size.width*0.04 ,),
+                      widget.image == null
+                          ? CircleAvatar(
+                              maxRadius: size.height * 0.02,
+                              child: Image.asset(
+                                AppAssets.userIcon,
+                                height: 15,
+                              ),
+                            )
+                          : CircleAvatar(
+                              backgroundImage: NetworkImage(widget.image ?? ''),
+                              maxRadius: size.height * 0.02,
+                            ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      SizedBox(
+                        width: size.width * 0.12,
+                        child: CustomeText(
+                          text: widget.name ?? '',
+                          maxLines: 1,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  CustomeText(
+                    text: widget.date ?? '07-02-2024',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  CustomeText(
+                    text: widget.time ?? '12:02 AM',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      decoration: ShapeDecoration(
+                        gradient: LinearGradient(
+                          begin: const Alignment(0.61, -0.79),
+                          end: const Alignment(-0.61, 0.79),
+                          colors: widget.priority == 'Hot'
+                              ? [
+                                  const Color(0xFFFF2600),
+                                  const Color(0xFFFF6130)
+                                ]
+                              : widget.priority == 'Warm'
+                                  ? [
+                                      const Color(0xFFFDDC9C),
+                                      const Color(0xFFDDA53B)
+                                    ]
+                                  : [
+                                      const Color(0xFF3CDCDC),
+                                      const Color(0xFF12BCBC)
+                                    ],
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(39),
+                        ),
+                      ),
+                      child: SizedBox(
+                        width: size.width * 0.11,
+                        child: Center(
+                          child: CustomPopUpMenu(
+                            showText: true,
+                            priority: widget.priority,
+                            onSelected: (v) async {
+                              await context
+                                  .read<MembersController>()
+                                  .updateLeadPriority(
+                                      context: context,
+                                      guestId: widget.guestId,
+                                      feedback: '',
+                                      priority: v,
+                                      remark: '')
+                                  .whenComplete(
+                                () async {
+                                  await context
+                                      .read<MembersController>()
+                                      .fetchLeads(
+                                          status: 'Invitation Call',
+                                          priority: '',
+                                          page: '1');
+                                },
+                              );
+                            },
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry>[
+                              PopupMenuItem(
+                                // height: size.height*0.05,
+                                value: 'Hot',
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: CustomeText(
+                                    text: 'Hot',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'Warm',
+                                height: size.height * 0.04,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: CustomeText(
+                                    text: 'Warm',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                              PopupMenuItem(
+                                value: 'Cold',
+                                height: size.height * 0.04,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: CustomeText(
+                                    text: 'Cold',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  CustomPopUpMenu(
+                    onSelected: (v)async {
+                      if(v=='Schedule demo'){
+                        context.pushNamed(Routs.createDemo, );
+                      }else if(v=='Reschedule call'){
+                        _showDialog(context, widget.guestId, '', true,true);
+                      }else{
+                        await context.read<ListsControllers>().deleteLead(context: context, guestId: widget.guestId??'').whenComplete(() async{
+                          await context
+                              .read<MembersController>()
+                              .fetchLeads(
+                              status: 'Invitation Call',
+                              priority: '',
+                              page: '1');
+
+                        },);
+                      }
+                    },
+                    itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                      PopupMenuItem(
+                        height: size.height*0.04,
+                        value: 'Schedule demo',
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomeText(
+                                  text: 'Schedule demo',
+                                  color: pupUpTextColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 2,
+                              // endIndent: double.infinity,
+                              // indent: double.infinity,
+                              // height: 10,
+                              color: Color(0xFF212121),
+                            )
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'Reschedule call',
+                        height: size.height * 0.04,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CustomeText(
+                                  text: 'Reschedule call',
+                                  color: pupUpTextColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                ),
+                              ],
+                            ),
+                            const Divider(
+                              thickness: 2,
+                              // height: 10,
+                              color: Color(0xFF212121),
+                            )
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: 'Move to bin',
+                        height: size.height * 0.03,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomeText(
+                              text: 'Move to bin',
+                              color:pupUpTextColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],)
+                  // PopupMenuButton(
+                  //   color: CupertinoColors.white,
+                  //   shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  //   onSelected: (value) {
+                  //     print(value);
+                  //     // _showDialog(context, widget.guestId, value, false).whenComplete(
+                  //     //       () async {
+                  //     //     await context
+                  //     //         .read<MembersController>()
+                  //     //         .fetchLeads(status: 'New ', priority: '', page: '1');
+                  //     //   },
+                  //     // );
+                  //   },
+                  //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  //     PopupMenuItem(
+                  //       height: size.height*0.05,
+                  //       value: 'Schedule demo',
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           CustomeText(
+                  //             text: 'Schedule demo',
+                  //             color: Colors.black,
+                  //             fontWeight: FontWeight.w600,
+                  //             fontSize: 12,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     PopupMenuItem(
+                  //       value: 'Reschedule call',
+                  //       height: size.height * 0.04,
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           CustomeText(
+                  //             text: 'Reschedule call',
+                  //             color: Colors.black,
+                  //             fontWeight: FontWeight.w600,
+                  //             fontSize: 12,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //     PopupMenuItem(
+                  //       value: 'Move to bin',
+                  //       height: size.height * 0.04,
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           CustomeText(
+                  //             text: 'Move to bin',
+                  //             color: Colors.black,
+                  //             fontWeight: FontWeight.w600,
+                  //             fontSize: 12,
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ],
+                  //   child: const Icon(Icons.more_vert),
+                  // ),
+
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     context
+                  //         .pushNamed(Routs.createDemo,
+                  //         extra: CreateDemo(
+                  //           guestId: widget.guestId ?? '',
+                  //           name: widget.name,
+                  //           image: widget.image,
+                  //         ))
+                  //         .whenComplete(
+                  //           () async {
+                  //         await context
+                  //             .read<MembersController>()
+                  //             .fetchLeads(status: 'Invitation Call ', priority: '', page: '1');
+                  //       },
+                  //     );
+                  //   },
+                  //   child: Container(
+                  //     decoration: ShapeDecoration(
+                  //       gradient: const LinearGradient(
+                  //         begin: Alignment(0.00, -1.00),
+                  //         end: Alignment(0, 1),
+                  //         colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+                  //       ),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(50),
+                  //       ),
+                  //     ),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+                  //       child: CustomeText(
+                  //         text: 'Demo',
+                  //         fontWeight: FontWeight.w500,
+                  //         fontSize: 10,
+                  //         color: Colors.black,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               )
-            : tabIndex == 2
+            : widget.tabIndex == 2
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Row(
                         children: [
-                          image == null
+                          widget.image == null
                               ? CircleAvatar(
                                   maxRadius: size.height * 0.02,
                                   child: Image.asset(
@@ -969,7 +2102,8 @@ class RowCart extends StatelessWidget {
                                   ),
                                 )
                               : CircleAvatar(
-                                  backgroundImage: NetworkImage(image ?? ''),
+                                  backgroundImage:
+                                      NetworkImage(widget.image ?? ''),
                                   maxRadius: size.height * 0.02,
                                 ),
                           const SizedBox(
@@ -978,7 +2112,7 @@ class RowCart extends StatelessWidget {
                           SizedBox(
                             width: size.width * 0.12,
                             child: CustomeText(
-                              text: name ?? '',
+                              text: widget.name ?? '',
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               maxLines: 1,
@@ -987,12 +2121,12 @@ class RowCart extends StatelessWidget {
                         ],
                       ),
                       CustomeText(
-                        text: date ?? '07-02-2024',
+                        text: widget.date ?? '07-02-2024',
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
                       CustomeText(
-                        text: time ?? '12:02 AM',
+                        text: widget.time ?? '12:02 AM',
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -1001,35 +2135,124 @@ class RowCart extends StatelessWidget {
                       //   fontSize: 12,
                       //   fontWeight: FontWeight.w500,
                       // ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          decoration: ShapeDecoration(
-                            gradient: LinearGradient(
-                              begin: const Alignment(0.61, -0.79),
-                              end: const Alignment(-0.61, 0.79),
-                              colors: priority == 'Hot'
-                                  ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-                                  : priority == 'Worm'
-                                      ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-                                      : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(39),
-                            ),
+                      Container(
+                        decoration: ShapeDecoration(
+                          gradient: LinearGradient(
+                            begin: const Alignment(0.61, -0.79),
+                            end: const Alignment(-0.61, 0.79),
+                            colors: widget.priority == 'Hot'
+                                ? [
+                                    const Color(0xFFFF2600),
+                                    const Color(0xFFFF6130)
+                                  ]
+                                : widget.priority == 'Worm'
+                                    ? [
+                                        const Color(0xFFFDDC9C),
+                                        const Color(0xFFDDA53B)
+                                      ]
+                                    : [
+                                        const Color(0xFF3CDCDC),
+                                        const Color(0xFF12BCBC)
+                                      ],
                           ),
-                          child: SizedBox(
-                            width: size.width * 0.11,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 4, bottom: 4),
-                                child: CustomeText(
-                                  text: priority ?? '',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
-                                  color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(39),
+                          ),
+                        ),
+                        child:      SizedBox(
+                          width: size.width * 0.11,
+                          child: Center(
+                            child: CustomPopUpMenu(
+                              showText: true,
+                              priority: widget.priority,
+                              onSelected: (v) async {
+                                await context
+                                    .read<MembersController>()
+                                    .updateLeadPriority(
+                                    context: context,
+                                    guestId: widget.guestId,
+                                    feedback: '',
+                                    priority: v,
+                                    remark: '')
+                                    .whenComplete(
+                                      () async {
+                                    await context
+                                        .read<MembersController>()
+                                        .fetchLeads(
+                                        status: 'Demo Scheduled',
+                                        priority: '',
+                                        page: '1');
+                                  },
+                                );
+                              },
+                              itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry>[
+                                PopupMenuItem(
+                                  // height: size.height*0.05,
+                                  value: 'Hot',
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          CustomeText(
+                                            text: 'Hot',
+                                            color:pupUpTextColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                          ),
+                                        ],
+                                      ),
+                                      const Divider(
+                                        thickness: 2,
+                                      
+                                        color: Color(0xFF212121),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
+                                PopupMenuItem(
+                                  value: 'Warm',
+                                  height: size.height * 0.04,
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          CustomeText(
+                                            text: 'Warm',
+                                            color: pupUpTextColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                          ),
+                                        ],
+                                      ),
+                                      const Divider(
+                                        thickness: 2,
+                                        // endIndent: double.infinity,
+                                        // indent: double.infinity,
+                                        // height: 10,
+                                        color: Color(0xFF212121),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'Cold',
+                                  height: size.height * 0.04,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CustomeText(
+                                        text: 'Cold',
+                                        color: pupUpTextColor,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -1044,30 +2267,49 @@ class RowCart extends StatelessWidget {
                                 isScrollControlled: true,
                                 shape: const OutlineInputBorder(
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18), topRight: Radius.circular(18))),
+                                        topLeft: Radius.circular(18),
+                                        topRight: Radius.circular(18))),
                                 builder: (context) => DemoDoneForm(
                                       title: 'List Update',
-                                      demoId: demoId,
+                                      demoId: widget.demoId,
                                     )).whenComplete(
                               () async {
                                 await context
                                     .read<MembersController>()
-                                    .fetchLeads(status: 'Demo Sheduled', priority: '', page: '1');
+                                    .fetchLeads(
+                                        status: 'Demo Sheduled',
+                                        priority: '',
+                                        page: '1');
                               },
                             );
-                          } else {
+                          }
+                          else if(v=='Move to bin'){
+                            await context.read<ListsControllers>().deleteLead(context: context, guestId: widget.guestId??'').whenComplete(() async{
+                              await context
+                                  .read<MembersController>()
+                                  .fetchLeads(
+                                  status: 'Demo Scheduled',
+                                  priority: '',
+                                  page: '1');
+
+                            },);
+                          }
+                          else {
                             context
                                 .pushNamed(Routs.createDemo,
                                     extra: CreateDemo(
-                                      guestId: guestId ?? '',
-                                      name: name,
-                                      image: image,
+                                      guestId: widget.guestId ?? '',
+                                      name: widget.name,
+                                      image: widget.image,
                                     ))
                                 .whenComplete(
                               () async {
                                 await context
                                     .read<MembersController>()
-                                    .fetchLeads(status: 'Demo Scheduled', priority: '', page: '1');
+                                    .fetchLeads(
+                                        status: 'Demo Scheduled',
+                                        priority: '',
+                                        page: '1');
                               },
                             );
                           }
@@ -1076,43 +2318,99 @@ class RowCart extends StatelessWidget {
                           PopupMenuItem(
                             // height: size.height*0.05,
                             value: 'Demo done',
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: CustomeText(
-                                text: 'Demo done',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomeText(
+                                      text: 'Demo done',
+                                      color: pupUpTextColor,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                  ],
+                                ),
+                                const Divider(
+                                  thickness: 2,
+                                  // height: 10,
+                                  color: Color(0xFF212121),
+                                )
+                              ],
                             ),
                           ),
                           PopupMenuItem(
                             value: 'Reschedule',
                             height: size.height * 0.04,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: CustomeText(
-                                text: 'Reschedule',
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
+                            child: Column(
+                              children: [
+                                CustomeText(
+                                  text: 'Reschedule',
+                                  color:pupUpTextColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                ),
+                                const Divider(
+                                  thickness: 2,
+                                  // height: 10,
+                                  color: Color(0xFF212121),
+                                )
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'Incompleted',
+                            height: size.height * 0.04,
+                            child: Column(
+                              children: [
+                                CustomeText(
+                                  text: 'Incompleted',
+                                  color:pupUpTextColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                ),
+                                const Divider(
+                                  thickness: 2,
+                                  // height: 10,
+                                  color: Color(0xFF212121),
+                                )
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'Move to bin',
+                            height: size.height * 0.04,
+                            child: Column(
+                              children: [
+                                CustomeText(
+                                  text: 'Move to bin',
+                                  color:pupUpTextColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12,
+                                ),
+                                const Divider(
+                                  thickness: 2,
+                                  // height: 10,
+                                  color: Color(0xFF212121),
+                                )
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ],
                   )
-                : tabIndex == 3
+                : widget.tabIndex == 3
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Row(
                             children: [
-                              image == null
+                              widget.image == null
                                   ? Image.asset(AppAssets.u1)
                                   : CircleAvatar(
-                                      backgroundImage: NetworkImage(image ?? ''),
+                                      backgroundImage:
+                                          NetworkImage(widget.image ?? ''),
                                       maxRadius: size.height * 0.02,
                                     ),
                               const SizedBox(
@@ -1121,7 +2419,7 @@ class RowCart extends StatelessWidget {
                               SizedBox(
                                 width: size.width * 0.12,
                                 child: CustomeText(
-                                  text: name ?? '',
+                                  text: widget.name ?? '',
                                   fontSize: 12,
                                   maxLines: 1,
                                   fontWeight: FontWeight.w500,
@@ -1130,7 +2428,7 @@ class RowCart extends StatelessWidget {
                             ],
                           ),
                           CustomeText(
-                            text: city ?? 'Durg',
+                            text: widget.city ?? 'Durg',
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -1139,11 +2437,20 @@ class RowCart extends StatelessWidget {
                               gradient: LinearGradient(
                                 begin: const Alignment(0.61, -0.79),
                                 end: const Alignment(-0.61, 0.79),
-                                colors: priority == 'Warm'
-                                    ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-                                    : priority == 'Hot'
-                                        ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-                                        : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                                colors: widget.priority == 'Warm'
+                                    ? [
+                                        const Color(0xFFFDDC9C),
+                                        const Color(0xFFDDA53B)
+                                      ]
+                                    : widget.priority == 'Hot'
+                                        ? [
+                                            const Color(0xFFFF2600),
+                                            const Color(0xFFFF6130)
+                                          ]
+                                        : [
+                                            const Color(0xFF3CDCDC),
+                                            const Color(0xFF12BCBC)
+                                          ],
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(39),
@@ -1153,16 +2460,17 @@ class RowCart extends StatelessWidget {
                               width: size.width * 0.11,
                               child: Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(top: 4, bottom: 4),
+                                  padding:
+                                      const EdgeInsets.only(top: 4, bottom: 4),
                                   child: CustomPopUpMenu(
                                     showText: true,
-                                    priority: priority,
+                                    priority: widget.priority,
                                     onSelected: (v) async {
                                       await context
                                           .read<MembersController>()
                                           .updateLeadPriority(
                                               context: context,
-                                              guestId: guestId,
+                                              guestId: widget.guestId,
                                               feedback: '',
                                               priority: v,
                                               remark: '')
@@ -1170,16 +2478,21 @@ class RowCart extends StatelessWidget {
                                         () async {
                                           await context
                                               .read<MembersController>()
-                                              .fetchLeads(status: ' Follow Up', priority: '', page: '1');
+                                              .fetchLeads(
+                                                  status: ' Follow Up',
+                                                  priority: '',
+                                                  page: '1');
                                         },
                                       );
                                     },
-                                    itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                                    itemBuilder: (BuildContext context) =>
+                                        <PopupMenuEntry>[
                                       PopupMenuItem(
                                         // height: size.height*0.05,
                                         value: 'Hot',
                                         child: Padding(
-                                          padding: const EdgeInsets.only(left: 10.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 10.0),
                                           child: CustomeText(
                                             text: 'Hot',
                                             color: Colors.black,
@@ -1192,7 +2505,8 @@ class RowCart extends StatelessWidget {
                                         value: 'Warm',
                                         height: size.height * 0.04,
                                         child: Padding(
-                                          padding: const EdgeInsets.only(left: 10.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 10.0),
                                           child: CustomeText(
                                             text: 'Warm',
                                             color: Colors.black,
@@ -1205,7 +2519,8 @@ class RowCart extends StatelessWidget {
                                         value: 'Cold',
                                         height: size.height * 0.04,
                                         child: Padding(
-                                          padding: const EdgeInsets.only(left: 10.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 10.0),
                                           child: CustomeText(
                                             text: 'Cold',
                                             color: Colors.black,
@@ -1222,11 +2537,15 @@ class RowCart extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              _showDialog(context, guestId, '', true).whenComplete(
+                              _showDialog(context, widget.guestId, '', true,false)
+                                  .whenComplete(
                                 () async {
                                   await context
                                       .read<MembersController>()
-                                      .fetchLeads(status: 'Follow Up', priority: '', page: '1');
+                                      .fetchLeads(
+                                          status: 'Follow Up',
+                                          priority: '',
+                                          page: '1');
                                 },
                               );
                             },
@@ -1235,14 +2554,18 @@ class RowCart extends StatelessWidget {
                                 gradient: const LinearGradient(
                                   begin: Alignment(0.00, -1.00),
                                   end: Alignment(0, 1),
-                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+                                  colors: [
+                                    Color(0xFFF3F3F3),
+                                    Color(0xFFE0E0E0)
+                                  ],
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+                                padding: const EdgeInsets.only(
+                                    left: 18, right: 18, top: 4, bottom: 4),
                                 child: CustomeText(
                                   text: 'Close',
                                   fontWeight: FontWeight.w500,
@@ -1254,13 +2577,13 @@ class RowCart extends StatelessWidget {
                           ),
                         ],
                       )
-                    : tabIndex == 4
+                    : widget.tabIndex == 4
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Row(
                                 children: [
-                                  image == null
+                                  widget.image == null
                                       ? CircleAvatar(
                                           maxRadius: size.height * 0.02,
                                           child: Image.asset(
@@ -1269,21 +2592,22 @@ class RowCart extends StatelessWidget {
                                           ),
                                         )
                                       : CircleAvatar(
-                                          backgroundImage: NetworkImage(image ?? ''),
+                                          backgroundImage:
+                                              NetworkImage(widget.image ?? ''),
                                           maxRadius: size.height * 0.02,
                                         ),
                                   const SizedBox(
                                     width: 5,
                                   ),
                                   CustomeText(
-                                    text: name ?? '',
+                                    text: widget.name ?? '',
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ],
                               ),
                               CustomeText(
-                                text: city ?? 'Raipur',
+                                text: widget.city ?? 'Raipur',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -1291,7 +2615,7 @@ class RowCart extends StatelessWidget {
                                 onTap: () {
                                   context.pushNamed(Routs.memberProfileDetails,
                                       extra: MemberProfileDetails(
-                                        memberId: memberId ?? '',
+                                        memberId: widget.memberId ?? '',
                                       ));
                                 },
                                 child: Container(
@@ -1299,14 +2623,18 @@ class RowCart extends StatelessWidget {
                                     gradient: const LinearGradient(
                                       begin: Alignment(0.00, -1.00),
                                       end: Alignment(0, 1),
-                                      colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+                                      colors: [
+                                        Color(0xFFF3F3F3),
+                                        Color(0xFFE0E0E0)
+                                      ],
                                     ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+                                    padding: const EdgeInsets.only(
+                                        left: 18, right: 18, top: 4, bottom: 4),
                                     child: CustomeText(
                                       text: 'View Profile',
                                       fontWeight: FontWeight.w500,
@@ -1324,24 +2652,25 @@ class RowCart extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  image == null
+                                  widget.image == null
                                       ? Image.asset(AppAssets.u1)
                                       : CircleAvatar(
-                                          backgroundImage: NetworkImage(image ?? ''),
+                                          backgroundImage:
+                                              NetworkImage(widget.image ?? ''),
                                           maxRadius: size.height * 0.02,
                                         ),
                                   const SizedBox(
                                     width: 5,
                                   ),
                                   CustomeText(
-                                    text: name ?? '',
+                                    text: widget.name ?? '',
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ],
                               ),
                               CustomeText(
-                                text: city ?? "",
+                                text: widget.city ?? '',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -1352,14 +2681,18 @@ class RowCart extends StatelessWidget {
                                     gradient: const LinearGradient(
                                       begin: Alignment(0.00, -1.00),
                                       end: Alignment(0, 1),
-                                      colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
+                                      colors: [
+                                        Color(0xFFF3F3F3),
+                                        Color(0xFFE0E0E0)
+                                      ],
                                     ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
+                                    padding: const EdgeInsets.only(
+                                        left: 18, right: 18, top: 4, bottom: 4),
                                     child: CustomeText(
                                       text: 'View Profile',
                                       fontWeight: FontWeight.w500,
@@ -1371,5 +2704,67 @@ class RowCart extends StatelessWidget {
                               ),
                             ],
                           );
+  }
+}
+
+class LeadType extends StatelessWidget {
+  String? value;
+  String? subHeading;
+  List<Color>? colors;
+  void Function()? onTap;
+
+  LeadType({
+    this.value,
+    this.colors,
+    this.onTap,
+    this.subHeading,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.all(3),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: size.width * 0.3,
+          decoration: ShapeDecoration(
+            gradient: LinearGradient(
+                colors: colors ??
+                    [const Color(0xFFFF2600), const Color(0xFFFF6130)]),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomeText(
+                  text: value,
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+                Text(
+                  subHeading ?? '',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

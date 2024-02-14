@@ -102,6 +102,7 @@ class ApiEndpoints {
 
   static const String fetchLead = 'fetch_leads?';
   static const String levelWiseMemberCount = 'level_wise_member_count?';
+  static const String deleteLead = 'delete_lead?';
 
   /// Guest Apis....
   static const String fetchJoiners = 'fetch_new_joinees';

@@ -53,12 +53,16 @@ class _CreateDemoState extends State<CreateDemo> {
   String priority = '';
   List item = ['Hot', 'Worm', 'Cold'];
   File? image;
+  String ? sponsorId ='';
   Set<int> leadIndex = Set<int>();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<MembersController>().fetchLeads(status: '', priority: '', page: '1');
+      await context.read<MembersController>().fetchSponsor(
+        context: context,
+      );
     });
     super.initState();
   }
@@ -83,7 +87,7 @@ class _CreateDemoState extends State<CreateDemo> {
               },
               title: 'Type of demo*',
               hintText: 'Select type',
-              listItem: const ['Online', 'Offline'],
+              listItem: const ['Business', 'Product'],
             ),
           ),
           AppTextField(
@@ -165,6 +169,11 @@ class _CreateDemoState extends State<CreateDemo> {
             readOnly: true,
           ),
           AppTextField(
+            title: 'Venue',
+            hintText: 'Enter venue',
+            controller: commentCtrl,
+          ),
+          AppTextField(
             title: 'Remark',
             hintText: 'Comment',
             controller: commentCtrl,
@@ -172,67 +181,99 @@ class _CreateDemoState extends State<CreateDemo> {
           Padding(
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: CustomeText(
-              text: 'Lead status',
+              text: 'Select member to add',
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding),
-            child: SizedBox(
-              height: size.height * 0.06,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 9.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: item.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          priority = item[index];
-                          tabIndex = index;
-                          setState(() {});
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: const Alignment(0.61, -0.79),
-                                end: const Alignment(-0.61, 0.79),
-                                colors: index == 0
-                                    ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-                                    : index == 1
-                                        ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-                                        : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
-                              ),
-                              border: tabIndex == index
-                                  ? Border.all(color: CupertinoColors.white, width: 2)
-                                  : null,
-                              borderRadius: BorderRadius.circular(39)),
-                          child: SizedBox(
-                            width: size.width * 0.11,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 4, bottom: 4),
-                                child: CustomeText(
-                                  text: item[index],
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
+          Consumer<MembersController>(
+            builder: (context, controller, child) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 8,right: 8),
+                child: CustomDropdown(
+                  hintText:'Select Sponsor' ,
+                  onChanged: (v) {
+                    sponsorId = controller.fetchSponsorModel?.data
+                        ?.firstWhere(
+                          (element) {
+                        return element.name == v;
+                      },
+                    ).id
+                        .toString() ??
+                        '';
                   },
+                  title: 'Sponsor',
+                  listItem:
+                  controller.fetchSponsorModel?.data?.map((e) => e.name).toList(),
                 ),
-              ),
-            ),
+              );
+            },
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+          //   child: CustomeText(
+          //     text: 'Lead status',
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w400,
+          //   ),
+          // ),
+          //
+          // Padding(
+          //   padding: const EdgeInsets.only(left: kPadding),
+          //   child: SizedBox(
+          //     height: size.height * 0.06,
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(left: 9.0),
+          //       child: ListView.builder(
+          //         shrinkWrap: true,
+          //         scrollDirection: Axis.horizontal,
+          //         itemCount: item.length,
+          //         itemBuilder: (context, index) {
+          //           return Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: GestureDetector(
+          //               onTap: () {
+          //                 priority = item[index];
+          //                 tabIndex = index;
+          //                 setState(() {});
+          //               },
+          //               child: Container(
+          //                 decoration: BoxDecoration(
+          //                     gradient: LinearGradient(
+          //                       begin: const Alignment(0.61, -0.79),
+          //                       end: const Alignment(-0.61, 0.79),
+          //                       colors: index == 0
+          //                           ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+          //                           : index == 1
+          //                               ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+          //                               : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+          //                     ),
+          //                     border: tabIndex == index
+          //                         ? Border.all(color: CupertinoColors.white, width: 2)
+          //                         : null,
+          //                     borderRadius: BorderRadius.circular(39)),
+          //                 child: SizedBox(
+          //                   width: size.width * 0.11,
+          //                   child: Center(
+          //                     child: Padding(
+          //                       padding: const EdgeInsets.only(top: 4, bottom: 4),
+          //                       child: CustomeText(
+          //                         text: item[index],
+          //                         fontWeight: FontWeight.w500,
+          //                         fontSize: 10,
+          //                         color: Colors.white,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ),
+          //           );
+          //         },
+          //       ),
+          //     ),
+          //   ),
+          // ),
           if (widget.showLeadList != true)
             const Padding(
               padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
@@ -247,7 +288,7 @@ class _CreateDemoState extends State<CreateDemo> {
             ),
           if (widget.showLeadList != true)
             Padding(
-              padding: const EdgeInsets.only(left: kPadding),
+              padding: const EdgeInsets.only(left: kPadding,top: kPadding),
               child: Container(
                 width: 30,
                 decoration: BoxDecoration(

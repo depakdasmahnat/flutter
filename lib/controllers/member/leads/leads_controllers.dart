@@ -4,6 +4,7 @@ import 'package:mrwebbeast/app.dart';
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
+import 'package:mrwebbeast/models/default/default_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../core/services/api/api_service.dart';
@@ -11,6 +12,7 @@ import '../../../core/services/api/api_service.dart';
 import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../models/member/leads/leads_model.dart';
 import '../../../models/member/todo/to_do_model.dart';
+import '../../../utils/widgets/widgets.dart';
 
 class ListsControllers extends ChangeNotifier {
   /// 1) Leads API...
@@ -195,6 +197,45 @@ class ListsControllers extends ChangeNotifier {
     }
 
     return toDos;
+  }
+
+  /// 1) Delete lead...
+  Future<DefaultModel?> deleteLead({
+    required BuildContext context,
+    required String guestId,
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'guest_id': guestId,
+    };
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.deleteLead,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+
+
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+
+        } else {
+          showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
+        }
+      }
+    });
+    // return responseData;
   }
 
 
