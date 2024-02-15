@@ -65,6 +65,8 @@ class GoalsData {
     this.id,
     this.memberId,
     this.name,
+    this.profilePic,
+    this.partnerName,
     this.type,
     this.startDate,
     this.endDate,
@@ -82,6 +84,8 @@ class GoalsData {
     memberId = json['member_id'];
     name = json['name'];
     type = json['type'];
+    profilePic = json['profile_pic'];
+    partnerName = json['partner_name'];
     startDate = json['start_date'];
     endDate = json['end_date'];
     description = json['description'];
@@ -96,6 +100,8 @@ class GoalsData {
   num? id;
   num? memberId;
   String? name;
+  String? profilePic;
+  String? partnerName;
   String? type;
   String? startDate;
   String? endDate;
@@ -111,6 +117,8 @@ class GoalsData {
     num? id,
     num? memberId,
     String? name,
+    String? profile_pic,
+    String? partner_name,
     String? type,
     String? startDate,
     String? endDate,
@@ -126,6 +134,8 @@ class GoalsData {
         id: id ?? this.id,
         memberId: memberId ?? this.memberId,
         name: name ?? this.name,
+        profilePic: profile_pic ?? this.profilePic,
+        partnerName: partner_name ?? this.partnerName,
         type: type ?? this.type,
         startDate: startDate ?? this.startDate,
         endDate: endDate ?? this.endDate,
@@ -142,8 +152,12 @@ class GoalsData {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['member_id'] = memberId;
+
     map['name'] = name;
+    map['profile_pic'] = profilePic;
+    map['partner_name'] = partnerName;
     map['type'] = type;
+
     map['start_date'] = startDate;
     map['end_date'] = endDate;
     map['description'] = description;

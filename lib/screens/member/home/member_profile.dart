@@ -369,7 +369,6 @@ class _MemberProfileState extends State<MemberProfile> {
                 ),
               ),
             ),
-
           ],
         );
       }),

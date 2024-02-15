@@ -571,6 +571,133 @@ class MembersController extends ChangeNotifier {
     return _goals;
   }
 
+  bool loadingPartnerGoals = true;
+  GoalsModel? _partnerGoalsModel;
+
+  GoalsModel? get partnerGoalsModel => _partnerGoalsModel;
+
+  List<GoalsData>? _partnerGoals;
+
+  List<GoalsData>? get partnerGoals => _partnerGoals;
+  num partnerGoalsIndex = 1;
+  num partnerGoalsTotal = 1;
+
+  RefreshController partnerGoalsController = RefreshController(initialRefresh: false);
+
+  Future<List<GoalsData>?> fetchPartnerGoals({
+    required BuildContext context,
+    bool isRefresh = false,
+    bool loadingNext = false,
+    String? searchKey,
+    String? filter,
+    String? limit,
+  }) async {
+    String modelingData = 'FeedsData';
+    debugPrint('Fetching $modelingData Data...');
+
+    onRefresh() {
+      partnerGoalsIndex = 1;
+      partnerGoalsTotal = 1;
+      loadingPartnerGoals = true;
+      partnerGoalsController.resetNoData();
+      _partnerGoalsModel = null;
+      _partnerGoals = null;
+      notifyListeners();
+      debugPrint('Cleared $modelingData');
+    }
+
+    onComplete() {
+      loadingPartnerGoals = false;
+      notifyListeners();
+    }
+
+    if (isRefresh) {
+      onRefresh();
+    }
+
+    Map<String, String> body = {
+      'page': '$partnerGoalsIndex',
+      'search_key': searchKey ?? '',
+      'filter': filter ?? '',
+      'limit': limit ?? '10',
+    };
+
+    debugPrint('Body $body');
+
+    try {
+      if (partnerGoalsIndex <= partnerGoalsTotal) {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchMyMembersGoal,
+          queryParameters: body,
+        );
+
+        GoalsModel? responseData;
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          responseData = GoalsModel.fromJson(json);
+          _partnerGoalsModel = responseData;
+        }
+
+        if (responseData?.status == true) {
+          debugPrint('Current Page $partnerGoalsTotal');
+          debugPrint(responseData?.message);
+          if (responseData?.data?.haveData == true) {
+            for (int i = 0; i < (responseData?.data?.length ?? 0); i++) {
+              GoalsData? data = responseData?.data?.elementAt(i);
+              if (_partnerGoals == null) {
+                debugPrint('$modelingData Added');
+                if (data != null) {
+                  _partnerGoals = [data];
+                }
+              } else {
+                if (_partnerGoals?.contains(data) == true) {
+                  debugPrint('$modelingData Already exit');
+                } else {
+                  if (data != null) {
+                    _partnerGoals?.add(data);
+                    debugPrint('$modelingData Updated');
+                  }
+                }
+              }
+            }
+            notifyListeners();
+          }
+
+          if (loadingNext) {
+            partnerGoalsController.loadComplete();
+          } else {
+            partnerGoalsController.refreshCompleted();
+          }
+          partnerGoalsTotal = responseData?.dataRecords?.totalPage ?? 1;
+          partnerGoalsIndex++;
+          notifyListeners();
+          debugPrint('$modelingData Total Pages $partnerGoalsTotal');
+          debugPrint('Updated $modelingData Current Page $partnerGoalsIndex');
+          return _partnerGoals;
+        } else {
+          debugPrint(responseData?.message);
+          if (loadingNext) {
+            partnerGoalsController.loadFailed();
+          } else {
+            partnerGoalsController.refreshFailed();
+          }
+          notifyListeners();
+        }
+      } else {
+        partnerGoalsController.loadNoData();
+        loadingPartnerGoals = false;
+        notifyListeners();
+        debugPrint('Load no More data in $modelingData');
+      }
+    } catch (e, s) {
+      ErrorHandler.catchError(e, s, true);
+    } finally {
+      onComplete();
+    }
+
+    return _partnerGoals;
+  }
+
   /// 1) lead close...
   Future<DefaultModel?> leadClose({
     required BuildContext context,

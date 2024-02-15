@@ -3,17 +3,22 @@ import 'package:intl/intl.dart';
 import 'package:mrwebbeast/controllers/member/events/events_controller.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/models/dashboard/custom_tab_data.dart';
+import 'package:mrwebbeast/screens/member/events/events_screen.dart';
 import 'package:mrwebbeast/screens/member/members/calender/animated_horizontal_calendar.dart';
+import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/config/app_assets.dart';
+import '../../../models/member/events/events_model.dart';
 import '../../../models/member/todo/to_do_model.dart';
 import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import '../../../utils/widgets/training_progress.dart';
 import '../home/member_dashboard.dart';
 
 class ToDoScreen extends StatefulWidget {
@@ -27,9 +32,9 @@ class _ToDoScreenState extends State<ToDoScreen> {
   double? trainingProgress = 0;
 
   List<String> tabs = [
-    'Today',
     'This Week',
-    'Month',
+    'This Month',
+    'This Year',
   ];
 
   late String? filter = tabs.first;
@@ -44,13 +49,23 @@ class _ToDoScreenState extends State<ToDoScreen> {
         );
   }
 
+  List<EventsData>? events;
+
+  Future fetchEvents({bool? loadingNext}) async {
+    return await context.read<EventsControllers>().fetchEvents(
+          context: context,
+          isRefresh: loadingNext == true ? false : true,
+          loadingNext: loadingNext ?? false,
+          searchKey: searchController.text,
+        );
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      dateTime = DateTime.now();
-      setState(() {});
       fetchToDos();
+      fetchEvents();
     });
   }
 
@@ -61,6 +76,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
   Widget build(BuildContext context) {
     return Consumer<EventsControllers>(builder: (context, controller, child) {
       toDos = controller.toDos;
+      events = controller.events;
 
       double getTrainingProgress() {
         double val = double.tryParse(
@@ -74,11 +90,18 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
       return Scaffold(
         appBar: AppBar(
+          leading: const Column(
+            children: [
+              CustomBackButton(),
+            ],
+          ),
           title: const Text(
             'To Do List',
           ),
         ),
-        body: Column(
+        body: ListView(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
           children: [
             SizedBox(
               height: 80,
@@ -98,6 +121,29 @@ class _ToDoScreenState extends State<ToDoScreen> {
                 selectedDate: dateTime,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'All tasks',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    '${filter ?? formattedDate}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const TrainingProgress(),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
               decoration: BoxDecoration(
@@ -113,13 +159,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
                         onTap: () {
                           filter = e;
 
-                          if (filter == tabs.first) {
-                            dateTime = DateTime.now();
-                            formattedDate = null;
-                          } else {
-                            dateTime = null;
-                            formattedDate = null;
-                          }
+                          dateTime = null;
+                          formattedDate = null;
 
                           setState(() {});
                           fetchToDos();
@@ -148,154 +189,131 @@ class _ToDoScreenState extends State<ToDoScreen> {
                 ).toList(),
               ),
             ),
-            if (controller.loadingToDos)
-              const LoadingScreen(
-                heightFactor: 0.7,
-                message: 'Loading Report View',
-              )
-            else if (toDos != null)
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Pending task',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            '${filter ?? formattedDate}',
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
+            ListView(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Pending task',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    TaskCard(
-                      sales: '${toDos?.myPendingTarget ?? 0}',
-                      title: 'My sales target',
-                      value: '${toDos?.myAchievedTarget ?? 0}',
-                      status: 'Complete',
-                      gradient: limeGradient,
-                      darkMode: false,
-                      onTap: () {},
-                    ),
-                    TaskCard(
-                      sales: '${toDos?.teamPendingTarget ?? 0}',
-                      title: 'Team sales target',
-                      value: '${toDos?.teamAchievedTarget ?? 0}',
-                      status: 'Complete',
-                      gradient: inActiveGradient,
-                      darkMode: true,
-                      onTap: () {},
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // context.pushNamed(Routs.demoVideos);
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(top: 8, left: kPadding, right: kPadding, bottom: 8),
-                            padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 12),
-                            decoration: BoxDecoration(
-                              gradient: inActiveGradient,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      'Complete Your Training',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    ImageView(
-                                      height: 40,
-                                      width: 40,
-                                      borderRadiusValue: 50,
-                                      backgroundColor: Colors.grey.shade100,
-                                      assetImage: AppAssets.arrowForwardIcon,
-                                      padding: const EdgeInsets.all(12),
-                                      onTap: () {},
-                                    ),
-                                  ],
-                                ),
-                                GradientProgressBar(
-                                  value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
-                                  backgroundColor: Colors.grey.shade300,
-                                  margin: const EdgeInsets.only(top: 8, bottom: 8),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${toDos?.chapterNumber ?? 0}',
-                                      style: TextStyle(
-                                          color: Colors.grey.shade200,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      '${(trainingProgress ?? 0).toStringAsFixed(0)}%',
-                                      style: TextStyle(
-                                          color: Colors.grey.shade200,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '${filter ?? formattedDate}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
-                      child: Row(
-                        children: [
-                          AnalyticsCard(
-                            title: 'Your Events',
-                            value: '${toDos?.events ?? 0}',
-                            gradient: whiteGradient,
-                            onTap: () {},
-                          ),
-                          AnalyticsCard(
-                            title: 'Demo\nScheduled',
-                            value: '${toDos?.demoScheduled ?? 0}',
-                            textColor: Colors.white,
-                            gradient: inActiveGradient,
-                            onTap: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              )
-            else
-              const NoDataFound(
-                heightFactor: 0.7,
-                message: 'No Todo Found',
-              ),
+                SizedBox(
+                  height: 140,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    children: [
+                      TaskCard(
+                        sales: '${toDos?.events ?? 0}',
+                        title: 'Your\nEvents',
+                        gradient: limeGradient,
+                        darkMode: false,
+                        showArrow: false,
+                        onTap: () {},
+                      ),
+                      TaskCard(
+                        sales: '${toDos?.demoScheduled ?? 0}',
+                        title: 'Demo\nScheduled',
+                        gradient: lightSkyBlueGradient,
+                        darkMode: false,
+                        showArrow: false,
+                        onTap: () {},
+                      ),
+                      TaskCard(
+                        sales: '${toDos?.teamAchievedTarget ?? 0}',
+                        title: 'Invitation\nCall',
+                        gradient: blackGradient,
+                        darkMode: true,
+                        showArrow: false,
+                        onTap: () {},
+                      ),
+                      TaskCard(
+                        sales: '${toDos?.teamAchievedTarget ?? 0}',
+                        title: 'Follow\nUp',
+                        gradient: inActiveGradient,
+                        darkMode: true,
+                        showArrow: false,
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Your Events',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Text(
+                        'See All',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (controller.loadingEvents)
+                  const LoadingScreen(
+                    heightFactor: 0.3,
+                    message: 'Loading Events...',
+                  )
+                else if (events.haveData)
+                  SizedBox(
+                    height: 360,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: events?.length ?? 0,
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(bottom: bottomNavbarSize),
+                      // physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        var data = events?.elementAt(index);
+                        return GestureDetector(
+                          onTap: () {
+                            // context.pushNamed(Routs.productDetail);
+                          },
+                          child: EventCard(
+                            index: index,
+                            data: data,
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                else
+                  NoDataFound(
+                    heightFactor: 0.3,
+                    message: controller.eventsModel?.message ?? 'No Events Found',
+                  ),
+              ],
+            )
           ],
         ),
       );
@@ -303,25 +321,102 @@ class _ToDoScreenState extends State<ToDoScreen> {
   }
 }
 
+class EventCard extends StatelessWidget {
+  final double? imageHeight;
+  final BoxFit? fit;
+
+  final int index;
+
+  final EventsData? data;
+
+  const EventCard({super.key, this.imageHeight, this.fit, required this.index, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 190,
+      margin: const EdgeInsets.only(left: kPadding, bottom: kPadding),
+      decoration: BoxDecoration(
+        gradient: feedsCardGradient,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: ImageView(
+              width: 190,
+              borderRadiusValue: 16,
+              margin: const EdgeInsets.all(12),
+              fit: BoxFit.cover,
+              networkImage: '${data?.image}',
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 12, right: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  data?.name ?? '',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      FeedMenu(
+                        icon: AppAssets.eventIcon,
+                        value: data?.startDate ?? '',
+                      ),
+                      FeedMenu(
+                        icon: AppAssets.clockIcon,
+                        value: data?.startTime ?? '',
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: kPadding),
+                  child: Text(
+                    'Type of Events: ${data?.type ?? ''}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
     required this.title,
-    required this.value,
     required this.onTap,
     this.gradient,
     this.flex,
     this.showArrow = true,
     this.minHeight,
-    this.status,
     this.sales,
     this.darkMode,
   });
 
   final String? title;
-
-  final String? value;
-  final String? status;
   final String? sales;
   final Gradient? gradient;
 
@@ -335,20 +430,21 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(right: kPadding, left: kPadding, bottom: kPadding),
+      padding: const EdgeInsets.only(left: kPadding, bottom: kPadding),
       child: GestureDetector(
         onTap: onTap,
         child: Stack(
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
+              constraints: const BoxConstraints(maxWidth: 135),
+              padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 12),
               decoration: BoxDecoration(
                 gradient: gradient ?? inActiveGradient,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(28),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
@@ -373,35 +469,6 @@ class TaskCard extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Row(
-                          children: [
-                            Text(
-                              '($value) $status',
-                              style: TextStyle(
-                                  color: darkMode == true ? Colors.grey : Colors.grey.shade700,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                            ),
-                            GradientButton(
-                              backgroundGradient: primaryGradient,
-                              margin: const EdgeInsets.only(left: 8),
-                              child: ImageView(
-                                height: 4,
-                                width: 4,
-                                borderRadiusValue: 0,
-                                margin: const EdgeInsets.all(6),
-                                assetImage: AppAssets.arrowForwardIcon,
-                                padding: const EdgeInsets.only(),
-                                onTap: () {},
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
                     ],
                   )

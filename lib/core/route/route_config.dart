@@ -8,6 +8,7 @@ import 'package:mrwebbeast/screens/guest/product/guest_product_details.dart';
 import 'package:mrwebbeast/screens/member/archievers/achievers.dart';
 import 'package:mrwebbeast/screens/member/demo/create_demo.dart';
 import 'package:mrwebbeast/screens/member/demo/demos_screen.dart';
+import 'package:mrwebbeast/screens/member/goal/partner_goals_screen.dart';
 import 'package:mrwebbeast/utils/widgets/pdf_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -224,7 +225,6 @@ class RoutesConfig {
           return materialPage(state: state, child: const GtpVideo());
         },
       ),
-
       GoRoute(
         name: Routs.verifyOTP,
         path: Routs.verifyOTP,
@@ -397,6 +397,7 @@ class RoutesConfig {
           return materialPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
         },
       ),
+
       GoRoute(
         name: Routs.leadMemberProfile,
         path: Routs.leadMemberProfile,
@@ -409,6 +410,7 @@ class RoutesConfig {
               ));
         },
       ),
+
       GoRoute(
         name: Routs.toDoScreen,
         path: Routs.toDoScreen,
@@ -431,6 +433,12 @@ class RoutesConfig {
         path: Routs.goals,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const GoalsScreen());
+        },
+      ),      GoRoute(
+        name: Routs.partnerGoals,
+        path: Routs.partnerGoals,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const PartnerGoalsScreen());
         },
       ),
       GoRoute(

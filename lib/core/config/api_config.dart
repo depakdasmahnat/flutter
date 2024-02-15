@@ -62,6 +62,7 @@ class ApiEndpoints {
   static const String demoDone = 'demo_done';
   static const String fetchDemos = 'fetch_demos';
   static const String fetchGoals = 'fetch_goals';
+  static const String fetchMyMembersGoal = 'fetch_my_members_goal';
   static const String selectABMembers = 'select_A_B_members';
   static const String selectProjectionABMembers = 'projection_selectAB_members';
   static const String downLineMemberList = 'downline_member_list';

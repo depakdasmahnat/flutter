@@ -286,8 +286,8 @@ class FeedMenu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ImageView(
-            height: 16,
-            width: 16,
+            height: 12,
+            width: 12,
             borderRadiusValue: 0,
             color: Colors.white,
             margin: const EdgeInsets.only(right: 4),
@@ -300,7 +300,7 @@ class FeedMenu extends StatelessWidget {
               '$value',
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.start,

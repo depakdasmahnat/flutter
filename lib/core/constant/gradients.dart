@@ -69,6 +69,14 @@ Gradient limeGradient = const LinearGradient(
   ],
 );
 
+Gradient lightSkyBlueGradient = const LinearGradient(
+  end: Alignment.bottomLeft,
+  begin: Alignment.topRight,
+  colors: [
+    Color(0xffAECAEC),
+    Color(0xffAECAEC),
+  ],
+);
 Gradient blueGradient = const LinearGradient(
   end: Alignment.bottomLeft,
   begin: Alignment.topRight,

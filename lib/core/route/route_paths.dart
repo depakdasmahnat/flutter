@@ -33,6 +33,7 @@ class Routs {
   static const String toDoScreen = '/toDoScreen';
   static const String examReport = '/examReport';
   static const String goals = '/goals';
+  static const String partnerGoals = '/partner-goals';
   static const String createGoal = '/createGoal';
   static const String viewPdf = '/viewPdf';
   static const String pptViewer = '/pptViewer';
