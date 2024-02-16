@@ -197,13 +197,13 @@ class _AddMemberListState extends State<AddMemberList> {
           ),
            CustomTextFieldApp(
             controller: firstNameController,
-            title: 'First Name',
+            title: 'List First Name',
             hintText: 'Enter First Name',
 
           ),
            CustomTextFieldApp(
             controller: lastNameController,
-            title: 'Last Name',
+            title: 'List Last Name',
             hintText: 'Enter Last Name',
 
           ),
@@ -215,7 +215,7 @@ class _AddMemberListState extends State<AddMemberList> {
             listItem: const ['Male','Female'],
           ),
            CustomTextFieldApp(
-            title: 'Mobile No.',
+            title: 'List Mobile No.',
             hintText: 'Enter Mobile No.',
             controller: mobileController,
             maxLength: 10,
@@ -223,13 +223,13 @@ class _AddMemberListState extends State<AddMemberList> {
 
           ),
            CustomTextFieldApp(
-            title: 'Email',
+            title: 'List Email',
             hintText: 'email@gmail.com',
             controller: emailController,
 
           ),
           CustomDropdown(
-            title: 'Status',
+            title: 'List Status',
             onChanged: (v) {
               status =v;
             },
@@ -258,7 +258,7 @@ class _AddMemberListState extends State<AddMemberList> {
               Expanded(
                 child: CustomTextFieldApp(
                   title: 'Date of Birth',
-                  hintText: 'dd-mm-yyyy',
+                  hintText: 'dd/mm/yyyy',
                   controller: dateControlller,
                   onTap: ()async {
                     DateTime? pickedDate = await showDatePicker(

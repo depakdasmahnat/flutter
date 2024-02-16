@@ -4,13 +4,19 @@ import 'package:mrwebbeast/controllers/member/member_controller/member_controlle
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 
 import 'package:mrwebbeast/screens/member/home/duration_popup.dart';
 import 'package:mrwebbeast/screens/member/home/performance_graph.dart';
+import 'package:mrwebbeast/screens/member/lead/leads_popup.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/constant/enums.dart';
 import '../../../models/dashboard/dashboard_data.dart';
+import '../../../models/member/profile/member_profile_model.dart';
+import '../../../utils/widgets/custom_bottom_sheet.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/loading_screen.dart';
@@ -42,14 +48,24 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
     ),
   ];
   int dashBoardIndex = 0;
-  double? trainingProgress = 75;
+  double? trainingProgress;
+
   String? selectedDuration = DurationFilterMenu.monthly.label;
+  MemberProfileData? memberProfile;
+
+  Future fetchMemberProfileDetails({bool? loadingNext}) async {
+    return await context.read<MembersController>().fetchMemberProfileDetails(
+          memberId: widget.memberId,
+        );
+  }
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context.read<MembersController>().fetchMemberProfile(context: context, memberID: widget.memberId);
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        fetchMemberProfileDetails();
+      },
+    );
     super.initState();
   }
 
@@ -58,11 +74,13 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
     Size size = MediaQuery.sizeOf(context);
     return Consumer<MembersController>(
       builder: (context, controller, child) {
+        memberProfile = controller.memberProfile;
+        trainingProgress = (memberProfile?.training ?? 0).toDouble();
         return Scaffold(
           appBar: AppBar(
             title: const Text('Profile Details'),
           ),
-          body: controller.memberProfileLoader == false
+          body: controller.loadingMemberProfile == true
               ? const LoadingScreen(message: 'Loading Profile...')
               : ListView(
                   shrinkWrap: true,
@@ -83,25 +101,25 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${controller.fetchMemberProfileModel?.data?.firstName} ${controller.fetchMemberProfileModel?.data?.lastName}',
+                              '${memberProfile?.firstName} ${memberProfile?.lastName}',
                               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 4, bottom: 8),
                               child: Text(
-                                'ID: ${controller.fetchMemberProfileModel?.data?.enagicId}',
+                                'ID: ${memberProfile?.enagicId}',
                                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 2),
                               child: Text(
-                                '+91 ${controller.fetchMemberProfileModel?.data?.mobile}',
+                                '+91 ${memberProfile?.mobile}',
                                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                               ),
                             ),
                             Text(
-                              controller.fetchMemberProfileModel?.data?.address ?? '',
+                              memberProfile?.address ?? '',
                               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                             ),
                           ],
@@ -135,7 +153,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                                         Padding(
                                           padding: const EdgeInsets.only(right: 8),
                                           child: Text(
-                                            controller.fetchMemberProfileModel?.data?.rank ?? '6A',
+                                            memberProfile?.rank ?? '6A',
                                             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
                                           ),
                                         ),
@@ -164,7 +182,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                                         Padding(
                                           padding: const EdgeInsets.only(left: 8),
                                           child: Text(
-                                            'Members ${controller.fetchMemberProfileModel?.data?.memberCounts ?? ''}',
+                                            'Members ${memberProfile?.memberCounts ?? ''}',
                                             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                                           ),
                                         ),
@@ -248,6 +266,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                             onChange: (String? val) {
                               selectedDuration = val;
                               setState(() {});
+                              fetchMemberProfileDetails();
                             },
                           ),
                         ],
@@ -258,14 +277,14 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                       child: Row(
                         children: [
                           MySalesTarget(
-                            pending: '${controller.fetchMemberProfileModel?.data?.pendingSales ?? ''}',
-                            target: '${controller.fetchMemberProfileModel?.data?.salesTarget ?? ''}',
-                            archived: '${controller.fetchMemberProfileModel?.data?.achievedSales ?? ''}',
+                            pending: '${memberProfile?.pendingSales ?? ''}',
+                            target: '${memberProfile?.salesTarget ?? ''}',
+                            archived: '${memberProfile?.achievedSales ?? ''}',
                           ),
                           MyRankTarget(
-                            level: '${controller.fetchMemberProfileModel?.data?.rank ?? '6A'}',
-                            rank: '${controller.fetchMemberProfileModel?.data?.nextRank ?? '6A2'}',
-                            target: '${controller.fetchMemberProfileModel?.data?.pendingRankSales ?? ''}',
+                            level: memberProfile?.rank ?? '',
+                            rank: memberProfile?.nextRank ?? '',
+                            target: '${memberProfile?.rankPendingSales ?? ''}',
                           ),
                         ],
                       ),
@@ -292,32 +311,64 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                           children: [
                             AnalyticsCard(
                               title: 'Leads Added',
-                              value: '${controller.fetchMemberProfileModel?.data?.leadsAddded ?? ''}',
+                              value: '${memberProfile?.allLists ?? ''}',
                               gradient: limeGradient,
-                              onTap: () {},
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  context: context,
+                                  body: LeadsPopup(
+                                    title: 'Leads Added',
+                                    status: LeadsStatus.newLead.value,
+                                  ),
+                                );
+                              },
                             ),
                             AnalyticsCard(
                               title: 'Demo Scheduled',
-                              value: '${controller.fetchMemberProfileModel?.data?.demoScheduled ?? ''}',
+                              value: '${memberProfile?.demoSchedule ?? ''}',
                               gradient: targetGradient,
-                              onTap: () {},
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  context: context,
+                                  body: LeadsPopup(
+                                    title: 'Demo Scheduled',
+                                    status: LeadsStatus.demoScheduled.value,
+                                  ),
+                                );
+                              },
                             ),
                             AnalyticsCard(
                               title: 'Demo Competed',
-                              value: '${controller.fetchMemberProfileModel?.data?.demoCompleted ?? ''}',
+                              value: '${memberProfile?.demoDone ?? ''}',
                               gradient: targetGradient,
-                              onTap: () {},
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  context: context,
+                                  body: LeadsPopup(
+                                    title: 'Demo Competed',
+                                    status: LeadsStatus.followUp.value,
+                                  ),
+                                );
+                              },
                             ),
                             AnalyticsCard(
                               title: 'Leads Closed',
-                              value: '${controller.fetchMemberProfileModel?.data?.leadsClosed ?? ''}',
+                              value: '${memberProfile?.closingDone ?? ''}',
                               flex: 2,
                               gradient: primaryGradient,
-                              onTap: () {},
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  context: context,
+                                  body: LeadsPopup(
+                                    title: 'Leads Closed',
+                                    status: LeadsStatus.closed.value,
+                                  ),
+                                );
+                              },
                             ),
                             AnalyticsCard(
                               title: 'Leads\nConversion',
-                              value: '${controller.fetchMemberProfileModel?.data?.leadsConversion ?? ''}',
+                              value: '${memberProfile?.conversionRatio ?? ''}',
                               gradient: inActiveGradient,
                               textColor: Colors.white,
                               showArrow: false,
@@ -326,16 +377,18 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                             ),
                             AnalyticsCard(
                               title: 'Hot Leads',
-                              value: '${controller.fetchMemberProfileModel?.data?.hotLeads ?? ''}',
+                              value: '${memberProfile?.hotLeads ?? '0'}',
                               minHeight: 100,
                               gradient: primaryGradient,
+                              showArrow: false,
                               onTap: () {},
                             ),
                             AnalyticsCard(
                               title: 'Cold Leads',
-                              value: '${controller.fetchMemberProfileModel?.data?.coldLeads ?? ''}',
+                              value: '${memberProfile?.coldLeads ?? '0'}',
                               gradient: blueGradient,
                               minHeight: 100,
+                              showArrow: false,
                               onTap: () {},
                             ),
                           ],
@@ -348,83 +401,74 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Monthly Performance Graph',
+                            '$selectedDuration Performance Graph',
                             style: headingTextStyle(),
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              gradient: inActiveGradient,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: const Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 4),
-                                  child: Text(
-                                    '6A2',
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                Icon(Icons.keyboard_arrow_down_rounded, size: 18)
-                              ],
-                            ),
+                          GraphDurationFilter(
+                            value: selectedDuration,
+                            onChange: (String? val) {
+                              selectedDuration = val;
+                              setState(() {});
+                              fetchMemberProfileDetails();
+                            },
                           ),
                         ],
                       ),
                     ),
-
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //       vertical: kPadding, horizontal: 8),
-                    //   child: PerformanceGraph(
-                    //     analytics: dummyAnalyticsList,
-                    //   ),
-                    // ),
-                  ],
-                ),
-          bottomSheet: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GradientButton(
-                height: 70,
-                borderRadius: 18,
-                blur: 10,
-                backgroundGradient: primaryGradient,
-                backgroundColor: Colors.transparent,
-                boxShadow: const [],
-                margin: const EdgeInsets.only(left: 16, right: 24),
-                onTap: () async {
-                  await context.read<MembersController>().callUser(
-                        mobileNo: '${controller.fetchMemberProfileModel?.data?.mobile}',
-                      );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppAssets.call,
-                      height: size.height * 0.04,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'Call',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: GoogleFonts.urbanist().fontFamily,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
+                    if (memberProfile?.analytics?.haveData == true)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
+                        child: PerformanceGraph(
+                          analytics: memberProfile?.analytics,
+                        ),
                       ),
-                    ),
                   ],
                 ),
-              )
-            ],
-          ),
+          bottomSheet: memberProfile?.mobile != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GradientButton(
+                      height: 70,
+                      borderRadius: 18,
+                      blur: 10,
+                      backgroundGradient: primaryGradient,
+                      backgroundColor: Colors.transparent,
+                      boxShadow: const [],
+                      margin: const EdgeInsets.only(left: 16, right: 24),
+                      onTap: () async {
+                        launchUrl(Uri.parse('tel:${memberProfile?.mobile}'));
+                        // await context.read<MembersController>().callUser(
+                        //       mobileNo: '${memberProfile?.mobile}',
+                        //     );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            AppAssets.call,
+                            height: size.height * 0.04,
+                            color: Colors.black,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Call',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: GoogleFonts.urbanist().fontFamily,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              : null,
         );
       },
     );

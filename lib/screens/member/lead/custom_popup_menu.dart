@@ -19,10 +19,11 @@ class _CustomPopUpMenuState extends State<CustomPopUpMenu> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      // color: CupertinoColors.white,
-      color: const Color(0xFF1C1C1C),
+      color: CupertinoColors.white,
+      // color: const Color(0xFF1C1C1C),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
       onSelected: widget.onSelected,
+
       itemBuilder: widget.itemBuilder,
       child: widget.showText == true
           ? CustomeText(

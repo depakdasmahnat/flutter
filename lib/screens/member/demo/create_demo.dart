@@ -39,10 +39,9 @@ class _CreateDemoState extends State<CreateDemo> {
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController startTimeCtrl = TextEditingController();
   TextEditingController commentCtrl = TextEditingController();
-
+  TextEditingController venueCtrl = TextEditingController();
   TextEditingController endDateCtrl = TextEditingController();
   TextEditingController endTimeCtrl = TextEditingController();
-
   TextEditingController linkCtrl = TextEditingController();
   TextEditingController cityCtrl = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
@@ -54,6 +53,7 @@ class _CreateDemoState extends State<CreateDemo> {
   List item = ['Hot', 'Worm', 'Cold'];
   File? image;
   String ? sponsorId ='';
+  String ? memberId ='';
   Set<int> leadIndex = Set<int>();
 
   @override
@@ -69,12 +69,13 @@ class _CreateDemoState extends State<CreateDemo> {
 
   @override
   Widget build(BuildContext context) {
+    print('check id ${widget.guestId}');
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         leading: const CustomBackButton(),
-        title: const Text('Create a Demo'),
+        title: const Text('Scheduled Demo'),
       ),
       body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
@@ -171,13 +172,13 @@ class _CreateDemoState extends State<CreateDemo> {
           AppTextField(
             title: 'Venue',
             hintText: 'Enter venue',
-            controller: commentCtrl,
+            controller: venueCtrl,
           ),
-          AppTextField(
-            title: 'Remark',
-            hintText: 'Comment',
-            controller: commentCtrl,
-          ),
+          // AppTextField(
+          //   title: 'Remark',
+          //   hintText: 'Comment',
+          //   controller: commentCtrl,
+          // ),
           Padding(
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: CustomeText(
@@ -188,23 +189,56 @@ class _CreateDemoState extends State<CreateDemo> {
           ),
           Consumer<MembersController>(
             builder: (context, controller, child) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 8,right: 8),
-                child: CustomDropdown(
-                  hintText:'Select Sponsor' ,
-                  onChanged: (v) {
-                    sponsorId = controller.fetchSponsorModel?.data
-                        ?.firstWhere(
-                          (element) {
-                        return element.name == v;
+              return     Padding(
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+                child: Container(
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF1B1B1B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10,),
+                    child:
+                    DropdownSearch.multiSelection(
+                      dropdownButtonProps: const DropdownButtonProps(
+                          padding: EdgeInsets.only(bottom: 10),
+                          icon: Icon(
+                            CupertinoIcons.chevron_down,
+                            size: 18,
+                          )),
+                      items: controller.fetchSponsorModel?.data?.map((e) => e.name).toList()??[],
+                      onChanged: (value) {
+                        List id =[];
+                        for (var e in value) {
+                          id.add(  controller.fetchSponsorModel?.data?.firstWhere((element) {
+                            return element.name ==e;
+                          },).id);
+                        }
+                        memberId =id.join('');
+                        setState(() {});
                       },
-                    ).id
-                        .toString() ??
-                        '';
-                  },
-                  title: 'Sponsor',
-                  listItem:
-                  controller.fetchSponsorModel?.data?.map((e) => e.name).toList(),
+                      popupProps:  const PopupPropsMultiSelection.menu(
+                        showSearchBox: true,
+                        menuProps: MenuProps(
+                          backgroundColor:  Color(0xFF1B1B1B),
+
+                        ),
+
+                      ),
+                      dropdownDecoratorProps: const DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(
+                            left: 7,
+                            top: 7,
+                          ),
+                          border: InputBorder.none,
+                          hintText:  'Select Gender',
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               );
             },
@@ -587,7 +621,7 @@ class _CreateDemoState extends State<CreateDemo> {
                   date: startDateCtrl.text,
                   time: startTimeCtrl.text,
                   remarks: commentCtrl.text,
-                  priority: priority);
+                  priority: priority, venue: venueCtrl.text, memberIds: memberId);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

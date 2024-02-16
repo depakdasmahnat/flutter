@@ -68,6 +68,7 @@ class ApiEndpoints {
   static const String scheduledDemo = 'schedule_demo';
   static const String fetchDashboardStats = 'fetch_dashboard_stats';
   static const String generateReferralLink = 'generate_referral_link';
+  static const String fetchMemberProfile = 'fetch_member_profile';
 
   /// Training Apis
 
@@ -86,7 +87,6 @@ class ApiEndpoints {
   static const String addNewMemberLead = 'add_new_member';
   static const String editMember = 'edit_member_profile';
   static const String ref = 'generate_referral_link';
-  static const String memberProfile = 'fetch_dashboard_stats?member_id=';
   static const String addTarget = 'add_target';
   static const String fetchAllPinnacleMembers = 'fetch_all_pinnacle_members';
   static const String fetchAllMembers = 'fetch_all_members';
@@ -102,7 +102,8 @@ class ApiEndpoints {
 
   static const String fetchLead = 'fetch_leads?';
   static const String levelWiseMemberCount = 'level_wise_member_count?';
-  static const String deleteLead = 'delete_lead?';
+  static const String deleteLead = 'delete_lead';
+  static const String rescheduleCall = 'reschedule_call';
 
   /// Guest Apis....
   static const String fetchJoiners = 'fetch_new_joinees';

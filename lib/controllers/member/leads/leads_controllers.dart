@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/app.dart';
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -238,5 +239,51 @@ class ListsControllers extends ChangeNotifier {
     // return responseData;
   }
 
+
+  /// 1) lead invitation call rescheduled call...
+  Future<DefaultModel?> rescheduledCall({
+    required BuildContext context,
+    required String guestId,
+    required String reason,
+    required String date,
+    required String time,
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'guest_id': guestId,
+      'reason': reason,
+      'date': date,
+      'time': time,
+    };
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.rescheduleCall,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+
+
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          context.pop();
+
+        } else {
+          showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
+        }
+      }
+    });
+    // return responseData;
+  }
 
 }

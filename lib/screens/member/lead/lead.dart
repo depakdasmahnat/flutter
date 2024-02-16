@@ -129,6 +129,7 @@ class _LeadState extends State<Lead> {
                                     Color(0xFF3B3B3B),
                                     Color(0xFF4A4A4A)
                                   ],
+<<<<<<< HEAD
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
@@ -164,10 +165,9 @@ class _LeadState extends State<Lead> {
                                         decoration: ShapeDecoration(
                                           gradient: index == tabIndex
                                               ? primaryGradient
-                                              : null,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                              : inActiveGradient,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius:BorderRadius.only(topRight: Radius.circular(100),bottomRight: Radius.circular(100)),
                                           ),
                                         ),
                                         child: Center(
@@ -180,6 +180,172 @@ class _LeadState extends State<Lead> {
                                               : Colors.white,
                                         )),
                                       ),
+=======
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.only(left: kPadding, top: 8),
+                              child: SizedBox(
+                                  height: size.height * 0.12,
+                                  child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: ListView(
+                                      scrollDirection: Axis.horizontal,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(3),
+                                          child: Container(
+                                            width: size.width * 0.22,
+                                            decoration: ShapeDecoration(
+                                              gradient: primaryGradient,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(18),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  CustomeText(
+                                                    text: '${controller.fetchLeadsModel?.stats?.new1}',
+                                                    fontSize: 28,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                  const Text(
+                                                    'Added\nto list',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(3),
+                                          child: Container(
+                                            width: size.width * 0.22,
+                                            decoration: ShapeDecoration(
+                                              gradient: const LinearGradient(
+                                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(18),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  CustomeText(
+                                                    text:
+                                                        '${controller.fetchLeadsModel?.stats?.invitationCall}',
+                                                    fontSize: 28,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                  const Text(
+                                                    'Demo\nScheduled',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(3),
+                                          child: Container(
+                                            width: size.width * 0.22,
+                                            decoration: ShapeDecoration(
+                                              gradient: const LinearGradient(
+                                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(18),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  CustomeText(
+                                                    text: '${controller.fetchLeadsModel?.stats?.followup}',
+                                                    fontSize: 28,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.black,
+                                                  ),
+                                                  const Text(
+                                                    'Demo\nDone',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(3),
+                                          child: Container(
+                                            width: size.width * 0.22,
+                                            decoration: ShapeDecoration(
+                                              gradient: const LinearGradient(
+                                                  colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)]),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(18),
+                                              ),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  CustomeText(
+                                                    text: '${controller.fetchLeadsModel?.stats?.closed}',
+                                                    fontSize: 28,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.white,
+                                                  ),
+                                                  const Text(
+                                                    'Leads\nClosed',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+>>>>>>> c7b688cbb475634220be72aa40dfb28e3eb7677f
                                     ),
                                   );
                                 },
@@ -368,10 +534,11 @@ class _LeadState extends State<Lead> {
                               padding:
                                   const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
-                                  height: size.height * 0.1,
+                                  height: size.height * 0.13,
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     children: [
+<<<<<<< HEAD
                                       LeadType(
                                         value: controller
                                             .fetchLeadsModel?.stats?.hot
@@ -387,6 +554,83 @@ class _LeadState extends State<Lead> {
                                           Color(0xFFFDDC9C),
                                           Color(0xFFDDA53B)
                                         ],
+=======
+                                      Padding(
+                                        padding: const EdgeInsets.all(3),
+                                        child: Container(
+                                          width: size.width * 0.3,
+                                          decoration: ShapeDecoration(
+                                            gradient: const LinearGradient(
+                                                colors: [Color(0xFFFF2600), Color(0xFFFF6130)]),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                CustomeText(
+                                                  text: '${controller.fetchLeadsModel?.stats?.hot}',
+                                                  fontSize: 31,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white,
+                                                ),
+                                                const Text(
+                                                  'Hot Leads',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(3),
+                                        child: Container(
+                                          width: size.width * 0.3,
+                                          decoration: ShapeDecoration(
+                                            gradient: const LinearGradient(
+                                                colors: [Color(0xFFFDDC9C), Color(0xFFDDA53B)]),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                CustomeText(
+                                                  text: '${controller.fetchLeadsModel?.stats?.warm}',
+                                                  fontSize: 31,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white,
+                                                ),
+                                                const Text(
+                                                  'Warm Leads',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+>>>>>>> c7b688cbb475634220be72aa40dfb28e3eb7677f
                                       ),
                                       LeadType(
                                         value: controller
@@ -406,6 +650,7 @@ class _LeadState extends State<Lead> {
                                               title: 'Bin',
                                               status: 'Bin',
                                             ),
+<<<<<<< HEAD
                                           );
                                         },
                                         value: controller
@@ -426,6 +671,35 @@ class _LeadState extends State<Lead> {
                                           Color(0xFF3B3B3B),
                                           Color(0xFF4A4A4A)
                                         ],
+=======
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                CustomeText(
+                                                  text: '${controller.fetchLeadsModel?.stats?.cold}',
+                                                  fontSize: 31,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white,
+                                                ),
+                                                const Text(
+                                                  'Cold Leads',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+>>>>>>> c7b688cbb475634220be72aa40dfb28e3eb7677f
                                       ),
                                     ],
                                   )),
@@ -1467,6 +1741,8 @@ class RowCart extends StatefulWidget {
 }
 
 class _RowCartState extends State<RowCart> {
+  TextEditingController dateController =TextEditingController();
+  TextEditingController timeConroller =TextEditingController();
   Future<void> _showDialog(
     BuildContext context,
     String? guestId,
@@ -1477,17 +1753,176 @@ class _RowCartState extends State<RowCart> {
     return showDialog(
       context: context,
       barrierColor: Colors.transparent,
+      barrierDismissible: true,
       builder: (BuildContext context) {
-        return changePopup==false?
-        ModelDialogBox(
-          guestId: guestId ?? '',
-          feedback: feedback ?? '',
-          changePopUp: changePopUp,
-        ):ModelDialogBoxForRescheduled(
-  eventID: '',
-  );
+        return GestureDetector(
+          onTap: () {
+            context.pop();
+          },
+          child: FocusScope(
+            onFocusChange: (hasFocus) {
+              if (!hasFocus) {
+                context.pop();
+              }
+            },
+            child: changePopup == false
+                ? ModelDialogBox(
+              guestId: guestId ?? '',
+              feedback: feedback ?? '',
+              changePopUp: changePopUp,
+            )
+                : ModelDialogBoxForRescheduled(
+              guestId: guestId ?? '',
+            ),
+          ),
+        );
       },
     );
+
+  }
+  Future<void> _showDialogDemoScheduled(BuildContext context,guestId) async {
+    return
+      showDialog(
+        context: context,
+
+        builder: (BuildContext context) => AlertDialog(
+          shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30)
+          ),
+          title: CustomeText(
+            text: 'Reschedule',
+          ),
+          content:  Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppTextField(
+                title: 'Date',
+                hintText: 'dd-mm-yyyy',
+                controller: dateController,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1750),
+                    lastDate: DateTime(2101),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          popupMenuTheme: PopupMenuThemeData(
+                              shape: OutlineInputBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(10))),
+                          cardColor: Colors.white,
+
+                          colorScheme: Theme.of(context)
+                              .colorScheme
+                              .copyWith(
+                            primary: Colors.white, // <-- SEE HERE
+                            onPrimary: Colors.black, // <-- SEE HERE
+                            onSurface: Colors.white,
+                          ),
+
+                          // Input
+                          inputDecorationTheme: const InputDecorationTheme(
+                            // labelStyle: GoogleFonts.greatVibes(), // Input label
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+
+                  if (pickedDate != null) {
+                    dateController.text = "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                  }
+                },
+                readOnly: true,
+              ),
+              AppTextField(
+                title: 'Time',
+                hintText: 'hh:mm',
+                controller: timeConroller,
+                onTap: () async {
+                  TimeOfDay? time = await showTimePicker(
+                    context: context,
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          popupMenuTheme: PopupMenuThemeData(
+                              shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          cardColor: Colors.white,
+
+                          colorScheme: Theme.of(context).colorScheme.copyWith(
+                            primary: Colors.white, // <-- SEE HERE
+                            onPrimary: Colors.black, // <-- SEE HERE
+                            onSurface: Colors.white,
+                          ),
+
+                          // Input
+                          inputDecorationTheme: const InputDecorationTheme(
+                            // labelStyle: GoogleFonts.greatVibes(), // Input label
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
+                    initialTime: TimeOfDay.now(),
+                  );
+
+                  if (time != null) {
+                    timeConroller.text = time.format(context);
+                  }
+                },
+                readOnly: true,
+              ),
+
+            ],
+          ) ,
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Back'),
+            ),
+            TextButton(
+              onPressed:()async {
+                await context.read<ListsControllers>().rescheduledCall(context: context,
+                    guestId: guestId, reason: '', date: dateController.text, time:timeConroller.text);
+                // context.pop();
+              },
+              child: const Text('Save'),
+            ),
+          ],
+        ),
+      );
+  }
+  Future<void> _showDialogIncomplete(
+      BuildContext context,
+      String? guestId,
+
+      ) async {
+    return showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            context.pop();
+          },
+          child: FocusScope(
+            onFocusChange: (hasFocus) {
+              if (!hasFocus) {
+                context.pop();
+              }
+            },
+            child: ModelDialogBoxIncomplete(
+              guestId: guestId ?? '',
+            ),
+          ),
+        );
+      },
+    );
+
   }
 
   Color? pupUpTextColor =const Color(0xFFA0A0A0);
@@ -1535,10 +1970,9 @@ class _RowCartState extends State<RowCart> {
                   ],
                 ),
               ),
-
               Row(
                 children: [
-                  InkWell(
+                  GestureDetector(
                     onTap: () {},
                     child: Container(
                       decoration: ShapeDecoration(
@@ -1596,40 +2030,63 @@ class _RowCartState extends State<RowCart> {
                               PopupMenuItem(
                                 // height: size.height*0.05,
                                 value: 'Hot',
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: CustomeText(
-                                    text: 'Hot',
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomeText(
+                                          text: 'Hot',
+                                          color:Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                     Divider(
+                                      thickness: 2,
+
+                                      color: Colors.grey.shade300,
+                                    )
+                                  ],
                                 ),
                               ),
                               PopupMenuItem(
                                 value: 'Warm',
                                 height: size.height * 0.04,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: CustomeText(
-                                    text: 'Warm',
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomeText(
+                                          text: 'Warm',
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      thickness: 2,
+                                      color: Colors.grey.shade300,
+                                    )
+                                  ],
                                 ),
                               ),
                               PopupMenuItem(
                                 value: 'Cold',
                                 height: size.height * 0.04,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: CustomeText(
-                                    text: 'Cold',
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment:  MainAxisAlignment.center,
+                                  children: [
+                                    CustomeText(
+                                      text: 'Cold',
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -1641,7 +2098,7 @@ class _RowCartState extends State<RowCart> {
                   const SizedBox(
                     width: 10,
                   ),
-                  InkWell(
+                  GestureDetector(
                     onTap: () async {
                       newIndex = widget.listIndex;
                       setState(() {});
@@ -1655,7 +2112,7 @@ class _RowCartState extends State<RowCart> {
                       decoration: ShapeDecoration(
                         gradient: newIndex == widget.listIndex
                             ? primaryGradient
-                            : LinearGradient(
+                            : const LinearGradient(
                                 colors: [Colors.white, Colors.white]),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(39),
@@ -1703,10 +2160,10 @@ class _RowCartState extends State<RowCart> {
               //   //  onSelected: (value) async{
               //   //    print('check menu ${guestId}');
               //   //
-              //   // // await   showDialog<String>(
-              //   // //      context: context,
-              //   // //      builder: (BuildContext context) => ModelDialogBox(guestId:guestId??'' ,status: 'Invitation Call',)
-              //   // //    );
+              //   await   showDialog<String>(
+              //        context: context,
+              //        builder: (BuildContext context) => ModelDialogBox(guestId:guestId??'' ,status: 'Invitation Call',)
+              //      );
               //   //   // await context.pushNamed(Routs.modelDialogBox,extra: ModelDialogBox(guestId: '1',));
               //   //
               //   //  },
@@ -1759,8 +2216,7 @@ class _RowCartState extends State<RowCart> {
                 children: [
                   Row(
                     children: [
-                      // image==null?
-                      // Image.asset(AppAssets.u1):Image.network(image??'',height: size.height*0.04,width:size.width*0.04 ,),
+
                       widget.image == null
                           ? CircleAvatar(
                               maxRadius: size.height * 0.02,
@@ -1855,40 +2311,62 @@ class _RowCartState extends State<RowCart> {
                               PopupMenuItem(
                                 // height: size.height*0.05,
                                 value: 'Hot',
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: CustomeText(
-                                    text: 'Hot',
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomeText(
+                                          text: 'Hot',
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                     Divider(
+                                      thickness: 2,
+                                      color:Colors.grey.shade300,
+                                    )
+                                  ],
                                 ),
                               ),
                               PopupMenuItem(
                                 value: 'Warm',
                                 height: size.height * 0.04,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: CustomeText(
-                                    text: 'Warm',
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomeText(
+                                          text: 'Warm',
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      thickness: 2,
+                                      color:Colors.grey.shade300,
+                                    )
+                                  ],
                                 ),
                               ),
                               PopupMenuItem(
                                 value: 'Cold',
                                 height: size.height * 0.04,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: CustomeText(
-                                    text: 'Cold',
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomeText(
+                                      text: 'Cold',
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -1900,7 +2378,14 @@ class _RowCartState extends State<RowCart> {
                   CustomPopUpMenu(
                     onSelected: (v)async {
                       if(v=='Schedule demo'){
-                        context.pushNamed(Routs.createDemo, );
+                        context.pushNamed(Routs.createDemo,extra:CreateDemo(guestId: widget.guestId??'',image: widget.image,name: widget.name,)  ).whenComplete(()async {
+                          await context
+                              .read<MembersController>()
+                              .fetchLeads(
+                              status: 'Invitation Call',
+                              priority: '',
+                              page: '1');
+                        },);
                       }else if(v=='Reschedule call'){
                         _showDialog(context, widget.guestId, '', true,true);
                       }else{
@@ -1927,18 +2412,16 @@ class _RowCartState extends State<RowCart> {
                               children: [
                                 CustomeText(
                                   text: 'Schedule demo',
-                                  color: pupUpTextColor,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
                                 ),
                               ],
                             ),
-                            const Divider(
+                             Divider(
                               thickness: 2,
-                              // endIndent: double.infinity,
-                              // indent: double.infinity,
-                              // height: 10,
-                              color: Color(0xFF212121),
+
+                              color: Colors.grey.shade300,
                             )
                           ],
                         ),
@@ -1953,16 +2436,16 @@ class _RowCartState extends State<RowCart> {
                               children: [
                                 CustomeText(
                                   text: 'Reschedule call',
-                                  color: pupUpTextColor,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
                                 ),
                               ],
                             ),
-                            const Divider(
+                             Divider(
                               thickness: 2,
                               // height: 10,
-                              color: Color(0xFF212121),
+                              color: Colors.grey.shade300,
                             )
                           ],
                         ),
@@ -1975,7 +2458,7 @@ class _RowCartState extends State<RowCart> {
                           children: [
                             CustomeText(
                               text: 'Move to bin',
-                              color:pupUpTextColor,
+                              color:Colors.black,
                               fontWeight: FontWeight.w600,
                               fontSize: 12,
                             ),
@@ -2197,16 +2680,15 @@ class _RowCartState extends State<RowCart> {
                                         children: [
                                           CustomeText(
                                             text: 'Hot',
-                                            color:pupUpTextColor,
+                                            color:Colors.black,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12,
                                           ),
                                         ],
                                       ),
-                                      const Divider(
+                                       Divider(
                                         thickness: 2,
-                                      
-                                        color: Color(0xFF212121),
+                                        color: Colors.grey.shade300,
                                       )
                                     ],
                                   ),
@@ -2221,18 +2703,16 @@ class _RowCartState extends State<RowCart> {
                                         children: [
                                           CustomeText(
                                             text: 'Warm',
-                                            color: pupUpTextColor,
+                                            color: Colors.black,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 12,
                                           ),
                                         ],
                                       ),
-                                      const Divider(
+                                       Divider(
                                         thickness: 2,
-                                        // endIndent: double.infinity,
-                                        // indent: double.infinity,
-                                        // height: 10,
-                                        color: Color(0xFF212121),
+
+                                        color: Colors.grey.shade300,
                                       )
                                     ],
                                   ),
@@ -2245,7 +2725,7 @@ class _RowCartState extends State<RowCart> {
                                     children: [
                                       CustomeText(
                                         text: 'Cold',
-                                        color: pupUpTextColor,
+                                        color: Colors.black,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 12,
                                       ),
@@ -2260,28 +2740,32 @@ class _RowCartState extends State<RowCart> {
                       CustomPopUpMenu(
                         onSelected: (v) async {
                           if (v == 'Demo done') {
-                            await showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                context: context,
-                                clipBehavior: Clip.antiAlias,
-                                isScrollControlled: true,
-                                shape: const OutlineInputBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(18),
-                                        topRight: Radius.circular(18))),
-                                builder: (context) => DemoDoneForm(
-                                      title: 'List Update',
-                                      demoId: widget.demoId,
-                                    )).whenComplete(
-                              () async {
-                                await context
-                                    .read<MembersController>()
-                                    .fetchLeads(
-                                        status: 'Demo Sheduled',
-                                        priority: '',
-                                        page: '1');
-                              },
-                            );
+                            await   showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) =>  DemoDoneFormDemoScheduled(demoId: widget.demoId??'', feedback: '', )
+                          );
+                            // await showModalBottomSheet(
+                            //     backgroundColor: Colors.transparent,
+                            //     context: context,
+                            //     clipBehavior: Clip.antiAlias,
+                            //     isScrollControlled: true,
+                            //     shape: const OutlineInputBorder(
+                            //         borderRadius: BorderRadius.only(
+                            //             topLeft: Radius.circular(18),
+                            //             topRight: Radius.circular(18))),
+                            //     builder: (context) => DemoDoneForm(
+                            //           title: 'List Update',
+                            //           demoId: widget.demoId,
+                            //         )).whenComplete(
+                            //   () async {
+                            //     await context
+                            //         .read<MembersController>()
+                            //         .fetchLeads(
+                            //             status: 'Demo Sheduled',
+                            //             priority: '',
+                            //             page: '1');
+                            //   },
+                            // );
                           }
                           else if(v=='Move to bin'){
                             await context.read<ListsControllers>().deleteLead(context: context, guestId: widget.guestId??'').whenComplete(() async{
@@ -2293,6 +2777,11 @@ class _RowCartState extends State<RowCart> {
                                   page: '1');
 
                             },);
+                          }
+                          else if(v=='Reschedule'){
+                            _showDialogDemoScheduled(context,widget.guestId);
+                          }else if(v =='Incomplete'){
+                            _showDialogIncomplete(context,widget.guestId);
                           }
                           else {
                             context
@@ -2316,7 +2805,6 @@ class _RowCartState extends State<RowCart> {
                         },
                         itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                           PopupMenuItem(
-                            // height: size.height*0.05,
                             value: 'Demo done',
                             child: Column(
                               children: [
@@ -2325,16 +2813,15 @@ class _RowCartState extends State<RowCart> {
                                   children: [
                                     CustomeText(
                                       text: 'Demo done',
-                                      color: pupUpTextColor,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,
                                     ),
                                   ],
                                 ),
-                                const Divider(
+                                 Divider(
                                   thickness: 2,
-                                  // height: 10,
-                                  color: Color(0xFF212121),
+                                  color: Colors.grey.shade300,
                                 )
                               ],
                             ),
@@ -2346,53 +2833,56 @@ class _RowCartState extends State<RowCart> {
                               children: [
                                 CustomeText(
                                   text: 'Reschedule',
-                                  color:pupUpTextColor,
+                                  color:Colors.black,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
                                 ),
-                                const Divider(
+                                 Divider(
                                   thickness: 2,
-                                  // height: 10,
-                                  color: Color(0xFF212121),
+
+                                  color: Colors.grey.shade300,
                                 )
                               ],
                             ),
                           ),
                           PopupMenuItem(
-                            value: 'Incompleted',
-                            height: size.height * 0.04,
+                            value: 'Incomplete',
+                            height: size.height * 0.05,
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 CustomeText(
                                   text: 'Incompleted',
-                                  color:pupUpTextColor,
+                                  color:Colors.black,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
                                 ),
-                                const Divider(
+                                 Divider(
+
                                   thickness: 2,
-                                  // height: 10,
-                                  color: Color(0xFF212121),
+                                  color: Colors.grey.shade300,
                                 )
                               ],
                             ),
                           ),
                           PopupMenuItem(
                             value: 'Move to bin',
-                            height: size.height * 0.04,
+                            height: size.height * 0.05,
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                CustomeText(
-                                  text: 'Move to bin',
-                                  color:pupUpTextColor,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomeText(
+                                      text: 'Move to bin',
+                                      color:Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                  ],
                                 ),
-                                const Divider(
-                                  thickness: 2,
-                                  // height: 10,
-                                  color: Color(0xFF212121),
-                                )
+                                Text('')
                               ],
                             ),
                           ),
@@ -2428,7 +2918,12 @@ class _RowCartState extends State<RowCart> {
                             ],
                           ),
                           CustomeText(
-                            text: widget.city ?? 'Durg',
+                            text: widget.date ?? '07-02-2024',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          CustomeText(
+                            text: widget.time ?? '12:02 AM',
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -2535,46 +3030,130 @@ class _RowCartState extends State<RowCart> {
                               ),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              _showDialog(context, widget.guestId, '', true,false)
-                                  .whenComplete(
-                                () async {
-                                  await context
-                                      .read<MembersController>()
-                                      .fetchLeads(
-                                          status: 'Follow Up',
-                                          priority: '',
-                                          page: '1');
-                                },
-                              );
-                            },
-                            child: Container(
-                              decoration: ShapeDecoration(
-                                gradient: const LinearGradient(
-                                  begin: Alignment(0.00, -1.00),
-                                  end: Alignment(0, 1),
-                                  colors: [
-                                    Color(0xFFF3F3F3),
-                                    Color(0xFFE0E0E0)
+                          // GestureDetector(
+                          //   onTap: () {
+                          //
+                          //   },
+                          //   child: Container(
+                          //     decoration: ShapeDecoration(
+                          //       gradient: const LinearGradient(
+                          //         begin: Alignment(0.00, -1.00),
+                          //         end: Alignment(0, 1),
+                          //         colors: [
+                          //           Color(0xFFF3F3F3),
+                          //           Color(0xFFE0E0E0)
+                          //         ],
+                          //       ),
+                          //       shape: RoundedRectangleBorder(
+                          //         borderRadius: BorderRadius.circular(50),
+                          //       ),
+                          //     ),
+                          //     child: Padding(
+                          //       padding: const EdgeInsets.only(
+                          //           left: 18, right: 18, top: 4, bottom: 4),
+                          //       child: CustomeText(
+                          //         text: 'Close',
+                          //         fontWeight: FontWeight.w500,
+                          //         fontSize: 10,
+                          //         color: Colors.black,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                          CustomPopUpMenu(
+                        onSelected: (v)async {
+                          if(v=='Close'){
+                            _showDialog(context, widget.guestId, '', true,false)
+                                .whenComplete(
+                                  () async {
+                                await context
+                                    .read<MembersController>()
+                                    .fetchLeads(
+                                    status: 'Follow Up',
+                                    priority: '',
+                                    page: '1');
+                              },
+                            );
+                          }else if(v=='Schedule follow up'){
+                            _showDialogDemoScheduled(context,widget.guestId);
+                          }else{
+                            await context.read<ListsControllers>().deleteLead(context: context, guestId: widget.guestId??'').whenComplete(() async{
+                              await context
+                                  .read<MembersController>()
+                                  .fetchLeads(
+                                  status: 'Follow Up',
+                                  priority: '',
+                                  page: '1');
+                            },);
+                          }
+
+                        },
+                            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                              PopupMenuItem(
+                                height: size.height*0.04,
+                                value: 'Close',
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomeText(
+                                          text: 'Close',
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      thickness: 2,
+
+                                      color: Colors.grey.shade300,
+                                    )
                                   ],
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
+                              ),
+                              PopupMenuItem(
+                                value: 'Schedule follow up',
+                                height: size.height * 0.04,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomeText(
+                                          text: 'Schedule follow up',
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(
+                                      thickness: 2,
+                                      // height: 10,
+                                      color: Colors.grey.shade300,
+                                    )
+                                  ],
                                 ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 18, right: 18, top: 4, bottom: 4),
-                                child: CustomeText(
-                                  text: 'Close',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
-                                  color: Colors.black,
+                              PopupMenuItem(
+                                value: 'Move to bin',
+                                height: size.height * 0.03,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CustomeText(
+                                      text: 'Move to bin',
+                                      color:Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ),
-                          ),
+                            ],)
                         ],
                       )
                     : widget.tabIndex == 4
@@ -2768,3 +3347,7 @@ class LeadType extends StatelessWidget {
     );
   }
 }
+
+
+
+

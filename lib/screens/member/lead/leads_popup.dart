@@ -647,6 +647,7 @@ class ClosedLeadsCard extends StatelessWidget {
                   width: 28,
                   isAvatar: true,
                   networkImage: '${lead?.profilePhoto}',
+                  borderRadiusValue: 30,
                   margin: const EdgeInsets.only(left: 8, right: 8),
                 ),
                 CustomeText(

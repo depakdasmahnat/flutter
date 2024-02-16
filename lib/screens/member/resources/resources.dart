@@ -116,7 +116,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
               onEditingComplete: () {
                 fetchProduct();
               },
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+              margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding, top: kPadding),
             ),
             const Row(
               children: [
@@ -223,71 +223,67 @@ class ProductCard extends StatelessWidget {
               productId: controller?.fetchguestProduct?.data?[index].id.toString() ?? '',
             ));
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 180,
-            margin: const EdgeInsets.only(right: kPadding),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(22)),
-              gradient: index == 0 ? primaryGradient : inActiveGradient,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ImageView(
-                    networkImage: '${data?.productImage}',
-                    margin: EdgeInsets.zero,
-                    borderRadiusValue: 8,
+      child: Container(
+        width: 180,
+        margin: const EdgeInsets.only(right: kPadding),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(22)),
+          gradient: index == 0 ? primaryGradient : inActiveGradient,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: ImageView(
+                  networkImage: '${data?.productImage}',
+                  margin: EdgeInsets.zero,
+                  borderRadiusValue: 16,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  '${data?.name}',
+                  style: TextStyle(
+                    color: index == 0 ? Colors.black : Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      '${data?.name}',
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '₹ ${data?.price}/',
+                      style: TextStyle(
+                        color: index == 0 ? Colors.black : Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      'Unit',
                       style: TextStyle(
                         color: index == 0 ? Colors.black : Colors.white,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,
-                      maxLines: 2,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '₹ ${data?.price}/',
-                          style: TextStyle(
-                            color: index == 0 ? Colors.black : Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          'Unit',
-                          style: TextStyle(
-                            color: index == 0 ? Colors.black : Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

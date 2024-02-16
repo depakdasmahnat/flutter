@@ -174,6 +174,7 @@ class _FeedCardState extends State<FeedCard> {
                       fontWeight: FontWeight.w400,
                     ),
                     maxLines: 2,
+
                     overFlow: TextOverflow.ellipsis,
                   )
                 else if (data?.description != null)
@@ -229,7 +230,7 @@ class _FeedCardState extends State<FeedCard> {
                             FeedMenu(
                               icon: AppAssets.shareIcon,
                               onTap: () {
-                                Share.share('${data?.title ?? ''}\n${data?.file ?? 'file not available'}');
+                                Share.share('${data?.title ?? ''}\n${data?.file ?? ''}');
                               },
                             ),
                           ],

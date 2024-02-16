@@ -143,15 +143,14 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
                         boxShadow: const [],
                         margin: const EdgeInsets.only(bottom: 6, top: 6),
                         onTap: () async {
-                           context.pushReplacementNamed(
+                          await context.pushNamed(
                             Routs.gtpVideo,
-                          );
-                          //     .whenComplete(() {
-                          //   SystemChrome.setPreferredOrientations([
-                          //     DeviceOrientation.portraitUp, // Change to desired orientation
-                          //   ]);
-                          // },);
-                          // setState(() {});
+                          ).whenComplete(() {
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitUp, // Change to desired orientation
+                            ]);
+                          },);
+                          setState(() {});
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

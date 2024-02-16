@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mrwebbeast/core/constant/colors.dart';
+
+import 'colors.dart';
 
 ///Gradient
 
@@ -84,6 +85,7 @@ Gradient redGradient = const LinearGradient(
     Color(0xffFF6130),
   ],
 );
+
 Gradient yellowGradient = const LinearGradient(
   end: Alignment.topLeft,
   begin: Alignment.bottomRight,

@@ -46,7 +46,7 @@ class _ExamQuizState extends State<ExamQuiz> {
         return Scaffold(
           appBar: AppBar(
             title: const Text(
-              'Exam',
+              'Test',
             ),
           ),
           body: ListView(

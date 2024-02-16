@@ -24,7 +24,6 @@ import '../../models/guest_Model/fetchguestproduct.dart';
 import '../../models/guest_Model/fetchnewjoiners.dart';
 import '../../models/guest_Model/fetchproductdetail.dart';
 import '../../models/guest_Model/guestDemoModel.dart';
-import '../../models/guest_Model/guestProductDetailsModel1.dart';
 import '../../models/guest_Model/resourceModel.dart';
 import '../../models/member/faqs/fetchFaqsModel.dart';
 import '../../utils/widgets/widgets.dart';
@@ -204,11 +203,10 @@ class GuestControllers extends ChangeNotifier {
   }
 
   /// 1) fetch Product Detail...
-  // Fetchproductdetail? fetchproductDetail;
-  GuestProductDetailsModel1? fetchproductDetail;
+  Fetchproductdetail? fetchproductDetail;
   bool productLoader = false;
 
-  Future<GuestProductDetailsModel1?> fetchProductDetail({
+  Future<Fetchproductdetail?> fetchProductDetail({
     required BuildContext context,
     required String productId,
   }) async {
@@ -234,7 +232,7 @@ class GuestControllers extends ChangeNotifier {
           .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
-          GuestProductDetailsModel1 responseData = GuestProductDetailsModel1.fromJson(json);
+          Fetchproductdetail responseData = Fetchproductdetail.fromJson(json);
           if (responseData.status == true) {
             productLoader = true;
             fetchproductDetail = responseData;

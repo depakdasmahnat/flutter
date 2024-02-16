@@ -34,43 +34,44 @@ Future main() async {
   ]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(
-      // DevicePreview(
-      //   enabled: !kReleaseMode,
-      //   builder: (context) => MultiProvider(
-      //     providers: [
-      //       ChangeNotifierProvider(create: (context) => DashboardController()),
-      //       ChangeNotifierProvider(create: (context) => LocationController()),
-      //       ChangeNotifierProvider(create: (context) => ThemeController()),
-      //       ChangeNotifierProvider(create: (context) => LocalizationController()),
-      //       ChangeNotifierProvider(create: (context) => LocalDatabase()),
-      //       ChangeNotifierProvider(create: (context) => MemberAuthControllers()),
-      //       ChangeNotifierProvider(create: (context) => NetworkControllers()),
-      //       ChangeNotifierProvider(create: (context) => AuthControllers()),
-      //       ChangeNotifierProvider(create: (context) => GuestControllers()),
-      //       ChangeNotifierProvider(create: (context) => FeedsController()),
-      //       ChangeNotifierProvider(create: (context) => MembersController()),
-      //     ],
-      //     child: const MyApp(),
-      //   ), // Wrap your app
-      // ),);
-      MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => DashboardController()),
-      ChangeNotifierProvider(create: (context) => LocationController()),
-      ChangeNotifierProvider(create: (context) => ThemeController()),
-      ChangeNotifierProvider(create: (context) => LocalizationController()),
-      ChangeNotifierProvider(create: (context) => LocalDatabase()),
-      ChangeNotifierProvider(create: (context) => MemberAuthControllers()),
-      ChangeNotifierProvider(create: (context) => NetworkControllers()),
-      ChangeNotifierProvider(create: (context) => AuthControllers()),
-      ChangeNotifierProvider(create: (context) => GuestControllers()),
-      ChangeNotifierProvider(create: (context) => FeedsController()),
-      ChangeNotifierProvider(create: (context) => MembersController()),
-      ChangeNotifierProvider(create: (context) => TrainingControllers()),
-      ChangeNotifierProvider(create: (context) => EventsControllers()),
-      ChangeNotifierProvider(create: (context) => DemoController()),
-      ChangeNotifierProvider(create: (context) => ListsControllers()),
-    ],
-    child: const MyApp(),
-  ));
+    // DevicePreview(
+    //   enabled: !kReleaseMode,
+    //   builder: (context) => MultiProvider(
+    //     providers: [
+    //       ChangeNotifierProvider(create: (context) => DashboardController()),
+    //       ChangeNotifierProvider(create: (context) => LocationController()),
+    //       ChangeNotifierProvider(create: (context) => ThemeController()),
+    //       ChangeNotifierProvider(create: (context) => LocalizationController()),
+    //       ChangeNotifierProvider(create: (context) => LocalDatabase()),
+    //       ChangeNotifierProvider(create: (context) => MemberAuthControllers()),
+    //       ChangeNotifierProvider(create: (context) => NetworkControllers()),
+    //       ChangeNotifierProvider(create: (context) => AuthControllers()),
+    //       ChangeNotifierProvider(create: (context) => GuestControllers()),
+    //       ChangeNotifierProvider(create: (context) => FeedsController()),
+    //       ChangeNotifierProvider(create: (context) => MembersController()),
+    //     ],
+    //     child: const MyApp(),
+    //   ), // Wrap your app
+    // ),);
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DashboardController()),
+        ChangeNotifierProvider(create: (context) => LocationController()),
+        ChangeNotifierProvider(create: (context) => ThemeController()),
+        ChangeNotifierProvider(create: (context) => LocalizationController()),
+        ChangeNotifierProvider(create: (context) => LocalDatabase()),
+        ChangeNotifierProvider(create: (context) => MemberAuthControllers()),
+        ChangeNotifierProvider(create: (context) => NetworkControllers()),
+        ChangeNotifierProvider(create: (context) => AuthControllers()),
+        ChangeNotifierProvider(create: (context) => GuestControllers()),
+        ChangeNotifierProvider(create: (context) => FeedsController()),
+        ChangeNotifierProvider(create: (context) => MembersController()),
+        ChangeNotifierProvider(create: (context) => TrainingControllers()),
+        ChangeNotifierProvider(create: (context) => EventsControllers()),
+        ChangeNotifierProvider(create: (context) => DemoController()),
+        ChangeNotifierProvider(create: (context) => ListsControllers()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }

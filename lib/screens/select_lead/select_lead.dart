@@ -61,7 +61,7 @@ class _SelectLeadState extends State<SelectLead> {
                     Row(
                       children: [
                         Image.asset(AppAssets.u1),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         CustomeText(
@@ -84,7 +84,7 @@ class _SelectLeadState extends State<SelectLead> {
                       controller: switch1,
                       enabled: true,
                       thumb: Container(
-                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
                       ),
                     ),
                     InkWell(
@@ -106,7 +106,7 @@ class _SelectLeadState extends State<SelectLead> {
                               children: [
                                 Container(
                                   decoration: ShapeDecoration(
-                                    gradient: LinearGradient(
+                                    gradient: const LinearGradient(
                                       begin: Alignment(0.00, -1.00),
                                       end: Alignment(0, 1),
                                       colors: [Color(0xFF1B1B1B), Color(0xFF282828)],
@@ -126,7 +126,7 @@ class _SelectLeadState extends State<SelectLead> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 Container(
