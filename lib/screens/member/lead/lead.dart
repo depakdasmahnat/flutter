@@ -129,7 +129,7 @@ class _LeadState extends State<Lead> {
                                     Color(0xFF3B3B3B),
                                     Color(0xFF4A4A4A)
                                   ],
-<<<<<<< HEAD
+
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
@@ -180,174 +180,174 @@ class _LeadState extends State<Lead> {
                                               : Colors.white,
                                         )),
                                       ),
-=======
-                                )),
-                            Padding(
-                              padding: const EdgeInsets.only(left: kPadding, top: 8),
-                              child: SizedBox(
-                                  height: size.height * 0.12,
-                                  child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      physics: const NeverScrollableScrollPhysics(),
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: Container(
-                                            width: size.width * 0.22,
-                                            decoration: ShapeDecoration(
-                                              gradient: primaryGradient,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.new1}',
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.black,
-                                                  ),
-                                                  const Text(
-                                                    'Added\nto list',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: Container(
-                                            width: size.width * 0.22,
-                                            decoration: ShapeDecoration(
-                                              gradient: const LinearGradient(
-                                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomeText(
-                                                    text:
-                                                        '${controller.fetchLeadsModel?.stats?.invitationCall}',
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.black,
-                                                  ),
-                                                  const Text(
-                                                    'Demo\nScheduled',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: Container(
-                                            width: size.width * 0.22,
-                                            decoration: ShapeDecoration(
-                                              gradient: const LinearGradient(
-                                                  colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.followup}',
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.black,
-                                                  ),
-                                                  const Text(
-                                                    'Demo\nDone',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(3),
-                                          child: Container(
-                                            width: size.width * 0.22,
-                                            decoration: ShapeDecoration(
-                                              gradient: const LinearGradient(
-                                                  colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)]),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(18),
-                                              ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomeText(
-                                                    text: '${controller.fetchLeadsModel?.stats?.closed}',
-                                                    fontSize: 28,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.white,
-                                                  ),
-                                                  const Text(
-                                                    'Leads\nClosed',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w600,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
->>>>>>> c7b688cbb475634220be72aa40dfb28e3eb7677f
-                                    ),
-                                  );
+
+                                ));
+//                             Padding(
+//                               padding: const EdgeInsets.only(left: kPadding, top: 8),
+//                               child: SizedBox(
+//                                   height: size.height * 0.12,
+//                                   child: Align(
+//                                     alignment: Alignment.topCenter,
+//                                     child: ListView(
+//                                       scrollDirection: Axis.horizontal,
+//                                       physics: const NeverScrollableScrollPhysics(),
+//                                       children: [
+//                                         Padding(
+//                                           padding: const EdgeInsets.all(3),
+//                                           child: Container(
+//                                             width: size.width * 0.22,
+//                                             decoration: ShapeDecoration(
+//                                               gradient: primaryGradient,
+//                                               shape: RoundedRectangleBorder(
+//                                                 borderRadius: BorderRadius.circular(18),
+//                                               ),
+//                                             ),
+//                                             child: Padding(
+//                                               padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
+//                                               child: Column(
+//                                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                                 mainAxisSize: MainAxisSize.min,
+//                                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                                 children: [
+//                                                   CustomeText(
+//                                                     text: '${controller.fetchLeadsModel?.stats?.new1}',
+//                                                     fontSize: 28,
+//                                                     fontWeight: FontWeight.w700,
+//                                                     color: Colors.black,
+//                                                   ),
+//                                                   const Text(
+//                                                     'Added\nto list',
+//                                                     style: TextStyle(
+//                                                       color: Colors.black,
+//                                                       fontSize: 13,
+//                                                       fontWeight: FontWeight.w600,
+//                                                     ),
+//                                                     textAlign: TextAlign.start,
+//                                                   ),
+//                                                 ],
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                         Padding(
+//                                           padding: const EdgeInsets.all(3),
+//                                           child: Container(
+//                                             width: size.width * 0.22,
+//                                             decoration: ShapeDecoration(
+//                                               gradient: const LinearGradient(
+//                                                   colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
+//                                               shape: RoundedRectangleBorder(
+//                                                 borderRadius: BorderRadius.circular(18),
+//                                               ),
+//                                             ),
+//                                             child: Padding(
+//                                               padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+//                                               child: Column(
+//                                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                                 mainAxisSize: MainAxisSize.min,
+//                                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                                 children: [
+//                                                   CustomeText(
+//                                                     text:
+//                                                         '${controller.fetchLeadsModel?.stats?.invitationCall}',
+//                                                     fontSize: 28,
+//                                                     fontWeight: FontWeight.w700,
+//                                                     color: Colors.black,
+//                                                   ),
+//                                                   const Text(
+//                                                     'Demo\nScheduled',
+//                                                     style: TextStyle(
+//                                                       color: Colors.black,
+//                                                       fontSize: 13,
+//                                                       fontWeight: FontWeight.w600,
+//                                                     ),
+//                                                     textAlign: TextAlign.start,
+//                                                   ),
+//                                                 ],
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                         Padding(
+//                                           padding: const EdgeInsets.all(3),
+//                                           child: Container(
+//                                             width: size.width * 0.22,
+//                                             decoration: ShapeDecoration(
+//                                               gradient: const LinearGradient(
+//                                                   colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
+//                                               shape: RoundedRectangleBorder(
+//                                                 borderRadius: BorderRadius.circular(18),
+//                                               ),
+//                                             ),
+//                                             child: Padding(
+//                                               padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+//                                               child: Column(
+//                                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                                 mainAxisSize: MainAxisSize.min,
+//                                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                                 children: [
+//                                                   CustomeText(
+//                                                     text: '${controller.fetchLeadsModel?.stats?.followup}',
+//                                                     fontSize: 28,
+//                                                     fontWeight: FontWeight.w700,
+//                                                     color: Colors.black,
+//                                                   ),
+//                                                   const Text(
+//                                                     'Demo\nDone',
+//                                                     style: TextStyle(
+//                                                       color: Colors.black,
+//                                                       fontSize: 13,
+//                                                       fontWeight: FontWeight.w600,
+//                                                     ),
+//                                                     textAlign: TextAlign.start,
+//                                                   ),
+//                                                 ],
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                         Padding(
+//                                           padding: const EdgeInsets.all(3),
+//                                           child: Container(
+//                                             width: size.width * 0.22,
+//                                             decoration: ShapeDecoration(
+//                                               gradient: const LinearGradient(
+//                                                   colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)]),
+//                                               shape: RoundedRectangleBorder(
+//                                                 borderRadius: BorderRadius.circular(18),
+//                                               ),
+//                                             ),
+//                                             child: Padding(
+//                                               padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+//                                               child: Column(
+//                                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                                 mainAxisSize: MainAxisSize.min,
+//                                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                                 children: [
+//                                                   CustomeText(
+//                                                     text: '${controller.fetchLeadsModel?.stats?.closed}',
+//                                                     fontSize: 28,
+//                                                     fontWeight: FontWeight.w700,
+//                                                     color: Colors.white,
+//                                                   ),
+//                                                   const Text(
+//                                                     'Leads\nClosed',
+//                                                     style: TextStyle(
+//                                                       color: Colors.white,
+//                                                       fontSize: 13,
+//                                                       fontWeight: FontWeight.w600,
+//                                                     ),
+//                                                     textAlign: TextAlign.start,
+//                                                   ),
+//                                                 ],
+//                                               ),
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ],
+// >>>>>>> c7b688cbb475634220be72aa40dfb28e3eb7677f
+//                                     ),
+//                                   );
                                 },
                               ),
                             ),
@@ -538,100 +538,97 @@ class _LeadState extends State<Lead> {
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     children: [
-<<<<<<< HEAD
+
                                       LeadType(
-                                        value: controller
-                                            .fetchLeadsModel?.stats?.hot
-                                            .toString(),
+                                        value: controller.fetchLeadsModel?.stats?.hot.toString(),
                                         subHeading: 'Hot Leads',
                                       ),
                                       LeadType(
-                                        value: controller
-                                            .fetchLeadsModel?.stats?.warm
-                                            .toString(),
+                                        value: controller.fetchLeadsModel?.stats?.warm.toString(),
                                         subHeading: 'Warm Leads',
                                         colors: const [
                                           Color(0xFFFDDC9C),
                                           Color(0xFFDDA53B)
                                         ],
-=======
-                                      Padding(
-                                        padding: const EdgeInsets.all(3),
-                                        child: Container(
-                                          width: size.width * 0.3,
-                                          decoration: ShapeDecoration(
-                                            gradient: const LinearGradient(
-                                                colors: [Color(0xFFFF2600), Color(0xFFFF6130)]),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.hot}',
-                                                  fontSize: 31,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                ),
-                                                const Text(
-                                                  'Hot Leads',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(3),
-                                        child: Container(
-                                          width: size.width * 0.3,
-                                          decoration: ShapeDecoration(
-                                            gradient: const LinearGradient(
-                                                colors: [Color(0xFFFDDC9C), Color(0xFFDDA53B)]),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(18),
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.warm}',
-                                                  fontSize: 31,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                ),
-                                                const Text(
-                                                  'Warm Leads',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
->>>>>>> c7b688cbb475634220be72aa40dfb28e3eb7677f
-                                      ),
+
+                                      // Padding(
+                                      //   padding: const EdgeInsets.all(3),
+                                      //   child: Container(
+                                      //     width: size.width * 0.3,
+                                      //     decoration: ShapeDecoration(
+                                      //       gradient: const LinearGradient(
+                                      //           colors: [Color(0xFFFF2600), Color(0xFFFF6130)]),
+                                      //       shape: RoundedRectangleBorder(
+                                      //         borderRadius: BorderRadius.circular(18),
+                                      //       ),
+                                      //     ),
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                      //       child: Column(
+                                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                                      //         mainAxisSize: MainAxisSize.min,
+                                      //         mainAxisAlignment: MainAxisAlignment.center,
+                                      //         children: [
+                                      //           CustomeText(
+                                      //             text: '${controller.fetchLeadsModel?.stats?.hot}',
+                                      //             fontSize: 31,
+                                      //             fontWeight: FontWeight.w700,
+                                      //             color: Colors.white,
+                                      //           ),
+                                      //           const Text(
+                                      //             'Hot Leads',
+                                      //             style: TextStyle(
+                                      //               color: Colors.white,
+                                      //               fontSize: 15,
+                                      //               fontWeight: FontWeight.w600,
+                                      //             ),
+                                      //             textAlign: TextAlign.start,
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.all(3),
+                                      //   child: Container(
+                                      //     width: size.width * 0.3,
+                                      //     decoration: ShapeDecoration(
+                                      //       gradient: const LinearGradient(
+                                      //           colors: [Color(0xFFFDDC9C), Color(0xFFDDA53B)]),
+                                      //       shape: RoundedRectangleBorder(
+                                      //         borderRadius: BorderRadius.circular(18),
+                                      //       ),
+                                      //     ),
+                                      //     child: Padding(
+                                      //       padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
+                                      //       child: Column(
+                                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                                      //         mainAxisSize: MainAxisSize.min,
+                                      //         mainAxisAlignment: MainAxisAlignment.center,
+                                      //         children: [
+                                      //           CustomeText(
+                                      //             text: '${controller.fetchLeadsModel?.stats?.warm}',
+                                      //             fontSize: 31,
+                                      //             fontWeight: FontWeight.w700,
+                                      //             color: Colors.white,
+                                      //           ),
+                                      //           const Text(
+                                      //             'Warm Leads',
+                                      //             style: TextStyle(
+                                      //               color: Colors.white,
+                                      //               fontSize: 15,
+                                      //               fontWeight: FontWeight.w600,
+                                      //             ),
+                                      //             textAlign: TextAlign.start,
+                                      //           ),
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      //
+                                      // ),
                                       LeadType(
                                         value: controller
                                             .fetchLeadsModel?.stats?.cold
@@ -650,12 +647,10 @@ class _LeadState extends State<Lead> {
                                               title: 'Bin',
                                               status: 'Bin',
                                             ),
-<<<<<<< HEAD
+
                                           );
                                         },
-                                        value: controller
-                                            .fetchLeadsModel?.stats?.bin
-                                            .toString(),
+                                        value: controller.fetchLeadsModel?.stats?.bin.toString(),
                                         subHeading: 'Bin',
                                         colors: const [
                                           Color(0xFF3B3B3B),
@@ -663,44 +658,15 @@ class _LeadState extends State<Lead> {
                                         ],
                                       ),
                                       LeadType(
-                                        value: controller.fetchLeadsModel?.stats
-                                            ?.appDownloads
-                                            .toString(),
+                                        value: controller.fetchLeadsModel?.stats?.appDownloads.toString(),
                                         subHeading: 'App Downloads',
                                         colors: const [
                                           Color(0xFF3B3B3B),
                                           Color(0xFF4A4A4A)
                                         ],
-=======
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                CustomeText(
-                                                  text: '${controller.fetchLeadsModel?.stats?.cold}',
-                                                  fontSize: 31,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.white,
-                                                ),
-                                                const Text(
-                                                  'Cold Leads',
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
                                         ),
->>>>>>> c7b688cbb475634220be72aa40dfb28e3eb7677f
-                                      ),
+
+
                                     ],
                                   )),
                             ),
@@ -902,811 +868,7 @@ class _LeadState extends State<Lead> {
   }
 }
 
-// class RowCart extends StatelessWidget {
-//   int? tabIndex;
-//   int? listIndex;
-//   String? guestId;
-//   String? image;
-//   String? name;
-//   String? city;
-//   String? phone;
-//   String? date;
-//   String? time;
-//   String? priority;
-//   String? demoId;
-//   String? memberId;
-//
-//   RowCart({
-//     this.tabIndex,
-//     this.listIndex,
-//     this.guestId,
-//     this.image,
-//     this.name,
-//     this.city,
-//     this.phone,
-//     this.date,
-//     this.time,
-//     this.priority,
-//     this.demoId,
-//     this.memberId,
-//     super.key,
-//   });
-//
-//   Future<void> _showDialog(
-//       BuildContext context,
-//       String? guestId,
-//       String? feedback,
-//       bool changePopUp,
-//       ) async {
-//     return showDialog(
-//       context: context,
-//       barrierColor: Colors.transparent,
-//       builder: (BuildContext context) {
-//         return ModelDialogBox(
-//           guestId: guestId ?? '',
-//           feedback: feedback ?? '',
-//           changePopUp: changePopUp,
-//         );
-//       },
-//     );
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     Size size = MediaQuery.of(context).size;
-//     return tabIndex == 0
-//         ? Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//       children: [
-//         GestureDetector(
-//           onTap: () {
-//             context.pushNamed(Routs.memberProfileDetails,
-//                 extra: MemberProfileDetails(memberId: '$memberId'));
-//           },
-//           child: Row(
-//             children: [
-//               image == null
-//                   ? CircleAvatar(
-//                 maxRadius: size.height * 0.02,
-//                 child: Image.asset(
-//                   AppAssets.userIcon,
-//                   height: 15,
-//                 ),
-//               )
-//                   : CircleAvatar(
-//                 backgroundImage: NetworkImage(image ?? ''),
-//                 maxRadius: size.height * 0.02,
-//               ),
-//               const SizedBox(
-//                 width: 5,
-//               ),
-//               SizedBox(
-//                 width: size.width * 0.12,
-//                 child: CustomeText(
-//                   text: name ?? '',
-//                   maxLines: 1,
-//                   fontSize: 12,
-//                   fontWeight: FontWeight.w500,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//
-//         Row(
-//           children: [
-//             InkWell(
-//               onTap: () {},
-//               child: Container(
-//                 decoration: ShapeDecoration(
-//                   gradient: LinearGradient(
-//                     begin: const Alignment(0.61, -0.79),
-//                     end: const Alignment(-0.61, 0.79),
-//                     colors: priority == 'Hot'
-//                         ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-//                         : priority == 'Warm'
-//                         ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-//                         : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
-//                   ),
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(39),
-//                   ),
-//                 ),
-//                 child: SizedBox(
-//                   width: size.width * 0.11,
-//                   child: Center(
-//                     child: CustomPopUpMenu(
-//                       showText: true,
-//                       priority: priority,
-//                       onSelected: (v) async {
-//                         await context
-//                             .read<MembersController>()
-//                             .updateLeadPriority(
-//                             context: context,
-//                             guestId: guestId,
-//                             feedback: '',
-//                             priority: v,
-//                             remark: '')
-//                             .whenComplete(
-//                               () async {
-//                             await context
-//                                 .read<MembersController>()
-//                                 .fetchLeads(status: 'New', priority: '', page: '1');
-//                           },
-//                         );
-//                       },
-//                       itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-//                         PopupMenuItem(
-//                           // height: size.height*0.05,
-//                           value: 'Hot',
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(left: 10.0),
-//                             child: CustomeText(
-//                               text: 'Hot',
-//                               color: Colors.black,
-//                               fontWeight: FontWeight.w600,
-//                               fontSize: 12,
-//                             ),
-//                           ),
-//                         ),
-//
-//                         PopupMenuItem(
-//                           value: 'Warm',
-//                           height: size.height * 0.04,
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(left: 10.0),
-//                             child: CustomeText(
-//                               text: 'Warm',
-//                               color: Colors.black,
-//                               fontWeight: FontWeight.w600,
-//                               fontSize: 12,
-//                             ),
-//                           ),
-//                         ),
-//                         PopupMenuItem(
-//                           value: 'Cold',
-//                           height: size.height * 0.04,
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(left: 10.0),
-//                             child: CustomeText(
-//                               text: 'Cold',
-//                               color: Colors.black,
-//                               fontWeight: FontWeight.w600,
-//                               fontSize: 12,
-//                             ),
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             const SizedBox(
-//               width: 10,
-//             ),
-//             InkWell(
-//               onTap: () async{
-//
-//                 await context.read<MembersController>().updateLeadStatus(
-//                   context: context,
-//                   guestId: guestId,
-//                   status: 'Invitation Call',
-//                 );
-//
-//               },
-//               child: Container(
-//                 decoration: ShapeDecoration(
-//                   gradient:primaryGradient,
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(39),
-//                   ),
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.only(left: 8.0,right: 8,top: 4,bottom: 4),
-//                   child: CustomeText(
-//                     text: 'Move to IC',
-//                     fontWeight: FontWeight.w500,
-//                     fontSize: 10,
-//                     color: Colors.black,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//         // Container(
-//         //   decoration: const BoxDecoration(color: Color(0xFFD9D9D9), shape: BoxShape.circle),
-//         //   child: GestureDetector(
-//         //     onTap: () async {
-//         //       await context.read<MembersController>().callUser(
-//         //         mobileNo: phone,
-//         //       );
-//         //       await context.read<MembersController>().updateLeadStatus(
-//         //         context: context,
-//         //         guestId: guestId,
-//         //         status: 'Invitation Call',
-//         //       );
-//         //     },
-//         //     child: Padding(
-//         //       padding: const EdgeInsets.all(1),
-//         //       child: ImageView(
-//         //         assetImage: AppAssets.call,
-//         //         height: size.height * 0.02,
-//         //         color: Colors.black,
-//         //       ),
-//         //     ),
-//         //   ),
-//         // ),
-//         // PopupMenuButton(
-//         //   color: CupertinoColors.white,
-//         //   //  onSelected: (value) async{
-//         //   //    print('check menu ${guestId}');
-//         //   //
-//         //   // // await   showDialog<String>(
-//         //   // //      context: context,
-//         //   // //      builder: (BuildContext context) => ModelDialogBox(guestId:guestId??'' ,status: 'Invitation Call',)
-//         //   // //    );
-//         //   //   // await context.pushNamed(Routs.modelDialogBox,extra: ModelDialogBox(guestId: '1',));
-//         //   //
-//         //   //  },
-//         //   shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-//         //   onSelected: (value) {
-//         //     print(value);
-//         //     _showDialog(context, guestId, value, false).whenComplete(
-//         //           () async {
-//         //         await context
-//         //             .read<MembersController>()
-//         //             .fetchLeads(status: 'New ', priority: '', page: '1');
-//         //       },
-//         //     );
-//         //   },
-//         //   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-//         //     PopupMenuItem(
-//         //       // height: size.height*0.05,
-//         //       value: 'Interested',
-//         //       child: Padding(
-//         //         padding: const EdgeInsets.only(left: 10.0),
-//         //         child: CustomeText(
-//         //           text: 'Interested',
-//         //           color: Colors.black,
-//         //           fontWeight: FontWeight.w600,
-//         //           fontSize: 12,
-//         //         ),
-//         //       ),
-//         //     ),
-//         //     PopupMenuItem(
-//         //       value: 'Not confirm',
-//         //       height: size.height * 0.04,
-//         //       child: Padding(
-//         //         padding: const EdgeInsets.only(left: 10.0),
-//         //         child: CustomeText(
-//         //           text: 'Not confirm',
-//         //           color: Colors.black,
-//         //           fontWeight: FontWeight.w600,
-//         //           fontSize: 12,
-//         //         ),
-//         //       ),
-//         //     ),
-//         //   ],
-//         //   child: const Icon(Icons.more_vert),
-//         // ),
-//       ],
-//     )
-//         : tabIndex == 1
-//         ? Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//       children: [
-//         Row(
-//           children: [
-//             // image==null?
-//             // Image.asset(AppAssets.u1):Image.network(image??'',height: size.height*0.04,width:size.width*0.04 ,),
-//             image == null
-//                 ? CircleAvatar(
-//               maxRadius: size.height * 0.02,
-//               child: Image.asset(
-//                 AppAssets.userIcon,
-//                 height: 15,
-//               ),
-//             )
-//                 : CircleAvatar(
-//               backgroundImage: NetworkImage(image ?? ''),
-//               maxRadius: size.height * 0.02,
-//             ),
-//             const SizedBox(
-//               width: 5,
-//             ),
-//             SizedBox(
-//               width: size.width * 0.12,
-//               child: CustomeText(
-//                 text: name ?? '',
-//                 maxLines: 1,
-//                 fontSize: 12,
-//                 fontWeight: FontWeight.w500,
-//               ),
-//             ),
-//           ],
-//         ),
-//         SizedBox(
-//           width: size.width * 0.14,
-//           child: CustomeText(
-//             text: city ?? 'Raipur(CG)',
-//             fontSize: 12,
-//             maxLines: 1,
-//             fontWeight: FontWeight.w500,
-//           ),
-//         ),
-//         CustomeText(
-//           text: date ?? '07-02-2024',
-//           fontSize: 12,
-//           fontWeight: FontWeight.w500,
-//         ),
-//         CustomeText(
-//           text: time ?? '12:02 AM',
-//           fontSize: 12,
-//           fontWeight: FontWeight.w500,
-//         ),
-//         GestureDetector(
-//           onTap: () {
-//             context
-//                 .pushNamed(Routs.createDemo,
-//                 extra: CreateDemo(
-//                   guestId: guestId ?? '',
-//                   name: name,
-//                   image: image,
-//                 ))
-//                 .whenComplete(
-//                   () async {
-//                 await context
-//                     .read<MembersController>()
-//                     .fetchLeads(status: 'Invitation Call ', priority: '', page: '1');
-//               },
-//             );
-//           },
-//           child: Container(
-//             decoration: ShapeDecoration(
-//               gradient: const LinearGradient(
-//                 begin: Alignment(0.00, -1.00),
-//                 end: Alignment(0, 1),
-//                 colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
-//               ),
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(50),
-//               ),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
-//               child: CustomeText(
-//                 text: 'Demo',
-//                 fontWeight: FontWeight.w500,
-//                 fontSize: 10,
-//                 color: Colors.black,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     )
-//         : tabIndex == 2
-//         ? Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//       children: [
-//         Row(
-//           children: [
-//             image == null
-//                 ? CircleAvatar(
-//               maxRadius: size.height * 0.02,
-//               child: Image.asset(
-//                 AppAssets.userIcon,
-//                 height: 15,
-//               ),
-//             )
-//                 : CircleAvatar(
-//               backgroundImage: NetworkImage(image ?? ''),
-//               maxRadius: size.height * 0.02,
-//             ),
-//             const SizedBox(
-//               width: 5,
-//             ),
-//             SizedBox(
-//               width: size.width * 0.12,
-//               child: CustomeText(
-//                 text: name ?? '',
-//                 fontSize: 12,
-//                 fontWeight: FontWeight.w500,
-//                 maxLines: 1,
-//               ),
-//             ),
-//           ],
-//         ),
-//         CustomeText(
-//           text: date ?? '07-02-2024',
-//           fontSize: 12,
-//           fontWeight: FontWeight.w500,
-//         ),
-//         CustomeText(
-//           text: time ?? '12:02 AM',
-//           fontSize: 12,
-//           fontWeight: FontWeight.w500,
-//         ),
-//         // CustomeText(
-//         //   text: city ?? 'Bhilai',
-//         //   fontSize: 12,
-//         //   fontWeight: FontWeight.w500,
-//         // ),
-//         InkWell(
-//           onTap: () {},
-//           child: Container(
-//             decoration: ShapeDecoration(
-//               gradient: LinearGradient(
-//                 begin: const Alignment(0.61, -0.79),
-//                 end: const Alignment(-0.61, 0.79),
-//                 colors: priority == 'Hot'
-//                     ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-//                     : priority == 'Worm'
-//                     ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-//                     : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
-//               ),
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(39),
-//               ),
-//             ),
-//             child: SizedBox(
-//               width: size.width * 0.11,
-//               child: Center(
-//                 child: Padding(
-//                   padding: const EdgeInsets.only(top: 4, bottom: 4),
-//                   child: CustomeText(
-//                     text: priority ?? '',
-//                     fontWeight: FontWeight.w500,
-//                     fontSize: 10,
-//                     color: Colors.white,
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//         CustomPopUpMenu(
-//           onSelected: (v) async {
-//             if (v == 'Demo done') {
-//               await showModalBottomSheet(
-//                   backgroundColor: Colors.transparent,
-//                   context: context,
-//                   clipBehavior: Clip.antiAlias,
-//                   isScrollControlled: true,
-//                   shape: const OutlineInputBorder(
-//                       borderRadius: BorderRadius.only(
-//                           topLeft: Radius.circular(18), topRight: Radius.circular(18))),
-//                   builder: (context) => DemoDoneForm(
-//                     title: 'List Update',
-//                     demoId: demoId,
-//                   )).whenComplete(
-//                     () async {
-//                   await context
-//                       .read<MembersController>()
-//                       .fetchLeads(status: 'Demo Sheduled', priority: '', page: '1');
-//                 },
-//               );
-//             } else {
-//               context
-//                   .pushNamed(Routs.createDemo,
-//                   extra: CreateDemo(
-//                     guestId: guestId ?? '',
-//                     name: name,
-//                     image: image,
-//                   ))
-//                   .whenComplete(
-//                     () async {
-//                   await context
-//                       .read<MembersController>()
-//                       .fetchLeads(status: 'Demo Scheduled', priority: '', page: '1');
-//                 },
-//               );
-//             }
-//           },
-//           itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-//             PopupMenuItem(
-//               // height: size.height*0.05,
-//               value: 'Demo done',
-//               child: Padding(
-//                 padding: const EdgeInsets.only(left: 10.0),
-//                 child: CustomeText(
-//                   text: 'Demo done',
-//                   color: Colors.black,
-//                   fontWeight: FontWeight.w600,
-//                   fontSize: 12,
-//                 ),
-//               ),
-//             ),
-//             PopupMenuItem(
-//               value: 'Reschedule',
-//               height: size.height * 0.04,
-//               child: Padding(
-//                 padding: const EdgeInsets.only(left: 10.0),
-//                 child: CustomeText(
-//                   text: 'Reschedule',
-//                   color: Colors.black,
-//                   fontWeight: FontWeight.w600,
-//                   fontSize: 12,
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ],
-//     )
-//         : tabIndex == 3
-//         ? Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//       children: [
-//         Row(
-//           children: [
-//             image == null
-//                 ? Image.asset(AppAssets.u1)
-//                 : CircleAvatar(
-//               backgroundImage: NetworkImage(image ?? ''),
-//               maxRadius: size.height * 0.02,
-//             ),
-//             const SizedBox(
-//               width: 5,
-//             ),
-//             SizedBox(
-//               width: size.width * 0.12,
-//               child: CustomeText(
-//                 text: name ?? '',
-//                 fontSize: 12,
-//                 maxLines: 1,
-//                 fontWeight: FontWeight.w500,
-//               ),
-//             ),
-//           ],
-//         ),
-//         CustomeText(
-//           text: city ?? 'Durg',
-//           fontSize: 12,
-//           fontWeight: FontWeight.w500,
-//         ),
-//         Container(
-//           decoration: ShapeDecoration(
-//             gradient: LinearGradient(
-//               begin: const Alignment(0.61, -0.79),
-//               end: const Alignment(-0.61, 0.79),
-//               colors: priority == 'Warm'
-//                   ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-//                   : priority == 'Hot'
-//                   ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-//                   : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
-//             ),
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(39),
-//             ),
-//           ),
-//           child: SizedBox(
-//             width: size.width * 0.11,
-//             child: Center(
-//               child: Padding(
-//                 padding: const EdgeInsets.only(top: 4, bottom: 4),
-//                 child:
-//                 CustomPopUpMenu(
-//                   showText: true,
-//                   priority: priority,
-//                   onSelected: (v) async {
-//                     await context
-//                         .read<MembersController>()
-//                         .updateLeadPriority(
-//                         context: context,
-//                         guestId: guestId,
-//                         feedback: '',
-//                         priority: v,
-//                         remark: '')
-//                         .whenComplete(
-//                           () async {
-//                         await context
-//                             .read<MembersController>()
-//                             .fetchLeads(status: ' Follow Up', priority: '', page: '1');
-//                       },
-//                     );
-//                   },
-//                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-//                     PopupMenuItem(
-//                       // height: size.height*0.05,
-//                       value: 'Hot',
-//                       child: Padding(
-//                         padding: const EdgeInsets.only(left: 10.0),
-//                         child: CustomeText(
-//                           text: 'Hot',
-//                           color: Colors.black,
-//                           fontWeight: FontWeight.w600,
-//                           fontSize: 12,
-//                         ),
-//                       ),
-//                     ),
-//                     PopupMenuItem(
-//                       value: 'Warm',
-//                       height: size.height * 0.04,
-//                       child: Padding(
-//                         padding: const EdgeInsets.only(left: 10.0),
-//                         child: CustomeText(
-//                           text: 'Warm',
-//                           color: Colors.black,
-//                           fontWeight: FontWeight.w600,
-//                           fontSize: 12,
-//                         ),
-//                       ),
-//                     ),
-//                     PopupMenuItem(
-//                       value: 'Cold',
-//                       height: size.height * 0.04,
-//                       child: Padding(
-//                         padding: const EdgeInsets.only(left: 10.0),
-//                         child: CustomeText(
-//                           text: 'Cold',
-//                           color: Colors.black,
-//                           fontWeight: FontWeight.w600,
-//                           fontSize: 12,
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//         GestureDetector(
-//           onTap: () {
-//             _showDialog(context, guestId, '', true).whenComplete(
-//                   () async {
-//                 await context
-//                     .read<MembersController>()
-//                     .fetchLeads(status: 'Follow Up', priority: '', page: '1');
-//               },
-//             );
-//           },
-//           child: Container(
-//             decoration: ShapeDecoration(
-//               gradient: const LinearGradient(
-//                 begin: Alignment(0.00, -1.00),
-//                 end: Alignment(0, 1),
-//                 colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
-//               ),
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(50),
-//               ),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
-//               child: CustomeText(
-//                 text: 'Close',
-//                 fontWeight: FontWeight.w500,
-//                 fontSize: 10,
-//                 color: Colors.black,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     )
-//         : tabIndex == 4
-//         ? Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//       children: [
-//         Row(
-//           children: [
-//             image == null
-//                 ? CircleAvatar(
-//               maxRadius: size.height * 0.02,
-//               child: Image.asset(
-//                 AppAssets.userIcon,
-//                 height: 15,
-//               ),
-//             )
-//                 : CircleAvatar(
-//               backgroundImage: NetworkImage(image ?? ''),
-//               maxRadius: size.height * 0.02,
-//             ),
-//             const SizedBox(
-//               width: 5,
-//             ),
-//             CustomeText(
-//               text: name ?? '',
-//               fontSize: 12,
-//               fontWeight: FontWeight.w500,
-//             ),
-//           ],
-//         ),
-//         CustomeText(
-//           text: city ?? 'Raipur',
-//           fontSize: 12,
-//           fontWeight: FontWeight.w500,
-//         ),
-//         GestureDetector(
-//           onTap: () {
-//             context.pushNamed(Routs.memberProfileDetails,
-//                 extra: MemberProfileDetails(
-//                   memberId: memberId ?? '',
-//                 ));
-//           },
-//           child: Container(
-//             decoration: ShapeDecoration(
-//               gradient: const LinearGradient(
-//                 begin: Alignment(0.00, -1.00),
-//                 end: Alignment(0, 1),
-//                 colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
-//               ),
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(50),
-//               ),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
-//               child: CustomeText(
-//                 text: 'View Profile',
-//                 fontWeight: FontWeight.w500,
-//                 fontSize: 10,
-//                 color: Colors.black,
-//               ),
-//             ),
-//           ),
-//         ),
-//         // const Icon(Icons.more_vert)
-//       ],
-//     )
-//         : Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//       children: [
-//         Row(
-//           children: [
-//             image == null
-//                 ? Image.asset(AppAssets.u1)
-//                 : CircleAvatar(
-//               backgroundImage: NetworkImage(image ?? ''),
-//               maxRadius: size.height * 0.02,
-//             ),
-//             const SizedBox(
-//               width: 5,
-//             ),
-//             CustomeText(
-//               text: name ?? '',
-//               fontSize: 12,
-//               fontWeight: FontWeight.w500,
-//             ),
-//           ],
-//         ),
-//         CustomeText(
-//           text: city ?? '',
-//           fontSize: 12,
-//           fontWeight: FontWeight.w500,
-//         ),
-//         InkWell(
-//           onTap: () {},
-//           child: Container(
-//             decoration: ShapeDecoration(
-//               gradient: const LinearGradient(
-//                 begin: Alignment(0.00, -1.00),
-//                 end: Alignment(0, 1),
-//                 colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)],
-//               ),
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(50),
-//               ),
-//             ),
-//             child: Padding(
-//               padding: const EdgeInsets.only(left: 18, right: 18, top: 4, bottom: 4),
-//               child: CustomeText(
-//                 text: 'View Profile',
-//                 fontWeight: FontWeight.w500,
-//                 fontSize: 10,
-//                 color: Colors.black,
-//               ),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+
 class RowCart extends StatefulWidget {
   int? tabIndex;
   int? listIndex;

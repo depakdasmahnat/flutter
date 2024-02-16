@@ -81,6 +81,7 @@ class AppAssets {
   static const String fileIcon = 'assets/icons/ic_file.png';
   static const String pdfIcon = 'assets/icons/ic_pdf.png';
   static const String fabIcon = 'assets/icons/Ic_fabicon.png';
+  static const String star1 = 'assets/icons/Ic_star1.png';
 
   /// 2) Images...
 

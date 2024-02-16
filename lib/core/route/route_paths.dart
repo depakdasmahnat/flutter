@@ -72,4 +72,5 @@ class Routs {
   static const String helpAndSupport = '/helpAndSupport';
   static const String privacyPolicy = '/privacyPolicy';
   static const String guestDemo = '/guestDemo';
+  static const String guestCheckDemo = '/guestCheckDemo';
 }

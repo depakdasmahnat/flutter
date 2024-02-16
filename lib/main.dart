@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'app.dart';
 import 'controllers/auth_controller/auth_controller.dart';
+import 'controllers/check_demo_controller/check_demo_controller.dart';
 import 'controllers/dashboard/dashboard_controller.dart';
 import 'controllers/feeds/feeds_controller.dart';
 import 'controllers/guest_controller/guest_controller.dart';
@@ -70,6 +71,7 @@ Future main() async {
         ChangeNotifierProvider(create: (context) => EventsControllers()),
         ChangeNotifierProvider(create: (context) => DemoController()),
         ChangeNotifierProvider(create: (context) => ListsControllers()),
+        ChangeNotifierProvider(create: (context) => CheckDemoController()),
       ],
       child: const MyApp(),
     ),

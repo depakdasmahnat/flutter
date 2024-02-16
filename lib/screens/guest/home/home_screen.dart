@@ -145,7 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
               backgroundColor: Colors.transparent,
               boxShadow: const [],
               onTap: () {
-                context.pushNamed(Routs.guestDemo);
+                // context.pushNamed(Routs.guestDemo);
+                context.pushNamed(Routs.guestCheckDemo);
               },
               margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
               child: Row(

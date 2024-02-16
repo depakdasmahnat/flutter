@@ -22,6 +22,7 @@ import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../screens/auth/why_are_you_here.dart';
 import '../../screens/dashboard/dashboard.dart';
+import '../../screens/guest/check_demo/check_demo.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
 import '../../screens/guest/guestProfile/guest_profile.dart';
@@ -459,6 +460,12 @@ class RoutesConfig {
         path: Routs.shceduledDemoForm,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const ScheduledDemoForm());
+        },
+      ), GoRoute(
+        name: Routs.guestCheckDemo,
+        path: Routs.guestCheckDemo,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestNewCheckDemo());
         },
       ),
       GoRoute(
