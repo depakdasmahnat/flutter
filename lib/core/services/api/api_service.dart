@@ -77,13 +77,11 @@ class ApiService {
     String url = (baseUrl ?? ApiConfig.baseUrl) + endPoint;
     var uri = Uri.parse(url);
     try {
-      final response = await http
-          .post(uri, headers: headers ?? defaultHeaders(), body: body)
-          .timeout(const Duration(seconds: timeOutDuration));
-      print("check edit responce ${response.body}");
+      final response = await http.post(uri, headers: headers ?? defaultHeaders(), body: body).timeout(const Duration(seconds: timeOutDuration));
       print("check edit statusCode ${response.statusCode}");
-      return ErrorHandler.processResponse(
-          response: response, showError: showError);
+      print("check edit responce ${response.body}");
+
+      return ErrorHandler.processResponse(response: response, showError: showError);
     } catch (e, s) {
       return ErrorHandler.catchError(e, s, showError);
     }

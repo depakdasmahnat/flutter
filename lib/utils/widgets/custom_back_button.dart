@@ -48,3 +48,47 @@ class _CustomBackButtonState extends State<CustomBackButton> {
     );
   }
 }
+class CustomBackButton1 extends StatefulWidget {
+  const CustomBackButton1({super.key, this.padding, this.icon,this.iconSize,this.onTap});
+
+  final EdgeInsetsGeometry? padding;
+  final IconData? icon;
+  final void Function()? onTap;
+  final double? iconSize;
+
+  @override
+  State<CustomBackButton1> createState() => _CustomBackButton1State();
+}
+
+class _CustomBackButton1State extends State<CustomBackButton1> {
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: widget.onTap,
+          child: Container(
+            height: 40,
+            margin: const EdgeInsets.only(left: kPadding),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withOpacity(0.6),
+            ),
+            child: Center(
+              child: Padding(
+                padding: widget.padding ?? const EdgeInsets.all(0),
+                child: Icon(
+                  widget.icon ?? AntDesign.left,
+                  color: Colors.black,
+                  size: widget.iconSize,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

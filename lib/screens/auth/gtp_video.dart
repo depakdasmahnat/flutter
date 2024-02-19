@@ -74,7 +74,8 @@ class _GtpVideoState extends State<GtpVideo> {
 
     return Scaffold(
 
-      body: FutureBuilder(
+      body:
+      FutureBuilder(
         future: futureController,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

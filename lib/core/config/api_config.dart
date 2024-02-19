@@ -118,6 +118,12 @@ class ApiEndpoints {
   static const String fetchFaqs = 'fetch_faqs?category=';
   static const String guestDemo = 'fetch_demos';
   static const String attend = 'attend_event';
+  static const String checkDemo = 'check_demo';
+  static const String getDemoStep = 'get_demo_step';
+  static const String fetchDemoQuestion = 'fetch_demo_questions';
+  static const String submitDemoAns = 'submit_demo_answer';
+  static const String fetchDemoAns = 'fetch_demo_answers';
+  static const String fetchDemoVideos = 'fetch_demo_videos';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

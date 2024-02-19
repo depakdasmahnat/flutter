@@ -76,6 +76,8 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   auto_orientation: ^2.3.1
   easy_stepper: ^0.8.3
+  animate_gradient: ^0.0.2+1
+
 
 
   

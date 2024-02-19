@@ -26,6 +26,7 @@ import '../../screens/guest/check_demo/check_demo.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
 import '../../screens/guest/guestProfile/guest_profile.dart';
+import '../../screens/guest/guest_check_demo/guestDemoVideosAfterComplete.dart';
 import '../../screens/guest/guest_check_demo/guest_check_demo.dart';
 import '../../screens/guest/guest_notification/guest_notification.dart';
 import '../../screens/guest/help&support/help&support.dart';
@@ -466,6 +467,12 @@ class RoutesConfig {
         path: Routs.guestCheckDemo,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const GuestNewCheckDemo());
+        },
+      ),GoRoute(
+        name: Routs.guestDemoVideos,
+        path: Routs.guestDemoVideos,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestCheckDemoVideos());
         },
       ),
       GoRoute(

@@ -115,7 +115,6 @@ class GuestControllers extends ChangeNotifier {
       fetchInterestCategory = null;
       notifyListeners();
     }
-
     apiResponseCompleted() {
       fetchCategoryLoader = false;
       notifyListeners();

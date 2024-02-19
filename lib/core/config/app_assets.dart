@@ -100,6 +100,7 @@ class AppAssets {
   static const String downloadBg = 'assets/images/downloads_bg.png';
   static const String userImage = 'assets/images/user_image.png';
   static const String goalImage = 'assets/images/goal_home.png';
+  static const String checkDemoImage = 'assets/images/checdemoImage.png';
 
   static const String logoHorizontalText = 'assets/images/logo_horizontal_text.png';
   static const String dashboardRings = 'assets/images/dashboard_rings.png';
@@ -112,9 +113,10 @@ class AppAssets {
   ///3)  Videos...
   static const String firstScreenVideo = 'assets/videos/video.gif';
   static const String firstScreenVideo1 = 'assets/videos/gtp_videos.gif';
+  static const String questionGif = 'assets/videos/quest.gif';
+  static const String shimerEfect = 'assets/videos/shimerEfect.gif';
 
   ///4)  ExtraImage...
-
   static const String container = 'assets/extraImage/container.png';
   static const String toparrow = 'assets/images/toparrow.png';
   static const String memberprofile = 'assets/images/memberprofile.png';

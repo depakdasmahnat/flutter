@@ -6,8 +6,10 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/database/local_database.dart';
+import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
 import 'package:mrwebbeast/screens/member/feeds/feed_detail.dart';
+import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
@@ -15,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
+import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/gradients.dart';
@@ -62,7 +65,34 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       fetchFeeds();
       await context.read<GuestControllers>().fetchFeedCategories(context: context);
+      await context.read<CheckDemoController>().getStepCheckDemo(context: context);
     });
+  }
+  Future<void> _showDialog(
+      BuildContext context,
+
+      ) async {
+    return showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () {
+            context.pop();
+          },
+          child: FocusScope(
+            onFocusChange: (hasFocus) {
+              if (!hasFocus) {
+                context.pop();
+              }
+            },
+            child:AlertBox()
+          ),
+        );
+      },
+    );
+
   }
 
   @override
@@ -138,31 +168,43 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const GuestProfiles(),
             const Banners(),
-            GradientButton(
-              height: 70,
-              borderRadius: 18,
-              backgroundGradient: primaryGradient,
-              backgroundColor: Colors.transparent,
-              boxShadow: const [],
-              onTap: () {
-                // context.pushNamed(Routs.guestDemo);
-                context.pushNamed(Routs.guestCheckDemo);
-              },
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Check Demo',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: GoogleFonts.urbanist().fontFamily,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                    ),
+            Consumer<CheckDemoController>(
+              builder: (context, controller, child) {
+                return  GradientButton(
+                  height: 70,
+                  borderRadius: 18,
+                  backgroundGradient: primaryGradient,
+                  backgroundColor: Colors.transparent,
+                  boxShadow: const [],
+                  onTap: () {
+
+                if(controller.getStep?.demoStep==6){
+                  context.pushNamed(Routs.guestDemoVideos);
+                }else{
+                  _showDialog(context);
+                }
+
+
+                  },
+                  margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Check Demo',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
+
+
             ),
             // Padding(
             //   padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
@@ -198,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // ),
 
              CustomTextField(
-              hintText: 'Search',
+              hintText: 'Search events, benefits, and more',
               controller: searchController,
               onFieldSubmitted: (value)async {
                 await context.read<FeedsController>().fetchFeeds(
@@ -314,5 +356,69 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     });
+  }
+}
+
+class AlertBox extends StatelessWidget {
+  Color? inactiveColor =const Color(0xFF1C1C1C);
+
+  AlertBox({
+
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return
+      Center(child: Padding(
+        padding: const EdgeInsets.all(13),
+        child: Container(
+          decoration:  BoxDecoration(
+            color: inactiveColor,
+            borderRadius: BorderRadius.circular(22)
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    CustomBackButton1(
+                      padding:  const EdgeInsets.all(10),
+                      icon: Icons.clear,
+                      onTap: () {
+                        context.pushNamed(Routs.guestCheckDemo).whenComplete(() {
+                          context.pop();
+                        },);
+                      },
+                    )
+                  ],
+                ),
+                CustomeText(
+                  text: 'DISCLAIMER',
+                  fontSize: 34,
+                  fontWeight: FontWeight.w500,
+                ),
+                CustomeText(
+                  text: 'Remember, each body is different. Kangen does not claim that it cures any ailment.',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(
+                  height: size.height*0.04,
+                ),
+                CustomeText(
+                  text: 'Please read the disclaimer to proceed.',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ));
   }
 }
