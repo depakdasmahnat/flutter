@@ -23,8 +23,10 @@ import '../../screens/auth/verify_otp.dart';
 import '../../screens/auth/why_are_you_here.dart';
 import '../../screens/dashboard/dashboard.dart';
 import '../../screens/guest/check_demo/check_demo.dart';
+import '../../screens/guest/guestProfile/feedback_rating.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
+import '../../screens/guest/guestProfile/guest_hall_of_fam.dart';
 import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/guest_check_demo/guestDemoVideosAfterComplete.dart';
 import '../../screens/guest/guest_check_demo/guest_check_demo.dart';
@@ -221,7 +223,8 @@ class RoutesConfig {
         name: Routs.gtpVideo,
         path: Routs.gtpVideo,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const GtpVideo());
+          GtpVideo? data = state.extra as GtpVideo?;
+          return materialPage(state: state, child:  GtpVideo(videoLink: data?.videoLink??'',));
         },
       ),
 
@@ -518,7 +521,21 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const GuestNotification());
         },
+      ),
+      GoRoute(
+        name: Routs.hallOfFame,
+        path: Routs.hallOfFame,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const HallOfFam());
+        },
       ),  GoRoute(
+        name: Routs.feedbackAndRating,
+        path: Routs.feedbackAndRating,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const FeedbackAndRating());
+        },
+      ),
+      GoRoute(
         name: Routs.privacyPolicy,
         path: Routs.privacyPolicy,
         pageBuilder: (context, state) {

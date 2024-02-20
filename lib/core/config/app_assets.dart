@@ -1,6 +1,7 @@
 class AppAssets {
   /// 1) Icons...
   static const String edit = 'assets/icons/ic_edit.png';
+  static const String profileStar = 'assets/icons/Ic_starProfile1.png';
   static const String faq = 'assets/icons/ic_faq.png';
   static const String userIcons12 = 'assets/icons/ic_userIcon.png';
   static const String rupees = 'assets/icons/ic_rupees.png';
@@ -82,6 +83,7 @@ class AppAssets {
   static const String pdfIcon = 'assets/icons/ic_pdf.png';
   static const String fabIcon = 'assets/icons/Ic_fabicon.png';
   static const String star1 = 'assets/icons/Ic_star1.png';
+  static const String feedBack = 'assets/icons/Ic_feedback.png';
 
   /// 2) Images...
 
@@ -104,6 +106,8 @@ class AppAssets {
 
   static const String logoHorizontalText = 'assets/images/logo_horizontal_text.png';
   static const String dashboardRings = 'assets/images/dashboard_rings.png';
+  static const String smileStar = 'assets/icons/Ice_smile_star.png';
+  static const String basSmileStar = 'assets/icons/Ic_bas_smile_star.png';
 
   ///3)  Json...
 
@@ -124,4 +128,10 @@ class AppAssets {
   // static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
   static const String authbackgroundimage = 'assets/images/login_background_Image.png';
   static const String introVideo = 'assets/videos/intro_videos.mp4';
+
+  /// social image
+  static const String fb = 'assets/social_link/Facebook.png';
+  static const String insta = 'assets/social_link/Instagram.png';
+  static const String link = 'assets/social_link/linkedin.png';
+  static const String tw = 'assets/social_link/Twitter.png';
 }

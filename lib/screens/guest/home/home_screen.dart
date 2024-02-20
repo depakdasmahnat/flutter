@@ -178,11 +178,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   boxShadow: const [],
                   onTap: () {
 
-                if(controller.getStep?.demoStep==6){
-                  context.pushNamed(Routs.guestDemoVideos);
-                }else{
+                // if(controller.getStep?.demoStep==6){
+                //   context.pushNamed(Routs.guestDemoVideos);
+                // }else{
                   _showDialog(context);
-                }
+                // }
 
 
                   },

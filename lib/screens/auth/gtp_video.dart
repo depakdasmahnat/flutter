@@ -11,7 +11,8 @@ import '../../core/route/route_paths.dart';
 
 
 class GtpVideo extends StatefulWidget {
-  const GtpVideo({super.key});
+ final String? videoLink;
+  const GtpVideo({super.key,this.videoLink});
 
   @override
   State<GtpVideo> createState() => _GtpVideoState();
@@ -24,19 +25,15 @@ class _GtpVideoState extends State<GtpVideo> {
   late Future<void> futureController;
 
   initVideo() {
-    controller = VideoPlayerController.asset(AppAssets.introVideo);
-    // controller = VideoPlayerController.networkUrl( Uri.parse(
-    //   'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-    // ),);
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoLink??''));
+
     futureController = controller!.initialize();
      controller?.play();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
     ]);
-
      setState(() {});
   }
-
   @override
   void initState() {
     initVideo();
@@ -48,7 +45,8 @@ class _GtpVideoState extends State<GtpVideo> {
             DeviceOrientation.portraitUp, // Change to desired orientation
           ]);
           controller?.pause();
-          context.pushNamed(Routs.dashboard);
+          context.pop();
+
         }
 
 
@@ -71,50 +69,72 @@ class _GtpVideoState extends State<GtpVideo> {
 
   @override
   Widget build(BuildContext context) {
-
+ print("check video llink ${widget.videoLink}");
     return Scaffold(
 
       body:
-      FutureBuilder(
-        future: futureController,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: const CircularProgressIndicator.adaptive());
-          } else {
-            return InkWell(
-              onTap: () {
-                // Get.to(ShowVideoAndPhotos(
-                //   image: null,
-                //   video: widget.pathh,
-                // ));
-              },
-              child:
-              AspectRatio(
-                  // aspectRatio: controller!.value.aspectRatio,
-                  aspectRatio:2/1,
-                  child: Stack(children: [
-                    Positioned.fill(
-                        child: Container(
-                            foregroundDecoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Colors.black.withOpacity(.7),
-                                    Colors.transparent
-                                  ],
-                                  stops: [0,
-                                    .3
-                                  ],
-                                  begin: Alignment.bottomCenter,
-                                  end: Alignment.topCenter),
-                            ),
-                            child: VideoPlayer(controller!))),
+      AspectRatio(
+        // aspectRatio: controller!.value.aspectRatio,
+          aspectRatio:2/1,
+          child: Stack(children: [
+            Positioned.fill(
+                child: Container(
+                    foregroundDecoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                            Colors.black.withOpacity(.7),
+                            Colors.transparent
+                          ],
+                          stops: [0,
+                            .3
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter),
+                    ),
+                    child: VideoPlayer(controller!))),
 
 
-                  ])),
-            );
-          }
-        },
-      ),
+          ])),
+      // FutureBuilder(
+      //   future: futureController,
+      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return Center(child: const CircularProgressIndicator.adaptive());
+      //     } else {
+      //       return InkWell(
+      //         onTap: () {
+      //           // Get.to(ShowVideoAndPhotos(
+      //           //   image: null,
+      //           //   video: widget.pathh,
+      //           // ));
+      //         },
+      //         child:
+      //         AspectRatio(
+      //             // aspectRatio: controller!.value.aspectRatio,
+      //             aspectRatio:2/1,
+      //             child: Stack(children: [
+      //               Positioned.fill(
+      //                   child: Container(
+      //                       foregroundDecoration: BoxDecoration(
+      //                         gradient: LinearGradient(
+      //                             colors: [
+      //                               Colors.black.withOpacity(.7),
+      //                               Colors.transparent
+      //                             ],
+      //                             stops: [0,
+      //                               .3
+      //                             ],
+      //                             begin: Alignment.bottomCenter,
+      //                             end: Alignment.topCenter),
+      //                       ),
+      //                       child: VideoPlayer(controller!))),
+      //
+      //
+      //             ])),
+      //       );
+      //     }
+      //   },
+      // ),
       bottomSheet: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

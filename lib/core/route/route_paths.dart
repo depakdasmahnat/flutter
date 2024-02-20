@@ -74,4 +74,9 @@ class Routs {
   static const String guestDemo = '/guestDemo';
   static const String guestCheckDemo = '/guestCheckDemo';
   static const String guestDemoVideos = '/guestDemoVideos';
+  static const String hallOfFame = '/hallOfFame';
+  static const String feedbackAndRating = '/feedbackAndRating';
+
+
+
 }

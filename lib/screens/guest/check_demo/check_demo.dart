@@ -14,11 +14,13 @@ import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/gradient_text.dart';
+import '../../auth/gtp_video.dart';
 import '../../auth/login.dart';
 import '../guest_check_demo/guest_check_demo_Step1.dart';
 import '../guest_check_demo/guest_check_demo_step2.dart';
 import '../guest_check_demo/guest_check_demo_step3.dart';
 import '../guest_check_demo/guest_check_demo_step4.dart';
+import '../guest_check_demo/textMotion.dart';
 
 class GuestNewCheckDemo extends StatefulWidget {
   const GuestNewCheckDemo({super.key});
@@ -38,7 +40,8 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
      if(context.read<CheckDemoController>().getStep?.demoStep==1){
        context.read<CheckDemoController>().pageController.jumpToPage(1);
        context.read<CheckDemoController>().addIndex(1);
-     } else if(context.read<CheckDemoController>().getStep?.demoStep==2){
+     }
+     else if(context.read<CheckDemoController>().getStep?.demoStep==2){
        context.read<CheckDemoController>().pageController.jumpToPage(2);
        context.read<CheckDemoController>().addIndex(2);
      } else if(context.read<CheckDemoController>().getStep?.demoStep==3){
@@ -54,6 +57,8 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
      }else if(context.read<CheckDemoController>().getStep?.demoStep==6){
        context.read<CheckDemoController>().pageController.jumpToPage(5);
        context.read<CheckDemoController>().addIndex(5);
+     }else {
+       context.read<CheckDemoController>().addIndex(0);
      }
     });
     super.initState();
@@ -249,6 +254,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                         builder: (context, controller, child) {
                           return controller.guestCheckDemoLoader==false?
                           const LoadingScreen() :
+                          // GtpVideo( videoLink: controller.guestCheckDemoVideoAndStep?.data?[0].link,);
                           GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].link??'');
                         },
                            ),
@@ -279,6 +285,13 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                     ],
                   ),
                 ),
+              ),
+              if(controller.stepIndex==0)
+              SizedBox(
+                height: size.height*0.03,
+                child: ScrollingText(text: 'Remember, each body is different. Kangen does not claim that it cures any ailment.', textStyle: const TextStyle(
+                  color: Colors.white,
+                ),),
               ),
             ],
           );
