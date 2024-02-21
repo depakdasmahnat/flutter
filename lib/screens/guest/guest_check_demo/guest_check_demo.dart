@@ -37,9 +37,7 @@ class _GuestCheckDemoState extends State<GuestCheckDemo> {
             title: 'Demo Videos',
           )),
       body: Consumer<GuestControllers>(
-
         builder: (context, controller, child) {
-
           return controller.guestDemoLoader==false?const LoadingScreen(heightFactor: 0.7):
           ListView.builder(
             shrinkWrap: true,

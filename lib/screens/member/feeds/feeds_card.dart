@@ -54,7 +54,6 @@ class _FeedCardState extends State<FeedCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
-
     return Container(
       margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
       decoration: BoxDecoration(
@@ -90,7 +89,6 @@ class _FeedCardState extends State<FeedCard> {
                     physics: const PageScrollPhysics(),
                     itemBuilder: (context, index) {
                       var image = data?.files?.elementAt(index);
-
                       return ImageView(
                         width: size.width,
                         borderRadiusValue: 18,
@@ -127,9 +125,7 @@ class _FeedCardState extends State<FeedCard> {
                   fit: BoxFit.cover,
                   assetImage: AppAssets.pdfIcon,
                   onTap: () {
-                    context.pushNamed(Routs.viewPdf,
-                        extra: PDFViewer(
-                          pdfUrl: '${data?.file}',
+                    context.pushNamed(Routs.viewPdf, extra: PDFViewer(pdfUrl: '${data?.file}',
                         ));
                   },
                 )
@@ -218,13 +214,13 @@ class _FeedCardState extends State<FeedCard> {
                                       );
                                 },
                               ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            FeedMenu(
-                              icon: AppAssets.chatIcon,
-                              value: data?.comments,
-                            ),
+                            // const SizedBox(
+                            //   width: 10,
+                            // ),
+                            // FeedMenu(
+                            //   icon: AppAssets.chatIcon,
+                            //   value: data?.comments,
+                            // ),
                             const SizedBox(
                               width: 10,
                             ),

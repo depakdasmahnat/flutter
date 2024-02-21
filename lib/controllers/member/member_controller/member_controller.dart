@@ -230,6 +230,15 @@ class MembersController extends ChangeNotifier {
       throw 'Could not launch $call';
     }
   }
+  /// call log
+  Future<void> socialLink({String? link}) async {
+    final redirect = Uri.parse('$link');
+    if (await canLaunchUrl(redirect)) {
+      launchUrl(redirect);
+    } else {
+      throw 'Could not launch $redirect';
+    }
+  }
 
   /// scheduledDemo....
   Future<DefaultModel?> scheduledDemo({

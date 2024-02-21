@@ -35,6 +35,7 @@ class ApiEndpoints {
 
   //1) Auth APIs...
   static const String validateMobile = 'validate_mobile';
+  static const String connect = 'connect_with_us';
 
   //11) Member Auth APIs...
 

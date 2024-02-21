@@ -6,6 +6,7 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.d
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:provider/provider.dart';
 
+import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/config/app_assets.dart';
 import '../../core/constant/gradients.dart';
 import '../../core/services/database/local_database.dart';
@@ -143,20 +144,15 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
                         boxShadow: const [],
                         margin: const EdgeInsets.only(bottom: 6, top: 6),
                         onTap: () async {
-                          await context.pushNamed(
-                            Routs.gtpVideo,
-                          ).whenComplete(() {
-                            SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.portraitUp, // Change to desired orientation
-                            ]);
-                          },);
+                          await context.read<AuthControllers>().connectWithUs(context: context, guestId:guest?.id.toString() );
+
                           setState(() {});
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Continue',
+                              'I am excited',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: GoogleFonts.urbanist().fontFamily,

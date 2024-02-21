@@ -69,17 +69,18 @@ class DashboardController extends ChangeNotifier {
       widget: const GuestPoduct(),
     ),
     DashboardData(
+      title: 'Library',
+      activeImage: AppAssets.more,
+      inActiveImage: AppAssets.more,
+      widget: const MainResource(),
+    ),
+    DashboardData(
       title: 'Profile',
       activeImage: AppAssets.userIcon,
       inActiveImage: AppAssets.userIcon,
       widget: const GuestProfile(),
     ),
-    DashboardData(
-      title: 'Resources',
-      activeImage: AppAssets.more,
-      inActiveImage: AppAssets.more,
-      widget: const MainResource(),
-    ),
+
   ];
 
   // Member Widgets
