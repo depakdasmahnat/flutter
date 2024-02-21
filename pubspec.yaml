@@ -75,9 +75,16 @@ dependencies:
   connectivity_plus: ^5.0.2
   flutter_launcher_icons: ^0.13.1
   auto_orientation: ^2.3.1
+  easy_stepper: ^0.8.3
+  animate_gradient: ^0.0.2+1
+  chewie: ^1.7.5
+  intl_phone_field: ^3.2.0
 
 
-  
+
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -116,3 +123,4 @@ flutter:
     - assets/images/
     - assets/extraImage/
     - assets/videos/
+    - assets/social_link/

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hive/hive.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
@@ -12,14 +12,14 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
-import '../../../controllers/member/member_auth_controller.dart';
+
 import '../../../core/config/app_assets.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
-import '../../../utils/widgets/web_view_screen.dart';
+
 import '../../../utils/widgets/widgets.dart';
-import '../web_view/faq.dart';
+
 
 class GuestProfile extends StatefulWidget {
   const GuestProfile({super.key});
@@ -109,6 +109,24 @@ class _GuestProfileState extends State<GuestProfile> {
                           height: size.height * 0.02,
                         ),
                         IconAndText(
+                          icon: AppAssets.profileStar,
+                          title: 'Hall of fame',
+
+                          onTap: () {
+                            context.pushNamed(Routs.hallOfFame);
+                            // context.push(Routs.guestEditProfile).whenComplete(
+                            //       () async {
+                            //     await context.read<GuestControllers>().fetchGuestProfile(
+                            //       context: context,
+                            //     );
+                            //   },
+                            // );
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        IconAndText(
                           icon: AppAssets.faq,
                           title: 'FAQ',
                           onTap: () {
@@ -144,7 +162,7 @@ class _GuestProfileState extends State<GuestProfile> {
                         ),
                         IconAndText(
                           icon: AppAssets.shareIcon,
-                          title: 'Share App ',
+                          title: 'Share App',
                           onTap: () {
                             Share.share(AppConfig.shareApp);
                           },
@@ -197,6 +215,20 @@ class _GuestProfileState extends State<GuestProfile> {
                           title: 'Privacy policy ',
                           onTap: () {
                             context.pushNamed(Routs.privacyPolicy);
+                            // context.pushNamed(Routs.webView,
+                            //     extra: const WebViewScreen(
+                            //       url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                            //     ));
+                          },
+                        ),
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        IconAndText(
+                          icon: AppAssets.feedBack,
+                          title: 'Feedback',
+                          onTap: () {
+                            context.pushNamed(Routs.feedbackAndRating);
                             // context.pushNamed(Routs.webView,
                             //     extra: const WebViewScreen(
                             //       url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',

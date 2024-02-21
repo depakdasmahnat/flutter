@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/app.dart';
 import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
+import 'package:mrwebbeast/models/default/default_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../core/services/api/api_service.dart';
@@ -12,6 +14,7 @@ import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../models/member/leads/leads_member_details.dart';
 import '../../../models/member/leads/leads_model.dart';
 import '../../../models/member/todo/to_do_model.dart';
+import '../../../utils/widgets/widgets.dart';
 
 class ListsControllers extends ChangeNotifier {
   /// 1) Leads API...
@@ -22,7 +25,8 @@ class ListsControllers extends ChangeNotifier {
 
   List<LeadsData>? _leads; // Changed from List<EventsData> to List<LeadsData>
 
-  List<LeadsData>? get leads => _leads; // Changed from List<EventsData> to List<LeadsData>
+  List<LeadsData>? get leads =>
+      _leads; // Changed from List<EventsData> to List<LeadsData>
 
   num leadsIndex = 1;
   num leadsTotal = 1;
@@ -172,7 +176,8 @@ class ListsControllers extends ChangeNotifier {
 
       onRefresh();
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.fetchToDo, queryParameters: {
+        var response = await ApiService()
+            .get(endPoint: ApiEndpoints.fetchToDo, queryParameters: {
           'search_key': search ?? '',
           'date': filter ?? '',
         });
@@ -201,6 +206,93 @@ class ListsControllers extends ChangeNotifier {
   bool loadingGuestProfileDetails = true;
   GuestProfileDetails? guestProfileDetailsModel;
   GuestProfileDetailsData? guestProfileDetails;
+
+  /// 1) Delete lead...
+  Future<DefaultModel?> deleteLead({
+    required BuildContext context,
+    required String guestId,
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'guest_id': guestId,
+    };
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.deleteLead,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.green);
+        } else {
+          showSnackBar(
+              context: context,
+              text: '${responseData?.message}',
+              color: Colors.red);
+        }
+      }
+    });
+    // return responseData;
+  }
+
+  /// 1) lead invitation call rescheduled call...
+  Future<DefaultModel?> rescheduledCall({
+    required BuildContext context,
+    required String guestId,
+    required String reason,
+    required String date,
+    required String time,
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'guest_id': guestId,
+      'reason': reason,
+      'date': date,
+      'time': time,
+    };
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.rescheduleCall,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.green);
+          context.pop();
+        } else {
+          showSnackBar(
+              context: context,
+              text: '${responseData?.message}',
+              color: Colors.red);
+        }
+      }
+    });
+    // return responseData;
+  }
 
   Future<GuestProfileDetailsData?> fetchGuestProfileDetails({
     String? guestId,

@@ -7,7 +7,6 @@ import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/auth/question_screen.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:provider/provider.dart';
-
 import '../../core/constant/gradients.dart';
 import '../../core/services/database/local_database.dart';
 import '../../models/auth_model/fetchinterestcategory.dart';

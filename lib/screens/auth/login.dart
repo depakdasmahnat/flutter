@@ -1,8 +1,10 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
@@ -88,23 +90,81 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                 ),
-                CustomTextField(
-                  controller: phoneCtrl,
-                  autofocus: true,
-                  keyboardType: TextInputType.phone,
-                  limit: 10,
-                  validator: (val) {
-                    return Validator.numberValidator(val);
-                  },
-                  onChanged: (value) async {
-                    if (value.length == 10) {
-                      validatePhone();
-                    }
-                  },
-                  hintText: 'Enter Mobile No.',
-                  autofillHints: const [AutofillHints.telephoneNumberNational],
-                  margin: const EdgeInsets.only(bottom: 24),
+                Container(
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF1B1B1B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IntlPhoneField(
+                      controller:phoneCtrl ,
+                      decoration: const InputDecoration(
+                        hintText: 'Enter Mobile No.',
+                        border: InputBorder.none
+                      ),
+                       autovalidateMode: AutovalidateMode.disabled,
+                      initialCountryCode: 'IN',
+                      dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
+                      dropdownIconPosition: IconPosition.trailing,
+                      disableLengthCheck: true,
+                      // validator: (val) {
+                      //   return Validator.numberValidator(val.toString());
+                      // },
+                      // pickerDialogStyle:PickerDialogStyle ,
+                      onChanged: (phone) {
+                        if (phone.number.length == 10) {
+                          validatePhone();
+                        }
+                      },
+                    ),
+                  ),
                 ),
+                // CustomTextField(
+                //   controller: phoneCtrl,
+                //   autofocus: true,
+                //   prefix: SizedBox(
+                //     width: size.width*0.24,
+                //     child: Row(
+                //       children: [
+                //         CountryCodePicker(
+                //           onChanged: (value) {
+                //           },
+                //           showCountryOnly: true,
+                //           initialSelection: 'in',
+                //           showDropDownButton: true,
+                //           hideMainText: true,
+                //           showFlagMain: true,
+                //           flagWidth: size.width*0.04,
+                //         ),
+                //         SizedBox(
+                //           height: 20,
+                //           width: 10,
+                //           child: VerticalDivider(
+                //             width: 10,
+                //             thickness: 2,
+                //           ),
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                //   keyboardType: TextInputType.phone,
+                //   limit: 10,
+                //   validator: (val) {
+                //     return Validator.numberValidator(val);
+                //   },
+                //   onChanged: (value) async {
+                //     if (value.length == 10) {
+                //       validatePhone();
+                //     }
+                //   },
+                //   hintText: 'Enter Mobile No.',
+                //   autofillHints: const [AutofillHints.telephoneNumberNational],
+                //   margin: const EdgeInsets.only(bottom: 24),
+                // ),
+
                 if (checkValidate == true)
                   CustomTextField(
                     controller: nameCtrl,

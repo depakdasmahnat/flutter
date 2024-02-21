@@ -201,7 +201,6 @@ class CustomTextField extends StatelessWidget {
           Flexible(
             child: TextFormField(
               key: key,
-
               controller: controller,
               keyboardType: keyboardType,
               autofocus: autofocus ?? false,

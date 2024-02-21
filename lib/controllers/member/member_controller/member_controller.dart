@@ -240,6 +240,8 @@ class MembersController extends ChangeNotifier {
     required String? time,
     required String? remarks,
     required String? priority,
+    required String? venue,
+    required String? memberIds,
   }) async {
     FocusScope.of(context).unfocus();
     Map<String, dynamic> body = {
@@ -248,6 +250,8 @@ class MembersController extends ChangeNotifier {
       'date': '$date',
       'time': '$time',
       'priority': '$priority',
+      'venue': '$venue',
+      'member_ids': '$memberIds',
     };
 
     debugPrint('Sent Data is $body');

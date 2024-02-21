@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/constant/gradients.dart';
 import '../../../utils/widgets/appbar.dart';
-import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/gradient_text.dart';
-import '../guestProfile/guest_edit_profile.dart';
 import '../guestProfile/guest_faq.dart';
 
 class HelpAndSupport extends StatefulWidget {
@@ -19,10 +19,13 @@ class HelpAndSupport extends StatefulWidget {
 }
 
 class _HelpAndSupportState extends State<HelpAndSupport> {
+  TextEditingController questionController =TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Color textColor =Color(0xff1C1C1C);
     Color textColor1 =Color(0xffB5B5B5);
+    Color? textColor2 =const Color(0xFF909090);
     Size size = MediaQuery.of(context).size;
     return  Scaffold(
       appBar: PreferredSize(
@@ -86,8 +89,9 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                           borderRadius: BorderRadius.circular(16)
                       ),
                       child: TextFormField(
+                        controller: questionController,
                         decoration:  InputDecoration(
-                          contentPadding:EdgeInsets.only(left: size.width*0.05) ,
+                          contentPadding:EdgeInsets.only(left: size.width*0.07) ,
                           border: InputBorder.none,
                           hintText: 'Please type your message here...',
                           hintStyle: TextStyle(
@@ -96,30 +100,26 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                           ),
                         ),
 
-
-
                         // margin: const EdgeInsets.only(bottom: 18),
                       ),
 
                     ),
                     GradientButton(
-                      height: 70,
+                      height: 60,
                       borderRadius: 18,
                       blur: 10,
                       backgroundGradient: primaryGradient,
                       backgroundColor: Colors.transparent,
                       boxShadow: const [],
                       margin:  EdgeInsets.only(left: 16, right: 24,top: size.height*0.05),
-                      onTap: () {
-                        // if (signInFormKey.currentState?.validate() == true) {
-                        //   sendOtp();
-                        // }
+                      onTap: () async{
+                       await context.read<GuestControllers>().helpAndSupport(context: context, question: questionController.text);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Query message',
+                            'Submit',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -152,7 +152,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               text: 'Call us',
               fontSize: 18,
               fontWeight: FontWeight.w500,
-              color: textColor1,
+              color: textColor2,
             ),
             SizedBox(
               height: size.height*0.01,
@@ -161,7 +161,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               text: '+91 68245 65789',
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              color: textColor1,
+              color: textColor2,
             ),
             SizedBox(
               height: size.height*0.02,
@@ -170,7 +170,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               text: 'Email us',
               fontSize: 18,
               fontWeight: FontWeight.w500,
-              color: textColor1,
+              color: textColor2,
             ),
             SizedBox(
               height: size.height*0.01,
@@ -179,7 +179,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               text: 'contact@company.com',
               fontSize: 18,
               fontWeight: FontWeight.w500,
-              color: textColor1,
+              color: textColor2,
             ),
           ],
         ),

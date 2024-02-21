@@ -4,11 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
-
 import '../../../controllers/guest_controller/guest_controller.dart';
-import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../models/guest_Model/fetchnewjoiners.dart';
+
 
 class GuestProfiles extends StatefulWidget {
   const GuestProfiles({super.key});
@@ -18,7 +16,7 @@ class GuestProfiles extends StatefulWidget {
 }
 
 class _GuestProfilesState extends State<GuestProfiles> {
-  // Fetchnewjoiners? fetchnewjoiners;
+
   @override
   void initState() {
     super.initState();

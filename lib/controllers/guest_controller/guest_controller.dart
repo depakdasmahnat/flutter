@@ -115,7 +115,6 @@ class GuestControllers extends ChangeNotifier {
       fetchInterestCategory = null;
       notifyListeners();
     }
-
     apiResponseCompleted() {
       fetchCategoryLoader = false;
       notifyListeners();
@@ -862,6 +861,90 @@ class GuestControllers extends ChangeNotifier {
         if (responseData?.status == true) {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          context.pop();
+        } else {
+          showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
+        }
+      }
+    });
+    // return responseData;
+  }
+
+
+
+
+  /// 1) help & support
+  Future<DefaultModel?> helpAndSupport({
+    required BuildContext context,
+    required String? question,
+
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'question': '$question',
+
+
+    };
+
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.helpAndSupport,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+
+
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          context.pop();
+        } else {
+          showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
+        }
+      }
+    });
+    // return responseData;
+  }
+
+  /// 1) rating
+  Future<DefaultModel?> addRating({
+    required BuildContext context,
+    required String? rating,
+    required String? comment,
+
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'rating': '$rating',
+      'comment': '$comment',
+
+    };
+
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.submitFeedback,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+        if (responseData?.status == true) {
+          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           context.pop();
         } else {
           showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);

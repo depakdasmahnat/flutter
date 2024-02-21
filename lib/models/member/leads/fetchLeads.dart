@@ -154,6 +154,8 @@ class Stats {
     this.hot,
     this.warm,
     this.cold,
+    this.bin,
+    this.appDownloads,
   });
 
   Stats.fromJson(dynamic json) {
@@ -165,6 +167,8 @@ class Stats {
     hot = json['hot'];
     warm = json['warm'];
     cold = json['cold'];
+    bin = json['bin'];
+    appDownloads = json['app_downloads'];
   }
 
   num? new1;
@@ -175,6 +179,8 @@ class Stats {
   num? hot;
   num? warm;
   num? cold;
+  num? bin;
+  num? appDownloads;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -186,6 +192,8 @@ class Stats {
     map['hot'] = hot;
     map['warm'] = warm;
     map['cold'] = cold;
+    map['bin'] = bin;
+    map['app_downloads'] = appDownloads;
     return map;
   }
 }

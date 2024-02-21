@@ -6,8 +6,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../../core/constant/colors.dart';
 
 class VideoPlayerCard extends StatefulWidget {
-  const VideoPlayerCard({super.key, this.url, this.borderRadius});
-
+  const VideoPlayerCard({super.key, this.url, this.borderRadius,this.aspectRatio});
+  final double? aspectRatio;
   final String? url;
   final double? borderRadius;
 
@@ -95,7 +95,7 @@ class _VideoPlayerCardState extends State<VideoPlayerCard> {
                     alignment: Alignment.center,
                     children: [
                       AspectRatio(
-                        aspectRatio: 16 / 9,
+                        aspectRatio: widget.aspectRatio??16 / 9,
                         child: VideoPlayer(videoPlayerController!),
                       ),
                       if (videoPlayerController?.value.isPlaying == false)

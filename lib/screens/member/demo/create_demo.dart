@@ -39,10 +39,9 @@ class _CreateDemoState extends State<CreateDemo> {
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController startTimeCtrl = TextEditingController();
   TextEditingController commentCtrl = TextEditingController();
-
+  TextEditingController venueCtrl = TextEditingController();
   TextEditingController endDateCtrl = TextEditingController();
   TextEditingController endTimeCtrl = TextEditingController();
-
   TextEditingController linkCtrl = TextEditingController();
   TextEditingController cityCtrl = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
@@ -53,24 +52,30 @@ class _CreateDemoState extends State<CreateDemo> {
   String priority = '';
   List item = ['Hot', 'Worm', 'Cold'];
   File? image;
+  String ? sponsorId ='';
+  String ? memberId ='';
   Set<int> leadIndex = Set<int>();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<MembersController>().fetchLeads(status: '', priority: '', page: '1');
+      await context.read<MembersController>().fetchSponsor(
+        context: context,
+      );
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('check id ${widget.guestId}');
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         leading: const CustomBackButton(),
-        title: const Text('Create a Demo'),
+        title: const Text('Scheduled Demo'),
       ),
       body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
@@ -83,7 +88,7 @@ class _CreateDemoState extends State<CreateDemo> {
               },
               title: 'Type of demo*',
               hintText: 'Select type',
-              listItem: const ['Online', 'Offline'],
+              listItem: const ['Business', 'Product'],
             ),
           ),
           AppTextField(
@@ -165,74 +170,144 @@ class _CreateDemoState extends State<CreateDemo> {
             readOnly: true,
           ),
           AppTextField(
-            title: 'Remark',
-            hintText: 'Comment',
-            controller: commentCtrl,
+            title: 'Venue',
+            hintText: 'Enter venue',
+            controller: venueCtrl,
           ),
+          // AppTextField(
+          //   title: 'Remark',
+          //   hintText: 'Comment',
+          //   controller: commentCtrl,
+          // ),
           Padding(
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: CustomeText(
-              text: 'Lead status',
+              text: 'Select member to add',
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding),
-            child: SizedBox(
-              height: size.height * 0.06,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 9.0),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: item.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          priority = item[index];
-                          tabIndex = index;
-                          setState(() {});
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: const Alignment(0.61, -0.79),
-                                end: const Alignment(-0.61, 0.79),
-                                colors: index == 0
-                                    ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-                                    : index == 1
-                                        ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-                                        : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
-                              ),
-                              border: tabIndex == index
-                                  ? Border.all(color: CupertinoColors.white, width: 2)
-                                  : null,
-                              borderRadius: BorderRadius.circular(39)),
-                          child: SizedBox(
-                            width: size.width * 0.11,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 4, bottom: 4),
-                                child: CustomeText(
-                                  text: item[index],
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 10,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+          Consumer<MembersController>(
+            builder: (context, controller, child) {
+              return     Padding(
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+                child: Container(
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF1B1B1B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10,),
+                    child:
+                    DropdownSearch.multiSelection(
+                      dropdownButtonProps: const DropdownButtonProps(
+                          padding: EdgeInsets.only(bottom: 10),
+                          icon: Icon(
+                            CupertinoIcons.chevron_down,
+                            size: 18,
+                          )),
+                      items: controller.fetchSponsorModel?.data?.map((e) => e.name).toList()??[],
+                      onChanged: (value) {
+                        List id =[];
+                        for (var e in value) {
+                          id.add(  controller.fetchSponsorModel?.data?.firstWhere((element) {
+                            return element.name ==e;
+                          },).id);
+                        }
+                        memberId =id.join('');
+                        setState(() {});
+                      },
+                      popupProps:  const PopupPropsMultiSelection.menu(
+                        showSearchBox: true,
+                        menuProps: MenuProps(
+                          backgroundColor:  Color(0xFF1B1B1B),
+
+                        ),
+
+                      ),
+                      dropdownDecoratorProps: const DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(
+                            left: 7,
+                            top: 7,
                           ),
+                          border: InputBorder.none,
+                          hintText:  'Select Gender',
                         ),
                       ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+          //   child: CustomeText(
+          //     text: 'Lead status',
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w400,
+          //   ),
+          // ),
+          //
+          // Padding(
+          //   padding: const EdgeInsets.only(left: kPadding),
+          //   child: SizedBox(
+          //     height: size.height * 0.06,
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(left: 9.0),
+          //       child: ListView.builder(
+          //         shrinkWrap: true,
+          //         scrollDirection: Axis.horizontal,
+          //         itemCount: item.length,
+          //         itemBuilder: (context, index) {
+          //           return Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: GestureDetector(
+          //               onTap: () {
+          //                 priority = item[index];
+          //                 tabIndex = index;
+          //                 setState(() {});
+          //               },
+          //               child: Container(
+          //                 decoration: BoxDecoration(
+          //                     gradient: LinearGradient(
+          //                       begin: const Alignment(0.61, -0.79),
+          //                       end: const Alignment(-0.61, 0.79),
+          //                       colors: index == 0
+          //                           ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+          //                           : index == 1
+          //                               ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+          //                               : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+          //                     ),
+          //                     border: tabIndex == index
+          //                         ? Border.all(color: CupertinoColors.white, width: 2)
+          //                         : null,
+          //                     borderRadius: BorderRadius.circular(39)),
+          //                 child: SizedBox(
+          //                   width: size.width * 0.11,
+          //                   child: Center(
+          //                     child: Padding(
+          //                       padding: const EdgeInsets.only(top: 4, bottom: 4),
+          //                       child: CustomeText(
+          //                         text: item[index],
+          //                         fontWeight: FontWeight.w500,
+          //                         fontSize: 10,
+          //                         color: Colors.white,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ),
+          //             ),
+          //           );
+          //         },
+          //       ),
+          //     ),
+          //   ),
+          // ),
           if (widget.showLeadList != true)
             const Padding(
               padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
@@ -247,7 +322,7 @@ class _CreateDemoState extends State<CreateDemo> {
             ),
           if (widget.showLeadList != true)
             Padding(
-              padding: const EdgeInsets.only(left: kPadding),
+              padding: const EdgeInsets.only(left: kPadding,top: kPadding),
               child: Container(
                 width: 30,
                 decoration: BoxDecoration(
@@ -546,7 +621,7 @@ class _CreateDemoState extends State<CreateDemo> {
                   date: startDateCtrl.text,
                   time: startTimeCtrl.text,
                   remarks: commentCtrl.text,
-                  priority: priority);
+                  priority: priority, venue: venueCtrl.text, memberIds: memberId);
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

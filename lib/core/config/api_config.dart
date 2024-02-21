@@ -104,6 +104,8 @@ class ApiEndpoints {
 
   static const String fetchLead = 'fetch_leads?';
   static const String levelWiseMemberCount = 'level_wise_member_count?';
+  static const String deleteLead = 'delete_lead';
+  static const String rescheduleCall = 'reschedule_call';
 
   /// Guest Apis....
   static const String fetchJoiners = 'fetch_new_joinees';
@@ -118,6 +120,14 @@ class ApiEndpoints {
   static const String fetchFaqs = 'fetch_faqs?category=';
   static const String guestDemo = 'fetch_demos';
   static const String attend = 'attend_event';
+  static const String checkDemo = 'check_demo';
+  static const String getDemoStep = 'get_demo_step';
+  static const String fetchDemoQuestion = 'fetch_demo_questions';
+  static const String submitDemoAns = 'submit_demo_answer';
+  static const String fetchDemoAns = 'fetch_demo_answers';
+  static const String fetchDemoVideos = 'fetch_demo_videos';
+  static const String helpAndSupport = 'submit_help_and_support';
+  static const String submitFeedback = 'submit_feedback';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

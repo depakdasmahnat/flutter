@@ -23,9 +23,13 @@ import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../screens/auth/why_are_you_here.dart';
 import '../../screens/dashboard/dashboard.dart';
+import '../../screens/guest/check_demo/check_demo.dart';
+import '../../screens/guest/guestProfile/feedback_rating.dart';
 import '../../screens/guest/guestProfile/guest_edit_profile.dart';
 import '../../screens/guest/guestProfile/guest_faq.dart';
+import '../../screens/guest/guestProfile/guest_hall_of_fam.dart';
 import '../../screens/guest/guestProfile/guest_profile.dart';
+import '../../screens/guest/guest_check_demo/guestDemoVideosAfterComplete.dart';
 import '../../screens/guest/guest_check_demo/guest_check_demo.dart';
 import '../../screens/guest/guest_notification/guest_notification.dart';
 import '../../screens/guest/help&support/help&support.dart';
@@ -222,7 +226,12 @@ class RoutesConfig {
         name: Routs.gtpVideo,
         path: Routs.gtpVideo,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const GtpVideo());
+          GtpVideo? data = state.extra as GtpVideo?;
+          return materialPage(
+              state: state,
+              child: GtpVideo(
+                videoLink: data?.videoLink ?? '',
+              ));
         },
       ),
       GoRoute(
@@ -349,7 +358,8 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ChaptersDetails? data = state.extra as ChaptersDetails?;
 
-          return materialPage(state: state, child: ChaptersDetails(chapter: data?.chapter));
+          return materialPage(
+              state: state, child: ChaptersDetails(chapter: data?.chapter));
         },
       ),
       GoRoute(
@@ -372,7 +382,8 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ResourceAndDemo? data = state.extra as ResourceAndDemo?;
 
-          return materialPage(state: state, child: ResourceAndDemo(category: data?.category));
+          return materialPage(
+              state: state, child: ResourceAndDemo(category: data?.category));
         },
       ),
 
@@ -394,7 +405,8 @@ class RoutesConfig {
         path: Routs.examQuiz,
         pageBuilder: (context, state) {
           ExamQuiz? data = state.extra as ExamQuiz?;
-          return materialPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
+          return materialPage(
+              state: state, child: ExamQuiz(chapterId: data?.chapterId));
         },
       ),
 
@@ -425,7 +437,8 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ExamReport? data = state.extra as ExamReport?;
 
-          return materialPage(state: state, child: ExamReport(report: data?.report));
+          return materialPage(
+              state: state, child: ExamReport(report: data?.report));
         },
       ),
       GoRoute(
@@ -434,7 +447,8 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const GoalsScreen());
         },
-      ),      GoRoute(
+      ),
+      GoRoute(
         name: Routs.partnerGoals,
         path: Routs.partnerGoals,
         pageBuilder: (context, state) {
@@ -494,6 +508,21 @@ class RoutesConfig {
         },
       ),
       GoRoute(
+        name: Routs.guestCheckDemo,
+        path: Routs.guestCheckDemo,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestNewCheckDemo());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestDemoVideos,
+        path: Routs.guestDemoVideos,
+        pageBuilder: (context, state) {
+          return materialPage(
+              state: state, child: const GuestCheckDemoVideos());
+        },
+      ),
+      GoRoute(
         name: Routs.createDemo,
         path: Routs.createDemo,
         pageBuilder: (context, state) {
@@ -514,7 +543,8 @@ class RoutesConfig {
         path: Routs.viewPdf,
         pageBuilder: (context, state) {
           PDFViewer? data = state.extra as PDFViewer?;
-          return materialPage(state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
+          return materialPage(
+              state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
         },
       ),
       GoRoute(
@@ -539,6 +569,20 @@ class RoutesConfig {
         },
       ),
       GoRoute(
+        name: Routs.hallOfFame,
+        path: Routs.hallOfFame,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const HallOfFam());
+        },
+      ),
+      GoRoute(
+        name: Routs.feedbackAndRating,
+        path: Routs.feedbackAndRating,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const FeedbackAndRating());
+        },
+      ),
+      GoRoute(
         name: Routs.privacyPolicy,
         path: Routs.privacyPolicy,
         pageBuilder: (context, state) {
@@ -558,7 +602,8 @@ class RoutesConfig {
         path: Routs.pptViewer,
         pageBuilder: (context, state) {
           PPTViewer? data = state.extra as PPTViewer?;
-          return materialPage(state: state, child: PPTViewer(url: data?.url ?? ''));
+          return materialPage(
+              state: state, child: PPTViewer(url: data?.url ?? ''));
         },
       ),
       GoRoute(
@@ -651,7 +696,9 @@ class RoutesConfig {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
           return materialPage(
-              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
+              state: state,
+              child: WebViewScreen(
+                  key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {
