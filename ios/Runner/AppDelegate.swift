@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import GoogleMaps
 import awesome_notifications
 // import shared_preferences_ios
 @UIApplicationMain
@@ -9,7 +8,7 @@ import awesome_notifications
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    GMSServices.provideAPIKey("AIzaSyBzuntEj-KNY2cVJiLeAszIsknWKkyLtzo")
+//     GMSServices.provideAPIKey("AIzaSyBzuntEj-KNY2cVJiLeAszIsknWKkyLtzo")
     GeneratedPluginRegistrant.register(with: self)
       // This function registers the desired plugins to be used within a notification background action
           SwiftAwesomeNotificationsPlugin.setPluginRegistrantCallback { registry in

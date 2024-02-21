@@ -4,7 +4,10 @@ import '../services/database/local_database.dart';
 class ApiConfig {
   ///API Configurations..
 
+  // Development...
   static const domainName = 'https://api.gtp.proapp.in';
+  // //Production...
+  // static const domainName = 'https://app.mygtp.in';
   static const String version = '/api/v1/';
   static const String baseUrl = '$domainName$version';
   static const String mapsBaseUrl = 'https://maps.googleapis.com/maps/api';

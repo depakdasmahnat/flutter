@@ -63,6 +63,7 @@ class AppAssets {
   static const String feedsIcon = 'assets/icons/ic_feeds.png';
   static const String trainingIcon = 'assets/icons/ic_training.png';
   static const String resourcesIcon = 'assets/icons/ic_resources.png';
+  static const String hallOfFameIcon = 'assets/icons/ic_hallOfFame.png';
   static const String documentIcon = 'assets/icons/ic_document.png';
   static const String arrowForwardIcon = 'assets/icons/ic_arrow_forward.png';
   static const String achievementIcon = 'assets/icons/ic_achievement.png';
@@ -84,7 +85,7 @@ class AppAssets {
   static const String fabIcon = 'assets/icons/Ic_fabicon.png';
   static const String star1 = 'assets/icons/Ic_star1.png';
   static const String feedBack = 'assets/icons/Ic_feedback.png';
-
+  static const String performanceIcon = 'assets/icons/ic_performance.png';
   /// 2) Images...
 
   static const String appIcon = 'assets/images/appIcon.png';

@@ -13,14 +13,15 @@ import 'package:provider/provider.dart';
 
 import '../../../models/dashboard/dashboard_data.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
+import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/custom_back_button.dart';
-import '../../../utils/widgets/custom_bottemsheet.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../dashboard/dashboard.dart';
 import '../../guest/home/home_screen.dart';
 import '../lead/leads_popup.dart';
+import '../members/member_screen.dart';
 
 class MemberDashBoard extends StatefulWidget {
   const MemberDashBoard({super.key, this.memberId});
@@ -54,6 +55,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
   TextEditingController searchController = TextEditingController();
   DashboardStatesData? dashboardStatesData;
   List<DashboardAnalytics>? analytics;
+  bool showPerformanceGraph = true;
 
   Future fetchDashboardStates({bool? loadingNext}) async {
     return await context.read<MembersController>().fetchDashboardStates(
@@ -183,25 +185,85 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
-                    child: Row(
-                      children: [
-                        MySalesTarget(
-                          pending: '${dashboardStatesData?.pendingSales ?? ''}',
-                          target: '${dashboardStatesData?.salesTarget ?? ''}',
-                          archived: '${dashboardStatesData?.achievedSales ?? ''}',
+                  TargetCard(
+                    pendingTarget: num.tryParse('${dashboardStatesData?.pendingSales}'),
+                    salesTarget: dashboardStatesData?.salesTarget,
+                    achievedTarget: num.tryParse('${dashboardStatesData?.achievedSales}'),
+                    more: CustomPopupMenu(
+                      items: [
+                        CustomPopupMenuEntry(
+                          label: 'Edit',
+                          onPressed: () {},
                         ),
-                        MyRankTarget(
-                          level: '${dashboardStatesData?.pendingRankSales ?? ''}',
-                          rank: '${dashboardStatesData?.rank ?? ''}',
-                          target: '${dashboardStatesData?.targetRank ?? ''}',
+                        CustomPopupMenuEntry(
+                          label: 'Delete',
+                          color: Colors.red,
+                          onPressed: () {},
                         ),
                       ],
+                      onChange: (String? val) {},
+                      child: GestureDetector(
+                        onTap: () {
+                          CustomBottomSheet.show(
+                            context: context,
+                            title: 'Edit',
+                            body: const Column(
+                              children: [
+                                Text(
+                                  'Edit',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.edit,
+                              size: 14,
+                              color: Colors.black,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 4, right: 8),
+                              child: Text(
+                                'Edit',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
+
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
+                  //   child: Row(
+                  //     children: [
+                  //       MySalesTarget(
+                  //         pending: '${dashboardStatesData?.pendingSales ?? ''}',
+                  //         target: '${dashboardStatesData?.salesTarget ?? ''}',
+                  //         archived: '${dashboardStatesData?.achievedSales ?? ''}',
+                  //       ),
+                  //       MyRankTarget(
+                  //         level: '${dashboardStatesData?.pendingRankSales ?? ''}',
+                  //         rank: '${dashboardStatesData?.rank ?? ''}',
+                  //         target: '${dashboardStatesData?.targetRank ?? ''}',
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   Padding(
-                    padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                    padding: const EdgeInsets.only(left: kPadding, right: kPadding),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -209,38 +271,21 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           '$selectedDuration Performance Graph',
                           style: headingTextStyle(),
                         ),
-
-                        GraphDurationFilter(
-                          value: selectedDuration,
-                          onChange: (String? val) {
-                            selectedDuration = val;
+                        IconButton(
+                          onPressed: () {
+                            showPerformanceGraph = !showPerformanceGraph;
                             setState(() {});
-                            fetchDashboardStates();
                           },
+                          icon: Icon(
+                            showPerformanceGraph
+                                ? Icons.keyboard_arrow_down
+                                : Icons.keyboard_arrow_up_rounded,
+                          ),
                         ),
-                        // Container(
-                        //   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        //   decoration: BoxDecoration(
-                        //     gradient: inActiveGradient,
-                        //     borderRadius: BorderRadius.circular(5),
-                        //   ),
-                        //   child: const Row(
-                        //     children: [
-                        //       Padding(
-                        //         padding: EdgeInsets.only(right: 4),
-                        //         child: Text(
-                        //           '6A2',
-                        //           style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                        //         ),
-                        //       ),
-                        //       Icon(Icons.keyboard_arrow_down_rounded, size: 18)
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
-                  if (analytics.haveData)
+                  if (analytics.haveData && showPerformanceGraph)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
                       child: PerformanceGraph(
@@ -301,27 +346,33 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                     child: Row(
                       children: [
                         AnalyticsCard(
-                          title: 'Leads Closed',
+                          title: 'Closing Done',
                           value: '${dashboardStatesData?.leadsClosed ?? 0}',
-                          flex: 2,
                           gradient: primaryGradient,
                           onTap: () async {
                             CustomBottomSheet.show(
                               context: context,
                               body: LeadsPopup(
-                                title: 'Leads Closed',
+                                title: 'Closing Done',
                                 status: LeadsStatus.closed.value,
                               ),
                             );
                           },
                         ),
                         AnalyticsCard(
-                          title: 'Leads\nConversion',
+                          title: 'Conversion\nRatio',
                           value: '${dashboardStatesData?.leadsConversion ?? 0}%',
                           gradient: inActiveGradient,
                           textColor: Colors.white,
                           showArrow: false,
-                          flex: 4,
+                          onTap: () {},
+                        ),
+                        AnalyticsCard(
+                          title: 'Performance\nPercentage',
+                          value: '${dashboardStatesData?.leadsConversion ?? 0}%',
+                          gradient: inActiveGradient,
+                          textColor: Colors.white,
+                          showArrow: false,
                           onTap: () {},
                         ),
                       ],
@@ -683,7 +734,7 @@ class AnalyticsCard extends StatelessWidget {
                           '$title',
                           style: TextStyle(
                               color: textColor ?? Colors.black,
-                              fontSize: titleFontSize ?? 16,
+                              fontSize: titleFontSize ?? 14,
                               fontWeight: FontWeight.bold),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,

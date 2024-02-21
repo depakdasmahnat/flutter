@@ -203,6 +203,7 @@ class CustomBottomNavBar extends StatelessWidget {
   final DashboardData data;
   final GestureTapCallback? onTap;
   final EdgeInsets? imageMargin;
+
   const CustomBottomNavBar({
     super.key,
     required this.index,

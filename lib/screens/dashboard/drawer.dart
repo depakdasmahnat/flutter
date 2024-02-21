@@ -4,11 +4,9 @@ import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../controllers/dashboard/dashboard_controller.dart';
-import '../../controllers/member/member_controller/member_controller.dart';
 import '../../core/config/app_assets.dart';
 import '../../core/constant/constant.dart';
 import '../../core/route/route_paths.dart';
-import '../../models/member/dashboard/traning_progress_model.dart';
 import '../../utils/widgets/training_progress.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -39,6 +37,11 @@ class CustomDrawer extends StatelessWidget {
             CustomDrawerTile(
               activeImage: AppAssets.dashboardIcon,
               title: 'Dashboard',
+              onTap: () {},
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.performanceIcon,
+              title: 'Performance ',
               onTap: () {},
             ),
             CustomDrawerTile(
@@ -100,7 +103,21 @@ class CustomDrawer extends StatelessWidget {
             ),
             CustomDrawerTile(
               activeImage: AppAssets.resourcesIcon,
-              title: 'Resources',
+              title: 'Library',
+              onTap: () {
+                context.pushNamed(Routs.resources);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.hallOfFameIcon,
+              title: 'Hall of fame',
+              onTap: () {
+                context.pushNamed(Routs.hallOfFame);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.setting,
+              title: 'Services',
               onTap: () {
                 context.pushNamed(Routs.resources);
               },
