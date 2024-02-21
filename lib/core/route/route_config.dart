@@ -2,41 +2,85 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
-
+import 'package:mrwebbeast/screens/guest/product/guest_product_details.dart';
+import 'package:mrwebbeast/screens/member/archievers/achievers.dart';
+import 'package:mrwebbeast/screens/member/demo/create_demo.dart';
+import 'package:mrwebbeast/screens/member/demo/demos_screen.dart';
+import 'package:mrwebbeast/screens/member/goal/partner_goals_screen.dart';
+import 'package:mrwebbeast/utils/widgets/pdf_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
+import '../../models/member/auth/reset_password.dart';
 import '../../screens/auth/connect_with_us.dart';
+import '../../screens/auth/gtp_video.dart';
 import '../../screens/auth/interest_screen.dart';
-import '../../screens/auth/member_login.dart';
+import '../../screens/auth/login.dart';
+import '../../screens/auth/member/member_login.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
+import '../../screens/auth/why_are_you_here.dart';
+import '../../screens/dashboard/dashboard.dart';
+import '../../screens/guest/check_demo/check_demo.dart';
+import '../../screens/guest/guestProfile/feedback_rating.dart';
+import '../../screens/guest/guestProfile/guest_edit_profile.dart';
+import '../../screens/guest/guestProfile/guest_faq.dart';
+import '../../screens/guest/guestProfile/guest_hall_of_fam.dart';
+import '../../screens/guest/guestProfile/guest_profile.dart';
+import '../../screens/guest/guest_check_demo/guestDemoVideosAfterComplete.dart';
+import '../../screens/guest/guest_check_demo/guest_check_demo.dart';
+import '../../screens/guest/guest_notification/guest_notification.dart';
+import '../../screens/guest/help&support/help&support.dart';
 import '../../screens/guest/home/home_screen.dart';
+import '../../screens/guest/pricavy_policy/privacy_policy.dart';
+import '../../screens/guest/product/guest_product.dart';
 import '../../screens/guest/profile/about_us.dart';
-import '../../screens/guest/profile/edit_profile.dart';
 import '../../screens/guest/profile/permission_screen.dart';
-import '../../screens/guest/profile/settings.dart';
+import '../../screens/guest/resource&Demo/resource_and_demo.dart';
+import '../../screens/guest/web_view/faq.dart';
+import '../../screens/member/events/create_event.dart';
+import '../../screens/member/events/events_screen.dart';
+import '../../screens/member/feeds/feed_detail.dart';
+import '../../screens/member/feeds/member_feeds.dart';
+import '../../screens/member/goal/create_goal.dart';
+import '../../screens/member/goal/goals_screen.dart';
+import '../../screens/member/home/member_dashboard.dart';
+import '../../screens/member/home/member_profile.dart';
+import '../../screens/member/home/member_profile_details.dart';
+import '../../screens/member/lead/scheduled_demo_form.dart';
+import '../../screens/member/members/add_member_form.dart';
+import '../../screens/member/members/add_member_list.dart';
+import '../../screens/member/members/calendar.dart';
+import '../../screens/member/network/network_report.dart';
+import '../../screens/member/profile/account_settings.dart';
+import '../../screens/member/profile/member_edit_profile.dart';
+import '../../screens/member/profile/profile.dart';
+import '../../screens/member/resources/resources.dart';
+import '../../screens/member/target/create_target.dart';
+import '../../screens/member/target/target_screen.dart';
+import '../../screens/member/todo/todo_screen.dart';
+import '../../screens/member/training/chapter_details.dart';
+import '../../screens/member/training/chapters_screen.dart';
+import '../../screens/member/training/exam_quiz.dart';
+import '../../screens/member/training/exam_report.dart';
+import '../../screens/member/training/training_screen.dart';
+import '../../screens/notifications/notifications.dart';
 import '../../screens/welcome_screen.dart';
+import '../../select_lead/select_lead.dart';
 import '../../utils/widgets/image_opener.dart';
 import '../../utils/widgets/multiple_image_opener.dart';
+import '../../utils/widgets/ppt_viewer.dart';
 import '../../utils/widgets/web_view_screen.dart';
-import '../../screens/auth/login.dart';
-import '../../screens/dashboard/dashboard.dart';
-
-import '../../screens/notifications/notifications.dart';
-
 import '../services/analytics/analytic_service.dart';
 import '../services/database/local_database.dart';
-
 import 'route_paths.dart';
 
 class RoutesConfig {
-  /// Initial Route...
-  static final _settingsNavigatorKey = GlobalKey<NavigatorState>();
-
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
+
     return authenticated ? Routs.dashboard : Routs.welcome;
   }
 
@@ -53,16 +97,53 @@ class RoutesConfig {
       //   name: Routs.initialRoute,
       //   path: Routs.initialRoute,
       //   pageBuilder: (context, state) {
-      //     return cupertinoPage(state: state, child: initialScreen());
+      //     return materialPage(state: state, child: initialScreen());
       //   },
       // ),
+      GoRoute(
+        name: Routs.memberaddForm,
+        path: Routs.memberaddForm,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const AddMemberForm());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberaddList,
+        path: Routs.memberaddList,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const AddMemberList());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberEditProfile,
+        path: Routs.memberEditProfile,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const MemberEditProfile());
+        },
+      ),
+      GoRoute(
+        name: Routs.callender,
+        path: Routs.callender,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const CalendarForm());
+        },
+      ),
+      GoRoute(
+        name: Routs.welcome,
+        path: Routs.welcome,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const WelcomeScreen());
+        },
+      ),
 
       GoRoute(
         name: Routs.dashboard,
         path: Routs.dashboard,
         pageBuilder: (context, state) {
           DashBoard? data = state.extra as DashBoard?;
-          return cupertinoPage(
+          print('check data ${data?.dashBoardIndex}');
+          print('check data ${data?.userRole}');
+          return materialPage(
               state: state,
               child: DashBoard(
                 dashBoardIndex: data?.dashBoardIndex,
@@ -73,31 +154,52 @@ class RoutesConfig {
       ),
 
       GoRoute(
-        name: Routs.welcome,
-        path: Routs.welcome,
-        pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const WelcomeScreen());
-        },
-      ),
-      GoRoute(
         name: Routs.login,
         path: Routs.login,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const Login());
+          return materialPage(state: state, child: const Login());
         },
       ),
       GoRoute(
         name: Routs.memberLogin,
         path: Routs.memberLogin,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const MemberLogin());
+          return materialPage(state: state, child: const MemberSignIn());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberDashBoard,
+        path: Routs.memberDashBoard,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const MemberDashBoard());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.memberProfileDetails,
+        path: Routs.memberProfileDetails,
+        pageBuilder: (context, state) {
+          MemberProfileDetails? data = state.extra as MemberProfileDetails?;
+          return materialPage(
+              state: state,
+              child: MemberProfileDetails(
+                memberId: data?.memberId ?? '',
+              ));
+        },
+      ),
+
+      GoRoute(
+        name: Routs.targetScreen,
+        path: Routs.targetScreen,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const TargetScreen());
         },
       ),
       GoRoute(
         name: Routs.interests,
         path: Routs.interests,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const InterestScreen());
+          return materialPage(state: state, child: const InterestScreen());
         },
       ),
 
@@ -105,26 +207,47 @@ class RoutesConfig {
         name: Routs.questions,
         path: Routs.questions,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const QuestionsScreen());
+          QuestionsScreen? data = state.extra as QuestionsScreen?;
+          return materialPage(
+              state: state,
+              child: QuestionsScreen(
+                categoryId: data?.categoryId ?? '',
+              ));
         },
       ),
       GoRoute(
         name: Routs.connectWithUs,
         path: Routs.connectWithUs,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const ConnectWithUs());
+          return materialPage(state: state, child: const ConnectWithUs());
         },
       ),
-
+      GoRoute(
+        name: Routs.gtpVideo,
+        path: Routs.gtpVideo,
+        pageBuilder: (context, state) {
+          GtpVideo? data = state.extra as GtpVideo?;
+          return materialPage(
+              state: state,
+              child: GtpVideo(
+                videoLink: data?.videoLink ?? '',
+              ));
+        },
+      ),
       GoRoute(
         name: Routs.verifyOTP,
         path: Routs.verifyOTP,
         pageBuilder: (context, state) {
           VerifyOTP? data = state.extra as VerifyOTP?;
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: VerifyOTP(
                 mobileNo: data?.mobileNo,
+                lastName: data?.lastName,
+                referralCode: data?.referralCode,
+                isMobileValidated: data?.isMobileValidated,
+                firstName: data?.firstName,
+                address: data?.address,
                 goBack: data?.goBack,
               ));
         },
@@ -133,7 +256,7 @@ class RoutesConfig {
         name: Routs.homeScreen,
         path: Routs.homeScreen,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const HomeScreen());
+          return materialPage(state: state, child: const HomeScreen());
         },
         redirect: authRequired,
       ),
@@ -141,14 +264,14 @@ class RoutesConfig {
         name: Routs.notifications,
         path: Routs.notifications,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const NotificationScreen());
+          return materialPage(state: state, child: const NotificationScreen());
         },
       ),
       GoRoute(
         name: Routs.settings,
         path: Routs.settings,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const SettingsScreen());
+          return materialPage(state: state, child: const AccountSettings());
         },
       ),
 
@@ -156,22 +279,380 @@ class RoutesConfig {
         name: Routs.aboutUs,
         path: Routs.aboutUs,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const AboutUsScreen());
+          return materialPage(state: state, child: const AboutUsScreen());
         },
       ),
 
       GoRoute(
-        name: Routs.editProfile,
-        path: Routs.editProfile,
-        pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const EditProfile());
-        },
-      ),
-      GoRoute(
         name: Routs.permissions,
         path: Routs.permissions,
         pageBuilder: (context, state) {
-          return cupertinoPage(state: state, child: const PermissionsScreen());
+          return materialPage(state: state, child: const PermissionsScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestProductDetail,
+        path: Routs.guestProductDetail,
+        pageBuilder: (context, state) {
+          GusetProductDetails? data = state.extra as GusetProductDetails?;
+          return materialPage(
+              state: state,
+              child: GusetProductDetails(
+                productId: data?.productId,
+              ));
+        },
+      ),
+      GoRoute(
+        name: Routs.guestProduct,
+        path: Routs.guestProduct,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestPoduct());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestProfile,
+        path: Routs.guestProfile,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestProfile());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.guestEditProfile,
+        path: Routs.guestEditProfile,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestEditProfile());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestFaq,
+        path: Routs.guestFaq,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestFaq());
+        },
+      ),
+      GoRoute(
+        name: Routs.selectLead,
+        path: Routs.selectLead,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const SelectLead());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.chapters,
+        path: Routs.chapters,
+        pageBuilder: (context, state) {
+          ChaptersScreen? data = state.extra as ChaptersScreen?;
+
+          return materialPage(
+              state: state,
+              child: ChaptersScreen(
+                category: data?.category,
+              ));
+        },
+      ),
+      GoRoute(
+        name: Routs.chaptersDetails,
+        path: Routs.chaptersDetails,
+        pageBuilder: (context, state) {
+          ChaptersDetails? data = state.extra as ChaptersDetails?;
+
+          return materialPage(
+              state: state, child: ChaptersDetails(chapter: data?.chapter));
+        },
+      ),
+      GoRoute(
+        name: Routs.trainingScreen,
+        path: Routs.trainingScreen,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const TrainingScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberFeeds,
+        path: Routs.memberFeeds,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const MemberFeeds());
+        },
+      ),
+      GoRoute(
+        name: Routs.resourceAndDemo,
+        path: Routs.resourceAndDemo,
+        pageBuilder: (context, state) {
+          ResourceAndDemo? data = state.extra as ResourceAndDemo?;
+
+          return materialPage(
+              state: state, child: ResourceAndDemo(category: data?.category));
+        },
+      ),
+
+      GoRoute(
+        name: Routs.feedDetail,
+        path: Routs.feedDetail,
+        pageBuilder: (context, state) {
+          FeedDetail? data = state.extra as FeedDetail?;
+          return materialPage(
+              state: state,
+              child: FeedDetail(
+                id: data?.id,
+              ));
+        },
+      ),
+
+      GoRoute(
+        name: Routs.examQuiz,
+        path: Routs.examQuiz,
+        pageBuilder: (context, state) {
+          ExamQuiz? data = state.extra as ExamQuiz?;
+          return materialPage(
+              state: state, child: ExamQuiz(chapterId: data?.chapterId));
+        },
+      ),
+
+      GoRoute(
+        name: Routs.leadMemberProfile,
+        path: Routs.leadMemberProfile,
+        pageBuilder: (context, state) {
+          GuestProfileDetails? data = state.extra as GuestProfileDetails?;
+          return materialPage(
+              state: state,
+              child: GuestProfileDetails(
+                guestId: data?.guestId,
+              ));
+        },
+      ),
+
+      GoRoute(
+        name: Routs.toDoScreen,
+        path: Routs.toDoScreen,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const ToDoScreen());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.examReport,
+        path: Routs.examReport,
+        pageBuilder: (context, state) {
+          ExamReport? data = state.extra as ExamReport?;
+
+          return materialPage(
+              state: state, child: ExamReport(report: data?.report));
+        },
+      ),
+      GoRoute(
+        name: Routs.goals,
+        path: Routs.goals,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GoalsScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.partnerGoals,
+        path: Routs.partnerGoals,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const PartnerGoalsScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.createGoal,
+        path: Routs.createGoal,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const CreateGoal());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.achievers,
+        path: Routs.achievers,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const Achievers());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.createTarget,
+        path: Routs.createTarget,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const CreateTarget());
+        },
+      ),
+      GoRoute(
+        name: Routs.createEvent,
+        path: Routs.createEvent,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const CreateEvent());
+        },
+      ),
+      GoRoute(
+        name: Routs.memberProfile,
+        path: Routs.memberProfile,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const MemberProfile());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.events,
+        path: Routs.events,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const EventScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.shceduledDemoForm,
+        path: Routs.shceduledDemoForm,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const ScheduledDemoForm());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestCheckDemo,
+        path: Routs.guestCheckDemo,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestNewCheckDemo());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestDemoVideos,
+        path: Routs.guestDemoVideos,
+        pageBuilder: (context, state) {
+          return materialPage(
+              state: state, child: const GuestCheckDemoVideos());
+        },
+      ),
+      GoRoute(
+        name: Routs.createDemo,
+        path: Routs.createDemo,
+        pageBuilder: (context, state) {
+          CreateDemo? data = state.extra as CreateDemo?;
+          return materialPage(
+              state: state,
+              child: CreateDemo(
+                guestId: data?.guestId ?? '',
+                name: data?.name,
+                image: data?.image,
+                showLeadList: data?.showLeadList,
+              ));
+        },
+      ),
+
+      GoRoute(
+        name: Routs.viewPdf,
+        path: Routs.viewPdf,
+        pageBuilder: (context, state) {
+          PDFViewer? data = state.extra as PDFViewer?;
+          return materialPage(
+              state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
+        },
+      ),
+      GoRoute(
+        name: Routs.demos,
+        path: Routs.demos,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const DemosScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestDemo,
+        path: Routs.guestDemo,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestCheckDemo());
+        },
+      ),
+      GoRoute(
+        name: Routs.guestNotification,
+        path: Routs.guestNotification,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const GuestNotification());
+        },
+      ),
+      GoRoute(
+        name: Routs.hallOfFame,
+        path: Routs.hallOfFame,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const HallOfFam());
+        },
+      ),
+      GoRoute(
+        name: Routs.feedbackAndRating,
+        path: Routs.feedbackAndRating,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const FeedbackAndRating());
+        },
+      ),
+      GoRoute(
+        name: Routs.privacyPolicy,
+        path: Routs.privacyPolicy,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const PrivacyPolicy());
+        },
+      ),
+      GoRoute(
+        name: Routs.helpAndSupport,
+        path: Routs.helpAndSupport,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const HelpAndSupport());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.pptViewer,
+        path: Routs.pptViewer,
+        pageBuilder: (context, state) {
+          PPTViewer? data = state.extra as PPTViewer?;
+          return materialPage(
+              state: state, child: PPTViewer(url: data?.url ?? ''));
+        },
+      ),
+      GoRoute(
+        name: Routs.networkReport,
+        path: Routs.networkReport,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const NetworkReport());
+        },
+      ),
+      GoRoute(
+        name: Routs.resources,
+        path: Routs.resources,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const ResourcesScreen());
+        },
+      ),
+      GoRoute(
+        name: Routs.resetPassword,
+        path: Routs.resetPassword,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const ResetPassword());
+        },
+      ),
+
+      GoRoute(
+        name: Routs.whyareYou,
+        path: Routs.whyareYou,
+        pageBuilder: (context, state) {
+          WhyAreYouHere? data = state.extra as WhyAreYouHere?;
+          return materialPage(
+              state: state,
+              child: WhyAreYouHere(
+                questionId: data?.questionId ?? '',
+                item: data?.item ?? [],
+                question: data?.question ?? '',
+              ));
+        },
+      ),
+      GoRoute(
+        name: Routs.webView1,
+        path: Routs.webView1,
+        pageBuilder: (context, state) {
+          WebScreen? data = state.extra as WebScreen?;
+
+          return materialPage(
+              state: state,
+              child: WebScreen(
+                type: data?.type ?? '',
+              ));
         },
       ),
       GoRoute(
@@ -180,7 +661,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ImageOpener? data = state.extra as ImageOpener?;
 
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: ImageOpener(
                 assetImage: data?.assetImage,
@@ -196,7 +677,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           MultipleImageOpener? data = state.extra as MultipleImageOpener?;
 
-          return cupertinoPage(
+          return materialPage(
               state: state,
               child: MultipleImageOpener(
                 initialIndex: data?.initialIndex,
@@ -214,8 +695,10 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
-          return cupertinoPage(
-              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
+          return materialPage(
+              state: state,
+              child: WebViewScreen(
+                  key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {
@@ -247,15 +730,12 @@ class RoutesConfig {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(child: Text('No Route defined for unknown  ${state.path}')),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CupertinoButton(
-              color: context.colorScheme.primary,
-              child: const Text('Home'),
-              onPressed: () {
-                context.go(Routs.login);
-              },
-            ),
+          CupertinoButton(
+            color: context.colorScheme.primary,
+            child: const Text('Home'),
+            onPressed: () {
+              context.go(Routs.login);
+            },
           ),
         ],
       ),
@@ -265,8 +745,16 @@ class RoutesConfig {
   static authRedirect(BuildContext context, GoRouterState state) {}
 
   static bool isAuthenticated() {
+    bool status = false;
     LocalDatabase localDatabase = LocalDatabase();
-    return localDatabase.accessToken?.isNotEmpty == true;
+
+    if (localDatabase.userRole == UserRoles.guest.value) {
+      status = localDatabase.guest?.accessToken?.isNotEmpty == true;
+    } else if (localDatabase.userRole == UserRoles.member.value) {
+      status = localDatabase.member?.accessToken?.isNotEmpty == true;
+    }
+
+    return status;
   }
 
   static String? authRequired(BuildContext context, GoRouterState state) {
@@ -285,6 +773,7 @@ class RoutesConfig {
   static MaterialPage<dynamic> materialPage({
     required GoRouterState state,
     required Widget child,
+    bool authRequired = false,
   }) {
     AnalyticService.trackScreen(state: state);
     return MaterialPage(key: state.pageKey, child: child);

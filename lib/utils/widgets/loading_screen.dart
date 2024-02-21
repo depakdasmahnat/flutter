@@ -37,17 +37,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: CupertinoActivityIndicator(
-                color: Colors.white,
+                color: color ?? Colors.white,
                 radius: 12,
               ),
             ),
             Text(
               message ?? 'Loading Data...',
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: color ?? Colors.white,
               ),
             ),
           ],

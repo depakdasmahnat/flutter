@@ -18,20 +18,51 @@ class Validator {
   ///Full Name
   static String? fullNameValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return '${fieldName ?? 'Full name'} is required';
+      return '${fieldName ?? 'First name'} is required';
+    } if(value.length<3){
+      return 'First name must be at least 3 characters.';
+
     }
-    final parts = value.split(' ');
-    if (parts.length < 2) {
-      return 'Please enter your ${fieldName ?? 'full name'}';
+    // final parts = value.split(' ');
+    // if (parts.length < 2) {
+    //   return 'Please enter your ${fieldName ?? 'full name'}';
+    // }
+    // for (var part in parts) {
+    //   if (part.length < 2) {
+    //     return 'Each word in your ${fieldName ?? 'full name'} must be at least 2 characters long';
+    //   }
+    //   if (!RegExp(r'^[a-zA-Z]+$').hasMatch(part)) {
+    //     return 'Please enter a valid ${fieldName ?? 'full name'}';
+    //   }
+    // }
+    return null;
+  }
+  ///last  Name
+  // static String? lastNameValidator(String? value, [String? fieldName]) {
+  //   if(value!.length<3){
+  //     return 'Last name must be at least 3 characters.';
+  //   }
+  //   // final parts = value.split(' ');
+  //   // if (parts.length < 2) {
+  //   //   return 'Please enter your ${fieldName ?? 'full name'}';
+  //   // }
+  //   // for (var part in parts) {
+  //   //   if (part.length < 2) {
+  //   //     return 'Each word in your ${fieldName ?? 'full name'} must be at least 2 characters long';
+  //   //   }
+  //   //   if (!RegExp(r'^[a-zA-Z]+$').hasMatch(part)) {
+  //   //     return 'Please enter a valid ${fieldName ?? 'full name'}';
+  //   //   }
+  //   // }
+  //   return null;
+  // }
+  static String? flocationValidation(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Location'} is required';
+    }if(value.length<3){
+      return 'Location  must be at least 3 characters.';
     }
-    for (var part in parts) {
-      if (part.length < 2) {
-        return 'Each word in your ${fieldName ?? 'full name'} must be at least 2 characters long';
-      }
-      if (!RegExp(r'^[a-zA-Z]+$').hasMatch(part)) {
-        return 'Please enter a valid ${fieldName ?? 'full name'}';
-      }
-    }
+
     return null;
   }
 
@@ -79,14 +110,63 @@ class Validator {
   }
 
   /// Validates that a value is a valid number format.
-  static String? numberValidator(String? value, [String? fieldName]) {
+  static String? phoneNumberValidator(
+    String? value,
+    int limit, [
+    String? fieldName,
+  ]) {
     if (value == null || value.isEmpty) {
-      return '${fieldName ?? 'Number'} is required';
+      return '${fieldName ?? 'Phone Number'} is required';
     }
-    if (double.tryParse(value) == null) {
+
+    if (value.length < limit) {
+      return 'Complete ${fieldName ?? 'Phone Number'} is required';
+    }
+
+    if (int.tryParse(value) == null) {
       return 'Invalid ${fieldName ?? 'number'} format';
     }
     return null;
+  }
+
+  /// Validates that a value is a valid number format.
+  static String? numberValidator(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Mobile no'} is required';
+    }
+    if (double.tryParse(value) == null) {
+      return 'Invalid ${fieldName ?? 'mobile'} number';
+    }
+    return null;
+  }
+  /// Referral code validation .
+  static String? referralValidator(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Referral code'} is required';
+    }
+    // if (double.tryParse(value) == null) {
+    //   return 'Invalid referral code';
+    // }
+    return null;
+  }
+  /// Validates that a value is a valid alphanumeric format.
+  static String? alphanumericValidator(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Value'} is required';
+    }
+
+    // Check if the value contains only alphanumeric characters
+    if (!isAlphanumeric(value)) {
+      return 'Invalid ${fieldName ?? 'alphanumeric'} format';
+    }
+
+    return null;
+  }
+
+  /// Helper function to check if a string contains only alphanumeric characters.
+  static bool isAlphanumeric(String value) {
+    final alphanumericRegExp = RegExp(r'^[a-zA-Z0-9]+$');
+    return alphanumericRegExp.hasMatch(value);
   }
 
   /// Validates that a password is at least 8 characters long.
@@ -168,6 +248,17 @@ class Validator {
     } catch (_) {
       return 'Invalid ${fieldName ?? 'date'} format';
     }
+    return null;
+  }
+
+  /// guest login screen id no validation
+  static String? idNo(String? value, [String? fieldName]) {
+    if (value == null || value.isEmpty) {
+      return '${fieldName ?? 'Number'} is required';
+    }
+    // if (double.tryParse(value) == null) {
+    //   return 'Invalid ${fieldName ?? 'number'} format';
+    // }
     return null;
   }
 }

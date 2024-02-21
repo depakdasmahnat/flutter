@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+
 import '../services/database/local_database.dart';
 
 class AppConfig {
@@ -7,11 +8,12 @@ class AppConfig {
   static const String name = 'MrWebBeast';
   static const String version = '1.0';
 
-  static const String packageName = 'app.developer.mrwebbeast';
+  static const String packageName = 'app.gtp.com';
 
   static const String playStoreUrl = 'https://play.google.com/store/apps/details?id=$packageName';
   static const String appStoreUrl = 'https://apps.apple.com/us/app/emuvv/id6462873844';
   static const String deeplinkUrl = 'https://mrwebbeast.page.link/downlaod';
+
   static String apkLink() {
     String url;
 
@@ -27,6 +29,7 @@ class AppConfig {
   static const String mapAddressesApiKey = 'AIzaSyAaq-CLNOFfMMtll9c3LV2wpFTITExbud4';
   static const String contactEmail = 'mrwebbeast@gmail.com';
   static const String contactNumber = '+91 7559721016';
+  static const String shareApp = '';
 
   ///Notification Channel Id...
   static const String chanelName = 'MrWebBeast';

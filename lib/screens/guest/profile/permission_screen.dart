@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:mrwebbeast/core/services/notifications/notification_controller.dart';
-
 import 'package:provider/provider.dart';
 
 import '../../../core/constant/colors.dart';
@@ -17,13 +15,6 @@ class PermissionsScreen extends StatefulWidget {
 }
 
 class _PermissionsScreenState extends State<PermissionsScreen> with WidgetsBindingObserver {
-  LocalDatabase localDatabase = LocalDatabase();
-  double imageRadius = 70;
-
-  late String? fullName = localDatabase.name;
-  late String? email = localDatabase.email;
-  String? photoUrl;
-
   Future manageNotificationPermission({
     bool? forceRequest,
     bool? checkOnly,

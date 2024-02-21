@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
+import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/constant/colors.dart';
 import '../../core/constant/gradients.dart';
 import '../../core/constant/shadows.dart';
@@ -13,9 +13,22 @@ import '../../utils/widgets/gradient_text.dart';
 import '../../utils/widgets/widgets.dart';
 
 class VerifyOTP extends StatefulWidget {
-  const VerifyOTP({super.key, required this.mobileNo, required this.goBack});
+  VerifyOTP(
+      {super.key,
+      this.isMobileValidated,
+      this.firstName,
+      this.lastName,
+      this.mobileNo,
+      this.referralCode,
+      this.address,
+      this.goBack});
 
+  final String? isMobileValidated;
+  final String? firstName;
+  final String? lastName;
   final String? mobileNo;
+  final String? referralCode;
+  final String? address;
   final bool? goBack;
 
   @override
@@ -53,6 +66,11 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
   @override
   void initState() {
+    print('check first name ${widget.firstName}');
+    print('check last name ${widget.lastName}');
+    print('check referralCode name ${widget.referralCode}');
+    print('check mobileNo name ${widget.mobileNo}');
+    print('check isMobileValidated name ${widget.isMobileValidated}');
     super.initState();
     startCountDown();
   }
@@ -86,7 +104,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                   const Padding(
                     padding: EdgeInsets.fromLTRB(24, 16, 24, 0),
                     child: Text(
-                      'OTP verification',
+                      'OTP Verification',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 38,
@@ -103,7 +121,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                       children: [
                         Expanded(
                           child: Text(
-                            'we have sent a verification code to $countryCode ${mobileNo ?? 0}',
+                            'We have sent a verification code to $countryCode ${mobileNo ?? 0}',
                             style: const TextStyle(
                               fontSize: 15,
                               color: Colors.white,
@@ -244,13 +262,16 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
   Future verifyOtp({required String otp}) async {
     if (otp.length == totalOtpFields) {
-      if (otp == '123456') {
-        context.pushNamed(Routs.interests);
-      }
+      await context.read<AuthControllers>().verifyOtp(
+          context: context,
+          isMobileValidated: widget.isMobileValidated,
+          mobile: widget.mobileNo,
+          firstName: widget.firstName,
+          lastName: widget.lastName,
+          referralCode: widget.referralCode,
+          address: widget.address,
+          otp: otp);
       setState(() {});
-      // await context
-      //     .read<AuthControllers>()
-      //     .verifyOTP(context: context, otp: otp, phoneNumber: mobileNo, goBack: goBack);
     } else {
       showSnackBar(context: context, text: 'Wrong Password', color: Colors.red);
     }

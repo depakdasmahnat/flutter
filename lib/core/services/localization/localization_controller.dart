@@ -1,11 +1,12 @@
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../../../utils/widgets/custom_bottom_sheet.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'language_picker.dart';
 
 class LocalizationController extends ChangeNotifier {
@@ -31,7 +32,8 @@ class LocalizationController extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isSupported(Locale locale) => supportedLocales.map((e) => e.languageCode).contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      supportedLocales.map((e) => e.languageCode).contains(locale.languageCode);
 
   showLanguagePicker({required BuildContext context}) {
     return CustomBottomSheet.show(
@@ -60,7 +62,7 @@ class LocalizationController extends ChangeNotifier {
   /// 3) Localizations Delegates...
   localizationsDelegates() {
     return [
-      AppLocalizations.delegate,
+      // AppLocalizations.delegate,
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,

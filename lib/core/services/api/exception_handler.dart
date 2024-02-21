@@ -2,10 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mrwebbeast/controllers/member/member_auth_controller.dart';
+import 'package:mrwebbeast/core/services/api/api_service.dart';
+import 'package:mrwebbeast/core/services/database/local_database.dart';
+import 'package:mrwebbeast/models/default_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../../app.dart';
 import '../../../utils/widgets/widgets.dart';
@@ -67,7 +71,19 @@ class ErrorHandler {
 
     String url = Uri.parse('${response.request?.url}').toString();
     int statusCode = response.statusCode;
-    String message = getErrorMessage(statusCode);
+    String message;
+
+    try {
+      Map<String, dynamic> json = jsonDecode('$body');
+      DefaultModel responseBody = DefaultModel.fromJson(json);
+      message = responseBody.message ?? getErrorMessage(statusCode);
+      if (responseBody.status == false) {
+        showError = true;
+      }
+    } catch (e) {
+      message = getErrorMessage(statusCode);
+      debugPrint('Error ${e.toString()}');
+    }
 
     ApiException throwException({String? error}) {
       return throw ApiException(
@@ -80,15 +96,25 @@ class ErrorHandler {
 
     log('API Url => $url');
     log('Status Code => $statusCode');
-    log('Message :- $message');
+
+    log('Header => ${ApiService().defaultHeaders()}');
+    log('Message => $message');
+    log('Response => $body');
 
     try {
       switch (response.statusCode) {
-        case 200 || 201:
+        case 200:
           return jsonDecode(body ?? '');
-        case 403:
-          reAuth();
+        case 201:
+          return jsonDecode(body ?? '');
+        case 401:
+          reAuth(message);
           throwException();
+          break;
+        case 403:
+          reAuth(message);
+          throwException();
+          break;
         default:
           throwException();
       }
@@ -101,8 +127,7 @@ class ErrorHandler {
     }
   }
 
-  static reAuth() {
-    String message = getErrorMessage(403);
+  static reAuth(String message) {
     BuildContext? context = MyApp.navigatorKey.currentContext;
     showError() {
       if (context != null) {
@@ -112,8 +137,7 @@ class ErrorHandler {
 
     if (context != null) {
       showError();
-
-      // context.read<AuthCon>().replaceToSignIn(context: context);
+      context.read<MemberAuthControllers>().logOut(context: context, message: message, color: Colors.red);
     }
   }
 

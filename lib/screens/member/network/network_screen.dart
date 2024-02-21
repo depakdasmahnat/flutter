@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/member/network/network_pinnacle_list.dart';
 import 'package:mrwebbeast/screens/member/network/network_pinnacle_view.dart';
 import 'package:mrwebbeast/screens/member/network/network_projection.dart';
 import 'package:mrwebbeast/screens/member/network/network_tree_view.dart';
+import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 
 import '../../../models/dashboard/custom_tab_data.dart';
 
@@ -70,7 +73,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
+            margin: const EdgeInsets.only(left: kPadding,right: kPadding,top: 12,bottom: 12),
             decoration: BoxDecoration(
               gradient: inActiveGradient,
               borderRadius: BorderRadius.circular(12),
@@ -92,17 +95,15 @@ class _NetworkScreenState extends State<NetworkScreen> {
                           gradient: isSelected ? primaryGradient : null,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Flexible(
-                          child: Center(
-                            child: Text(
-                              e.title,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: isSelected ? Colors.black : Colors.white,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              overflow: TextOverflow.ellipsis,
+                        child: Center(
+                          child: Text(
+                            e.title,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: isSelected ? Colors.black : Colors.white,
+                              fontWeight: FontWeight.w500,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ),
@@ -128,6 +129,64 @@ class _NetworkScreenState extends State<NetworkScreen> {
             ),
           ),
         ],
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.only(bottom: 90),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GradientButton(
+              height: 50,
+              width: 120,
+              borderRadius: 18,
+              backgroundGradient: primaryGradient,
+              onTap: null,
+              margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Print',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            GradientButton(
+              height: 50,
+              width: 120,
+              borderRadius: 18,
+              backgroundGradient: whiteGradient,
+              margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+              onTap: () {
+                context.pushNamed(Routs.networkReport);
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Report',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

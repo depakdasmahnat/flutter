@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>app.developer.mrwebbeast.RunnerTests</string>
+	<string>app.gtp.com.RunnerTests</string>
 	<key>PROJECT_ID</key>
 	<string>mrwebbeast</string>
 	<key>STORAGE_BUCKET</key>

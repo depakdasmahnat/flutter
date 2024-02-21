@@ -11,6 +11,7 @@
 migrate_working_dir/
 
 # IntelliJ related
+*.iml
 *.ipr
 *.iws
 .idea/
@@ -22,7 +23,7 @@ migrate_working_dir/
 
 # Flutter/Dart/Pub related
 **/doc/api/
-**/ios/Flutter/.last_build_id
+ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -41,3 +42,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+*.lock
+*.bin
+android/.gradle/buildOutputCleanup/outputFiles.bin
+*.probe
+*.probe

@@ -1,66 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-import 'package:mrwebbeast/models/dashboard/target_analytics_model.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+
 import 'package:mrwebbeast/screens/member/home/duration_popup.dart';
 import 'package:mrwebbeast/screens/member/home/performance_graph.dart';
+import 'package:mrwebbeast/screens/member/lead/leads_popup.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../controllers/member/network/network_controller.dart';
+import '../../../core/constant/enums.dart';
 import '../../../models/dashboard/dashboard_data.dart';
+import '../../../models/member/network/pinnacle_list_model.dart';
+import '../../../models/member/profile/member_profile_model.dart';
+import '../../../utils/custom_menu_popup.dart';
+import '../../../utils/widgets/custom_bottom_sheet.dart';
+import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/gradient_progress_bar.dart';
+import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
-import '../../dashboard/dashboard.dart';
 import '../../guest/home/home_screen.dart';
+import '../network/pinnacle_list_table.dart';
 
 class MemberProfileDetails extends StatefulWidget {
-  const MemberProfileDetails({super.key});
+  final String memberId;
+
+  const MemberProfileDetails({super.key, required this.memberId});
 
   @override
   State<MemberProfileDetails> createState() => _MemberProfileDetailsState();
 }
 
 class _MemberProfileDetailsState extends State<MemberProfileDetails> {
-  List<TargetAnalyticsData> dummyAnalyticsList = [
-    TargetAnalyticsData(xAxis: 'Jan', performance: 0),
-    TargetAnalyticsData(xAxis: 'Feb', performance: 24),
-    TargetAnalyticsData(xAxis: 'Mar', performance: 16),
-    TargetAnalyticsData(xAxis: 'Apr', performance: 38),
-    TargetAnalyticsData(xAxis: 'May', performance: 54),
-    TargetAnalyticsData(xAxis: 'Jun', performance: 36),
-    TargetAnalyticsData(xAxis: 'Jul', performance: 42),
-    TargetAnalyticsData(xAxis: 'Aug', performance: 35),
-    TargetAnalyticsData(xAxis: 'Sep', performance: 38),
-    TargetAnalyticsData(xAxis: 'Oct', performance: 54),
-    TargetAnalyticsData(xAxis: 'Nov', performance: 38),
-    TargetAnalyticsData(xAxis: 'Dec', performance: 54),
-  ];
-
-  // Create dummy data
-
-  late TargetAnalyticsModel dummyData = TargetAnalyticsModel(
-    success: true,
-    message: 'Dummy Message',
-    data: TargetData(
-      title: 'Dummy Title',
-      sales: 100,
-      salesTarget: 100,
-      pendingSales: 100,
-      rank: 'Dummy Rank',
-      nextRank: 'Next Dummy Rank',
-      pendingRankSales: 100,
-      leadsAdded: 100,
-      leadsClosed: 100,
-      leadsConversion: 100,
-      demoScheduled: 100,
-      demoCompleted: 100,
-      hotLeads: 100,
-      coldLeads: 100,
-      analytics: dummyAnalyticsList,
-    ),
-  );
-
   final List<DashboardData> bottomNabBarItems = [
     DashboardData(
       title: 'My Dashboard',
@@ -75,334 +52,567 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
       widget: const NoDataFound(),
     ),
   ];
-
   int dashBoardIndex = 0;
-  double? trainingProgress = 75;
+  double? trainingProgress;
+
   String? selectedDuration = DurationFilterMenu.monthly.label;
+  MemberProfileData? memberProfile;
+
+  Future fetchMemberProfileDetails({bool? loadingNext}) async {
+    return await context.read<MembersController>().fetchMemberProfileDetails(
+          memberId: widget.memberId,
+        );
+  }
+
+  List<PinnacleListData>? pinnacleList;
+  TextEditingController searchController = TextEditingController();
+
+  Future fetchPinnacleList() async {
+    pinnacleList = await context.read<NetworkControllers>().fetchNetworkReports(
+          search: searchController.text,
+          filter: filter,
+          memberId: widget.memberId,
+        );
+  }
+
+  String? filter;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        fetchMemberProfileDetails();
+        fetchPinnacleList();
+      },
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
+    NetworkControllers networkControllers = Provider.of<NetworkControllers>(context);
+    pinnacleList = networkControllers.networkReports;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Profile Details'),
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.only(bottom: 100),
-        children: [
-          Row(
-            children: [
-              ImageView(
-                height: 100,
-                width: 100,
-                border: Border.all(color: Colors.white),
-                borderRadiusValue: 50,
-                isAvatar: true,
-                margin: const EdgeInsets.only(left: 8, right: 16),
-                fit: BoxFit.contain,
-              ),
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Ayaan Sha',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 4, bottom: 8),
-                    child: Text(
-                      'ID: 655847A',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 2),
-                    child: Text(
-                      '+91 62656 84212',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  Text(
-                    'Civil lines, Raipur, C.G.',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                  ),
-                ],
-              )
-            ],
+    return Consumer<MembersController>(
+      builder: (context, controller, child) {
+        memberProfile = controller.memberProfile;
+        trainingProgress = (memberProfile?.training ?? 0).toDouble();
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Profile Details'),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          body: controller.loadingMemberProfile == true
+              ? const LoadingScreen(message: 'Loading Profile...')
+              : ListView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(bottom: 100),
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: kPadding, bottom: 8),
-                      child: Text(
-                        'Achievement',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                    Row(
+                      children: [
+                        ImageView(
+                          height: 100,
+                          width: 100,
+                          border: Border.all(color: Colors.white),
+                          borderRadiusValue: 50,
+                          isAvatar: true,
+                          margin: const EdgeInsets.only(left: 8, right: 16),
+                          fit: BoxFit.contain,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${memberProfile?.firstName} ${memberProfile?.lastName}',
+                              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4, bottom: 8),
+                              child: Text(
+                                'ID: ${memberProfile?.enagicId}',
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 2),
+                              child: Text(
+                                '+91 ${memberProfile?.mobile}',
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                            Text(
+                              memberProfile?.address ?? '',
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(top: kPadding, bottom: 8),
+                                child: Text(
+                                  'Achievement',
+                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      gradient: inActiveGradient,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 8),
+                                          child: Text(
+                                            memberProfile?.rank ?? '6A',
+                                            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                                          ),
+                                        ),
+                                        const ImageView(
+                                          height: 18,
+                                          assetImage: AppAssets.achievementIcon,
+                                          margin: EdgeInsets.only(),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(left: kPadding),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      gradient: inActiveGradient,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const ImageView(
+                                          height: 18,
+                                          assetImage: AppAssets.membersFilledIcon,
+                                          margin: EdgeInsets.only(),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 8),
+                                          child: Text(
+                                            'Members ${memberProfile?.memberCounts ?? ''}',
+                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: kPadding, left: kPadding, right: kPadding),
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Training Progress',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          GradientProgressBar(
+                            value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
+                            backgroundColor: Colors.grey.shade300,
+                            margin: const EdgeInsets.only(top: 8, bottom: 8),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Steps ${memberProfile?.chapters ?? ''}',
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                '${(trainingProgress ?? 0).toStringAsFixed(0)}%',
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Compete your training',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Members Target',
+                            style: headingTextStyle(),
+                          ),
+                          GraphDurationFilter(
+                            value: selectedDuration,
+                            onChange: (String? val) {
+                              selectedDuration = val;
+                              setState(() {});
+                              fetchMemberProfileDetails();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
+                      child: Row(
+                        children: [
+                          MySalesTarget(
+                            pending: '${memberProfile?.pendingSales ?? ''}',
+                            target: '${memberProfile?.salesTarget ?? ''}',
+                            archived: '${memberProfile?.achievedSales ?? ''}',
+                          ),
+                          MyRankTarget(
+                            level: memberProfile?.rank ?? '',
+                            rank: memberProfile?.nextRank ?? '',
+                            target: '${memberProfile?.rankPendingSales ?? ''}',
+                          ),
+                        ],
                       ),
                     ),
                     Row(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                          decoration: BoxDecoration(
-                            gradient: inActiveGradient,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 8),
-                                child: Text(
-                                  '6A2',
-                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
-                                ),
-                              ),
-                              ImageView(
-                                height: 18,
-                                assetImage: AppAssets.achievementIcon,
-                                margin: EdgeInsets.only(),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: kPadding),
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                          decoration: BoxDecoration(
-                            gradient: inActiveGradient,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Row(
-                            children: [
-                              ImageView(
-                                height: 18,
-                                assetImage: AppAssets.membersFilledIcon,
-                                margin: EdgeInsets.only(),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Text(
-                                  'Members 54',
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: kPadding, right: kPadding, bottom: kPadding, top: kPadding),
+                          child: Text(
+                            'Dashboard',
+                            style: headingTextStyle(),
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: kPadding, left: kPadding, right: kPadding),
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Training Progress',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                GradientProgressBar(
-                  value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
-                  backgroundColor: Colors.grey.shade300,
-                  margin: const EdgeInsets.only(top: 8, bottom: 8),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Steps 35/60',
-                      style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      '${(trainingProgress ?? 0).toStringAsFixed(0)}%',
-                      style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Compete your training',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Members Target',
-                  style: headingTextStyle(),
-                ),
-                GraphDurationFilter(
-                  value: selectedDuration,
-                  onChange: (String? val) {
-                    selectedDuration = val;
-                    setState(() {});
-                  },
-                ),
-              ],
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: kPadding, left: 8, right: 8),
-            child: Row(
-              children: [
-                MySalesTarget(
-                  pending: '06',
-                  target: '60',
-                  archived: '54',
-                ),
-                MyRankTarget(
-                  level: '6A',
-                  rank: '6A2',
-                  target: '92',
-                ),
-              ],
-            ),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding, top: kPadding),
-                child: Text(
-                  'Dashboard',
-                  style: headingTextStyle(),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding),
-            child: SizedBox(
-              height: 140,
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  AnalyticsCard(
-                    title: 'Leads Added',
-                    value: '08',
-                    gradient: limeGradient,
-                    onTap: () {},
-                  ),
-                  AnalyticsCard(
-                    title: 'Demo Scheduled',
-                    value: '02',
-                    gradient: targetGradient,
-                    onTap: () {},
-                  ),
-                  AnalyticsCard(
-                    title: 'Demo Competed',
-                    value: '02',
-                    gradient: targetGradient,
-                    onTap: () {},
-                  ),
-                  AnalyticsCard(
-                    title: 'Leads Closed',
-                    value: '06',
-                    flex: 2,
-                    gradient: primaryGradient,
-                    onTap: () {},
-                  ),
-                  AnalyticsCard(
-                    title: 'Leads\nConversion',
-                    value: '75%',
-                    gradient: inActiveGradient,
-                    textColor: Colors.white,
-                    showArrow: false,
-                    flex: 4,
-                    onTap: () {},
-                  ),
-                  AnalyticsCard(
-                    title: 'Hot Leads',
-                    value: '08',
-                    minHeight: 100,
-                    gradient: primaryGradient,
-                    onTap: () {},
-                  ),
-                  AnalyticsCard(
-                    title: 'Cold Leads',
-                    value: '02',
-                    gradient: blueGradient,
-                    minHeight: 100,
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Monthly Performance Graph',
-                  style: headingTextStyle(),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    gradient: inActiveGradient,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: const Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: 4),
-                        child: Text(
-                          '6A2',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.only(left: kPadding),
+                      child: SizedBox(
+                        height: 140,
+                        child: ListView(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            AnalyticsCard(
+                              title: 'Leads Added',
+                              value: '${memberProfile?.allLists ?? ''}',
+                              gradient: limeGradient,
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  context: context,
+                                  body: LeadsPopup(
+                                    title: 'Leads Added',
+                                    status: LeadsStatus.newLead.value,
+                                  ),
+                                );
+                              },
+                            ),
+                            AnalyticsCard(
+                              title: 'Demo Scheduled',
+                              value: '${memberProfile?.demoSchedule ?? ''}',
+                              gradient: targetGradient,
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  context: context,
+                                  body: LeadsPopup(
+                                    title: 'Demo Scheduled',
+                                    status: LeadsStatus.demoScheduled.value,
+                                  ),
+                                );
+                              },
+                            ),
+                            AnalyticsCard(
+                              title: 'Demo Competed',
+                              value: '${memberProfile?.demoDone ?? ''}',
+                              gradient: targetGradient,
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  context: context,
+                                  body: LeadsPopup(
+                                    title: 'Demo Competed',
+                                    status: LeadsStatus.followUp.value,
+                                  ),
+                                );
+                              },
+                            ),
+                            AnalyticsCard(
+                              title: 'Leads Closed',
+                              value: '${memberProfile?.closingDone ?? ''}',
+                              flex: 2,
+                              gradient: primaryGradient,
+                              onTap: () {
+                                CustomBottomSheet.show(
+                                  context: context,
+                                  body: LeadsPopup(
+                                    title: 'Leads Closed',
+                                    status: LeadsStatus.closed.value,
+                                  ),
+                                );
+                              },
+                            ),
+                            AnalyticsCard(
+                              title: 'Leads\nConversion',
+                              value: '${memberProfile?.conversionRatio ?? ''}',
+                              gradient: inActiveGradient,
+                              textColor: Colors.white,
+                              showArrow: false,
+                              flex: 4,
+                              onTap: () {},
+                            ),
+                            AnalyticsCard(
+                              title: 'Hot Leads',
+                              value: '${memberProfile?.hotLeads ?? '0'}',
+                              minHeight: 100,
+                              gradient: primaryGradient,
+                              showArrow: false,
+                              onTap: () {},
+                            ),
+                            AnalyticsCard(
+                              title: 'Cold Leads',
+                              value: '${memberProfile?.coldLeads ?? '0'}',
+                              gradient: blueGradient,
+                              minHeight: 100,
+                              showArrow: false,
+                              onTap: () {},
+                            ),
+                          ],
                         ),
                       ),
-                      Icon(Icons.keyboard_arrow_down_rounded, size: 18)
-                    ],
-                  ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '$selectedDuration Performance Graph',
+                            style: headingTextStyle(),
+                          ),
+                          GraphDurationFilter(
+                            value: selectedDuration,
+                            onChange: (String? val) {
+                              selectedDuration = val;
+                              setState(() {});
+                              fetchMemberProfileDetails();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (memberProfile?.analytics?.haveData == true)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
+                        child: PerformanceGraph(
+                          analytics: memberProfile?.analytics,
+                        ),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Partners',
+                            style: headingTextStyle(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: kPadding),
+                          child: Row(
+                            children: [
+                              Flexible(
+                                child: CustomTextField(
+                                  hintText: 'Search',
+                                  controller: searchController,
+                                  hintStyle: const TextStyle(color: Colors.white),
+                                  prefixIcon: ImageView(
+                                    height: 20,
+                                    width: 20,
+                                    borderRadiusValue: 0,
+                                    color: Colors.white,
+                                    margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+                                    fit: BoxFit.contain,
+                                    assetImage: AppAssets.searchIcon,
+                                    onTap: () {
+                                      fetchPinnacleList();
+                                    },
+                                  ),
+                                  onEditingComplete: () {
+                                    fetchPinnacleList();
+                                  },
+                                  margin: const EdgeInsets.only(
+                                      left: kPadding, right: kPadding, bottom: kPadding),
+                                ),
+                              ),
+                              CustomPopupMenu(
+                                items: [
+                                  CustomPopupMenuEntry(
+                                    value: '',
+                                    label: 'All',
+                                    onPressed: () {
+                                      filter = null;
+                                    },
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Level',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Achievement',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Conversion Ratio',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Progress',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Training',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Demo',
+                                    onPressed: null,
+                                  ),
+                                  CustomPopupMenuEntry(
+                                    label: 'Target',
+                                    onPressed: null,
+                                  ),
+                                ],
+                                onChange: (String? val) {
+                                  filter = val;
+                                  setState(() {});
+                                  fetchPinnacleList();
+                                },
+                                child: GradientButton(
+                                  height: 60,
+                                  width: 60,
+                                  margin: const EdgeInsets.only(left: 8, right: kPadding, bottom: kPadding),
+                                  backgroundGradient: blackGradient,
+                                  child: const ImageView(
+                                    height: 28,
+                                    width: 28,
+                                    assetImage: AppAssets.filterIcons,
+                                    margin: EdgeInsets.zero,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        if (networkControllers.loadingNetworkReports)
+                          const LoadingScreen(
+                            heightFactor: 0.2,
+                            message: 'Loading Partners',
+                          )
+                        else if (pinnacleList.haveData)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: kPadding),
+                            child: NetworkPinnacleTable(
+                              pinnacleList: pinnacleList,
+                            ),
+                          )
+                        else
+                          const NoDataFound(
+                            heightFactor: 0.2,
+                            message: 'No Partners Found',
+                          ),
+                      ],
+                    )
+                  ],
                 ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
-            child: PerformanceGraph(
-              analytics: dummyAnalyticsList,
-            ),
-          ),
-        ],
-      ),
+          bottomSheet: memberProfile?.mobile != null
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    GradientButton(
+                      height: 70,
+                      borderRadius: 18,
+                      blur: 10,
+                      backgroundGradient: primaryGradient,
+                      backgroundColor: Colors.transparent,
+                      boxShadow: const [],
+                      margin: const EdgeInsets.only(left: 16, right: 24),
+                      onTap: () async {
+                        launchUrl(Uri.parse('tel:${memberProfile?.mobile}'));
+                        // await context.read<MembersController>().callUser(
+                        //       mobileNo: '${memberProfile?.mobile}',
+                        //     );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            AppAssets.call,
+                            height: size.height * 0.04,
+                            color: Colors.black,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Call',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: GoogleFonts.urbanist().fontFamily,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              : null,
+        );
+      },
     );
   }
 
@@ -560,11 +770,12 @@ class MySalesTarget extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                    height: 20,
-                    child: VerticalDivider(
-                      color: Colors.black,
-                      thickness: 1,
-                    )),
+                  height: 20,
+                  child: VerticalDivider(
+                    color: Colors.black,
+                    thickness: 1,
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [

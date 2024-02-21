@@ -1,6 +1,6 @@
-package app.developer.mrwebbeast
+package app.gtp.com
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity() {
+class MainActivity : FlutterActivity() {
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
-
-import '../../core/constant/colors.dart';
 
 class CustomBottomSheet extends StatefulWidget {
   const CustomBottomSheet({
@@ -118,7 +117,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
   late BoxConstraints? constraints = widget.constraints;
   late Alignment? bottomNavBarAlignment = widget.bottomNavBarAlignment;
   late MainAxisSize? mainAxisSize = widget.mainAxisSize;
-  late double borderRadius = widget.borderRadius ?? 18;
+  late double borderRadius = widget.borderRadius ?? 36;
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +131,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           constraints: constraints,
           decoration: BoxDecoration(
-            color: context.containerColor,
+            color: Colors.black,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(borderRadius), topRight: Radius.circular(borderRadius)),
           ),
@@ -146,8 +145,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                     Column(
                       children: [
                         Padding(
-                          padding:
-                              EdgeInsets.only(left: 24, right: 8, top: 10, bottom: showTitleDivider ? 8 : 0),
+                          padding: EdgeInsets.only(
+                              left: 24, right: 8, top: kPadding, bottom: showTitleDivider ? kPadding : 0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -162,7 +161,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                       children: [
                                         Text(
                                           '$title',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -176,9 +175,9 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                           FocusScope.of(context).unfocus();
                                           context.pop();
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                           CupertinoIcons.multiply,
-                                          color: primaryColor,
+                                          color: Colors.white,
                                         ),
                                       )
                                     else

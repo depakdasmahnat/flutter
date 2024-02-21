@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:future_progress_dialog/future_progress_dialog.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/colors.dart';
+import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 
@@ -54,19 +55,28 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
       content: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            text,
-            style: TextStyle(color: textColor ?? Colors.white),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(color: textColor ?? Colors.white),
+            ),
           ),
           Icon(
-            icon ?? Icons.error_outline,
+            icon ?? CupertinoIcons.checkmark_alt_circle,
             color: Colors.white,
           ),
         ],
       ),
-      backgroundColor: color ?? context.colorScheme.primary,
+      backgroundColor: color ?? Colors.black,
     ),
   );
+}
+
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showError({
+  required BuildContext context,
+  required String? message,
+}) {
+  return showSnackBar(context: context, text: message ?? 'Something Went Wrong', color: Colors.red);
 }
 
 void showBanner({
@@ -116,7 +126,7 @@ Future showLoading({required BuildContext context, required String text}) {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: CupertinoActivityIndicator(
                       radius: 14,
@@ -126,7 +136,7 @@ Future showLoading({required BuildContext context, required String text}) {
                   const SizedBox(width: 20),
                   Text(
                     text,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: primaryColor,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -287,7 +297,7 @@ void copyText({
   Color? textColor,
 }) {
   Clipboard.setData(ClipboardData(text: textToCopy));
-  showSnackBar(context: context, text: message, color: color ?? primaryColor);
+  showSnackBar(context: context, text: message);
 }
 
 InkWell notificationBadge(context) {
@@ -471,8 +481,8 @@ pickImageButton({required BuildContext context, required String text, required I
         minWidth: 150.0,
       ),
       decoration: BoxDecoration(
-        color: context.colorScheme.primary,
-        border: Border.all(color: context.colorScheme.primary),
+        color: Colors.black,
+        gradient: primaryGradient,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -483,7 +493,7 @@ pickImageButton({required BuildContext context, required String text, required I
             padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
             child: Icon(
               icon,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
           Padding(
@@ -491,7 +501,7 @@ pickImageButton({required BuildContext context, required String text, required I
             child: Text(
               text,
               style: const TextStyle(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),

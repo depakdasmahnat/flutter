@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:mrwebbeast/utils/widgets/widgets.dart';
 
 import '../../../core/constant/gradients.dart';
@@ -96,11 +95,10 @@ class _GraphDurationFilterState extends State<GraphDurationFilter> {
     String label = selection.label;
     switch (selection) {
       case DurationFilterMenu.days:
-        showSnackBar(text: label, icon: Icons.check, context: context);
+        break;
       case DurationFilterMenu.weekly:
-        showSnackBar(text: label, icon: Icons.check, context: context);
+        break;
       case DurationFilterMenu.monthly:
-        showSnackBar(text: label, icon: Icons.check, context: context);
     }
   }
 }

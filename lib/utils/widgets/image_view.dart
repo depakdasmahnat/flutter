@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
-
 import 'package:mrwebbeast/utils/widgets/image_opener.dart';
 
 import '../../core/config/app_assets.dart';
@@ -63,7 +62,8 @@ class ImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap ?? ((fullScreenMode == true)
+      onTap: onTap ??
+          ((fullScreenMode == true)
               ? () {
                   context.pushNamed(Routs.imageOpener,
                       extra: ImageOpener(
@@ -153,7 +153,7 @@ class ImageView extends StatelessWidget {
     return SizedBox(
       height: height ?? 10,
       width: width ?? 10,
-      child: Center(
+      child: const Center(
         child: CupertinoActivityIndicator(color: primaryColor),
       ),
     );
@@ -169,7 +169,7 @@ class ImageView extends StatelessWidget {
       color: color,
       height: height,
       width: width,
-      fit: fit ?? BoxFit.cover,
+      fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) =>
           imageError(context: context, error: error, stackTrace: stackTrace),
     );
@@ -186,7 +186,7 @@ class ImageView extends StatelessWidget {
     return SizedBox(
       height: height ?? 10,
       width: width ?? 10,
-      child: Center(
+      child: const Center(
         child: CupertinoActivityIndicator(color: primaryColor),
       ),
     );
@@ -205,7 +205,7 @@ class ImageView extends StatelessWidget {
       color: color,
       height: height,
       width: width,
-      fit: fit ?? BoxFit.cover,
+      fit: BoxFit.contain,
       errorBuilder: (context, error, stackTrace) =>
           imageError(context: context, error: error, stackTrace: stackTrace, isAvatar: isAvatar),
     );

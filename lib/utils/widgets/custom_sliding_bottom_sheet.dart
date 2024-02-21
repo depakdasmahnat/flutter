@@ -74,29 +74,29 @@ class CustomSlidingBottomSheetState extends State<CustomSlidingBottomSheet> {
             children: [
               widget.appBar != null
                   ? Container(
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: widget.appBar,
-              )
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(16),
+                          topRight: Radius.circular(16),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: widget.appBar,
+                    )
                   : Container(
-                height: 2,
-                color: Colors.grey,
-                margin: const EdgeInsets.symmetric(vertical: 4),
-              ),
+                      height: 2,
+                      color: Colors.grey,
+                      margin: const EdgeInsets.symmetric(vertical: 4),
+                    ),
               Expanded(
                 child: widget.body,
               ),

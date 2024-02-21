@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
-import 'package:mrwebbeast/models/dashboard/target_analytics_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../core/constant/colors.dart';
+import '../../../models/member/dashboard/dashboard_states_model.dart';
 
 class PerformanceGraph extends StatelessWidget {
   const PerformanceGraph({super.key, this.analytics});
 
-  final List<TargetAnalyticsData>? analytics;
+  final List<DashboardAnalytics>? analytics;
 
   @override
   Widget build(BuildContext context) {
@@ -32,25 +32,26 @@ class PerformanceGraph extends StatelessWidget {
             //   ),
             //   borderColor: Colors.white,
             // ),
+
             tooltipBehavior: TooltipBehavior(enable: true),
             backgroundColor: Colors.transparent,
-            series: <ChartSeries>[
-              SplineSeries<TargetAnalyticsData?, String>(
+            series: <CartesianSeries>[
+              SplineSeries<DashboardAnalytics?, String>(
                 dataSource: analytics!,
                 splineType: SplineType.cardinal,
                 cardinalSplineTension: 2,
                 color: const Color(0xffD1F35A),
                 width: 3,
-                dataLabelMapper: (TargetAnalyticsData? sales, _) => '${sales?.xAxis}',
-                xValueMapper: (TargetAnalyticsData? sales, _) => '${sales?.xAxis}',
-                yValueMapper: (TargetAnalyticsData? sales, _) => num.tryParse('${sales?.performance}') ?? 0,
+                dataLabelMapper: (DashboardAnalytics? sales, _) => '${sales?.xaxis}',
+                xValueMapper: (DashboardAnalytics? sales, _) => '${sales?.xaxis}',
+                yValueMapper: (DashboardAnalytics? sales, _) => num.tryParse('${sales?.performance}') ?? 0,
                 markerSettings: const MarkerSettings(
                   isVisible: true,
                   color: primaryColor,
                   borderColor: Colors.white,
                 ),
                 enableTooltip: true,
-                dataLabelSettings: DataLabelSettings(),
+                dataLabelSettings: const DataLabelSettings(),
               ),
             ],
           )

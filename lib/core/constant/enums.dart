@@ -7,6 +7,28 @@ enum UserRoles {
   const UserRoles(this.value);
 }
 
+enum LeadsStatus {
+  newLead('New'),
+  invitationCall('Invitation Call'),
+  demoScheduled('Demo Scheduled'),
+  followUp('Follow Up'),
+  closed('Closed');
+
+  final String value;
+
+  const LeadsStatus(this.value);
+}
+
+enum LeadPriorityFilters {
+  hot('Hot'),
+  warm('Warm'),
+  cold('Cold');
+
+  final String value;
+
+  const LeadPriorityFilters(this.value);
+}
+
 enum Roles {
   admin('Admin'),
   premium('Premium'),
@@ -15,6 +37,29 @@ enum Roles {
   final String value;
 
   const Roles(this.value);
+}
+
+enum ChapterStatus {
+  open('Open'),
+  locked('Locked'),
+  completed('Completed');
+
+  final String value;
+
+  const ChapterStatus(this.value);
+}
+
+enum FeedsFileType {
+  article('Article'),
+  video('Video'),
+  youtubeVideo('YoutubeVideo'),
+  pdf('Pdf'),
+  ppt('Ppt'),
+  image('Image');
+
+  final String value;
+
+  const FeedsFileType(this.value);
 }
 
 enum Genders {

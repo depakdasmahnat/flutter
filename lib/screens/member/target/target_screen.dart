@@ -1,21 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/controllers/member/member_controller/demo_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
-import 'package:mrwebbeast/models/dashboard/target_analytics_model.dart';
+import 'package:mrwebbeast/models/member/dashboard/target_model.dart';
+
 import 'package:mrwebbeast/screens/member/home/duration_popup.dart';
 import 'package:mrwebbeast/screens/member/home/performance_graph.dart';
 import 'package:mrwebbeast/utils/widgets/custom_button.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
+import 'package:provider/provider.dart';
 
-import '../../../models/dashboard/dashboard_data.dart';
-import '../../../utils/widgets/gradient_button.dart';
+import '../../../models/member/dashboard/dashboard_states_model.dart';
+import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
-import '../../dashboard/dashboard.dart';
-import '../../guest/home/home_screen.dart';
 
 class TargetScreen extends StatefulWidget {
   const TargetScreen({super.key});
@@ -25,248 +26,189 @@ class TargetScreen extends StatefulWidget {
 }
 
 class _TargetScreenState extends State<TargetScreen> {
-  List<TargetAnalyticsData> dummyAnalyticsList = [
-    TargetAnalyticsData(xAxis: 'Jan', performance: 0),
-    TargetAnalyticsData(xAxis: 'Feb', performance: 24),
-    TargetAnalyticsData(xAxis: 'Mar', performance: 16),
-    TargetAnalyticsData(xAxis: 'Apr', performance: 38),
-    TargetAnalyticsData(xAxis: 'May', performance: 54),
-    TargetAnalyticsData(xAxis: 'Jun', performance: 36),
-    TargetAnalyticsData(xAxis: 'Jul', performance: 42),
-    TargetAnalyticsData(xAxis: 'Aug', performance: 35),
-    TargetAnalyticsData(xAxis: 'Sep', performance: 38),
-    TargetAnalyticsData(xAxis: 'Oct', performance: 54),
-    TargetAnalyticsData(xAxis: 'Nov', performance: 38),
-    TargetAnalyticsData(xAxis: 'Dec', performance: 54),
-  ];
-
-  // Create dummy data
-
-  late TargetAnalyticsModel dummyData = TargetAnalyticsModel(
-    success: true,
-    message: 'Dummy Message',
-    data: TargetData(
-      title: 'Dummy Title',
-      sales: 100,
-      salesTarget: 100,
-      pendingSales: 100,
-      rank: 'Dummy Rank',
-      nextRank: 'Next Dummy Rank',
-      pendingRankSales: 100,
-      leadsAdded: 100,
-      leadsClosed: 100,
-      leadsConversion: 100,
-      demoScheduled: 100,
-      demoCompleted: 100,
-      hotLeads: 100,
-      coldLeads: 100,
-      analytics: dummyAnalyticsList,
-    ),
-  );
-
-  final List<DashboardData> bottomNabBarItems = [
-    DashboardData(
-      title: 'My Dashboard',
-      activeImage: AppAssets.feedsIcon,
-      inActiveImage: AppAssets.feedsIcon,
-      widget: const HomeScreen(),
-    ),
-    DashboardData(
-      title: 'My Members',
-      activeImage: AppAssets.membersFilledIcon,
-      inActiveImage: AppAssets.membersIcon,
-      widget: const NoDataFound(),
-    ),
-  ];
-
+  TargetData? targetData;
+  List<DashboardAnalytics>? analytics;
   int dashBoardIndex = 0;
   String? selectedDuration = DurationFilterMenu.monthly.label;
+
+  Future fetchTarget({bool? loadingNext}) async {
+    return await context.read<DemoController>().fetchTarget(
+          filter: selectedDuration,
+        );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      fetchTarget();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     bool myDashboard = dashBoardIndex == 0;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Target'),
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.only(bottom: 100),
-        children: [
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'My Target',
-                      style: headingTextStyle(),
-                    ),
-                    GraphDurationFilter(
-                      value: selectedDuration,
-                      onChange: (String? val) {
-                        selectedDuration = val;
-                        setState(() {});
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: kPadding, left: 8, right: 8),
-                child: Row(
-                  children: [
-                    MySalesTarget(
-                      pending: '06',
-                      target: '60',
-                      archived: '54',
-                    ),
-                    MyRankTarget(
-                      level: '6A',
-                      rank: '6A2',
-                      target: '92',
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Monthly Performance Graph',
-                      style: headingTextStyle(),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        gradient: inActiveGradient,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: const Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 4),
-                            child: Text(
-                              '6A2',
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Icon(Icons.keyboard_arrow_down_rounded, size: 18)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
-                child: PerformanceGraph(
-                  analytics: dummyAnalyticsList,
-                ),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'A,B members target',
-                      style: headingTextStyle(),
-                    ),
-                    GraphDurationFilter(
-                      value: selectedDuration,
-                      onChange: (String? val) {
-                        selectedDuration = val;
-                        setState(() {});
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: kPadding, left: 8, right: 8),
-                child: Row(
-                  children: [
-                    MySalesTarget(
-                      pending: '06',
-                      target: '60',
-                      archived: '54',
-                    ),
-                    MyRankTarget(
-                      level: '6A',
-                      rank: '6A2',
-                      target: '92',
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Monthly Performance Graph',
-                      style: headingTextStyle(),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        gradient: inActiveGradient,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: const Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(right: 4),
-                            child: Text(
-                              '6A2',
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Icon(Icons.keyboard_arrow_down_rounded, size: 18)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
-                child: PerformanceGraph(
-                  analytics: dummyAnalyticsList,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-      bottomSheet: CustomButton(
-        text: 'Add a  target',
-        icon: Icon(
-          CupertinoIcons.add_circled,
-          color: Colors.grey.shade900,
+    return Consumer<DemoController>(builder: (context, controller, child) {
+      targetData = controller.targetData;
+      analytics = targetData?.analytics;
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Target'),
         ),
-        textColor: Colors.black,
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        textPadding: const EdgeInsets.only(left: 8),
-        backgroundColor: Colors.grey,
-        borderColor: Colors.grey,
-        mainAxisAlignment: MainAxisAlignment.center,
-        onPressed: () {},
-      ),
-    );
+        body: (controller.loadingTarget)
+            ? const LoadingScreen(
+                message: 'Loading Targets...',
+              )
+            : (targetData != null)
+                ? ListView(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(bottom: 100),
+                    children: [
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'My Target',
+                                  style: headingTextStyle(),
+                                ),
+                                GraphDurationFilter(
+                                  value: selectedDuration,
+                                  onChange: (String? val) {
+                                    selectedDuration = val;
+                                    setState(() {});
+                                    fetchTarget();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
+                            child: Row(
+                              children: [
+                                MySalesTarget(
+                                  pending: '${targetData?.pendingTarget ?? ''}',
+                                  target: '${targetData?.salesTarget ?? ''}',
+                                  archived: '${targetData?.achievedTarget ?? ''}',
+                                ),
+                                MyRankTarget(
+                                  level: targetData?.currentRank ?? '',
+                                  rank: targetData?.targetRank ?? '',
+                                  target: '${targetData?.pendingRankTarget ?? ''}',
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Monthly Performance Graph',
+                                  style: headingTextStyle(),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    gradient: inActiveGradient,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: const Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right: 4),
+                                        child: Text(
+                                          '6A2',
+                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Icon(Icons.keyboard_arrow_down_rounded, size: 18)
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
+                            child: PerformanceGraph(
+                              analytics: analytics,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Pinnacle target',
+                                  style: headingTextStyle(),
+                                ),
+                                GraphDurationFilter(
+                                  value: selectedDuration,
+                                  onChange: (String? val) {
+                                    selectedDuration = val;
+                                    setState(() {});
+                                    fetchTarget();
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
+                            child: Row(
+                              children: [
+                                MySalesTarget(
+                                  pending: '${targetData?.pinnaclePendingTarget ?? ''}',
+                                  target: '${targetData?.pinnacleAchievedTarget ?? ''}',
+                                  archived: '${targetData?.pinnacleAchievedTarget ?? ''}',
+                                ),
+                                MyRankTarget(
+                                  level: targetData?.currentRank ?? '',
+                                  rank: targetData?.targetRank ?? '',
+                                  target: '${targetData?.pendingRankTarget ?? ''}',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : NoDataFound(
+                    message: controller.targetModel?.message ?? 'No Target Found',
+                  ),
+        bottomSheet: CustomButton(
+          text: 'Add a target',
+          icon: Icon(
+            CupertinoIcons.add_circled,
+            color: Colors.grey.shade900,
+          ),
+          textColor: Colors.black,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          textPadding: const EdgeInsets.only(left: 8),
+          backgroundColor: Colors.grey,
+          borderColor: Colors.grey,
+          mainAxisAlignment: MainAxisAlignment.center,
+          onPressed: () {
+            context.pushNamed(Routs.createTarget);
+          },
+        ),
+      );
+    });
   }
 
   TextStyle headingTextStyle() => const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);

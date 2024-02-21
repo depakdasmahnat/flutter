@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     this.controller,
+    this.textCapitalization,
     this.height,
     this.width,
     this.constraints,
@@ -91,9 +92,12 @@ class CustomTextField extends StatelessWidget {
     this.errorMaxLines,
     this.labelStyle,
     this.onTapOutside,
+    this.suffixIconConstraints,
+
   });
 
   final TextEditingController? controller;
+  final BoxConstraints? suffixIconConstraints;
   final double? height;
   final double? width;
   final double? borderRadius;
@@ -113,7 +117,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
-  final TextCapitalization textCapitalization = TextCapitalization.none;
+  final TextCapitalization? textCapitalization ;
   final TextInputAction? textInputAction;
   final TextStyle? style;
   final StrutStyle? strutStyle;
@@ -237,7 +241,7 @@ class CustomTextField extends StatelessWidget {
               cursorWidth: cursorWidth ?? 2.0,
               textAlign: textAlign ?? TextAlign.start,
               textDirection: textDirection,
-              textCapitalization: textCapitalization,
+              textCapitalization: textCapitalization??TextCapitalization.none,
               textInputAction: textInputAction,
               autocorrect: autocorrect ?? true,
               obscuringCharacter: obscuringCharacter ?? '•',
@@ -254,6 +258,8 @@ class CustomTextField extends StatelessWidget {
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
                 hintText: hintText,
+                suffixIconConstraints: suffixIconConstraints,
+                counterText: '',
                 errorText: errorText,
                 errorMaxLines: errorMaxLines,
                 errorStyle: errorStyle ?? const TextStyle(color: Colors.red),

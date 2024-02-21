@@ -56,7 +56,7 @@ class GradientProgressBar extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    right: -5,
+                    right: value <= 8 ? -18 : -5,
                     child: Container(
                       decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.5),

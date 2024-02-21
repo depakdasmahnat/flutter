@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../core/services/api/api_service.dart';
+
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({Key? key, this.title, this.url}) : super(key: key);
   final String? title;
@@ -51,35 +53,42 @@ class WebViewScreenState extends State<WebViewScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url ?? 'www.google.com'));
+      ..loadRequest(Uri.parse(widget.url ?? 'www.google.com'), headers: ApiService().defaultHeaders());
   }
 
   @override
   Widget build(BuildContext context) {
     debugPrint('Web Url :- ${widget.url}');
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          elevation: 0,
-          title: Text(widget.title ?? 'Google'),
-          centerTitle: true,
-          snap: true,
-          pinned: true,
-          floating: true,
-          expandedHeight: 230,
-        ),
-        SliverFillRemaining(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              WebViewWidget(
-                controller: controller,
-              ),
-              if (isLoading == true) const CircularProgressIndicator(),
-            ],
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body:
+     CustomScrollView(
+
+        slivers: [
+          // SliverAppBar(
+          //   elevation: 0,
+          //   title: Text(widget.title ?? 'Google'),
+          //   centerTitle: true,
+          //   snap: true,
+          //   pinned: true,
+          //   floating: true,
+          //   expandedHeight: 230,
+          // ),
+          SliverFillRemaining(
+
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                WebViewWidget(
+
+                  controller: controller,
+                ),
+                if (isLoading == true) const CircularProgressIndicator(),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

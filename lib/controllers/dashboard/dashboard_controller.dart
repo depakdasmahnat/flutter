@@ -1,91 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/services/database/local_database.dart';
 
 import '../../core/config/app_assets.dart';
 import '../../core/constant/enums.dart';
 import '../../models/dashboard/dashboard_data.dart';
+import '../../screens/guest/guestProfile/guest_profile.dart';
 import '../../screens/guest/home/home_screen.dart';
-
+import '../../screens/guest/product/guest_product.dart';
+import '../../screens/guest/resource&Demo/mainresource.dart';
+import '../../screens/member/home/member_home_screen.dart';
+import '../../screens/member/lead/lead.dart';
+import '../../screens/member/members/member_screen.dart';
+import '../../screens/member/network/network_screen.dart';
 import '../../utils/widgets/no_data_found.dart';
 
 class DashboardController extends ChangeNotifier {
   /// 1) Dashboard Index
   final int _defaultDashBoardIndex = 0;
-
   late int _dashBoardIndex = _defaultDashBoardIndex;
 
   int get dashBoardIndex => _dashBoardIndex;
 
   changeDashBoardIndex({int? index}) {
-    _dashBoardIndex = index ?? _dashBoardIndex;
+    if (userRole == UserRoles.member.value && index == 2) {
+      showMoreMenuPopUp = !showMoreMenuPopUp;
+    } else {
+      showMoreMenuPopUp = false;
+      _dashBoardIndex = index ?? _dashBoardIndex;
+    }
 
     notifyListeners();
   }
+
+  bool showMoreMenuPopUp = false;
 
   ///2) Dashboard User Role
-  UserRoles defaultUserRole = UserRoles.guest;
-  late UserRoles _userRole = defaultUserRole;
 
-  UserRoles get userRole => _userRole;
+  String? _userRole = LocalDatabase().userRole;
 
-  changeUserRole({UserRoles? role}) {
-    _userRole = role ?? defaultUserRole;
+  String? get userRole => _userRole;
 
-    notifyListeners();
-  }
+  changeUserRole({String? role}) {
+    if (role != null) {
+      _userRole = role;
 
-  changeUserRoleFromString({String? role}) {
-    List<UserRoles> userRoles = UserRoles.values.where((element) => element.value == role).toList();
-    if (userRoles.haveData) {
-      _userRole = userRoles.first;
+      widgets = _userRole == UserRoles.guest.value ? guestWidgets : membersWidgets;
+      _dashBoardIndex = 0;
       notifyListeners();
     }
   }
 
   /// 3) Dashboard Index
-  late List widgets = userRole == UserRoles.guest ? _guestWidgets : _membersWidgets;
+
+  late List widgets = userRole == UserRoles.guest.value ? guestWidgets : membersWidgets;
 
   // Guest Widgets
-  final List<DashboardData> _guestWidgets = [
+  final List<DashboardData> guestWidgets = [
     DashboardData(
       title: 'Feed',
-      activeImage: AppAssets.homeFilledIcon,
-      inActiveImage: AppAssets.homeIcon,
+      activeImage: AppAssets.guestHomeIcon,
+      inActiveImage: AppAssets.guestHomeIcon,
       widget: const HomeScreen(),
     ),
     DashboardData(
       title: 'Products',
-      activeImage: AppAssets.networkFilledIcon,
-      inActiveImage: AppAssets.networkIcon,
-      widget: const NoDataFound(),
+      activeImage: AppAssets.productIcon,
+      inActiveImage: AppAssets.productIcon,
+      widget: const GuestPoduct(),
     ),
     DashboardData(
       title: 'Profile',
-      activeImage: AppAssets.leadsFilledIcon,
-      inActiveImage: AppAssets.leadsIcon,
-      widget: const NoDataFound(),
+      activeImage: AppAssets.userIcon,
+      inActiveImage: AppAssets.userIcon,
+      widget: const GuestProfile(),
     ),
     DashboardData(
-      title: 'More',
-      activeImage: AppAssets.membersFilledIcon,
-      inActiveImage: AppAssets.membersIcon,
-      widget: const NoDataFound(),
+      title: 'Resources',
+      activeImage: AppAssets.more,
+      inActiveImage: AppAssets.more,
+      widget: const MainResource(),
     ),
   ];
 
   // Member Widgets
-  final List<DashboardData> _membersWidgets = [
+  final List<DashboardData> membersWidgets = [
     DashboardData(
       title: 'Home',
       activeImage: AppAssets.homeFilledIcon,
       inActiveImage: AppAssets.homeIcon,
-      widget: const HomeScreen(),
+      widget: const MemberHomeScreen(),
     ),
     DashboardData(
       title: 'Network',
       activeImage: AppAssets.networkFilledIcon,
       inActiveImage: AppAssets.networkIcon,
-      widget: const NoDataFound(),
+      widget: const NetworkScreen(),
     ),
     DashboardData(
       activeImage: AppAssets.addIcon,
@@ -93,16 +102,16 @@ class DashboardController extends ChangeNotifier {
       widget: const NoDataFound(),
     ),
     DashboardData(
-      title: 'Leads',
+      title: 'Lists',
       activeImage: AppAssets.leadsFilledIcon,
       inActiveImage: AppAssets.leadsIcon,
-      widget: const NoDataFound(),
+      widget: const Lead(),
     ),
     DashboardData(
-      title: 'Members',
+      title: 'Partners',
       activeImage: AppAssets.membersFilledIcon,
       inActiveImage: AppAssets.membersIcon,
-      widget: const NoDataFound(),
+      widget: const MemberScreen(),
     ),
   ];
 }

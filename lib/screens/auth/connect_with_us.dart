@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
+import 'package:provider/provider.dart';
+
 import '../../core/config/app_assets.dart';
 import '../../core/constant/gradients.dart';
+import '../../core/services/database/local_database.dart';
+import '../../models/auth_model/guest_data.dart';
 import '../../utils/widgets/gradient_button.dart';
+import '../../utils/widgets/gradient_text.dart';
 
 class ConnectWithUs extends StatefulWidget {
   const ConnectWithUs({super.key});
@@ -23,11 +29,12 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
   GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
 
   navigateToDashboard() {
-    return context.pushReplacementNamed(Routs.dashboard);
+    return context.pushReplacementNamed(Routs.gtpVideo);
   }
 
   @override
   Widget build(BuildContext context) {
+    GuestData? guest = context.read<LocalDatabase>().guest;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -59,21 +66,22 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
       ),
       body: Stack(
         children: [
-          Positioned(
-            bottom: 0,
-            child: Container(
-              height: size.height * 0.7,
-              width: size.width,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    AppAssets.smartphoneBg,
+        Positioned(
+              bottom: size.height*0.14,
+
+              child: Container(
+                height: size.height * 0.48,
+                width: size.width,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      AppAssets.moneyBg,
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
-          ),
           Form(
             key: signInFormKey,
             child: Padding(
@@ -83,19 +91,41 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: size.height * 0.05, bottom: 8),
-                    child: const Column(
+                    child:  Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 8, bottom: 8),
+                          padding: const EdgeInsets.only(top: 8, bottom: 8),
                           child: Text(
-                            'Connect with us today',
-                            style: TextStyle(
-                              fontSize: 38,
+                            'Hello, ${guest?.firstName?.toCapitalizeFirst} !',
+                            style: const TextStyle(
+                              fontSize: 26,
                               fontWeight: FontWeight.w400,
                               height: 1,
                             ),
                             textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 8, bottom: 8),
+                          child: Text(
+                            "Let's dive in and explore together!",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w400,
+                              height: 1,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        GradientText(
+                          '#ConnectWithUs',
+                          gradient: primaryGradient,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 26,
+                            fontFamily: GoogleFonts.urbanist().fontFamily,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
@@ -108,18 +138,25 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
                         height: 60,
                         borderRadius: 18,
                         blur: 10,
-                        backgroundGradient: primaryGradientTransparent,
+                        backgroundGradient: primaryGradient,
                         backgroundColor: Colors.transparent,
                         boxShadow: const [],
                         margin: const EdgeInsets.only(bottom: 6, top: 6),
-                        onTap: () {
+                        onTap: () async {
+                          await context.pushNamed(
+                            Routs.gtpVideo,
+                          ).whenComplete(() {
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitUp, // Change to desired orientation
+                            ]);
+                          },);
                           setState(() {});
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Yes, I am interested',
+                              'Continue',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: GoogleFonts.urbanist().fontFamily,
