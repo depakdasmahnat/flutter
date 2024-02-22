@@ -286,7 +286,7 @@ class _GuestFaqState extends State<GuestFaq> {
                                       changeIndex = index;
                                       setState(() {});
                                     },
-                                    title: CustomeText(
+                                    title: CustomText1(
                                       text: controller.fetchFaqsModel?.data?[index].question,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,

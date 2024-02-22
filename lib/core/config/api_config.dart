@@ -47,7 +47,8 @@ class ApiEndpoints {
   static const String pinnacleView = 'pinnacle_view';
   static const String projectionView = 'projection_view';
 
-  static const String deleteUser = 'deleteUser';
+  // static const String deleteUser = 'deleteUser';
+  static const String deleteUser = 'delete_account';
   static const String sendOtp = 'send_otp';
   static const String verifyOtp = 'verify_otp';
   static const String fetchCategories = 'fetch_categories?type=';

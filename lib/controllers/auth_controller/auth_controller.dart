@@ -104,7 +104,7 @@ class AuthControllers extends ChangeNotifier {
       'mobile': '$mobile',
       'first_name': '$firstName',
       'last_name': '$lastName',
-      'address': '$address',
+      'city': '$address',
       'referral_code': '$referralCode',
       'country_code': '$countryCode',
     };
@@ -165,10 +165,10 @@ class AuthControllers extends ChangeNotifier {
       'first_name': '$firstName',
       'last_name': '$lastName',
       'referral_code': '$referralCode',
-      'address': '$address',
+      // 'city': '$address',
+      'city': '1',
       'otp': '$otp',
     };
-
     debugPrint('Sent Data is $body');
     var response = ApiService().post(
       endPoint: ApiEndpoints.verifyOtp,
@@ -428,13 +428,14 @@ class AuthControllers extends ChangeNotifier {
         if (responseData?.status == true) {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
-          await context.pushNamed(
-            Routs.gtpVideo,
-          ).whenComplete(() {
-            SystemChrome.setPreferredOrientations([
-              DeviceOrientation.portraitUp, // Change to desired orientation
-            ]);
-          },);
+          context.firstRoute();
+          context.pushReplacementNamed(Routs.gtpVideo);
+
+          //      .whenComplete(() {
+          //   SystemChrome.setPreferredOrientations([
+          //     DeviceOrientation.portraitUp, // Change to desired orientation
+          //   ]);
+          // },);
           // context.pushNamed(Routs., extra: VerifyOTP(mobileNo: mobile, countryCode: countryCode));
         } else {
           showSnackBar(

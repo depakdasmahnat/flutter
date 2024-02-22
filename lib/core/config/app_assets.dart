@@ -19,6 +19,7 @@ class AppAssets {
   static const String networkIcon = 'assets/icons/ic_network.png';
   static const String leadsIcon = 'assets/icons/ic_leads.png';
   static const String membersIcon = 'assets/icons/ic_members.png';
+  static const String termsAndCon = 'assets/icons/Ic_tearm.png';
   static const String guestProfile1 = 'assets/images/guest_profile1.png';
   static const String guestProfile2 = 'assets/images/guets_profile2.png';
   static const String u1 = 'assets/images/userIcon.png';
@@ -83,7 +84,7 @@ class AppAssets {
   static const String pdfIcon = 'assets/icons/ic_pdf.png';
   static const String fabIcon = 'assets/icons/Ic_fabicon.png';
   static const String star1 = 'assets/icons/Ic_star1.png';
-  static const String feedBack = 'assets/icons/Ic_feedback.png';
+  static const String feedBack = 'assets/icons/Ic_feedBack1.png';
 
   /// 2) Images...
 

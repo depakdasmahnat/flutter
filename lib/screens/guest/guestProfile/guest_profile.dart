@@ -20,6 +20,7 @@ import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
 
 import '../../../utils/widgets/social_links.dart';
+import '../../../utils/widgets/web_view_screen.dart';
 import '../../../utils/widgets/widgets.dart';
 import 'guest_faq.dart';
 
@@ -214,6 +215,22 @@ class _GuestProfileState extends State<GuestProfile> {
                               SizedBox(
                                 height: size.height * 0.02,
                               ),
+                              IconAndText(
+                                icon: AppAssets.termsAndCon,
+                                title: 'Terms & conditions',
+                                height: size.height * 0.024,
+                                onTap: () {
+                                  // context.pushNamed(Routs.helpAndSupport);
+                                  context.pushNamed(Routs.webView,
+                                      extra: const WebViewScreen(
+                                        title: 'Terms & conditions',
+                                        url: 'https://api.gtp.proapp.in/api/v1/terms_and_condition',
+                                      ));
+                                },
+                              ),
+                              SizedBox(
+                                height: size.height * 0.02,
+                              ),
                               // IconAndText(
                               //   icon: AppAssets.call,
                               //   title: 'Contact us',
@@ -231,11 +248,12 @@ class _GuestProfileState extends State<GuestProfile> {
                                 icon: AppAssets.lockIcon,
                                 title: 'Privacy policy ',
                                 onTap: () {
-                                  context.pushNamed(Routs.privacyPolicy);
-                                  // context.pushNamed(Routs.webView,
-                                  //     extra: const WebViewScreen(
-                                  //       url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
-                                  //     ));
+                                  // context.pushNamed(Routs.privacyPolicy);
+                                  context.pushNamed(Routs.webView,
+                                      extra: const WebViewScreen(
+                                        title: 'Privacy policy',
+                                        url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                                      ));
                                 },
                               ),
                               SizedBox(

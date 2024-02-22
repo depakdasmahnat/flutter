@@ -40,29 +40,29 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          GradientButton(
-            height: 30,
-            width: 75,
-            blur: 10,
-            borderRadius: 20,
-            backgroundGradient: inActiveGradient,
-            backgroundColor: Colors.transparent,
-            boxShadow: const [],
-            margin: const EdgeInsets.only(right: 16),
-            onTap: () {
-              navigateToDashboard();
-            },
-            child: const Center(
-              child: Text(
-                'Skip',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ),
+          // GradientButton(
+          //   height: 30,
+          //   width: 75,
+          //   blur: 10,
+          //   borderRadius: 20,
+          //   backgroundGradient: inActiveGradient,
+          //   backgroundColor: Colors.transparent,
+          //   boxShadow: const [],
+          //   margin: const EdgeInsets.only(right: 16),
+          //   onTap: () {
+          //     navigateToDashboard();
+          //   },
+          //   child: const Center(
+          //     child: Text(
+          //       'Skip',
+          //       style: TextStyle(
+          //         color: Colors.white,
+          //         fontWeight: FontWeight.w400,
+          //         fontSize: 14,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       body: Stack(
