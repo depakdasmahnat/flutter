@@ -458,4 +458,62 @@ class NetworkControllers extends ChangeNotifier {
 
     return levelWiseMemberCountModel;
   }
+
+  /// 7) Service Reports API...
+  bool loadingServiceReports = true;
+  PinnacleListModel? serviceReportsModel;
+  List<PinnacleListData>? serviceReports;
+
+  Future<List<PinnacleListData>?> fetchServiceReports({
+    String? search,
+    String? filter,
+    String? memberId,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingServiceReports = true;
+        serviceReportsModel = null;
+        serviceReports = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingServiceReports = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchAllMembers,
+          queryParameters: {
+            'search_key': search ?? '',
+            'filter': filter ?? '',
+            'member_id': memberId ?? '',
+          },
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          PinnacleListModel responseData = PinnacleListModel.fromJson(json);
+          if (responseData.status == true) {
+            serviceReports = responseData.data;
+
+            debugPrint('serviceReportsNodes ${serviceReports?.length}');
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return serviceReports;
+  }
 }

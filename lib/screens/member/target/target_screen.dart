@@ -5,6 +5,7 @@ import 'package:mrwebbeast/controllers/member/member_controller/demo_controller.
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/models/member/dashboard/target_model.dart';
 
@@ -17,6 +18,7 @@ import 'package:provider/provider.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import '../members/member_screen.dart';
 
 class TargetScreen extends StatefulWidget {
   const TargetScreen({super.key});
@@ -36,6 +38,8 @@ class _TargetScreenState extends State<TargetScreen> {
           filter: selectedDuration,
         );
   }
+
+  bool showPerformanceGraph = true;
 
   @override
   void initState() {
@@ -88,23 +92,53 @@ class _TargetScreenState extends State<TargetScreen> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
-                            child: Row(
-                              children: [
-                                MySalesTarget(
-                                  pending: '${targetData?.pendingTarget ?? ''}',
-                                  target: '${targetData?.salesTarget ?? ''}',
-                                  archived: '${targetData?.achievedTarget ?? ''}',
-                                ),
-                                MyRankTarget(
-                                  level: targetData?.currentRank ?? '',
-                                  rank: targetData?.targetRank ?? '',
-                                  target: '${targetData?.pendingRankTarget ?? ''}',
-                                ),
-                              ],
+                          TargetCard(
+                            pendingTarget: num.tryParse('${targetData?.pendingTarget}'),
+                            salesTarget: targetData?.salesTarget,
+                            achievedTarget: num.tryParse('${targetData?.achievedTarget}'),
+                            more: GestureDetector(
+                              onTap: () {
+                                context.pushNamed(Routs.createTarget);
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.edit,
+                                    size: 14,
+                                    color: Colors.black,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4, right: 8),
+                                    child: Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
+                          //   child: Row(
+                          //     children: [
+                          //       MySalesTarget(
+                          //         pending: '${targetData?.pendingTarget ?? ''}',
+                          //         target: '${targetData?.salesTarget ?? ''}',
+                          //         archived: '${targetData?.achievedTarget ?? ''}',
+                          //       ),
+                          //       MyRankTarget(
+                          //         level: targetData?.currentRank ?? '',
+                          //         rank: targetData?.targetRank ?? '',
+                          //         target: '${targetData?.pendingRankTarget ?? ''}',
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           Padding(
                             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                             child: Row(
@@ -114,34 +148,27 @@ class _TargetScreenState extends State<TargetScreen> {
                                   'Monthly Performance Graph',
                                   style: headingTextStyle(),
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                  decoration: BoxDecoration(
-                                    gradient: inActiveGradient,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: const Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 4),
-                                        child: Text(
-                                          '6A2',
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      Icon(Icons.keyboard_arrow_down_rounded, size: 18)
-                                    ],
+                                IconButton(
+                                  onPressed: () {
+                                    showPerformanceGraph = !showPerformanceGraph;
+                                    setState(() {});
+                                  },
+                                  icon: Icon(
+                                    showPerformanceGraph
+                                        ? Icons.keyboard_arrow_down
+                                        : Icons.keyboard_arrow_up_rounded,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
-                            child: PerformanceGraph(
-                              analytics: analytics,
+                          if (analytics.haveData && showPerformanceGraph)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
+                              child: PerformanceGraph(
+                                analytics: analytics,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                       Column(
@@ -166,23 +193,54 @@ class _TargetScreenState extends State<TargetScreen> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
-                            child: Row(
-                              children: [
-                                MySalesTarget(
-                                  pending: '${targetData?.pinnaclePendingTarget ?? ''}',
-                                  target: '${targetData?.pinnacleAchievedTarget ?? ''}',
-                                  archived: '${targetData?.pinnacleAchievedTarget ?? ''}',
-                                ),
-                                MyRankTarget(
-                                  level: targetData?.currentRank ?? '',
-                                  rank: targetData?.targetRank ?? '',
-                                  target: '${targetData?.pendingRankTarget ?? ''}',
-                                ),
-                              ],
+                          TargetCard(
+                            pendingTarget: num.tryParse('${targetData?.pinnaclePendingTarget}'),
+                            salesTarget: targetData?.pinnacleSalesTarget,
+                            achievedTarget: num.tryParse('${targetData?.pinnacleAchievedTarget}'),
+                            more: GestureDetector(
+                              onTap: () {
+                                context.pushNamed(Routs.createTarget);
+                              },
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.edit,
+                                    size: 14,
+                                    color: Colors.black,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 4, right: 8),
+                                    child: Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: kPadding, left: 8, right: 8),
+                          //   child: Row(
+                          //     children: [
+                          //       MySalesTarget(
+                          //         pending: '${targetData?.pinnaclePendingTarget ?? ''}',
+                          //         target: '${targetData?.pinnacleAchievedTarget ?? ''}',
+                          //         archived: '${targetData?.pinnacleAchievedTarget ?? ''}',
+                          //       ),
+                          //       MyRankTarget(
+                          //         level: targetData?.currentRank ?? '',
+                          //         rank: targetData?.targetRank ?? '',
+                          //         target: '${targetData?.pendingRankTarget ?? ''}',
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],
@@ -191,7 +249,7 @@ class _TargetScreenState extends State<TargetScreen> {
                     message: controller.targetModel?.message ?? 'No Target Found',
                   ),
         bottomSheet: CustomButton(
-          text: 'Add a target',
+          text: 'Add a Target',
           icon: Icon(
             CupertinoIcons.add_circled,
             color: Colors.grey.shade900,

@@ -75,10 +75,10 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                 },
               ),
               MenuCard(
-                image: AppAssets.targetIcon,
-                name: 'Target',
+                image: AppAssets.leadsIcon,
+                name: 'LMS',
                 onTap: () {
-                  context.pushNamed(Routs.targetScreen);
+                  context.pushNamed(Routs.leads);
                 },
               ),
               MenuCard(

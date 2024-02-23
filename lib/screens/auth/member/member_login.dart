@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,6 +30,7 @@ class _MemberSignInState extends State<MemberSignIn> {
   TextEditingController enagicIdCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
   GlobalKey<FormState> signInFormKey = GlobalKey<FormState>();
+  bool obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -78,20 +80,21 @@ class _MemberSignInState extends State<MemberSignIn> {
                 CustomTextField(
                   controller: passwordCtrl,
                   autofocus: true,
-                  keyboardType: TextInputType.phone,
-                  limit: 10,
-                  validator: (val) {
-                    // return Validator.strongPasswordValidator(val);
-                  },
+                  keyboardType: TextInputType.text,
                   hintText: 'Password.',
                   autofillHints: const [AutofillHints.password],
-                  suffixIcon: const ImageView(
-                    height: 24,
-                    width: 24,
-                    assetImage: AppAssets.lockIcon,
-                    margin: EdgeInsets.only(right: 8),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      obscurePassword = !obscurePassword;
+                      setState(() {});
+                    },
+                    icon: Icon(
+                      obscurePassword == true ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash_fill,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
-                  margin: EdgeInsets.zero,
+                  margin: const EdgeInsets.only(bottom: 18),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

@@ -102,7 +102,7 @@ class DashboardController extends ChangeNotifier {
       widget: const NoDataFound(),
     ),
     DashboardData(
-      title: 'Lists',
+      title: 'LMS',
       activeImage: AppAssets.leadsFilledIcon,
       inActiveImage: AppAssets.leadsIcon,
       widget: const Lead(),

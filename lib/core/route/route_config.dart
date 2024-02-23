@@ -49,6 +49,7 @@ import '../../screens/member/goal/goals_screen.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile.dart';
 import '../../screens/member/home/member_profile_details.dart';
+import '../../screens/member/lead/lead.dart';
 import '../../screens/member/lead/scheduled_demo_form.dart';
 import '../../screens/member/members/add_member_form.dart';
 import '../../screens/member/members/add_member_list.dart';
@@ -58,6 +59,7 @@ import '../../screens/member/profile/account_settings.dart';
 import '../../screens/member/profile/member_edit_profile.dart';
 import '../../screens/member/profile/profile.dart';
 import '../../screens/member/resources/resources.dart';
+import '../../screens/member/services/services_screen.dart';
 import '../../screens/member/target/create_target.dart';
 import '../../screens/member/target/target_screen.dart';
 import '../../screens/member/todo/todo_screen.dart';
@@ -174,6 +176,13 @@ class RoutesConfig {
           return materialPage(state: state, child: const MemberDashBoard());
         },
       ),
+      GoRoute(
+        name: Routs.leads,
+        path: Routs.leads,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const Lead());
+        },
+      ),
 
       GoRoute(
         name: Routs.memberProfileDetails,
@@ -274,6 +283,13 @@ class RoutesConfig {
           return materialPage(state: state, child: const AccountSettings());
         },
       ),
+      GoRoute(
+        name: Routs.services,
+        path: Routs.services,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const ServicesScreen());
+        },
+      ),
 
       GoRoute(
         name: Routs.aboutUs,
@@ -358,8 +374,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ChaptersDetails? data = state.extra as ChaptersDetails?;
 
-          return materialPage(
-              state: state, child: ChaptersDetails(chapter: data?.chapter));
+          return materialPage(state: state, child: ChaptersDetails(chapter: data?.chapter));
         },
       ),
       GoRoute(
@@ -382,8 +397,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ResourceAndDemo? data = state.extra as ResourceAndDemo?;
 
-          return materialPage(
-              state: state, child: ResourceAndDemo(category: data?.category));
+          return materialPage(state: state, child: ResourceAndDemo(category: data?.category));
         },
       ),
 
@@ -405,8 +419,7 @@ class RoutesConfig {
         path: Routs.examQuiz,
         pageBuilder: (context, state) {
           ExamQuiz? data = state.extra as ExamQuiz?;
-          return materialPage(
-              state: state, child: ExamQuiz(chapterId: data?.chapterId));
+          return materialPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
         },
       ),
 
@@ -437,8 +450,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ExamReport? data = state.extra as ExamReport?;
 
-          return materialPage(
-              state: state, child: ExamReport(report: data?.report));
+          return materialPage(state: state, child: ExamReport(report: data?.report));
         },
       ),
       GoRoute(
@@ -518,8 +530,7 @@ class RoutesConfig {
         name: Routs.guestDemoVideos,
         path: Routs.guestDemoVideos,
         pageBuilder: (context, state) {
-          return materialPage(
-              state: state, child: const GuestCheckDemoVideos());
+          return materialPage(state: state, child: const GuestCheckDemoVideos());
         },
       ),
       GoRoute(
@@ -543,8 +554,7 @@ class RoutesConfig {
         path: Routs.viewPdf,
         pageBuilder: (context, state) {
           PDFViewer? data = state.extra as PDFViewer?;
-          return materialPage(
-              state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
+          return materialPage(state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
         },
       ),
       GoRoute(
@@ -602,8 +612,7 @@ class RoutesConfig {
         path: Routs.pptViewer,
         pageBuilder: (context, state) {
           PPTViewer? data = state.extra as PPTViewer?;
-          return materialPage(
-              state: state, child: PPTViewer(url: data?.url ?? ''));
+          return materialPage(state: state, child: PPTViewer(url: data?.url ?? ''));
         },
       ),
       GoRoute(
@@ -696,9 +705,7 @@ class RoutesConfig {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
           return materialPage(
-              state: state,
-              child: WebViewScreen(
-                  key: data?.key, title: data?.title, url: data?.url));
+              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {

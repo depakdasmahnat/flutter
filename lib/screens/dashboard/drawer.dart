@@ -119,7 +119,7 @@ class CustomDrawer extends StatelessWidget {
               activeImage: AppAssets.setting,
               title: 'Services',
               onTap: () {
-                context.pushNamed(Routs.resources);
+                context.pushNamed(Routs.services);
               },
             ),
           ],

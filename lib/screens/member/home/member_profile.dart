@@ -288,6 +288,16 @@ class _MemberProfileState extends State<MemberProfile> {
                         height: size.height * 0.02,
                       ),
                       IconAndText(
+                        icon: AppAssets.hallOfFameIcon,
+                        title: 'Hall of fame',
+                        onTap: () {
+                          context.push(Routs.hallOfFame);
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      IconAndText(
                         icon: AppAssets.faq,
                         title: 'FAQ',
                         onTap: () {
@@ -362,6 +372,16 @@ class _MemberProfileState extends State<MemberProfile> {
                         title: 'Privacy policy ',
                         onTap: () {
                           context.pushNamed(Routs.privacyPolicy);
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      IconAndText(
+                        icon: AppAssets.feedBack,
+                        title: 'Feedback',
+                        onTap: () {
+                          context.push(Routs.feedbackAndRating);
                         },
                       ),
                     ],

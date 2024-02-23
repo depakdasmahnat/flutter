@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
@@ -11,6 +12,7 @@ import 'package:mrwebbeast/utils/widgets/custom_bottom_sheet.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/route/route_paths.dart';
 import '../../../models/dashboard/dashboard_data.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../utils/custom_menu_popup.dart';
@@ -189,58 +191,29 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                     pendingTarget: num.tryParse('${dashboardStatesData?.pendingSales}'),
                     salesTarget: dashboardStatesData?.salesTarget,
                     achievedTarget: num.tryParse('${dashboardStatesData?.achievedSales}'),
-                    more: CustomPopupMenu(
-                      items: [
-                        CustomPopupMenuEntry(
-                          label: 'Edit',
-                          onPressed: () {},
-                        ),
-                        CustomPopupMenuEntry(
-                          label: 'Delete',
-                          color: Colors.red,
-                          onPressed: () {},
-                        ),
-                      ],
-                      onChange: (String? val) {},
-                      child: GestureDetector(
-                        onTap: () {
-                          CustomBottomSheet.show(
-                            context: context,
-                            title: 'Edit',
-                            body: const Column(
-                              children: [
-                                Text(
-                                  'Edit',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        child: const Row(
-                          children: [
-                            Icon(
-                              Icons.edit,
-                              size: 14,
-                              color: Colors.black,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 4, right: 8),
-                              child: Text(
-                                'Edit',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                    more: GestureDetector(
+                      onTap: () {
+                        context.pushNamed(Routs.createTarget);
+                      },
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            size: 14,
+                            color: Colors.black,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4, right: 8),
+                            child: Text(
+                              'Edit',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -327,7 +300,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         AnalyticsCard(
                           title: 'Demo Competed',
                           value: '${dashboardStatesData?.demoCompleted ?? 0}',
-                          gradient: targetGradient,
+                          gradient: blackGradient,
+                          textColor: Colors.white,
                           onTap: () async {
                             CustomBottomSheet.show(
                               context: context,
@@ -362,7 +336,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         AnalyticsCard(
                           title: 'Conversion\nRatio',
                           value: '${dashboardStatesData?.leadsConversion ?? 0}%',
-                          gradient: inActiveGradient,
+                          gradient: blackGradient,
                           textColor: Colors.white,
                           showArrow: false,
                           onTap: () {},
@@ -370,7 +344,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         AnalyticsCard(
                           title: 'Performance\nPercentage',
                           value: '${dashboardStatesData?.leadsConversion ?? 0}%',
-                          gradient: inActiveGradient,
+                          gradient: blackGradient,
                           textColor: Colors.white,
                           showArrow: false,
                           onTap: () {},
@@ -392,7 +366,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         AnalyticsCard(
                           title: 'Hot Leads',
                           value: '${dashboardStatesData?.hotLeads ?? 0}',
-                          minHeight: 100,
+                          minHeight: 80,
                           borderRadius: 24,
                           titleFontSize: 14,
                           textColor: Colors.white,
@@ -407,7 +381,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           titleFontSize: 14,
                           textColor: Colors.white,
                           gradient: primaryGradient,
-                          minHeight: 100,
+                          minHeight: 80,
                           showArrow: false,
                           onTap: () {},
                         ),
@@ -418,7 +392,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           textColor: Colors.white,
                           gradient: blueGradient,
                           borderRadius: 24,
-                          minHeight: 100,
+                          minHeight: 80,
                           showArrow: false,
                           onTap: () {},
                         ),

@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/controllers/member/events/events_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
@@ -9,8 +12,11 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../core/constant/gradients.dart';
+import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/custom_back_button.dart';
+import '../../../utils/widgets/custom_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
+
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
@@ -163,6 +169,37 @@ class _EventScreenState extends State<EventScreen> {
                   ),
               ],
             ),
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GradientButton(
+                  height: 70,
+                  borderRadius: 18,
+                  backgroundGradient: primaryGradient,
+                  backgroundColor: Colors.transparent,
+                  boxShadow: const [],
+                  margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                  onTap: () async {
+                    context.pushReplacementNamed(Routs.createEvent);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Create Event',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -182,6 +219,7 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
       decoration: BoxDecoration(
@@ -214,14 +252,18 @@ class EventCard extends StatelessWidget {
                   ),
                   textAlign: TextAlign.start,
                 ),
-                Text(
-                  data?.description ?? '',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text(
+                    data?.description ?? '',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    maxLines: 2,
+                    textAlign: TextAlign.start,
                   ),
-                  textAlign: TextAlign.start,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: kPadding),
@@ -255,6 +297,49 @@ class EventCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: kPadding),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GradientButton(
+                        height: 35,
+                        width: size.width * 0.4,
+                        borderRadius: 50,
+                        backgroundGradient: primaryGradient,
+                        onTap: () {},
+                        child: const Center(
+                          child: Text(
+                            'I Will Attend',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                      GradientButton(
+                        height: 35,
+                        width: size.width * 0.4,
+                        borderRadius: 50,
+                        onTap: () {},
+                        backgroundGradient: blackGradient,
+                        border: Border.all(color: Colors.grey),
+                        child: const Center(
+                          child: Text(
+                            'Attend with others',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           )

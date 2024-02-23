@@ -4,7 +4,7 @@ class Routs {
   static const String login = '/login';
   static const String verifyOTP = '/verifyOTP';
   static const String memberLogin = '/memberLogin';
-  static const String memberDashBoard = '/memberDashBoard';
+  static const String memberDashBoard = '/memberDashBoard';  static const String leads = '/leads';
   static const String memberProfileDetails = '/memberProfileDetails';
   static const String targetScreen = '/targetScreen';
   static const String interests = '/interests';
@@ -20,6 +20,7 @@ class Routs {
   static const String changeMapLocation = '/change-map-location';
   static const String notifications = '/notifications';
 
+  static const String services = '/services';
   static const String settings = '/settings';
   static const String aboutUs = '/about-us';
 

@@ -173,7 +173,7 @@ class EventsControllers extends ChangeNotifier {
       try {
         var response = await ApiService().get(endPoint: ApiEndpoints.fetchToDo, queryParameters: {
           'search_key': search ?? '',
-          'date': filter ?? '',
+          'filter': filter ?? '',
         });
 
         if (response != null) {

@@ -302,14 +302,39 @@ class GoalCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    'Expected completion date: ${goal?.endDate ?? ' '}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.start,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Completion Date: ${goal?.endDate ?? ' '}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      const Row(
+                        children: [
+                          ImageView(
+                            height: 14,
+                            width: 14,
+                            assetImage: AppAssets.edit,
+                            margin: EdgeInsets.only(right: 4),
+                          ),
+
+                          Text(
+                            'Edit',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.start,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 GradientButton(

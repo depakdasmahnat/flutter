@@ -6,6 +6,7 @@ class ApiConfig {
 
   // Development...
   static const domainName = 'https://api.gtp.proapp.in';
+
   // //Production...
   // static const domainName = 'https://app.mygtp.in';
   static const String version = '/api/v1/';
