@@ -42,6 +42,13 @@ class CustomDrawer extends StatelessWidget {
               onTap: () {},
             ),
             CustomDrawerTile(
+              activeImage: AppAssets.dashboardIcon,
+              title: 'Performance',
+              onTap: () {
+                context.pushNamed(Routs.performanceChart);
+              },
+            ),
+            CustomDrawerTile(
               activeImage: AppAssets.eventIcon,
               title: 'Events',
               onTap: () {
@@ -99,8 +106,22 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             CustomDrawerTile(
+              activeImage: AppAssets.goalIcon,
+              title: 'Hall of fame',
+              onTap: () {
+                context.pushNamed(Routs.hallOfFame);
+              },
+            ),
+            CustomDrawerTile(
               activeImage: AppAssets.resourcesIcon,
-              title: 'Resources',
+              title: 'Library',
+              onTap: () {
+                context.pushNamed(Routs.resources);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.resourcesIcon,
+              title: 'Services',
               onTap: () {
                 context.pushNamed(Routs.resources);
               },

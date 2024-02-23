@@ -77,7 +77,7 @@ class _GuestFaqState extends State<GuestFaq> {
           fetchInterestCategory = controller.fetchInterestCategory;
           return Column(
             children: [
-              Text(
+              const Text(
                 'How can we help you?',
                 style: TextStyle(
                   color: Colors.white,
@@ -86,7 +86,7 @@ class _GuestFaqState extends State<GuestFaq> {
                 ),
                 textAlign: TextAlign.start,
               ),
-              CustomTextField(
+              const CustomTextField(
                 hintText: 'Search',
 
                 hintStyle: TextStyle(color: Colors.white),
@@ -266,7 +266,8 @@ class _GuestFaqState extends State<GuestFaq> {
                             itemCount: controller.fetchFaqsModel?.data?.length ?? 0,
                             // physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return Padding(
+                              return
+                                Padding(
                                 padding:
                                     const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                                 child: Container(
@@ -278,7 +279,8 @@ class _GuestFaqState extends State<GuestFaq> {
                                           ? primaryGradient
                                           : const LinearGradient(
                                               colors: [Color(0xFF1B1B1B), Color(0xFF1B1B1B)])),
-                                  child: ExpansionTile(
+                                  child:
+                                  ExpansionTile(
                                     iconColor:
                                         expend == true && changeIndex == index ? Colors.black : Colors.white,
                                     onExpansionChanged: (value) {

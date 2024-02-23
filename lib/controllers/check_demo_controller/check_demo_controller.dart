@@ -295,6 +295,43 @@ class CheckDemoController extends ChangeNotifier{
     return fetchDemoVideosAfter;
   }
 
+  /// 1) guest demo video count...
+  String userName ='';
+  Future<DefaultModel?> videoCount({
+    required BuildContext context,
+    required String demoId
+
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'demo_id': demoId,
+    };
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.demoWatchCount,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+
+        } else {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+        }
+      }
+    });
+    return responseData;
+  }
+
 }
 class Questions{
   String? ans;

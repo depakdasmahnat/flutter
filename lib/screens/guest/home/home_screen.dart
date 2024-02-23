@@ -179,11 +179,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.transparent,
                   boxShadow: const [],
                   onTap: () {
-
                 if(controller.getStep?.demoStep==6){
                   context.pushNamed(Routs.guestDemoVideos);
                 }else{
-                  context.pushNamed(Routs.guestCheckDemo);
+                  context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                    await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                  },);
 
                 }
                   },
