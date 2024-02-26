@@ -26,7 +26,8 @@ class CustomDrawer extends StatelessWidget {
                 ImageView(
                   height: 40,
                   assetImage: AppAssets.logoHorizontalText,
-                  margin: EdgeInsets.only(left: kPadding, top: kPadding, bottom: kPadding),
+                  margin: EdgeInsets.only(
+                      left: kPadding, top: kPadding, bottom: kPadding),
                   onTap: null,
                 ),
               ],
@@ -40,9 +41,11 @@ class CustomDrawer extends StatelessWidget {
               onTap: () {},
             ),
             CustomDrawerTile(
-              activeImage: AppAssets.performanceIcon,
-              title: 'Performance ',
-              onTap: () {},
+              activeImage: AppAssets.dashboardIcon,
+              title: 'Performance',
+              onTap: () {
+                context.pushNamed(Routs.performanceChart);
+              },
             ),
             CustomDrawerTile(
               activeImage: AppAssets.eventIcon,
@@ -102,6 +105,13 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             CustomDrawerTile(
+              activeImage: AppAssets.goalIcon,
+              title: 'Hall of fame',
+              onTap: () {
+                context.pushNamed(Routs.hallOfFame);
+              },
+            ),
+            CustomDrawerTile(
               activeImage: AppAssets.resourcesIcon,
               title: 'Library',
               onTap: () {
@@ -156,7 +166,8 @@ class CustomDrawerTile extends StatelessWidget {
           onTap?.call();
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+          padding: const EdgeInsets.only(
+              left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

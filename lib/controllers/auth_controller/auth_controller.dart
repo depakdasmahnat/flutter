@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
@@ -95,6 +96,7 @@ class AuthControllers extends ChangeNotifier {
     required String? lastName,
     required String? address,
     required String? referralCode,
+    required String? countryCode,
   }) async {
     FocusScope.of(context).unfocus();
     Map<String, dynamic> body = {
@@ -102,8 +104,9 @@ class AuthControllers extends ChangeNotifier {
       'mobile': '$mobile',
       'first_name': '$firstName',
       'last_name': '$lastName',
-      'address': '$address',
+      'city': '$address',
       'referral_code': '$referralCode',
+      'country_code': '$countryCode',
     };
 
     debugPrint('Sent Data is $body');
@@ -162,10 +165,10 @@ class AuthControllers extends ChangeNotifier {
       'first_name': '$firstName',
       'last_name': '$lastName',
       'referral_code': '$referralCode',
-      'address': '$address',
+      // 'city': '$address',
+      'city': '1',
       'otp': '$otp',
     };
-
     debugPrint('Sent Data is $body');
     var response = ApiService().post(
       endPoint: ApiEndpoints.verifyOtp,
@@ -397,6 +400,51 @@ class AuthControllers extends ChangeNotifier {
 // }
 
 
+  /// 1) connect with us...
+  Future<DefaultModel?> connectWithUs({
+    required BuildContext context,
+    required String? guestId,
+  }) async {
+    FocusScope.of(context).unfocus();
+
+    Map<String, String> body = {
+      'guest_id': '$guestId',
+    };
+
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.connect,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          context.firstRoute();
+          context.pushReplacementNamed(Routs.gtpVideo);
+
+          //      .whenComplete(() {
+          //   SystemChrome.setPreferredOrientations([
+          //     DeviceOrientation.portraitUp, // Change to desired orientation
+          //   ]);
+          // },);
+          // context.pushNamed(Routs., extra: VerifyOTP(mobileNo: mobile, countryCode: countryCode));
+        } else {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+        }
+      }
+    });
+    return responseData;
+  }
 
 
 

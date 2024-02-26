@@ -30,6 +30,7 @@ class _LoginState extends State<Login> {
   bool forReferral = false;
   bool showReferral = false;
   bool checkBox = false;
+  String countryCode ='';
   @override
   void initState() {
     super.initState();
@@ -90,35 +91,43 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                 ),
-                Container(
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF1B1B1B),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IntlPhoneField(
-                      controller:phoneCtrl ,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter Mobile No.',
-                        border: InputBorder.none
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Container(
+
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFF1B1B1B),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                       autovalidateMode: AutovalidateMode.disabled,
-                      initialCountryCode: 'IN',
-                      dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
-                      dropdownIconPosition: IconPosition.trailing,
-                      disableLengthCheck: true,
-                      // validator: (val) {
-                      //   return Validator.numberValidator(val.toString());
-                      // },
-                      // pickerDialogStyle:PickerDialogStyle ,
-                      onChanged: (phone) {
-                        if (phone.number.length == 10) {
-                          validatePhone();
-                        }
-                      },
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IntlPhoneField(
+                        controller:phoneCtrl ,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter Mobile No.',
+                          border: InputBorder.none
+                        ),
+                         autovalidateMode: AutovalidateMode.disabled,
+                        initialCountryCode: 'IN',
+                        dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
+                        dropdownIconPosition: IconPosition.trailing,
+                        disableLengthCheck: true,
+                        // validator: (val) {
+                        //   return Validator.numberValidator(val.toString());
+                        // },
+                        // pickerDialogStyle:PickerDialogStyle ,
+                        onChanged: (phone) {
+
+                          if (phone.number.length == 10) {
+                            countryCode=phone.countryCode;
+                            setState(() {});
+
+                            validatePhone();
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -173,7 +182,8 @@ class _LoginState extends State<Login> {
                       return Validator.fullNameValidator(val);
                     },
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp('[a-z]'))
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+
                     ],
 
                     onChanged: (value) {},
@@ -189,7 +199,8 @@ class _LoginState extends State<Login> {
                     //   return Validator.fullNameValidator(val);
                     // },
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp('[a-z]'))
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+
                     ],
                     onChanged: (value) {},
                     hintText: 'Enter Last Name',
@@ -395,7 +406,7 @@ class _LoginState extends State<Login> {
           firstName: nameCtrl.text,
           lastName: lastNameCtrl.text,
           referralCode: referralCodeCtrl.text,
-          address: addressCtrl.text);
+          address: addressCtrl.text, countryCode: countryCode);
     }
 
 

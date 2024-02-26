@@ -181,20 +181,62 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 mainAxisAlignment: MainAxisAlignment.center,
 
                 children: [
+                  // image==null?
+                  // fetchGuestProfileModel?.data?.profilePhoto==null?
+                  // ImageView(
+                  //   onTap: () async{
+                  //     await  addImages();
+                  //   },
+                  //   height: 100,
+                  //   width: 100,
+                  //   file: File(image?.path??''),
+                  //
+                  //   border: Border.all(color: Colors.white),
+                  //   borderRadiusValue: 50,
+                  //   isAvatar: true,
+                  //   margin: const EdgeInsets.only(left: 8, right: 16),
+                  //   fit: BoxFit.cover,
+                  // ):
+                  // ImageView(
+                  //   onTap: () async{
+                  //     await  addImages();
+                  //   },
+                  //   height: 100,
+                  //   width: 100,
+                  //   networkImage: fetchGuestProfileModel?.data?.profilePhoto,
+                  //   border: Border.all(color: Colors.white),
+                  //   borderRadiusValue: 50,
+                  //   isAvatar: true,
+                  //   margin: const EdgeInsets.only(left: 8, right: 16),
+                  //   fit: BoxFit.cover,
+                  // ):
+                  // ImageView(
+                  //   onTap: () async{
+                  //     await  addImages();
+                  //   },
+                  //   height: 100,
+                  //   width: 100,
+                  //   networkImage: fetchGuestProfileModel?.data?.profilePhoto,
+                  //   border: Border.all(color: Colors.white),
+                  //   borderRadiusValue: 50,
+                  //   isAvatar: true,
+                  //   margin: const EdgeInsets.only(left: 8, right: 16),
+                  //   fit: BoxFit.cover,
+                  // )
                   ImageView(
                     onTap: () async{
                       await  addImages();
                     },
                     height: 100,
                     width: 100,
-                    file: File(image?.path??''),
-                    // width: 100,
+                    file:File(image?.path??''),
+                    networkImage:image==null? fetchGuestProfileModel?.data?.profilePhoto ?? '':null,
                     border: Border.all(color: Colors.white),
                     borderRadiusValue: 50,
                     isAvatar: true,
                     margin: const EdgeInsets.only(left: 8, right: 16),
                     fit: BoxFit.cover,
-                  ),
+                  )
                 ],
               ),
               GestureDetector(

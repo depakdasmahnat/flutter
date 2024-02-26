@@ -1,14 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../../core/constant/colors.dart';
 
 class VideoPlayerCard extends StatefulWidget {
-  const VideoPlayerCard({super.key, this.url, this.borderRadius,this.aspectRatio});
+  const VideoPlayerCard({super.key, this.url, this.borderRadius,this.aspectRatio,this.type,this.demoId});
   final double? aspectRatio;
   final String? url;
+  final bool? type;
+  final String? demoId;
+
   final double? borderRadius;
 
   @override
@@ -88,7 +93,11 @@ class _VideoPlayerCardState extends State<VideoPlayerCard> {
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(borderRadius ?? 8),
                 child: GestureDetector(
-                  onTap: () {
+                  onTap:() {
+                    if(widget.type==true){
+                      context.read<CheckDemoController>().videoCount(context: context, demoId: '${widget.demoId}', );
+                    }
+
                     playVideo();
                   },
                   child: Stack(

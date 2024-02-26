@@ -19,6 +19,7 @@ class AppAssets {
   static const String networkIcon = 'assets/icons/ic_network.png';
   static const String leadsIcon = 'assets/icons/ic_leads.png';
   static const String membersIcon = 'assets/icons/ic_members.png';
+  static const String termsAndCon = 'assets/icons/Ic_tearm.png';
   static const String guestProfile1 = 'assets/images/guest_profile1.png';
   static const String guestProfile2 = 'assets/images/guets_profile2.png';
   static const String u1 = 'assets/images/userIcon.png';
@@ -29,7 +30,8 @@ class AppAssets {
   static const String group = 'assets/icons/Group.png';
   static const String newJoiners = 'assets/icons/Ic_newjoiners.png';
   static const String geustProduct = 'assets/images/geust_product.png';
-  static const String geustProductDteila = 'assets/images/guet_product_detail.png';
+  static const String geustProductDteila =
+      'assets/images/guet_product_detail.png';
   static const String product = 'assets/images/product.png';
   static const String product1 = 'assets/images/product1.png';
   static const String product2 = 'assets/images/product2.png';
@@ -70,7 +72,8 @@ class AppAssets {
   static const String playIcon = 'assets/icons/ic_play.png';
   static const String playVideoIcon = 'assets/icons/play_video.png';
   static const String upload = 'assets/icons/download.png';
-  static const String congratulationsBanner = 'assets/images/congratulations_banner.png';
+  static const String congratulationsBanner =
+      'assets/images/congratulations_banner.png';
   static const String checkIcon = 'assets/icons/ic_check.png';
   static const String achieversIcon = 'assets/icons/ic_achievers.png';
   static const String videoIcons = 'assets/icons/ic_video.png';
@@ -86,6 +89,8 @@ class AppAssets {
   static const String star1 = 'assets/icons/Ic_star1.png';
   static const String feedBack = 'assets/icons/Ic_feedback.png';
   static const String performanceIcon = 'assets/icons/ic_performance.png';
+  static const String feedBack1 = 'assets/icons/Ic_feedBack1.png';
+
   /// 2) Images...
 
   static const String appIcon = 'assets/images/appIcon.png';
@@ -105,7 +110,8 @@ class AppAssets {
   static const String goalImage = 'assets/images/goal_home.png';
   static const String checkDemoImage = 'assets/images/checdemoImage.png';
 
-  static const String logoHorizontalText = 'assets/images/logo_horizontal_text.png';
+  static const String logoHorizontalText =
+      'assets/images/logo_horizontal_text.png';
   static const String dashboardRings = 'assets/images/dashboard_rings.png';
   static const String smileStar = 'assets/icons/Ice_smile_star.png';
   static const String basSmileStar = 'assets/icons/Ic_bas_smile_star.png';
@@ -127,7 +133,8 @@ class AppAssets {
   static const String memberprofile = 'assets/images/memberprofile.png';
   static const String admemberlist = 'assets/images/memberuser.png';
   // static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
-  static const String authbackgroundimage = 'assets/images/login_background_Image.png';
+  static const String authbackgroundimage =
+      'assets/images/login_background_Image.png';
   static const String introVideo = 'assets/videos/intro_videos.mp4';
 
   /// social image

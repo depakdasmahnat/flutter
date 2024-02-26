@@ -39,6 +39,7 @@ class ApiEndpoints {
 
   //1) Auth APIs...
   static const String validateMobile = 'validate_mobile';
+  static const String connect = 'connect_with_us';
 
   //11) Member Auth APIs...
 
@@ -50,7 +51,8 @@ class ApiEndpoints {
   static const String pinnacleView = 'pinnacle_view';
   static const String projectionView = 'projection_view';
 
-  static const String deleteUser = 'deleteUser';
+  // static const String deleteUser = 'deleteUser';
+  static const String deleteUser = 'delete_account';
   static const String sendOtp = 'send_otp';
   static const String verifyOtp = 'verify_otp';
   static const String fetchCategories = 'fetch_categories?type=';
@@ -132,6 +134,7 @@ class ApiEndpoints {
   static const String fetchDemoVideos = 'fetch_demo_videos';
   static const String helpAndSupport = 'submit_help_and_support';
   static const String submitFeedback = 'submit_feedback';
+  static const String demoWatchCount = 'demo_watch_count';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

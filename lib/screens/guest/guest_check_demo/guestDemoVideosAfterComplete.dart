@@ -45,13 +45,14 @@ class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
                       itemBuilder: (context, index) {
                       // return VideoPlay(video: controller.fetchDemoVideosAfter?.data?[index].videoLink??'',);
                       return VideoPlayerCard(
-                        url: '${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
+                       type: true,
+                        demoId:'${controller.fetchDemoVideosAfter?.data?[index].id}' ,
+                        url:'${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
                         aspectRatio: 2.2/4.5,
                         borderRadius: 1,
                       );
                     },),
                   ),
-
                 ],
               ),
               Align(
@@ -85,10 +86,8 @@ class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
                 ),
               ),
             ],
-            
           );
         },
-
       ),
     );
   }

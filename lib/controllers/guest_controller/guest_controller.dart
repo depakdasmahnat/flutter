@@ -18,6 +18,7 @@ import '../../models/default/default_model.dart';
 import '../../models/feeds/feeds_data.dart';
 import '../../models/guest_Model/editProfileModel.dart';
 import '../../models/guest_Model/fetchGuestProfile.dart';
+import '../../models/guest_Model/fetchProductModel1.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchfeedcategoriesmodel.dart';
 import '../../models/guest_Model/fetchguestproduct.dart';
@@ -202,10 +203,10 @@ class GuestControllers extends ChangeNotifier {
   }
 
   /// 1) fetch Product Detail...
-  Fetchproductdetail? fetchproductDetail;
+  FetchProductModel1? fetchproductDetail;
   bool productLoader = false;
 
-  Future<Fetchproductdetail?> fetchProductDetail({
+  Future<FetchProductModel1?> fetchProductDetail({
     required BuildContext context,
     required String productId,
   }) async {
@@ -231,7 +232,7 @@ class GuestControllers extends ChangeNotifier {
           .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
-          Fetchproductdetail responseData = Fetchproductdetail.fromJson(json);
+          FetchProductModel1 responseData = FetchProductModel1.fromJson(json);
           if (responseData.status == true) {
             productLoader = true;
             fetchproductDetail = responseData;
@@ -953,4 +954,7 @@ class GuestControllers extends ChangeNotifier {
     });
     // return responseData;
   }
+
+
+
 }

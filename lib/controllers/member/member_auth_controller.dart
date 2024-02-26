@@ -183,7 +183,7 @@ class MemberAuthControllers extends ChangeNotifier {
 
     loadingDialog(
       context: context,
-      future: ApiService().post(
+      future: ApiService().get(
         endPoint: ApiEndpoints.deleteUser,
       ),
     ).then((response) {
@@ -195,8 +195,7 @@ class MemberAuthControllers extends ChangeNotifier {
           logOut(context: context, message: responseData.message ?? 'User Successfully Deactivated');
         } else {
           context.pop();
-          showSnackBar(
-              context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+          showSnackBar(context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
         }
       }
     });
@@ -273,10 +272,8 @@ class MemberAuthControllers extends ChangeNotifier {
       if (response != null && context.mounted) {
         Map<String, dynamic> json = response;
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
-
         if (responseData.status == true) {
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
-
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
         } else {
@@ -317,7 +314,6 @@ class MemberAuthControllers extends ChangeNotifier {
 
         if (responseData.status == true) {
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
-
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
         } else {
@@ -338,7 +334,6 @@ class MemberAuthControllers extends ChangeNotifier {
       var response = await ApiService().get(
         endPoint: ApiEndpoints.fetchProfile,
       );
-
       if (response != null && context.mounted) {
         Map<String, dynamic> json = response;
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
@@ -350,7 +345,6 @@ class MemberAuthControllers extends ChangeNotifier {
       ErrorHandler.catchError(e, s, false);
     }
   }
-
   Future authNavigation({required BuildContext context, required String route}) async {
     if (route == Routs.dashboard) {
       context.firstRoute();

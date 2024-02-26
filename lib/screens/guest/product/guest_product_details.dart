@@ -125,38 +125,16 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                       SizedBox(
                         height: size.height * 0.03,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Brand Kangen',
-                          rightTitle: 'Water Machine Price',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Usage/Application',
-                          rightTitle: 'Kangen Water Machine Price ',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Water Storage Capacity',
-                          rightTitle: '4000 L',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Purification Capacity',
-                          rightTitle: 'Kangen Water Machine Price',
-                        ),
-                      ),
+                      ...?controller.fetchproductDetail?.data?.specifications?.map((e) {
+                        return     Padding(
+                          padding: const EdgeInsets.only(
+                              left: kPadding, right: kPadding),
+                          child: DetailList(
+                            leftTitle: e.value,
+                            rightTitle: e.title,
+                          ),
+                        );
+                      },),
                       SizedBox(
                         height: size.height * 0.03,
                       ),
@@ -223,21 +201,29 @@ class DetailList extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              leftTitle ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
+            SizedBox(
+              width: size.width*0.4,
+              child: Text(
+                leftTitle ?? '',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
-            Text(
-              rightTitle ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
+            SizedBox(
+              width: size.width*0.4,
+              child: Text(
+                rightTitle ?? '',
+                textAlign: TextAlign.end,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           ],

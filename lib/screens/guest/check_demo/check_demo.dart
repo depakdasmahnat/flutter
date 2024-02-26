@@ -2,6 +2,7 @@ import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:mrwebbeast/utils/widgets/appbar.dart';
@@ -84,7 +85,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
               EasyStepper(
                 activeStep:controller.stepIndex,
                 internalPadding: 1,
-                // enableStepTapping: false,
+                enableStepTapping: false,
                 showLoadingAnimation: false,
                 stepRadius: 12,
                 onStepReached: (index) {
@@ -287,12 +288,16 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                 ),
               ),
               if(controller.stepIndex==0)
-              SizedBox(
-                height: size.height*0.03,
-                child: ScrollingText(text: 'Remember, each body is different. Kangen does not claim that it cures any ailment.', textStyle: const TextStyle(
-                  color: Colors.white,
-                ),),
+              Padding(
+                padding: const EdgeInsets.only(bottom: kPadding),
+                child: SizedBox(
+                  height: size.height*0.03,
+                  child: ScrollingText(text: 'Remember, each body is different. Kangen does not claim that it cures any ailment.', textStyle: const TextStyle(
+                    color: Colors.white,
+                  ),),
+                ),
               ),
+
             ],
           );
         },
