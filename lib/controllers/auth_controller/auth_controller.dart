@@ -136,7 +136,9 @@ class AuthControllers extends ChangeNotifier {
                 lastName: responseData?.data?.lastName,
                 mobileNo: responseData?.data?.mobile,
                 address: responseData?.data?.address,
+                countryCode:responseData?.data?.countryCode ,
                 referralCode: responseData?.data?.referralCode,
+
               ));
         } else {
           showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
@@ -156,6 +158,7 @@ class AuthControllers extends ChangeNotifier {
     required String? lastName,
     required String? referralCode,
     required String? address,
+    required String? countryCode,
     required String? otp,
   }) async {
     FocusScope.of(context).unfocus();
@@ -166,7 +169,8 @@ class AuthControllers extends ChangeNotifier {
       'last_name': '$lastName',
       'referral_code': '$referralCode',
       // 'city': '$address',
-      'city': '1',
+      'city': '$address',
+      'country_code':'$countryCode',
       'otp': '$otp',
     };
     debugPrint('Sent Data is $body');

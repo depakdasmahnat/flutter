@@ -34,7 +34,8 @@ class Data {
   Data({
       this.id, 
       this.name, 
-      this.price, 
+      this.subName,
+      this.price,
       this.description, 
       this.path, 
       this.productVideo, 
@@ -48,6 +49,7 @@ class Data {
     price = json['price'];
     description = json['description'];
     path = json['path'];
+    subName = json['sub_name'];
     productVideo = json['product_video'];
     if (json['specifications'] != null) {
       specifications = [];
@@ -64,6 +66,7 @@ class Data {
   String? description;
   String? path;
   String? productVideo;
+  String? subName;
   List<Specifications>? specifications;
   String? productImage;
   List<String>? images;
@@ -73,6 +76,7 @@ class Data {
     map['id'] = id;
     map['name'] = name;
     map['price'] = price;
+    map['sub_name'] = subName;
     map['description'] = description;
     map['path'] = path;
     map['product_video'] = productVideo;

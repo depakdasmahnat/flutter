@@ -1,4 +1,7 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/flipcard/gesture_flip_card.dart';
+import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -169,6 +172,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const GuestProfiles(),
+
+
+
             const Banners(),
             Consumer<CheckDemoController>(
               builder: (context, controller, child) {

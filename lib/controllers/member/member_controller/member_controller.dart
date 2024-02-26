@@ -20,6 +20,7 @@ import '../../../models/member/auth/member_data.dart';
 import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../models/member/dashboard/traning_progress_model.dart';
+import '../../../models/member/getPerformanceChart/getPerformanceChart.dart';
 import '../../../models/member/goals/goals_model.dart';
 import '../../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../../models/member/genrate_referal/genrateReferralModel.dart';
@@ -1348,7 +1349,6 @@ class MembersController extends ChangeNotifier {
   }
 
   /// 1) add goal..
-
   // Map<String, dynamic>? uploadVideoResponse;
   // DefaultModel? createEventModel;
   // bool addLeadLoader=false;
@@ -1661,5 +1661,54 @@ class MembersController extends ChangeNotifier {
     }
 
     return memberProfile;
+  }
+
+
+
+
+  ///  fetch performance chart
+  GetPerformanceChart? getPerformanceChart;
+  bool performanceLoader = false;
+
+  Future<GetPerformanceChart?> fetchPerformanceChart() async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        performanceLoader = false;
+        getPerformanceChart = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        performanceLoader = true;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService()
+            .get(endPoint: ApiEndpoints.fetchPerformance);
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          GetPerformanceChart responseData = GetPerformanceChart.fromJson(json);
+          if (responseData.status == true) {
+            getPerformanceChart = responseData;
+            notifyListeners();
+          } else {
+            getPerformanceChart = responseData;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return getPerformanceChart;
   }
 }

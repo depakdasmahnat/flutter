@@ -58,6 +58,7 @@ class ResourceCategoryData {
     String? name,
     String? image,
     String? type,
+    String? path,
     num? position,
   }) {
     _id = id;
@@ -65,6 +66,7 @@ class ResourceCategoryData {
     _name = image;
     _type = type;
     _position = position;
+   _path = path;
   }
 
   ResourceCategoryData.fromJson(dynamic json) {
@@ -72,6 +74,7 @@ class ResourceCategoryData {
     _name = json['name'];
     _image = json['image'];
     _type = json['type'];
+    _path = json['path'];
     _position = json['position'];
   }
 
@@ -79,6 +82,7 @@ class ResourceCategoryData {
   String? _name;
   String? _image;
   String? _type;
+  String? _path;
   num? _position;
 
   num? get id => _id;
@@ -88,6 +92,7 @@ class ResourceCategoryData {
   String? get image => _image;
 
   String? get type => _type;
+  String? get path => _path;
 
   num? get position => _position;
 
@@ -97,6 +102,7 @@ class ResourceCategoryData {
     map['name'] = _name;
     map['image'] = _image;
     map['type'] = _type;
+    map['path'] = _path;
     map['position'] = _position;
     return map;
   }
