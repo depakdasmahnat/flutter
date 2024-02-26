@@ -238,7 +238,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                         onTap: () {},
                       ),
                       TaskCard(
-                        sales: '${toDos?.teamAchievedTarget ?? 0}',
+                        sales: '${toDos?.invitationCall ?? 0}',
                         title: 'Invitation\nCall',
                         gradient: blackGradient,
                         darkMode: true,
@@ -246,7 +246,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                         onTap: () {},
                       ),
                       TaskCard(
-                        sales: '${toDos?.teamAchievedTarget ?? 0}',
+                        sales: '${toDos?.followUp ?? 0}',
                         title: 'Follow\nUp',
                         gradient: inActiveGradient,
                         darkMode: true,

@@ -161,7 +161,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -211,7 +211,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -230,6 +230,7 @@ class MembersController extends ChangeNotifier {
       throw 'Could not launch $call';
     }
   }
+
   /// call log
   Future<void> socialLink({String? link}) async {
     final redirect = Uri.parse('$link');
@@ -322,7 +323,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -584,6 +585,57 @@ class MembersController extends ChangeNotifier {
     return _goals;
   }
 
+  /// 7.5) Achieve Goal  API...
+  Future achieveGoal({
+    required BuildContext context,
+    required num? goalId,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'goal_id': '$goalId',
+      };
+
+      debugPrint('Sent Data is $body');
+
+      var response = ApiService().post(
+        endPoint: ApiEndpoints.achieveGoal,
+        body: body,
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData.status == true) {
+              showSnackBar(
+                  context: context,
+                  text: responseData.message ?? 'Goal achieved successfully',
+                  color: Colors.green);
+
+              fetchGoals(context: context,isRefresh: true);
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
+          }
+        },
+      );
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
   bool loadingPartnerGoals = true;
   GoalsModel? _partnerGoalsModel;
 
@@ -741,7 +793,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -869,13 +921,13 @@ class MembersController extends ChangeNotifier {
             uploadVideoResponse = json;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'List add successfully',
                   color: Colors.green);
               showItem = false;
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1045,7 +1097,7 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.addNewMemberLead,
         body: body,
-        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file?.path)] : [],
+        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file.path)] : [],
       );
       await loadingDialog(
         context: context,
@@ -1057,13 +1109,13 @@ class MembersController extends ChangeNotifier {
             uploadVideoResponse = json;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'List add successfully',
                   color: Colors.green);
               showItem = false;
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1110,13 +1162,13 @@ class MembersController extends ChangeNotifier {
           if (response != null) {
             Map<String, dynamic> json = response;
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'List add successfully',
                   color: Colors.green);
 
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1196,7 +1248,7 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.editMember,
         body: body,
-        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file?.path)] : [],
+        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file.path)] : [],
       );
       await loadingDialog(
         context: context,
@@ -1208,12 +1260,12 @@ class MembersController extends ChangeNotifier {
 
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'List add successfully',
                   color: Colors.green);
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1324,11 +1376,11 @@ class MembersController extends ChangeNotifier {
             // uploadVideoResponse = json;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
               // showItem=false;
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1386,11 +1438,11 @@ class MembersController extends ChangeNotifier {
             Map<String, dynamic> json = response;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
               // showItem=false;
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(

@@ -120,8 +120,6 @@ class AuthControllers extends ChangeNotifier {
       context: context,
       future: response,
     ).then((response) async {
-
-
       if (response != null) {
         Map<String, dynamic> json = response;
         responseData = Sendotp.fromJson(json);
@@ -147,7 +145,8 @@ class AuthControllers extends ChangeNotifier {
   }
 
   /// 1) verify Otp login...
-   String userName ='';
+  String userName = '';
+
   Future<Verifyotp?> verifyOtp({
     required BuildContext context,
     required String? isMobileValidated,
@@ -187,8 +186,11 @@ class AuthControllers extends ChangeNotifier {
         if (responseData?.status == true) {
           context.read<LocalDatabase>().saveGuestData(guest: responseData?.data);
           GuestData? guest = context.read<LocalDatabase>().guest;
-          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
-          context.pushReplacementNamed(responseData?.url??Routs.interests,);
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          context.pushReplacementNamed(
+            responseData?.url ?? Routs.interests,
+          );
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -399,7 +401,6 @@ class AuthControllers extends ChangeNotifier {
 //   return fetchInterestCategory;
 // }
 
-
   /// 1) connect with us...
   Future<DefaultModel?> connectWithUs({
     required BuildContext context,
@@ -445,7 +446,4 @@ class AuthControllers extends ChangeNotifier {
     });
     return responseData;
   }
-
-
-
 }

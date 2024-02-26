@@ -47,7 +47,6 @@ class _BannersState extends State<Banners> {
                     ),
                     items: List.generate(widget.banners?.length ?? 0, (bannerIndex) {
                       var data = widget.banners?.elementAt(bannerIndex);
-
                       return Builder(
                         builder: (BuildContext context) {
                           return ImageView(

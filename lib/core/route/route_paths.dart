@@ -3,8 +3,10 @@ class Routs {
   static const String initialRoute = '/';
   static const String login = '/login';
   static const String verifyOTP = '/verifyOTP';
+  static const String verifyForgotPasswordOtp = '/verifyForgotPasswordOtp';
   static const String memberLogin = '/memberLogin';
-  static const String memberDashBoard = '/memberDashBoard';  static const String leads = '/leads';
+  static const String memberDashBoard = '/memberDashBoard';
+  static const String leads = '/leads';
   static const String memberProfileDetails = '/memberProfileDetails';
   static const String targetScreen = '/targetScreen';
   static const String interests = '/interests';
@@ -50,6 +52,7 @@ class Routs {
   static const String networkReport = '/networkReport';
   static const String resources = '/resources';
   static const String resetPassword = '/resetPassword';
+  static const String changePassword = '/changePassword';
 
   static const String guestProductDetail = '/guestProductDetail';
   static const String guestProduct = '/guestProduct';
@@ -81,7 +84,4 @@ class Routs {
   static const String hallOfFame = '/hallOfFame';
   static const String feedbackAndRating = '/feedbackAndRating';
   static const String performanceChart = '/performanceChart';
-
-
-
 }

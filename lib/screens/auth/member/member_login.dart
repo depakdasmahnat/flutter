@@ -66,7 +66,7 @@ class _MemberSignInState extends State<MemberSignIn> {
                 ),
                 CustomTextField(
                   controller: enagicIdCtrl,
-                  autofocus: true,
+
                   textCapitalization: TextCapitalization.characters,
                   keyboardType: TextInputType.text,
                   // : TextCapitalization.sentences,
@@ -74,15 +74,19 @@ class _MemberSignInState extends State<MemberSignIn> {
                   validator: (val) {
                     return Validator.alphanumericValidator(val, 'Id No');
                   },
-                  hintText: 'ID No.',
+                  hintText: 'ID No',
                   margin: const EdgeInsets.only(top: 18, bottom: 18),
                 ),
                 CustomTextField(
                   controller: passwordCtrl,
-                  autofocus: true,
+
+                  obscureText: obscurePassword,
                   keyboardType: TextInputType.text,
-                  hintText: 'Password.',
+                  hintText: 'Password',
                   autofillHints: const [AutofillHints.password],
+                  validator: (val) {
+                    return Validator.requiredValidator(val, 'Password');
+                  },
                   suffixIcon: IconButton(
                     onPressed: () {
                       obscurePassword = !obscurePassword;

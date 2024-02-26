@@ -82,18 +82,21 @@ class DashBoardState extends State<DashBoard> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            GradientText(
-                              'Welcome ${localDatabase.member?.firstName ?? 'Member'}',
-                              gradient: primaryGradient,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                overflow: TextOverflow.ellipsis,
-                                fontFamily: GoogleFonts.urbanist().fontFamily,
-                                fontWeight: FontWeight.w700,
+                            SizedBox(
+                              width: size.width *0.5,
+                              child: GradientText(
+                                'Welcome ${localDatabase.member?.firstName ?? 'Member'}',
+                                gradient: primaryGradient,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  overflow: TextOverflow.ellipsis,
+                                  fontFamily: GoogleFonts.urbanist().fontFamily,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                maxLines: 1,
+                                textAlign: TextAlign.start,
                               ),
-                              maxLines: 1,
-                              textAlign: TextAlign.start,
                             ),
                             Text(
                               formattedDate,

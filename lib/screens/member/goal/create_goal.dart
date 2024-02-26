@@ -19,20 +19,41 @@ import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
 
 class CreateGoal extends StatefulWidget {
-  const CreateGoal({super.key});
+  const CreateGoal({super.key, this.goalId});
+
+  final num? goalId;
 
   @override
   State<CreateGoal> createState() => _CreateGoalState();
 }
 
 class _CreateGoalState extends State<CreateGoal> {
-  String goalType ='';
+  late num? goalId = widget.goalId;
+  String goalType = '';
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController endDateCtrl = TextEditingController();
   TextEditingController goalNameCtrl = TextEditingController();
   TextEditingController goalTypeCtrl = TextEditingController();
   TextEditingController disCtrl = TextEditingController();
   File? image;
+
+  Future fetchGoals({bool? loadingNext}) async {
+    return await context.read<MembersController>().fetchGoals(
+          context: context,
+          isRefresh: loadingNext == true ? false : true,
+          loadingNext: loadingNext ?? false,
+        );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (goalId != null) {
+        // fetchGoals();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +67,7 @@ class _CreateGoalState extends State<CreateGoal> {
       body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
-           AppTextField(
+          AppTextField(
             controller: goalNameCtrl,
             title: 'Goal name',
             hintText: 'Enter Goal name',
@@ -140,7 +161,7 @@ class _CreateGoalState extends State<CreateGoal> {
             },
             readOnly: true,
           ),
-           AppTextField(
+          AppTextField(
             controller: disCtrl,
             title: 'Description',
             hintText: 'Enter Description',
@@ -159,38 +180,42 @@ class _CreateGoalState extends State<CreateGoal> {
                 radius: const Radius.circular(12),
                 color: Colors.grey,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
-                  color: Colors.transparent,
-                  child: image==null? const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          ImageView(
-                            height: 50,
-                            width: 50,
-                            assetImage: '',
-                            margin: EdgeInsets.only(bottom: 8),
-                          ),
-                          Text(
-                            'Drop your image here, or browse',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'Supports: PNG, JPG',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ):Image.file(File(image?.path??''),fit: BoxFit.cover,)
-                ),
+                    padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
+                    color: Colors.transparent,
+                    child: image == null
+                        ? const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  ImageView(
+                                    height: 50,
+                                    width: 50,
+                                    assetImage: '',
+                                    margin: EdgeInsets.only(bottom: 8),
+                                  ),
+                                  Text(
+                                    'Drop your image here, or browse',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Supports: PNG, JPG',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : Image.file(
+                            File(image?.path ?? ''),
+                            fit: BoxFit.cover,
+                          )),
               ),
             ),
           ),
@@ -207,14 +232,15 @@ class _CreateGoalState extends State<CreateGoal> {
             backgroundColor: Colors.transparent,
             boxShadow: const [],
             margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-            onTap: ()async {
-            await  context.read<MembersController>().addGoal(
+            onTap: () async {
+              await context.read<MembersController>().addGoal(
                   context: context,
                   name: goalNameCtrl.text,
                   goalType: goalType,
                   startDate: startDateCtrl.text,
-                  endDate: endDateCtrl.text, description: disCtrl.text, file:XFile(image?.path??'') );
-
+                  endDate: endDateCtrl.text,
+                  description: disCtrl.text,
+                  file: XFile(image?.path ?? ''));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -235,14 +261,13 @@ class _CreateGoalState extends State<CreateGoal> {
       ),
     );
   }
+
   Future<void> updateProfileImage({required ImageSource source}) async {
     final pickedImg = await ImagePicker().pickImage(source: source);
     setState(() {
       if (pickedImg != null) {
         image = File(pickedImg.path);
-        setState(() {
-
-        });
+        setState(() {});
       }
     });
     if (context.mounted) {
@@ -319,10 +344,10 @@ class AppTextField extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final Widget? suffixIcon;
-   final bool? obscureText;
+  final bool? obscureText;
   final String? obscuringCharacter;
   final TextEditingController? controller;
-  final  String? Function(String?)? validator;
+  final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final BoxConstraints? suffixIconConstraints;
   final void Function(String)? onFieldSubmitted;
@@ -380,17 +405,16 @@ class AppTextField extends StatelessWidget {
               readOnly: readOnly,
               onTap: onTap,
               validator: validator,
-              onChanged:onChanged ,
+              onChanged: onChanged,
               suffixIcon: suffixIcon,
               suffixIconConstraints: suffixIconConstraints,
               onFieldSubmitted: onFieldSubmitted,
-
 
               controller: controller,
               prefixIcon: prefixIcon,
               minLines: minLines,
               maxLines: maxLines,
-              obscureText:obscureText ,
+              obscureText: obscureText,
               obscuringCharacter: obscuringCharacter,
               hintStyle: const TextStyle(
                 fontSize: 16,

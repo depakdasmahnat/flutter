@@ -46,6 +46,7 @@ class ApiEndpoints {
   static const String login = 'login';
   static const String forgotPassword = 'forgot_password';
   static const String resetPassword = 'reset_password';
+  static const String changePassword = 'change_password';
   static const String fetchProfile = 'fetch_profile';
   static const String treeView = 'tree_view';
   static const String pinnacleView = 'pinnacle_view';
@@ -55,6 +56,7 @@ class ApiEndpoints {
   static const String deleteUser = 'delete_account';
   static const String sendOtp = 'send_otp';
   static const String verifyOtp = 'verify_otp';
+  static const String verifyForgotPasswordOtp = 'verify_forgot_password_otp';
   static const String fetchCategories = 'fetch_categories?type=';
   static const String fetchFeeds = 'fetch_feeds';
   static const String feedLike = 'feed_like';
@@ -68,6 +70,7 @@ class ApiEndpoints {
   static const String demoDone = 'demo_done';
   static const String fetchDemos = 'fetch_demos';
   static const String fetchGoals = 'fetch_goals';
+  static const String achieveGoal = 'achieve_goal';
   static const String fetchMyMembersGoal = 'fetch_my_members_goal';
   static const String selectABMembers = 'select_A_B_members';
   static const String selectProjectionABMembers = 'projection_selectAB_members';
@@ -99,6 +102,7 @@ class ApiEndpoints {
   static const String fetchAllPinnacleMembers = 'fetch_all_pinnacle_members';
   static const String fetchAllMembers = 'fetch_all_members';
   static const String getAchievers = 'get_achievers';
+
   static const String fetchToDo = 'fetch_to_do';
   static const String fetchAllDemos = 'fetch_all_demos';
 

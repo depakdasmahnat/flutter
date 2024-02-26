@@ -76,7 +76,12 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showError({
   required BuildContext context,
   required String? message,
 }) {
-  return showSnackBar(context: context, text: message ?? 'Something Went Wrong', color: Colors.red);
+  return showSnackBar(
+    context: context,
+    text: message ?? 'Something Went Wrong',
+    color: Colors.red,
+    icon: Icons.error_outline,
+  );
 }
 
 void showBanner({

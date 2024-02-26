@@ -19,6 +19,15 @@ enum LeadsStatus {
   const LeadsStatus(this.value);
 }
 
+enum GoalStatus {
+  pending('Pending'),
+  achieved('Achieved');
+
+  final String value;
+
+  const GoalStatus(this.value);
+}
+
 enum LeadPriorityFilters {
   hot('Hot'),
   warm('Warm'),

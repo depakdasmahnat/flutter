@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,7 +12,10 @@ import 'package:mrwebbeast/models/member/events/events_model.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/custom_back_button.dart';
@@ -21,18 +26,35 @@ import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 
+List eventFeedbackOptions = ['I Will Attend', 'Attend with others', 'Not interested'];
+
 class EventScreen extends StatefulWidget {
   const EventScreen({
     super.key,
+    this.eventId,
   });
+
+  final num? eventId;
 
   @override
   State<EventScreen> createState() => _EventScreenState();
 }
 
 class _EventScreenState extends State<EventScreen> {
+  late num? eventId = widget.eventId;
   TextEditingController searchController = TextEditingController();
   List<EventsData>? events;
+
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchEvents();
+
+      setState(() {});
+    });
+  }
 
   Future fetchEvents({bool? loadingNext}) async {
     return await context.read<EventsControllers>().fetchEvents(
@@ -40,6 +62,7 @@ class _EventScreenState extends State<EventScreen> {
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
           searchKey: searchController.text,
+          eventId: eventId,
         );
   }
 
@@ -98,45 +121,52 @@ class _EventScreenState extends State<EventScreen> {
                 //     ],
                 //   ),
                 // ),
-                Row(
-                  children: [
-                    Flexible(
-                      child: CustomTextField(
-                        hintText: 'Search',
-                        controller: searchController,
-                        hintStyle: const TextStyle(color: Colors.white),
-                        prefixIcon: ImageView(
-                          height: 20,
-                          width: 20,
-                          borderRadiusValue: 0,
-                          color: Colors.white,
-                          margin: const EdgeInsets.only(left: kPadding, right: kPadding),
-                          fit: BoxFit.contain,
-                          assetImage: AppAssets.searchIcon,
-                          onTap: () {
+                Padding(
+                  padding: const EdgeInsets.only(bottom: kPadding),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: CustomTextField(
+                          hintText: 'Search',
+                          controller: searchController,
+                          hintStyle: const TextStyle(color: Colors.white),
+                          prefixIcon: ImageView(
+                            height: 20,
+                            width: 20,
+                            borderRadiusValue: 0,
+                            color: Colors.white,
+                            margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+                            fit: BoxFit.contain,
+                            assetImage: AppAssets.searchIcon,
+                            onTap: () {
+                              fetchEvents();
+                            },
+                          ),
+                          onChanged: (val) async {
+                            onSearchFieldChanged(val);
+                          },
+                          onEditingComplete: () {
                             fetchEvents();
                           },
+                          margin: const EdgeInsets.only(left: kPadding, right: kPadding),
                         ),
-                        onEditingComplete: () {
-                          fetchEvents();
-                        },
-                        margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                       ),
-                    ),
-                    GradientButton(
-                      height: 60,
-                      width: 60,
-                      margin: const EdgeInsets.only(left: 8, right: kPadding),
-                      backgroundGradient: blackGradient,
-                      child: const ImageView(
-                        height: 28,
-                        width: 28,
-                        assetImage: AppAssets.filterIcons,
-                        margin: EdgeInsets.zero,
-                      ),
-                    )
-                  ],
+                      GradientButton(
+                        height: 60,
+                        width: 60,
+                        margin: const EdgeInsets.only(right: kPadding),
+                        backgroundGradient: blackGradient,
+                        child: const ImageView(
+                          height: 28,
+                          width: 28,
+                          assetImage: AppAssets.filterIcons,
+                          margin: EdgeInsets.zero,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
+
                 if (controller.loadingEvents)
                   const LoadingScreen(
                     heightFactor: 0.7,
@@ -213,137 +243,143 @@ class EventCard extends StatelessWidget {
 
   final int index;
 
+  final num? eventId;
   final EventsData? data;
 
-  const EventCard({super.key, this.imageHeight, this.fit, required this.index, required this.data});
+  const EventCard(
+      {super.key, this.imageHeight, this.fit, required this.index, required this.data, this.eventId});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-      decoration: BoxDecoration(
-        gradient: feedsCardGradient,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: ImageView(
-              borderRadiusValue: 16,
-              margin: const EdgeInsets.all(12),
-              fit: fit ?? BoxFit.cover,
-              networkImage: '${data?.image}',
+
+    return GestureDetector(
+      onTap: () {
+        if (data?.eventLink != null) {
+          launchUrlString(data?.eventLink);
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+        decoration: BoxDecoration(
+          gradient: feedsCardGradient,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: ImageView(
+                borderRadiusValue: 16,
+                margin: const EdgeInsets.all(12),
+                fit: fit ?? BoxFit.cover,
+                networkImage: '${data?.image}',
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data?.name ?? '',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: Text(
-                    data?.description ?? '',
+            Padding(
+              padding: const EdgeInsets.only(left: 12, right: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data?.name ?? '',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                     ),
-                    maxLines: 2,
                     textAlign: TextAlign.start,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: kPadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          FeedMenu(
-                            icon: AppAssets.eventIcon,
-                            value: data?.startDate ?? '',
-                          ),
-                          FeedMenu(
-                            icon: AppAssets.clockIcon,
-                            value: data?.startTime ?? '',
-                          ),
-                        ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      data?.description ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Text(
-                          'Type of Events: ${data?.type ?? ''}',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                    ],
+                      maxLines: 2,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: kPadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GradientButton(
-                        height: 35,
-                        width: size.width * 0.4,
-                        borderRadius: 50,
-                        backgroundGradient: primaryGradient,
-                        onTap: () {},
-                        child: const Center(
-                          child: Text(
-                            'I Will Attend',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: kPadding),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            FeedMenu(
+                              icon: AppAssets.eventIcon,
+                              value: data?.startDate ?? '',
                             ),
+                            FeedMenu(
+                              icon: AppAssets.clockIcon,
+                              value: data?.startTime ?? '',
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Text(
+                            'Type of Events: ${data?.type ?? ''}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            textAlign: TextAlign.start,
                           ),
                         ),
-                      ),
-                      GradientButton(
-                        height: 35,
-                        width: size.width * 0.4,
-                        borderRadius: 50,
-                        onTap: () {},
-                        backgroundGradient: blackGradient,
-                        border: Border.all(color: Colors.grey),
-                        child: const Center(
-                          child: Text(
-                            'Attend with others',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
-          )
-        ],
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: kPadding),
+                    child: SizedBox(
+                      height: 35,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: eventFeedbackOptions.length ?? 0,
+                        itemBuilder: (context, index) {
+                          var feedback = eventFeedbackOptions.elementAt(index);
+                          return GradientButton(
+                            width: size.width * 0.4,
+                            borderRadius: 50,
+                            margin: const EdgeInsets.only(right: kPadding),
+                            border: feedback == 'I Will Attend' ? null : Border.all(color: Colors.grey),
+                            backgroundGradient: feedback == 'I Will Attend' ? primaryGradient : blackGradient,
+                            onTap: () async {
+                              await context.read<GuestControllers>().attendEvent(
+                                    context: context,
+                                    eventId: '$eventId',
+                                    feedback: feedback,
+                                  );
+                            },
+                            child: Center(
+                              child: Text(
+                                '$feedback',
+                                style: TextStyle(
+                                  color: feedback == 'I Will Attend' ? Colors.black : Colors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
