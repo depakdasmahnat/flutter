@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +42,7 @@ class CustomDrawer extends StatelessWidget {
               onTap: () {},
             ),
             CustomDrawerTile(
-              activeImage: AppAssets.dashboardIcon,
+              activeImage: AppAssets.performanceIcon,
               title: 'Performance',
               onTap: () {
                 context.pushNamed(Routs.performanceChart);
@@ -104,13 +105,7 @@ class CustomDrawer extends StatelessWidget {
                 context.pushNamed(Routs.goals);
               },
             ),
-            CustomDrawerTile(
-              activeImage: AppAssets.goalIcon,
-              title: 'Hall of fame',
-              onTap: () {
-                context.pushNamed(Routs.hallOfFame);
-              },
-            ),
+
             CustomDrawerTile(
               activeImage: AppAssets.resourcesIcon,
               title: 'Library',
@@ -122,6 +117,7 @@ class CustomDrawer extends StatelessWidget {
               activeImage: AppAssets.hallOfFameIcon,
               title: 'Hall of fame',
               onTap: () {
+
                 context.pushNamed(Routs.hallOfFame);
               },
             ),
