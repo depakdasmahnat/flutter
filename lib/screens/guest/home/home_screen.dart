@@ -1,7 +1,7 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/flipcard/gesture_flip_card.dart';
-import 'package:flutter_flip_card/modal/flip_side.dart';
+// import 'package:flutter_flip_card/flipcard/gesture_flip_card.dart';
+// import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -53,13 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late String formattedDate = DateFormat(dayFormat).format(currentDate);
 
-  Future fetchFeeds({bool? loadingNext}) async {
+  Future fetchFeeds({bool? loadingNext,String? categoryId}) async {
+    print("check vatgory if $categoryId");
     return await context.read<FeedsController>().fetchFeeds(
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
-          categoryId: selectedFilter?.id??1,
-          searchKey: searchController.text,
+          // categoryId: selectedFilter?.id??1,
+          categoryId: categoryId,
+          searchKey: 'searchController.text',
         );
   }
 
@@ -254,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   isRefresh:  true ,
                   loadingNext:  false,
-                  categoryId: selectedFilter?.id,
+                  categoryId: '',
                   searchKey: searchController.text,
                 );
               },
@@ -283,7 +285,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       // padding: const EdgeInsets.only(left: 20,),
                       itemBuilder: (context, index) {
-
                         var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
                         bool isSelected = selectedIds.contains(data?.id);
                         selectedFilter ??= data;
@@ -291,15 +292,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundGradient: isSelected? primaryGradient : inActiveGradient,
                           borderWidth: 2,
                           borderRadius: 30,
-                          onTap: () {
+                          onTap: () async{
                             selectedFilter = data;
                             if (isSelected) {
                               selectedIds.remove(data?.id);
                             } else {
                               selectedIds.add(int.parse(data?.id.toString()??''));
                             }
+
                             setState(() {});
-                            fetchFeeds();
+                          await  fetchFeeds(categoryId:selectedIds.join(',') );
                           },
                           margin: const EdgeInsets.only(right: 12),
                           padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),

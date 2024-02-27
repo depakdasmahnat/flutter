@@ -14,6 +14,7 @@ import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import 'create_goal.dart';
 
 class GoalsScreen extends StatefulWidget {
   const GoalsScreen({
@@ -112,6 +113,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                   ],
                 ),
               ),
+
               if (controller.loadingPartnerGoals)
                 const LoadingScreen(
                   heightFactor: 0.3,
@@ -151,6 +153,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+
                     Text(
                       'My Goals',
                       style: TextStyle(
@@ -314,25 +317,43 @@ class GoalCard extends StatelessWidget {
                         ),
                         textAlign: TextAlign.start,
                       ),
-                      const Row(
-                        children: [
-                          ImageView(
-                            height: 14,
-                            width: 14,
-                            assetImage: AppAssets.edit,
-                            margin: EdgeInsets.only(right: 4),
-                          ),
+                      GestureDetector(
+                        onTap: () {
 
-                          Text(
-                            'Edit',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.start,
+                          context.pushNamed(Routs.createGoal,extra:  CreateGoal(type: 'Edit',goalId: goal?.id.toString()??'',)).whenComplete(() async{
+                            await context.read<MembersController>().fetchGoals(
+                              context: context,
+                              isRefresh: true ,
+                              loadingNext:  true,
+                              searchKey: '',
+                            );
+                          },);
+                        },
+                        behavior: HitTestBehavior.translucent,
+                        child: Container(
+                          padding: const EdgeInsets.all(8.0),
+                          child: const
+                          Row(
+                            children: [
+                              ImageView(
+                                height: 14,
+                                width: 14,
+                                assetImage: AppAssets.edit,
+                                margin: EdgeInsets.only(right: 4),
+                              ),
+
+                              Text(
+                                'Edit',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ],
                   ),

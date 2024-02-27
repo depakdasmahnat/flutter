@@ -478,7 +478,8 @@ class RoutesConfig {
         name: Routs.createGoal,
         path: Routs.createGoal,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const CreateGoal());
+          CreateGoal? data = state.extra as CreateGoal?;
+          return materialPage(state: state, child:  CreateGoal(type: data?.type??'',goalId:data?.goalId??'' ,));
         },
       ),
 

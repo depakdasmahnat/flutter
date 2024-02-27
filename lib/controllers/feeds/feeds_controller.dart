@@ -27,18 +27,18 @@ class FeedsController extends ChangeNotifier {
   num feedsTotal = 1;
 
   RefreshController feedsController = RefreshController(initialRefresh: false);
-
   Future<List<FeedsData>?> fetchFeeds({
     required BuildContext context,
     bool isRefresh = false,
     bool loadingNext = false,
     String? searchKey,
-    num? categoryId,
+    String? categoryId,
     String? limit,
   }) async {
     String modelingData = 'FeedsData';
     debugPrint('Fetching $modelingData Data...');
-
+    debugPrint('Fetching $categoryId Data...');
+    debugPrint('searchKey $searchKey Data...');
     onRefresh() {
       feedsIndex = 1;
       feedsTotal = 1;
@@ -61,7 +61,7 @@ class FeedsController extends ChangeNotifier {
 
     Map<String, String> body = {
       'page': '$feedsIndex',
-      'category_id': '${categoryId ?? ''}',
+      'category_id': categoryId ?? '',
       'search_key': searchKey ?? '',
       'limit': limit ?? '10',
     };

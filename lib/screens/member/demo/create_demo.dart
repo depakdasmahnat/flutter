@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
+import '../../../models/default/default_model.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
@@ -28,7 +29,12 @@ class CreateDemo extends StatefulWidget {
   final String? image;
   final bool? showLeadList;
 
-  const CreateDemo({super.key, required this.guestId, this.name, this.image, this.showLeadList});
+  const CreateDemo(
+      {super.key,
+      required this.guestId,
+      this.name,
+      this.image,
+      this.showLeadList});
 
   @override
   State<CreateDemo> createState() => _CreateDemoState();
@@ -52,17 +58,19 @@ class _CreateDemoState extends State<CreateDemo> {
   String priority = '';
   List item = ['Hot', 'Worm', 'Cold'];
   File? image;
-  String ? sponsorId ='';
-  String ? memberId ='';
+  String? sponsorId = '';
+  String? memberId = '';
   Set<int> leadIndex = Set<int>();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context.read<MembersController>().fetchLeads(status: '', priority: '', page: '1');
+      await context
+          .read<MembersController>()
+          .fetchLeads(status: '', priority: '', page: '1');
       await context.read<MembersController>().fetchSponsor(
-        context: context,
-      );
+            context: context,
+          );
     });
     super.initState();
   }
@@ -105,7 +113,8 @@ class _CreateDemoState extends State<CreateDemo> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -143,7 +152,8 @@ class _CreateDemoState extends State<CreateDemo> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -180,7 +190,8 @@ class _CreateDemoState extends State<CreateDemo> {
           //   controller: commentCtrl,
           // ),
           Padding(
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+            padding:
+                const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: CustomeText(
               text: 'Select member to add',
               fontSize: 16,
@@ -189,8 +200,9 @@ class _CreateDemoState extends State<CreateDemo> {
           ),
           Consumer<MembersController>(
             builder: (context, controller, child) {
-              return     Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+              return Padding(
+                padding: const EdgeInsets.only(
+                    left: kPadding, right: kPadding, top: 8),
                 child: Container(
                   decoration: ShapeDecoration(
                     color: const Color(0xFF1B1B1B),
@@ -199,33 +211,37 @@ class _CreateDemoState extends State<CreateDemo> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10,),
-                    child:
-                    DropdownSearch.multiSelection(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                    ),
+                    child: DropdownSearch.multiSelection(
                       dropdownButtonProps: const DropdownButtonProps(
                           padding: EdgeInsets.only(bottom: 10),
                           icon: Icon(
                             CupertinoIcons.chevron_down,
                             size: 18,
                           )),
-                      items: controller.fetchSponsorModel?.data?.map((e) => e.name).toList()??[],
+                      items: controller.fetchSponsorModel?.data
+                              ?.map((e) => e.name)
+                              .toList() ??
+                          [],
                       onChanged: (value) {
-                        List id =[];
+                        List id = [];
                         for (var e in value) {
-                          id.add(  controller.fetchSponsorModel?.data?.firstWhere((element) {
-                            return element.name ==e;
-                          },).id);
+                          id.add(controller.fetchSponsorModel?.data?.firstWhere(
+                            (element) {
+                              return element.name == e;
+                            },
+                          ).id);
                         }
-                        memberId =id.join('');
+                        memberId = id.join('');
                         setState(() {});
                       },
-                      popupProps:  const PopupPropsMultiSelection.menu(
+                      popupProps: const PopupPropsMultiSelection.menu(
                         showSearchBox: true,
                         menuProps: MenuProps(
-                          backgroundColor:  Color(0xFF1B1B1B),
-
+                          backgroundColor: Color(0xFF1B1B1B),
                         ),
-
                       ),
                       dropdownDecoratorProps: const DropDownDecoratorProps(
                         dropdownSearchDecoration: InputDecoration(
@@ -234,7 +250,7 @@ class _CreateDemoState extends State<CreateDemo> {
                             top: 7,
                           ),
                           border: InputBorder.none,
-                          hintText:  'Select Gender',
+                          hintText: 'Select Gender',
                         ),
                       ),
                     ),
@@ -322,7 +338,7 @@ class _CreateDemoState extends State<CreateDemo> {
             ),
           if (widget.showLeadList != true)
             Padding(
-              padding: const EdgeInsets.only(left: kPadding,top: kPadding),
+              padding: const EdgeInsets.only(left: kPadding, top: kPadding),
               child: Container(
                 width: 30,
                 decoration: BoxDecoration(
@@ -369,7 +385,8 @@ class _CreateDemoState extends State<CreateDemo> {
                 return controller.leadsLoader == false
                     ? const LoadingScreen()
                     : Padding(
-                        padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+                        padding: const EdgeInsets.only(
+                            left: kPadding, right: kPadding, top: 8),
                         child: Wrap(
                             children: List.generate(
                           controller.fetchLeadsModel?.data?.length ?? 0 ?? 0,
@@ -386,10 +403,14 @@ class _CreateDemoState extends State<CreateDemo> {
                                 setState(() {});
                               },
                               child: Container(
-                                margin: const EdgeInsets.only(right: kPadding, top: kPadding),
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                margin: const EdgeInsets.only(
+                                    right: kPadding, top: kPadding),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 8),
                                 decoration: BoxDecoration(
-                                  gradient: isSelected ? primaryGradient : inActiveGradient,
+                                  gradient: isSelected
+                                      ? primaryGradient
+                                      : inActiveGradient,
                                   borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: Row(
@@ -400,12 +421,15 @@ class _CreateDemoState extends State<CreateDemo> {
                                       width: 40,
                                       borderRadiusValue: 40,
                                       isAvatar: true,
-                                      networkImage:
-                                          controller.fetchLeadsModel?.data?[index].profilePhoto ?? '',
+                                      networkImage: controller.fetchLeadsModel
+                                              ?.data?[index].profilePhoto ??
+                                          '',
                                       // assetImage: AppAssets.appIcon,
                                       margin: const EdgeInsets.only(right: 8),
                                     ),
-                                    Text(controller.fetchLeadsModel?.data?[index].firstName ?? ''),
+                                    Text(controller.fetchLeadsModel
+                                            ?.data?[index].firstName ??
+                                        ''),
                                   ],
                                 ),
                               ),
@@ -612,16 +636,24 @@ class _CreateDemoState extends State<CreateDemo> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-            onTap: () {
-              context.read<MembersController>().scheduledDemo(
+            margin: const EdgeInsets.only(
+                left: kPadding, right: kPadding, bottom: kPadding),
+            onTap: () async {
+              DefaultModel? model =   await context.read<MembersController>().scheduledDemo(
                   context: context,
                   guestId: guestId.isEmpty == true ? widget.guestId : guestId,
                   demoType: typeOfDame,
                   date: startDateCtrl.text,
                   time: startTimeCtrl.text,
                   remarks: commentCtrl.text,
-                  priority: priority, venue: venueCtrl.text, memberIds: memberId);
+                  priority: priority,
+                  venue: venueCtrl.text,
+                  memberIds: memberId);
+              if(model?.status ==true){
+                await context.read<MembersController>().fetchLeads(
+                    status: 'Invitation Call', priority: '', page: '1');
+              }
+
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -745,7 +777,8 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
+      padding: padding ??
+          const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
       child: Container(
         decoration: ShapeDecoration(
           color: const Color(0xFF1B1B1B),
@@ -785,7 +818,8 @@ class AppTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.only(left: 1),
               autofocus: true,
               isDense: true,
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 12),
+              margin: const EdgeInsets.only(
+                  left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
               // margin: const EdgeInsets.only(bottom: 18),
             ),

@@ -56,6 +56,7 @@ class _LeadsPopupState extends State<LeadsPopup> {
 
   @override
   Widget build(BuildContext context) {
+    print("check statsu ${widget.status}");
     Size size = MediaQuery.of(context).size;
     return Consumer<ListsControllers>(builder: (context, controller, child) {
       leads = controller.leads;
@@ -529,84 +530,90 @@ class LeadsCard extends StatelessWidget {
                 ),
               ],
             ),
-            CustomeText(
-              text: lead?.demoDate ?? defaultText,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-            CustomeText(
-              text: lead?.demoTime ?? defaultText,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-            // CustomeText(
-            //   text: lead?.address ?? defaultText,
-            //   fontSize: 12,
-            //   fontWeight: FontWeight.w500,
+            // SizedBox(
+            //   width: size.width * 0.12,
+            //   child: CustomeText(
+            //     text: lead?.demoDate ?? defaultText,
+            //     fontSize: 12,
+            //     fontWeight: FontWeight.w500,
+            //   ),
             // ),
-            if (lead?.priority != null)
-              InkWell(
-                onTap: () {},
-                child: Container(
-                  decoration: ShapeDecoration(
-                    gradient: LinearGradient(
-                      begin: const Alignment(0.61, -0.79),
-                      end: const Alignment(-0.61, 0.79),
-                      colors: lead?.priority == LeadPriorityFilters.hot.value
-                          ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
-                          : lead?.priority == LeadPriorityFilters.warm.value
-                              ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-                              : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(39),
-                    ),
-                  ),
-                  child: SizedBox(
-                    width: size.width * 0.11,
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 4, bottom: 4),
-                        child: CustomeText(
-                          text: '${lead?.priority}',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            if (lead?.mobile != null)
-              ImageView(
-                height: 28,
-                width: 28,
-                isAvatar: true,
-                borderRadiusValue: 30,
-                backgroundColor: Colors.white,
-                assetImage: AppAssets.call,
-                color: Colors.black,
-                padding: const EdgeInsets.all(4),
-                margin: const EdgeInsets.only(left: 8),
-                onTap: () {
-                  launchUrl(Uri.parse('tel:${lead?.mobile}'));
-                },
-              ),
-            CustomPopupMenu(
-              items: [
-                CustomPopupMenuEntry(
-                  label: 'Interested',
-                  onPressed: null,
-                ),
-                CustomPopupMenuEntry(
-                  label: 'Not confirm',
-                  onPressed: null,
-                ),
-              ],
-              onChange: (String? val) {},
-              child: const Icon(Icons.more_vert),
-            )
+            // SizedBox(
+            //   width: size.width * 0.12,
+            //   child: CustomeText(
+            //     text: lead?.demoTime ?? defaultText,
+            //     fontSize: 12,
+            //     fontWeight: FontWeight.w500,
+            //   ),
+            // ),
+            // // CustomeText(
+            // //   text: lead?.address ?? defaultText,
+            // //   fontSize: 12,
+            // //   fontWeight: FontWeight.w500,
+            // // ),
+            // if (lead?.priority != null)
+            //   InkWell(
+            //     onTap: () {},
+            //     child: Container(
+            //       decoration: ShapeDecoration(
+            //         gradient: LinearGradient(
+            //           begin: const Alignment(0.61, -0.79),
+            //           end: const Alignment(-0.61, 0.79),
+            //           colors: lead?.priority == LeadPriorityFilters.hot.value
+            //               ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+            //               : lead?.priority == LeadPriorityFilters.warm.value
+            //                   ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+            //                   : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+            //         ),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(39),
+            //         ),
+            //       ),
+            //       child: SizedBox(
+            //         width: size.width * 0.11,
+            //         child: Center(
+            //           child: Padding(
+            //             padding: const EdgeInsets.only(top: 4, bottom: 4),
+            //             child: CustomeText(
+            //               text: '${lead?.priority}',
+            //               fontWeight: FontWeight.w500,
+            //               fontSize: 10,
+            //               color: Colors.white,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // if (lead?.mobile != null)
+            //   ImageView(
+            //     height: 28,
+            //     width: 28,
+            //     isAvatar: true,
+            //     borderRadiusValue: 30,
+            //     backgroundColor: Colors.white,
+            //     assetImage: AppAssets.call,
+            //     color: Colors.black,
+            //     padding: const EdgeInsets.all(4),
+            //     margin: const EdgeInsets.only(left: 8),
+            //     onTap: () {
+            //       launchUrl(Uri.parse('tel:${lead?.mobile}'));
+            //     },
+            //   ),
+            // CustomPopupMenu(
+            //   items: [
+            //     CustomPopupMenuEntry(
+            //       label: 'Interested',
+            //       onPressed: null,
+            //     ),
+            //     CustomPopupMenuEntry(
+            //       label: 'Not confirm',
+            //       onPressed: null,
+            //     ),
+            //   ],
+            //   onChange: (String? val) {},
+            //   child: const Icon(Icons.more_vert),
+            // )
           ],
         ),
       ),
@@ -657,10 +664,13 @@ class ClosedLeadsCard extends StatelessWidget {
                 ),
               ],
             ),
-            CustomeText(
-              text: lead?.address ?? defaultText,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
+            SizedBox(
+              width: size.width * 0.12,
+              child: CustomeText(
+                text: lead?.address ?? defaultText,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             InkWell(
               onTap: () {},

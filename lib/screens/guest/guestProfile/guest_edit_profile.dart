@@ -50,6 +50,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   String stateName = '';
   String cityId = '';
   String cityName = '';
+  String countryCode = '';
   File? image;
   @override
   void initState() {
@@ -58,9 +59,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           await context.read<GuestControllers>().fetchGuestProfile(
                 context: context,
               );
-      await context.read<GuestControllers>().fetchState(
-            context: context,
-          );
+      await context.read<GuestControllers>().fetchState(context: context,);
       gender = fetchGuestProfileModel?.data?.gender??'';
       genderHint = fetchGuestProfileModel?.data?.gender??'Select Gender';
       refType = fetchGuestProfileModel?.data?.leadRefType??'';
@@ -80,6 +79,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       firsNameController.text = fetchGuestProfileModel?.data?.firstName??'';
       lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
       mobileController.text = fetchGuestProfileModel?.data?.mobile??'';
+      countryCode =fetchGuestProfileModel?.data?.countryCode??'+91';
     });
     super.initState();
   }
@@ -153,11 +153,8 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   }
   @override
   Widget build(BuildContext context) {
-    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
-    // firsNameController.text = localDatabase.guest?.firstName ?? '';
-    // lastNameController.text = localDatabase.guest?.lastName ?? '';
-    // mobileController.text = localDatabase.guest?.mobile ?? '';
-    // emailController.text =localDatabase.guest?.email??'';
+    // LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
+
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -287,9 +284,9 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 title: 'Mobile No.',
                 hintText: 'Enter Mobile No.',
                 readOnly: true,
-                prefixIcon: const Padding(
+                prefixIcon:  Padding(
                   padding: EdgeInsets.only(top: 3),
-                  child: Text('+91'),
+                  child: Text(countryCode),
                 ),
               ),
               CustomTextFieldApp(
@@ -616,6 +613,7 @@ class CustomDropdown extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.only(left: kPadding, top: 7),

@@ -27,7 +27,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
   void initState() {
     super.initState();
     _controller = FlipCardController();
-    Timer.periodic(Duration(seconds: 2), (timer) {
+    Timer.periodic(const Duration(seconds: 5), (timer) {
       setState(() {
         if (_currentIndex < _widgets.length - 1) {
           _currentIndex++;
@@ -37,14 +37,6 @@ class _GuestProfilesState extends State<GuestProfiles> {
         _controller?.toggleCard();
       });
     });
-
-
-    // _controller?.controller?.addListener(() {
-    //
-    // });
-
-
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<GuestControllers>().fetchNewJoiners(
             context: context,
@@ -64,7 +56,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
               FlipCard(
                key: cardKey,
                 controller: _controller,
-                speed: 1000,
+                speed: 1500,
                 flipOnTouch: false,
                 fill: Fill.fillBack,
                 autoFlipDuration: const Duration(seconds: 2),
@@ -197,7 +189,6 @@ class NewJoiner extends StatelessWidget {
   String? image;
   String? firstName;
   String? cityName;
-
   NewJoiner({
     this.image,
     this.firstName,

@@ -40,7 +40,6 @@ class ApiException implements Exception {
     if (logError) {
       FirebaseCrashlytics.instance.recordError(originalException, stackTrace ?? StackTrace.current);
     }
-
     if (showError ?? true) {
       BuildContext? context = MyApp.navigatorKey.currentState?.context;
       if (context != null) {

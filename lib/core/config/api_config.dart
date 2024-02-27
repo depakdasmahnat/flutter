@@ -93,6 +93,7 @@ class ApiEndpoints {
   static const String addLead = 'add_lead';
   static const String createEvent = 'add_event';
   static const String addGoal = 'add_goal';
+  static const String updateGoal = 'update_goal';
   static const String addNewMemberLead = 'add_new_member';
   static const String editMember = 'edit_member_profile';
   static const String ref = 'generate_referral_link';
@@ -106,6 +107,8 @@ class ApiEndpoints {
   static const String fetchTarget = 'fetch_target';
   static const String fetchTrainingProcess = 'fetch_training_process';
   static const String achievementBadges = 'achievement_badges';
+  static const String goalCategory = 'fetch_goal_category';
+  static const String goalForEdit = 'get_goal?goal_id=';
 
   // Lead apis
 
@@ -113,7 +116,7 @@ class ApiEndpoints {
   static const String fetchPerformance = 'fetch_performance';
   static const String levelWiseMemberCount = 'level_wise_member_count?';
   static const String deleteLead = 'delete_lead';
-  static const String rescheduleCall = 'reschedule_call';
+  static const String rescheduleCall = 'reschedule';
 
   /// Guest Apis....
   static const String fetchJoiners = 'fetch_new_joinees';
