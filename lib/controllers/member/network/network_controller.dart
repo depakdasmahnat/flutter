@@ -8,6 +8,7 @@ import 'package:mrwebbeast/models/default/default_model.dart';
 import 'package:mrwebbeast/models/member/network/down_line_members_model.dart';
 import 'package:mrwebbeast/models/member/network/pinnacle_list_model.dart';
 import 'package:mrwebbeast/models/member/network/projection_view_model.dart';
+import 'package:mrwebbeast/models/member/services/services_model.dart';
 
 import '../../../core/services/api/api_service.dart';
 import '../../../models/member/network/level_wise_member_count_model.dart';
@@ -461,10 +462,10 @@ class NetworkControllers extends ChangeNotifier {
 
   /// 7) Service Reports API...
   bool loadingServiceReports = true;
-  PinnacleListModel? serviceReportsModel;
-  List<PinnacleListData>? serviceReports;
+  ServicesModel? serviceReportsModel;
+  List<ServicesData>? serviceReports;
 
-  Future<List<PinnacleListData>?> fetchServiceReports({
+  Future<List<ServicesData>?> fetchServiceReports({
     String? search,
     String? filter,
     String? memberId,
@@ -487,7 +488,7 @@ class NetworkControllers extends ChangeNotifier {
       onRefresh();
       try {
         var response = await ApiService().get(
-          endPoint: ApiEndpoints.fetchAllMembers,
+          endPoint: ApiEndpoints.fetchServices,
           queryParameters: {
             'search_key': search ?? '',
             'filter': filter ?? '',
@@ -498,7 +499,7 @@ class NetworkControllers extends ChangeNotifier {
         if (response != null) {
           Map<String, dynamic> json = response;
 
-          PinnacleListModel responseData = PinnacleListModel.fromJson(json);
+          ServicesModel responseData = ServicesModel.fromJson(json);
           if (responseData.status == true) {
             serviceReports = responseData.data;
 

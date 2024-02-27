@@ -12,6 +12,7 @@ import '../../../controllers/member/network/network_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../models/member/network/pinnacle_list_model.dart';
+import '../../../models/member/services/services_model.dart';
 import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
@@ -25,7 +26,7 @@ class ServicesScreen extends StatefulWidget {
 }
 
 class _ServicesScreenState extends State<ServicesScreen> {
-  List<PinnacleListData>? serviceReports;
+  List<ServicesData>? serviceReports;
 
   TextEditingController searchController = TextEditingController();
 
@@ -49,7 +50,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkControllers>(builder: (context, controller, child) {
-      serviceReports = controller.networkReports;
+      serviceReports = controller.serviceReports;
       return Scaffold(
         appBar: AppBar(
           leading: const CustomBackButton(),

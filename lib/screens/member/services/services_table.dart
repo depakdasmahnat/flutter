@@ -8,12 +8,13 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/member/network/pinnacle_list_model.dart';
+import '../../../models/member/services/services_model.dart';
 
 class ServicesTable extends StatefulWidget {
   /// Creates the home page.
   const ServicesTable({super.key, this.pinnacleList, this.verticalScrollPhysics});
 
-  final List<PinnacleListData>? pinnacleList;
+  final List<ServicesData>? pinnacleList;
   final ScrollPhysics? verticalScrollPhysics;
 
   @override
@@ -21,11 +22,11 @@ class ServicesTable extends StatefulWidget {
 }
 
 class _ServicesTableState extends State<ServicesTable> {
-  late List<PinnacleListData>? pinnacles = widget.pinnacleList;
+  late List<ServicesData>? pinnacles = widget.pinnacleList;
   late ScrollPhysics? verticalScrollPhysics = widget.verticalScrollPhysics;
 
   EmployeeDataSource? employeeDataSource;
-  late List<PinnacleListData>? getPinnacles = widget.pinnacleList;
+  late List<ServicesData>? getPinnacles = widget.pinnacleList;
 
   @override
   void initState() {
@@ -76,18 +77,18 @@ class EmployeeDataSource extends DataGridSource {
   String defaultText = '__';
 
   /// Creates the employee data source class with required details.
-  EmployeeDataSource({required List<PinnacleListData>? employeeData}) {
+  EmployeeDataSource({required List<ServicesData>? employeeData}) {
     _employeeData = employeeData!.map<DataGridRow>(
       (data) {
         return DataGridRow(
           cells: [
             DataGridCell(
               columnName: ServiceHeadings.no.value,
-              value: GridHeading(title: '${data.pending ?? defaultText}'),
+              value: GridHeading(title: '${data.id ?? defaultText}'),
             ),
             DataGridCell(
               columnName: ServiceHeadings.city.value,
-              value: GridHeading(title: '${data.target ?? defaultText}'),
+              value: GridHeading(title: data.city ?? defaultText),
             ),
             DataGridCell(
               columnName: ServiceHeadings.name.value,
@@ -102,11 +103,11 @@ class EmployeeDataSource extends DataGridSource {
             ),
             DataGridCell(
               columnName: ServiceHeadings.number.value,
-              value: GridHeading(title: '${data.conversion ?? 0}%'),
+              value: GridHeading(title: '${data.contactNumber ?? 0}%'),
             ),
             DataGridCell(
               columnName: ServiceHeadings.number2.value,
-              value: GridHeading(title: '${data.lists ?? defaultText}'),
+              value: GridHeading(title: '${data.alternateNumber ?? defaultText}'),
             ),
           ],
         );

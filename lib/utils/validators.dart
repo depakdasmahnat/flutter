@@ -187,16 +187,30 @@ class Validator {
   /// Validates a Strong password.
   static String? strongPasswordValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return '${fieldName ?? 'Password'} is required';
+      return '${fieldName ?? 'Password'} is required.';
     }
-    final hasUppercase = value.contains(RegExp(r'[A-Z]'));
-    final hasLowercase = value.contains(RegExp(r'[a-z]'));
-    final hasDigits = value.contains(RegExp(r'\d'));
-    final hasSpecialChars = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-    if (!hasUppercase || !hasLowercase || !hasDigits || !hasSpecialChars || value.length < 8) {
-      return '${fieldName ?? 'Password'} must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.';
+
+    if (value.length < 8) {
+      return '${fieldName ?? 'Password'} must be at least 8 characters long.';
     }
-    return null;
+
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return '${fieldName ?? 'Password'} must contain at least one uppercase letter.';
+    }
+
+    if (!value.contains(RegExp(r'[a-z]'))) {
+      return '${fieldName ?? 'Password'} must contain at least one lowercase letter.';
+    }
+
+    if (!value.contains(RegExp(r'\d'))) {
+      return '${fieldName ?? 'Password'} must contain at least one digit.';
+    }
+
+    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return '${fieldName ?? 'Password'} must contain at least one special character.';
+    }
+
+    return null; // If all conditions are met, the password is strong.
   }
 
   /// Validates that two values match (typically used for password confirmation).

@@ -145,9 +145,9 @@ class FeedsController extends ChangeNotifier {
 
   bool loadingFeedsDetails = true;
   FeedDetailsModel? feedDetailsModel;
-  FeedsData? feedDetails;
+  List<FeedsData>? feedDetails;
 
-  Future<FeedsData?> fetchFeedDetails({required num? feedId}) async {
+  Future<List<FeedsData>?> fetchFeedDetails({required num? feedId}) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
     if (context != null) {
@@ -269,9 +269,15 @@ class FeedsController extends ChangeNotifier {
       product = thisProducts?.first;
     }
 
+    List<FeedsData>? thisFeedDetails = feedDetails?.where((element) => element.id == feedId).toList();
+    FeedsData? feedDetail;
+    if (thisFeedDetails.haveData) {
+      feedDetail = thisFeedDetails?.first;
+    }
+
     ///Set Wishlist to null
     product?.isLiked = null;
-    feedDetails?.isLiked = null;
+    feedDetail?.isLiked = null;
 
     onSuccess({bool success = true}) {
       bool newStatus = inWishList == true ? false : true;
@@ -282,8 +288,8 @@ class FeedsController extends ChangeNotifier {
       product?.isLiked = finalStatus;
       product?.likes = finalLikes;
 
-      feedDetails?.isLiked = finalStatus;
-      feedDetails?.likes = finalLikes;
+      feedDetail?.isLiked = finalStatus;
+      feedDetail?.likes = finalLikes;
 
       debugPrint('finalStatus $finalStatus & $finalLikes Likes');
       notifyListeners();

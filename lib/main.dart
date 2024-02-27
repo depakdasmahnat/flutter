@@ -20,7 +20,6 @@ import 'controllers/member/network/network_controller.dart';
 import 'controllers/member/training/training_controller.dart';
 import 'core/services/database/local_database.dart';
 import 'core/services/localization/localization_controller.dart';
-import 'core/services/location/location_controller.dart';
 import 'core/services/notifications/notification_controller.dart';
 import 'core/services/theme/theme_controller.dart';
 import 'firebase_options.dart';
@@ -57,7 +56,6 @@ Future main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DashboardController()),
-        ChangeNotifierProvider(create: (context) => LocationController()),
         ChangeNotifierProvider(create: (context) => ThemeController()),
         ChangeNotifierProvider(create: (context) => LocalizationController()),
         ChangeNotifierProvider(create: (context) => LocalDatabase()),

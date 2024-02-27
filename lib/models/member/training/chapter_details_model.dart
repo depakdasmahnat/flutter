@@ -121,6 +121,7 @@ class ChapterExercise {
     this.description,
     this.path,
     this.file,
+    this.files,
     this.sequence,
   });
 
@@ -131,6 +132,7 @@ class ChapterExercise {
     description = json['description'];
     path = json['path'];
     file = json['file'];
+    files = json['files'];
     sequence = json['sequence'];
   }
 
@@ -140,6 +142,7 @@ class ChapterExercise {
   dynamic description;
   String? path;
   String? file;
+  List<String>? files;
   dynamic sequence;
 
   ChapterExercise copyWith({
@@ -149,6 +152,7 @@ class ChapterExercise {
     dynamic description,
     String? path,
     String? file,
+    List<String>? files,
     dynamic sequence,
   }) =>
       ChapterExercise(
@@ -158,6 +162,7 @@ class ChapterExercise {
         description: description ?? this.description,
         path: path ?? this.path,
         file: file ?? this.file,
+        files: files ?? this.files,
         sequence: sequence ?? this.sequence,
       );
 
@@ -169,6 +174,9 @@ class ChapterExercise {
     map['description'] = description;
     map['path'] = path;
     map['file'] = file;
+    if (files != null) {
+      map['files'] = files?.map((v) => v).toList();
+    }
     map['sequence'] = sequence;
     return map;
   }

@@ -61,6 +61,7 @@ enum ChapterStatus {
 enum FeedsFileType {
   article('Article'),
   video('Video'),
+  videos('Videos'),
   youtubeVideo('YoutubeVideo'),
   pdf('Pdf'),
   ppt('Ppt'),

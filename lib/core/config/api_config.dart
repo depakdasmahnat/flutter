@@ -102,6 +102,7 @@ class ApiEndpoints {
   static const String fetchAllPinnacleMembers = 'fetch_all_pinnacle_members';
   static const String fetchAllMembers = 'fetch_all_members';
   static const String getAchievers = 'get_achievers';
+  static const String fetchServices = 'fetch_services';
 
   static const String fetchToDo = 'fetch_to_do';
   static const String fetchAllDemos = 'fetch_all_demos';
