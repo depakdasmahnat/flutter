@@ -34,7 +34,7 @@ class _SocialLinksState extends State<SocialLinks> {
         // );
         // ),
         ImageView(
-          onTap: widget.fbOnTab,
+          onTap: widget.instaOnTab,
           height: size.height * 0.03,
           assetImage: AppAssets.insta,
         ),

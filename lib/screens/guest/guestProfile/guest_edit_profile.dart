@@ -308,7 +308,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 },
                 // selectedItem: refType,
                 title: 'Ref Type',
-                listItem: const ['Friend', 'Friend'],
+                listItem: const ['Friend', 'Family','Professional','Society','Random'],
               ),
               CustomDropdown(
                 hintText: occupationHint,

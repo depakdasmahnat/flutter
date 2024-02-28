@@ -111,7 +111,7 @@ class _LeadState extends State<Lead> {
                               height: 2,
                             ),
                             Container(
-                              height: size.width * 0.15,
+                              height: size.width * 0.14,
                               width: double.infinity,
                               clipBehavior: Clip.antiAlias,
                               decoration: const ShapeDecoration(
@@ -124,7 +124,6 @@ class _LeadState extends State<Lead> {
                                   ],
                                 ),
                                 shape: RoundedRectangleBorder(
-
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       bottomLeft: Radius.circular(10)),
@@ -531,7 +530,7 @@ class _LeadState extends State<Lead> {
                               padding:
                                   const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     children: [

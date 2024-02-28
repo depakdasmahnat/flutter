@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,8 +29,12 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
-  String eventType ='';
-  String memberIds ='';
+  bool hideContainer = false;
+  String eventType = '';
+  String eventMode = '';
+  String memberIds = '';
+  String members = '';
+  String teamMeeting = '';
   TextEditingController eventNameCtrl = TextEditingController();
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController startTimeCtrl = TextEditingController();
@@ -41,18 +46,20 @@ class _CreateEventState extends State<CreateEvent> {
   TextEditingController cityCtrl = TextEditingController();
   TextEditingController addressCtrl = TextEditingController();
   TextEditingController descriptionCtrl = TextEditingController();
-  Set<int> leadIndex = Set<int>();
+// Set<int> leadIndex = Set<int>();
+  Set<int> leadIndex = <int>{};
   File? image;
+  String eventModeHint = 'Select Event Type';
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<MembersController>().fetchSponsor(
-        context: context,
-      );
-
+            context: context,
+          );
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -63,7 +70,6 @@ class _CreateEventState extends State<CreateEvent> {
         title: const Text('Create Event'),
       ),
       body: ListView(
-
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
           AppTextField(
@@ -71,37 +77,208 @@ class _CreateEventState extends State<CreateEvent> {
             title: 'Event name',
             hintText: 'Enter Event name',
           ),
-        
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
               onChanged: (v) {
-                eventType=v;
+                eventType = v;
+                eventMode = '';
+                hideContainer = false;
+                if (eventType == 'Seminar') {
+                  eventModeHint = 'Offline';
+                  eventMode = 'Offline';
+                  hideContainer = true;
+                }
+                if (eventType == 'Webinar') {
+                  eventModeHint = 'Online';
+                  eventMode = 'Online';
+                  hideContainer = true;
+                }
+                setState(() {});
               },
               title: 'Event Type*',
               hintText: 'Select Event Type',
-              listItem: ['Online', 'Offline'],
+              listItem: const [
+                'Event',
+                'Seminar',
+                'Webinar',
+                'Meeting',
+                'Down Line Meeting'
+              ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: CustomDropdown(
-              title: 'Type Of Category*',
-              hintText: 'Select Event Type',
-              listItem: const [
-                'Webinar',
-                'Conferences',
-                'Workshops',
-                'Networking Event'
-              ],
+// child: CustomDropdown(
+// title: 'Type Of Category*',
+// hintText: 'Select Event Type',
+// listItem: const [
+// 'Webinar',
+// 'Conferences',
+// 'Workshops',
+// 'Networking Event'
+// ],
+            child: IgnorePointer(
+              ignoring: hideContainer,
+              child: CustomDropdown(
+                onChanged: (v) {
+                  eventMode = v;
+                  setState(() {});
+                },
+                title: 'Event Mode*',
+                hintText: eventModeHint,
+                listItem: const ['Online', 'Offline'],
+              ),
             ),
           ),
+          if (eventMode == 'Online' || eventMode == 'Webinar')
+            AppTextField(
+              controller: linkCtrl,
+              title: 'Link Paste',
+              hintText: 'Paste Link',
+            ),
+          if (eventMode == 'Offline')
+            AppTextField(
+              controller: cityCtrl,
+              title: 'Location',
+              hintText: 'Enter Location',
+            ),
+          if (eventType == 'Meeting')
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: CustomDropdown(
+                onChanged: (v) {
+                  members = v;
+                  setState(() {});
+                },
+                title: 'Meeting Type',
+                hintText: 'Select Meeting Type',
+                listItem: const ['One Two One', 'Team Meeting'],
+              ),
+            ),
+          if (members == 'One Two One')
+            Consumer<MembersController>(
+              builder: (context, controller, child) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: CustomDropdown(
+// showSearchBox: true,
+                    onChanged: (v) {
+                      teamMeeting = controller.fetchSponsorModel?.data
+                              ?.firstWhere(
+                                (element) {
+                                  return element.name == v;
+                                },
+                              )
+                              .id
+                              .toString() ??
+                          '';
+                      setState(() {});
+                    },
+                    title: 'Members',
+                    hintText: 'Select Members',
+                    listItem: controller.fetchSponsorModel?.data
+                        ?.map((e) => e.name)
+                        .toList(),
+                  ),
+                );
+              },
+            ),
+          if (members == 'Team Meeting')
+            Consumer<MembersController>(
+              builder: (context, controller, child) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  child: Container(
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFF1B1B1B),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: kPadding, top: 7),
+                          child: Text(
+                            'Members',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 10,
+                          ),
+                          child: DropdownSearch.multiSelection(
+                            dropdownButtonProps: const DropdownButtonProps(
+                                padding: EdgeInsets.only(bottom: 10),
+                                icon: Icon(
+                                  CupertinoIcons.chevron_down,
+                                  size: 18,
+                                )),
+                            items: controller.fetchSponsorModel?.data
+                                    ?.map((e) => e.name)
+                                    .toList() ??
+                                [],
+                            onChanged: (value) {
+                              List id = [];
+                              for (var e in value) {
+                                id.add(controller.fetchSponsorModel?.data
+                                    ?.firstWhere(
+                                  (element) {
+                                    return element.name == e;
+                                  },
+                                ).id);
+                              }
+                              teamMeeting = id.join('');
+                              setState(() {});
+                            },
+                            popupProps: const PopupPropsMultiSelection.menu(
+                              showSearchBox: true,
+                              menuProps: MenuProps(
+                                backgroundColor: Color(0xFF1B1B1B),
+                              ),
+                            ),
+                            dropdownDecoratorProps:
+                                const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                  left: 7,
+                                  top: 7,
+                                ),
+                                border: InputBorder.none,
+                                hintText: 'Select Gender',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          if (eventType == 'Down Line Meeting')
+            AppTextField(
+              title: 'Down line',
+              hintText: 'All Down Line Member',
+              controller: startDateCtrl,
+              padding: const EdgeInsets.only(
+                  top: 10, bottom: 10, left: kPadding, right: kPadding),
+              readOnly: true,
+            ),
           Row(
             children: [
               Expanded(
                 child: AppTextField(
                   title: 'Start Date',
-                  hintText: 'dd/mm/yyyy',
+                  hintText: 'dd-mm-yyyy',
                   controller: startDateCtrl,
                   padding: const EdgeInsets.only(
                       top: 10, bottom: 10, left: kPadding, right: kPadding),
@@ -125,9 +302,9 @@ class _CreateEventState extends State<CreateEvent> {
                                   onSurface: Colors.white,
                                 ),
 
-                            // Input
+
                             inputDecorationTheme: const InputDecorationTheme(
-                                // labelStyle: GoogleFonts.greatVibes(), // Input label
+
                                 ),
                           ),
                           child: child!,
@@ -137,7 +314,7 @@ class _CreateEventState extends State<CreateEvent> {
 
                     if (pickedDate != null) {
                       startDateCtrl.text =
-                          "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                      "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
                     }
                   },
                   readOnly: true,
@@ -167,9 +344,9 @@ class _CreateEventState extends State<CreateEvent> {
                                   onSurface: Colors.white,
                                 ),
 
-                            // Input
+
                             inputDecorationTheme: const InputDecorationTheme(
-                                // labelStyle: GoogleFonts.greatVibes(), // Input label
+
                                 ),
                           ),
                           child: child!,
@@ -192,7 +369,7 @@ class _CreateEventState extends State<CreateEvent> {
               Expanded(
                 child: AppTextField(
                   title: 'End Date',
-                  hintText: 'dd/mm/yyyy',
+                  hintText: 'dd-mm-yyyy',
                   controller: endDateCtrl,
                   padding: const EdgeInsets.only(
                       top: 10, bottom: 10, left: kPadding, right: kPadding),
@@ -216,9 +393,9 @@ class _CreateEventState extends State<CreateEvent> {
                                   onSurface: Colors.white,
                                 ),
 
-                            // Input
+// Input
                             inputDecorationTheme: const InputDecorationTheme(
-                                // labelStyle: GoogleFonts.greatVibes(), // Input label
+// labelStyle: GoogleFonts.greatVibes(), // Input label
                                 ),
                           ),
                           child: child!,
@@ -228,7 +405,8 @@ class _CreateEventState extends State<CreateEvent> {
 
                     if (pickedDate != null) {
                       endDateCtrl.text =
-                          "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                          // "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                      "${pickedDate.day.toString().padLeft(2, "0")}-0${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
                     }
                   },
                   readOnly: true,
@@ -251,17 +429,12 @@ class _CreateEventState extends State<CreateEvent> {
                                 shape: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
-
                             colorScheme: Theme.of(context).colorScheme.copyWith(
                                   primary: Colors.white, // <-- SEE HERE
                                   onPrimary: Colors.black, // <-- SEE HERE
                                   onSurface: Colors.white,
                                 ),
-
-                            // Input
-                            inputDecorationTheme: const InputDecorationTheme(
-                                // labelStyle: GoogleFonts.greatVibes(), // Input label
-                                ),
+                            inputDecorationTheme: const InputDecorationTheme(),
                           ),
                           child: child!,
                         );
@@ -277,16 +450,6 @@ class _CreateEventState extends State<CreateEvent> {
                 ),
               ),
             ],
-          ),
-          AppTextField(
-            controller: linkCtrl,
-            title: 'Link Paste',
-            hintText: 'Paste Link',
-          ),
-          AppTextField(
-            controller: cityCtrl,
-            title: 'Location',
-            hintText: 'Enter Location',
           ),
 
           AppTextField(
@@ -308,92 +471,44 @@ class _CreateEventState extends State<CreateEvent> {
                 radius: const Radius.circular(12),
                 color: Colors.grey,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kPadding, vertical: 24),
-                  color: Colors.transparent,
-                  child: image==null?
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          ImageView(
-                            height: 50,
-                            width: 50,
-                            // file: File(image?.path??''),
-                            margin: EdgeInsets.only(bottom: 8),
-                          ),
-                          Text(
-                            'Drop your image here, or browse',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'Supports: PNG, JPG',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ):ImageView(
-                    file: File(image?.path??''),
-                    fit: BoxFit.cover,
-
-                  )
-                ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kPadding, vertical: 24),
+                    color: Colors.transparent,
+                    child: image == null
+                        ? const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  ImageView(
+                                    height: 50,
+                                    margin: EdgeInsets.only(bottom: 8),
+                                  ),
+                                  Text(
+                                    'Drop your image here, or browse',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Supports: PNG, JPG',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )
+                        : ImageView(
+                            file: File(image?.path ?? ''),
+                            fit: BoxFit.cover,
+                          )),
               ),
             ),
           ),
-          // const Padding(
-          //   padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
-          //   child: Row(
-          //     children: [
-          //       Text(
-          //         'Select List',
-          //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // Container(
-          //   height: 55,
-          //   margin: const EdgeInsets.only(
-          //       top: kPadding, bottom: kPadding, left: kPadding),
-          //   child: ListView.builder(
-          //     itemCount: 10,
-          //     shrinkWrap: true,
-          //     scrollDirection: Axis.horizontal,
-          //     itemBuilder: (context, index) {
-          //       return Container(
-          //         width: 120,
-          //         margin: const EdgeInsets.only(right: kPadding),
-          //         padding: const EdgeInsets.symmetric(horizontal: 8),
-          //         decoration: BoxDecoration(
-          //           gradient: inActiveGradient,
-          //           borderRadius: BorderRadius.circular(50),
-          //         ),
-          //         child: const Row(
-          //           children: [
-          //             ImageView(
-          //               height: 40,
-          //               width: 40,
-          //               borderRadiusValue: 40,
-          //               isAvatar: true,
-          //               assetImage: AppAssets.appIcon,
-          //               margin: EdgeInsets.only(right: 8),
-          //             ),
-          //             Text('Ayan'),
-          //           ],
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
           const Padding(
             padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
             child: Row(
@@ -427,68 +542,62 @@ class _CreateEventState extends State<CreateEvent> {
                       bottom: kPadding),
                 ),
               ),
-              // GradientButton(
-              //   height: 60,
-              //   width: 60,
-              //   margin: const EdgeInsets.only(left: 8, right: kPadding),
-              //   backgroundGradient: blackGradient,
-              //   child: const ImageView(
-              //     height: 28,
-              //     width: 28,
-              //     assetImage: AppAssets.filterIcons,
-              //     margin: EdgeInsets.zero,
-              //   ),
-              // )
+
             ],
           ),
           Padding(
             padding: const EdgeInsets.only(left: kPadding),
             child: Consumer<MembersController>(
               builder: (context, controller, child) {
-                return controller.sponsorLoader==false?const LoadingScreen() :Wrap(
-                    children: List.generate(
-                  controller.fetchSponsorModel?.data?.length ?? 0,
-                  (index) {
-                    bool isSelected = leadIndex.contains(index);
-                    return GestureDetector(
-                      onTap: () {
-                        if (isSelected) {
-                          leadIndex.remove(index);
-                        } else {
-                          leadIndex.add(index);
-                        }
-                        memberIds =leadIndex.join(',');
-                        setState(() {});
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                            right: kPadding, top: kPadding),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 8),
-                        decoration: BoxDecoration(
-                          gradient:
-                              isSelected ? primaryGradient : inActiveGradient,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child:  Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ImageView(
-                              height: 40,
-                              width: 40,
-                              borderRadiusValue: 40,
-                              isAvatar: true,
-                              // networkImage: controller.fetchSponsorModel?.data?[index].profilePhoto??'',
-                              assetImage: AppAssets.appIcon,
-                              margin: const EdgeInsets.only(right: 8),
+                return controller.sponsorLoader == false
+                    ? const LoadingScreen()
+                    : Wrap(
+                        children: List.generate(
+                        controller.fetchSponsorModel?.data?.length ?? 0,
+                        (index) {
+                          bool isSelected = leadIndex.contains(index);
+                          return GestureDetector(
+                            onTap: () {
+                              if (isSelected) {
+                                leadIndex.remove(index);
+                              } else {
+                                leadIndex.add(index);
+                              }
+                              memberIds = leadIndex.join(',');
+                              setState(() {});
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                  right: kPadding, top: kPadding),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 8),
+                              decoration: BoxDecoration(
+                                gradient: isSelected
+                                    ? primaryGradient
+                                    : inActiveGradient,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ImageView(
+                                    height: 40,
+                                    width: 40,
+                                    borderRadiusValue: 40,
+                                    isAvatar: true,
+// networkImage: controller.fetchSponsorModel?.data?[index].profilePhoto??'',
+                                    assetImage: AppAssets.appIcon,
+                                    margin: const EdgeInsets.only(right: 8),
+                                  ),
+                                  Text(controller.fetchSponsorModel
+                                          ?.data?[index].name ??
+                                      ''),
+                                ],
+                              ),
                             ),
-                             Text(controller.fetchSponsorModel?.data?[index].name??''),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ));
+                          );
+                        },
+                      ));
               },
             ),
           ),
@@ -506,16 +615,24 @@ class _CreateEventState extends State<CreateEvent> {
             boxShadow: const [],
             margin: const EdgeInsets.only(
                 left: kPadding, right: kPadding, bottom: kPadding),
-            onTap: () {
-              context.read<MembersController>().createEvent(context: context,
-                  name: eventNameCtrl.text,
-                  eventType: eventType,
-                  meetingLink: linkCtrl.text, 
-                  city: cityCtrl.text,
-                  description: descriptionCtrl.text,
-                  startDate: startDateCtrl.text, startTime: startTimeCtrl.text,
-                  endDate: endDateCtrl.text, endTime: endTimeCtrl.text, memberIds: memberIds, file: XFile(image?.path??''),);
-              // context.pushNamed(Routs.questions);
+            onTap: ()async {
+            await  context.read<MembersController>().createEvent(
+                    context: context,
+                    name: eventNameCtrl.text,
+                    eventType: eventType,
+                    meetingLink: linkCtrl.text,
+                    city: cityCtrl.text,
+                    description: descriptionCtrl.text,
+                    startDate: startDateCtrl.text,
+                    startTime: startTimeCtrl.text,
+                    endDate: endDateCtrl.text,
+                    endTime: endTimeCtrl.text,
+                    memberIds: teamMeeting,
+                    file: XFile(image?.path ?? ''),
+                    mode: eventMode,
+                    meetingType: members,
+                  );
+
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -684,7 +801,7 @@ class AppTextField extends StatelessWidget {
               margin: const EdgeInsets.only(
                   left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
-              // margin: const EdgeInsets.only(bottom: 18),
+// margin: const EdgeInsets.only(bottom: 18),
             ),
           ],
         ),
@@ -692,78 +809,3 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
-
-// class CustomDropdown extends StatelessWidget {
-//   final String? title;
-//   final String? hintText;
-//   final List<String>? listItem;
-//   final TextEditingController? controller;
-//
-//   const CustomDropdown({
-//     this.title,
-//     this.hintText,
-//     this.listItem,
-//     this.controller,
-//     super.key,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     Size size = MediaQuery.of(context).size;
-//     return Padding(
-//       padding: const EdgeInsets.all(9),
-//       child: Container(
-//         decoration: ShapeDecoration(
-//           color: const Color(0xFF1B1B1B),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(16),
-//           ),
-//         ),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.only(left: kPadding, top: 7),
-//               child: Text(
-//                 title ?? '',
-//                 style: const TextStyle(
-//                   color: Colors.white,
-//                   fontSize: 10,
-//                   fontWeight: FontWeight.w400,
-//                 ),
-//                 textAlign: TextAlign.center,
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(left: 8.0),
-//               child: DropdownSearch<String>(
-//                 dropdownButtonProps: const DropdownButtonProps(
-//                     padding: EdgeInsets.only(bottom: 10),
-//                     icon: Icon(
-//                       CupertinoIcons.chevron_down,
-//                       size: 18,
-//                     )),
-//                 popupProps: PopupProps.menu(
-//                   menuProps: const MenuProps(
-//                     backgroundColor: Color(0xFF1B1B1B),
-//                   ),
-//                   fit: FlexFit.loose,
-//                   showSelectedItems: true,
-//                   disabledItemFn: (String s) => s.startsWith('p'),
-//                 ),
-//                 items: listItem ?? [],
-//                 dropdownDecoratorProps: DropDownDecoratorProps(
-//                   dropdownSearchDecoration: InputDecoration(
-//                     contentPadding: const EdgeInsets.only(left: 7, top: 7),
-//                     border: InputBorder.none,
-//                     hintText: hintText ?? 'Select Gender',
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

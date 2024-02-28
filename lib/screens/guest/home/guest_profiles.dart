@@ -33,7 +33,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
       } else {
         _currentIndex = 0;
       }
-      _controller?.toggleCard();
+      // _controller?.toggleCard();
       // setState(() {
       //
       // });
@@ -47,6 +47,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
   @override
   void dispose() {
     _controller?.controller?.dispose();
+    _controller?.toggleCard();
     super.dispose();
   }
   @override

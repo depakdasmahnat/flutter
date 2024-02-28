@@ -32,6 +32,7 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
     return await context.read<GuestControllers>().fetchResourcesDetail(
           context: context,
           categoryId: category?.id,
+          searchKey: searchController.text,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
         );
@@ -74,8 +75,9 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
               children: [
                  CustomTextField(
                   hintText: 'Search',
-                  onFieldSubmitted: (value) {
-
+                  controller: searchController,
+                  onFieldSubmitted: (value) async{
+                    await fetchResourcesDetail();
                   },
 
                   hintStyle: TextStyle(color: Colors.white),
@@ -111,6 +113,7 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
                                   child: FeedCard(
                                     index: index,
                                     data: data,
+
                                     isFeeds: false,
                                   ));
                             },

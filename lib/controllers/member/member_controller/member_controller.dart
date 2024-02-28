@@ -1342,10 +1342,79 @@ class MembersController extends ChangeNotifier {
   // Map<String, dynamic>? uploadVideoResponse;
   // DefaultModel? createEventModel;
   // bool addLeadLoader=false;
+  // Future createEvent({
+  //   required BuildContext context,
+  //   required String name,
+  //   required String eventType,
+  //   required String meetingLink,
+  //   required String city,
+  //   required String description,
+  //   required String startDate,
+  //   required String startTime,
+  //   required String endDate,
+  //   required String endTime,
+  //   required String memberIds,
+  //   required XFile? file,
+  // }) async {
+  //   BuildContext? context = MyApp.navigatorKey.currentContext;
+  //   if (context != null) {
+  //     FocusScope.of(context).unfocus();
+  //     Map<String, String> body = {
+  //       'name': name,
+  //       'type': eventType,
+  //       'meeting_link': meetingLink,
+  //       'location': city,
+  //       'description': description,
+  //       'start_date': startDate,
+  //       'start_time': startTime,
+  //       'end_date': endDate,
+  //       'end_time': endTime,
+  //       'member_ids': memberIds,
+  //     };
+  //     debugPrint('Sent Data is $body');
+  //     //Processing API...
+  //     var response = ApiService().multiPart(
+  //       endPoint: ApiEndpoints.createEvent,
+  //       body: body,
+  //       multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+  //     );
+  //     await loadingDialog(
+  //       context: context,
+  //       future: response,
+  //     ).then(
+  //       (response) {
+  //         if (response != null) {
+  //           Map<String, dynamic> json = response;
+  //           // uploadVideoResponse = json;
+  //           notifyListeners();
+  //           DefaultModel responseData = DefaultModel.fromJson(json);
+  //           if (responseData.status == true) {
+  //             showSnackBar(
+  //                 context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+  //             // showItem=false;
+  //             context.pop();
+  //             notifyListeners();
+  //           } else {
+  //             showSnackBar(
+  //                 context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+  //           }
+  //         }
+  //       },
+  //     );
+  //     // return ApiService().multiPart(
+  //     //   endPoint: ApiEndpoints.addLead,
+  //     //   body: body,
+  //     //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+  //     // ).then((response) async {
+  //     //
+  //     // });
+  //   }
+  // }
   Future createEvent({
     required BuildContext context,
     required String name,
     required String eventType,
+    required String mode,
     required String meetingLink,
     required String city,
     required String description,
@@ -1354,6 +1423,7 @@ class MembersController extends ChangeNotifier {
     required String endDate,
     required String endTime,
     required String memberIds,
+    required String meetingType,
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -1362,6 +1432,7 @@ class MembersController extends ChangeNotifier {
       Map<String, String> body = {
         'name': name,
         'type': eventType,
+        'mode': mode,
         'meeting_link': meetingLink,
         'location': city,
         'description': description,
@@ -1370,6 +1441,7 @@ class MembersController extends ChangeNotifier {
         'end_date': endDate,
         'end_time': endTime,
         'member_ids': memberIds,
+        'meeting_type': meetingType,
       };
       debugPrint('Sent Data is $body');
       //Processing API...
@@ -1382,17 +1454,16 @@ class MembersController extends ChangeNotifier {
         context: context,
         future: response,
       ).then(
-        (response) {
+            (response) {
           if (response != null) {
             Map<String, dynamic> json = response;
             // uploadVideoResponse = json;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData.status == true) {
-              showSnackBar(
-                  context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+            if (responseData?.status == true) {
+              showSnackBar(context: context, text: responseData.message ?? 'Event Created', color: Colors.green);
               // showItem=false;
-              context.pop();
+              context?.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1408,8 +1479,10 @@ class MembersController extends ChangeNotifier {
       // ).then((response) async {
       //
       // });
+
     }
   }
+
 
   /// 1) add goal..
   // Map<String, dynamic>? uploadVideoResponse;
