@@ -20,9 +20,10 @@ class GuestProfiles extends StatefulWidget {
 
 class _GuestProfilesState extends State<GuestProfiles> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-   FlipCardController? _controller;
+  FlipCardController? _controller;
   int _currentIndex = 0;
   List<Widget> _widgets = [];
+
   @override
   void initState() {
     super.initState();
@@ -44,11 +45,17 @@ class _GuestProfilesState extends State<GuestProfiles> {
           );
     });
   }
+
   @override
   void dispose() {
+<<<<<<< Updated upstream
     _controller?.controller?.dispose();
+=======
+    // _controller?.controller?.dispose();
+>>>>>>> Stashed changes
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -58,7 +65,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
           Column(
             children: [
               FlipCard(
-               key: cardKey,
+                key: cardKey,
                 controller: _controller,
                 speed: 1500,
                 flipOnTouch: false,
@@ -70,8 +77,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   height: 45,
                   width: 45,
                   margin: const EdgeInsets.only(bottom: 4),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, gradient: primaryGradient),
+                  decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
                   child: Padding(
                     padding: const EdgeInsets.all(4),
                     child: Column(
@@ -106,8 +112,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   height: 45,
                   width: 45,
                   margin: const EdgeInsets.only(bottom: 4),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, gradient: primaryGradient),
+                  decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
                   child: Padding(
                     padding: const EdgeInsets.all(4),
                     child: Column(
@@ -139,7 +144,6 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   ),
                 ),
               ),
-
               Text(
                 'New\nMembers Join',
                 style: TextStyle(
@@ -173,8 +177,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
-                        child: CupertinoActivityIndicator(
-                            radius: 15, color: CupertinoColors.white),
+                        child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
                       ),
                     ],
                   )
@@ -193,6 +196,7 @@ class NewJoiner extends StatelessWidget {
   String? image;
   String? firstName;
   String? cityName;
+
   NewJoiner({
     this.image,
     this.firstName,

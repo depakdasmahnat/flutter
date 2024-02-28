@@ -8,8 +8,7 @@ class ApiConfig {
   static const domainName = 'https://api.gtp.proapp.in';
 
   // //Production...
-  // static const domainName = 'https://app.mygtp.in';
-
+  //static const domainName = 'https://app.mygtp.in';
 
   static const String version = '/api/v1/';
   static const String baseUrl = '$domainName$version';
@@ -18,7 +17,6 @@ class ApiConfig {
   static const String aboutUsUrl = '${baseUrl}about-us';
   static const String contactUsUrl = '${baseUrl}contact-us';
   static const String supportUrl = '${baseUrl}support';
-
   static const String termsAndConditionsUrl = '${baseUrl}terms-conditions';
 
   static Map<String, String> defaultHeaders() {

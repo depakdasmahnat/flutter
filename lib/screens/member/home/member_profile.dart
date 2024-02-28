@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
@@ -11,16 +10,13 @@ import 'package:mrwebbeast/utils/widgets/training_progress.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
 import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../utils/widgets/image_view.dart';
-import '../../../utils/widgets/social_links.dart';
 import '../../../utils/widgets/web_view_screen.dart';
-import '../../guest/guestProfile/guest_faq.dart';
 import '../../guest/guestProfile/guest_profile.dart';
 
 class MemberProfile extends StatefulWidget {
@@ -415,7 +411,7 @@ class _MemberProfileState extends State<MemberProfile> {
                       ),
                       IconAndText(
                         icon: AppAssets.feedBack,
-                        title: ' Feedback',
+                        title: 'Feedback',
                         onTap: () {
                           context.pushNamed(Routs.feedbackAndRating);
                           // context.pushNamed(Routs.webView,
