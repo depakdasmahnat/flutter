@@ -107,6 +107,9 @@ class _LeadState extends State<Lead> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            const SizedBox(
+                              height: 2,
+                            ),
                             Container(
                               height: size.width * 0.15,
                               width: double.infinity,
@@ -1088,11 +1091,8 @@ class _RowCartState extends State<RowCart> {
             children: [
               GestureDetector(
                 onTap: () {
-                  context.pushNamed(Routs.leadMemberProfile,
-                      extra: GuestProfileDetails(guestId: '$widget.guestId'));
-                  context.pushNamed(Routs.memberProfileDetails,
-                      extra:
-                          MemberProfileDetails(memberId: '${widget.memberId}'));
+                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                  // context.pushNamed(Routs.memberProfileDetails, extra: MemberProfileDetails(memberId: '${widget.memberId}'));
                 },
                 child: Row(
                   children: [
@@ -1367,33 +1367,38 @@ class _RowCartState extends State<RowCart> {
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      widget.image == null
-                          ? CircleAvatar(
-                              maxRadius: size.height * 0.02,
-                              child: Image.asset(
-                                AppAssets.userIcon,
-                                height: 15,
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                    },
+                    child: Row(
+                      children: [
+                        widget.image == null
+                            ? CircleAvatar(
+                                maxRadius: size.height * 0.02,
+                                child: Image.asset(
+                                  AppAssets.userIcon,
+                                  height: 15,
+                                ),
+                              )
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(widget.image ?? ''),
+                                maxRadius: size.height * 0.02,
                               ),
-                            )
-                          : CircleAvatar(
-                              backgroundImage: NetworkImage(widget.image ?? ''),
-                              maxRadius: size.height * 0.02,
-                            ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: size.width * 0.12,
-                        child: CustomeText(
-                          text: widget.name ?? '',
-                          maxLines: 1,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                        const SizedBox(
+                          width: 5,
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: size.width * 0.12,
+                          child: CustomeText(
+                            text: widget.name ?? '',
+                            maxLines: 1,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
 
                   CustomeText(
@@ -1729,34 +1734,39 @@ class _RowCartState extends State<RowCart> {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Row(
-                        children: [
-                          widget.image == null
-                              ? CircleAvatar(
-                                  maxRadius: size.height * 0.02,
-                                  child: Image.asset(
-                                    AppAssets.userIcon,
-                                    height: 15,
+                      GestureDetector(
+                        onTap: () {
+                          context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                        },
+                        child: Row(
+                          children: [
+                            widget.image == null
+                                ? CircleAvatar(
+                                    maxRadius: size.height * 0.02,
+                                    child: Image.asset(
+                                      AppAssets.userIcon,
+                                      height: 15,
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(widget.image ?? ''),
+                                    maxRadius: size.height * 0.02,
                                   ),
-                                )
-                              : CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(widget.image ?? ''),
-                                  maxRadius: size.height * 0.02,
-                                ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: size.width * 0.12,
-                            child: CustomeText(
-                              text: widget.name ?? '',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              maxLines: 1,
+                            const SizedBox(
+                              width: 5,
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              width: size.width * 0.12,
+                              child: CustomeText(
+                                text: widget.name ?? '',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       CustomeText(
                         text: widget.date ?? '07-02-2024',
@@ -2050,28 +2060,33 @@ class _RowCartState extends State<RowCart> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Row(
-                            children: [
-                              widget.image == null
-                                  ? Image.asset(AppAssets.u1)
-                                  : CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(widget.image ?? ''),
-                                      maxRadius: size.height * 0.02,
-                                    ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              SizedBox(
-                                width: size.width * 0.12,
-                                child: CustomeText(
-                                  text: widget.name ?? '',
-                                  fontSize: 12,
-                                  maxLines: 1,
-                                  fontWeight: FontWeight.w500,
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                            },
+                            child: Row(
+                              children: [
+                                widget.image == null
+                                    ? Image.asset(AppAssets.u1)
+                                    : CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(widget.image ?? ''),
+                                        maxRadius: size.height * 0.02,
+                                      ),
+                                const SizedBox(
+                                  width: 5,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: size.width * 0.12,
+                                  child: CustomeText(
+                                    text: widget.name ?? '',
+                                    fontSize: 12,
+                                    maxLines: 1,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           CustomeText(
                             text: widget.date ?? '07-02-2024',
@@ -2325,33 +2340,38 @@ class _RowCartState extends State<RowCart> {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Row(
-                                children: [
-                                  widget.image == null
-                                      ? CircleAvatar(
-                                          maxRadius: size.height * 0.02,
-                                          child: Image.asset(
-                                            AppAssets.userIcon,
-                                            height: 15,
+                              GestureDetector(
+                                onTap: () {
+                                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                                },
+                                child: Row(
+                                  children: [
+                                    widget.image == null
+                                        ? CircleAvatar(
+                                            maxRadius: size.height * 0.02,
+                                            child: Image.asset(
+                                              AppAssets.userIcon,
+                                              height: 15,
+                                            ),
+                                          )
+                                        : CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(widget.image ?? ''),
+                                            maxRadius: size.height * 0.02,
                                           ),
-                                        )
-                                      : CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(widget.image ?? ''),
-                                          maxRadius: size.height * 0.02,
-                                        ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  SizedBox(
-                                    width: size.width * 0.17,
-                                    child: CustomeText(
-                                      text: widget.name ?? '',
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
+                                    const SizedBox(
+                                      width: 5,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(
+                                      width: size.width * 0.17,
+                                      child: CustomeText(
+                                        text: widget.name ?? '',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               CustomeText(
                                 text: widget.city ?? 'Raipur',
@@ -2397,27 +2417,33 @@ class _RowCartState extends State<RowCart> {
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Row(
-                                children: [
-                                  widget.image == null
-                                      ? Image.asset(AppAssets.u1)
-                                      : CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(widget.image ?? ''),
-                                          maxRadius: size.height * 0.02,
-                                        ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  SizedBox(
-                                    width: size.width * 0.17,
-                                    child: CustomeText(
-                                      text: widget.name ?? '',
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
+                              GestureDetector(
+                                onTap: () {
+
+                                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                                },
+                                child: Row(
+                                  children: [
+                                    widget.image == null
+                                        ? Image.asset(AppAssets.u1)
+                                        : CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(widget.image ?? ''),
+                                            maxRadius: size.height * 0.02,
+                                          ),
+                                    const SizedBox(
+                                      width: 5,
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(
+                                      width: size.width * 0.17,
+                                      child: CustomeText(
+                                        text: widget.name ?? '',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               CustomeText(
                                 text: widget.city ?? '',

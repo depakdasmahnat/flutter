@@ -40,6 +40,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   TextEditingController diseaseController = TextEditingController();
   TextEditingController pinCodeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  bool? lastName =true;
   String? gender='' ;
   String? genderHint='' ;
   String refType = '';
@@ -77,9 +78,15 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       cityId = fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':fetchGuestProfileModel?.data?.cityId.toString()??'';
       cityName = fetchGuestProfileModel?.data?.cityName?? 'Select City';
       firsNameController.text = fetchGuestProfileModel?.data?.firstName??'';
-      lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
+
       mobileController.text = fetchGuestProfileModel?.data?.mobile??'';
       countryCode =fetchGuestProfileModel?.data?.countryCode??'+91';
+      if(fetchGuestProfileModel?.data?.lastName.toString()=='null'){
+        lastName=false;
+        setState(() {});
+      }else{
+        lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
+      }
     });
     super.initState();
   }
@@ -268,7 +275,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 controller: lastNameController,
                 title: 'Last Name',
                 hintText: 'Enter Last Name',
-                readOnly: true,
+                readOnly: lastName,
               ),
               CustomDropdown(
                 hintText: genderHint,

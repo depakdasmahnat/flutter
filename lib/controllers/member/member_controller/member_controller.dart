@@ -240,11 +240,21 @@ class MembersController extends ChangeNotifier {
   }
   /// call log
   Future<void> socialLink({String? link}) async {
-    final redirect = Uri.parse('$link');
-    if (await canLaunchUrl(redirect)) {
-      launchUrl(redirect);
-    } else {
-      throw 'Could not launch $redirect';
+    try {
+      if (link == null) {
+        throw 'Link is null';
+      }
+
+      final redirect = Uri.parse(link);
+      print('Attempting to launch: $redirect');
+
+      if (await canLaunch(redirect.toString())) {
+        await launch(redirect.toString());
+      } else {
+        throw 'Could not launch $redirect';
+      }
+    } catch (e) {
+      print('Error launching URL: $e');
     }
   }
 

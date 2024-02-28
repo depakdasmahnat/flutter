@@ -28,14 +28,15 @@ class _GuestProfilesState extends State<GuestProfiles> {
     super.initState();
     _controller = FlipCardController();
     Timer.periodic(const Duration(seconds: 5), (timer) {
-      setState(() {
-        if (_currentIndex < _widgets.length - 1) {
-          _currentIndex++;
-        } else {
-          _currentIndex = 0;
-        }
-        _controller?.toggleCard();
-      });
+      if (_currentIndex < _widgets.length - 1) {
+        _currentIndex++;
+      } else {
+        _currentIndex = 0;
+      }
+      _controller?.toggleCard();
+      // setState(() {
+      //
+      // });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<GuestControllers>().fetchNewJoiners(
@@ -43,8 +44,11 @@ class _GuestProfilesState extends State<GuestProfiles> {
           );
     });
   }
-
-
+  @override
+  void dispose() {
+    _controller?.controller?.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
