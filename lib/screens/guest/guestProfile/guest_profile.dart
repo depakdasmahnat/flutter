@@ -22,8 +22,8 @@ import '../../../core/services/database/local_database.dart';
 import '../../../utils/widgets/social_links.dart';
 import '../../../utils/widgets/web_view_screen.dart';
 import '../../../utils/widgets/widgets.dart';
+import '../../member/home/member_profile.dart';
 import 'guest_faq.dart';
-
 
 class GuestProfile extends StatefulWidget {
   const GuestProfile({super.key});
@@ -54,7 +54,7 @@ class _GuestProfileState extends State<GuestProfile> {
           ListView(
             shrinkWrap: true,
             padding: EdgeInsets.zero,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               Container(
                   height: size.height * 0.19,
@@ -70,7 +70,7 @@ class _GuestProfileState extends State<GuestProfile> {
                 height: size.height * 0.04,
               ),
               Text(
-                '${localDatabase.guest?.firstName.toCapitalizeFirst ?? ''} ${localDatabase.guest?.lastName.toString()=='null' ? '':localDatabase.guest?.lastName.toCapitalizeFirst}',
+                '${localDatabase.guest?.firstName.toCapitalizeFirst ?? ''} ${localDatabase.guest?.lastName.toString() == 'null' ? '' : localDatabase.guest?.lastName.toCapitalizeFirst}',
                 style: const TextStyle(
                     color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
                 textAlign: TextAlign.center,
@@ -89,220 +89,203 @@ class _GuestProfileState extends State<GuestProfile> {
                   textAlign: TextAlign.center,
                 ),
               SizedBox(
-                height: size.height*0.6,
+                height: size.height * 0.6,
                 child: ListView.builder(
                   itemCount: 1,
-                  physics:const BouncingScrollPhysics(),
-
-                  padding: const EdgeInsets.only(bottom: 30,top: kPadding,),
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(
+                    bottom: 30,
+                    top: kPadding,
+                  ),
                   itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, ),
-                      child: Card(
-                        type: true,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconAndText(
-                                icon: AppAssets.edit,
-                                title: 'Profile Edit',
-                                onTap: () {
-                                  context.push(Routs.guestEditProfile).whenComplete(
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: kPadding,
+                            right: kPadding,
+                          ),
+                          child: Card(
+                            type: true,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconAndText(
+                                    icon: AppAssets.edit,
+                                    title: 'Profile Edit',
+                                    onTap: () {
+                                      context.push(Routs.guestEditProfile).whenComplete(
                                         () async {
-                                      await context.read<GuestControllers>().fetchGuestProfile(
-                                        context: context,
+                                          await context.read<GuestControllers>().fetchGuestProfile(
+                                                context: context,
+                                              );
+                                        },
                                       );
                                     },
-                                  );
-                                },
-                              ),
-                              SizedBox(
-                                height: size.height * 0.02,
-                              ),
-                              IconAndText(
-                                icon: AppAssets.profileStar,
-                                title: 'Hall of fame',
-
-                                onTap: () {
-                                  context.pushNamed(Routs.hallOfFame);
-                                  // context.push(Routs.guestEditProfile).whenComplete(
-                                  //       () async {
-                                  //     await context.read<GuestControllers>().fetchGuestProfile(
-                                  //       context: context,
-                                  //     );
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  IconAndText(
+                                    icon: AppAssets.profileStar,
+                                    title: 'Hall of fame',
+                                    onTap: () {
+                                      context.pushNamed(Routs.hallOfFame);
+                                      // context.push(Routs.guestEditProfile).whenComplete(
+                                      //       () async {
+                                      //     await context.read<GuestControllers>().fetchGuestProfile(
+                                      //       context: context,
+                                      //     );
+                                      //   },
+                                      // );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  IconAndText(
+                                    icon: AppAssets.faq,
+                                    title: 'FAQ',
+                                    onTap: () {
+                                      context.pushNamed(Routs.guestFaq);
+                                      // context.pushNamed(Routs.webView,
+                                      //     extra: const WebViewScreen(
+                                      //       url: 'https://api.gtp.proapp.in/api/v1/fetch_faqs',
+                                      //     ));
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  // IconAndText(
+                                  //   onTap: () {
+                                  //     context.pushNamed(Routs.guestNotification);
                                   //   },
-                                  // );
-                                },
+                                  //   icon: AppAssets.notificationsIcon,
+                                  //   title: 'Notification ',
+                                  // ),
+                                  // SizedBox(
+                                  //   height: size.height * 0.02,
+                                  // ),
+                                  IconAndText(
+                                    icon: AppAssets.setting,
+                                    title: 'Setting',
+                                    onTap: () {
+                                      context.pushNamed(Routs.settings);
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  IconAndText(
+                                    icon: AppAssets.shareIcon,
+                                    title: 'Share App',
+                                    onTap: () {
+                                      Share.share(AppConfig.shareApp);
+                                    },
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: size.height * 0.02,
-                              ),
-                              IconAndText(
-                                icon: AppAssets.faq,
-                                title: 'FAQ',
-                                onTap: () {
-                                  context.pushNamed(Routs.guestFaq);
-                                  // context.pushNamed(Routs.webView,
-                                  //     extra: const WebViewScreen(
-                                  //       url: 'https://api.gtp.proapp.in/api/v1/fetch_faqs',
-                                  //     ));
-                                },
-                              ),
-                              SizedBox(
-                                height: size.height * 0.02,
-                              ),
-                              // IconAndText(
-                              //   onTap: () {
-                              //     context.pushNamed(Routs.guestNotification);
-                              //   },
-                              //   icon: AppAssets.notificationsIcon,
-                              //   title: 'Notification ',
-                              // ),
-                              // SizedBox(
-                              //   height: size.height * 0.02,
-                              // ),
-                              IconAndText(
-                                icon: AppAssets.setting,
-                                title: 'Setting',
-                                onTap: () {
-                                  context.pushNamed(Routs.settings);
-                                },
-                              ),
-                              SizedBox(
-                                height: size.height * 0.02,
-                              ),
-                              IconAndText(
-                                icon: AppAssets.shareIcon,
-                                title: 'Share App',
-                                onTap: () {
-                                  Share.share(AppConfig.shareApp);
-                                },
-                              ),
-
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-                      child: Card(
-                        type: false,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              IconAndText(
-                                icon: AppAssets.membersIcon,
-                                title: 'Help & Support',
-                                height: size.height * 0.021,
-                                onTap: () {
-                                  context.pushNamed(Routs.helpAndSupport);
-                                  // context.pushNamed(Routs.webView,
-                                  //     extra: const WebViewScreen(
-                                  //       url: 'https://api.gtp.proapp.in/api/v1/help_and_support',
-                                  //     ));
-                                },
+                        Padding(
+                          padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                          child: Card(
+                            type: false,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 30, top: kPadding, bottom: kPadding),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  IconAndText(
+                                    icon: AppAssets.membersIcon,
+                                    title: 'Help & Support',
+                                    height: size.height * 0.021,
+                                    onTap: () {
+                                      context.pushNamed(Routs.helpAndSupport);
+                                      // context.pushNamed(Routs.webView,
+                                      //     extra: const WebViewScreen(
+                                      //       url: 'https://api.gtp.proapp.in/api/v1/help_and_support',
+                                      //     ));
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  IconAndText(
+                                    icon: AppAssets.termsAndCon,
+                                    title: 'Terms & conditions',
+                                    height: size.height * 0.024,
+                                    onTap: () {
+                                      // context.pushNamed(Routs.helpAndSupport);
+                                      context.pushNamed(Routs.webView,
+                                          extra: const WebViewScreen(
+                                            title: 'Terms & conditions',
+                                            url: 'https://api.gtp.proapp.in/api/v1/terms_and_condition',
+                                          ));
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  // IconAndText(
+                                  //   icon: AppAssets.call,
+                                  //   title: 'Contact us',
+                                  //   onTap: () {
+                                  //     context.pushNamed(Routs.webView,
+                                  //         extra: const WebViewScreen(
+                                  //           url: 'https://api.gtp.proapp.in/api/v1/contact_us',
+                                  //         ));
+                                  //   },
+                                  // ),
+                                  // SizedBox(
+                                  //   height: size.height * 0.02,
+                                  // ),
+                                  IconAndText(
+                                    icon: AppAssets.lockIcon,
+                                    title: 'Privacy policy ',
+                                    onTap: () {
+                                      // context.pushNamed(Routs.privacyPolicy);
+                                      context.pushNamed(Routs.webView,
+                                          extra: const WebViewScreen(
+                                            title: 'Privacy policy',
+                                            url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                                          ));
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
+                                  IconAndText(
+                                    icon: AppAssets.feedBack,
+                                    title: ' Feedback',
+                                    onTap: () {
+                                      context.pushNamed(Routs.feedbackAndRating);
+                                      // context.pushNamed(Routs.webView,
+                                      //     extra: const WebViewScreen(
+                                      //       url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                                      //     ));
+                                    },
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: size.height * 0.02,
-                              ),
-                              IconAndText(
-                                icon: AppAssets.termsAndCon,
-                                title: 'Terms & conditions',
-                                height: size.height * 0.024,
-                                onTap: () {
-                                  // context.pushNamed(Routs.helpAndSupport);
-                                  context.pushNamed(Routs.webView,
-                                      extra: const WebViewScreen(
-                                        title: 'Terms & conditions',
-                                        url: 'https://api.gtp.proapp.in/api/v1/terms_and_condition',
-                                      ));
-                                },
-                              ),
-                              SizedBox(
-                                height: size.height * 0.02,
-                              ),
-                              // IconAndText(
-                              //   icon: AppAssets.call,
-                              //   title: 'Contact us',
-                              //   onTap: () {
-                              //     context.pushNamed(Routs.webView,
-                              //         extra: const WebViewScreen(
-                              //           url: 'https://api.gtp.proapp.in/api/v1/contact_us',
-                              //         ));
-                              //   },
-                              // ),
-                              // SizedBox(
-                              //   height: size.height * 0.02,
-                              // ),
-                              IconAndText(
-                                icon: AppAssets.lockIcon,
-                                title: 'Privacy policy ',
-                                onTap: () {
-                                  // context.pushNamed(Routs.privacyPolicy);
-                                  context.pushNamed(Routs.webView,
-                                      extra: const WebViewScreen(
-                                        title: 'Privacy policy',
-                                        url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
-                                      ));
-                                },
-                              ),
-                              SizedBox(
-                                height: size.height * 0.02,
-                              ),
-                              IconAndText(
-                                icon: AppAssets.feedBack,
-                                title: ' Feedback',
-                                onTap: () {
-                                  context.pushNamed(Routs.feedbackAndRating);
-                                  // context.pushNamed(Routs.webView,
-                                  //     extra: const WebViewScreen(
-                                  //       url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
-                                  //     ));
-                                },
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, right: kPadding, top: kPadding),
-                      child: CustomeText(
-                        text: 'Follow us',
-                        fontSize: 14,
-                        fontWeight:  FontWeight.w600,
-                      ),
-                    ),
-                     Padding(
-                      padding: EdgeInsets.only(left: 20, right: kPadding, ),
-                      child: SocialLinks(
-                        fbOnTab: () async{
-                          await context.read<MembersController>().socialLink(
-                              link: 'https://www.facebook.com/teampinnacleaquaofficial?mibextid=kFxxJD'
-                          );
-                        },
-                        instaOnTab: () async{
-                          await context.read<MembersController>().socialLink(
-                              link: 'https://www.instagram.com/teampinnacleaquaofficial?igsh=YzYwa3ZzN2p3aHVt'
-                          );
-                        },
-                      ),
-                    )
-                  ],);
-                },),
+                        const FollowUsCard(
+                          padding: EdgeInsets.symmetric(horizontal: 24),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               )
-
-
             ],
           ),
           Positioned(
@@ -478,6 +461,44 @@ class IconAndText extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+        ],
+      ),
+    );
+  }
+}
+
+
+class FollowUsCard extends StatelessWidget {
+  const FollowUsCard({super.key, this.padding});
+
+  final EdgeInsets? padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: padding ?? const EdgeInsets.only(left: 20, right: kPadding, top: kPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: kPadding),
+            child: CustomeText(
+              text: 'Follow us',
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SocialLinks(
+            fbOnTab: () async {
+              await context
+                  .read<MembersController>()
+                  .socialLink(link: 'https://www.facebook.com/teampinnacleaquaofficial?mibextid=kFxxJD');
+            },
+            instaOnTab: () async {
+              await context.read<MembersController>().socialLink(
+                  link: 'https://www.instagram.com/teampinnacleaquaofficial?igsh=YzYwa3ZzN2p3aHVt');
+            },
+          )
         ],
       ),
     );

@@ -36,15 +36,18 @@ import '../../../utils/widgets/widgets.dart';
 class MembersController extends ChangeNotifier {
   /// 1) Tree View API...
   bool showItem = false;
-  String? networkImageForGoal ;
+  String? networkImageForGoal;
+
   bool loadingTreeView = true;
   TreeGraphModel? networkTreeViewModel;
   List<TreeGraphData>? networkTreeViewNodes;
- removeImage(){
-   networkImageForGoal =null;
-   print("ceheck imaeg $networkImageForGoal");
-   notifyListeners();
- }
+
+  removeImage() {
+    networkImageForGoal = null;
+    print("ceheck imaeg $networkImageForGoal");
+    notifyListeners();
+  }
+
   Future<List<TreeGraphData>?> fetchTreeView() async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -242,18 +245,7 @@ class MembersController extends ChangeNotifier {
   /// call log
   Future<void> socialLink({String? link}) async {
     try {
-      if (link == null) {
-        throw 'Link is null';
-      }
-
-      final redirect = Uri.parse(link);
-      print('Attempting to launch: $redirect');
-
-      if (await canLaunch(redirect.toString())) {
-        await launch(redirect.toString());
-      } else {
-        throw 'Could not launch $redirect';
-      }
+      await launchUrl(Uri.parse('$link'));
     } catch (e) {
       print('Error launching URL: $e');
     }
@@ -635,7 +627,7 @@ class MembersController extends ChangeNotifier {
                   text: responseData.message ?? 'Goal achieved successfully',
                   color: Colors.green);
 
-              fetchGoals(context: context,isRefresh: true);
+              fetchGoals(context: context, isRefresh: true);
               notifyListeners();
             } else {
               showSnackBar(
@@ -1734,9 +1726,6 @@ class MembersController extends ChangeNotifier {
     return memberProfile;
   }
 
-
-
-
   ///  fetch performance chart
   GetPerformanceChart? getPerformanceChart;
   bool performanceLoader = false;
@@ -1758,8 +1747,7 @@ class MembersController extends ChangeNotifier {
 
       onRefresh();
       try {
-        var response = await ApiService()
-            .get(endPoint: ApiEndpoints.fetchPerformance);
+        var response = await ApiService().get(endPoint: ApiEndpoints.fetchPerformance);
 
         if (response != null) {
           Map<String, dynamic> json = response;
@@ -1783,7 +1771,6 @@ class MembersController extends ChangeNotifier {
     return getPerformanceChart;
   }
 
-
   ///  fetch goal category
   FetchGoalCategoryModel? fetchGoalCategoryModel;
 
@@ -1805,28 +1792,23 @@ class MembersController extends ChangeNotifier {
           }
         }
       } catch (e, s) {
-
         ErrorHandler.catchError(e, s, true);
-      } finally {
-
-      }
+      } finally {}
     }
 
     return fetchGoalCategoryModel;
   }
 
-
   ///  fetch goal for edit
   FetchGoalForEditModel? fetchGoalForEditModel;
-  bool editGoalLoader=false;
-  Future<FetchGoalForEditModel?> fetchGoalForEdit({
-    required String goalId
-}) async {
+  bool editGoalLoader = false;
+
+  Future<FetchGoalForEditModel?> fetchGoalForEdit({required String goalId}) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
     if (context != null) {
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.goalForEdit+goalId);
+        var response = await ApiService().get(endPoint: ApiEndpoints.goalForEdit + goalId);
         if (response != null) {
           Map<String, dynamic> json = response;
           FetchGoalForEditModel responseData = FetchGoalForEditModel.fromJson(json);
@@ -1839,11 +1821,8 @@ class MembersController extends ChangeNotifier {
           }
         }
       } catch (e, s) {
-
         ErrorHandler.catchError(e, s, true);
-      } finally {
-
-      }
+      } finally {}
     }
 
     return fetchGoalForEditModel;
@@ -1881,7 +1860,7 @@ class MembersController extends ChangeNotifier {
         context: context,
         future: response,
       ).then(
-            (response) {
+        (response) {
           if (response != null) {
             Map<String, dynamic> json = response;
             notifyListeners();
@@ -1908,5 +1887,4 @@ class MembersController extends ChangeNotifier {
       // });
     }
   }
-
 }

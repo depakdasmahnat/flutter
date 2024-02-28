@@ -319,7 +319,11 @@ class GoalCard extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          context.pushNamed(Routs.createGoal, extra: CreateGoal(goalId: goal?.id));
+                          context.pushNamed(Routs.createGoal,
+                              extra: CreateGoal(
+                                goalId: '${goal?.id}',
+                                type: 'Edit',
+                              ));
                         },
                         child: const Row(
                           children: [
@@ -348,8 +352,8 @@ class GoalCard extends StatelessWidget {
                 GradientButton(
                   height: 40,
                   borderRadius: 50,
-                  onTap: (){
-                    if(goal?.status == GoalStatus.achieved.value){
+                  onTap: () {
+                    if (goal?.status == GoalStatus.achieved.value) {
                       context.read<MembersController>().achieveGoal(context: context, goalId: goal?.id);
                     }
                   },
