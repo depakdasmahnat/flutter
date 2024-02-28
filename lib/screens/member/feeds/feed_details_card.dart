@@ -59,21 +59,19 @@ class _FeedDetailsCardState extends State<FeedDetailsCard> {
     return Stack(
       children: [
         Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (data?.fileType == FeedsFileType.image.value && data?.file != null)
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ImageView(
-                  width: size.width,
-                  borderRadiusValue: 18,
-                  margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                  backgroundColor: Colors.transparent,
-                  fit: BoxFit.cover,
-                  networkImage: '${data?.file}',
-                  onTap: () {
-                    context.pushNamed(Routs.imageOpener, extra: ImageOpener(networkImage: '${data?.file}'));
-                  },
-                ),
+              ImageView(
+                width: size.width,
+                borderRadiusValue: 0,
+                margin: EdgeInsets.zero,
+                backgroundColor: Colors.transparent,
+                fit: BoxFit.cover,
+                networkImage: '${data?.file}',
+                onTap: () {
+                  context.pushNamed(Routs.imageOpener, extra: ImageOpener(networkImage: '${data?.file}'));
+                },
               )
             else if (data?.fileType == FeedsFileType.image.value && data?.files.haveData == true)
               AspectRatio(
@@ -86,8 +84,8 @@ class _FeedDetailsCardState extends State<FeedDetailsCard> {
                     var image = data?.files?.elementAt(index);
                     return ImageView(
                       width: size.width,
-                      borderRadiusValue: 18,
-                      margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                      borderRadiusValue: 0,
+                      margin: EdgeInsets.zero,
                       backgroundColor: Colors.transparent,
                       fit: BoxFit.cover,
                       networkImage: '$image',
@@ -96,46 +94,42 @@ class _FeedDetailsCardState extends State<FeedDetailsCard> {
                 ),
               )
             else if (data?.fileType == FeedsFileType.video.value && data?.file != null)
-                Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                  child: ChewieVideoPlayerCard(
-                    url: '${data?.file}',
-                    borderRadius: 18,
-                  ),
-                )
-              else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                    child: YoutubeVideoPlayerCard(
-                      url: '${data?.file}',
-                      borderRadius: 18,
-                    ),
-                  )
-                else if (data?.fileType == FeedsFileType.pdf.value && data?.file != null)
-                    ImageView(
-                      height: 150,
-                      borderRadiusValue: 18,
-                      margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                      backgroundColor: Colors.transparent,
-                      fit: BoxFit.cover,
-                      assetImage: AppAssets.pdfIcon,
-                      onTap: () {
-                        context.pushNamed(Routs.viewPdf, extra: PDFViewer(pdfUrl: '${data?.file}',
-                        ));
-                      },
-                    )
-                  else if (data?.file != null)
-                      ImageView(
-                        height: 150,
-                        borderRadiusValue: 18,
-                        margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                        backgroundColor: Colors.transparent,
-                        fit: BoxFit.cover,
-                        assetImage: AppAssets.fileIcon,
-                        onTap: () {
-                          launchUrl(Uri.parse('${data?.file}'));
-                        },
-                      )
+              ChewieVideoPlayerCard(
+                url: '${data?.file}',
+                borderRadius: 18,
+              )
+            else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
+              YoutubeVideoPlayerCard(
+                url: '${data?.file}',
+                borderRadius: 18,
+              )
+            else if (data?.fileType == FeedsFileType.pdf.value && data?.file != null)
+              ImageView(
+                height: 150,
+                borderRadiusValue: 0,
+                margin: EdgeInsets.zero,
+                backgroundColor: Colors.transparent,
+                fit: BoxFit.cover,
+                assetImage: AppAssets.pdfIcon,
+                onTap: () {
+                  context.pushNamed(Routs.viewPdf,
+                      extra: PDFViewer(
+                        pdfUrl: '${data?.file}',
+                      ));
+                },
+              )
+            else if (data?.file != null)
+              ImageView(
+                height: 150,
+                borderRadiusValue: 0,
+                margin: EdgeInsets.zero,
+                backgroundColor: Colors.transparent,
+                fit: BoxFit.cover,
+                assetImage: AppAssets.fileIcon,
+                onTap: () {
+                  launchUrl(Uri.parse('${data?.file}'));
+                },
+              )
           ],
         ),
         if (isFeeds == true)
@@ -189,7 +183,6 @@ class _FeedDetailsCardState extends State<FeedDetailsCard> {
                               textAlign: TextAlign.start,
                             ),
                           ),
-
                       ],
                     ),
                   ),
@@ -206,7 +199,7 @@ class _FeedDetailsCardState extends State<FeedDetailsCard> {
                               height: 18,
                               width: 24,
                               margin: const EdgeInsets.only(
-                                right: kPadding,
+                                bottom: kPadding,
                               ),
                               child: const CupertinoActivityIndicator(),
                             )
@@ -216,9 +209,9 @@ class _FeedDetailsCardState extends State<FeedDetailsCard> {
                               value: data?.likes,
                               onTap: () async {
                                 await context.read<FeedsController>().manageWishList(
-                                  feedId: data?.id,
-                                  inWishList: data?.isLiked == true,
-                                );
+                                      feedId: data?.id,
+                                      inWishList: data?.isLiked == true,
+                                    );
                               },
                             ),
                           // const SizedBox(
@@ -437,40 +430,40 @@ class _FeedCardForDemoState extends State<FeedCardForDemo> {
                   ),
                 )
               else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                    child: YoutubeVideoPlayerCard(
-                      url: '${data?.file}',
-                      borderRadius: 18,
-                    ),
-                  )
-                else if (data?.fileType == 'PDF' && data?.file != null)
-                    ImageView(
-                      height: 150,
-                      borderRadiusValue: 18,
-                      margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                      backgroundColor: Colors.transparent,
-                      fit: BoxFit.cover,
-                      assetImage: AppAssets.pdfIcon,
-                      onTap: () {
-                        context.pushNamed(Routs.viewPdf,
-                            extra: PDFViewer(
-                              pdfUrl: '${data?.file}',
-                            ));
-                      },
-                    )
-                  else if (data?.file != null)
-                      ImageView(
-                        height: 150,
-                        borderRadiusValue: 18,
-                        margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                        backgroundColor: Colors.transparent,
-                        fit: BoxFit.cover,
-                        assetImage: AppAssets.fileIcon,
-                        onTap: () {
-                          launchUrl(Uri.parse('${data?.file}'));
-                        },
-                      )
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  child: YoutubeVideoPlayerCard(
+                    url: '${data?.file}',
+                    borderRadius: 18,
+                  ),
+                )
+              else if (data?.fileType == 'PDF' && data?.file != null)
+                ImageView(
+                  height: 150,
+                  borderRadiusValue: 18,
+                  margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  backgroundColor: Colors.transparent,
+                  fit: BoxFit.cover,
+                  assetImage: AppAssets.pdfIcon,
+                  onTap: () {
+                    context.pushNamed(Routs.viewPdf,
+                        extra: PDFViewer(
+                          pdfUrl: '${data?.file}',
+                        ));
+                  },
+                )
+              else if (data?.file != null)
+                ImageView(
+                  height: 150,
+                  borderRadiusValue: 18,
+                  margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  backgroundColor: Colors.transparent,
+                  fit: BoxFit.cover,
+                  assetImage: AppAssets.fileIcon,
+                  onTap: () {
+                    launchUrl(Uri.parse('${data?.file}'));
+                  },
+                )
             ],
           ),
           Padding(

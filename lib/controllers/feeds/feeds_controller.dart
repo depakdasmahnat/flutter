@@ -9,6 +9,8 @@ import '../../app.dart';
 import '../../core/config/api_config.dart';
 import '../../core/services/api/api_service.dart';
 import '../../models/feeds/comments_model.dart';
+import '../../models/feeds/feed_details_model.dart';
+import '../../models/feeds/feed_details_model.dart';
 import '../../models/feeds/feeds_data.dart';
 import '../../models/feeds/feeds_model.dart';
 import '../../utils/widgets/widgets.dart';
@@ -144,48 +146,131 @@ class FeedsController extends ChangeNotifier {
   /// 2) Feeds Details API...
 
   bool loadingFeedsDetails = true;
-  FeedDetailsModel? feedDetailsModel;
-  List<FeedsData>? feedDetails;
+  FeedDetailsModel? _feedDetailsModel;
 
-  Future<List<FeedsData>?> fetchFeedDetails({required num? feedId}) async {
-    BuildContext? context = MyApp.navigatorKey.currentContext;
+  FeedDetailsModel? get feedDetailsModel => _feedDetailsModel;
 
-    if (context != null) {
-      onRefresh() {
-        loadingFeedsDetails = true;
-        feedDetailsModel = null;
-        feedDetails = null;
-        notifyListeners();
-      }
+  List<FeedsData>? _feedsDetails;
 
-      onComplete() {
-        loadingFeedsDetails = false;
-        notifyListeners();
-      }
+  List<FeedsData>? get feedsDetails => _feedsDetails;
+  num feedsDetailsIndex = 1;
+  num feedsDetailsTotal = 1;
+  num? haveMoreFeedsDetails;
 
-      onRefresh();
-      try {
-        var response =
-            await ApiService().get(endPoint: ApiEndpoints.viewFeed, queryParameters: {'feed_id': '$feedId'});
+  RefreshController feedsDetailsController = RefreshController(initialRefresh: false);
 
-        if (response != null) {
-          Map<String, dynamic> json = response;
-          FeedDetailsModel responseData = FeedDetailsModel.fromJson(json);
-          if (responseData.status == true) {
-            feedDetails = responseData.data;
-            debugPrint('feedDetails');
-            notifyListeners();
-          }
-        }
-      } catch (e, s) {
-        onComplete();
-        ErrorHandler.catchError(e, s, true);
-      } finally {
-        onComplete();
-      }
+  Future<List<FeedsData>?> fetchFeedsDetails({
+    required BuildContext context,
+    required num? feedId,
+    bool isRefresh = false,
+    bool loadingNext = false,
+    String? searchKey,
+    num? categoryId,
+    String? limit,
+  }) async {
+    String modelingData = 'FeedsData';
+    debugPrint('Fetching $modelingData Data...');
+
+    onRefresh() {
+      feedsDetailsIndex = 1;
+      feedsDetailsTotal = 1;
+      haveMoreFeedsDetails = null;
+      loadingFeedsDetails = true;
+      feedsDetailsController.resetNoData();
+      _feedDetailsModel = null;
+      _feedsDetails = null;
+      notifyListeners();
+      debugPrint('Cleared $modelingData');
     }
 
-    return feedDetails;
+    onComplete() {
+      loadingFeedsDetails = false;
+      notifyListeners();
+    }
+
+    if (isRefresh) {
+      onRefresh();
+    }
+
+    Map<String, String> body = {
+      'page': '$feedsDetailsIndex',
+      'feed_id': '$feedId',
+      'limit': limit ?? '10',
+    };
+
+    debugPrint('Body $body');
+
+    try {
+      if ((feedsDetailsIndex <= 1) ? true : haveMoreFeedsDetails != null) {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.viewFeed,
+          queryParameters: body,
+        );
+        FeedDetailsModel? responseData;
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          responseData = FeedDetailsModel.fromJson(json);
+          _feedDetailsModel = responseData;
+        }
+
+        if (responseData?.status == true) {
+          debugPrint('Current Page $feedsDetailsTotal');
+          debugPrint(responseData?.message);
+          if (responseData?.data?.haveData == true) {
+            for (int i = 0; i < (responseData?.data?.length ?? 0); i++) {
+              var data = responseData?.data?.elementAt(i);
+              if (_feedsDetails == null) {
+                debugPrint('$modelingData Added');
+                if (data != null) {
+                  _feedsDetails = [data];
+                }
+              } else {
+                if (_feedsDetails?.contains(data) == true) {
+                  debugPrint('$modelingData Already exist');
+                } else {
+                  if (data != null) {
+                    _feedsDetails?.add(data);
+                    debugPrint('$modelingData Updated');
+                  }
+                }
+              }
+            }
+            notifyListeners();
+          }
+
+          if (loadingNext) {
+            feedsDetailsController.loadComplete();
+          } else {
+            feedsDetailsController.refreshCompleted();
+          }
+          haveMoreFeedsDetails = responseData?.moreDataAvailable;
+          feedsDetailsIndex++;
+          notifyListeners();
+          debugPrint('$modelingData Total Pages $feedsDetailsTotal');
+          debugPrint('Updated $modelingData Current Page $feedsDetailsIndex');
+          return _feedsDetails;
+        } else {
+          debugPrint(responseData?.message);
+          if (loadingNext) {
+            feedsDetailsController.loadFailed();
+          } else {
+            feedsDetailsController.refreshFailed();
+          }
+          notifyListeners();
+        }
+      } else {
+        feedsDetailsController.loadNoData();
+        loadingFeedsDetails = false;
+        notifyListeners();
+        debugPrint('Load no More data in $modelingData');
+      }
+    } catch (e, s) {
+      ErrorHandler.catchError(e, s, true);
+    } finally {
+      onComplete();
+    }
+
+    return _feedsDetails;
   }
 
   /// 2) Like Feed...
@@ -269,7 +354,7 @@ class FeedsController extends ChangeNotifier {
       product = thisProducts?.first;
     }
 
-    List<FeedsData>? thisFeedDetails = feedDetails?.where((element) => element.id == feedId).toList();
+    List<FeedsData>? thisFeedDetails = _feedsDetails?.where((element) => element.id == feedId).toList();
     FeedsData? feedDetail;
     if (thisFeedDetails.haveData) {
       feedDetail = thisFeedDetails?.first;

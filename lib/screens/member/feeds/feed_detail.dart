@@ -33,11 +33,17 @@ class _FeedDetailState extends State<FeedDetail> {
   List<FeedsData>? feedDetails;
 
   Future fetchFeedDetails({bool? loadingNext}) async {
-    return await context.read<FeedsController>().fetchFeedDetails(feedId: id);
+    return await context.read<FeedsController>().fetchFeedsDetails(
+          context: context,
+          isRefresh: loadingNext == true ? false : true,
+          loadingNext: loadingNext ?? false,
+          feedId: id,
+        );
   }
 
   List<CommentsData>? comments;
   TextEditingController commentCtrl = TextEditingController();
+  PageController pageController = PageController();
 
   Future fetchComments({bool? loadingNext}) async {
     return await context.read<FeedsController>().fetchComments(
@@ -58,6 +64,12 @@ class _FeedDetailState extends State<FeedDetail> {
   }
 
   @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
@@ -73,37 +85,27 @@ class _FeedDetailState extends State<FeedDetail> {
       ),
       body: Consumer<FeedsController>(
         builder: (context, controller, child) {
-          feedDetails = controller.feedDetails;
+          feedDetails = controller.feedsDetails;
           comments = controller.comments;
 
-          return SmartRefresher(
-            controller: controller.commentsController,
-            enablePullUp: true,
-            enablePullDown: true,
-            onRefresh: () async {
-              if (mounted) {
-                await fetchComments();
-              }
-            },
-            onLoading: () async {
+          return PageView.builder(
+            controller: pageController,
+            itemCount: feedDetails?.length ?? 0,
+            scrollDirection: Axis.vertical,
+            physics: const PageScrollPhysics(),
+            onPageChanged: (int page) async {
               if (mounted) {
                 await fetchComments(loadingNext: true);
               }
             },
-            enableTwoLevel: true,
-            child: PageView.builder(
-              itemCount: feedDetails?.length ?? 0,
-              scrollDirection: Axis.vertical,
-              // physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                var feedDetail = feedDetails?.elementAt(index);
-                return (controller.loadingFeedsDetails)
-                    ? const LoadingScreen()
-                    : (feedDetails != null)
-                        ? FeedDetailsCard(data: feedDetail)
-                        : const NoDataFound();
-              },
-            ),
+            itemBuilder: (context, index) {
+              var feedDetail = feedDetails?.elementAt(index);
+              return (controller.loadingFeedsDetails)
+                  ? const LoadingScreen()
+                  : (feedDetails != null)
+                      ? FeedDetailsCard(data: feedDetail)
+                      : const NoDataFound();
+            },
           );
         },
       ),

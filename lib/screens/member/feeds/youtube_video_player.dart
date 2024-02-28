@@ -34,6 +34,7 @@ class _YoutubeVideoPlayerCardState extends State<YoutubeVideoPlayerCard> {
       );
 
       controller?.loadVideo('$url');
+
       controller?.pauseVideo();
     } catch (e, s) {
       ErrorHandler.catchError(e, s, false);
