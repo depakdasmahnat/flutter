@@ -620,7 +620,6 @@ class LeadsCard extends StatelessWidget {
     );
   }
 }
-
 class ClosedLeadsCard extends StatelessWidget {
   final int? index;
   final LeadsData? lead;

@@ -92,15 +92,12 @@ class _BannersState extends State<Banners> {
                                 borderRadiusValue: 18,
                                 backgroundColor: Colors.grey.shade200,
                                 onTap: () {
-
                                   if(memberData?.role=="Member"){
                                     _showDialog(context, controller.banner?.data?[bannerIndex].id.toString());
                                   }
-
                                 },
                                 fit: BoxFit.cover,
                                 margin: const EdgeInsets.symmetric(horizontal: kPadding),
-
                                 width: double.infinity,
                               );
                             },

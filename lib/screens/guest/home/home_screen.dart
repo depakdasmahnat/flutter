@@ -54,14 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
   late String formattedDate = DateFormat(dayFormat).format(currentDate);
 
   Future fetchFeeds({bool? loadingNext,String? categoryId}) async {
-    print("check vatgory if $categoryId");
+
     return await context.read<FeedsController>().fetchFeeds(
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
           // categoryId: selectedFilter?.id??1,
           categoryId: categoryId,
-          searchKey: 'searchController.text',
+          searchKey: searchController.text,
         );
   }
 
@@ -101,16 +101,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
   Set<int> selectedIds = Set<int>();
-
   @override
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
-
     Size size = MediaQuery.of(context).size;
     return Consumer<FeedsController>(builder: (context, controller, child) {
       feeds = controller.feeds;
       return Scaffold(
-
         appBar: AppBar(
           elevation: 0,
           title: Row(
@@ -144,13 +141,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           automaticallyImplyLeading: false,
-          actions: const [
+          actions:  [
             ImageView(
               height: 24,
               width: 24,
+              onTap: () {
+                context.pushNamed(Routs.guestNotification);
+              },
               borderRadiusValue: 0,
               color: Colors.white,
-              margin: EdgeInsets.only(left: 8, right: 8),
+              margin: const EdgeInsets.only(left: 8, right: 8),
               fit: BoxFit.contain,
               assetImage: AppAssets.notificationsIcon,
             ),

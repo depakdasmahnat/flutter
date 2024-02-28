@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 
 import 'package:video_player/video_player.dart';
@@ -42,10 +43,10 @@ class _GtpVideoState extends State<GtpVideo> {
           SystemChrome.setPreferredOrientations([
             DeviceOrientation.portraitUp, // Change to desired orientation
           ]);
+          context.firstRoute();
+          context.pushReplacementNamed(Routs.dashboard);
           controller?.pause();
-          context.pop();
         }
-
       }
       setState(() {
 
@@ -53,7 +54,6 @@ class _GtpVideoState extends State<GtpVideo> {
     });
     super.initState();
   }
-
   @override
   void dispose() {
     controller?.dispose();

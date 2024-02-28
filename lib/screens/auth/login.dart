@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -14,8 +15,10 @@ import '../../../utils/widgets/custom_text_field.dart';
 import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/constant/gradients.dart';
 
+import '../../core/route/route_paths.dart';
 import '../../models/auth_model/validatemobile.dart';
 import '../../utils/widgets/gradient_button.dart';
+import '../../utils/widgets/web_view_screen.dart';
 import '../../utils/widgets/widgets.dart';
 
 class Login extends StatefulWidget {
@@ -276,7 +279,6 @@ class _LoginState extends State<Login> {
 
                     onChanged: (bool? value) {
                       checkBox =value!;
-
                       setState(() {});
                     }, value: checkBox,
                   ),
@@ -284,11 +286,21 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   width: size.width*0.04,
                 ),
-                CustomeText(
-                  text: 'I agree to the Terms and Conditions',
-                  fontSize: 14,
-                  // color: Colors.black,
-                  fontWeight: FontWeight.w500,
+                GestureDetector(
+                  onTap: () {
+                    context.pushNamed(Routs.webView,
+                        extra: const WebViewScreen(
+                          title: 'Terms & conditions',
+                          url: 'https://api.gtp.proapp.in/api/v1/terms_and_condition',
+                        ));
+                  },
+                  child: CustomeText(
+
+                    text: 'I agree to the Terms and Conditions',
+                    fontSize: 14,
+                    // color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
                 )
               ],
             ),

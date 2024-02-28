@@ -71,7 +71,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       diseaseController.text = fetchGuestProfileModel?.data?.illnessInFamily ?? '';
       emailController.text = fetchGuestProfileModel?.data?.email ?? '';
       pinCodeController.text = fetchGuestProfileModel?.data?.pincode ?? '';
-      addressController.text = fetchGuestProfileModel?.data?.address ?? '';
+      addressController.text = fetchGuestProfileModel?.data?.address.toString()=='null'?'':fetchGuestProfileModel?.data?.address;
       stateName = fetchGuestProfileModel?.data?.stateName ?? 'Select State';
       stateId = fetchGuestProfileModel?.data?.stateId.toString()=='null' ? '':fetchGuestProfileModel?.data?.stateId.toString()??'';
       cityId = fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':fetchGuestProfileModel?.data?.cityId.toString()??'';

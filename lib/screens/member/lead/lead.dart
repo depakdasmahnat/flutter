@@ -121,6 +121,7 @@ class _LeadState extends State<Lead> {
                                   ],
                                 ),
                                 shape: RoundedRectangleBorder(
+
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       bottomLeft: Radius.circular(10)),
@@ -155,12 +156,13 @@ class _LeadState extends State<Lead> {
                                             gradient: index == tabIndex
                                                 ? primaryGradient
                                                 : inActiveGradient,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  topRight:
-                                                      Radius.circular(100),
-                                                  bottomRight:
-                                                      Radius.circular(100)),
+                                            shape:  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(13))
+                                              // borderRadius: BorderRadius.only(
+                                              //     topRight:
+                                              //         Radius.circular(100),
+                                              //     bottomRight:
+                                              //         Radius.circular(100)),
                                             ),
                                           ),
                                           child: Center(
