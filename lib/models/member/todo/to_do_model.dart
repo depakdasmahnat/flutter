@@ -59,6 +59,8 @@ class ToDoData {
     this.trainingPerc,
     this.events,
     this.demoScheduled,
+    this.invitationCall,
+    this.followUp,
   });
 
   ToDoData.fromJson(dynamic json) {
@@ -72,6 +74,8 @@ class ToDoData {
     trainingPerc = json['training_perc'];
     events = json['events'];
     demoScheduled = json['demo_scheduled'];
+    invitationCall = json['invitation_call'];
+    followUp = json['follow_up'];
   }
 
   num? myPendingTarget;
@@ -84,6 +88,8 @@ class ToDoData {
   String? trainingPerc;
   num? events;
   num? demoScheduled;
+  num? invitationCall;
+  num? followUp;
 
   ToDoData copyWith({
     num? myPendingTarget,
@@ -96,6 +102,8 @@ class ToDoData {
     String? trainingPerc,
     num? events,
     num? demoScheduled,
+    num? invitationCall,
+    num? follow_up,
   }) =>
       ToDoData(
         myPendingTarget: myPendingTarget ?? this.myPendingTarget,
@@ -108,6 +116,8 @@ class ToDoData {
         trainingPerc: trainingPerc ?? this.trainingPerc,
         events: events ?? this.events,
         demoScheduled: demoScheduled ?? this.demoScheduled,
+        invitationCall: invitationCall ?? this.invitationCall,
+        followUp: follow_up ?? this.followUp,
       );
 
   Map<String, dynamic> toJson() {
@@ -122,6 +132,8 @@ class ToDoData {
     map['training_perc'] = trainingPerc;
     map['events'] = events;
     map['demo_scheduled'] = demoScheduled;
+    map['invitation_call'] = invitationCall;
+    map['follow_up'] = followUp;
     return map;
   }
 }

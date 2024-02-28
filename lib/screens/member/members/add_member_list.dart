@@ -540,7 +540,7 @@ class _AddMemberListState extends State<AddMemberList> {
                   monthlyIncome: incomeController.text,
                   sponsorId: sponsorId,
                   file: XFile(image?.path??'')).whenComplete(() async{
-                await context.read<MembersController>().fetchLeads(status: '', priority: '', page: '1');
+                await context.read<MembersController>().fetchLeads(status: 'New', priority: '', page: '1');
                   },);
             },
             child: Row(

@@ -43,6 +43,7 @@ class Data {
       String? mobile, 
       String? firstName, 
       String? lastName,
+      String? countryCode,
       String? address,
     String? isMobileValidated,
       dynamic referralCode,}){
@@ -50,6 +51,7 @@ class Data {
     _firstName = firstName;
     _lastName = lastName;
     _address = address;
+    _countryCode = countryCode;
     _isMobileValidated = isMobileValidated;
     _referralCode = referralCode;
 }
@@ -59,6 +61,7 @@ class Data {
     _firstName = json['first_name'];
     _lastName = json['last_name'];
     _address = json['address'];
+    _countryCode = json['country_code'];
     _isMobileValidated = json['is_mobile_validated'];
     _referralCode = json['referral_code'];
   }
@@ -67,6 +70,7 @@ class Data {
   String? _lastName;
   String? _isMobileValidated;
   String? _address;
+  String? _countryCode;
   dynamic _referralCode;
 
   String? get mobile => _mobile;
@@ -74,6 +78,7 @@ class Data {
   String? get lastName => _lastName;
   String? get isMobileValidated => _isMobileValidated;
   String? get address => _address;
+  String? get countryCode => _countryCode;
   dynamic get referralCode => _referralCode;
 
   Map<String, dynamic> toJson() {
@@ -84,6 +89,7 @@ class Data {
     map['address'] = _address;
     map['is_mobile_validated'] = _isMobileValidated;
     map['referral_code'] = _referralCode;
+    map['country_code'] = _countryCode;
     return map;
   }
 

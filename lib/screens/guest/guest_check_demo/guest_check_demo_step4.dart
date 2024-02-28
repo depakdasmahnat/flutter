@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
+import '../../../core/services/database/local_database.dart';
+import '../../../models/auth_model/guest_data.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/gradient_text.dart';
 import 'guest_check_demo_step2.dart';
@@ -23,6 +26,7 @@ class GuestCheckDemoStep4 extends StatefulWidget {
 class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
   @override
   Widget build(BuildContext context) {
+    GuestData? guest = context.read<LocalDatabase>().guest;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
        body: Stack(
@@ -49,7 +53,7 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
                Column(
                  children: [
                    CustomText1(
-                     text: "Hello, Alin! Let's dive in and explore together !",
+                     text: "Hello, ${guest?.firstName.toCapitalizeFirst}! Let's dive in and explore together !",
                      color: Colors.white,
                      fontSize: 26,
                      textAlign: TextAlign.center,
@@ -61,6 +65,7 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
                      style: TextStyle(
                        color: Colors.white,
                        fontSize: 16,
+
                        fontFamily: GoogleFonts.urbanist().fontFamily,
                        fontWeight: FontWeight.w400,
                      ),

@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/screens/auth/why_are_you_here.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/auth_controller/auth_controller.dart';
-import '../../core/config/app_assets.dart';
 import '../../core/constant/gradients.dart';
 import '../../core/route/route_paths.dart';
 import '../../models/auth_model/fetchinterestquestions.dart';

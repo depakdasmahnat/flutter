@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/models/member/goals/goals_model.dart';
@@ -14,6 +16,7 @@ import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import 'create_goal.dart';
 
 class GoalsScreen extends StatefulWidget {
   const GoalsScreen({
@@ -302,27 +305,68 @@ class GoalCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    'Expected completion date: ${goal?.endDate ?? ' '}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.start,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Completion Date: ${goal?.endDate ?? ' '}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          context.pushNamed(Routs.createGoal,
+                              extra: CreateGoal(
+                                goalId: '${goal?.id}',
+                                type: 'Edit',
+                              ));
+                        },
+                        child: const Row(
+                          children: [
+                            ImageView(
+                              height: 14,
+                              width: 14,
+                              assetImage: AppAssets.edit,
+                              onTap: null,
+                              margin: EdgeInsets.only(right: 4),
+                            ),
+                            Text(
+                              'Edit',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 GradientButton(
                   height: 40,
                   borderRadius: 50,
-                  backgroundGradient: whiteGradient,
+                  onTap: () {
+                    if (goal?.status == GoalStatus.achieved.value) {
+                      context.read<MembersController>().achieveGoal(context: context, goalId: goal?.id);
+                    }
+                  },
+                  backgroundGradient:
+                      goal?.status == GoalStatus.achieved.value ? whiteGradient : greyGradient,
                   margin: const EdgeInsets.symmetric(vertical: kPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         '${goal?.status}',
-                        style: const TextStyle(color: Colors.black),
+                        style: TextStyle(
+                            color: goal?.status == GoalStatus.achieved.value ? Colors.white : Colors.black),
                       ),
                     ],
                   ),

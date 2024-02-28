@@ -12,6 +12,7 @@ import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import '../guest_check_demo/guest_check_demo_step2.dart';
 
 class GuestFaq extends StatefulWidget {
   const GuestFaq({super.key});
@@ -51,7 +52,7 @@ class _GuestFaqState extends State<GuestFaq> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      context.read<GuestControllers>().fetchInterestCategories(context: context, type: '');
+      context.read<GuestControllers>().fetchInterestCategories(context: context, type: 'Faq');
       context.read<GuestControllers>().fetchFaqs(context: context, categoriesId: '');
     });
     super.initState();
@@ -76,7 +77,7 @@ class _GuestFaqState extends State<GuestFaq> {
           fetchInterestCategory = controller.fetchInterestCategory;
           return Column(
             children: [
-              Text(
+              const Text(
                 'How can we help you?',
                 style: TextStyle(
                   color: Colors.white,
@@ -85,7 +86,7 @@ class _GuestFaqState extends State<GuestFaq> {
                 ),
                 textAlign: TextAlign.start,
               ),
-              CustomTextField(
+              const CustomTextField(
                 hintText: 'Search',
 
                 hintStyle: TextStyle(color: Colors.white),
@@ -142,24 +143,27 @@ class _GuestFaqState extends State<GuestFaq> {
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          fetchInterestCategory?.data?[index].image == null
-                                              ? Image.asset(
+                                          // fetchInterestCategory?.data?[index].path == null
+                                          //     ?
+                                          Image.asset(
                                                   AppAssets.rocket,
                                                   height: size.height * 0.04,
                                             color:tabIndex ==index?Colors.black: Colors.white,
-                                                )
-                                              : Image.network(
-                                                  fetchInterestCategory?.data?[index].image ?? '',
-                                                  height: size.height * 0.04,
-                                            color:tabIndex ==index?Colors.black: Colors.white,
                                                 ),
+                                          //     :
+                                          // Image.network(
+                                          //         fetchInterestCategory?.data?[index].path ?? '',
+                                          //         height: size.height * 0.04,
+                                          //   color:tabIndex ==index?Colors.black: Colors.white,
+                                          //       ),
                                           Text(
                                             fetchInterestCategory?.data?[index].name ?? '',
                                             style:
                                             TextStyle(
                                               color:tabIndex ==index?Colors.black: Colors.white,
-                                              fontSize: 16,
-                                              height: 2,
+                                              fontSize: 12,
+                                              height: 3,
+
                                               fontWeight: FontWeight.w600,
                                             ),
                                             textAlign: TextAlign.start,
@@ -169,7 +173,6 @@ class _GuestFaqState extends State<GuestFaq> {
                                             style:  TextStyle(
                                               color:tabIndex ==index?Colors.black: Colors.white,
                                               fontSize: 12,
-
                                               fontWeight: FontWeight.w400,
                                             ),
                                             textAlign: TextAlign.start,
@@ -265,7 +268,8 @@ class _GuestFaqState extends State<GuestFaq> {
                             itemCount: controller.fetchFaqsModel?.data?.length ?? 0,
                             // physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return Padding(
+                              return
+                                Padding(
                                 padding:
                                     const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                                 child: Container(
@@ -277,7 +281,8 @@ class _GuestFaqState extends State<GuestFaq> {
                                           ? primaryGradient
                                           : const LinearGradient(
                                               colors: [Color(0xFF1B1B1B), Color(0xFF1B1B1B)])),
-                                  child: ExpansionTile(
+                                  child:
+                                  ExpansionTile(
                                     iconColor:
                                         expend == true && changeIndex == index ? Colors.black : Colors.white,
                                     onExpansionChanged: (value) {
@@ -285,7 +290,7 @@ class _GuestFaqState extends State<GuestFaq> {
                                       changeIndex = index;
                                       setState(() {});
                                     },
-                                    title: CustomeText(
+                                    title: CustomText1(
                                       text: controller.fetchFaqsModel?.data?[index].question,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
@@ -294,7 +299,7 @@ class _GuestFaqState extends State<GuestFaq> {
                                     ),
                                     children: <Widget>[
                                       ListTile(
-                                          title: CustomeText(
+                                          title: CustomText1(
                                         text: controller.fetchFaqsModel?.data?[index].answer,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,

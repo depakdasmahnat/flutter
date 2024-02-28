@@ -20,7 +20,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Color textColo =Color(0xffB5B5B5);
+    Color textColo =const Color(0xffB5B5B5);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(size.height * 0.06),
@@ -67,7 +67,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               ),
 
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             CustomeText(
@@ -76,7 +76,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               fontWeight: FontWeight.w400,
               color:Colors.white,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             CustomeText(
@@ -85,7 +85,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               fontWeight: FontWeight.w400,
               color:Colors.white,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
              Text(
@@ -99,7 +99,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               ),
 
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             CustomeText(
@@ -160,7 +160,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         )
       ],

@@ -137,7 +137,8 @@ class _TrainingScreenState extends State<TrainingScreen> {
                 onEditingComplete: () {
                   fetchTrainings();
                 },
-                margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                margin:
+                    const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
               ),
               const Row(
                 children: [

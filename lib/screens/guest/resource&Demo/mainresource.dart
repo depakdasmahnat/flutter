@@ -35,7 +35,7 @@ class _MainResourceState extends State<MainResource> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Resources'),
+        title: const Text('Library'),
       ),
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {

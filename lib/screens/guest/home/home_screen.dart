@@ -1,10 +1,14 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_flip_card/flipcard/gesture_flip_card.dart';
+// import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
 import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
@@ -49,12 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late String formattedDate = DateFormat(dayFormat).format(currentDate);
 
-  Future fetchFeeds({bool? loadingNext}) async {
+  Future fetchFeeds({bool? loadingNext,String? categoryId}) async {
+
     return await context.read<FeedsController>().fetchFeeds(
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
-          categoryId: selectedFilter?.id??1,
+          // categoryId: selectedFilter?.id??1,
+          categoryId: categoryId,
           searchKey: searchController.text,
         );
   }
@@ -94,16 +100,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
   }
-
+  Set<int> selectedIds = Set<int>();
   @override
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
-
     Size size = MediaQuery.of(context).size;
     return Consumer<FeedsController>(builder: (context, controller, child) {
       feeds = controller.feeds;
       return Scaffold(
-
         appBar: AppBar(
           elevation: 0,
           title: Row(
@@ -113,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Welcome ${localDatabase.guest?.firstName ?? 'Guest'}',
+                    'Welcome ${localDatabase.guest?.firstName.toCapitalizeFirst ?? 'Guest'}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -137,13 +141,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           automaticallyImplyLeading: false,
-          actions: const [
+          actions:  [
             ImageView(
               height: 24,
               width: 24,
+              onTap: () {
+                context.pushNamed(Routs.guestNotification);
+              },
               borderRadiusValue: 0,
               color: Colors.white,
-              margin: EdgeInsets.only(left: 8, right: 8),
+              margin: const EdgeInsets.only(left: 8, right: 8),
               fit: BoxFit.contain,
               assetImage: AppAssets.notificationsIcon,
             ),
@@ -167,6 +174,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const GuestProfiles(),
+
+
+
             const Banners(),
             Consumer<CheckDemoController>(
               builder: (context, controller, child) {
@@ -177,21 +187,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.transparent,
                   boxShadow: const [],
                   onTap: () {
+                if(controller.getStep?.demoStep==6){
+                  context.pushNamed(Routs.guestDemoVideos);
+                }else{
+                  context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                    await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                  },);
 
-                // if(controller.getStep?.demoStep==6){
-                //   context.pushNamed(Routs.guestDemoVideos);
-                // }else{
-                  _showDialog(context);
-                // }
-
-
+                }
                   },
                   margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Check Demo',
+                        'Yes, I want to change my life',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -238,7 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
             //     ),
             //   ),
             // ),
-
              CustomTextField(
               hintText: 'Search events, benefits, and more',
               controller: searchController,
@@ -247,11 +256,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   isRefresh:  true ,
                   loadingNext:  false,
-                  categoryId: selectedFilter?.id,
+                  categoryId: '',
                   searchKey: searchController.text,
                 );
               },
-              hintStyle: TextStyle(color: Colors.white),
+              hintStyle: const TextStyle(color: Colors.white),
               prefixIcon: const ImageView(
                 height: 20,
                 width: 20,
@@ -263,7 +272,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
             ),
-
             // if (filters?.haveData == true)
             Padding(
               padding: const EdgeInsets.only(left: kPadding,right: kPadding),
@@ -271,22 +279,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (context, value, child) {
                   return SizedBox(
                     height: 40,
-                    child: ListView.builder(
+                    child:
+                    ListView.builder(
                       itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
                       scrollDirection: Axis.horizontal,
                       // padding: const EdgeInsets.only(left: 20,),
                       itemBuilder: (context, index) {
-
                         var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
+                        bool isSelected = selectedIds.contains(data?.id);
                         selectedFilter ??= data;
                         return GradientButton(
-                          backgroundGradient: selectedFilter?.id == data?.id ? primaryGradient : inActiveGradient,
+                          backgroundGradient: isSelected? primaryGradient : inActiveGradient,
                           borderWidth: 2,
                           borderRadius: 30,
-                          onTap: () {
+                          onTap: () async{
                             selectedFilter = data;
+                            if (isSelected) {
+                              selectedIds.remove(data?.id);
+                            } else {
+                              selectedIds.add(int.parse(data?.id.toString()??''));
+                            }
+
                             setState(() {});
-                            fetchFeeds();
+                          await  fetchFeeds(categoryId:selectedIds.join(',') );
                           },
                           margin: const EdgeInsets.only(right: 12),
                           padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
@@ -295,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: selectedFilter?.id == data?.id ? Colors.black : Colors.white,
+                              color: isSelected ? Colors.black : Colors.white,
                             ),
                           ),
                         );

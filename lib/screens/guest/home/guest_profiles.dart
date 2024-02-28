@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:flip_card/flip_card.dart';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +11,6 @@ import 'package:provider/provider.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/gradients.dart';
 
-
 class GuestProfiles extends StatefulWidget {
   const GuestProfiles({super.key});
 
@@ -16,70 +19,134 @@ class GuestProfiles extends StatefulWidget {
 }
 
 class _GuestProfilesState extends State<GuestProfiles> {
-
+  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+   FlipCardController? _controller;
+  int _currentIndex = 0;
+  List<Widget> _widgets = [];
   @override
   void initState() {
     super.initState();
+    _controller = FlipCardController();
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      if (_currentIndex < _widgets.length - 1) {
+        _currentIndex++;
+      } else {
+        _currentIndex = 0;
+      }
+      _controller?.toggleCard();
+      // setState(() {
+      //
+      // });
+    });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<GuestControllers>().fetchNewJoiners(
             context: context,
           );
     });
   }
-
+  @override
+  void dispose() {
+    _controller?.controller?.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Consumer<GuestControllers>(
       builder: (context, controller, child) {
         List<Widget> widgets = [
           Column(
             children: [
-              Container(
-                height: 45,
-                width: 45,
-                margin: const EdgeInsets.only(bottom: 4),
-                decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
-                child: Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-
-                    children: [
-                      Text(
-                        '07 Days',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 8,
-                          fontFamily: GoogleFonts.urbanist().fontFamily,
-                          fontWeight: FontWeight.w700,
+              FlipCard(
+               key: cardKey,
+                controller: _controller,
+                speed: 1500,
+                flipOnTouch: false,
+                fill: Fill.fillBack,
+                autoFlipDuration: const Duration(seconds: 2),
+                direction: FlipDirection.HORIZONTAL,
+                side: CardSide.FRONT,
+                front: Container(
+                  height: 45,
+                  width: 45,
+                  margin: const EdgeInsets.only(bottom: 4),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, gradient: primaryGradient),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '07 Days',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 8,
+                            fontFamily: GoogleFonts.urbanist().fontFamily,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                        textAlign: TextAlign.start,
-                      ),
-                      Text(
-                        '${controller.fetchnewjoiners?.data?.counts}',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-
-                          fontFamily: GoogleFonts.urbanist().fontFamily,
-                          fontWeight: FontWeight.w800,
+                        Text(
+                          '${controller.fetchnewjoiners?.data?.counts}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.urbanist().fontFamily,
+                            fontWeight: FontWeight.w800,
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                ),
+                back: Container(
+                  height: 45,
+                  width: 45,
+                  margin: const EdgeInsets.only(bottom: 4),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, gradient: primaryGradient),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '07 Days',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 8,
+                            fontFamily: GoogleFonts.urbanist().fontFamily,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                        Text(
+                          '${controller.fetchnewjoiners?.data?.counts}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontFamily: GoogleFonts.urbanist().fontFamily,
+                            fontWeight: FontWeight.w800,
+                          ),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
+
               Text(
                 'New\nMembers Join',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 9,
-                    fontFamily: GoogleFonts.urbanist().fontFamily,
-                    fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 9,
+                  fontFamily: GoogleFonts.urbanist().fontFamily,
+                  fontWeight: FontWeight.w500,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -106,7 +173,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
-                        child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                        child: CupertinoActivityIndicator(
+                            radius: 15, color: CupertinoColors.white),
                       ),
                     ],
                   )
@@ -125,7 +193,6 @@ class NewJoiner extends StatelessWidget {
   String? image;
   String? firstName;
   String? cityName;
-
   NewJoiner({
     this.image,
     this.firstName,

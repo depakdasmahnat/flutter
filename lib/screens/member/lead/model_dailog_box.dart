@@ -37,6 +37,7 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   TextEditingController remarkController=TextEditingController();
   TextEditingController enagicIdController=TextEditingController();
+  TextEditingController salesFController=TextEditingController();
   TextEditingController enagicPassController=TextEditingController();
   TextEditingController enagicConPassController=TextEditingController();
   List item =['Hot','Worm','Cold'];
@@ -198,14 +199,12 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(''),
-
                         Column(
                           children: [
 
@@ -295,31 +294,31 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
                     height:size.height*0.01,
                   ),
                   AppTextField(
-                    controller: enagicIdController,
+                    controller: salesFController,
                     hintText: 'Sales Facilitator',
-                    validator:
-                        (value) {
-                      if(value!.isEmpty || value ==null){
-                        return 'Please Enter Sales Facilitator ';
-                      }else{
-                        return null;
-                      }
+                    // validator:
+                    //     (value) {
+                    //   if(value!.isEmpty || value ==null){
+                    //     return 'Please Enter Sales Facilitator ';
+                    //   }else{
+                    //     return null;
+                    //   }
+                    //
+                    // },
+                    // onFieldSubmitted: (v) {
+                    //   final random = Random().nextInt(999999);
+                    //   salesFController.text =random.toString();
+                    //   setState(() {});
+                    //
+                    // },
+                    // onChanged: (v) {
+                    //   if(v.isEmpty){
+                    //     enagicPassController.clear();
+                    //   }
+                    //
+                    // },
 
-                    },
-                    onFieldSubmitted: (v) {
-                      final random = Random().nextInt(999999);
-                      enagicPassController.text =random.toString();
-                      setState(() {});
-
-                    },
-                    onChanged: (v) {
-                      if(v.isEmpty){
-                        enagicPassController.clear();
-                      }
-
-                    },
-
-                    title:'Enagic ID' ,
+                    title:'Sales Facilitator' ,
                     height: size.height*0.04,
                   ),
                   SizedBox(
@@ -402,7 +401,7 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
                     onTap: () async{
                       if (_form.currentState?.validate() == true) {
                         DefaultModel? responseData=await context.read<MembersController>().leadClose(context: context,
-                            guestId: widget.guestId, enagicId: enagicIdController.text, password: enagicPassController.text);
+                            guestId: widget.guestId, enagicId: enagicIdController.text, password: enagicPassController.text, salesFacilitator: salesFController.text);
                         if(responseData?.status==true){
                           Share.share('Enagic Id - $enagicIdController  , Password-$enagicPassController',);
                         }
@@ -719,8 +718,9 @@ class _ModelDialogBoxForBannerState extends State<ModelDialogBoxForBanner> {
 
 class ModelDialogBoxForRescheduled extends StatefulWidget {
   final String guestId;
+  final String priority;
 
-  const ModelDialogBoxForRescheduled({super.key,required this.guestId,});
+  const ModelDialogBoxForRescheduled({super.key,required this.guestId,required this.priority});
   @override
   State<ModelDialogBoxForRescheduled> createState() => _ModelDialogBoxForRescheduledState();
 }
@@ -731,39 +731,7 @@ class _ModelDialogBoxForRescheduledState extends State<ModelDialogBoxForReschedu
   int tabIndex=-1;
   List item =['I Will  Attend','Attend with others','Not interested'];
   Color? pupUpTextColor =const Color(0xFFA0A0A0);
-//   Future<void> _showDialog(
-//       BuildContext context,
-//
-//       ) async {
-//     return  showDialog(
-//         context: context,
-//         builder: (context) {
-//           return CupertinoAlertDialog(
-// title: Text("Select"),
-//             content:
-//             actions: [
-//               TextButton(
-//                 onPressed: () {
-//                   context.pop();
-//                 },
-//                 child: const Text(
-//                   'Back',
-//                   style: TextStyle(color: Colors.white),
-//                 ),
-//               ),
-//               TextButton(
-//                 onPressed: () {
-//
-//                 },
-//                 child: const Text(
-//                   'Save',
-//                   style: TextStyle(color: Colors.red),
-//                 ),
-//               )
-//             ],
-//           );
-//         });
-//   }
+
   Future<void> _showDialog(BuildContext context) async {
     return
       showDialog(
@@ -864,7 +832,7 @@ class _ModelDialogBoxForRescheduledState extends State<ModelDialogBoxForReschedu
             TextButton(
               onPressed:()async {
                 await context.read<ListsControllers>().rescheduledCall(context: context,
-                    guestId: widget.guestId, reason: 'Call back request', date: dateController.text, time:timeConroller.text);
+                    guestId: widget.guestId, reason: 'Call back request', date: dateController.text, time:timeConroller.text, LMSStep: 'Invitation Call', priority: widget.priority, demoRescheduleRemark: '');
                 context.pop();
               },
               child: const Text('Save'),
@@ -902,7 +870,7 @@ class _ModelDialogBoxForRescheduledState extends State<ModelDialogBoxForReschedu
                 GestureDetector(
                   onTap: () async{
                     await context.read<ListsControllers>().rescheduledCall(context: context,
-                        guestId: widget.guestId, reason: 'No answer', date: '', time: '');
+                        guestId: widget.guestId, reason: 'No answer', date: '', time: '', LMSStep: 'Invitation Call', priority: widget.priority, demoRescheduleRemark: '',);
 
                   },
                   child: CustomeText(
@@ -925,7 +893,7 @@ class _ModelDialogBoxForRescheduledState extends State<ModelDialogBoxForReschedu
                 GestureDetector(
                   onTap: () async{
                     await context.read<ListsControllers>().rescheduledCall(context: context,
-                        guestId: widget.guestId, reason: 'Could not connect', date: '', time: '');
+                        guestId: widget.guestId, reason: 'Could not connect', date: '', time: '', LMSStep: 'Invitation Call', priority: widget.priority, demoRescheduleRemark: '');
                     context.pop();
                   },
                   child: CustomeText(
@@ -1109,8 +1077,11 @@ class _DemoDoneFormDemoScheduledState extends State<DemoDoneFormDemoScheduled> {
                         boxShadow: const [],
                         margin: const EdgeInsets.only(left: 16, right: 24),
                         onTap: () async{
-                          await context.read<MembersController>().demoDoneForm(context: context,
+                          DefaultModel? model = await context.read<MembersController>().demoDoneForm(context: context,
                               demoId: widget.demoId, feedback: '', remark: remarkController.text, priority: priority);
+                          if(model?.status==true){
+                            await context.read<MembersController>().fetchLeads(status: 'Demo Scheduled', priority: '', page: '1');
+                          }
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -1147,8 +1118,9 @@ class _DemoDoneFormDemoScheduledState extends State<DemoDoneFormDemoScheduled> {
 
 class ModelDialogBoxIncomplete extends StatefulWidget {
   final String guestId;
+  final String priority;
 
-  const ModelDialogBoxIncomplete({super.key,required this.guestId,});
+  const ModelDialogBoxIncomplete({super.key,required this.guestId,required this.priority});
   @override
   State<ModelDialogBoxIncomplete> createState() => _ModelDialogBoxIncompleteState();
 }
@@ -1259,7 +1231,7 @@ class _ModelDialogBoxIncompleteState extends State<ModelDialogBoxIncomplete> {
             TextButton(
               onPressed:()async {
                 await context.read<ListsControllers>().rescheduledCall(context: context,
-                    guestId: widget.guestId, reason: '', date: dateController.text, time:timeController.text);
+                    guestId: widget.guestId, reason: '', date: dateController.text, time:timeController.text, LMSStep: 'Demo Scheduled ', priority: widget.priority, demoRescheduleRemark: '');
                 context.pop();
               },
               child: const Text('Save'),

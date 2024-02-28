@@ -50,7 +50,7 @@ class _CreateTargetState extends State<CreateTarget> {
       appBar: AppBar(
         elevation: 0,
         leading: const CustomBackButton(),
-        title: const Text('Create Target'),
+        title: const Text('Set Your Monthly Target'),
       ),
       body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),

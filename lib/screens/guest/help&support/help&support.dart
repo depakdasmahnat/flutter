@@ -24,7 +24,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
   @override
   Widget build(BuildContext context) {
     Color textColor =Color(0xff1C1C1C);
-    Color textColor1 =Color(0xffB5B5B5);
+
     Color? textColor2 =const Color(0xFF909090);
     Size size = MediaQuery.of(context).size;
     return  Scaffold(
@@ -149,7 +149,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               height: size.height*0.04,
             ),
             CustomeText(
-              text: 'Call us',
+              text: 'Social admin',
               fontSize: 18,
               fontWeight: FontWeight.w500,
               color: textColor2,
@@ -158,7 +158,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               height: size.height*0.01,
             ),
             CustomeText(
-              text: '+91 68245 65789',
+              text: 'Tanvesh',
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: textColor2,
@@ -176,7 +176,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               height: size.height*0.01,
             ),
             CustomeText(
-              text: 'contact@company.com',
+              text: 'er.tanveshrupani@gmail.com',
               fontSize: 18,
               fontWeight: FontWeight.w500,
               color: textColor2,

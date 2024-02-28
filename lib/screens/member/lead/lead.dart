@@ -1,24 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
-
-import '../../../controllers/auth_controller/auth_controller.dart';
 import '../../../controllers/member/leads/leads_controllers.dart';
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
-import '../../../core/constant/colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../utils/widgets/appbar.dart';
-
-import '../../../utils/widgets/custom_back_button.dart';
-
 import '../../../utils/widgets/custom_bottom_sheet.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
@@ -28,7 +19,7 @@ import '../demo/create_demo.dart';
 import '../home/member_profile_details.dart';
 import '../profile/profile.dart';
 import 'custom_popup_menu.dart';
-import 'demo_don_form.dart';
+
 import 'leads_popup.dart';
 import 'model_dailog_box.dart';
 
@@ -86,9 +77,7 @@ class _LeadState extends State<Lead> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context
-          .read<MembersController>()
-          .fetchLeads(status: 'New', priority: '', page: '1');
+      await context.read<MembersController>().fetchLeads(status: 'New', priority: '', page: '1');
     });
     super.initState();
   }
@@ -118,6 +107,9 @@ class _LeadState extends State<Lead> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            const SizedBox(
+                              height: 2,
+                            ),
                             Container(
                               height: size.width * 0.15,
                               width: double.infinity,
@@ -132,6 +124,7 @@ class _LeadState extends State<Lead> {
                                   ],
                                 ),
                                 shape: RoundedRectangleBorder(
+
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       bottomLeft: Radius.circular(10)),
@@ -166,12 +159,13 @@ class _LeadState extends State<Lead> {
                                             gradient: index == tabIndex
                                                 ? primaryGradient
                                                 : inActiveGradient,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  topRight:
-                                                      Radius.circular(100),
-                                                  bottomRight:
-                                                      Radius.circular(100)),
+                                            shape:  const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(Radius.circular(13))
+                                              // borderRadius: BorderRadius.only(
+                                              //     topRight:
+                                              //         Radius.circular(100),
+                                              //     bottomRight:
+                                              //         Radius.circular(100)),
                                             ),
                                           ),
                                           child: Center(
@@ -655,9 +649,7 @@ class _LeadState extends State<Lead> {
                                             ),
                                           );
                                         },
-                                        value: controller
-                                            .fetchLeadsModel?.stats?.bin
-                                            .toString(),
+                                        value: controller.fetchLeadsModel?.stats?.bin.toString(),
                                         subHeading: 'Bin',
                                         colors: const [
                                           Color(0xFF3B3B3B),
@@ -739,6 +731,9 @@ class _LeadState extends State<Lead> {
                                         itemBuilder: (BuildContext context) =>
                                             <PopupMenuEntry>[
                                           const PopupMenuItem(
+                                            value: 'All',
+                                            child: Text('All'),
+                                          ), const PopupMenuItem(
                                             value: 'Newest',
                                             child: Text('Newest'),
                                           ),
@@ -775,8 +770,8 @@ class _LeadState extends State<Lead> {
                     )),
             body: Stack(
               children: [
-                controller.fetchLeadsModel?.data?.isEmpty == true
-                    ? const NoDataFound()
+                controller.fetchLeadsModel?.data== null
+                    ? const Center(child: NoDataFound())
                     : ListView.builder(
                         itemCount:
                             controller.fetchLeadsModel?.data?.length ?? 0,
@@ -876,6 +871,7 @@ class _LeadState extends State<Lead> {
 }
 
 class RowCart extends StatefulWidget {
+
   int? tabIndex;
   int? listIndex;
   String? guestId;
@@ -889,6 +885,7 @@ class RowCart extends StatefulWidget {
   String? demoId;
   String? memberId;
   RowCart({
+
     this.tabIndex,
     this.listIndex,
     this.guestId,
@@ -915,40 +912,30 @@ class _RowCartState extends State<RowCart> {
     BuildContext context,
     String? guestId,
     String? feedback,
-    bool changePopUp,
+    bool changePopUp2,
     bool? changePopup,
+    String? priority,
   ) async {
     return showDialog(
       context: context,
       barrierColor: Colors.transparent,
-      barrierDismissible: true,
+      // barrierDismissible: true,
       builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            context.pop();
-          },
-          child: FocusScope(
-            onFocusChange: (hasFocus) {
-              if (!hasFocus) {
-                context.pop();
-              }
-            },
-            child: changePopup == false
-                ? ModelDialogBox(
-                    guestId: guestId ?? '',
-                    feedback: feedback ?? '',
-                    changePopUp: changePopUp,
-                  )
-                : ModelDialogBoxForRescheduled(
-                    guestId: guestId ?? '',
-                  ),
-          ),
-        );
+        return changePopup == false
+            ? ModelDialogBox(
+                guestId: guestId ?? '',
+                feedback: feedback ?? '',
+                changePopUp: changePopUp2,
+              )
+            : ModelDialogBoxForRescheduled(
+                guestId: guestId ?? '',
+          priority:priority??'' ,
+              );
       },
     );
   }
 
-  Future<void> _showDialogDemoScheduled(BuildContext context, guestId) async {
+  Future<void> _showDialogDemoScheduled(BuildContext context, guestId,priority) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -1052,7 +1039,7 @@ class _RowCartState extends State<RowCart> {
                   guestId: guestId,
                   reason: '',
                   date: dateController.text,
-                  time: timeConroller.text);
+                  time: timeConroller.text, LMSStep: 'Demo Scheduled ', priority: priority, demoRescheduleRemark: '');
               // context.pop();
             },
             child: const Text('Save'),
@@ -1065,6 +1052,7 @@ class _RowCartState extends State<RowCart> {
   Future<void> _showDialogIncomplete(
     BuildContext context,
     String? guestId,
+    String? priority,
   ) async {
     return showDialog(
       context: context,
@@ -1083,6 +1071,7 @@ class _RowCartState extends State<RowCart> {
             },
             child: ModelDialogBoxIncomplete(
               guestId: guestId ?? '',
+              priority:priority??'' ,
             ),
           ),
         );
@@ -1102,11 +1091,8 @@ class _RowCartState extends State<RowCart> {
             children: [
               GestureDetector(
                 onTap: () {
-                  context.pushNamed(Routs.leadMemberProfile,
-                      extra: GuestProfileDetails(guestId: '$widget.guestId'));
-                  context.pushNamed(Routs.memberProfileDetails,
-                      extra:
-                          MemberProfileDetails(memberId: '${widget.memberId}'));
+                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                  // context.pushNamed(Routs.memberProfileDetails, extra: MemberProfileDetails(memberId: '${widget.memberId}'));
                 },
                 child: Row(
                   children: [
@@ -1381,33 +1367,38 @@ class _RowCartState extends State<RowCart> {
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      widget.image == null
-                          ? CircleAvatar(
-                              maxRadius: size.height * 0.02,
-                              child: Image.asset(
-                                AppAssets.userIcon,
-                                height: 15,
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                    },
+                    child: Row(
+                      children: [
+                        widget.image == null
+                            ? CircleAvatar(
+                                maxRadius: size.height * 0.02,
+                                child: Image.asset(
+                                  AppAssets.userIcon,
+                                  height: 15,
+                                ),
+                              )
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(widget.image ?? ''),
+                                maxRadius: size.height * 0.02,
                               ),
-                            )
-                          : CircleAvatar(
-                              backgroundImage: NetworkImage(widget.image ?? ''),
-                              maxRadius: size.height * 0.02,
-                            ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      SizedBox(
-                        width: size.width * 0.12,
-                        child: CustomeText(
-                          text: widget.name ?? '',
-                          maxLines: 1,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                        const SizedBox(
+                          width: 5,
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: size.width * 0.12,
+                          child: CustomeText(
+                            text: widget.name ?? '',
+                            maxLines: 1,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
 
                   CustomeText(
@@ -1453,9 +1444,7 @@ class _RowCartState extends State<RowCart> {
                             showText: true,
                             priority: widget.priority,
                             onSelected: (v) async {
-                              await context
-                                  .read<MembersController>()
-                                  .updateLeadPriority(
+                              await context.read<MembersController>().updateLeadPriority(
                                       context: context,
                                       guestId: widget.guestId,
                                       feedback: '',
@@ -1553,16 +1542,9 @@ class _RowCartState extends State<RowCart> {
                                   image: widget.image,
                                   name: widget.name,
                                 ))
-                            .whenComplete(
-                          () async {
-                            await context.read<MembersController>().fetchLeads(
-                                status: 'Invitation Call',
-                                priority: '',
-                                page: '1');
-                          },
-                        );
+                           ;
                       } else if (v == 'Reschedule call') {
-                        _showDialog(context, widget.guestId, '', true, true);
+                        _showDialog(context, widget.guestId, '', true, true, widget.priority);
                       } else {
                         await context
                             .read<ListsControllers>()
@@ -1752,34 +1734,39 @@ class _RowCartState extends State<RowCart> {
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Row(
-                        children: [
-                          widget.image == null
-                              ? CircleAvatar(
-                                  maxRadius: size.height * 0.02,
-                                  child: Image.asset(
-                                    AppAssets.userIcon,
-                                    height: 15,
+                      GestureDetector(
+                        onTap: () {
+                          context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                        },
+                        child: Row(
+                          children: [
+                            widget.image == null
+                                ? CircleAvatar(
+                                    maxRadius: size.height * 0.02,
+                                    child: Image.asset(
+                                      AppAssets.userIcon,
+                                      height: 15,
+                                    ),
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(widget.image ?? ''),
+                                    maxRadius: size.height * 0.02,
                                   ),
-                                )
-                              : CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(widget.image ?? ''),
-                                  maxRadius: size.height * 0.02,
-                                ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SizedBox(
-                            width: size.width * 0.12,
-                            child: CustomeText(
-                              text: widget.name ?? '',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              maxLines: 1,
+                            const SizedBox(
+                              width: 5,
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              width: size.width * 0.12,
+                              child: CustomeText(
+                                text: widget.name ?? '',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       CustomeText(
                         text: widget.date ?? '07-02-2024',
@@ -1948,13 +1935,9 @@ class _RowCartState extends State<RowCart> {
                             //             page: '1');
                             //   },
                             // );
-                          } else if (v == 'Move to bin') {
-                            await context
-                                .read<ListsControllers>()
-                                .deleteLead(
-                                    context: context,
-                                    guestId: widget.guestId ?? '')
-                                .whenComplete(
+                          }
+                          else if (v == 'Move to bin') {
+                            await context.read<ListsControllers>().deleteLead(context: context, guestId: widget.guestId ?? '').whenComplete(
                               () async {
                                 await context
                                     .read<MembersController>()
@@ -1965,9 +1948,9 @@ class _RowCartState extends State<RowCart> {
                               },
                             );
                           } else if (v == 'Reschedule') {
-                            _showDialogDemoScheduled(context, widget.guestId);
+                            _showDialogDemoScheduled(context, widget.guestId,widget.priority);
                           } else if (v == 'Incomplete') {
-                            _showDialogIncomplete(context, widget.guestId);
+                            _showDialogIncomplete(context, widget.guestId,widget.priority);
                           } else {
                             context
                                 .pushNamed(Routs.createDemo,
@@ -2077,28 +2060,33 @@ class _RowCartState extends State<RowCart> {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Row(
-                            children: [
-                              widget.image == null
-                                  ? Image.asset(AppAssets.u1)
-                                  : CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(widget.image ?? ''),
-                                      maxRadius: size.height * 0.02,
-                                    ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              SizedBox(
-                                width: size.width * 0.12,
-                                child: CustomeText(
-                                  text: widget.name ?? '',
-                                  fontSize: 12,
-                                  maxLines: 1,
-                                  fontWeight: FontWeight.w500,
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                            },
+                            child: Row(
+                              children: [
+                                widget.image == null
+                                    ? Image.asset(AppAssets.u1)
+                                    : CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(widget.image ?? ''),
+                                        maxRadius: size.height * 0.02,
+                                      ),
+                                const SizedBox(
+                                  width: 5,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: size.width * 0.12,
+                                  child: CustomeText(
+                                    text: widget.name ?? '',
+                                    fontSize: 12,
+                                    maxLines: 1,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           CustomeText(
                             text: widget.date ?? '07-02-2024',
@@ -2246,9 +2234,7 @@ class _RowCartState extends State<RowCart> {
                           CustomPopUpMenu(
                             onSelected: (v) async {
                               if (v == 'Close') {
-                                _showDialog(context, widget.guestId, '', true,
-                                        false)
-                                    .whenComplete(
+                                _showDialog(context, widget.guestId, '', true, false,'').whenComplete(
                                   () async {
                                     await context
                                         .read<MembersController>()
@@ -2260,7 +2246,7 @@ class _RowCartState extends State<RowCart> {
                                 );
                               } else if (v == 'Schedule follow up') {
                                 _showDialogDemoScheduled(
-                                    context, widget.guestId);
+                                    context, widget.guestId,widget.priority);
                               } else {
                                 await context
                                     .read<ListsControllers>()
@@ -2354,30 +2340,38 @@ class _RowCartState extends State<RowCart> {
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Row(
-                                children: [
-                                  widget.image == null
-                                      ? CircleAvatar(
-                                          maxRadius: size.height * 0.02,
-                                          child: Image.asset(
-                                            AppAssets.userIcon,
-                                            height: 15,
+                              GestureDetector(
+                                onTap: () {
+                                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                                },
+                                child: Row(
+                                  children: [
+                                    widget.image == null
+                                        ? CircleAvatar(
+                                            maxRadius: size.height * 0.02,
+                                            child: Image.asset(
+                                              AppAssets.userIcon,
+                                              height: 15,
+                                            ),
+                                          )
+                                        : CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(widget.image ?? ''),
+                                            maxRadius: size.height * 0.02,
                                           ),
-                                        )
-                                      : CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(widget.image ?? ''),
-                                          maxRadius: size.height * 0.02,
-                                        ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  CustomeText(
-                                    text: widget.name ?? '',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.17,
+                                      child: CustomeText(
+                                        text: widget.name ?? '',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               CustomeText(
                                 text: widget.city ?? 'Raipur',
@@ -2423,24 +2417,33 @@ class _RowCartState extends State<RowCart> {
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Row(
-                                children: [
-                                  widget.image == null
-                                      ? Image.asset(AppAssets.u1)
-                                      : CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(widget.image ?? ''),
-                                          maxRadius: size.height * 0.02,
-                                        ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  CustomeText(
-                                    text: widget.name ?? '',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
+                              GestureDetector(
+                                onTap: () {
+
+                                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                                },
+                                child: Row(
+                                  children: [
+                                    widget.image == null
+                                        ? Image.asset(AppAssets.u1)
+                                        : CircleAvatar(
+                                            backgroundImage:
+                                                NetworkImage(widget.image ?? ''),
+                                            maxRadius: size.height * 0.02,
+                                          ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    SizedBox(
+                                      width: size.width * 0.17,
+                                      child: CustomeText(
+                                        text: widget.name ?? '',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               CustomeText(
                                 text: widget.city ?? '',

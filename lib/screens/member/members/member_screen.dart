@@ -294,159 +294,30 @@ class _MemberScreenState extends State<MemberScreen> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
-                  decoration: BoxDecoration(
-                    gradient: greyGradient,
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 12),
-                                  child: CustomeText(
-                                    text: 'Partners target',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Text(
-                                        '${networkReportsModel?.pendingTarget ?? 0}',
-                                        style: const TextStyle(
-                                          fontSize: 60,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(bottom: 18),
-                                      child: Text(
-                                        'Pending',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(right: 8),
-                                  child: SizedBox(
-                                    height: 78,
-                                    child: VerticalDivider(),
-                                  ),
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(right: 8),
-                                          child: Text(
-                                            '${networkReportsModel?.salesTarget ?? 0}',
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                        const Text(
-                                          'Target',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 16),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: 8),
-                                            child: Text(
-                                              '${networkReportsModel?.achievedTarget ?? 0}',
-                                              style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ),
-                                          const Text(
-                                            'Achieved',
-                                            style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                TargetCard(
+                  pendingTarget: networkReportsModel?.pendingTarget,
+                  salesTarget: networkReportsModel?.salesTarget,
+                  achievedTarget: networkReportsModel?.achievedTarget,
+                  more: CustomPopupMenu(
+                    items: [
+                      CustomPopupMenuEntry(
+                        label: 'Edit',
+                        onPressed: () {},
                       ),
-                      Positioned(
-                        top: 8,
-                        right: 16,
-                        child: CustomPopupMenu(
-                          items: [
-                            CustomPopupMenuEntry(
-                              label: 'Edit',
-                              onPressed: () {},
-                            ),
-                            CustomPopupMenuEntry(
-                              label: 'Delete',
-                              color: Colors.red,
-                              onPressed: () {},
-                            ),
-                          ],
-                          onChange: (String? val) {},
-                          child: const Icon(
-                            Icons.more_vert,
-                            size: 18,
-                            color: Colors.black,
-                          ),
-                        ),
+                      CustomPopupMenuEntry(
+                        label: 'Delete',
+                        color: Colors.red,
+                        onPressed: () {},
                       ),
                     ],
+                    onChange: (String? val) {},
+                    child: const Icon(
+                      Icons.more_vert,
+                      size: 18,
+                      color: Colors.black,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
             Column(
@@ -561,6 +432,161 @@ class _MemberScreenState extends State<MemberScreen> {
         ),
       );
     });
+  }
+}
+
+class TargetCard extends StatelessWidget {
+  final num? pendingTarget;
+  final num? salesTarget;
+  final num? achievedTarget;
+  final Widget? more;
+
+  const TargetCard({
+    super.key,
+    required this.pendingTarget,
+    required this.salesTarget,
+    required this.achievedTarget,
+    this.more,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
+      decoration: BoxDecoration(
+        gradient: greyGradient,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: CustomeText(
+                        text: 'Partners target',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Text(
+                            '${pendingTarget ?? 0}',
+                            style: const TextStyle(
+                              fontSize: 60,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 18),
+                          child: Text(
+                            'Pending',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 8),
+                      child: SizedBox(
+                        height: 78,
+                        child: VerticalDivider(),
+                      ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Text(
+                                '${salesTarget ?? 0}',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            const Text(
+                              'Target',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Text(
+                                  '${achievedTarget ?? 0}',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              const Text(
+                                'Achieved',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          if (more != null)
+            Positioned(
+              top: 8,
+              right: 16,
+              child: more!,
+            ),
+        ],
+      ),
+    );
   }
 }
 

@@ -46,7 +46,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                 )
               : SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.only(bottom: kPadding),
+                padding: const EdgeInsets.only(bottom: kPadding),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -56,6 +56,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                               options: CarouselOptions(
                                 viewportFraction: 1,
                                 initialPage: 0,
+                                height: 400,
                                 enableInfiniteScroll: true,
                                 reverse: false,
                                 autoPlay: true,
@@ -64,8 +65,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                                   setState(() {});
                                 },
                                 autoPlayInterval: const Duration(seconds: 3),
-                                autoPlayAnimationDuration:
-                                    const Duration(milliseconds: 1200),
+                                autoPlayAnimationDuration: const Duration(milliseconds: 1200),
                                 autoPlayCurve: Curves.fastOutSlowIn,
                                 enlargeCenterPage: false,
                                 enlargeFactor: 0.3,
@@ -76,7 +76,6 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                                 var data = controller
                                     .fetchproductDetail?.data?.images
                                     ?.elementAt(bannerIndex);
-
                                 return Builder(
                                   builder: (BuildContext context) {
                                     return ImageView(
@@ -122,41 +121,38 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                           ),
                         ),
                       ),
+                      // SizedBox(
+                      //   height: size.height * 0.01,
+                      // ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: kPadding, right: kPadding),
+                          child: Text(
+                            controller.fetchproductDetail?.data?.subName ?? '',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                       SizedBox(
                         height: size.height * 0.03,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Brand Kangen',
-                          rightTitle: 'Water Machine Price',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Usage/Application',
-                          rightTitle: 'Kangen Water Machine Price ',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Water Storage Capacity',
-                          rightTitle: '4000 L',
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: kPadding, right: kPadding),
-                        child: DetailList(
-                          leftTitle: 'Purification Capacity',
-                          rightTitle: 'Kangen Water Machine Price',
-                        ),
-                      ),
+                      ...?controller.fetchproductDetail?.data?.specifications?.map((e) {
+                        return     Padding(
+                          padding: const EdgeInsets.only(
+                              left: kPadding, right: kPadding),
+                          child: DetailList(
+                            leftTitle: e.title,
+                            rightTitle: e.value,
+                          ),
+                        );
+                      },),
                       SizedBox(
                         height: size.height * 0.03,
                       ),
@@ -223,21 +219,29 @@ class DetailList extends StatelessWidget {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              leftTitle ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
+            SizedBox(
+              width: size.width*0.4,
+              child: Text(
+                leftTitle ?? '',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
-            Text(
-              rightTitle ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
+            SizedBox(
+              width: size.width*0.4,
+              child: Text(
+                rightTitle ?? '',
+                textAlign: TextAlign.end,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           ],

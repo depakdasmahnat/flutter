@@ -58,10 +58,10 @@ class _ChaptersDetailsState extends State<ChaptersDetails> {
           body: ListView(
             shrinkWrap: true,
             children: [
-              if (controller.loadingChapters)
+              if (controller.loadingChapterDetails)
                 const LoadingScreen(
                   heightFactor: 0.7,
-                  message: 'Loading Chapter...',
+                  message: 'Loading Chapter Details...',
                 )
               else if (chapterDetails?.assets.haveData == true)
                 ListView.builder(

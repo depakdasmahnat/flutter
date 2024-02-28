@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -14,8 +15,10 @@ import '../../../utils/widgets/custom_text_field.dart';
 import '../../controllers/auth_controller/auth_controller.dart';
 import '../../core/constant/gradients.dart';
 
+import '../../core/route/route_paths.dart';
 import '../../models/auth_model/validatemobile.dart';
 import '../../utils/widgets/gradient_button.dart';
+import '../../utils/widgets/web_view_screen.dart';
 import '../../utils/widgets/widgets.dart';
 
 class Login extends StatefulWidget {
@@ -30,6 +33,7 @@ class _LoginState extends State<Login> {
   bool forReferral = false;
   bool showReferral = false;
   bool checkBox = false;
+  String countryCode ='';
   @override
   void initState() {
     super.initState();
@@ -90,35 +94,43 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                 ),
-                Container(
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFF1B1B1B),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IntlPhoneField(
-                      controller:phoneCtrl ,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter Mobile No.',
-                        border: InputBorder.none
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Container(
+
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFF1B1B1B),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                       autovalidateMode: AutovalidateMode.disabled,
-                      initialCountryCode: 'IN',
-                      dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
-                      dropdownIconPosition: IconPosition.trailing,
-                      disableLengthCheck: true,
-                      // validator: (val) {
-                      //   return Validator.numberValidator(val.toString());
-                      // },
-                      // pickerDialogStyle:PickerDialogStyle ,
-                      onChanged: (phone) {
-                        if (phone.number.length == 10) {
-                          validatePhone();
-                        }
-                      },
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IntlPhoneField(
+                        controller:phoneCtrl ,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter Mobile No.',
+                          border: InputBorder.none
+                        ),
+                         autovalidateMode: AutovalidateMode.disabled,
+                        initialCountryCode: 'IN',
+                        dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
+                        dropdownIconPosition: IconPosition.trailing,
+                        disableLengthCheck: true,
+                        // validator: (val) {
+                        //   return Validator.numberValidator(val.toString());
+                        // },
+                        // pickerDialogStyle:PickerDialogStyle ,
+                        onChanged: (phone) {
+
+                          if (phone.number.length == 10) {
+                            countryCode=phone.countryCode;
+                            setState(() {});
+
+                            validatePhone();
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -173,7 +185,8 @@ class _LoginState extends State<Login> {
                       return Validator.fullNameValidator(val);
                     },
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp('[a-z]'))
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+
                     ],
 
                     onChanged: (value) {},
@@ -189,7 +202,8 @@ class _LoginState extends State<Login> {
                     //   return Validator.fullNameValidator(val);
                     // },
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp('[a-z]'))
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+
                     ],
                     onChanged: (value) {},
                     hintText: 'Enter Last Name',
@@ -265,7 +279,6 @@ class _LoginState extends State<Login> {
 
                     onChanged: (bool? value) {
                       checkBox =value!;
-
                       setState(() {});
                     }, value: checkBox,
                   ),
@@ -273,11 +286,21 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   width: size.width*0.04,
                 ),
-                CustomeText(
-                  text: 'I agree to the Terms and Conditions',
-                  fontSize: 14,
-                  // color: Colors.black,
-                  fontWeight: FontWeight.w500,
+                GestureDetector(
+                  onTap: () {
+                    context.pushNamed(Routs.webView,
+                        extra: const WebViewScreen(
+                          title: 'Terms & conditions',
+                          url: 'https://api.gtp.proapp.in/api/v1/terms_and_condition',
+                        ));
+                  },
+                  child: CustomeText(
+
+                    text: 'I agree to the Terms and Conditions',
+                    fontSize: 14,
+                    // color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
                 )
               ],
             ),
@@ -395,7 +418,7 @@ class _LoginState extends State<Login> {
           firstName: nameCtrl.text,
           lastName: lastNameCtrl.text,
           referralCode: referralCodeCtrl.text,
-          address: addressCtrl.text);
+          address: addressCtrl.text, countryCode: countryCode);
     }
 
 

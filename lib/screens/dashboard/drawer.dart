@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../controllers/dashboard/dashboard_controller.dart';
-import '../../controllers/member/member_controller/member_controller.dart';
 import '../../core/config/app_assets.dart';
 import '../../core/constant/constant.dart';
 import '../../core/route/route_paths.dart';
-import '../../models/member/dashboard/traning_progress_model.dart';
 import '../../utils/widgets/training_progress.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -28,7 +27,8 @@ class CustomDrawer extends StatelessWidget {
                 ImageView(
                   height: 40,
                   assetImage: AppAssets.logoHorizontalText,
-                  margin: EdgeInsets.only(left: kPadding, top: kPadding, bottom: kPadding),
+                  margin: EdgeInsets.only(
+                      left: kPadding, top: kPadding, bottom: kPadding),
                   onTap: null,
                 ),
               ],
@@ -40,6 +40,13 @@ class CustomDrawer extends StatelessWidget {
               activeImage: AppAssets.dashboardIcon,
               title: 'Dashboard',
               onTap: () {},
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.performanceIcon,
+              title: 'Performance',
+              onTap: () {
+                context.pushNamed(Routs.performanceChart);
+              },
             ),
             CustomDrawerTile(
               activeImage: AppAssets.eventIcon,
@@ -98,11 +105,27 @@ class CustomDrawer extends StatelessWidget {
                 context.pushNamed(Routs.goals);
               },
             ),
+
             CustomDrawerTile(
               activeImage: AppAssets.resourcesIcon,
-              title: 'Resources',
+              title: 'Library',
               onTap: () {
                 context.pushNamed(Routs.resources);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.hallOfFameIcon,
+              title: 'Hall of fame',
+              onTap: () {
+
+                context.pushNamed(Routs.hallOfFame);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.setting,
+              title: 'Services',
+              onTap: () {
+                context.pushNamed(Routs.services);
               },
             ),
           ],
@@ -139,7 +162,8 @@ class CustomDrawerTile extends StatelessWidget {
           onTap?.call();
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+          padding: const EdgeInsets.only(
+              left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

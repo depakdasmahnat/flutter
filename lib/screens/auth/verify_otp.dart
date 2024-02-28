@@ -21,6 +21,7 @@ class VerifyOTP extends StatefulWidget {
       this.mobileNo,
       this.referralCode,
       this.address,
+      this.countryCode,
       this.goBack});
 
   final String? isMobileValidated;
@@ -29,6 +30,7 @@ class VerifyOTP extends StatefulWidget {
   final String? mobileNo;
   final String? referralCode;
   final String? address;
+  final String? countryCode;
   final bool? goBack;
 
   @override
@@ -270,7 +272,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
           lastName: widget.lastName,
           referralCode: widget.referralCode,
           address: widget.address,
-          otp: otp);
+          otp: otp, countryCode: widget.countryCode);
       setState(() {});
     } else {
       showSnackBar(context: context, text: 'Wrong Password', color: Colors.red);

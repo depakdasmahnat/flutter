@@ -10,27 +10,37 @@ class FeedDetailsModel {
   FeedDetailsModel({
     this.status,
     this.message,
+    this.moreDataAvailable,
     this.data,
   });
 
   FeedDetailsModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? FeedsData.fromJson(json['data']) : null;
+    moreDataAvailable = json['more_data_available'];
+    if (json['data'] != null) {
+      data = [];
+      json['data'].forEach((v) {
+        data?.add(FeedsData.fromJson(v));
+      });
+    }
   }
 
   bool? status;
   String? message;
-  FeedsData? data;
+  num? moreDataAvailable;
+  List<FeedsData>? data;
 
   FeedDetailsModel copyWith({
     bool? status,
     String? message,
-    FeedsData? data,
+    num? moreDataAvailable,
+    List<FeedsData>? data,
   }) =>
       FeedDetailsModel(
         status: status ?? this.status,
         message: message ?? this.message,
+        moreDataAvailable: moreDataAvailable ?? this.moreDataAvailable,
         data: data ?? this.data,
       );
 
@@ -38,8 +48,9 @@ class FeedDetailsModel {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['message'] = message;
+    map['more_data_available'] = moreDataAvailable;
     if (data != null) {
-      map['data'] = data?.toJson();
+      map['data'] = data?.map((v) => v.toJson()).toList();
     }
     return map;
   }

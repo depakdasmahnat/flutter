@@ -13,12 +13,14 @@ import 'package:mrwebbeast/utils/widgets/pdf_viewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app.dart';
-import '../../models/member/auth/reset_password.dart';
+import '../../screens/auth/member/change_password.dart';
+import '../../screens/auth/member/reset_password.dart';
 import '../../screens/auth/connect_with_us.dart';
 import '../../screens/auth/gtp_video.dart';
 import '../../screens/auth/interest_screen.dart';
 import '../../screens/auth/login.dart';
 import '../../screens/auth/member/member_login.dart';
+import '../../screens/auth/member/verify_reset_password_otp.dart';
 import '../../screens/auth/question_screen.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../screens/auth/why_are_you_here.dart';
@@ -49,15 +51,18 @@ import '../../screens/member/goal/goals_screen.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile.dart';
 import '../../screens/member/home/member_profile_details.dart';
+import '../../screens/member/lead/lead.dart';
 import '../../screens/member/lead/scheduled_demo_form.dart';
 import '../../screens/member/members/add_member_form.dart';
 import '../../screens/member/members/add_member_list.dart';
 import '../../screens/member/members/calendar.dart';
 import '../../screens/member/network/network_report.dart';
+import '../../screens/member/performance_chart/performance_chart.dart';
 import '../../screens/member/profile/account_settings.dart';
 import '../../screens/member/profile/member_edit_profile.dart';
 import '../../screens/member/profile/profile.dart';
 import '../../screens/member/resources/resources.dart';
+import '../../screens/member/services/services_screen.dart';
 import '../../screens/member/target/create_target.dart';
 import '../../screens/member/target/target_screen.dart';
 import '../../screens/member/todo/todo_screen.dart';
@@ -174,6 +179,13 @@ class RoutesConfig {
           return materialPage(state: state, child: const MemberDashBoard());
         },
       ),
+      GoRoute(
+        name: Routs.leads,
+        path: Routs.leads,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const Lead());
+        },
+      ),
 
       GoRoute(
         name: Routs.memberProfileDetails,
@@ -252,6 +264,20 @@ class RoutesConfig {
               ));
         },
       ),
+
+      GoRoute(
+        name: Routs.verifyForgotPasswordOtp,
+        path: Routs.verifyForgotPasswordOtp,
+        pageBuilder: (context, state) {
+          VerifyResetPasswordOTP? data = state.extra as VerifyResetPasswordOTP?;
+          return materialPage(
+              state: state,
+              child: VerifyResetPasswordOTP(
+                enagicId: data?.enagicId,
+                contact: data?.contact,
+              ));
+        },
+      ),
       GoRoute(
         name: Routs.homeScreen,
         path: Routs.homeScreen,
@@ -272,6 +298,20 @@ class RoutesConfig {
         path: Routs.settings,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const AccountSettings());
+        },
+      ),
+      GoRoute(
+        name: Routs.performanceChart,
+        path: Routs.performanceChart,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const PerformanceChart());
+        },
+      ),
+      GoRoute(
+        name: Routs.services,
+        path: Routs.services,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const ServicesScreen());
         },
       ),
 
@@ -459,7 +499,13 @@ class RoutesConfig {
         name: Routs.createGoal,
         path: Routs.createGoal,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const CreateGoal());
+          CreateGoal? data = state.extra as CreateGoal?;
+          return materialPage(
+              state: state,
+              child: CreateGoal(
+                type: data?.type ?? '',
+                goalId: data?.goalId ?? '',
+              ));
         },
       ),
 
@@ -497,7 +543,9 @@ class RoutesConfig {
         name: Routs.events,
         path: Routs.events,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const EventScreen());
+          EventScreen? data = state.extra as EventScreen?;
+          return materialPage(
+              state: state, child: EventScreen(eventId: data?.eventId));
         },
       ),
       GoRoute(
@@ -624,7 +672,18 @@ class RoutesConfig {
         name: Routs.resetPassword,
         path: Routs.resetPassword,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const ResetPassword());
+          ResetPassword? data = state.extra as ResetPassword?;
+          return materialPage(
+              state: state, child: ResetPassword(enagicId: data?.enagicId));
+        },
+      ),
+      GoRoute(
+        name: Routs.changePassword,
+        path: Routs.changePassword,
+        pageBuilder: (context, state) {
+          ChangePassword? data = state.extra as ChangePassword?;
+          return materialPage(
+              state: state, child: ChangePassword(enagicId: data?.enagicId));
         },
       ),
 

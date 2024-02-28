@@ -39,19 +39,34 @@ class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: controller.fetchDemoVideosAfter?.data?.length??0,
-                      itemBuilder: (context, index) {
-                      // return VideoPlay(video: controller.fetchDemoVideosAfter?.data?[index].videoLink??'',);
+                    child: PageView.builder(
+                      itemCount:controller.fetchDemoVideosAfter?.data?.length??0 ,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder:(context, index) {
                       return VideoPlayerCard(
-                        url: '${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
+                        type: true,
+                        demoId:'${controller.fetchDemoVideosAfter?.data?[index].id}' ,
+                        url:'${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
                         aspectRatio: 2.2/4.5,
                         borderRadius: 1,
                       );
                     },),
                   ),
-
+                  // Expanded(
+                  //   child: ListView.builder(
+                  //     shrinkWrap: true,
+                  //     itemCount: controller.fetchDemoVideosAfter?.data?.length??0,
+                  //     itemBuilder: (context, index) {
+                  //     // return VideoPlay(video: controller.fetchDemoVideosAfter?.data?[index].videoLink??'',);
+                  //     return VideoPlayerCard(
+                  //      type: true,
+                  //       demoId:'${controller.fetchDemoVideosAfter?.data?[index].id}' ,
+                  //       url:'${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
+                  //       aspectRatio: 2.2/4.5,
+                  //       borderRadius: 1,
+                  //     );
+                  //   },),
+                  // ),
                 ],
               ),
               Align(
@@ -85,10 +100,8 @@ class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
                 ),
               ),
             ],
-            
           );
         },
-
       ),
     );
   }

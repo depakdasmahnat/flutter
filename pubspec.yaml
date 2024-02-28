@@ -1,7 +1,7 @@
 name: mrwebbeast
 description: Flutter Skeleton using Provider State Management.
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.4+4
 environment:
 #  sdk: '>=3.1.3 <4.0.0'
 #   sdk: '>=3.0.0 <4.0.0'
@@ -40,7 +40,6 @@ dependencies:
     git:
       url: https://github.com/nguyenxdat/flutter_geocoder.git
       ref: master
-  google_maps_flutter: ^2.1.2
   flutter_rating_bar: ^4.0.1
   carousel_slider: ^4.1.1
   webview_flutter: ^4.4.1
@@ -79,11 +78,7 @@ dependencies:
   animate_gradient: ^0.0.2+1
   chewie: ^1.7.5
   intl_phone_field: ^3.2.0
-
-
-
-
-
+  flip_card: ^0.7.0
 
 dev_dependencies:
   flutter_test:

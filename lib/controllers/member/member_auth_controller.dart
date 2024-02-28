@@ -6,12 +6,18 @@ import 'package:mrwebbeast/core/config/api_config.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
+import 'package:mrwebbeast/screens/auth/member/change_password.dart';
+import 'package:mrwebbeast/screens/auth/member/reset_password.dart';
+import 'package:mrwebbeast/screens/auth/verify_otp.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/services/api/api_service.dart';
 import '../../core/services/database/local_database.dart';
+import '../../models/auth_model/guest_data.dart';
+import '../../models/auth_model/verifyotp.dart';
 import '../../models/default_model.dart';
 import '../../models/member/auth/member_auth_model.dart';
+import '../../screens/auth/member/verify_reset_password_otp.dart';
 import '../../screens/dashboard/dashboard.dart';
 import '../../utils/widgets/widgets.dart';
 
@@ -44,8 +50,7 @@ class MemberAuthControllers extends ChangeNotifier {
   }
 
   Future logOutPopup(context) async {
-    return
-      showDialog(
+    return showDialog(
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
@@ -74,36 +79,34 @@ class MemberAuthControllers extends ChangeNotifier {
           );
         });
   }
-  Future confirmationPopup({
-    context,String? title,String? content,void Function()? onPressed
-}) async {
-    return
-      showDialog(
-          context: context,
-          builder: (context) {
-            return CupertinoAlertDialog(
-              title:  Text(title??''),
-              content:  Text(content??''),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    context.pop();
-                  },
-                  child: const Text(
-                    'No',
-                    style: TextStyle(color: Colors.white),
-                  ),
+
+  Future confirmationPopup({context, String? title, String? content, void Function()? onPressed}) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(title ?? ''),
+            content: Text(content ?? ''),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  context.pop();
+                },
+                child: const Text(
+                  'No',
+                  style: TextStyle(color: Colors.white),
                 ),
-                TextButton(
-                  onPressed: onPressed,
-                  child: const Text(
-                    'Yes',
-                    style: TextStyle(color: Colors.red),
-                  ),
-                )
-              ],
-            );
-          });
+              ),
+              TextButton(
+                onPressed: onPressed,
+                child: const Text(
+                  'Yes',
+                  style: TextStyle(color: Colors.red),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   Future cancelRegistration({
@@ -183,7 +186,7 @@ class MemberAuthControllers extends ChangeNotifier {
 
     loadingDialog(
       context: context,
-      future: ApiService().post(
+      future: ApiService().get(
         endPoint: ApiEndpoints.deleteUser,
       ),
     ).then((response) {
@@ -233,7 +236,6 @@ class MemberAuthControllers extends ChangeNotifier {
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
 
         if (responseData.status == true) {
-
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
@@ -273,12 +275,15 @@ class MemberAuthControllers extends ChangeNotifier {
       if (response != null && context.mounted) {
         Map<String, dynamic> json = response;
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
-
         if (responseData.status == true) {
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
 
-          String route = responseData.data?.url ?? Routs.login;
-          authNavigation(context: context, route: route);
+          context.firstRoute();
+          context.pushReplacementNamed(Routs.verifyForgotPasswordOtp,
+              extra: VerifyResetPasswordOTP(
+                enagicId: enagicId,
+                contact: contact,
+              ));
         } else {
           showError(context: context, message: responseData.message ?? 'Something Went Wrong');
         }
@@ -289,7 +294,7 @@ class MemberAuthControllers extends ChangeNotifier {
   }
 
   /// 3) Reset Password API...
-  Future resetPassword({
+  Future changePassword({
     required BuildContext context,
     required String? enagicId,
     required String? password,
@@ -298,7 +303,7 @@ class MemberAuthControllers extends ChangeNotifier {
 
     Map<String, String> body = {
       'enagic_id': '$enagicId',
-      'password': '$password',
+      'new_password': '$password',
     };
 
     debugPrint('Sent Data is $body');
@@ -306,7 +311,7 @@ class MemberAuthControllers extends ChangeNotifier {
       var response = await loadingDialog(
         context: context,
         future: ApiService().post(
-          endPoint: ApiEndpoints.resetPassword,
+          endPoint: ApiEndpoints.changePassword,
           body: body,
         ),
       );
@@ -317,7 +322,6 @@ class MemberAuthControllers extends ChangeNotifier {
 
         if (responseData.status == true) {
           context.read<LocalDatabase>().saveMemberData(member: responseData.data);
-
           String route = responseData.data?.url ?? Routs.login;
           authNavigation(context: context, route: route);
         } else {
@@ -338,7 +342,6 @@ class MemberAuthControllers extends ChangeNotifier {
       var response = await ApiService().get(
         endPoint: ApiEndpoints.fetchProfile,
       );
-
       if (response != null && context.mounted) {
         Map<String, dynamic> json = response;
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
@@ -349,6 +352,45 @@ class MemberAuthControllers extends ChangeNotifier {
     } catch (e, s) {
       ErrorHandler.catchError(e, s, false);
     }
+  }
+
+  Future verifyResetPasswordOtp({
+    required BuildContext context,
+    required String? enagicId,
+    required String? contact,
+    required String? otp,
+  }) async {
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'enagic_id': '$enagicId',
+      'contact': '$contact',
+      'otp': '$otp',
+    };
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.verifyForgotPasswordOtp,
+      body: body,
+    );
+
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          context.pushReplacementNamed(Routs.changePassword, extra: ChangePassword(enagicId: enagicId));
+        } else {
+          showSnackBar(
+              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+        }
+      }
+    });
+    return responseData;
   }
 
   Future authNavigation({required BuildContext context, required String route}) async {

@@ -78,12 +78,16 @@ class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3> {
                               fontWeight: FontWeight.w400,
                               color: Colors.white,
                             ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                             controller.demoAnsLoader==false?const LoadingScreen():
                             SizedBox(
                               height: size.height*0.28,
                               child: ListView.builder(
                                 itemCount:controller.fetchGuestDemoAns?.data?.length??0,
                                 shrinkWrap: true,
+
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -136,6 +140,9 @@ class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3> {
                                     ),
                                   );
                                 },),
+                            ),
+                            const SizedBox(
+                              height: 5,
                             ),
                             GradientButton(
                               height: 60,

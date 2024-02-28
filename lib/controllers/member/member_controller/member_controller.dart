@@ -17,9 +17,12 @@ import '../../../models/default/default_model.dart';
 import '../../../models/feeds/demos_model.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/member/auth/member_data.dart';
+import '../../../models/member/create_goal/fetchGoalCategoryModel.dart';
+import '../../../models/member/create_goal/fetchGoalForEditModel.dart';
 import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../models/member/dashboard/traning_progress_model.dart';
+import '../../../models/member/getPerformanceChart/getPerformanceChart.dart';
 import '../../../models/member/goals/goals_model.dart';
 import '../../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../../models/member/genrate_referal/genrateReferralModel.dart';
@@ -33,9 +36,17 @@ import '../../../utils/widgets/widgets.dart';
 class MembersController extends ChangeNotifier {
   /// 1) Tree View API...
   bool showItem = false;
+  String? networkImageForGoal;
+
   bool loadingTreeView = true;
   TreeGraphModel? networkTreeViewModel;
   List<TreeGraphData>? networkTreeViewNodes;
+
+  removeImage() {
+    networkImageForGoal = null;
+    print("ceheck imaeg $networkImageForGoal");
+    notifyListeners();
+  }
 
   Future<List<TreeGraphData>?> fetchTreeView() async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -161,7 +172,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -211,7 +222,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -228,6 +239,15 @@ class MembersController extends ChangeNotifier {
       launchUrl(call);
     } else {
       throw 'Could not launch $call';
+    }
+  }
+
+  /// call log
+  Future<void> socialLink({String? link}) async {
+    try {
+      await launchUrl(Uri.parse('$link'));
+    } catch (e) {
+      print('Error launching URL: $e');
     }
   }
 
@@ -313,7 +333,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -575,6 +595,57 @@ class MembersController extends ChangeNotifier {
     return _goals;
   }
 
+  /// 7.5) Achieve Goal  API...
+  Future achieveGoal({
+    required BuildContext context,
+    required num? goalId,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'goal_id': '$goalId',
+      };
+
+      debugPrint('Sent Data is $body');
+
+      var response = ApiService().post(
+        endPoint: ApiEndpoints.achieveGoal,
+        body: body,
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData.status == true) {
+              showSnackBar(
+                  context: context,
+                  text: responseData.message ?? 'Goal achieved successfully',
+                  color: Colors.green);
+
+              fetchGoals(context: context, isRefresh: true);
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
+          }
+        },
+      );
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
+  }
+
   bool loadingPartnerGoals = true;
   GoalsModel? _partnerGoalsModel;
 
@@ -708,12 +779,14 @@ class MembersController extends ChangeNotifier {
     required String? guestId,
     required String? enagicId,
     required String? password,
+    required String? salesFacilitator,
   }) async {
     FocusScope.of(context).unfocus();
     Map<String, dynamic> body = {
       'guest_id': '$guestId',
       'enagic_id': '$enagicId',
       'password': '$password',
+      'sales_facilitator': '$salesFacilitator',
     };
 
     debugPrint('Sent Data is $body');
@@ -732,7 +805,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context?.pop();
+          context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -860,13 +933,13 @@ class MembersController extends ChangeNotifier {
             uploadVideoResponse = json;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'List add successfully',
                   color: Colors.green);
               showItem = false;
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1036,7 +1109,7 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.addNewMemberLead,
         body: body,
-        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file?.path)] : [],
+        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file.path)] : [],
       );
       await loadingDialog(
         context: context,
@@ -1048,13 +1121,13 @@ class MembersController extends ChangeNotifier {
             uploadVideoResponse = json;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'List add successfully',
                   color: Colors.green);
               showItem = false;
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1101,13 +1174,13 @@ class MembersController extends ChangeNotifier {
           if (response != null) {
             Map<String, dynamic> json = response;
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'List add successfully',
                   color: Colors.green);
 
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1187,7 +1260,7 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.editMember,
         body: body,
-        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file?.path)] : [],
+        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file.path)] : [],
       );
       await loadingDialog(
         context: context,
@@ -1199,12 +1272,12 @@ class MembersController extends ChangeNotifier {
 
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'List add successfully',
                   color: Colors.green);
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1315,11 +1388,11 @@ class MembersController extends ChangeNotifier {
             // uploadVideoResponse = json;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
               // showItem=false;
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1339,7 +1412,6 @@ class MembersController extends ChangeNotifier {
   }
 
   /// 1) add goal..
-
   // Map<String, dynamic>? uploadVideoResponse;
   // DefaultModel? createEventModel;
   // bool addLeadLoader=false;
@@ -1377,11 +1449,11 @@ class MembersController extends ChangeNotifier {
             Map<String, dynamic> json = response;
             notifyListeners();
             DefaultModel responseData = DefaultModel.fromJson(json);
-            if (responseData?.status == true) {
+            if (responseData.status == true) {
               showSnackBar(
                   context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
               // showItem=false;
-              context?.pop();
+              context.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1652,5 +1724,167 @@ class MembersController extends ChangeNotifier {
     }
 
     return memberProfile;
+  }
+
+  ///  fetch performance chart
+  GetPerformanceChart? getPerformanceChart;
+  bool performanceLoader = false;
+
+  Future<GetPerformanceChart?> fetchPerformanceChart() async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        performanceLoader = false;
+        getPerformanceChart = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        performanceLoader = true;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService().get(endPoint: ApiEndpoints.fetchPerformance);
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          GetPerformanceChart responseData = GetPerformanceChart.fromJson(json);
+          if (responseData.status == true) {
+            getPerformanceChart = responseData;
+            notifyListeners();
+          } else {
+            getPerformanceChart = responseData;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return getPerformanceChart;
+  }
+
+  ///  fetch goal category
+  FetchGoalCategoryModel? fetchGoalCategoryModel;
+
+  Future<FetchGoalCategoryModel?> fetchGoalCategory() async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      try {
+        var response = await ApiService().get(endPoint: ApiEndpoints.goalCategory);
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchGoalCategoryModel responseData = FetchGoalCategoryModel.fromJson(json);
+          if (responseData.status == true) {
+            fetchGoalCategoryModel = responseData;
+            notifyListeners();
+          } else {
+            fetchGoalCategoryModel = responseData;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        ErrorHandler.catchError(e, s, true);
+      } finally {}
+    }
+
+    return fetchGoalCategoryModel;
+  }
+
+  ///  fetch goal for edit
+  FetchGoalForEditModel? fetchGoalForEditModel;
+  bool editGoalLoader = false;
+
+  Future<FetchGoalForEditModel?> fetchGoalForEdit({required String goalId}) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      try {
+        var response = await ApiService().get(endPoint: ApiEndpoints.goalForEdit + goalId);
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchGoalForEditModel responseData = FetchGoalForEditModel.fromJson(json);
+          if (responseData.status == true) {
+            fetchGoalForEditModel = responseData;
+            notifyListeners();
+          } else {
+            fetchGoalForEditModel = responseData;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        ErrorHandler.catchError(e, s, true);
+      } finally {}
+    }
+
+    return fetchGoalForEditModel;
+  }
+
+  ///  fetch update goal
+  Future updateGoal({
+    required BuildContext context,
+    required String goalId,
+    required String name,
+    required String goalType,
+    required String startDate,
+    required String endDate,
+    required String description,
+    required XFile? file,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      FocusScope.of(context).unfocus();
+      Map<String, String> body = {
+        'goal_id': goalId,
+        'name': name,
+        'type': goalType,
+        'start_date': startDate,
+        'end_date': endDate,
+        'description': description,
+      };
+      debugPrint('Sent Data is $body');
+      var response = ApiService().multiPart(
+        endPoint: ApiEndpoints.updateGoal,
+        body: body,
+        multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+      );
+      await loadingDialog(
+        context: context,
+        future: response,
+      ).then(
+        (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            notifyListeners();
+            DefaultModel responseData = DefaultModel.fromJson(json);
+            if (responseData?.status == true) {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+              // showItem=false;
+              context?.pop();
+              notifyListeners();
+            } else {
+              showSnackBar(
+                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+            }
+          }
+        },
+      );
+      // return ApiService().multiPart(
+      //   endPoint: ApiEndpoints.addLead,
+      //   body: body,
+      //   multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+      // ).then((response) async {
+      //
+      // });
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
@@ -17,6 +18,10 @@ import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
 import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../utils/widgets/image_view.dart';
+import '../../../utils/widgets/social_links.dart';
+import '../../../utils/widgets/web_view_screen.dart';
+import '../../guest/guestProfile/guest_faq.dart';
+import '../../guest/guestProfile/guest_profile.dart';
 
 class MemberProfile extends StatefulWidget {
   const MemberProfile({super.key});
@@ -288,6 +293,16 @@ class _MemberProfileState extends State<MemberProfile> {
                         height: size.height * 0.02,
                       ),
                       IconAndText(
+                        icon: AppAssets.hallOfFameIcon,
+                        title: 'Hall of fame',
+                        onTap: () {
+                          context.push(Routs.hallOfFame);
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      IconAndText(
                         icon: AppAssets.faq,
                         title: 'FAQ',
                         onTap: () {
@@ -345,29 +360,77 @@ class _MemberProfileState extends State<MemberProfile> {
                         height: size.height * 0.021,
                         onTap: () {
                           context.pushNamed(Routs.helpAndSupport);
+                          // context.pushNamed(Routs.webView,
+                          //     extra: const WebViewScreen(
+                          //       url: 'https://api.gtp.proapp.in/api/v1/help_and_support',
+                          //     ));
                         },
                       ),
-                      // SizedBox(
-                      //   height: size.height * 0.02,
-                      // ),
-                      // IconAndText(
-                      //   icon: AppAssets.call,
-                      //   title: 'Contact us',
-                      // ),
                       SizedBox(
                         height: size.height * 0.02,
                       ),
                       IconAndText(
+                        icon: AppAssets.termsAndCon,
+                        title: 'Terms & conditions',
+                        height: size.height * 0.024,
+                        onTap: () {
+                          // context.pushNamed(Routs.helpAndSupport);
+                          context.pushNamed(Routs.webView,
+                              extra: const WebViewScreen(
+                                title: 'Terms & conditions',
+                                url: 'https://api.gtp.proapp.in/api/v1/terms_and_condition',
+                              ));
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      // IconAndText(
+                      //   icon: AppAssets.call,
+                      //   title: 'Contact us',
+                      //   onTap: () {
+                      //     context.pushNamed(Routs.webView,
+                      //         extra: const WebViewScreen(
+                      //           url: 'https://api.gtp.proapp.in/api/v1/contact_us',
+                      //         ));
+                      //   },
+                      // ),
+                      // SizedBox(
+                      //   height: size.height * 0.02,
+                      // ),
+                      IconAndText(
                         icon: AppAssets.lockIcon,
                         title: 'Privacy policy ',
                         onTap: () {
-                          context.pushNamed(Routs.privacyPolicy);
+                          // context.pushNamed(Routs.privacyPolicy);
+                          context.pushNamed(Routs.webView,
+                              extra: const WebViewScreen(
+                                title: 'Privacy policy',
+                                url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                              ));
+                        },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      IconAndText(
+                        icon: AppAssets.feedBack,
+                        title: ' Feedback',
+                        onTap: () {
+                          context.pushNamed(Routs.feedbackAndRating);
+                          // context.pushNamed(Routs.webView,
+                          //     extra: const WebViewScreen(
+                          //       url: 'https://api.gtp.proapp.in/api/v1/privacy_policy',
+                          //     ));
                         },
                       ),
                     ],
                   ),
                 ),
               ),
+            ),
+            const FollowUsCard(
+              padding: EdgeInsets.symmetric(horizontal: 24),
             ),
           ],
         );

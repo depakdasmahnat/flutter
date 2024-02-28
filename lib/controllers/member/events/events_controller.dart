@@ -38,6 +38,7 @@ class EventsControllers extends ChangeNotifier {
     bool loadingNext = false,
     String? searchKey,
     String? limit,
+    num? eventId,
   }) async {
     String modelingData = 'EventsData';
     debugPrint('Fetching $modelingData Data...');
@@ -63,6 +64,7 @@ class EventsControllers extends ChangeNotifier {
     }
 
     Map<String, String> body = {
+      'id': '${eventId ?? ' '}',
       'page': '$eventsIndex',
       'search_key': searchKey ?? '',
       'limit': limit ?? '10',
@@ -173,7 +175,7 @@ class EventsControllers extends ChangeNotifier {
       try {
         var response = await ApiService().get(endPoint: ApiEndpoints.fetchToDo, queryParameters: {
           'search_key': search ?? '',
-          'date': filter ?? '',
+          'filter': filter ?? '',
         });
 
         if (response != null) {

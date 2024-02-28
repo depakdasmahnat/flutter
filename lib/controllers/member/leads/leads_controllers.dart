@@ -254,6 +254,9 @@ class ListsControllers extends ChangeNotifier {
     required String reason,
     required String date,
     required String time,
+    required String LMSStep,
+    required String priority,
+    required String demoRescheduleRemark,
   }) async {
     FocusScope.of(context).unfocus();
     Map<String, dynamic> body = {
@@ -261,6 +264,9 @@ class ListsControllers extends ChangeNotifier {
       'reason': reason,
       'date': date,
       'time': time,
+      'LMS_step': LMSStep,
+      'priority': priority,
+      'demo_reschedule_remark': demoRescheduleRemark,
     };
     debugPrint('Sent Data is $body');
     var response = ApiService().post(

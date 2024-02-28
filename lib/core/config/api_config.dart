@@ -4,11 +4,16 @@ import '../services/database/local_database.dart';
 class ApiConfig {
   ///API Configurations..
 
+  // Development...
   static const domainName = 'https://api.gtp.proapp.in';
+
+  // //Production...
+  // static const domainName = 'https://app.mygtp.in';
+
+
   static const String version = '/api/v1/';
   static const String baseUrl = '$domainName$version';
   static const String mapsBaseUrl = 'https://maps.googleapis.com/maps/api';
-
   static const String privacyPolicyUrl = '${baseUrl}privacy-policy';
   static const String aboutUsUrl = '${baseUrl}about-us';
   static const String contactUsUrl = '${baseUrl}contact-us';
@@ -35,20 +40,24 @@ class ApiEndpoints {
 
   //1) Auth APIs...
   static const String validateMobile = 'validate_mobile';
+  static const String connect = 'connect_with_us';
 
   //11) Member Auth APIs...
 
   static const String login = 'login';
   static const String forgotPassword = 'forgot_password';
   static const String resetPassword = 'reset_password';
+  static const String changePassword = 'change_password';
   static const String fetchProfile = 'fetch_profile';
   static const String treeView = 'tree_view';
   static const String pinnacleView = 'pinnacle_view';
   static const String projectionView = 'projection_view';
 
-  static const String deleteUser = 'deleteUser';
+  // static const String deleteUser = 'deleteUser';
+  static const String deleteUser = 'delete_account';
   static const String sendOtp = 'send_otp';
   static const String verifyOtp = 'verify_otp';
+  static const String verifyForgotPasswordOtp = 'verify_forgot_password_otp';
   static const String fetchCategories = 'fetch_categories?type=';
   static const String fetchFeeds = 'fetch_feeds';
   static const String feedLike = 'feed_like';
@@ -62,6 +71,7 @@ class ApiEndpoints {
   static const String demoDone = 'demo_done';
   static const String fetchDemos = 'fetch_demos';
   static const String fetchGoals = 'fetch_goals';
+  static const String achieveGoal = 'achieve_goal';
   static const String fetchMyMembersGoal = 'fetch_my_members_goal';
   static const String selectABMembers = 'select_A_B_members';
   static const String selectProjectionABMembers = 'projection_selectAB_members';
@@ -86,6 +96,7 @@ class ApiEndpoints {
   static const String addLead = 'add_lead';
   static const String createEvent = 'add_event';
   static const String addGoal = 'add_goal';
+  static const String updateGoal = 'update_goal';
   static const String addNewMemberLead = 'add_new_member';
   static const String editMember = 'edit_member_profile';
   static const String ref = 'generate_referral_link';
@@ -93,19 +104,24 @@ class ApiEndpoints {
   static const String fetchAllPinnacleMembers = 'fetch_all_pinnacle_members';
   static const String fetchAllMembers = 'fetch_all_members';
   static const String getAchievers = 'get_achievers';
+  static const String fetchServices = 'fetch_services';
+
   static const String fetchToDo = 'fetch_to_do';
   static const String fetchAllDemos = 'fetch_all_demos';
 
   static const String fetchTarget = 'fetch_target';
   static const String fetchTrainingProcess = 'fetch_training_process';
   static const String achievementBadges = 'achievement_badges';
+  static const String goalCategory = 'fetch_goal_category';
+  static const String goalForEdit = 'get_goal?goal_id=';
 
   // Lead apis
 
   static const String fetchLead = 'fetch_leads?';
+  static const String fetchPerformance = 'fetch_performance';
   static const String levelWiseMemberCount = 'level_wise_member_count?';
   static const String deleteLead = 'delete_lead';
-  static const String rescheduleCall = 'reschedule_call';
+  static const String rescheduleCall = 'reschedule';
 
   /// Guest Apis....
   static const String fetchJoiners = 'fetch_new_joinees';
@@ -128,6 +144,7 @@ class ApiEndpoints {
   static const String fetchDemoVideos = 'fetch_demo_videos';
   static const String helpAndSupport = 'submit_help_and_support';
   static const String submitFeedback = 'submit_feedback';
+  static const String demoWatchCount = 'demo_watch_count';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

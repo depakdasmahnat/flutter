@@ -1,6 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/route/route_paths.dart';
+import 'package:mrwebbeast/screens/member/events/events_screen.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 
@@ -35,20 +38,22 @@ class _BannersState extends State<Banners> {
       // print("check banner ${banner?.data?[0].image}");
     });
   }
+
   Future<void> _showDialog(
-      BuildContext context, String? eventId,) async {
+    BuildContext context,
+    String? eventId,
+  ) async {
     return showDialog(
       context: context,
       barrierColor: Colors.transparent,
       builder: (BuildContext context) {
-        return   ModelDialogBoxForBanner(
-          eventID: eventId??'',
-
-
-        ) ;
+        return ModelDialogBoxForBanner(
+          eventID: eventId ?? '',
+        );
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     MemberData? memberData = context.read<LocalDatabase>().member;
@@ -72,7 +77,6 @@ class _BannersState extends State<Banners> {
                             bannerIndex = val;
                             setState(() {});
                           },
-
                           autoPlayInterval: const Duration(seconds: 3),
                           autoPlayAnimationDuration: const Duration(milliseconds: 1200),
                           autoPlayCurve: Curves.fastOutSlowIn,
@@ -92,11 +96,12 @@ class _BannersState extends State<Banners> {
                                 borderRadiusValue: 18,
                                 backgroundColor: Colors.grey.shade200,
                                 onTap: () {
-
-                                  if(memberData?.role=="Member"){
-                                    _showDialog(context, controller.banner?.data?[bannerIndex].id.toString());
+                                  if (memberData?.role == 'Member') {
+                                    context.pushNamed(Routs.events,
+                                        extra:
+                                            EventScreen(eventId: controller.banner?.data?[bannerIndex].id));
+                                    // _showDialog(context, controller.banner?.data?[bannerIndex].id.toString());
                                   }
-
                                 },
                                 fit: BoxFit.cover,
                                 margin: const EdgeInsets.symmetric(horizontal: kPadding),

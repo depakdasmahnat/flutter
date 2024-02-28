@@ -8,6 +8,7 @@ import 'package:mrwebbeast/models/default/default_model.dart';
 import 'package:mrwebbeast/models/member/network/down_line_members_model.dart';
 import 'package:mrwebbeast/models/member/network/pinnacle_list_model.dart';
 import 'package:mrwebbeast/models/member/network/projection_view_model.dart';
+import 'package:mrwebbeast/models/member/services/services_model.dart';
 
 import '../../../core/services/api/api_service.dart';
 import '../../../models/member/network/level_wise_member_count_model.dart';
@@ -457,5 +458,63 @@ class NetworkControllers extends ChangeNotifier {
     }
 
     return levelWiseMemberCountModel;
+  }
+
+  /// 7) Service Reports API...
+  bool loadingServiceReports = true;
+  ServicesModel? serviceReportsModel;
+  List<ServicesData>? serviceReports;
+
+  Future<List<ServicesData>?> fetchServiceReports({
+    String? search,
+    String? filter,
+    String? memberId,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingServiceReports = true;
+        serviceReportsModel = null;
+        serviceReports = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingServiceReports = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchServices,
+          queryParameters: {
+            'search_key': search ?? '',
+            'filter': filter ?? '',
+            'member_id': memberId ?? '',
+          },
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          ServicesModel responseData = ServicesModel.fromJson(json);
+          if (responseData.status == true) {
+            serviceReports = responseData.data;
+
+            debugPrint('serviceReportsNodes ${serviceReports?.length}');
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return serviceReports;
   }
 }

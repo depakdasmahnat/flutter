@@ -19,9 +19,9 @@ class Validator {
   static String? fullNameValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
       return '${fieldName ?? 'First name'} is required';
-    } if(value.length<3){
+    }
+    if (value.length < 3) {
       return 'First name must be at least 3 characters.';
-
     }
     // final parts = value.split(' ');
     // if (parts.length < 2) {
@@ -37,6 +37,7 @@ class Validator {
     // }
     return null;
   }
+
   ///last  Name
   // static String? lastNameValidator(String? value, [String? fieldName]) {
   //   if(value!.length<3){
@@ -59,7 +60,8 @@ class Validator {
   static String? flocationValidation(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
       return '${fieldName ?? 'Location'} is required';
-    }if(value.length<3){
+    }
+    if (value.length < 3) {
       return 'Location  must be at least 3 characters.';
     }
 
@@ -116,11 +118,11 @@ class Validator {
     String? fieldName,
   ]) {
     if (value == null || value.isEmpty) {
-      return '${fieldName ?? 'Phone Number'} is required';
+      return '${fieldName ?? 'mobile no'} is required';
     }
 
     if (value.length < limit) {
-      return 'Complete ${fieldName ?? 'Phone Number'} is required';
+      return 'Complete ${fieldName ?? 'mobile no'} is required';
     }
 
     if (int.tryParse(value) == null) {
@@ -139,6 +141,7 @@ class Validator {
     }
     return null;
   }
+
   /// Referral code validation .
   static String? referralValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
@@ -149,6 +152,7 @@ class Validator {
     // }
     return null;
   }
+
   /// Validates that a value is a valid alphanumeric format.
   static String? alphanumericValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
@@ -183,16 +187,30 @@ class Validator {
   /// Validates a Strong password.
   static String? strongPasswordValidator(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return '${fieldName ?? 'Password'} is required';
+      return '${fieldName ?? 'Password'} is required.';
     }
-    final hasUppercase = value.contains(RegExp(r'[A-Z]'));
-    final hasLowercase = value.contains(RegExp(r'[a-z]'));
-    final hasDigits = value.contains(RegExp(r'\d'));
-    final hasSpecialChars = value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
-    if (!hasUppercase || !hasLowercase || !hasDigits || !hasSpecialChars || value.length < 8) {
-      return '${fieldName ?? 'Password'} must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.';
+
+    if (value.length < 8) {
+      return '${fieldName ?? 'Password'} must be at least 8 characters long.';
     }
-    return null;
+
+    if (!value.contains(RegExp(r'[A-Z]'))) {
+      return '${fieldName ?? 'Password'} must contain at least one uppercase letter.';
+    }
+
+    if (!value.contains(RegExp(r'[a-z]'))) {
+      return '${fieldName ?? 'Password'} must contain at least one lowercase letter.';
+    }
+
+    if (!value.contains(RegExp(r'\d'))) {
+      return '${fieldName ?? 'Password'} must contain at least one digit.';
+    }
+
+    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return '${fieldName ?? 'Password'} must contain at least one special character.';
+    }
+
+    return null; // If all conditions are met, the password is strong.
   }
 
   /// Validates that two values match (typically used for password confirmation).

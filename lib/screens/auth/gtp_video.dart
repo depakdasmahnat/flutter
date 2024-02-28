@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 
 import 'package:video_player/video_player.dart';
@@ -23,10 +24,8 @@ class _GtpVideoState extends State<GtpVideo> {
   ValueNotifier<VideoPlayerValue?> currentPosition = ValueNotifier(null);
   VideoPlayerController? controller;
   late Future<void> futureController;
-
   initVideo() {
-    controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoLink??''));
-
+    controller = VideoPlayerController.asset(AppAssets.introVideo);
     futureController = controller!.initialize();
      controller?.play();
     SystemChrome.setPreferredOrientations([
@@ -44,12 +43,10 @@ class _GtpVideoState extends State<GtpVideo> {
           SystemChrome.setPreferredOrientations([
             DeviceOrientation.portraitUp, // Change to desired orientation
           ]);
+          context.firstRoute();
+          context.pushReplacementNamed(Routs.dashboard);
           controller?.pause();
-          context.pop();
-
         }
-
-
       }
       setState(() {
 
@@ -57,7 +54,6 @@ class _GtpVideoState extends State<GtpVideo> {
     });
     super.initState();
   }
-
   @override
   void dispose() {
     controller?.dispose();
@@ -69,72 +65,49 @@ class _GtpVideoState extends State<GtpVideo> {
 
   @override
   Widget build(BuildContext context) {
- print("check video llink ${widget.videoLink}");
+
     return Scaffold(
-
       body:
-      AspectRatio(
-        // aspectRatio: controller!.value.aspectRatio,
-          aspectRatio:2/1,
-          child: Stack(children: [
-            Positioned.fill(
-                child: Container(
-                    foregroundDecoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          colors: [
-                            Colors.black.withOpacity(.7),
-                            Colors.transparent
-                          ],
-                          stops: [0,
-                            .3
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter),
-                    ),
-                    child: VideoPlayer(controller!))),
+      FutureBuilder(
+        future: futureController,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator.adaptive());
+          } else {
+            return InkWell(
+              onTap: () {
+                // Get.to(ShowVideoAndPhotos(
+                //   image: null,
+                //   video: widget.pathh,
+                // ));
+              },
+              child:
+              AspectRatio(
+                  // aspectRatio: controller!.value.aspectRatio,
+                  aspectRatio:2/1,
+                  child: Stack(children: [
+                    Positioned.fill(
+                        child: Container(
+                            foregroundDecoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    Colors.black.withOpacity(.7),
+                                    Colors.transparent
+                                  ],
+                                  stops: [0,
+                                    .3
+                                  ],
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter),
+                            ),
+                            child: VideoPlayer(controller!))),
 
 
-          ])),
-      // FutureBuilder(
-      //   future: futureController,
-      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.waiting) {
-      //       return Center(child: const CircularProgressIndicator.adaptive());
-      //     } else {
-      //       return InkWell(
-      //         onTap: () {
-      //           // Get.to(ShowVideoAndPhotos(
-      //           //   image: null,
-      //           //   video: widget.pathh,
-      //           // ));
-      //         },
-      //         child:
-      //         AspectRatio(
-      //             // aspectRatio: controller!.value.aspectRatio,
-      //             aspectRatio:2/1,
-      //             child: Stack(children: [
-      //               Positioned.fill(
-      //                   child: Container(
-      //                       foregroundDecoration: BoxDecoration(
-      //                         gradient: LinearGradient(
-      //                             colors: [
-      //                               Colors.black.withOpacity(.7),
-      //                               Colors.transparent
-      //                             ],
-      //                             stops: [0,
-      //                               .3
-      //                             ],
-      //                             begin: Alignment.bottomCenter,
-      //                             end: Alignment.topCenter),
-      //                       ),
-      //                       child: VideoPlayer(controller!))),
-      //
-      //
-      //             ])),
-      //       );
-      //     }
-      //   },
-      // ),
+                  ])),
+            );
+          }
+        },
+      ),
       bottomSheet: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

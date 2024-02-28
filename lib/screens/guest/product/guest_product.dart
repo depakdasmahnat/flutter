@@ -6,7 +6,9 @@ import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
+import '../../../core/config/app_assets.dart';
 import '../../../utils/widgets/appbar.dart';
+import '../../../utils/widgets/image_view.dart';
 import 'guest_product_details.dart';
 
 class GuestPoduct extends StatefulWidget {
@@ -124,14 +126,16 @@ class ProductCard extends StatelessWidget {
                 child: ClipRRect(
                   clipBehavior: Clip.antiAlias,
                   borderRadius: const BorderRadius.all(Radius.circular(17)),
-                  child: Image.network(image ?? '',
-                      fit: BoxFit.cover, height: size.height * 0.22,width: double.infinity,),
+                  child: image!=null?  Image.network(image ?? '',
+                      fit: BoxFit.cover, height: size.height * 0.22,width: double.infinity,):Image.asset( AppAssets.noImage,fit: BoxFit.cover, height: size.height * 0.22,width: double.infinity,),
                 ),
               ),
               // ImageView(
-              //   borderRadiusValue: 16,
+              //   borderRadiusValue: 17,
+              //   height:size.height * 0.22 ,
+              //   width: double.infinity,
               //   margin: const EdgeInsets.all(12),
-              //   fit:  BoxFit.contain,
+              //   fit:  BoxFit.cover,
               //   networkImage: image??'',
               // ),
               SizedBox(
@@ -144,7 +148,6 @@ class ProductCard extends StatelessWidget {
                 style: TextStyle(
                   color: index == value ? Colors.black : Colors.white,
                   fontSize: 14,
-
                   fontWeight: FontWeight.w600,
                 ),
                 textAlign: TextAlign.center,

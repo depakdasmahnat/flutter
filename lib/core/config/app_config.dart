@@ -5,7 +5,7 @@ import '../services/database/local_database.dart';
 
 class AppConfig {
   ///APP Configurations..
-  static const String name = 'MrWebBeast';
+  static const String name = 'GTP';
   static const String version = '1.0';
 
   static const String packageName = 'app.gtp.com';
@@ -32,7 +32,7 @@ class AppConfig {
   static const String shareApp = '';
 
   ///Notification Channel Id...
-  static const String chanelName = 'MrWebBeast';
+  static const String chanelName = 'GTP';
 
   ///Local Database Configurations..
   static const String databaseName = 'database';
