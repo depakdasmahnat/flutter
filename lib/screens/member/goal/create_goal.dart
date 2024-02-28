@@ -12,6 +12,7 @@ import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/constant/gradients.dart';
+import '../../../models/member/create_goal/fetchGoalForEditModel.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
@@ -19,42 +20,43 @@ import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
 
 class CreateGoal extends StatefulWidget {
-  const CreateGoal({super.key, this.goalId});
-
-  final num? goalId;
-
+  final String? type;
+  final String? goalId;
+  const CreateGoal({super.key, this.type, this.goalId});
   @override
   State<CreateGoal> createState() => _CreateGoalState();
 }
 
 class _CreateGoalState extends State<CreateGoal> {
-  late num? goalId = widget.goalId;
+  FetchGoalForEditModel? fetchGoalForEditModel;
   String goalType = '';
+  String networkImageForGoal = '';
+  String goalTypeHint = 'Select Goal Type';
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController endDateCtrl = TextEditingController();
   TextEditingController goalNameCtrl = TextEditingController();
   TextEditingController goalTypeCtrl = TextEditingController();
   TextEditingController disCtrl = TextEditingController();
-  File? image;
-
-  Future fetchGoals({bool? loadingNext}) async {
-    return await context.read<MembersController>().fetchGoals(
-          context: context,
-          isRefresh: loadingNext == true ? false : true,
-          loadingNext: loadingNext ?? false,
-        );
-  }
-
   @override
   void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (goalId != null) {
-        // fetchGoals();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      context.read<MembersController>().fetchGoalCategory();
+      if (widget.type == 'Edit') {
+        fetchGoalForEditModel= await context.read<MembersController>().fetchGoalForEdit(goalId: widget.goalId ?? '');
+          goalNameCtrl.text = fetchGoalForEditModel?.data?.name ?? '';
+          goalTypeHint = fetchGoalForEditModel?.data?.type ?? '';
+          startDateCtrl.text = fetchGoalForEditModel?.data?.startDate ?? '';
+          endDateCtrl.text = fetchGoalForEditModel?.data?.endDate ?? '';
+          disCtrl.text = fetchGoalForEditModel?.data?.description ?? '';
+          networkImageForGoal = fetchGoalForEditModel?.data?.image ?? '';
+          goalType =fetchGoalForEditModel?.data?.typeId ?? '';
+        image = File(networkImageForGoal??'');
+        setState(() {});
       }
     });
+    super.initState();
   }
-
+  File? image;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -64,7 +66,7 @@ class _CreateGoalState extends State<CreateGoal> {
         leading: const CustomBackButton(),
         title: const Text('Create Goal'),
       ),
-      body: ListView(
+      body:  ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
           AppTextField(
@@ -72,14 +74,32 @@ class _CreateGoalState extends State<CreateGoal> {
             title: 'Goal name',
             hintText: 'Enter Goal name',
           ),
-          CustomDropdown(
-            controller: goalTypeCtrl,
-            onChanged: (v) {
-              goalType = v;
+          Consumer<MembersController>(
+            builder: (context, controller, child) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8),
+                child: CustomDropdown(
+                  controller: goalTypeCtrl,
+                  onChanged: (v) {
+                    var id = controller.fetchGoalCategoryModel?.data
+                        ?.firstWhere(
+                          (element) {
+                        return element.name == v;
+                      },
+                    )
+                        .id
+                        .toString();
+                    goalType = id ?? '';
+                  },
+                  title: 'Goal Type',
+                  hintText: goalTypeHint,
+                  listItem: controller.fetchGoalCategoryModel?.data
+                      ?.map((e) => e.name)
+                      .toList(),
+                ),
+              );
             },
-            title: 'Goal Type',
-            hintText: 'Select Goal Type',
-            listItem: const ['Online', 'Offline'],
+
           ),
           AppTextField(
             title: 'Start Date',
@@ -95,19 +115,20 @@ class _CreateGoalState extends State<CreateGoal> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
-                            primary: Colors.white, // <-- SEE HERE
-                            onPrimary: Colors.black, // <-- SEE HERE
-                            onSurface: Colors.white,
-                          ),
+                        primary: Colors.white, // <-- SEE HERE
+                        onPrimary: Colors.black, // <-- SEE HERE
+                        onSurface: Colors.white,
+                      ),
 
                       // Input
                       inputDecorationTheme: const InputDecorationTheme(
-                          // labelStyle: GoogleFonts.greatVibes(), // Input label
-                          ),
+                        // labelStyle: GoogleFonts.greatVibes(), // Input label
+                      ),
                     ),
                     child: child!,
                   );
@@ -116,7 +137,7 @@ class _CreateGoalState extends State<CreateGoal> {
 
               if (pickedDate != null) {
                 startDateCtrl.text =
-                    "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
               }
             },
             readOnly: true,
@@ -135,19 +156,20 @@ class _CreateGoalState extends State<CreateGoal> {
                   return Theme(
                     data: Theme.of(context).copyWith(
                       popupMenuTheme: PopupMenuThemeData(
-                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                          shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
-                            primary: Colors.white, // <-- SEE HERE
-                            onPrimary: Colors.black, // <-- SEE HERE
-                            onSurface: Colors.white,
-                          ),
+                        primary: Colors.white, // <-- SEE HERE
+                        onPrimary: Colors.black, // <-- SEE HERE
+                        onSurface: Colors.white,
+                      ),
 
                       // Input
                       inputDecorationTheme: const InputDecorationTheme(
-                          // labelStyle: GoogleFonts.greatVibes(), // Input label
-                          ),
+                        // labelStyle: GoogleFonts.greatVibes(), // Input label
+                      ),
                     ),
                     child: child!,
                   );
@@ -156,7 +178,7 @@ class _CreateGoalState extends State<CreateGoal> {
 
               if (pickedDate != null) {
                 endDateCtrl.text =
-                    "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
               }
             },
             readOnly: true,
@@ -173,6 +195,7 @@ class _CreateGoalState extends State<CreateGoal> {
             child: GestureDetector(
               onTap: () {
                 addImages();
+
               },
               child: DottedBorder(
                 dashPattern: const [4, 4],
@@ -180,45 +203,58 @@ class _CreateGoalState extends State<CreateGoal> {
                 radius: const Radius.circular(12),
                 color: Colors.grey,
                 child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 24),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kPadding, vertical: 24),
                     color: Colors.transparent,
-                    child: image == null
-                        ? const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  ImageView(
-                                    height: 50,
-                                    width: 50,
-                                    assetImage: '',
-                                    margin: EdgeInsets.only(bottom: 8),
-                                  ),
-                                  Text(
-                                    'Drop your image here, or browse',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Supports: PNG, JPG',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        : Image.file(
-                            File(image?.path ?? ''),
-                            fit: BoxFit.cover,
-                          )),
+                    child:networkImageForGoal==''? ImageView(
+                      file: File(image?.path??''),
+                      borderRadiusValue: 10,
+                    ):ImageView(
+                      networkImage:networkImageForGoal,
+                      borderRadiusValue: 10,
+                    )
+                  // image == null
+                  //     ? const Row(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Column(
+                  //             children: [
+                  //               ImageView(
+                  //                 height: 50,
+                  //                 width: 50,
+                  //                 assetImage: '',
+                  //                 margin: EdgeInsets.only(bottom: 8),
+                  //               ),
+                  //               Text(
+                  //                 'Drop your image here, or browse',
+                  //                 style: TextStyle(
+                  //                   fontSize: 16,
+                  //                   fontWeight: FontWeight.w500,
+                  //                 ),
+                  //               ),
+                  //               Text(
+                  //                 'Supports: PNG, JPG',
+                  //                 style: TextStyle(
+                  //                   fontSize: 12,
+                  //                   fontWeight: FontWeight.w500,
+                  //                 ),
+                  //               ),
+                  //             ],
+                  //           ),
+                  //         ],
+                  //       )
+                  //      : networkImage.isNotEmpty==false?Image.file(
+                  //         File(image?.path ?? ''),
+                  //         fit: BoxFit.cover,
+                  //       ):ImageView(
+                  //   networkImage: networkImage,
+                  //  borderRadiusValue: 10,
+                  // )),
+                  // widget.type=='Edit'?Image.network(networkImage,fit: BoxFit.cover,)
+                ),
               ),
             ),
-          ),
+          )
         ],
       ),
       bottomNavigationBar: Column(
@@ -231,16 +267,29 @@ class _CreateGoalState extends State<CreateGoal> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(
+                left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () async {
-              await context.read<MembersController>().addGoal(
-                  context: context,
-                  name: goalNameCtrl.text,
-                  goalType: goalType,
-                  startDate: startDateCtrl.text,
-                  endDate: endDateCtrl.text,
-                  description: disCtrl.text,
-                  file: XFile(image?.path ?? ''));
+              if (widget.type == 'Edit') {
+                await context.read<MembersController>().updateGoal(
+                    context: context,
+                    name: goalNameCtrl.text,
+                    goalType: goalType,
+                    startDate: startDateCtrl.text,
+                    endDate: endDateCtrl.text,
+                    description: disCtrl.text,
+                    file: XFile(image?.path ?? ''),
+                    goalId: widget.goalId ?? '');
+              } else {
+                await context.read<MembersController>().addGoal(
+                    context: context,
+                    name: goalNameCtrl.text,
+                    goalType: goalType,
+                    startDate: startDateCtrl.text,
+                    endDate: endDateCtrl.text,
+                    description: disCtrl.text,
+                    file: XFile(image?.path ?? ''));
+              }
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -267,6 +316,8 @@ class _CreateGoalState extends State<CreateGoal> {
     setState(() {
       if (pickedImg != null) {
         image = File(pickedImg.path);
+        networkImageForGoal ='';
+
         setState(() {});
       }
     });
@@ -423,7 +474,8 @@ class AppTextField extends StatelessWidget {
               contentPadding: const EdgeInsets.only(left: 1),
               autofocus: true,
               isDense: true,
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 12),
+              margin: const EdgeInsets.only(
+                  left: kPadding, right: kPadding, top: 8, bottom: 12),
               hintText: hintText,
               // margin: const EdgeInsets.only(bottom: 18),
             ),

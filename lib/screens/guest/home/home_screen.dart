@@ -1,4 +1,7 @@
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_flip_card/flipcard/gesture_flip_card.dart';
+// import 'package:flutter_flip_card/modal/flip_side.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -50,12 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late String formattedDate = DateFormat(dayFormat).format(currentDate);
 
-  Future fetchFeeds({bool? loadingNext}) async {
+  Future fetchFeeds({bool? loadingNext,String? categoryId}) async {
+
     return await context.read<FeedsController>().fetchFeeds(
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
-          categoryId: selectedFilter?.id??1,
+          // categoryId: selectedFilter?.id??1,
+          categoryId: categoryId,
           searchKey: searchController.text,
         );
   }
@@ -96,16 +101,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
   Set<int> selectedIds = Set<int>();
-
   @override
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
-
     Size size = MediaQuery.of(context).size;
     return Consumer<FeedsController>(builder: (context, controller, child) {
       feeds = controller.feeds;
       return Scaffold(
-
         appBar: AppBar(
           elevation: 0,
           title: Row(
@@ -139,13 +141,16 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           automaticallyImplyLeading: false,
-          actions: const [
+          actions:  [
             ImageView(
               height: 24,
               width: 24,
+              onTap: () {
+                context.pushNamed(Routs.guestNotification);
+              },
               borderRadiusValue: 0,
               color: Colors.white,
-              margin: EdgeInsets.only(left: 8, right: 8),
+              margin: const EdgeInsets.only(left: 8, right: 8),
               fit: BoxFit.contain,
               assetImage: AppAssets.notificationsIcon,
             ),
@@ -169,6 +174,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const GuestProfiles(),
+
+
+
             const Banners(),
             Consumer<CheckDemoController>(
               builder: (context, controller, child) {
@@ -248,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context: context,
                   isRefresh:  true ,
                   loadingNext:  false,
-                  categoryId: selectedFilter?.id,
+                  categoryId: '',
                   searchKey: searchController.text,
                 );
               },
@@ -277,7 +285,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       scrollDirection: Axis.horizontal,
                       // padding: const EdgeInsets.only(left: 20,),
                       itemBuilder: (context, index) {
-
                         var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
                         bool isSelected = selectedIds.contains(data?.id);
                         selectedFilter ??= data;
@@ -285,15 +292,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundGradient: isSelected? primaryGradient : inActiveGradient,
                           borderWidth: 2,
                           borderRadius: 30,
-                          onTap: () {
+                          onTap: () async{
                             selectedFilter = data;
                             if (isSelected) {
                               selectedIds.remove(data?.id);
                             } else {
                               selectedIds.add(int.parse(data?.id.toString()??''));
                             }
+
                             setState(() {});
-                            fetchFeeds();
+                          await  fetchFeeds(categoryId:selectedIds.join(',') );
                           },
                           margin: const EdgeInsets.only(right: 12),
                           padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),

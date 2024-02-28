@@ -38,7 +38,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
-          categoryId: selectedFilter?.id,
+          categoryId: selectedFilter?.id.toString(),
           searchKey: searchController.text,
         );
   }

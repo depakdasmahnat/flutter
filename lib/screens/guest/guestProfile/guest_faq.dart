@@ -52,7 +52,7 @@ class _GuestFaqState extends State<GuestFaq> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      context.read<GuestControllers>().fetchInterestCategories(context: context, type: '');
+      context.read<GuestControllers>().fetchInterestCategories(context: context, type: 'Faq');
       context.read<GuestControllers>().fetchFaqs(context: context, categoriesId: '');
     });
     super.initState();
@@ -143,24 +143,27 @@ class _GuestFaqState extends State<GuestFaq> {
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          fetchInterestCategory?.data?[index].image == null
-                                              ? Image.asset(
+                                          // fetchInterestCategory?.data?[index].path == null
+                                          //     ?
+                                          Image.asset(
                                                   AppAssets.rocket,
                                                   height: size.height * 0.04,
                                             color:tabIndex ==index?Colors.black: Colors.white,
-                                                )
-                                              : Image.network(
-                                                  fetchInterestCategory?.data?[index].image ?? '',
-                                                  height: size.height * 0.04,
-                                            color:tabIndex ==index?Colors.black: Colors.white,
                                                 ),
+                                          //     :
+                                          // Image.network(
+                                          //         fetchInterestCategory?.data?[index].path ?? '',
+                                          //         height: size.height * 0.04,
+                                          //   color:tabIndex ==index?Colors.black: Colors.white,
+                                          //       ),
                                           Text(
                                             fetchInterestCategory?.data?[index].name ?? '',
                                             style:
                                             TextStyle(
                                               color:tabIndex ==index?Colors.black: Colors.white,
-                                              fontSize: 16,
-                                              height: 2,
+                                              fontSize: 12,
+                                              height: 3,
+
                                               fontWeight: FontWeight.w600,
                                             ),
                                             textAlign: TextAlign.start,
@@ -170,7 +173,6 @@ class _GuestFaqState extends State<GuestFaq> {
                                             style:  TextStyle(
                                               color:tabIndex ==index?Colors.black: Colors.white,
                                               fontSize: 12,
-
                                               fontWeight: FontWeight.w400,
                                             ),
                                             textAlign: TextAlign.start,

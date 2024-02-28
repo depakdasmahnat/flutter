@@ -70,7 +70,7 @@ class _GuestProfileState extends State<GuestProfile> {
                 height: size.height * 0.04,
               ),
               Text(
-                '${localDatabase.guest?.firstName.toCapitalizeFirst ?? ''} ${localDatabase.guest?.lastName.toCapitalizeFirst ?? ''}',
+                '${localDatabase.guest?.firstName.toCapitalizeFirst ?? ''} ${localDatabase.guest?.lastName.toString()=='null' ? '':localDatabase.guest?.lastName.toCapitalizeFirst}',
                 style: const TextStyle(
                     color: Colors.white, fontSize: 24, fontWeight: FontWeight.w600, height: 1.3),
                 textAlign: TextAlign.center,

@@ -39,7 +39,6 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
 
   TextEditingController searchController = TextEditingController();
   List<FeedsData>? feeds;
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -47,7 +46,6 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
     });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

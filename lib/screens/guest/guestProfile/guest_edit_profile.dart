@@ -40,6 +40,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   TextEditingController diseaseController = TextEditingController();
   TextEditingController pinCodeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  bool? lastName =true;
   String? gender='' ;
   String? genderHint='' ;
   String refType = '';
@@ -50,6 +51,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   String stateName = '';
   String cityId = '';
   String cityName = '';
+  String countryCode = '';
   File? image;
   @override
   void initState() {
@@ -58,9 +60,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           await context.read<GuestControllers>().fetchGuestProfile(
                 context: context,
               );
-      await context.read<GuestControllers>().fetchState(
-            context: context,
-          );
+      await context.read<GuestControllers>().fetchState(context: context,);
       gender = fetchGuestProfileModel?.data?.gender??'';
       genderHint = fetchGuestProfileModel?.data?.gender??'Select Gender';
       refType = fetchGuestProfileModel?.data?.leadRefType??'';
@@ -72,14 +72,21 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       diseaseController.text = fetchGuestProfileModel?.data?.illnessInFamily ?? '';
       emailController.text = fetchGuestProfileModel?.data?.email ?? '';
       pinCodeController.text = fetchGuestProfileModel?.data?.pincode ?? '';
-      addressController.text = fetchGuestProfileModel?.data?.address ?? '';
+      addressController.text = fetchGuestProfileModel?.data?.address.toString()=='null'?'':fetchGuestProfileModel?.data?.address;
       stateName = fetchGuestProfileModel?.data?.stateName ?? 'Select State';
       stateId = fetchGuestProfileModel?.data?.stateId.toString()=='null' ? '':fetchGuestProfileModel?.data?.stateId.toString()??'';
       cityId = fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':fetchGuestProfileModel?.data?.cityId.toString()??'';
       cityName = fetchGuestProfileModel?.data?.cityName?? 'Select City';
       firsNameController.text = fetchGuestProfileModel?.data?.firstName??'';
-      lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
+
       mobileController.text = fetchGuestProfileModel?.data?.mobile??'';
+      countryCode =fetchGuestProfileModel?.data?.countryCode??'+91';
+      if(fetchGuestProfileModel?.data?.lastName.toString()=='null'){
+        lastName=false;
+        setState(() {});
+      }else{
+        lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
+      }
     });
     super.initState();
   }
@@ -153,11 +160,8 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   }
   @override
   Widget build(BuildContext context) {
-    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
-    // firsNameController.text = localDatabase.guest?.firstName ?? '';
-    // lastNameController.text = localDatabase.guest?.lastName ?? '';
-    // mobileController.text = localDatabase.guest?.mobile ?? '';
-    // emailController.text =localDatabase.guest?.email??'';
+    // LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
+
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -271,7 +275,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 controller: lastNameController,
                 title: 'Last Name',
                 hintText: 'Enter Last Name',
-                readOnly: true,
+                readOnly: lastName,
               ),
               CustomDropdown(
                 hintText: genderHint,
@@ -287,9 +291,9 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 title: 'Mobile No.',
                 hintText: 'Enter Mobile No.',
                 readOnly: true,
-                prefixIcon: const Padding(
+                prefixIcon:  Padding(
                   padding: EdgeInsets.only(top: 3),
-                  child: Text('+91'),
+                  child: Text(countryCode),
                 ),
               ),
               CustomTextFieldApp(
@@ -616,6 +620,7 @@ class CustomDropdown extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
               padding: const EdgeInsets.only(left: kPadding, top: 7),
