@@ -9,6 +9,7 @@ import 'app.dart';
 import 'controllers/auth_controller/auth_controller.dart';
 import 'controllers/check_demo_controller/check_demo_controller.dart';
 import 'controllers/dashboard/dashboard_controller.dart';
+import 'controllers/dashboard/download_controller.dart';
 import 'controllers/feeds/feeds_controller.dart';
 import 'controllers/guest_controller/guest_controller.dart';
 import 'controllers/member/events/events_controller.dart';
@@ -53,6 +54,7 @@ Future main() async {
     //     child: const MyApp(),
     //   ), // Wrap your app
     // ),);
+
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => DashboardController()),
@@ -70,6 +72,7 @@ Future main() async {
         ChangeNotifierProvider(create: (context) => DemoController()),
         ChangeNotifierProvider(create: (context) => ListsControllers()),
         ChangeNotifierProvider(create: (context) => CheckDemoController()),
+        ChangeNotifierProvider(create: (context) => DownloadState()),
       ],
       child: const MyApp(),
     ),

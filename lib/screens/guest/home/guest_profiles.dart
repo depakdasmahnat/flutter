@@ -48,11 +48,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
 
   @override
   void dispose() {
-<<<<<<< Updated upstream
-    _controller?.controller?.dispose();
-=======
     // _controller?.controller?.dispose();
->>>>>>> Stashed changes
     super.dispose();
   }
 

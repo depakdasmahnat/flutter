@@ -79,7 +79,6 @@ class _MemberSignInState extends State<MemberSignIn> {
                 ),
                 CustomTextField(
                   controller: passwordCtrl,
-
                   obscureText: obscurePassword,
                   keyboardType: TextInputType.text,
                   hintText: 'Password',
@@ -98,7 +97,7 @@ class _MemberSignInState extends State<MemberSignIn> {
                       size: 18,
                     ),
                   ),
-                  margin: const EdgeInsets.only(bottom: 18),
+                  margin: EdgeInsets.zero,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,

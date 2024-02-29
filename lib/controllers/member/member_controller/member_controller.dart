@@ -1534,6 +1534,7 @@ class MembersController extends ChangeNotifier {
   bool loadingAchievers = true;
   AchieversModel? achieversModel;
   List<AchieversData>? achievers;
+  List<AchieversData>? topListData;
 
   Future<List<AchieversData>?> fetchAchievers({
     String? search,
@@ -1567,6 +1568,7 @@ class MembersController extends ChangeNotifier {
           AchieversModel responseData = AchieversModel.fromJson(json);
           if (responseData.status == true) {
             achievers = responseData.data;
+            topListData = responseData.topListData;
 
             debugPrint('achieversNodes ${achievers?.length}');
             notifyListeners();
