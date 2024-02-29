@@ -172,7 +172,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context.pop();
+          // context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);

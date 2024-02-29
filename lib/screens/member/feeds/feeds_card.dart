@@ -234,6 +234,12 @@ class _FeedCardState extends State<FeedCard> {
                                 Share.share('${data?.title ?? ''}\n${data?.file ?? ''}');
                               },
                             ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const FeedMenu(
+                              icon: AppAssets.fileDownload,
+                            ),
                           ],
                         ),
                         // const FeedMenu(

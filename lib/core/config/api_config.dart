@@ -10,7 +10,6 @@ class ApiConfig {
   // //Production...
   // static const domainName = 'https://app.mygtp.in';
 
-
   static const String version = '/api/v1/';
   static const String baseUrl = '$domainName$version';
   static const String mapsBaseUrl = 'https://maps.googleapis.com/maps/api';
@@ -136,7 +135,7 @@ class ApiEndpoints {
   static const String fetchFaqs = 'fetch_faqs?category=';
   static const String guestDemo = 'fetch_demos';
   static const String attend = 'attend_event';
-  static const String checkDemo = 'check_demo';
+  static const String checkDemo = 'check_demo??show_answer=';
   static const String getDemoStep = 'get_demo_step';
   static const String fetchDemoQuestion = 'fetch_demo_questions';
   static const String submitDemoAns = 'submit_demo_answer';

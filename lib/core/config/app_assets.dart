@@ -109,6 +109,7 @@ class AppAssets {
   static const String userImage = 'assets/images/user_image.png';
   static const String goalImage = 'assets/images/goal_home.png';
   static const String checkDemoImage = 'assets/images/checdemoImage.png';
+  static const String fileDownload = 'assets/images/file_download.png';
 
   static const String logoHorizontalText =
       'assets/images/logo_horizontal_text.png';

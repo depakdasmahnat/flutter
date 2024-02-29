@@ -66,7 +66,7 @@ class _MemberSignInState extends State<MemberSignIn> {
                 ),
                 CustomTextField(
                   controller: enagicIdCtrl,
-
+                  autofocus: true,
                   textCapitalization: TextCapitalization.characters,
                   keyboardType: TextInputType.text,
                   // : TextCapitalization.sentences,
@@ -79,7 +79,6 @@ class _MemberSignInState extends State<MemberSignIn> {
                 ),
                 CustomTextField(
                   controller: passwordCtrl,
-
                   obscureText: obscurePassword,
                   keyboardType: TextInputType.text,
                   hintText: 'Password',
@@ -98,16 +97,17 @@ class _MemberSignInState extends State<MemberSignIn> {
                       size: 18,
                     ),
                   ),
-                  margin: const EdgeInsets.only(bottom: 18),
+                  margin: const EdgeInsets.only(bottom: 0.4),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextButton(
                       onPressed: () {
                         context.pushNamed(Routs.resetPassword);
                       },
-                      child: const Text('Forgot password?'),
+                      child: const Text('Forgot password?',),
                     ),
                   ],
                 )
@@ -156,7 +156,6 @@ class _MemberSignInState extends State<MemberSignIn> {
       ],
     );
   }
-
   Padding prefixIcon({required IconData icon}) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 12),

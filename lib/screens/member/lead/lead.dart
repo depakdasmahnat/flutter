@@ -1111,9 +1111,9 @@ class _RowCartState extends State<RowCart> {
                       width: 5,
                     ),
                     SizedBox(
-                      width: size.width * 0.12,
+                      width: size.width * 0.2,
                       child: CustomeText(
-                        text: widget.name ?? '',
+                        text: widget.name??'',
                         maxLines: 1,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

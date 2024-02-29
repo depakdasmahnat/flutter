@@ -28,14 +28,12 @@ class _MainResourceState extends State<MainResource> {
   }
 
   List<ResourceCategoryData>? categories;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Library'),
+        title: const Text('Data Bank'),
       ),
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {

@@ -40,26 +40,26 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
      await context.read<CheckDemoController>().guestCheckDemoStep1(context: context);
      if(context.read<CheckDemoController>().getStep?.demoStep==1){
        context.read<CheckDemoController>().pageController.jumpToPage(1);
-       context.read<CheckDemoController>().addIndex(1);
+       context.read<CheckDemoController>().addIndex(1,'');
      }
      else if(context.read<CheckDemoController>().getStep?.demoStep==2){
        context.read<CheckDemoController>().pageController.jumpToPage(2);
-       context.read<CheckDemoController>().addIndex(2);
+       context.read<CheckDemoController>().addIndex(2,'');
      } else if(context.read<CheckDemoController>().getStep?.demoStep==3){
        context.read<CheckDemoController>().pageController.jumpToPage(3);
-       context.read<CheckDemoController>().addIndex(3);
+       context.read<CheckDemoController>().addIndex(3,'');
      }else if(context.read<CheckDemoController>().getStep?.demoStep==4){
        context.read<CheckDemoController>().pageController.jumpToPage(4);
-       context.read<CheckDemoController>().addIndex(4);
+       context.read<CheckDemoController>().addIndex(4,'');
 
      }else if(context.read<CheckDemoController>().getStep?.demoStep==5){
        context.read<CheckDemoController>().pageController.jumpToPage(5);
-       context.read<CheckDemoController>().addIndex(5);
+       context.read<CheckDemoController>().addIndex(5,'');
      }else if(context.read<CheckDemoController>().getStep?.demoStep==6){
        context.read<CheckDemoController>().pageController.jumpToPage(5);
-       context.read<CheckDemoController>().addIndex(5);
+       context.read<CheckDemoController>().addIndex(5,'');
      }else {
-       context.read<CheckDemoController>().addIndex(0);
+       context.read<CheckDemoController>().addIndex(0,'');
      }
     });
     super.initState();
@@ -72,24 +72,27 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(size.height * 0.08),
-          child: CustomAppBar(
-            showLeadICon: true,
-            title: 'Demo Journey',
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: CustomAppBar(
+              showLeadICon: true,
+              title: 'Demo Journey',
+            ),
           )),
       body: Consumer<CheckDemoController>(
         builder: (context, controller, child) {
           return
             Column(
-            // shrinkWrap: true,
+
             children: [
               EasyStepper(
                 activeStep:controller.stepIndex,
                 internalPadding: 1,
-                enableStepTapping: false,
+                // enableStepTapping: false,
                 showLoadingAnimation: false,
                 stepRadius: 12,
                 onStepReached: (index) {
-                  controller.addIndex(index);
+                  controller.addIndex(index,'');
                   controller.nextPage(index);
                 },
                 showStepBorder: false,
@@ -244,7 +247,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                     scrollDirection: Axis.horizontal,
                    physics: const NeverScrollableScrollPhysics(),
                    onPageChanged: (value) async{
-                     context.read<CheckDemoController>().addIndex(value);
+                     context.read<CheckDemoController>().addIndex(value,'');
 
                      if(value==2){
                        await context.read<CheckDemoController>().guestCheckDemoStep1(context: context);

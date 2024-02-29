@@ -250,7 +250,7 @@ class _CreateDemoState extends State<CreateDemo> {
                             top: 7,
                           ),
                           border: InputBorder.none,
-                          hintText: 'Select Gender',
+                          hintText: 'Select member',
                         ),
                       ),
                     ),

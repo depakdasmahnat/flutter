@@ -26,7 +26,6 @@ class CreateGoal extends StatefulWidget {
   @override
   State<CreateGoal> createState() => _CreateGoalState();
 }
-
 class _CreateGoalState extends State<CreateGoal> {
   FetchGoalForEditModel? fetchGoalForEditModel;
   String goalType = '';
@@ -58,7 +57,6 @@ class _CreateGoalState extends State<CreateGoal> {
     });
     super.initState();
   }
-
   File? image;
   @override
   Widget build(BuildContext context) {
@@ -274,7 +272,6 @@ class _CreateGoalState extends State<CreateGoal> {
       ),
     );
   }
-
   Future<void> updateProfileImage({required ImageSource source}) async {
     final pickedImg = await ImagePicker().pickImage(source: source);
     setState(() {
@@ -289,7 +286,6 @@ class _CreateGoalState extends State<CreateGoal> {
       Navigator.pop(context);
     }
   }
-
   Future addImages() async {
     return showModalBottomSheet(
         context: context,
@@ -348,7 +344,6 @@ class _CreateGoalState extends State<CreateGoal> {
         });
   }
 }
-
 class AppTextField extends StatelessWidget {
   final String? title;
   final void Function()? onTap;
@@ -449,13 +444,11 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
-
 class CustomeDropdown extends StatelessWidget {
   String? title;
   String? hintText;
   List<String>? listItem;
   TextEditingController? controller;
-
   CustomeDropdown({
     this.title,
     this.hintText,
@@ -463,7 +456,6 @@ class CustomeDropdown extends StatelessWidget {
     this.controller,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

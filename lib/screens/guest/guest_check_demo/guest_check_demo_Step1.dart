@@ -46,7 +46,6 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
   void initState() {
 
     fullScreenVideo();
-
     controller!.addListener(() {
       if (controller!.value.isInitialized) {
         currentPosition.value = controller?.value;
@@ -55,16 +54,14 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
             context.read<CheckDemoController>()?.nextPage(3);
           }else if(widget.jumpType=='4'){
             context.read<CheckDemoController>()?.nextPage(5);
-            context.read<CheckDemoController>()?.addIndex(5);
+            context.read<CheckDemoController>()?.addIndex(5,'');
           }
           else{
             context.read<CheckDemoController>()?.nextPage(1);
           }
           // controller?.pause();
           // context.pop();
-
         }
-
 
       }
       setState(() {

@@ -23,31 +23,39 @@ class _GuestProfilesState extends State<GuestProfiles> {
    FlipCardController? _controller;
   int _currentIndex = 0;
   List<Widget> _widgets = [];
+  bool _isPageActive = true;
+  Timer? _timer;
   @override
   void initState() {
     super.initState();
     _controller = FlipCardController();
-    Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (_currentIndex < _widgets.length - 1) {
-        _currentIndex++;
-      } else {
-        _currentIndex = 0;
-      }
-      // _controller?.toggleCard();
-      // setState(() {
-      //
-      // });
-    });
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<GuestControllers>().fetchNewJoiners(
-            context: context,
-          );
+        context: context,
+      );
+      _timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+        if (_isPageActive) {
+          if (_currentIndex < _widgets.length - 1) {
+            _currentIndex++;
+          } else {
+            _currentIndex = 0;
+          }
+          if (_controller != null && mounted) {
+            await _controller?.toggleCard();
+            setState(() {});
+          }
+        } else {
+          timer.cancel(); // Cancel the timer if the page is no longer active
+        }
+      });
     });
   }
   @override
   void dispose() {
-    _controller?.controller?.dispose();
-    _controller?.toggleCard();
+    _isPageActive = false; // Set the flag to false when the page is disposed
+    _timer?.cancel(); // Cancel the timer
+    _controller?.controller?.isDismissed; // Dispose of the controller
     super.dispose();
   }
   @override

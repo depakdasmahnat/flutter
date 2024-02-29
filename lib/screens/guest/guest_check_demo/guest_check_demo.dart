@@ -51,8 +51,6 @@ class _GuestCheckDemoState extends State<GuestCheckDemo> {
               );
             },);
         },
-
-
       ),
     );
   }

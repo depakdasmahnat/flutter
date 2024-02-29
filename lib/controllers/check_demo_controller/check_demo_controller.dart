@@ -19,6 +19,7 @@ class CheckDemoController extends ChangeNotifier{
   final PageController pageController = PageController();
   int stepIndex =0;
   int tabIndex =-1;
+  String checkVideoSkip ='';
   List<Questions>  ansQues =[];
   addTabIndex(i){
     tabIndex =i;
@@ -28,7 +29,11 @@ class CheckDemoController extends ChangeNotifier{
     pageController.jumpToPage(index);
     notifyListeners();
   }
-  addIndex(int? index){
+  addIndex(int? index, String? skip){
+    if(skip=='No'){
+      checkVideoSkip =skip??'';
+      // nextPage(4);
+    }
     stepIndex =index??-1;
     notifyListeners();
   }
@@ -53,7 +58,7 @@ class CheckDemoController extends ChangeNotifier{
     try {
       await ApiService()
           .get(
-        endPoint: ApiEndpoints.checkDemo ,
+        endPoint: ApiEndpoints.checkDemo +checkVideoSkip,
       )
           .then((response) {
         if (response != null) {
@@ -199,10 +204,8 @@ class CheckDemoController extends ChangeNotifier{
       if (response != null) {
         Map<String, dynamic> json = response;
         responseData = DefaultModel.fromJson(json);
-
         if (responseData?.status == true) {
           showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
-
         } else {
           showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
         }

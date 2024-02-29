@@ -74,9 +74,9 @@ class AuthControllers extends ChangeNotifier {
       if (response != null) {
         Map<String, dynamic> json = response;
         responseData = Validatemobile.fromJson(json);
+        print("check statud oe ${response}");
         if (responseData?.status == true) {
-          showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           // context.pushNamed(Routs., extra: VerifyOTP(mobileNo: mobile, countryCode: countryCode));
         } else {
           showSnackBar(

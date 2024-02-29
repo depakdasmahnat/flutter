@@ -230,6 +230,7 @@ class _AddMemberListState extends State<AddMemberList> {
           ),
           CustomDropdown(
             title: 'List Status',
+            hintText: 'Select list status',
             onChanged: (v) {
               status =v;
             },
