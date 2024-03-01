@@ -284,11 +284,8 @@ class ListsControllers extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          showSnackBar(
-              context: context,
-              text: responseData?.message ?? 'Something went wong',
-              color: Colors.green);
-          context.pop();
+          showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          // context.pop();
         } else {
           showSnackBar(
               context: context,
@@ -297,7 +294,7 @@ class ListsControllers extends ChangeNotifier {
         }
       }
     });
-    // return responseData;
+    return responseData;
   }
 
   Future<GuestProfileDetailsData?> fetchGuestProfileDetails({

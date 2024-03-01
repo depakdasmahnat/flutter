@@ -98,6 +98,7 @@ class MembersController extends ChangeNotifier {
     String? status,
     String? priority,
     String? page,
+    String? searchKey,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -116,8 +117,7 @@ class MembersController extends ChangeNotifier {
       onRefresh();
       try {
         var response = await ApiService()
-            .get(endPoint: '${ApiEndpoints.fetchLead}status=$status&priority=$priority&page=$page');
-
+            .get(endPoint: '${ApiEndpoints.fetchLead}status=$status&priority=$priority&page=$page&search_key=$searchKey');
         if (response != null) {
           Map<String, dynamic> json = response;
           FetchLeads responseData = FetchLeads.fromJson(json);
@@ -892,6 +892,11 @@ class MembersController extends ChangeNotifier {
     required String disability,
     required String monthlyIncome,
     required String sponsorId,
+    required String leadStatus,
+    required String leadType,
+    required String demoType,
+    required String demoDate,
+    required String demoTime,
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -915,6 +920,11 @@ class MembersController extends ChangeNotifier {
         'disability': disability,
         'monthly_income': monthlyIncome,
         'sponsor_id': sponsorId,
+        'lead_status':leadStatus,
+        'lead_type':leadType,
+        'demo_type':demoType,
+        'demo_date':demoDate,
+        'demo_time':demoTime,
       };
       debugPrint('Sent Data is $body');
       //Processing API...

@@ -32,7 +32,6 @@ class DemosScreen extends StatefulWidget {
 class _DemosScreenState extends State<DemosScreen> {
   List<DemosData>? demos;
   String? filter;
-
   Future fetchDemos({bool? loadingNext}) async {
     return await context.read<DemoController>().fetchDemos(
           context: context,
@@ -43,7 +42,6 @@ class _DemosScreenState extends State<DemosScreen> {
       type:  true
         );
   }
-
   TextEditingController searchController = TextEditingController();
   @override
   void initState() {
@@ -194,38 +192,38 @@ class _DemosScreenState extends State<DemosScreen> {
           );
         },
       ),
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GradientButton(
-            height: 60,
-            borderRadius: 18,
-            backgroundGradient: primaryGradient,
-            blur: 20,
-            backgroundColor: Colors.transparent,
-            boxShadow: const [],
-            margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
-            onTap: () {
-              context.pushNamed(Routs.createDemo);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Create a Demo',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: GoogleFonts.urbanist().fontFamily,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      // bottomNavigationBar: Column(
+      //   mainAxisSize: MainAxisSize.min,
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     GradientButton(
+      //       height: 60,
+      //       borderRadius: 18,
+      //       backgroundGradient: primaryGradient,
+      //       blur: 20,
+      //       backgroundColor: Colors.transparent,
+      //       boxShadow: const [],
+      //       margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
+      //       onTap: () {
+      //         context.pushNamed(Routs.createDemo);
+      //       },
+      //       child: Row(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: [
+      //           Text(
+      //             'Create a Demo',
+      //             style: TextStyle(
+      //               color: Colors.black,
+      //               fontFamily: GoogleFonts.urbanist().fontFamily,
+      //               fontWeight: FontWeight.w600,
+      //               fontSize: 18,
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

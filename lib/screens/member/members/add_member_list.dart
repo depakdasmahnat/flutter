@@ -14,11 +14,14 @@ import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 
+import '../../../core/services/database/local_database.dart';
+import '../../../models/member/auth/member_data.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
 import '../../guest/guestProfile/guest_faq.dart';
+import '../demo/create_demo.dart';
 
 class AddMemberList extends StatefulWidget {
   const AddMemberList({super.key});
@@ -39,6 +42,7 @@ class _AddMemberListState extends State<AddMemberList> {
   String sponsorId ='';
   String refType ='';
   String occupation ='';
+  String demoType ='';
   File? image;
   bool disability = false;
   TextEditingController dateControlller =TextEditingController();
@@ -51,6 +55,9 @@ class _AddMemberListState extends State<AddMemberList> {
   TextEditingController incomeController =TextEditingController();
   TextEditingController pinCodeController =TextEditingController();
   TextEditingController addressController =TextEditingController();
+  TextEditingController sponsorName =TextEditingController();
+  TextEditingController demoDate =TextEditingController();
+  TextEditingController demoTime =TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -145,13 +152,15 @@ class _AddMemberListState extends State<AddMemberList> {
   }
   @override
   Widget build(BuildContext context) {
+    MemberData? member = context.read<LocalDatabase>().member;
+    sponsorName.text =member?.firstName??'';
     Size size = MediaQuery.sizeOf(context);
     return   Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
           preferredSize:Size.fromHeight(size.height*0.07) ,
           child: CustomAppBar(
-            title: 'Add a List',
+            title: 'Add a Lead',
             showLeadICon: false,
           )),
       body:
@@ -188,7 +197,7 @@ class _AddMemberListState extends State<AddMemberList> {
                   width: 5,
                 ),
                 CustomeText(
-                  text: 'Upload image',
+                  text: 'Upload Image',
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -197,14 +206,14 @@ class _AddMemberListState extends State<AddMemberList> {
           ),
            CustomTextFieldApp(
             controller: firstNameController,
-            title: 'List First Name',
+            title: 'Lead First Name',
             hintText: 'Enter First Name',
 
           ),
            CustomTextFieldApp(
             controller: lastNameController,
-            title: 'List Last Name',
-            hintText: 'Enter Last Name',
+            title: 'Lead Last Name',
+            hintText: 'Enter Lead Last Name',
 
           ),
           CustomDropdown(
@@ -215,27 +224,138 @@ class _AddMemberListState extends State<AddMemberList> {
             listItem: const ['Male','Female'],
           ),
            CustomTextFieldApp(
-            title: 'List Mobile No.',
-            hintText: 'Enter Mobile No.',
+            title: 'Lead Mobile No.',
+            hintText: 'Enter Lead Mobile No.',
             controller: mobileController,
             maxLength: 10,
             keyboardType: TextInputType.number,
 
           ),
            CustomTextFieldApp(
-            title: 'List Email',
+            title: 'Lead Email',
             hintText: 'email@gmail.com',
             controller: emailController,
 
           ),
           CustomDropdown(
-            title: 'List Status',
-            hintText: 'Select list status',
+            title: 'Lead Status',
+            hintText: 'Select Lead status',
             onChanged: (v) {
-              status =v;
+              if(v=='Newly Listed'){
+                status ='New';
+              }else{
+                status =v;
+              }
+
             },
-            listItem: const ['Family','Friend','Professional','Society','Random'],
+            listItem: const ['Newly Listed','Invitation Call','Demo Scheduled','Follow Up'],
           ),
+          if(status=='Demo Scheduled')
+            Column(
+              children: [
+                CustomDropdown(
+                  onChanged: (v) {
+                    demoType =v;
+                  },
+
+                  title: 'Demo Type ',
+                  hintText: 'Select Type',
+                  listItem: const ['Business', 'Product'],
+
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFieldApp(
+                        title: 'Demo Date',
+                        hintText: 'dd-mm-yyyy',
+                        controller: demoDate,
+                        readOnly: true,
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2101),
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  popupMenuTheme: PopupMenuThemeData(
+                                      shape: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10))),
+                                  cardColor: Colors.white,
+
+                                  colorScheme: Theme.of(context).colorScheme.copyWith(
+                                    primary: Colors.white, // <-- SEE HERE
+                                    onPrimary: Colors.black, // <-- SEE HERE
+                                    onSurface: Colors.white,
+                                  ),
+
+                                  // Input
+                                  inputDecorationTheme: const InputDecorationTheme(
+                                    // labelStyle: GoogleFonts.greatVibes(), // Input label
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
+                          );
+
+                          if (pickedDate != null) {
+                            demoDate.text = "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                          }
+                        },
+
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomTextFieldApp(
+                        title: 'Demo Time',
+                        hintText: 'hh:mm',
+                        readOnly: true,
+                        controller: demoTime,
+                        onTap: () async {
+                          TimeOfDay? time = await showTimePicker(
+                            context: context,
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  popupMenuTheme: PopupMenuThemeData(
+                                      shape: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(10))),
+                                  cardColor: Colors.white,
+
+                                  colorScheme: Theme.of(context).colorScheme.copyWith(
+                                    primary: Colors.white, // <-- SEE HERE
+                                    onPrimary: Colors.black, // <-- SEE HERE
+                                    onSurface: Colors.white,
+                                  ),
+
+                                  // Input
+                                  inputDecorationTheme: const InputDecorationTheme(
+                                    // labelStyle: GoogleFonts.greatVibes(), // Input label
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
+                            initialTime: TimeOfDay.now(),
+                          );
+
+                          if (time != null) {
+                            demoTime.text = time.format(context);
+                          }
+                        },
+
+                      ),
+                    ),
+                
+
+                  
+                  ],
+                )
+              ],
+            ),
 
           CustomDropdown(
             hintText:'Select refType',
@@ -244,7 +364,7 @@ class _AddMemberListState extends State<AddMemberList> {
             },
             // selectedItem: refType,
             title: 'Ref Type',
-            listItem: const ['Friend', 'Family'],
+            listItem: const ['Self', 'Referred'],
           ),
           CustomDropdown(
             hintText: 'Select Occupation ',
@@ -259,7 +379,7 @@ class _AddMemberListState extends State<AddMemberList> {
               Expanded(
                 child: CustomTextFieldApp(
                   title: 'Date of Birth',
-                  hintText: 'dd/mm/yyyy',
+                  hintText: 'dd-mm-yyyy',
                   controller: dateControlller,
                   onTap: ()async {
                     DateTime? pickedDate = await showDatePicker(
@@ -272,8 +392,6 @@ class _AddMemberListState extends State<AddMemberList> {
                           data: Theme.of(context).copyWith(
                             popupMenuTheme: PopupMenuThemeData(shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                             cardColor: Colors.white,
-
-
 
                             colorScheme: Theme.of(context).colorScheme.copyWith(
                               primary: Colors.white, // <-- SEE HERE
@@ -312,7 +430,7 @@ class _AddMemberListState extends State<AddMemberList> {
           Padding(
             padding: const EdgeInsets.only(left: 9.0),
             child: CustomeText(
-              text: 'Lead status',
+              text: 'Lead Type',
               fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
@@ -332,6 +450,7 @@ class _AddMemberListState extends State<AddMemberList> {
                     onTap: () {
                       tabIndex =index;
                       priority =item[index];
+                      print('check $priority');
                       setState(() {
                       });
                     },
@@ -484,26 +603,32 @@ class _AddMemberListState extends State<AddMemberList> {
             controller: addressController,
 
           ),
-          Consumer<MembersController>(
-            builder: (context, controller, child) {
-              return CustomDropdown(
-                hintText:'Select Sponsor' ,
-                onChanged: (v) {
-                  sponsorId = controller.fetchSponsorModel?.data
-                      ?.firstWhere(
-                        (element) {
-                      return element.name == v;
-                    },
-                  ).id
-                      .toString() ??
-                      '';
-                },
-                title: 'Sponsor',
-                listItem:
-                controller.fetchSponsorModel?.data?.map((e) => e.name).toList(),
-              );
-            },
+          CustomTextFieldApp(
+            title: 'Sponsor',
+            controller: sponsorName,
+
+            keyboardType: TextInputType.number,
           ),
+          // Consumer<MembersController>(
+          //   builder: (context, controller, child) {
+          //     return CustomDropdown(
+          //       hintText:'Select Sponsor' ,
+          //       onChanged: (v) {
+          //         sponsorId = controller.fetchSponsorModel?.data
+          //             ?.firstWhere(
+          //               (element) {
+          //             return element.name == v;
+          //           },
+          //         ).id
+          //             .toString() ??
+          //             '';
+          //       },
+          //       title: 'Sponsor',
+          //       listItem:
+          //       controller.fetchSponsorModel?.data?.map((e) => e.name).toList(),
+          //     );
+          //   },
+          // ),
 
         ],
       ),
@@ -520,7 +645,6 @@ class _AddMemberListState extends State<AddMemberList> {
             boxShadow: const [],
             margin: const EdgeInsets.only(left: 16, right: 24),
             onTap: ()async {
-              // context.pushNamed(Routs.memberaddForm);
               await context.read<MembersController>().addList(
                 context: context,
                   firstName: firstNameController.text,
@@ -539,8 +663,8 @@ class _AddMemberListState extends State<AddMemberList> {
                   pincode: pinCodeController.text,
                   disability: disability==false?'No':'Yes',
                   monthlyIncome: incomeController.text,
-                  sponsorId: sponsorId,
-                  file: XFile(image?.path??'')).whenComplete(() async{
+                  sponsorId: member?.id.toString()??'',
+                  file: XFile(image?.path??''), leadStatus: status, leadType: priority, demoType:demoType, demoDate: demoDate.text, demoTime: demoTime.text).whenComplete(() async{
                 await context.read<MembersController>().fetchLeads(status: 'New', priority: '', page: '1');
                   },);
             },
