@@ -107,24 +107,27 @@ class _ToDoScreenState extends State<ToDoScreen> {
           shrinkWrap: true,
           physics: const BouncingScrollPhysics(),
           children: [
-            SizedBox(
-              height: 80,
-              child: AnimatedHorizontalCalendar(
-                date: dateTime ?? DateTime.now(),
-                selectedDate: dateTime,
-                tableCalenderIcon: const Icon(Icons.calendar_month),
-                onDateSelected: (val) {
-                  dateTime = val;
-                  filter = null;
-                  if (dateTime != null) {
-                    formattedDate = DateFormat(dayFormat).format(dateTime!);
-                  }
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: SizedBox(
+                height: 80,
+                child: AnimatedHorizontalCalendar(
+                  date: dateTime ?? DateTime.now(),
+                  selectedDate: dateTime,
+                  tableCalenderIcon: const Icon(Icons.calendar_month),
+                  onDateSelected: (val) {
+                    dateTime = val;
+                    filter = null;
+                    if (dateTime != null) {
+                      formattedDate = DateFormat(dayFormat).format(dateTime!);
+                    }
 
-                  debugPrint('dateTime $dateTime');
-                  setState(() {});
-                  fetchToDos();
-                  fetchEvents();
-                },
+                    debugPrint('dateTime $dateTime');
+                    setState(() {});
+                    fetchToDos();
+                    fetchEvents();
+                  },
+                ),
               ),
             ),
             Padding(
