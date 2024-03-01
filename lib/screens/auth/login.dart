@@ -52,6 +52,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    Color? textColor2 =const Color(0xFF909090);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // appBar: AppBar(),
@@ -95,7 +96,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Container(
 
                     decoration: ShapeDecoration(
@@ -132,6 +133,13 @@ class _LoginState extends State<Login> {
                         },
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0,bottom: 8),
+                  child: CustomeText(
+                    text: 'Use only WhatsApp no.',
+                    color: textColor2,
                   ),
                 ),
                 // CustomTextField(

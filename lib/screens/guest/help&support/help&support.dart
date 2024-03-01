@@ -167,7 +167,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
               height: size.height*0.02,
             ),
             CustomeText(
-              text: 'Email us',
+              text: 'Email',
               fontSize: 18,
               fontWeight: FontWeight.w500,
               color: textColor2,

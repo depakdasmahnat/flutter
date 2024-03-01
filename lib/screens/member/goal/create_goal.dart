@@ -26,7 +26,6 @@ class CreateGoal extends StatefulWidget {
   @override
   State<CreateGoal> createState() => _CreateGoalState();
 }
-
 class _CreateGoalState extends State<CreateGoal> {
   FetchGoalForEditModel? fetchGoalForEditModel;
   String goalType = '';
@@ -42,15 +41,17 @@ class _CreateGoalState extends State<CreateGoal> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       context.read<MembersController>().fetchGoalCategory();
       if (widget.type == 'Edit') {
-        fetchGoalForEditModel= await context.read<MembersController>().fetchGoalForEdit(goalId: widget.goalId ?? '');
-          goalNameCtrl.text = fetchGoalForEditModel?.data?.name ?? '';
-          goalTypeHint = fetchGoalForEditModel?.data?.type ?? '';
-          startDateCtrl.text = fetchGoalForEditModel?.data?.startDate ?? '';
-          endDateCtrl.text = fetchGoalForEditModel?.data?.endDate ?? '';
-          disCtrl.text = fetchGoalForEditModel?.data?.description ?? '';
-          networkImageForGoal = fetchGoalForEditModel?.data?.image ?? '';
-          goalType =fetchGoalForEditModel?.data?.typeId ?? '';
-        image = File(networkImageForGoal??'');
+        fetchGoalForEditModel = await context
+            .read<MembersController>()
+            .fetchGoalForEdit(goalId: widget.goalId ?? '');
+        goalNameCtrl.text = fetchGoalForEditModel?.data?.name ?? '';
+        goalTypeHint = fetchGoalForEditModel?.data?.type ?? '';
+        startDateCtrl.text = fetchGoalForEditModel?.data?.startDate ?? '';
+        endDateCtrl.text = fetchGoalForEditModel?.data?.endDate ?? '';
+        disCtrl.text = fetchGoalForEditModel?.data?.description ?? '';
+        networkImageForGoal = fetchGoalForEditModel?.data?.image ?? '';
+        goalType = fetchGoalForEditModel?.data?.typeId ?? '';
+        image = File(networkImageForGoal ?? '');
         setState(() {});
       }
     });
@@ -64,9 +65,9 @@ class _CreateGoalState extends State<CreateGoal> {
       appBar: AppBar(
         elevation: 0,
         leading: const CustomBackButton(),
-        title: const Text('Create Goal'),
+        title: Text(widget.type == 'Edit' ? 'Edit Goal' : 'Create Goal'),
       ),
-      body:  ListView(
+      body: ListView(
         padding: EdgeInsets.only(bottom: size.height * 0.13),
         children: [
           AppTextField(
@@ -84,11 +85,9 @@ class _CreateGoalState extends State<CreateGoal> {
                     var id = controller.fetchGoalCategoryModel?.data
                         ?.firstWhere(
                           (element) {
-                        return element.name == v;
-                      },
-                    )
-                        .id
-                        .toString();
+                            return element.name == v;
+                          },
+                        ).id.toString();
                     goalType = id ?? '';
                   },
                   title: 'Goal Type',
@@ -99,11 +98,10 @@ class _CreateGoalState extends State<CreateGoal> {
                 ),
               );
             },
-
           ),
           AppTextField(
             title: 'Start Date',
-            hintText: 'dd/mm/yyyy',
+            hintText: 'dd-mm-yyyy',
             controller: startDateCtrl,
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
@@ -120,15 +118,15 @@ class _CreateGoalState extends State<CreateGoal> {
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
-                        primary: Colors.white, // <-- SEE HERE
-                        onPrimary: Colors.black, // <-- SEE HERE
-                        onSurface: Colors.white,
-                      ),
+                            primary: Colors.white, // <-- SEE HERE
+                            onPrimary: Colors.black, // <-- SEE HERE
+                            onSurface: Colors.white,
+                          ),
 
                       // Input
                       inputDecorationTheme: const InputDecorationTheme(
-                        // labelStyle: GoogleFonts.greatVibes(), // Input label
-                      ),
+                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                          ),
                     ),
                     child: child!,
                   );
@@ -137,14 +135,14 @@ class _CreateGoalState extends State<CreateGoal> {
 
               if (pickedDate != null) {
                 startDateCtrl.text =
-                "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                    "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
               }
             },
             readOnly: true,
           ),
           AppTextField(
             title: 'End Date',
-            hintText: 'dd/mm/yyyy',
+            hintText: 'dd-mm-yyyy',
             controller: endDateCtrl,
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
@@ -161,15 +159,15 @@ class _CreateGoalState extends State<CreateGoal> {
                       cardColor: Colors.white,
 
                       colorScheme: Theme.of(context).colorScheme.copyWith(
-                        primary: Colors.white, // <-- SEE HERE
-                        onPrimary: Colors.black, // <-- SEE HERE
-                        onSurface: Colors.white,
-                      ),
+                            primary: Colors.white, // <-- SEE HERE
+                            onPrimary: Colors.black, // <-- SEE HERE
+                            onSurface: Colors.white,
+                          ),
 
                       // Input
                       inputDecorationTheme: const InputDecorationTheme(
-                        // labelStyle: GoogleFonts.greatVibes(), // Input label
-                      ),
+                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                          ),
                     ),
                     child: child!,
                   );
@@ -178,7 +176,7 @@ class _CreateGoalState extends State<CreateGoal> {
 
               if (pickedDate != null) {
                 endDateCtrl.text =
-                "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
+                    "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
               }
             },
             readOnly: true,
@@ -195,7 +193,6 @@ class _CreateGoalState extends State<CreateGoal> {
             child: GestureDetector(
               onTap: () {
                 addImages();
-
               },
               child: DottedBorder(
                 dashPattern: const [4, 4],
@@ -206,52 +203,17 @@ class _CreateGoalState extends State<CreateGoal> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: kPadding, vertical: 24),
                     color: Colors.transparent,
-                    child:networkImageForGoal==''? ImageView(
-                      file: File(image?.path??''),
-                      borderRadiusValue: 10,
-                    ):ImageView(
-                      networkImage:networkImageForGoal,
-                      borderRadiusValue: 10,
-                    )
-                  // image == null
-                  //     ? const Row(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         children: [
-                  //           Column(
-                  //             children: [
-                  //               ImageView(
-                  //                 height: 50,
-                  //                 width: 50,
-                  //                 assetImage: '',
-                  //                 margin: EdgeInsets.only(bottom: 8),
-                  //               ),
-                  //               Text(
-                  //                 'Drop your image here, or browse',
-                  //                 style: TextStyle(
-                  //                   fontSize: 16,
-                  //                   fontWeight: FontWeight.w500,
-                  //                 ),
-                  //               ),
-                  //               Text(
-                  //                 'Supports: PNG, JPG',
-                  //                 style: TextStyle(
-                  //                   fontSize: 12,
-                  //                   fontWeight: FontWeight.w500,
-                  //                 ),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ],
-                  //       )
-                  //      : networkImage.isNotEmpty==false?Image.file(
-                  //         File(image?.path ?? ''),
-                  //         fit: BoxFit.cover,
-                  //       ):ImageView(
-                  //   networkImage: networkImage,
-                  //  borderRadiusValue: 10,
-                  // )),
-                  // widget.type=='Edit'?Image.network(networkImage,fit: BoxFit.cover,)
-                ),
+                    child: networkImageForGoal == ''
+                        ? ImageView(
+                            file: File(image?.path ?? ''),
+                            borderRadiusValue: 10,
+                          )
+                        : ImageView(
+                            networkImage: networkImageForGoal,
+                            borderRadiusValue: 10,
+                          )
+
+                    ),
               ),
             ),
           )
@@ -310,13 +272,12 @@ class _CreateGoalState extends State<CreateGoal> {
       ),
     );
   }
-
   Future<void> updateProfileImage({required ImageSource source}) async {
     final pickedImg = await ImagePicker().pickImage(source: source);
     setState(() {
       if (pickedImg != null) {
         image = File(pickedImg.path);
-        networkImageForGoal ='';
+        networkImageForGoal = '';
 
         setState(() {});
       }
@@ -325,7 +286,6 @@ class _CreateGoalState extends State<CreateGoal> {
       Navigator.pop(context);
     }
   }
-
   Future addImages() async {
     return showModalBottomSheet(
         context: context,
@@ -384,7 +344,6 @@ class _CreateGoalState extends State<CreateGoal> {
         });
   }
 }
-
 class AppTextField extends StatelessWidget {
   final String? title;
   final void Function()? onTap;
@@ -485,13 +444,11 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
-
 class CustomeDropdown extends StatelessWidget {
   String? title;
   String? hintText;
   List<String>? listItem;
   TextEditingController? controller;
-
   CustomeDropdown({
     this.title,
     this.hintText,
@@ -499,7 +456,6 @@ class CustomeDropdown extends StatelessWidget {
     this.controller,
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

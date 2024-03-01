@@ -13,7 +13,6 @@ import '../demo/create_demo.dart';
 
 class DemoDoneForm extends StatefulWidget {
  final String? title;
-
  final String? demoId;
   const DemoDoneForm({super.key,this.title,this.demoId});
 
@@ -32,6 +31,7 @@ class _DemoDoneFormState extends State<DemoDoneForm> {
   List item =['Will rethink about it','Need to talk with some friends and family','Issue with pyramidal scheme'];
   @override
   Widget build(BuildContext context) {
+    print("check demo id ${widget.demoId}");
     Size size = MediaQuery.of(context).size;
     return StatefulBuilder(
       builder: (BuildContext context, void Function(void Function()) setState) {

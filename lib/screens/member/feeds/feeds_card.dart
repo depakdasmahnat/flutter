@@ -26,13 +26,14 @@ class FeedCard extends StatefulWidget {
   const FeedCard({
     super.key,
     this.index,
+    this.resourceTitle,
     required this.data,
     this.isFeeds = true,
   });
-
   final int? index;
   final FeedsData? data;
   final bool? isFeeds;
+  final String? resourceTitle;
 
   @override
   State<FeedCard> createState() => _FeedCardState();
@@ -149,6 +150,7 @@ class _FeedCardState extends State<FeedCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 if (data?.title != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
@@ -162,6 +164,7 @@ class _FeedCardState extends State<FeedCard> {
                       textAlign: TextAlign.start,
                     ),
                   ),
+
                 if (data?.description != null && data?.fileType == FeedsFileType.article.value)
                   showMoreDescription(
                     context: context,
@@ -230,6 +233,12 @@ class _FeedCardState extends State<FeedCard> {
                               onTap: () {
                                 Share.share('${data?.title ?? ''}\n${data?.file ?? ''}');
                               },
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const FeedMenu(
+                              icon: AppAssets.fileDownload,
                             ),
                           ],
                         ),

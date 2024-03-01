@@ -15,7 +15,7 @@ class CustomTransparentButton extends StatefulWidget {
 class _CustomTransparentButtonState extends State<CustomTransparentButton> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: widget.onTap,
       child: Container(
         height: 70,

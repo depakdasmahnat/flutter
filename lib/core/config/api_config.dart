@@ -129,12 +129,13 @@ class ApiEndpoints {
   static const String fetchFeedCategories = 'fetch_feed_categories';
   static const String getComments = 'get_comments';
   static const String feedComment = 'feed_comment';
-  static const String fetchResourceDetails = 'fetch_resources?page=1&category_id=';
+  static const String fetchResourceDetails =
+      'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
   static const String guestDemo = 'fetch_demos';
   static const String attend = 'attend_event';
-  static const String checkDemo = 'check_demo';
+  static const String checkDemo = 'check_demo??show_answer=';
   static const String getDemoStep = 'get_demo_step';
   static const String fetchDemoQuestion = 'fetch_demo_questions';
   static const String submitDemoAns = 'submit_demo_answer';

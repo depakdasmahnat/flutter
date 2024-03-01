@@ -26,7 +26,6 @@ class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<CheckDemoController>().fetchDemoAns(context: context);
-
     });
     super.initState();
     // context.read<CheckDemoController>().addIndex(3);
@@ -153,7 +152,7 @@ class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3> {
                               boxShadow: const [],
                               margin: const EdgeInsets.only(left: 16, right: 24),
                               onTap: () {
-                                context.read<CheckDemoController>().addIndex(4);
+                                context.read<CheckDemoController>().addIndex(4,'');
                                 context.read<CheckDemoController>().nextPage(4);
 
                               },

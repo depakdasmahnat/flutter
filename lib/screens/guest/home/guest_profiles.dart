@@ -20,38 +20,44 @@ class GuestProfiles extends StatefulWidget {
 
 class _GuestProfilesState extends State<GuestProfiles> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-  FlipCardController? _controller;
+   FlipCardController? _controller;
   int _currentIndex = 0;
   List<Widget> _widgets = [];
-
+  bool _isPageActive = true;
+  Timer? _timer;
   @override
   void initState() {
     super.initState();
     _controller = FlipCardController();
-    Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (_currentIndex < _widgets.length - 1) {
-        _currentIndex++;
-      } else {
-        _currentIndex = 0;
-      }
-      _controller?.toggleCard();
-      // setState(() {
-      //
-      // });
-    });
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<GuestControllers>().fetchNewJoiners(
-            context: context,
-          );
+        context: context,
+      );
+      _timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+        if (_isPageActive) {
+          if (_currentIndex < _widgets.length - 1) {
+            _currentIndex++;
+          } else {
+            _currentIndex = 0;
+          }
+          if (_controller != null && mounted) {
+            await _controller?.toggleCard();
+            setState(() {});
+          }
+        } else {
+          timer.cancel(); // Cancel the timer if the page is no longer active
+        }
+      });
     });
   }
-
   @override
   void dispose() {
-    // _controller?.controller?.dispose();
+    _isPageActive = false; // Set the flag to false when the page is disposed
+    _timer?.cancel(); // Cancel the timer
+    _controller?.controller?.isDismissed; // Dispose of the controller
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -61,7 +67,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
           Column(
             children: [
               FlipCard(
-                key: cardKey,
+               key: cardKey,
                 controller: _controller,
                 speed: 1500,
                 flipOnTouch: false,
@@ -73,7 +79,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   height: 45,
                   width: 45,
                   margin: const EdgeInsets.only(bottom: 4),
-                  decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, gradient: primaryGradient),
                   child: Padding(
                     padding: const EdgeInsets.all(4),
                     child: Column(
@@ -108,7 +115,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   height: 45,
                   width: 45,
                   margin: const EdgeInsets.only(bottom: 4),
-                  decoration: BoxDecoration(shape: BoxShape.circle, gradient: primaryGradient),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, gradient: primaryGradient),
                   child: Padding(
                     padding: const EdgeInsets.all(4),
                     child: Column(
@@ -140,6 +148,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                   ),
                 ),
               ),
+
               Text(
                 'New\nMembers Join',
                 style: TextStyle(
@@ -173,7 +182,8 @@ class _GuestProfilesState extends State<GuestProfiles> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Center(
-                        child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                        child: CupertinoActivityIndicator(
+                            radius: 15, color: CupertinoColors.white),
                       ),
                     ],
                   )
@@ -192,7 +202,6 @@ class NewJoiner extends StatelessWidget {
   String? image;
   String? firstName;
   String? cityName;
-
   NewJoiner({
     this.image,
     this.firstName,

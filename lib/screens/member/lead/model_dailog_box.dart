@@ -737,7 +737,7 @@ class _ModelDialogBoxForRescheduledState extends State<ModelDialogBoxForReschedu
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text('AlertDialog Title'),
+          title: const Text('Reschedule call'),
           content:  Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -864,6 +864,7 @@ class _ModelDialogBoxForRescheduledState extends State<ModelDialogBoxForReschedu
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
+
                 SizedBox(
                   height: size.height*0.02,
                 ),

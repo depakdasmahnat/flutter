@@ -25,7 +25,8 @@ class ListsControllers extends ChangeNotifier {
 
   List<LeadsData>? _leads; // Changed from List<EventsData> to List<LeadsData>
 
-  List<LeadsData>? get leads => _leads; // Changed from List<EventsData> to List<LeadsData>
+  List<LeadsData>? get leads =>
+      _leads; // Changed from List<EventsData> to List<LeadsData>
 
   num leadsIndex = 1;
   num leadsTotal = 1;
@@ -177,7 +178,8 @@ class ListsControllers extends ChangeNotifier {
 
       onRefresh();
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.fetchToDo, queryParameters: {
+        var response = await ApiService()
+            .get(endPoint: ApiEndpoints.fetchToDo, queryParameters: {
           'search_key': search ?? '',
           'date': filter ?? '',
         });
@@ -233,9 +235,14 @@ class ListsControllers extends ChangeNotifier {
 
         if (responseData?.status == true) {
           showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.green);
         } else {
-          showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
+          showSnackBar(
+              context: context,
+              text: '${responseData?.message}',
+              color: Colors.red);
         }
       }
     });
@@ -280,14 +287,19 @@ class ListsControllers extends ChangeNotifier {
 
         if (responseData?.status == true) {
           showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
-          context.pop();
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.green);
+          // context.pop();
         } else {
-          showSnackBar(context: context, text: '${responseData?.message}', color: Colors.red);
+          showSnackBar(
+              context: context,
+              text: '${responseData?.message}',
+              color: Colors.red);
         }
       }
     });
-    // return responseData;
+    return responseData;
   }
 
   Future<GuestProfileDetailsData?> fetchGuestProfileDetails({

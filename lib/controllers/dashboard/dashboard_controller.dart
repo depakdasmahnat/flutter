@@ -57,7 +57,7 @@ class DashboardController extends ChangeNotifier {
   // Guest Widgets
   final List<DashboardData> guestWidgets = [
     DashboardData(
-      title: 'Feed',
+      title: 'Social',
       activeImage: AppAssets.guestHomeIcon,
       inActiveImage: AppAssets.guestHomeIcon,
       widget: const HomeScreen(),
@@ -69,7 +69,7 @@ class DashboardController extends ChangeNotifier {
       widget: const GuestPoduct(),
     ),
     DashboardData(
-      title: 'Library',
+      title: 'Data Bank',
       activeImage: AppAssets.more,
       inActiveImage: AppAssets.more,
       widget: const MainResource(),

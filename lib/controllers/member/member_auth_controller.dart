@@ -192,7 +192,7 @@ class MemberAuthControllers extends ChangeNotifier {
     ).then((response) {
       if (response != null) {
         Map<String, dynamic> json = response;
-
+         print("check responce $response");
         DefaultModel? responseData = DefaultModel.fromJson(json);
         if (responseData.status == true) {
           logOut(context: context, message: responseData.message ?? 'User Successfully Deactivated');
