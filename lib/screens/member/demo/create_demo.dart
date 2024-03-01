@@ -65,7 +65,7 @@ class _CreateDemoState extends State<CreateDemo> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context
           .read<MembersController>()
-          .fetchLeads(status: '', priority: '', page: '1');
+          .fetchLeads(status: '', priority: '', page: '1',searchKey: '');
       await context.read<MembersController>().fetchSponsor(
             context: context,
           );
@@ -676,7 +676,7 @@ class _CreateDemoState extends State<CreateDemo> {
                   memberIds: memberId);
               if(model?.status ==true){
                 await context.read<MembersController>().fetchLeads(
-                    status: 'Invitation Call', priority: '', page: '1');
+                    status: 'Invitation Call', priority: '', page: '1',searchKey: '');
               }
 
             },

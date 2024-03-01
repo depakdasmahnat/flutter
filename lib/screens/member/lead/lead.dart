@@ -567,7 +567,7 @@ TextEditingController searchController =TextEditingController();
                                               .fetchLeads(
                                                   status: status,
                                                   priority: value,
-                                                  page: '1');
+                                                  page: '1', searchKey: '');
                                         },
                                         itemBuilder: (BuildContext context) =>
                                             <PopupMenuEntry>[
@@ -1346,7 +1346,7 @@ class _RowCartState extends State<RowCart> {
                                       .fetchLeads(
                                           status: 'Invitation Call',
                                           priority: '',
-                                          page: '1');
+                                          page: '1',searchKey: '');
                                 },
                               );
                             },
