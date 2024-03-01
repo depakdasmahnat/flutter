@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:mrwebbeast/core/constant/colors.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
@@ -83,7 +84,7 @@ class DashBoardState extends State<DashBoard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: size.width *0.5,
+                              width: size.width * 0.5,
                               child: GradientText(
                                 'Welcome ${localDatabase.member?.firstName ?? 'Member'}',
                                 gradient: primaryGradient,
@@ -165,7 +166,7 @@ class DashBoardState extends State<DashBoard> {
                   children: [
                     if (controller.showMoreMenuPopUp) DashboardMoreMenu(),
                     GradientButton(
-                      margin: const EdgeInsets.only(left: 24, right: 24, bottom: kPadding),
+                      margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                       borderRadius: 50,
                       blur: 15,
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -228,34 +229,33 @@ class CustomBottomNavBar extends StatelessWidget {
             context.read<DashboardController>().changeDashBoardIndex(index: index);
           },
       child: GradientButton(
-        padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         borderRadius: 50,
-        blur: 10,
-        height: height ?? 50,
-        width: width ?? (selected == true ? null : 50),
-        backgroundGradient: selected == true ? primaryGradient : null,
-        backgroundColor: selected == true ? null : Colors.grey.withOpacity(0.3),
-        child: Row(
+        blur: 0,
+        height: data.title == null ? 55 : null,
+        width: data.title == null ? 55 : null,
+        backgroundGradient: data.title == null ? primaryGradient : null,
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ImageView(
-              height: 18,
-              width: 18,
+              height: 24,
+              width: 24,
               borderRadiusValue: 0,
-              color: selected ? Colors.black : Colors.white,
+              color: data.title == null ? Colors.black : (selected ? primaryColor : Colors.white),
               margin: imageMargin ?? EdgeInsets.zero,
               fit: BoxFit.contain,
               assetImage: selected ? data.activeImage : data.inActiveImage,
             ),
-            if (alwaysShowLabel == true ? true : selected == true && data.title != null)
+            if (data.title != null)
               Padding(
-                padding: const EdgeInsets.only(left: 6),
+                padding: const EdgeInsets.only(top: 4),
                 child: Text(
-                  '${data.title}',
+                  '${data.title}'.toUpperCase(),
                   style: TextStyle(
-                    fontSize: 12,
-                    color: selected ? Colors.black : Colors.white,
+                    fontSize: 10,
+                    color: (selected ? primaryColor : Colors.white),
                     fontWeight: FontWeight.w700,
                   ),
                   maxLines: 1,

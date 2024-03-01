@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -11,6 +13,7 @@ import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/auth_model/fetchinterestcategory.dart';
 import '../../../models/guest_Model/fetchguestproduct.dart';
+import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
@@ -44,16 +47,21 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
         );
   }
 
+  Future fetchCategories({bool? loadingNext}) async {
+    return context.read<GuestControllers>().fetchInterestCategories(context: context, type: 'Resource');
+  }
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      context.read<GuestControllers>().fetchInterestCategories(context: context, type: 'Resource');
+      fetchCategories();
       fetchProduct();
     });
     super.initState();
   }
 
   List<ResourceCategoryData>? categories;
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +71,12 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
 
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Resources'),
+          leading: const Column(
+            children: [
+              CustomBackButton(),
+            ],
+          ),
+          title: const Text('Library'),
         ),
         body: ListView(
           children: [
@@ -97,33 +110,13 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                   },
                 ),
               ),
-            CustomTextField(
-              hintText: 'Search',
-              controller: searchController,
-              hintStyle: const TextStyle(color: Colors.white),
-              prefixIcon: ImageView(
-                height: 20,
-                width: 20,
-                borderRadiusValue: 0,
-                color: Colors.white,
-                margin: const EdgeInsets.only(left: kPadding, right: kPadding),
-                fit: BoxFit.contain,
-                assetImage: AppAssets.searchIcon,
-                onTap: () {
-                  fetchProduct();
-                },
-              ),
-              onEditingComplete: () {
-                fetchProduct();
-              },
-              margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding, top: kPadding),
-            ),
+
             const Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                  padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: 8, top: kPadding),
                   child: Text(
-                    'All Videos',
+                    'Categories',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -157,31 +150,37 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                                           extra: ResourceAndDemo(category: data));
                                     },
                                     child: Container(
-                                      decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.all(Radius.circular(18))),
+                                      decoration: BoxDecoration(
+                                        gradient: blackGradient,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(18),
+                                        ),
+                                      ),
                                       child: Center(
                                         child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Flexible(
+                                            Expanded(
                                               child: ImageView(
                                                 networkImage: '${data?.image}',
+                                                backgroundColor: Colors.grey.shade800.withOpacity(0.6),
                                                 fit: BoxFit.cover,
-                                                margin: const EdgeInsets.all(6),
+                                                borderRadiusValue: 12,
+                                                margin: const EdgeInsets.only(top: 12, left: 12, right: 12),
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                                              padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
                                               child: Text(
-                                                data?.name ?? '',
+                                                '${data?.name}',
                                                 style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                                textAlign: TextAlign.center,
+                                                    color: Colors.white,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                    height: 2),
+                                                textAlign: TextAlign.start,
                                               ),
                                             ),
                                           ],
@@ -228,7 +227,7 @@ class ProductCard extends StatelessWidget {
         margin: const EdgeInsets.only(right: kPadding),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(22)),
-          gradient: index == 0 ? primaryGradient : inActiveGradient,
+          gradient: index == 0 ? primaryGradient : blackGradient,
         ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -248,7 +247,7 @@ class ProductCard extends StatelessWidget {
                   '${data?.name}',
                   style: TextStyle(
                     color: index == 0 ? Colors.black : Colors.white,
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
@@ -264,7 +263,7 @@ class ProductCard extends StatelessWidget {
                       '₹ ${data?.price}/',
                       style: TextStyle(
                         color: index == 0 ? Colors.black : Colors.white,
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                       textAlign: TextAlign.center,

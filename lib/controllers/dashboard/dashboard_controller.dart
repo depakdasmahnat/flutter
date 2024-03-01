@@ -80,7 +80,6 @@ class DashboardController extends ChangeNotifier {
       inActiveImage: AppAssets.userIcon,
       widget: const GuestProfile(),
     ),
-
   ];
 
   // Member Widgets

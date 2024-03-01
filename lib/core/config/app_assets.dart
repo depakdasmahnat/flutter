@@ -63,6 +63,7 @@ class AppAssets {
   static const String todoIcon = 'assets/icons/ic_todo.png';
   static const String productsIcon = 'assets/icons/ic_products.png';
   static const String feedsIcon = 'assets/icons/ic_feeds.png';
+  static const String feedsFilledIcon = 'assets/icons/ic_feeds_filled.png';
   static const String trainingIcon = 'assets/icons/ic_training.png';
   static const String resourcesIcon = 'assets/icons/ic_resources.png';
   static const String hallOfFameIcon = 'assets/icons/ic_hallOfFame.png';

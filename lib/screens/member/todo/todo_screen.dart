@@ -1,25 +1,27 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:mrwebbeast/controllers/member/events/events_controller.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
-import 'package:mrwebbeast/models/dashboard/custom_tab_data.dart';
+import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/member/events/events_screen.dart';
 import 'package:mrwebbeast/screens/member/members/calender/animated_horizontal_calendar.dart';
 import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
-import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
+import 'package:mrwebbeast/utils/widgets/custom_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/config/app_assets.dart';
+import '../../../core/constant/enums.dart';
 import '../../../models/member/events/events_model.dart';
 import '../../../models/member/todo/to_do_model.dart';
-import '../../../utils/widgets/gradient_progress_bar.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../../utils/widgets/training_progress.dart';
-import '../home/member_dashboard.dart';
+import '../lead/leads_popup.dart';
 
 class ToDoScreen extends StatefulWidget {
   const ToDoScreen({super.key});
@@ -37,7 +39,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
     'This Year',
   ];
 
-  late String? filter = tabs.first;
+  String? filter;
 
   ToDoData? toDos;
   TextEditingController searchController = TextEditingController();
@@ -57,6 +59,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
           searchKey: searchController.text,
+          filter: filter ?? (dateTime != null ? dateTime.toString() : ''),
         );
   }
 
@@ -69,11 +72,12 @@ class _ToDoScreenState extends State<ToDoScreen> {
     });
   }
 
-  DateTime? dateTime;
+  DateTime? dateTime = DateTime.now();
   String? formattedDate;
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     return Consumer<EventsControllers>(builder: (context, controller, child) {
       toDos = controller.toDos;
       events = controller.events;
@@ -107,6 +111,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
               height: 80,
               child: AnimatedHorizontalCalendar(
                 date: dateTime ?? DateTime.now(),
+                selectedDate: dateTime,
                 tableCalenderIcon: const Icon(Icons.calendar_month),
                 onDateSelected: (val) {
                   dateTime = val;
@@ -114,11 +119,12 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   if (dateTime != null) {
                     formattedDate = DateFormat(dayFormat).format(dateTime!);
                   }
+
                   debugPrint('dateTime $dateTime');
                   setState(() {});
                   fetchToDos();
+                  fetchEvents();
                 },
-                selectedDate: dateTime,
               ),
             ),
             Padding(
@@ -129,7 +135,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   const Text(
                     'All tasks',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -164,6 +170,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
                           setState(() {});
                           fetchToDos();
+                          fetchEvents();
                         },
                         child: Container(
                           height: 40,
@@ -175,7 +182,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                             child: Text(
                               e,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 12,
                                 color: isSelected ? Colors.black : Colors.white,
                                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                               ),
@@ -201,14 +208,14 @@ class _ToDoScreenState extends State<ToDoScreen> {
                       const Text(
                         'Pending task',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       Text(
                         '${filter ?? formattedDate}',
                         style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -216,7 +223,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 140,
+                  height: 130,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
@@ -226,53 +233,87 @@ class _ToDoScreenState extends State<ToDoScreen> {
                         title: 'Your\nEvents',
                         gradient: limeGradient,
                         darkMode: false,
-                        showArrow: false,
-                        onTap: () {},
+                        showArrow: true,
+                        onTap: () {
+                          context.pushNamed(Routs.events);
+                        },
                       ),
                       TaskCard(
                         sales: '${toDos?.demoScheduled ?? 0}',
                         title: 'Demo\nScheduled',
                         gradient: lightSkyBlueGradient,
                         darkMode: false,
-                        showArrow: false,
-                        onTap: () {},
+                        showArrow: true,
+                        onTap: () {
+                          CustomBottomSheet.show(
+                            context: context,
+                            body: LeadsPopup(
+                              title: 'Demo Scheduled',
+                              filter: filter ?? (dateTime != null ? dateTime.toString() : ''),
+                              status: LeadsStatus.demoScheduled.value,
+                            ),
+                          );
+                        },
                       ),
                       TaskCard(
                         sales: '${toDos?.invitationCall ?? 0}',
-                        title: 'Invitation\nCall',
+                        title: 'Invitation Call',
                         gradient: blackGradient,
                         darkMode: true,
-                        showArrow: false,
-                        onTap: () {},
+                        showArrow: true,
+                        onTap: () {
+                          CustomBottomSheet.show(
+                            context: context,
+                            body: LeadsPopup(
+                              title: 'Invitation Call',
+                              filter: filter ?? (dateTime != null ? dateTime.toString() : ''),
+                              status: LeadsStatus.demoScheduled.value,
+                            ),
+                          );
+                        },
                       ),
                       TaskCard(
                         sales: '${toDos?.followUp ?? 0}',
-                        title: 'Follow\nUp',
+                        title: 'Follow Up',
                         gradient: inActiveGradient,
                         darkMode: true,
-                        showArrow: false,
-                        onTap: () {},
+                        showArrow: true,
+                        onTap: () {
+                          CustomBottomSheet.show(
+                            context: context,
+                            body: LeadsPopup(
+                              title: 'Follow Up',
+                              filter: filter ?? (dateTime != null ? dateTime.toString() : ''),
+                              status: LeadsStatus.followUp.value,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                Padding(
+                  padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Your Events',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Text(
-                        'See All',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          context.pushNamed(Routs.events);
+                        },
+                        child: const Text(
+                          'See All',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],
@@ -285,7 +326,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   )
                 else if (events.haveData)
                   SizedBox(
-                    height: 360,
+                    height: 300,
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const BouncingScrollPhysics(),
@@ -334,7 +375,7 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 190,
+      width: 160,
       margin: const EdgeInsets.only(left: kPadding, bottom: kPadding),
       decoration: BoxDecoration(
         gradient: feedsCardGradient,
@@ -361,7 +402,7 @@ class EventCard extends StatelessWidget {
                   data?.name ?? '',
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.start,
@@ -373,10 +414,13 @@ class EventCard extends StatelessWidget {
                     children: [
                       FeedMenu(
                         icon: AppAssets.eventIcon,
+                        fontSize: 8,
                         value: data?.startDate ?? '',
                       ),
                       FeedMenu(
                         icon: AppAssets.clockIcon,
+                        fontSize: 8,
+                        lastMenu: true,
                         value: data?.startTime ?? '',
                       ),
                     ],
@@ -436,8 +480,8 @@ class TaskCard extends StatelessWidget {
         child: Stack(
           children: [
             Container(
-              constraints: const BoxConstraints(maxWidth: 135),
-              padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 12),
+              constraints: const BoxConstraints(maxWidth: 115),
+              padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
               decoration: BoxDecoration(
                 gradient: gradient ?? inActiveGradient,
                 borderRadius: BorderRadius.circular(28),
@@ -452,7 +496,7 @@ class TaskCard extends StatelessWidget {
                         '${sales ?? 0}',
                         style: TextStyle(
                           color: darkMode == true ? Colors.white : Colors.black,
-                          fontSize: 36,
+                          fontSize: 32,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -465,8 +509,8 @@ class TaskCard extends StatelessWidget {
                         '$title',
                         style: TextStyle(
                             color: darkMode == true ? Colors.white : Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
                       ),
@@ -480,12 +524,12 @@ class TaskCard extends StatelessWidget {
                 right: 4,
                 top: 8,
                 child: ImageView(
-                  height: 40,
-                  width: 40,
+                  height: 24,
+                  width: 24,
                   borderRadiusValue: 50,
                   backgroundColor: Colors.grey.shade100,
                   assetImage: AppAssets.arrowForwardIcon,
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(8),
                   onTap: () {},
                 ),
               ),

@@ -119,15 +119,16 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
               ),
 
               MenuCard(
-                image: AppAssets.videoIcons,
-                name: 'Demo',
+                image: AppAssets.trainingIcon,
+                name: 'Training',
                 onTap: () {
-                  context.pushNamed(Routs.demos);
+                  context.pushNamed(Routs.trainingScreen);
                 },
               ),
+
               MenuCard(
                 image: AppAssets.resourcesIcon,
-                name: 'Resources',
+                name: 'Library',
                 onTap: () {
                   context.pushNamed(Routs.resources);
                 },

@@ -21,6 +21,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
           Container(
@@ -104,7 +105,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 CustomTransparentButton(
                   onTap: () {
-                    context.push(Routs.memberLogin);
+                    context.pushNamed(Routs.memberLogin);
                   },
                   title: 'Login as a Member',
                 ),

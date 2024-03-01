@@ -39,6 +39,7 @@ class EventsControllers extends ChangeNotifier {
     String? searchKey,
     String? limit,
     num? eventId,
+    String? filter,
   }) async {
     String modelingData = 'EventsData';
     debugPrint('Fetching $modelingData Data...');
@@ -67,6 +68,7 @@ class EventsControllers extends ChangeNotifier {
       'id': '${eventId ?? ' '}',
       'page': '$eventsIndex',
       'search_key': searchKey ?? '',
+      'filter': filter ?? '',
       'limit': limit ?? '10',
     };
 

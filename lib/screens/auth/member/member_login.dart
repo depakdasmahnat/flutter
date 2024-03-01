@@ -35,124 +35,127 @@ class _MemberSignInState extends State<MemberSignIn> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Stack(
-      children: [
-        Image.asset(AppAssets.authbackgroundimage, fit: BoxFit.fitWidth, width: double.infinity),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(backgroundColor: Colors.transparent),
-          body: Form(
-            key: signInFormKey,
-            child: ListView(
-              padding: EdgeInsets.only(left: 24, right: 24, top: size.height * 0.05),
-              children: [
-                const Text(
-                  'Welcome to',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                GradientText(
-                  'GLOBAL TEAM PINNACLE',
-                  gradient: primaryGradient,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                CustomTextField(
-                  controller: enagicIdCtrl,
-
-                  textCapitalization: TextCapitalization.characters,
-                  keyboardType: TextInputType.text,
-                  // : TextCapitalization.sentences,
-
-                  validator: (val) {
-                    return Validator.alphanumericValidator(val, 'Id No');
-                  },
-                  hintText: 'ID No',
-                  margin: const EdgeInsets.only(top: 18, bottom: 18),
-                ),
-                CustomTextField(
-                  controller: passwordCtrl,
-                  obscureText: obscurePassword,
-                  keyboardType: TextInputType.text,
-                  hintText: 'Password',
-                  autofillHints: const [AutofillHints.password],
-                  validator: (val) {
-                    return Validator.requiredValidator(val, 'Password');
-                  },
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      obscurePassword = !obscurePassword;
-                      setState(() {});
-                    },
-                    icon: Icon(
-                      obscurePassword == true ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash_fill,
+    return Container(
+      color: Colors.black,
+      child: Stack(
+        children: [
+          Image.asset(AppAssets.authbackgroundimage, fit: BoxFit.fitWidth, width: double.infinity),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(backgroundColor: Colors.transparent),
+            body: Form(
+              key: signInFormKey,
+              child: ListView(
+                padding: EdgeInsets.only(left: 24, right: 24, top: size.height * 0.05),
+                children: [
+                  const Text(
+                    'Welcome to',
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 18,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  GradientText(
+                    'GLOBAL TEAM PINNACLE',
+                    gradient: primaryGradient,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  margin: EdgeInsets.zero,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
+                  CustomTextField(
+                    controller: enagicIdCtrl,
+                    textCapitalization: TextCapitalization.characters,
+                    keyboardType: TextInputType.text,
+                    // : TextCapitalization.sentences,
+
+                    validator: (val) {
+                      return Validator.alphanumericValidator(val, 'Id no');
+                    },
+
+                    hintText: 'Id no',
+                    margin: const EdgeInsets.only(top: 18, bottom: 18),
+                  ),
+                  CustomTextField(
+                    controller: passwordCtrl,
+                    obscureText: obscurePassword,
+                    keyboardType: TextInputType.text,
+                    hintText: 'Password',
+                    autofillHints: const [AutofillHints.password],
+                    validator: (val) {
+                      return Validator.requiredValidator(val, 'Password');
+                    },
+                    suffixIcon: IconButton(
                       onPressed: () {
-                        context.pushNamed(Routs.resetPassword);
+                        obscurePassword = !obscurePassword;
+                        setState(() {});
                       },
-                      child: const Text('Forgot password?'),
+                      icon: Icon(
+                        obscurePassword == true ? CupertinoIcons.eye_fill : CupertinoIcons.eye_slash_fill,
+                        color: Colors.white,
+                        size: 18,
+                      ),
                     ),
-                  ],
-                )
+                    margin: EdgeInsets.zero,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          context.pushNamed(Routs.resetPassword);
+                        },
+                        child: const Text('Forgot password?'),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            bottomNavigationBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GradientButton(
+                  height: 60,
+                  borderRadius: 18,
+                  backgroundGradient: primaryGradientBlur,
+                  blur: 20,
+                  backgroundColor: Colors.transparent,
+                  boxShadow: const [],
+                  margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
+                  onTap: () {
+                    if (signInFormKey.currentState?.validate() == true) {
+                      context.read<MemberAuthControllers>().memberLogin(
+                            context: context,
+                            enagicId: enagicIdCtrl.text,
+                            password: passwordCtrl.text,
+                          );
+                    }
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-          bottomNavigationBar: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GradientButton(
-                height: 60,
-                borderRadius: 18,
-                backgroundGradient: primaryGradientBlur,
-                blur: 20,
-                backgroundColor: Colors.transparent,
-                boxShadow: const [],
-                margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
-                onTap: () {
-                  if (signInFormKey.currentState?.validate() == true) {
-                    context.read<MemberAuthControllers>().memberLogin(
-                          context: context,
-                          enagicId: enagicIdCtrl.text,
-                          password: passwordCtrl.text,
-                        );
-                  }
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: GoogleFonts.urbanist().fontFamily,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

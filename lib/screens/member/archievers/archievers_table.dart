@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
@@ -78,6 +80,8 @@ class _AchieversTableState extends State<AchieversTable> {
 }
 
 class EmployeeDataSource extends DataGridSource {
+  String defaultText = '__';
+
   /// Creates the employee data source class with required details.
   EmployeeDataSource({required List<AchieversData>? employeeData}) {
     _employeeData = employeeData!.map<DataGridRow>(
@@ -101,6 +105,7 @@ class EmployeeDataSource extends DataGridSource {
             DataGridCell(
               columnName: AchieversTableHeadings.name.value,
               value: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ImageView(
                     height: 28,
@@ -110,7 +115,13 @@ class EmployeeDataSource extends DataGridSource {
                     assetImage: '${e.profilePhoto}',
                     margin: EdgeInsets.zero,
                   ),
-                  GridHeading(title: '${e.firstName}'),
+                  Flexible(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      child: GridHeading(title: e.firstName ?? defaultText),
+                    ),
+                  )
                 ],
               ),
             ),

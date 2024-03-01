@@ -61,7 +61,7 @@ class AnimatedHorizontalCalendar extends StatefulWidget {
 
 class _CalendarState extends State<AnimatedHorizontalCalendar> {
   DateTime? _startDate;
-  var selectedCalenderDate;
+  late DateTime selectedCalenderDate;
   final ScrollController _scrollController = ScrollController();
 
   calenderAnimation() {
@@ -113,7 +113,7 @@ class _CalendarState extends State<AnimatedHorizontalCalendar> {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              DateTime? _date = _startDate?.add(Duration(days: index));
+              DateTime? _date = selectedCalenderDate.add(Duration(days: index));
               int? diffDays = _date?.difference(selectedCalenderDate).inDays;
               bool isSelected = widget.selectedDate?.day == _date?.day;
 
@@ -132,8 +132,8 @@ class _CalendarState extends State<AnimatedHorizontalCalendar> {
                   onPressed: () {
                     widget.onDateSelected!(_date);
                     setState(() {
-                      selectedCalenderDate = _startDate?.add(Duration(days: index));
-                      _startDate = _startDate?.add(Duration(days: index));
+                      selectedCalenderDate = selectedCalenderDate.add(Duration(days: index));
+                      _startDate = selectedCalenderDate.add(Duration(days: index));
                     });
                   },
                   child: Column(
@@ -196,6 +196,7 @@ class _CalendarState extends State<AnimatedHorizontalCalendar> {
       context: context,
       initialDatePickerMode: DatePickerMode.day,
       initialDate: selectedCalenderDate,
+
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: widget.tableCalenderThemeData ??
@@ -208,8 +209,10 @@ class _CalendarState extends State<AnimatedHorizontalCalendar> {
           child: child ?? const SizedBox(),
         );
       },
+
       firstDate: widget.initialDate ?? DateTime.now().subtract(const Duration(days: 30)),
-      lastDate: widget.lastDate ?? DateTime.now().add(const Duration(days: 30)),
+      lastDate: DateTime(2100, 1, 1),
+      // lastDate: widget.lastDate ?? DateTime.now().add(const Duration(days: 30)),
     );
   }
 }

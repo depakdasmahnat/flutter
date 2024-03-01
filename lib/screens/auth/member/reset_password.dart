@@ -73,7 +73,6 @@ class _ResetPasswordState extends State<ResetPassword> {
                 CustomTextField(
                   controller: contactCtrl,
                   keyboardType: TextInputType.text,
-                  limit: 10,
                   validator: (val) {
                     if ((val?.length ?? 0) > 4) {
                       if (int.tryParse('$val') != null) {

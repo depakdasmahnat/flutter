@@ -154,6 +154,8 @@
 //     return _buildDataGrid(context);
 //   }
 // }
+import 'dart:async';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -189,31 +191,39 @@ class MemberScreen extends StatefulWidget {
 
 class _MemberScreenState extends State<MemberScreen> {
   List tabItem = ['Today', 'This week', 'Month'];
-  late String currentTab = tabItem.first;
+  late String selectedDuration = tabItem.first;
   PinnacleListModel? networkReportsModel;
   List<PinnacleListData>? pinnacleList;
   TextEditingController searchController = TextEditingController();
 
-  Future fetchPinnacleList() async {
+  Future fetchNetworkReports() async {
     pinnacleList = await context.read<NetworkControllers>().fetchNetworkReports(
           search: searchController.text,
-          filter: filter,
+          filter: selectedDuration,
         );
   }
 
   String? filter;
-  String? selectedDuration = DurationFilterMenu.monthly.label;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        fetchPinnacleList();
+        fetchNetworkReports();
       },
     );
     super.initState();
   }
+  Timer? _debounce;
 
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchNetworkReports();
+
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -232,6 +242,57 @@ class _MemberScreenState extends State<MemberScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomeText(
+                        text: 'Partners Target',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ],
+                  ),
+                ),
+                TargetCard(
+                  pendingTarget: networkReportsModel?.pendingTarget,
+                  salesTarget: networkReportsModel?.salesTarget,
+                  achievedTarget: networkReportsModel?.achievedTarget,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Row(
+                    children: [
+                      Flexible(
+                        child: CustomTextField(
+                          hintText: 'Search',
+                          controller: searchController,
+                          hintStyle: const TextStyle(color: Colors.white),
+                          prefixIcon: ImageView(
+                            height: 20,
+                            width: 20,
+                            borderRadiusValue: 0,
+                            color: Colors.white,
+                            margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+                            fit: BoxFit.contain,
+                            assetImage: AppAssets.searchIcon,
+                            onTap: () {
+                              fetchNetworkReports();
+                            },
+                          ),
+                          onChanged: (val) async {
+                            onSearchFieldChanged(val);
+                          },
+                          onEditingComplete: () {
+                            fetchNetworkReports();
+                          },
+                          margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 12, bottom: 12),
                   decoration: BoxDecoration(
@@ -241,13 +302,14 @@ class _MemberScreenState extends State<MemberScreen> {
                   child: Row(
                     children: tabItem.map(
                       (e) {
-                        bool isSelected = currentTab == e;
+                        bool isSelected = selectedDuration == e;
                         return Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              currentTab = e;
+                              selectedDuration = e;
 
                               setState(() {});
+                              fetchNetworkReports();
                             },
                             child: Container(
                               height: 40,
@@ -274,159 +336,44 @@ class _MemberScreenState extends State<MemberScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
+                  padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomeText(
-                        text: 'Partners Target',
-                        fontSize: 18,
+                        text: 'Partners',
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
-                      GraphDurationFilter(
-                        value: selectedDuration,
-                        onChange: (String? val) {
-                          selectedDuration = val;
-                          setState(() {});
-                          fetchPinnacleList();
-                        },
-                      ),
                     ],
-                  ),
-                ),
-                TargetCard(
-                  pendingTarget: networkReportsModel?.pendingTarget,
-                  salesTarget: networkReportsModel?.salesTarget,
-                  achievedTarget: networkReportsModel?.achievedTarget,
-                  more: CustomPopupMenu(
-                    items: [
-                      CustomPopupMenuEntry(
-                        label: 'Edit',
-                        onPressed: () {},
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Delete',
-                        color: Colors.red,
-                        onPressed: () {},
-                      ),
-                    ],
-                    onChange: (String? val) {},
-                    child: const Icon(
-                      Icons.more_vert,
-                      size: 18,
-                      color: Colors.black,
-                    ),
                   ),
                 ),
               ],
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: kPadding),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: CustomTextField(
-                          hintText: 'Search',
-                          controller: searchController,
-                          hintStyle: const TextStyle(color: Colors.white),
-                          prefixIcon: ImageView(
-                            height: 20,
-                            width: 20,
-                            borderRadiusValue: 0,
-                            color: Colors.white,
-                            margin: const EdgeInsets.only(left: kPadding, right: kPadding),
-                            fit: BoxFit.contain,
-                            assetImage: AppAssets.searchIcon,
-                            onTap: () {
-                              fetchPinnacleList();
-                            },
-                          ),
-                          onEditingComplete: () {
-                            fetchPinnacleList();
-                          },
-                          margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-                        ),
+            Padding(
+              padding: const EdgeInsets.only(),
+              child: Column(
+                children: [
+                  if (controller.loadingNetworkReports)
+                    const LoadingScreen(
+                      heightFactor: 0.5,
+                      message: 'Loading Partners',
+                    )
+                  else if (pinnacleList.haveData)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: kPadding),
+                      child: NetworkPinnacleTable(
+                        pinnacleList: pinnacleList,
+                        verticalScrollPhysics: const NeverScrollableScrollPhysics(),
                       ),
-                      CustomPopupMenu(
-                        items: [
-                          CustomPopupMenuEntry(
-                            value: '',
-                            label: 'All',
-                            onPressed: () {
-                              filter = null;
-                            },
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'Level',
-                            onPressed: null,
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'Achievement',
-                            onPressed: null,
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'Conversion Ratio',
-                            onPressed: null,
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'Progress',
-                            onPressed: null,
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'Training',
-                            onPressed: null,
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'Demo',
-                            onPressed: null,
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'Target',
-                            onPressed: null,
-                          ),
-                        ],
-                        onChange: (String? val) {
-                          filter = val;
-                          setState(() {});
-                          fetchPinnacleList();
-                        },
-                        child: GradientButton(
-                          height: 60,
-                          width: 60,
-                          margin: const EdgeInsets.only(left: 8, right: kPadding, bottom: kPadding),
-                          backgroundGradient: blackGradient,
-                          child: const ImageView(
-                            height: 28,
-                            width: 28,
-                            assetImage: AppAssets.filterIcons,
-                            margin: EdgeInsets.zero,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                if (controller.loadingNetworkReports)
-                  const LoadingScreen(
-                    heightFactor: 0.5,
-                    message: 'Loading Partners',
-                  )
-                else if (pinnacleList.haveData)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: kPadding),
-                    child: NetworkPinnacleTable(
-                      pinnacleList: pinnacleList,
-                      verticalScrollPhysics: const NeverScrollableScrollPhysics(),
+                    )
+                  else
+                    const NoDataFound(
+                      heightFactor: 0.5,
+                      message: 'No Partners Found',
                     ),
-                  )
-                else
-                  const NoDataFound(
-                    heightFactor: 0.5,
-                    message: 'No Partners Found',
-                  ),
-              ],
+                ],
+              ),
             )
           ],
         ),

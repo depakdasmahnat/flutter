@@ -18,6 +18,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
@@ -32,19 +33,24 @@ class EventScreen extends StatefulWidget {
   const EventScreen({
     super.key,
     this.eventId,
+    this.filter,
+    this.viewAll,
   });
 
   final num? eventId;
+  final String? filter;
+  final bool? viewAll;
 
   @override
   State<EventScreen> createState() => _EventScreenState();
 }
 
 class _EventScreenState extends State<EventScreen> {
+  late bool? viewAll = widget.viewAll;
   late num? eventId = widget.eventId;
   TextEditingController searchController = TextEditingController();
   List<EventsData>? events;
-
+  late String? filter = widget.filter;
   Timer? _debounce;
 
   void onSearchFieldChanged(String value) {
@@ -63,6 +69,7 @@ class _EventScreenState extends State<EventScreen> {
           loadingNext: loadingNext ?? false,
           searchKey: searchController.text,
           eventId: eventId,
+          filter: filter,
         );
   }
 
@@ -99,30 +106,23 @@ class _EventScreenState extends State<EventScreen> {
               elevation: 0,
               leading: const CustomBackButton(),
               title: const Text('Events'),
+              actions: [
+                if (viewAll == true)
+                  TextButton(
+                    onPressed: () {
+                      context.pop();
+                      context.pushNamed(Routs.events);
+                    },
+                    child: const Text('View All'),
+                  )
+              ],
             ),
             body: ListView(
               shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
               children: [
-                // const Padding(
-                //   padding: EdgeInsets.only(
-                //     left: kPadding,
-                //     top: kPadding,
-                //   ),
-                //   child: Row(
-                //     children: [
-                //       Text(
-                //         'Upcoming Events',
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //           fontSize: 16,
-                //           fontWeight: FontWeight.w700,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: kPadding),
+                  padding: const EdgeInsets.only(bottom: kPadding, top: 8),
                   child: Row(
                     children: [
                       Flexible(
@@ -151,22 +151,49 @@ class _EventScreenState extends State<EventScreen> {
                           margin: const EdgeInsets.only(left: kPadding, right: kPadding),
                         ),
                       ),
-                      GradientButton(
-                        height: 60,
-                        width: 60,
-                        margin: const EdgeInsets.only(right: kPadding),
-                        backgroundGradient: blackGradient,
-                        child: const ImageView(
-                          height: 28,
-                          width: 28,
-                          assetImage: AppAssets.filterIcons,
-                          margin: EdgeInsets.zero,
+                      CustomPopupMenu(
+                        items: [
+                          CustomPopupMenuEntry(
+                            value: '',
+                            label: 'All',
+                            onPressed: () {
+                              filter = null;
+                            },
+                          ),
+                          CustomPopupMenuEntry(
+                            label: 'This Week',
+                            onPressed: null,
+                          ),
+                          CustomPopupMenuEntry(
+                            label: 'This Month',
+                            onPressed: null,
+                          ),
+                          CustomPopupMenuEntry(
+                            label: 'This Year',
+                            onPressed: null,
+                          ),
+                        ],
+                        onChange: (String? val) {
+                          filter = val;
+                          setState(() {});
+                          fetchEvents();
+                        },
+                        child: GradientButton(
+                          height: 60,
+                          width: 60,
+                          margin: const EdgeInsets.only(right: kPadding),
+                          backgroundGradient: blackGradient,
+                          child: const ImageView(
+                            height: 28,
+                            width: 28,
+                            assetImage: AppAssets.filterIcons,
+                            margin: EdgeInsets.zero,
+                          ),
                         ),
                       )
                     ],
                   ),
                 ),
-
                 if (controller.loadingEvents)
                   const LoadingScreen(
                     heightFactor: 0.7,
@@ -392,11 +419,13 @@ class FeedMenu extends StatelessWidget {
     this.value,
     this.onTap,
     this.lastMenu,
+    this.fontSize,
   });
 
   final String icon;
   final String? value;
   final bool? lastMenu;
+  final double? fontSize;
   final GestureTapCallback? onTap;
 
   @override
@@ -419,9 +448,9 @@ class FeedMenu extends StatelessWidget {
           if (value != null)
             Text(
               '$value',
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 10,
+                fontSize: fontSize ?? 10,
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.start,

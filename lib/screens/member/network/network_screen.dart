@@ -73,7 +73,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(left: kPadding,right: kPadding,top: 12,bottom: 12),
+            margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 12, bottom: 12),
             decoration: BoxDecoration(
               gradient: inActiveGradient,
               borderRadius: BorderRadius.circular(12),
@@ -164,7 +164,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
               width: 120,
               borderRadius: 18,
               backgroundGradient: whiteGradient,
-              margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+              margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
               onTap: () {
                 context.pushNamed(Routs.networkReport);
               },

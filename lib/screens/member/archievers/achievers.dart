@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
@@ -31,7 +33,7 @@ class _AchieversState extends State<Achievers> {
   List<AchieversData>? topListData;
   TextEditingController searchController = TextEditingController();
 
-  Future fetchPinnacleList() async {
+  Future fetchAchievers() async {
     achievers = await context.read<MembersController>().fetchAchievers(
           search: searchController.text,
           filter: filter,
@@ -44,7 +46,18 @@ class _AchieversState extends State<Achievers> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      fetchPinnacleList();
+      fetchAchievers();
+    });
+  }
+
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchAchievers();
+
+      setState(() {});
     });
   }
 
@@ -98,6 +111,7 @@ class _AchieversState extends State<Achievers> {
                         else
                           const NoDataFound(
                             heightFactor: 0.2,
+                            color: Colors.black,
                             message: 'No Top Achievers Found',
                           ),
                       ],
@@ -124,11 +138,14 @@ class _AchieversState extends State<Achievers> {
                         fit: BoxFit.contain,
                         assetImage: AppAssets.searchIcon,
                         onTap: () {
-                          fetchPinnacleList();
+                          fetchAchievers();
                         },
                       ),
+                      onChanged: (val) {
+                        onSearchFieldChanged(val);
+                      },
                       onEditingComplete: () {
-                        fetchPinnacleList();
+                        fetchAchievers();
                       },
                       margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                     ),
@@ -174,7 +191,7 @@ class _AchieversState extends State<Achievers> {
                     onChange: (String? val) {
                       filter = val;
                       setState(() {});
-                      fetchPinnacleList();
+                      fetchAchievers();
                     },
                     child: GradientButton(
                       height: 60,

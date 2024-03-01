@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/feeds/feeds_controller.dart';
@@ -15,6 +17,7 @@ import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/guest_Model/fetchfeedcategoriesmodel.dart';
+import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
@@ -38,7 +41,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
-          categoryId: selectedFilter?.id.toString(),
+          categoryId: (selectedIds.isNotEmpty) ? selectedIds.join(',') : '',
           searchKey: searchController.text,
         );
   }
@@ -52,13 +55,29 @@ class _MemberFeedsState extends State<MemberFeeds> {
     });
   }
 
-  FeedCategory? selectedFilter;
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchFeeds();
+
+      setState(() {});
+    });
+  }
+
+  Set<int> selectedIds = <int>{};
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        leading: const Column(
+          children: [
+            CustomBackButton(),
+          ],
+        ),
         elevation: 0,
         title: const Text('Feeds'),
       ),
@@ -100,6 +119,9 @@ class _MemberFeedsState extends State<MemberFeeds> {
                       fetchFeeds();
                     },
                   ),
+                  onChanged: (val) {
+                    onSearchFieldChanged(val);
+                  },
                   onEditingComplete: () {
                     fetchFeeds();
                   },
@@ -109,37 +131,41 @@ class _MemberFeedsState extends State<MemberFeeds> {
                   builder: (context, value, child) {
                     return SizedBox(
                       height: 40,
-                      child: Center(
-                        child: ListView.builder(
-                          itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.only(left: kPadding),
-                          itemBuilder: (context, index) {
-                            var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
-                            // bool isSelected = selectedFilter == data;
-                            return GradientButton(
-                              backgroundGradient:
-                                  selectedFilter?.id == data?.id ? primaryGradient : inActiveGradient,
-                              borderWidth: 2,
-                              borderRadius: 30,
-                              onTap: () {
-                                selectedFilter = data;
-                                setState(() {});
-                                fetchFeeds();
-                              },
-                              margin: const EdgeInsets.only(right: 12),
-                              padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
-                              child: Text(
-                                '${data?.name}',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: selectedFilter?.id == data?.id ? Colors.black : Colors.white,
-                                ),
+                      child: ListView.builder(
+                        itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.only(left: kPadding),
+                        itemBuilder: (context, index) {
+                          var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
+                          bool isSelected = selectedIds.contains(data?.id);
+
+                          return GradientButton(
+                            backgroundGradient: isSelected ? primaryGradient : inActiveGradient,
+                            borderWidth: 2,
+                            borderRadius: 30,
+                            onTap: () async {
+                              if (isSelected) {
+                                selectedIds.remove(data?.id);
+                              } else {
+                                selectedIds.add(int.parse(data?.id.toString() ?? ''));
+                              }
+
+                              setState(() {});
+
+                              await fetchFeeds();
+                            },
+                            margin: const EdgeInsets.only(right: 12),
+                            padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+                            child: Text(
+                              '${data?.name}',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: isSelected ? Colors.black : Colors.white,
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },

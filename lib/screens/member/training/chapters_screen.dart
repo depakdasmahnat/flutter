@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
@@ -43,6 +45,15 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
     });
   }
 
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchChapters();
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<TrainingControllers>(
@@ -115,15 +126,17 @@ class ChapterCard extends StatelessWidget {
           vertical: 8,
         ),
         decoration: BoxDecoration(
-          gradient: isLocked ? blackGradient : whiteGradient,
+          gradient: blackGradient,
           borderRadius: BorderRadius.circular(14),
         ),
         child: ListTile(
+          dense: true,
           leading: GradientButton(
-            height: 50,
-            width: 50,
+            height: 45,
+            width: 45,
             borderRadius: 30,
             padding: EdgeInsets.zero,
+            margin: const EdgeInsets.only(),
             backgroundColor: isLocked ? Colors.black : null,
             backgroundGradient: isLocked ? null : primaryGradient,
             child: Center(
@@ -138,8 +151,8 @@ class ChapterCard extends StatelessWidget {
           ),
           title: Text(
             '${chapter?.chapterName} ${chapter?.chapterNo}',
-            style: TextStyle(
-              color: isLocked ? Colors.white : Colors.black,
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 14,
               fontWeight: FontWeight.w400,
             ),
@@ -147,8 +160,8 @@ class ChapterCard extends StatelessWidget {
           subtitle: chapter?.description != null
               ? Text(
                   '${chapter?.description}',
-                  style: TextStyle(
-                    color: isLocked ? Colors.white : Colors.black,
+                  style: const TextStyle(
+                    color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),

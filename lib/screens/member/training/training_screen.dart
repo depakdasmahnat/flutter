@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/training/training_controller.dart';
+import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/screens/member/training/chapters_screen.dart';
+import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/config/app_assets.dart';
@@ -19,6 +23,7 @@ import '../../../utils/widgets/no_data_found.dart';
 import '../../../utils/widgets/training_progress.dart';
 import '../../dashboard/dashboard.dart';
 import '../../guest/home/home_screen.dart';
+import '../home/member_dashboard.dart';
 
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({super.key});
@@ -48,7 +53,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
   final List<DashboardData> bottomNabBarItems = [
     DashboardData(
       title: 'Basic',
-      activeImage: AppAssets.feedsIcon,
+      activeImage: AppAssets.feedsFilledIcon,
       inActiveImage: AppAssets.feedsIcon,
       widget: const HomeScreen(),
     ),
@@ -61,6 +66,16 @@ class _TrainingScreenState extends State<TrainingScreen> {
   ];
 
   int tabIndex = 0;
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchTrainings();
+
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +85,11 @@ class _TrainingScreenState extends State<TrainingScreen> {
         trainingCategories = controller.trainingCategories;
         return Scaffold(
           appBar: AppBar(
+            leading: const Column(
+              children: [
+                CustomBackButton(),
+              ],
+            ),
             title: const Text('Training'),
           ),
           body: ListView(
@@ -78,7 +98,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientButton(
-                    width: size.width * 0.8,
+                    width: size.width * 0.7,
                     borderRadius: 50,
                     blur: 15,
                     margin: const EdgeInsets.only(bottom: 16),
@@ -94,7 +114,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                           return Expanded(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: CustomBottomNavBar(
+                              child: CustomTabBar(
                                 index: index,
                                 dashBoardIndex: tabIndex,
                                 data: data,
@@ -134,6 +154,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
                     fetchTrainings();
                   },
                 ),
+                onChanged: (val) {
+                  onSearchFieldChanged(val);
+                },
                 onEditingComplete: () {
                   fetchTrainings();
                 },
@@ -146,7 +169,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                     padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                     child: Text(
                       'Explore Categories',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -175,9 +198,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
                             context.push(Routs.chapters, extra: ChaptersScreen(category: data));
                           },
                           child: Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(
+                            decoration: BoxDecoration(
+                              gradient: blackGradient,
+                              borderRadius: const BorderRadius.all(
                                 Radius.circular(18),
                               ),
                             ),
@@ -190,7 +213,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                                   Expanded(
                                     child: ImageView(
                                       networkImage: '${data?.image}',
-                                      backgroundColor: Colors.grey.shade200,
+                                      backgroundColor: Colors.grey.shade800.withOpacity(0.6),
                                       fit: BoxFit.cover,
                                       borderRadiusValue: 12,
                                       margin: const EdgeInsets.only(top: 12, left: 12, right: 12),
@@ -201,7 +224,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                                     child: Text(
                                       '${data?.subCategoryName}',
                                       style: const TextStyle(
-                                          color: Colors.black,
+                                          color: Colors.white,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                           height: 2),

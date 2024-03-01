@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
@@ -50,6 +52,17 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
     });
   }
 
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchGoals();
+
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -99,6 +112,10 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
                             fetchGoals();
                           },
                         ),
+                        onChanged: (val) {
+                          onSearchFieldChanged(val);
+                        },
+
                         onEditingComplete: () {
                           fetchGoals();
                         },
