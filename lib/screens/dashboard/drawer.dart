@@ -27,8 +27,7 @@ class CustomDrawer extends StatelessWidget {
                 ImageView(
                   height: 40,
                   assetImage: AppAssets.logoHorizontalText,
-                  margin: EdgeInsets.only(
-                      left: kPadding, top: kPadding, bottom: kPadding),
+                  margin: EdgeInsets.only(left: kPadding, top: kPadding, bottom: kPadding),
                   onTap: null,
                 ),
               ],
@@ -49,46 +48,10 @@ class CustomDrawer extends StatelessWidget {
               },
             ),
             CustomDrawerTile(
-              activeImage: AppAssets.eventIcon,
-              title: 'Events',
-              onTap: () {
-                context.pushNamed(Routs.events);
-              },
-            ),
-            CustomDrawerTile(
-              activeImage: AppAssets.feedsIcon,
-              title: 'Feeds',
-              badgeCount: 45,
-              onTap: () {
-                context.pushNamed(Routs.memberFeeds);
-              },
-            ),
-            CustomDrawerTile(
               activeImage: AppAssets.videoIcons,
               title: 'Demo',
               onTap: () {
                 context.pushNamed(Routs.demos);
-              },
-            ),
-            CustomDrawerTile(
-              activeImage: AppAssets.documentIcon,
-              title: 'Reports',
-              onTap: () {
-                context.pushNamed(Routs.networkReport);
-              },
-            ),
-            CustomDrawerTile(
-              activeImage: AppAssets.targetIcon,
-              title: 'Target',
-              onTap: () {
-                context.pushNamed(Routs.targetScreen);
-              },
-            ),
-            CustomDrawerTile(
-              activeImage: AppAssets.todoIcon,
-              title: 'To Do',
-              onTap: () {
-                context.pushNamed(Routs.toDoScreen);
               },
             ),
             CustomDrawerTile(
@@ -105,7 +68,42 @@ class CustomDrawer extends StatelessWidget {
                 context.pushNamed(Routs.goals);
               },
             ),
-
+            CustomDrawerTile(
+              activeImage: AppAssets.todoIcon,
+              title: 'To Do',
+              onTap: () {
+                context.pushNamed(Routs.toDoScreen);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.targetIcon,
+              title: 'Target',
+              onTap: () {
+                context.pushNamed(Routs.targetScreen);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.eventIcon,
+              title: 'Events',
+              onTap: () {
+                context.pushNamed(Routs.events);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.feedsIcon,
+              title: 'Feeds',
+              // badgeCount: 45,
+              onTap: () {
+                context.pushNamed(Routs.memberFeeds);
+              },
+            ),
+            CustomDrawerTile(
+              activeImage: AppAssets.documentIcon,
+              title: 'Reports',
+              onTap: () {
+                context.pushNamed(Routs.networkReport);
+              },
+            ),
             CustomDrawerTile(
               activeImage: AppAssets.resourcesIcon,
               title: 'Library',
@@ -117,7 +115,6 @@ class CustomDrawer extends StatelessWidget {
               activeImage: AppAssets.hallOfFameIcon,
               title: 'Hall of fame',
               onTap: () {
-
                 context.pushNamed(Routs.hallOfFame);
               },
             ),
@@ -162,8 +159,7 @@ class CustomDrawerTile extends StatelessWidget {
           onTap?.call();
         },
         child: Padding(
-          padding: const EdgeInsets.only(
-              left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+          padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

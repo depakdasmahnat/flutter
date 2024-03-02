@@ -29,6 +29,7 @@ class _ScheduledDemoFormState extends State<ScheduledDemoForm> {
       body: ListView(
         children: [
           CustomDropdown(
+
             title: 'Type of demo*',
             listItem: ['Online', 'Offline'],
             hintText: 'Select',

@@ -617,24 +617,29 @@ class _GuestCheckDemoStep2State extends State<GuestCheckDemoStep2> {
             boxShadow: const [],
             margin: const EdgeInsets.only(left: 16, right: 24),
             onTap: () async {
-              print("page $page");
+
               if (page == 0) {
 
                 if (showItem == 'Yes') {
                   _pageController.jumpToPage(1);
-
                   setState(() {});
                 }
                 else {
                   page = 1;
-                  _pageController.jumpToPage(2);
+                  print("check page13 $page");
+                  DefaultModel? responseData = await context.read<CheckDemoController>().submitAns(context: context, ans: context.read<CheckDemoController>().ansQues);
+                  if (responseData?.status == true) {
+                    context.read<CheckDemoController>().addIndex(2,'No');
+                    // await context.read<CheckDemoController>().guestCheckDemoStep1(context: context);
+                    context.read<CheckDemoController>().nextPage(2);
+                  }
                   setState(() {});
                 }
               }  else {
                 print("check page13 $page");
                 DefaultModel? responseData = await context.read<CheckDemoController>().submitAns(context: context, ans: context.read<CheckDemoController>().ansQues);
                 if (responseData?.status == true) {
-                  context.read<CheckDemoController>().addIndex(2);
+                  context.read<CheckDemoController>().addIndex(2,'');
                   context.read<CheckDemoController>().nextPage(2);
                 }
               }

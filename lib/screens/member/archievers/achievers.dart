@@ -1,8 +1,13 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/screens/member/archievers/archievers_table.dart';
+
+import 'package:mrwebbeast/screens/member/archievers/top_achievers_banner.dart';
 import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
@@ -27,9 +32,10 @@ class Achievers extends StatefulWidget {
 
 class _AchieversState extends State<Achievers> {
   List<AchieversData>? achievers;
+  List<AchieversData>? topListData;
   TextEditingController searchController = TextEditingController();
 
-  Future fetchPinnacleList() async {
+  Future fetchAchievers() async {
     achievers = await context.read<MembersController>().fetchAchievers(
           search: searchController.text,
           filter: filter,
@@ -42,7 +48,18 @@ class _AchieversState extends State<Achievers> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      fetchPinnacleList();
+      fetchAchievers();
+    });
+  }
+
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchAchievers();
+
+      setState(() {});
     });
   }
 
@@ -50,33 +67,61 @@ class _AchieversState extends State<Achievers> {
   Widget build(BuildContext context) {
     return Consumer<MembersController>(builder: (context, controller, child) {
       achievers = controller.achievers;
+      topListData = controller.topListData;
+      Size size = MediaQuery.sizeOf(context);
 
       return Scaffold(
         body: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  gradient: primaryGradient,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40),
-                  )),
-              child: Column(
-                children: [
-                  AppBar(
-                    leading: const CustomBackButton(),
-                    title: const Text(
-                      'Achievers',
-                      style: TextStyle(color: Colors.black),
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.elliptical(200, 60),
+                bottomRight: Radius.elliptical(200, 60),
+              ),
+              child: Container(
+                // height: size.height * 0.3,
+                decoration: BoxDecoration(gradient: primaryGradient),
+                child: Stack(
+                  children: [
+                    const Positioned(
+                      left: 0,
+                      right: -14,
+                      bottom: -14,
+                      child: ImageView(
+                        assetImage: AppAssets.dashboardRings,
+                      ),
                     ),
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                  ),
-                  const ImageView(
-                    assetImage: AppAssets.congratulationsBanner,
-                    margin: EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
-                  )
-                ],
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        AppBar(
+                          leading: const CustomBackButton(),
+                          title: const Text(
+                            'Achievers',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          backgroundColor: Colors.transparent,
+                          elevation: 0,
+                        ),
+                        if (controller.loadingAchievers)
+                          const LoadingScreen(
+                            heightFactor: 0.2,
+                            message: 'Loading Top Achievers...',
+                          )
+                        else if (topListData != null)
+                          TopAchieversBanners(data: topListData)
+                        else
+                          const NoDataFound(
+                            heightFactor: 0.2,
+                            color: Colors.black,
+                            message: 'No Top Achievers Found',
+                          ),
+                      ],
+                    ),
+
+
+                  ],
+                ),
               ),
             ),
             Padding(
@@ -97,11 +142,14 @@ class _AchieversState extends State<Achievers> {
                         fit: BoxFit.contain,
                         assetImage: AppAssets.searchIcon,
                         onTap: () {
-                          fetchPinnacleList();
+                          fetchAchievers();
                         },
                       ),
+                      onChanged: (val) {
+                        onSearchFieldChanged(val);
+                      },
                       onEditingComplete: () {
-                        fetchPinnacleList();
+                        fetchAchievers();
                       },
                       margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                     ),
@@ -116,7 +164,11 @@ class _AchieversState extends State<Achievers> {
                         },
                       ),
                       CustomPopupMenuEntry(
-                        label: 'Level',
+                        label: 'Rank',
+                        onPressed: null,
+                      ),
+                      CustomPopupMenuEntry(
+                        label: 'Name',
                         onPressed: null,
                       ),
                       CustomPopupMenuEntry(
@@ -128,22 +180,22 @@ class _AchieversState extends State<Achievers> {
                         onPressed: null,
                       ),
                       CustomPopupMenuEntry(
-                        label: 'Closing',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Achievement',
+                        label: 'Turnover',
                         onPressed: null,
                       ),
                       CustomPopupMenuEntry(
                         label: 'App Downloads',
                         onPressed: null,
                       ),
+                      CustomPopupMenuEntry(
+                        label: 'Performance',
+                        onPressed: null,
+                      ),
                     ],
                     onChange: (String? val) {
                       filter = val;
                       setState(() {});
-                      fetchPinnacleList();
+                      fetchAchievers();
                     },
                     child: GradientButton(
                       height: 60,

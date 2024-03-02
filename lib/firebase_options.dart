@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDJUwcr1uGQ8vUoIja1ShJuIrWFwmLtAxw',
-    appId: '1:179240455941:android:473e601cea99d2bbb3f16c',
+    appId: '1:179240455941:android:45d3905b0d22df66b3f16c',
     messagingSenderId: '179240455941',
     projectId: 'gtp-app',
     storageBucket: 'gtp-app.appspot.com',

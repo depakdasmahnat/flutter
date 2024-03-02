@@ -40,7 +40,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
   final List<DashboardData> bottomNabBarItems = [
     DashboardData(
       title: 'My Dashboard',
-      activeImage: AppAssets.feedsIcon,
+      activeImage: AppAssets.feedsFilledIcon,
       inActiveImage: AppAssets.feedsIcon,
       widget: const HomeScreen(),
     ),
@@ -298,7 +298,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           },
                         ),
                         AnalyticsCard(
-                          title: 'Demo Competed',
+                          title: 'Demo Completed ',
                           value: '${dashboardStatesData?.demoCompleted ?? 0}',
                           gradient: blackGradient,
                           textColor: Colors.white,
@@ -306,7 +306,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                             CustomBottomSheet.show(
                               context: context,
                               body: LeadsPopup(
-                                title: 'Demo Competed',
+                                title: 'Demo Completed ',
                                 status: LeadsStatus.followUp.value,
                               ),
                             );
@@ -428,7 +428,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                     return Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: CustomBottomNavBar(
+                        child: CustomTabBar(
                           index: index,
                           dashBoardIndex: dashBoardIndex,
                           data: data,
@@ -734,6 +734,75 @@ class AnalyticsCard extends StatelessWidget {
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTabBar extends StatelessWidget {
+  final int index;
+  final int dashBoardIndex;
+  final double? height;
+  final double? width;
+  final bool? alwaysShowLabel;
+  final DashboardData data;
+  final GestureTapCallback? onTap;
+  final EdgeInsets? imageMargin;
+
+  const CustomTabBar({
+    super.key,
+    required this.index,
+    required this.dashBoardIndex,
+    required this.data,
+    this.height,
+    this.width,
+    this.alwaysShowLabel = false,
+    this.onTap,
+    this.imageMargin,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    bool selected = dashBoardIndex == index;
+    return GestureDetector(
+      onTap: onTap ?? () {},
+      child: GradientButton(
+        padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
+        borderRadius: 50,
+        blur: 10,
+        height: height ?? 50,
+        width: width ?? (selected == true ? null : 50),
+        backgroundGradient: selected == true ? primaryGradient : null,
+        backgroundColor: selected == true ? null : Colors.grey.withOpacity(0.3),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ImageView(
+              height: 24,
+              width: 24,
+              borderRadiusValue: 0,
+              color: selected ? Colors.black : Colors.white,
+              margin: imageMargin ?? EdgeInsets.zero,
+              fit: BoxFit.contain,
+              assetImage: selected ? data.activeImage : data.inActiveImage,
+            ),
+            if (alwaysShowLabel == true ? true : selected == true && data.title != null)
+              Padding(
+                padding: const EdgeInsets.only(left: 6),
+                child: Text(
+                  '${data.title}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: selected ? Colors.black : Colors.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                ),
+              )
+          ],
         ),
       ),
     );

@@ -86,32 +86,33 @@ class _GuestFaqState extends State<GuestFaq> {
                 ),
                 textAlign: TextAlign.start,
               ),
-              const CustomTextField(
-                hintText: 'Search',
-
-                hintStyle: TextStyle(color: Colors.white),
-                prefixIcon: ImageView(
-                  height: 20,
-                  width: 20,
-                  borderRadiusValue: 0,
-                  color: Colors.white,
-                  margin: EdgeInsets.only(left: kPadding, right: kPadding),
-                  fit: BoxFit.contain,
-                  assetImage: AppAssets.searchIcon,
-                ),
-                margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+              // const CustomTextField(
+              //   hintText: 'Search',
+              //   hintStyle: TextStyle(color: Colors.white),
+              //   prefixIcon: ImageView(
+              //     height: 20,
+              //     width: 20,
+              //     borderRadiusValue: 0,
+              //     color: Colors.white,
+              //     margin: EdgeInsets.only(left: kPadding, right: kPadding),
+              //     fit: BoxFit.contain,
+              //     assetImage: AppAssets.searchIcon,
+              //   ),
+              //   margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+              // ),
+              const SizedBox(
+                height: 20,
               ),
               controller.fetchCategoryLoader == true
                   ? const LoadingScreen(message: 'Loading...')
                   : (fetchInterestCategory?.data.haveData == true)
                       ? SizedBox(
-                          height: size.height * 0.16,
+                          height: size.height * 0.11,
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemCount: fetchInterestCategory?.data?.length ?? 0,
                             itemBuilder: (context, index) {
-
                               return Padding(
                                 padding: const EdgeInsets.only(left: 8.0, right: 8),
                                 child: GestureDetector(
@@ -126,9 +127,8 @@ class _GuestFaqState extends State<GuestFaq> {
                                   },
                                   child: Container(
                                     width: size.width * 0.34,
-                                    // height: size.width*0.34,
+                                    // height: size.width*0.2,
                                     decoration:  BoxDecoration(
-
                                       gradient: tabIndex ==index?primaryGradient: inActiveGradient,
                                       borderRadius: const BorderRadius.all(Radius.circular(18)),
 
@@ -137,7 +137,7 @@ class _GuestFaqState extends State<GuestFaq> {
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.only(
-                                          left: kPadding, top: kPadding, bottom: kPadding, right: kPadding),
+                                          left: kPadding, top: 4, bottom: 4, right: kPadding),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
@@ -168,15 +168,15 @@ class _GuestFaqState extends State<GuestFaq> {
                                             ),
                                             textAlign: TextAlign.start,
                                           ),
-                                          Text(
-                                            fetchInterestCategory?.data?[index].type ?? '',
-                                            style:  TextStyle(
-                                              color:tabIndex ==index?Colors.black: Colors.white,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            textAlign: TextAlign.start,
-                                          ),
+                                          // Text(
+                                          //   fetchInterestCategory?.data?[index].type ?? '',
+                                          //   style:  TextStyle(
+                                          //     color:tabIndex ==index?Colors.black: Colors.white,
+                                          //     fontSize: 12,
+                                          //     fontWeight: FontWeight.w400,
+                                          //   ),
+                                          //   textAlign: TextAlign.start,
+                                          // ),
                                         ],
                                       ),
                                     ),

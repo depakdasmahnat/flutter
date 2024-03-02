@@ -174,34 +174,34 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const GuestProfiles(),
-
-
-
             const Banners(),
             Consumer<CheckDemoController>(
               builder: (context, controller, child) {
                 return  GradientButton(
-                  height: 70,
+                  height: 60,
                   borderRadius: 18,
                   backgroundGradient: primaryGradient,
                   backgroundColor: Colors.transparent,
                   boxShadow: const [],
                   onTap: () {
-                if(controller.getStep?.demoStep==6){
-                  context.pushNamed(Routs.guestDemoVideos);
-                }else{
-                  context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
-                    await context.read<CheckDemoController>().getStepCheckDemo(context: context);
-                  },);
-
-                }
+                // if(controller.getStep?.demoStep==6){
+                //   context.pushNamed(Routs.guestDemoVideos);
+                // }else{
+                //   context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                //     await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                //   },);
+                //
+                // }
+                    context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                      await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                    },);
                   },
                   margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Yes, I want to change my life',
+                        'Think Big',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: GoogleFonts.urbanist().fontFamily,

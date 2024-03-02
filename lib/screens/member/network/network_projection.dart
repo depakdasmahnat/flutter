@@ -69,6 +69,8 @@ class NetworkProjectionState extends State<NetworkProjection> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+
     return Consumer<NetworkControllers>(builder: (context, controller, child) {
       projectionViewNodes = controller.projectionViewNodes;
       return Column(
@@ -183,30 +185,34 @@ class NetworkProjectionState extends State<NetworkProjection> {
                   )
                 else if (graph.nodes.haveData)
                   Expanded(
-                    child: InteractiveViewer(
-                      constrained: false,
-                      boundaryMargin: const EdgeInsets.all(100),
-                      minScale: 0.01,
-                      maxScale: 6,
-                      child: GraphView(
-                        graph: graph,
-                        algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
-                        paint: Paint()
-                          ..color = Colors.white
-                          ..strokeWidth = 1
-                          ..style = PaintingStyle.stroke,
-                        builder: (Node node) {
-                          var indexId = node.key?.value as int?;
-                          List<ProjectionViewData>? members = projectionViewNodes;
-                          var filteredMembers = members?.where((element) => element.id == indexId).toList();
-                          ProjectionViewData? data;
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: InteractiveViewer(
+                        constrained: false,
+                        boundaryMargin:
+                            EdgeInsets.only(left: 36, right: 36, top: 24, bottom: size.height * 0.25),
+                        minScale: 0.01,
+                        maxScale: 6,
+                        child: GraphView(
+                          graph: graph,
+                          algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                          paint: Paint()
+                            ..color = Colors.white
+                            ..strokeWidth = 1
+                            ..style = PaintingStyle.stroke,
+                          builder: (Node node) {
+                            var indexId = node.key?.value as int?;
+                            List<ProjectionViewData>? members = projectionViewNodes;
+                            var filteredMembers = members?.where((element) => element.id == indexId).toList();
+                            ProjectionViewData? data;
 
-                          if (filteredMembers.haveData) {
-                            data = filteredMembers?.first;
-                          }
+                            if (filteredMembers.haveData) {
+                              data = filteredMembers?.first;
+                            }
 
-                          return rectangleWidget(data);
-                        },
+                            return rectangleWidget(data);
+                          },
+                        ),
                       ),
                     ),
                   )

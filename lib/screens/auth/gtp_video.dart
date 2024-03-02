@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
@@ -46,6 +47,7 @@ class _GtpVideoState extends State<GtpVideo> {
           context.firstRoute();
           context.pushReplacementNamed(Routs.dashboard);
           controller?.pause();
+
         }
       }
       setState(() {
@@ -54,6 +56,14 @@ class _GtpVideoState extends State<GtpVideo> {
     });
     super.initState();
   }
+  bool isMusicOn =false;
+  void soundToggle() {
+    setState(() {
+      isMusicOn == false
+          ? controller?.setVolume(0.0)
+          : controller?.setVolume(1.0);
+      isMusicOn = !isMusicOn;
+    });}
   @override
   void dispose() {
     controller?.dispose();
@@ -129,9 +139,21 @@ class _GtpVideoState extends State<GtpVideo> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  formatDuration(controller!.value.position),
-                  style: TextStyle(color: Colors.white),
+                Row(
+                  children: [
+                    Text(
+                      formatDuration(controller!.value.position),
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    const SizedBox(
+                      width: 15,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        soundToggle();
+                      },
+                        child:  Icon(isMusicOn==false?FontAwesome.volume_up:Feather.volume_x))
+                  ],
                 ),
                 Text(
                   formatDuration(controller!.value.duration),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -27,18 +29,20 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
   late ResourceCategoryData? category = widget.category;
 
   List<FeedsData>? resources;
+  TextEditingController searchController = TextEditingController();
 
   Future fetchResourcesDetail({bool? loadingNext}) async {
     return await context.read<GuestControllers>().fetchResourcesDetail(
           context: context,
           categoryId: category?.id,
+          searchKey: searchController.text,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
         );
   }
 
-  TextEditingController searchController = TextEditingController();
   List<FeedsData>? feeds;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -46,11 +50,23 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
     });
     super.initState();
   }
+
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchResourcesDetail();
+
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(category?.name ?? 'Resources'),
+        title: Text(category?.name ?? 'Library'),
       ),
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
@@ -71,15 +87,17 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
             },
             child: ListView(
               shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
               children: [
-                 CustomTextField(
+                CustomTextField(
                   hintText: 'Search',
-                  onFieldSubmitted: (value) {
-
+                  controller: searchController,
+                  onFieldSubmitted: (value) {},
+                  onChanged: (val) {
+                    onSearchFieldChanged(val);
                   },
-
-                  hintStyle: TextStyle(color: Colors.white),
-                  prefixIcon: ImageView(
+                  hintStyle: const TextStyle(color: Colors.white),
+                  prefixIcon: const ImageView(
                     height: 20,
                     width: 20,
                     borderRadiusValue: 0,
@@ -88,7 +106,7 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
                     fit: BoxFit.contain,
                     assetImage: AppAssets.searchIcon,
                   ),
-                  margin: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                  margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                 ),
                 controller.loadingResources == true
                     ? const LoadingScreen(heightFactor: 0.7)

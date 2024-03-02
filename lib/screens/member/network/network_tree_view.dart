@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/models/dashboard/color_grades.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
@@ -73,6 +74,8 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
+
     return Consumer<NetworkControllers>(
       builder: (context, controller, child) {
         treeGraph = controller.networkTreeViewNodes;
@@ -143,31 +146,35 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
                   children: [
                     if (graph.nodes.haveData)
                       Expanded(
-                        child: InteractiveViewer(
-                          constrained: false,
-                          boundaryMargin: const EdgeInsets.all(200),
-                          minScale: 0.01,
-                          maxScale: 6,
-                          child: GraphView(
-                            graph: graph,
-                            algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
-                            paint: Paint()
-                              ..color = Colors.white
-                              ..strokeWidth = 1
-                              ..style = PaintingStyle.stroke,
-                            builder: (Node node) {
-                              var indexId = node.key?.value as int?;
-                              List<TreeGraphData>? members = treeGraph;
-                              var filteredMembers =
-                                  members?.where((element) => element.id == indexId).toList();
-                              TreeGraphData? data;
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: InteractiveViewer(
+                            constrained: false,
+                            boundaryMargin:
+                                EdgeInsets.only(left: 36, right: 36,top: 24, bottom: size.height * 0.25),
+                            minScale: 0.01,
+                            maxScale: 6,
+                            child: GraphView(
+                              graph: graph,
+                              algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                              paint: Paint()
+                                ..color = Colors.white
+                                ..strokeWidth = 1
+                                ..style = PaintingStyle.stroke,
+                              builder: (Node node) {
+                                var indexId = node.key?.value as int?;
+                                List<TreeGraphData>? members = treeGraph;
+                                var filteredMembers =
+                                    members?.where((element) => element.id == indexId).toList();
+                                TreeGraphData? data;
 
-                              if (filteredMembers.haveData) {
-                                data = filteredMembers?.first;
-                              }
+                                if (filteredMembers.haveData) {
+                                  data = filteredMembers?.first;
+                                }
 
-                              return rectangleWidget(data);
-                            },
+                                return rectangleWidget(data);
+                              },
+                            ),
                           ),
                         ),
                       ),

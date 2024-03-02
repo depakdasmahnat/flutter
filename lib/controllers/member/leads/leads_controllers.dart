@@ -41,6 +41,7 @@ class ListsControllers extends ChangeNotifier {
     String? status,
     String? priority,
     String? limit,
+    String? filter,
   }) async {
     String modelingData = 'LeadsData';
     debugPrint('Fetching $modelingData Data...');
@@ -70,6 +71,7 @@ class ListsControllers extends ChangeNotifier {
       'status': status ?? '',
       'priority': priority ?? '',
       'search_key': searchKey ?? '',
+      'filter': filter ?? '',
       'limit': limit ?? '10',
     };
 
@@ -288,7 +290,7 @@ class ListsControllers extends ChangeNotifier {
               context: context,
               text: responseData?.message ?? 'Something went wong',
               color: Colors.green);
-          context.pop();
+          // context.pop();
         } else {
           showSnackBar(
               context: context,
@@ -297,7 +299,7 @@ class ListsControllers extends ChangeNotifier {
         }
       }
     });
-    // return responseData;
+    return responseData;
   }
 
   Future<GuestProfileDetailsData?> fetchGuestProfileDetails({

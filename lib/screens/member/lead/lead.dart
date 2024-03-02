@@ -9,6 +9,7 @@ import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/default/default_model.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/custom_bottom_sheet.dart';
 import '../../../utils/widgets/custom_text_field.dart';
@@ -20,6 +21,7 @@ import '../home/member_profile_details.dart';
 import '../profile/profile.dart';
 import 'custom_popup_menu.dart';
 
+import 'demo_don_form.dart';
 import 'leads_popup.dart';
 import 'model_dailog_box.dart';
 
@@ -32,7 +34,7 @@ class Lead extends StatefulWidget {
 
 class _LeadState extends State<Lead> {
   int tabIndex = 0;
-
+TextEditingController searchController =TextEditingController();
   List tabItem = [
     'Newly Listed',
     'Invitation Call',
@@ -77,7 +79,9 @@ class _LeadState extends State<Lead> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context.read<MembersController>().fetchLeads(status: 'New', priority: '', page: '1');
+      await context
+          .read<MembersController>()
+          .fetchLeads(status: 'New', priority: '', page: '1');
     });
     super.initState();
   }
@@ -101,7 +105,7 @@ class _LeadState extends State<Lead> {
                     preferredSize: Size.fromHeight(size.height * 0.4),
                     child: CustomAppBar(
                       showLeadICon: false,
-                      title: 'List',
+                      title: 'LMS',
                       bottom: PreferredSize(
                         preferredSize: Size.fromHeight(size.height * 0.5),
                         child: Column(
@@ -111,7 +115,7 @@ class _LeadState extends State<Lead> {
                               height: 2,
                             ),
                             Container(
-                              height: size.width * 0.15,
+                              height: size.width * 0.14,
                               width: double.infinity,
                               clipBehavior: Clip.antiAlias,
                               decoration: const ShapeDecoration(
@@ -124,7 +128,6 @@ class _LeadState extends State<Lead> {
                                   ],
                                 ),
                                 shape: RoundedRectangleBorder(
-
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       bottomLeft: Radius.circular(10)),
@@ -148,7 +151,7 @@ class _LeadState extends State<Lead> {
                                             .fetchLeads(
                                                 status: status,
                                                 priority: '',
-                                                page: '1');
+                                                page: '1',searchKey: '');
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -159,14 +162,10 @@ class _LeadState extends State<Lead> {
                                             gradient: index == tabIndex
                                                 ? primaryGradient
                                                 : inActiveGradient,
-                                            shape:  const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(13))
-                                              // borderRadius: BorderRadius.only(
-                                              //     topRight:
-                                              //         Radius.circular(100),
-                                              //     bottomRight:
-                                              //         Radius.circular(100)),
-                                            ),
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(13))
+                                                ),
                                           ),
                                           child: Center(
                                               child: CustomeText(
@@ -179,172 +178,6 @@ class _LeadState extends State<Lead> {
                                           )),
                                         ),
                                       ));
-//                             Padding(
-//                               padding: const EdgeInsets.only(left: kPadding, top: 8),
-//                               child: SizedBox(
-//                                   height: size.height * 0.12,
-//                                   child: Align(
-//                                     alignment: Alignment.topCenter,
-//                                     child: ListView(
-//                                       scrollDirection: Axis.horizontal,
-//                                       physics: const NeverScrollableScrollPhysics(),
-//                                       children: [
-//                                         Padding(
-//                                           padding: const EdgeInsets.all(3),
-//                                           child: Container(
-//                                             width: size.width * 0.22,
-//                                             decoration: ShapeDecoration(
-//                                               gradient: primaryGradient,
-//                                               shape: RoundedRectangleBorder(
-//                                                 borderRadius: BorderRadius.circular(18),
-//                                               ),
-//                                             ),
-//                                             child: Padding(
-//                                               padding: const EdgeInsets.only(left: 8.0, top: 6, bottom: 6),
-//                                               child: Column(
-//                                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                                 mainAxisSize: MainAxisSize.min,
-//                                                 mainAxisAlignment: MainAxisAlignment.center,
-//                                                 children: [
-//                                                   CustomeText(
-//                                                     text: '${controller.fetchLeadsModel?.stats?.new1}',
-//                                                     fontSize: 28,
-//                                                     fontWeight: FontWeight.w700,
-//                                                     color: Colors.black,
-//                                                   ),
-//                                                   const Text(
-//                                                     'Added\nto list',
-//                                                     style: TextStyle(
-//                                                       color: Colors.black,
-//                                                       fontSize: 13,
-//                                                       fontWeight: FontWeight.w600,
-//                                                     ),
-//                                                     textAlign: TextAlign.start,
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                         Padding(
-//                                           padding: const EdgeInsets.all(3),
-//                                           child: Container(
-//                                             width: size.width * 0.22,
-//                                             decoration: ShapeDecoration(
-//                                               gradient: const LinearGradient(
-//                                                   colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
-//                                               shape: RoundedRectangleBorder(
-//                                                 borderRadius: BorderRadius.circular(18),
-//                                               ),
-//                                             ),
-//                                             child: Padding(
-//                                               padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-//                                               child: Column(
-//                                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                                 mainAxisSize: MainAxisSize.min,
-//                                                 mainAxisAlignment: MainAxisAlignment.center,
-//                                                 children: [
-//                                                   CustomeText(
-//                                                     text:
-//                                                         '${controller.fetchLeadsModel?.stats?.invitationCall}',
-//                                                     fontSize: 28,
-//                                                     fontWeight: FontWeight.w700,
-//                                                     color: Colors.black,
-//                                                   ),
-//                                                   const Text(
-//                                                     'Demo\nScheduled',
-//                                                     style: TextStyle(
-//                                                       color: Colors.black,
-//                                                       fontSize: 13,
-//                                                       fontWeight: FontWeight.w600,
-//                                                     ),
-//                                                     textAlign: TextAlign.start,
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                         Padding(
-//                                           padding: const EdgeInsets.all(3),
-//                                           child: Container(
-//                                             width: size.width * 0.22,
-//                                             decoration: ShapeDecoration(
-//                                               gradient: const LinearGradient(
-//                                                   colors: [Color(0xFFF3F3F3), Color(0xFFE0E0E0)]),
-//                                               shape: RoundedRectangleBorder(
-//                                                 borderRadius: BorderRadius.circular(18),
-//                                               ),
-//                                             ),
-//                                             child: Padding(
-//                                               padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-//                                               child: Column(
-//                                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                                 mainAxisSize: MainAxisSize.min,
-//                                                 mainAxisAlignment: MainAxisAlignment.center,
-//                                                 children: [
-//                                                   CustomeText(
-//                                                     text: '${controller.fetchLeadsModel?.stats?.followup}',
-//                                                     fontSize: 28,
-//                                                     fontWeight: FontWeight.w700,
-//                                                     color: Colors.black,
-//                                                   ),
-//                                                   const Text(
-//                                                     'Demo\nDone',
-//                                                     style: TextStyle(
-//                                                       color: Colors.black,
-//                                                       fontSize: 13,
-//                                                       fontWeight: FontWeight.w600,
-//                                                     ),
-//                                                     textAlign: TextAlign.start,
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                         Padding(
-//                                           padding: const EdgeInsets.all(3),
-//                                           child: Container(
-//                                             width: size.width * 0.22,
-//                                             decoration: ShapeDecoration(
-//                                               gradient: const LinearGradient(
-//                                                   colors: [Color(0xFF3B3B3B), Color(0xFF4A4A4A)]),
-//                                               shape: RoundedRectangleBorder(
-//                                                 borderRadius: BorderRadius.circular(18),
-//                                               ),
-//                                             ),
-//                                             child: Padding(
-//                                               padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-//                                               child: Column(
-//                                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                                 mainAxisSize: MainAxisSize.min,
-//                                                 mainAxisAlignment: MainAxisAlignment.center,
-//                                                 children: [
-//                                                   CustomeText(
-//                                                     text: '${controller.fetchLeadsModel?.stats?.closed}',
-//                                                     fontSize: 28,
-//                                                     fontWeight: FontWeight.w700,
-//                                                     color: Colors.white,
-//                                                   ),
-//                                                   const Text(
-//                                                     'Leads\nClosed',
-//                                                     style: TextStyle(
-//                                                       color: Colors.white,
-//                                                       fontSize: 13,
-//                                                       fontWeight: FontWeight.w600,
-//                                                     ),
-//                                                     textAlign: TextAlign.start,
-//                                                   ),
-//                                                 ],
-//                                               ),
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ],
-// >>>>>>> c7b688cbb475634220be72aa40dfb28e3eb7677f
-//                                     ),
-//                                   );
                                 },
                               ),
                             ),
@@ -531,7 +364,7 @@ class _LeadState extends State<Lead> {
                               padding:
                                   const EdgeInsets.only(left: kPadding, top: 8),
                               child: SizedBox(
-                                  height: size.height * 0.13,
+                                  height: size.height * 0.1,
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     children: [
@@ -649,7 +482,9 @@ class _LeadState extends State<Lead> {
                                             ),
                                           );
                                         },
-                                        value: controller.fetchLeadsModel?.stats?.bin.toString(),
+                                        value: controller
+                                            .fetchLeadsModel?.stats?.bin
+                                            .toString(),
                                         subHeading: 'Bin',
                                         colors: const [
                                           Color(0xFF3B3B3B),
@@ -671,11 +506,17 @@ class _LeadState extends State<Lead> {
                             ),
                             Row(
                               children: [
-                                const Expanded(
+                                 Expanded(
                                   child: CustomTextField(
                                     hintText: 'Search',
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    prefixIcon: ImageView(
+                                    controller: searchController,
+                                    onFieldSubmitted: (value) async{
+                                      await context
+                                          .read<MembersController>()
+                                          .fetchLeads(status: status, priority: '', page: '1',searchKey:value );
+                                    },
+                                    hintStyle: const TextStyle(color: Colors.white),
+                                    prefixIcon: const ImageView(
                                       height: 20,
                                       width: 20,
                                       borderRadiusValue: 0,
@@ -685,7 +526,7 @@ class _LeadState extends State<Lead> {
                                       fit: BoxFit.contain,
                                       assetImage: AppAssets.searchIcon,
                                     ),
-                                    margin: EdgeInsets.only(
+                                    margin: const EdgeInsets.only(
                                         left: kPadding,
                                         right: kPadding,
                                         top: kPadding,
@@ -726,14 +567,15 @@ class _LeadState extends State<Lead> {
                                               .fetchLeads(
                                                   status: status,
                                                   priority: value,
-                                                  page: '1');
+                                                  page: '1', searchKey: '');
                                         },
                                         itemBuilder: (BuildContext context) =>
                                             <PopupMenuEntry>[
                                           const PopupMenuItem(
                                             value: 'All',
                                             child: Text('All'),
-                                          ), const PopupMenuItem(
+                                          ),
+                                          const PopupMenuItem(
                                             value: 'Newest',
                                             child: Text('Newest'),
                                           ),
@@ -770,7 +612,7 @@ class _LeadState extends State<Lead> {
                     )),
             body: Stack(
               children: [
-                controller.fetchLeadsModel?.data== null
+                controller.fetchLeadsModel?.data == null
                     ? const Center(child: NoDataFound())
                     : ListView.builder(
                         itemCount:
@@ -787,29 +629,17 @@ class _LeadState extends State<Lead> {
                                     child: RowCart(
                                       tabIndex: tabIndex,
                                       listIndex: index,
-                                      guestId: controller
-                                          .fetchLeadsModel?.data?[index].id
-                                          .toString(),
-                                      image: controller.fetchLeadsModel
-                                          ?.data?[index].profilePhoto,
-                                      name: controller.fetchLeadsModel
-                                          ?.data?[index].firstName,
-                                      city: controller.fetchLeadsModel
-                                          ?.data?[index].cityName,
-                                      phone: controller
-                                          .fetchLeadsModel?.data?[index].mobile,
-                                      date: controller.fetchLeadsModel
-                                          ?.data?[index].demoDate,
-                                      time: controller.fetchLeadsModel
-                                          ?.data?[index].demoTime,
-                                      priority: controller.fetchLeadsModel
-                                          ?.data?[index].priority,
-                                      demoId: controller
-                                          .fetchLeadsModel?.data?[index].demoId
-                                          .toString(),
-                                      memberId: controller.fetchLeadsModel
-                                          ?.data?[index].memberId
-                                          .toString(),
+                                      guestId: controller.fetchLeadsModel?.data?[index].id.toString(),
+                                      image: controller.fetchLeadsModel?.data?[index].profilePhoto,
+                                      name: controller.fetchLeadsModel?.data?[index].firstName,
+                                      city: controller.fetchLeadsModel?.data?[index].cityName,
+                                      phone: controller.fetchLeadsModel?.data?[index].mobile,
+                                      date: controller.fetchLeadsModel?.data?[index].date,
+                                      time: controller.fetchLeadsModel?.data?[index].time,
+                                      priority: controller.fetchLeadsModel?.data?[index].priority,
+                                      demoId: controller.fetchLeadsModel?.data?[index].demoId.toString(),
+                                      memberId: controller.fetchLeadsModel?.data?[index].memberId.toString(),
+                                      rescheduleCallReason: controller.fetchLeadsModel?.data?[index].rescheduleCallReason.toString(),
                                     )),
                               ));
                         },
@@ -871,7 +701,6 @@ class _LeadState extends State<Lead> {
 }
 
 class RowCart extends StatefulWidget {
-
   int? tabIndex;
   int? listIndex;
   String? guestId;
@@ -884,8 +713,8 @@ class RowCart extends StatefulWidget {
   String? priority;
   String? demoId;
   String? memberId;
+  String? rescheduleCallReason;
   RowCart({
-
     this.tabIndex,
     this.listIndex,
     this.guestId,
@@ -898,6 +727,7 @@ class RowCart extends StatefulWidget {
     this.priority,
     this.demoId,
     this.memberId,
+    this.rescheduleCallReason,
     super.key,
   });
 
@@ -927,15 +757,28 @@ class _RowCartState extends State<RowCart> {
                 feedback: feedback ?? '',
                 changePopUp: changePopUp2,
               )
-            : ModelDialogBoxForRescheduled(
-                guestId: guestId ?? '',
-          priority:priority??'' ,
+            : GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: FocusScope(
+                  onFocusChange: (hasFocus) {
+                    if (!hasFocus) {
+                      context.pop();
+                    }
+                  },
+                  child: ModelDialogBoxForRescheduled(
+                    guestId: guestId ?? '',
+                    priority: priority ?? '',
+                  ),
+                ),
               );
       },
     );
   }
 
-  Future<void> _showDialogDemoScheduled(BuildContext context, guestId,priority) async {
+  Future<void> _showDialogDemoScheduled(
+      BuildContext context, guestId, priority) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -1034,13 +877,21 @@ class _RowCartState extends State<RowCart> {
           ),
           TextButton(
             onPressed: () async {
-              await context.read<ListsControllers>().rescheduledCall(
+              DefaultModel? model=   await context.read<ListsControllers>().rescheduledCall(
                   context: context,
                   guestId: guestId,
                   reason: '',
                   date: dateController.text,
-                  time: timeConroller.text, LMSStep: 'Demo Scheduled ', priority: priority, demoRescheduleRemark: '');
-              // context.pop();
+                  time: timeConroller.text,
+                  LMSStep: 'Demo Scheduled ',
+                  priority: priority,
+                  demoRescheduleRemark: '');
+
+              if(model?.status==true){
+                _showDialogIncomplete(context,widget.guestId,priority,true);
+                // context.pop();
+              }
+
             },
             child: const Text('Save'),
           ),
@@ -1052,7 +903,7 @@ class _RowCartState extends State<RowCart> {
   Future<void> _showDialogIncomplete(
     BuildContext context,
     String? guestId,
-    String? priority,
+    String? priority,bool? openDialog
   ) async {
     return showDialog(
       context: context,
@@ -1061,29 +912,28 @@ class _RowCartState extends State<RowCart> {
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {
-            context.pop();
+            // context.pop();
           },
           child: FocusScope(
             onFocusChange: (hasFocus) {
-              if (!hasFocus) {
-                context.pop();
-              }
+              // if (!hasFocus) {
+              //   context.pop();
+              // }
             },
-            child: ModelDialogBoxIncomplete(
+            child:openDialog==false? ModelDialogBoxIncomplete(
               guestId: guestId ?? '',
-              priority:priority??'' ,
-            ),
+              priority: priority ?? '',
+            ): DemoDoneForm( demoId: widget.demoId??''),
           ),
         );
       },
     );
   }
-
   Color? pupUpTextColor = const Color(0xFFA0A0A0);
-
   int? newIndex = -1;
   @override
   Widget build(BuildContext context) {
+
     Size size = MediaQuery.of(context).size;
     return widget.tabIndex == 0
         ? Row(
@@ -1091,7 +941,8 @@ class _RowCartState extends State<RowCart> {
             children: [
               GestureDetector(
                 onTap: () {
-                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                  context.pushNamed(Routs.leadMemberProfile,
+                      extra: GuestProfileDetails(guestId: '${widget.guestId}'));
                   // context.pushNamed(Routs.memberProfileDetails, extra: MemberProfileDetails(memberId: '${widget.memberId}'));
                 },
                 child: Row(
@@ -1112,7 +963,7 @@ class _RowCartState extends State<RowCart> {
                       width: 5,
                     ),
                     SizedBox(
-                      width: size.width * 0.12,
+                      width: size.width * 0.2,
                       child: CustomeText(
                         text: widget.name ?? '',
                         maxLines: 1,
@@ -1369,7 +1220,9 @@ class _RowCartState extends State<RowCart> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                      context.pushNamed(Routs.leadMemberProfile,
+                          extra: GuestProfileDetails(
+                              guestId: '${widget.guestId}'));
                     },
                     child: Row(
                       children: [
@@ -1382,7 +1235,8 @@ class _RowCartState extends State<RowCart> {
                                 ),
                               )
                             : CircleAvatar(
-                                backgroundImage: NetworkImage(widget.image ?? ''),
+                                backgroundImage:
+                                    NetworkImage(widget.image ?? ''),
                                 maxRadius: size.height * 0.02,
                               ),
                         const SizedBox(
@@ -1400,16 +1254,49 @@ class _RowCartState extends State<RowCart> {
                       ],
                     ),
                   ),
-
-                  CustomeText(
-                    text: widget.date ?? '07-02-2024',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                  if(widget.rescheduleCallReason.toString()=='null')
+                  SizedBox(
+                    width: size.width*0.24,
+                    child: CustomeText(
+                      text: widget.date ?? '07-02-2024',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  CustomeText(
-                    text: widget.time ?? '12:02 AM',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                  if(widget.rescheduleCallReason.toString()!='null')
+                    SizedBox(
+                      width: size.width*0.24,
+                      child: CustomeText(
+                        text: widget.rescheduleCallReason ?? '--',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Color(0xFFD9D9D9), shape: BoxShape.circle),
+                    child: GestureDetector(
+                      onTap: () async {
+                        await context.read<MembersController>().callUser(
+                          mobileNo: widget.phone,
+                        );
+                        await context
+                            .read<MembersController>()
+                            .updateLeadStatus(
+                          context: context,
+                          guestId: widget.guestId,
+                          status: 'Invitation Call',
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(1),
+                        child: ImageView(
+                          assetImage: AppAssets.call,
+                          height: 13,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ),
                   InkWell(
                     onTap: () {},
@@ -1444,7 +1331,9 @@ class _RowCartState extends State<RowCart> {
                             showText: true,
                             priority: widget.priority,
                             onSelected: (v) async {
-                              await context.read<MembersController>().updateLeadPriority(
+                              await context
+                                  .read<MembersController>()
+                                  .updateLeadPriority(
                                       context: context,
                                       guestId: widget.guestId,
                                       feedback: '',
@@ -1457,7 +1346,7 @@ class _RowCartState extends State<RowCart> {
                                       .fetchLeads(
                                           status: 'Invitation Call',
                                           priority: '',
-                                          page: '1');
+                                          page: '1',searchKey: '');
                                 },
                               );
                             },
@@ -1535,16 +1424,20 @@ class _RowCartState extends State<RowCart> {
                   CustomPopUpMenu(
                     onSelected: (v) async {
                       if (v == 'Schedule demo') {
-                        context
-                            .pushNamed(Routs.createDemo,
-                                extra: CreateDemo(
-                                  guestId: widget.guestId ?? '',
-                                  image: widget.image,
-                                  name: widget.name,
-                                ))
-                           ;
+                        context.pushNamed(Routs.createDemo,
+                            extra: CreateDemo(
+                              guestId: widget.guestId ?? '',
+                              image: widget.image,
+                              name: widget.name,
+                            ));
                       } else if (v == 'Reschedule call') {
-                        _showDialog(context, widget.guestId, '', true, true, widget.priority);
+                        _showDialog(context, widget.guestId, '', true, true,
+                            widget.priority).whenComplete(() async{
+                          await context.read<MembersController>().fetchLeads(
+                              status: 'Invitation Call',
+                              priority: '',
+                              page: '1');
+                            },);
                       } else {
                         await context
                             .read<ListsControllers>()
@@ -1562,7 +1455,7 @@ class _RowCartState extends State<RowCart> {
                     },
                     itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                       PopupMenuItem(
-                        height: size.height * 0.04,
+                        height: size.height * 0.07,
                         value: 'Schedule demo',
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
@@ -1577,6 +1470,9 @@ class _RowCartState extends State<RowCart> {
                                   fontSize: 12,
                                 ),
                               ],
+                            ),
+                            const SizedBox(
+                              height: 7,
                             ),
                             Divider(
                               thickness: 2,
@@ -1600,6 +1496,9 @@ class _RowCartState extends State<RowCart> {
                                   fontSize: 12,
                                 ),
                               ],
+                            ),
+                            const SizedBox(
+                              height: 7,
                             ),
                             Divider(
                               thickness: 2,
@@ -1736,7 +1635,9 @@ class _RowCartState extends State<RowCart> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                          context.pushNamed(Routs.leadMemberProfile,
+                              extra: GuestProfileDetails(
+                                  guestId: '${widget.guestId}'));
                         },
                         child: Row(
                           children: [
@@ -1778,11 +1679,7 @@ class _RowCartState extends State<RowCart> {
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
-                      // CustomeText(
-                      //   text: city ?? 'Bhilai',
-                      //   fontSize: 12,
-                      //   fontWeight: FontWeight.w500,
-                      // ),
+
                       Container(
                         decoration: ShapeDecoration(
                           gradient: LinearGradient(
@@ -1935,9 +1832,13 @@ class _RowCartState extends State<RowCart> {
                             //             page: '1');
                             //   },
                             // );
-                          }
-                          else if (v == 'Move to bin') {
-                            await context.read<ListsControllers>().deleteLead(context: context, guestId: widget.guestId ?? '').whenComplete(
+                          } else if (v == 'Move to bin') {
+                            await context
+                                .read<ListsControllers>()
+                                .deleteLead(
+                                    context: context,
+                                    guestId: widget.guestId ?? '')
+                                .whenComplete(
                               () async {
                                 await context
                                     .read<MembersController>()
@@ -1948,9 +1849,11 @@ class _RowCartState extends State<RowCart> {
                               },
                             );
                           } else if (v == 'Reschedule') {
-                            _showDialogDemoScheduled(context, widget.guestId,widget.priority);
+                            _showDialogDemoScheduled(
+                                context, widget.guestId, widget.priority,);
                           } else if (v == 'Incomplete') {
-                            _showDialogIncomplete(context, widget.guestId,widget.priority);
+                            _showDialogIncomplete(
+                                context, widget.guestId, widget.priority,false);
                           } else {
                             context
                                 .pushNamed(Routs.createDemo,
@@ -1987,6 +1890,9 @@ class _RowCartState extends State<RowCart> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
                                 Divider(
                                   thickness: 2,
                                   color: Colors.grey.shade300,
@@ -2004,6 +1910,9 @@ class _RowCartState extends State<RowCart> {
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
+                                ),
+                                const SizedBox(
+                                  height: 5,
                                 ),
                                 Divider(
                                   thickness: 2,
@@ -2023,6 +1932,9 @@ class _RowCartState extends State<RowCart> {
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 12,
+                                ),
+                                const SizedBox(
+                                  height: 5,
                                 ),
                                 Divider(
                                   thickness: 2,
@@ -2062,7 +1974,9 @@ class _RowCartState extends State<RowCart> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                              context.pushNamed(Routs.leadMemberProfile,
+                                  extra: GuestProfileDetails(
+                                      guestId: '${widget.guestId}'));
                             },
                             child: Row(
                               children: [
@@ -2234,7 +2148,9 @@ class _RowCartState extends State<RowCart> {
                           CustomPopUpMenu(
                             onSelected: (v) async {
                               if (v == 'Close') {
-                                _showDialog(context, widget.guestId, '', true, false,'').whenComplete(
+                                _showDialog(context, widget.guestId, '', true,
+                                        false, '')
+                                    .whenComplete(
                                   () async {
                                     await context
                                         .read<MembersController>()
@@ -2246,7 +2162,7 @@ class _RowCartState extends State<RowCart> {
                                 );
                               } else if (v == 'Schedule follow up') {
                                 _showDialogDemoScheduled(
-                                    context, widget.guestId,widget.priority);
+                                    context, widget.guestId, widget.priority);
                               } else {
                                 await context
                                     .read<ListsControllers>()
@@ -2342,7 +2258,9 @@ class _RowCartState extends State<RowCart> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                                  context.pushNamed(Routs.leadMemberProfile,
+                                      extra: GuestProfileDetails(
+                                          guestId: '${widget.guestId}'));
                                 },
                                 child: Row(
                                   children: [
@@ -2355,8 +2273,8 @@ class _RowCartState extends State<RowCart> {
                                             ),
                                           )
                                         : CircleAvatar(
-                                            backgroundImage:
-                                                NetworkImage(widget.image ?? ''),
+                                            backgroundImage: NetworkImage(
+                                                widget.image ?? ''),
                                             maxRadius: size.height * 0.02,
                                           ),
                                     const SizedBox(
@@ -2419,16 +2337,17 @@ class _RowCartState extends State<RowCart> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-
-                                  context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${widget.guestId}'));
+                                  context.pushNamed(Routs.leadMemberProfile,
+                                      extra: GuestProfileDetails(
+                                          guestId: '${widget.guestId}'));
                                 },
                                 child: Row(
                                   children: [
                                     widget.image == null
                                         ? Image.asset(AppAssets.u1)
                                         : CircleAvatar(
-                                            backgroundImage:
-                                                NetworkImage(widget.image ?? ''),
+                                            backgroundImage: NetworkImage(
+                                                widget.image ?? ''),
                                             maxRadius: size.height * 0.02,
                                           ),
                                     const SizedBox(

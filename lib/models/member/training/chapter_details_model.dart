@@ -55,6 +55,7 @@ class ChapterDetailsData {
     this.trainingId,
     this.chapterStatus,
     this.assets,
+    this.attachments,
   });
 
   ChapterDetailsData.fromJson(dynamic json) {
@@ -69,6 +70,12 @@ class ChapterDetailsData {
         assets?.add(ChapterExercise.fromJson(v));
       });
     }
+    if (json['attachments'] != null) {
+      attachments = [];
+      json['attachments'].forEach((v) {
+        attachments?.add(ChapterExercise.fromJson(v));
+      });
+    }
   }
 
   num? id;
@@ -77,6 +84,7 @@ class ChapterDetailsData {
   num? trainingId;
   String? chapterStatus;
   List<ChapterExercise>? assets;
+  List<ChapterExercise>? attachments;
 
   ChapterDetailsData copyWith({
     num? id,
@@ -85,6 +93,7 @@ class ChapterDetailsData {
     num? trainingId,
     String? chapterStatus,
     List<ChapterExercise>? assets,
+    List<ChapterExercise>? attachments,
   }) =>
       ChapterDetailsData(
         id: id ?? this.id,
@@ -93,6 +102,7 @@ class ChapterDetailsData {
         trainingId: trainingId ?? this.trainingId,
         chapterStatus: chapterStatus ?? this.chapterStatus,
         assets: assets ?? this.assets,
+        attachments: attachments ?? this.attachments,
       );
 
   Map<String, dynamic> toJson() {
@@ -105,6 +115,10 @@ class ChapterDetailsData {
     if (assets != null) {
       map['assets'] = assets?.map((v) => v.toJson()).toList();
     }
+    if (attachments != null) {
+      map['attachments'] = attachments?.map((v) => v.toJson()).toList();
+    }
+
     return map;
   }
 }
@@ -123,6 +137,8 @@ class ChapterExercise {
     this.file,
     this.files,
     this.sequence,
+    this.fileName,
+    this.fileSize,
   });
 
   ChapterExercise.fromJson(dynamic json) {
@@ -134,6 +150,8 @@ class ChapterExercise {
     file = json['file'];
     files = json['files'];
     sequence = json['sequence'];
+    fileName = json['file_name'];
+    fileSize = json['file_size'];
   }
 
   num? id;
@@ -143,7 +161,9 @@ class ChapterExercise {
   String? path;
   String? file;
   List<String>? files;
-  dynamic sequence;
+  String? sequence;
+  String? fileName;
+  String? fileSize;
 
   ChapterExercise copyWith({
     num? id,
@@ -153,7 +173,9 @@ class ChapterExercise {
     String? path,
     String? file,
     List<String>? files,
-    dynamic sequence,
+    String? sequence,
+    String? fileName,
+    String? fileSize,
   }) =>
       ChapterExercise(
         id: id ?? this.id,
@@ -164,6 +186,8 @@ class ChapterExercise {
         file: file ?? this.file,
         files: files ?? this.files,
         sequence: sequence ?? this.sequence,
+        fileName: fileName ?? this.fileName,
+        fileSize: fileSize ?? this.fileSize,
       );
 
   Map<String, dynamic> toJson() {
@@ -178,6 +202,8 @@ class ChapterExercise {
       map['files'] = files?.map((v) => v).toList();
     }
     map['sequence'] = sequence;
+    map['file_name'] = fileName;
+    map['file_size'] = fileSize;
     return map;
   }
 }

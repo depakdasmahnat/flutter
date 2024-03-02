@@ -52,6 +52,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    Color? textColor2 =const Color(0xFF909090);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // appBar: AppBar(),
@@ -95,7 +96,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Container(
 
                     decoration: ShapeDecoration(
@@ -106,7 +107,8 @@ class _LoginState extends State<Login> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: IntlPhoneField(
+                      child:
+                      IntlPhoneField(
                         controller:phoneCtrl ,
                         decoration: const InputDecoration(
                           hintText: 'Enter Mobile No.',
@@ -126,12 +128,18 @@ class _LoginState extends State<Login> {
                           if (phone.number.length == 10) {
                             countryCode=phone.countryCode;
                             setState(() {});
-
                             validatePhone();
                           }
                         },
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0,bottom: 8),
+                  child: CustomeText(
+                    text: 'Use only WhatsApp no.',
+                    color: textColor2,
                   ),
                 ),
                 // CustomTextField(

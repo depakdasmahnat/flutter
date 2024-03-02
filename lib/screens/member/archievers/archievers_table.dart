@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
+import '../../../core/constant/constant.dart';
 import '../../../models/member/dashboard/achievers_model.dart';
 
 class AchieversTable extends StatefulWidget {
@@ -57,8 +61,8 @@ class _AchieversTableState extends State<AchieversTable> {
                 label: GridHeading(title: AchieversTableHeadings.demo.value),
               ),
               GridColumn(
-                columnName: AchieversTableHeadings.closing.value,
-                label: GridHeading(title: AchieversTableHeadings.closing.value),
+                columnName: AchieversTableHeadings.turnover.value,
+                label: GridHeading(title: AchieversTableHeadings.turnover.value),
               ),
               GridColumn(
                 minimumWidth: 140,
@@ -66,13 +70,8 @@ class _AchieversTableState extends State<AchieversTable> {
                 label: GridHeading(title: AchieversTableHeadings.appDownloads.value),
               ),
               GridColumn(
-                columnName: AchieversTableHeadings.level.value,
-                label: GridHeading(title: AchieversTableHeadings.level.value),
-              ),
-              GridColumn(
-                minimumWidth: 140,
-                columnName: AchieversTableHeadings.achievement.value,
-                label: GridHeading(title: AchieversTableHeadings.achievement.value),
+                columnName: AchieversTableHeadings.performance.value,
+                label: GridHeading(title: AchieversTableHeadings.performance.value),
               ),
             ],
           )
@@ -81,6 +80,8 @@ class _AchieversTableState extends State<AchieversTable> {
 }
 
 class EmployeeDataSource extends DataGridSource {
+  String defaultText = '__';
+
   /// Creates the employee data source class with required details.
   EmployeeDataSource({required List<AchieversData>? employeeData}) {
     _employeeData = employeeData!.map<DataGridRow>(
@@ -104,16 +105,23 @@ class EmployeeDataSource extends DataGridSource {
             DataGridCell(
               columnName: AchieversTableHeadings.name.value,
               value: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ImageView(
                     height: 28,
                     width: 28,
                     borderRadiusValue: 30,
                     isAvatar: true,
-                    assetImage: '${e.profile_pic}',
+                    assetImage: '${e.profilePhoto}',
                     margin: EdgeInsets.zero,
                   ),
-                  GridHeading(title: '${e.firstName}'),
+                  Flexible(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      child: GridHeading(title: e.firstName ?? defaultText),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -126,20 +134,29 @@ class EmployeeDataSource extends DataGridSource {
               value: GridHeading(title: '${e.demo}'),
             ),
             DataGridCell(
-              columnName: AchieversTableHeadings.closing.value,
-              value: GridHeading(title: '${e.closing}'),
+              columnName: AchieversTableHeadings.turnover.value,
+              value: GridHeading(title: '₹${e.turnover}'),
             ),
             DataGridCell(
               columnName: AchieversTableHeadings.appDownloads.value,
               value: GridHeading(title: '${e.appDownloads}'),
             ),
             DataGridCell(
-              columnName: AchieversTableHeadings.level.value,
-              value: GridHeading(title: '${e.level}'),
-            ),
-            DataGridCell(
-              columnName: AchieversTableHeadings.achievement.value,
-              value: GridHeading(title: '${e.achievement}'),
+              columnName: AchieversTableHeadings.performance.value,
+              value: CircularPercentIndicator(
+                radius: 16.0,
+                lineWidth: 3,
+                percent: (e.performance ?? 0).toDouble() / 100,
+                center: Text(
+                  '${(e.performance ?? 0).toInt()}%',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 8,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                progressColor: statusColor(value: e.level),
+              ),
             ),
           ],
         );
@@ -197,10 +214,9 @@ enum AchieversTableHeadings {
   name('Name'),
   sales('Sales'),
   demo('Demo'),
-  closing('Closing'),
+  turnover('Turnover'),
   appDownloads('App Downloads'),
-  level('Level'),
-  achievement('Achievement');
+  performance('Performance');
 
   final String value;
 

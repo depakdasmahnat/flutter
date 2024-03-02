@@ -8,8 +8,7 @@ class ApiConfig {
   static const domainName = 'https://api.gtp.proapp.in';
 
   // //Production...
-  // static const domainName = 'https://app.mygtp.in';
-
+  //static const domainName = 'https://app.mygtp.in';
 
   static const String version = '/api/v1/';
   static const String baseUrl = '$domainName$version';
@@ -18,7 +17,6 @@ class ApiConfig {
   static const String aboutUsUrl = '${baseUrl}about-us';
   static const String contactUsUrl = '${baseUrl}contact-us';
   static const String supportUrl = '${baseUrl}support';
-
   static const String termsAndConditionsUrl = '${baseUrl}terms-conditions';
 
   static Map<String, String> defaultHeaders() {
@@ -131,12 +129,13 @@ class ApiEndpoints {
   static const String fetchFeedCategories = 'fetch_feed_categories';
   static const String getComments = 'get_comments';
   static const String feedComment = 'feed_comment';
-  static const String fetchResourceDetails = 'fetch_resources?page=1&category_id=';
+  static const String fetchResourceDetails =
+      'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
   static const String guestDemo = 'fetch_demos';
   static const String attend = 'attend_event';
-  static const String checkDemo = 'check_demo';
+  static const String checkDemo = 'check_demo??show_answer=';
   static const String getDemoStep = 'get_demo_step';
   static const String fetchDemoQuestion = 'fetch_demo_questions';
   static const String submitDemoAns = 'submit_demo_answer';
@@ -149,6 +148,9 @@ class ApiEndpoints {
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';
   static const String state = 'fetch_states';
+  static const String fetchOccupation = 'fetch_occupation';
   static const String city = 'fetch_cities?state_id=';
   static const String fetchGuestProfile = 'fetch_profile';
+  static const String fetchDownlineRank = 'sponsor_downline_rank';
+  static const String fetchMemberProduct = 'fetch_products?page=1';
 }

@@ -1,17 +1,14 @@
 import 'dart:io';
-
-import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../models/default/default_model.dart';
@@ -21,7 +18,7 @@ import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
 import '../../guest/guestProfile/guest_faq.dart';
-import '../events/create_event.dart';
+
 
 class CreateDemo extends StatefulWidget {
   final String guestId;
@@ -41,6 +38,7 @@ class CreateDemo extends StatefulWidget {
 }
 
 class _CreateDemoState extends State<CreateDemo> {
+  final switch1 = ValueNotifier<bool>(true);
   TextEditingController eventNameCtrl = TextEditingController();
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController startTimeCtrl = TextEditingController();
@@ -67,7 +65,7 @@ class _CreateDemoState extends State<CreateDemo> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context
           .read<MembersController>()
-          .fetchLeads(status: '', priority: '', page: '1');
+          .fetchLeads(status: '', priority: '', page: '1',searchKey: '');
       await context.read<MembersController>().fetchSponsor(
             context: context,
           );
@@ -91,6 +89,7 @@ class _CreateDemoState extends State<CreateDemo> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
+
               onChanged: (v) {
                 typeOfDame = v;
               },
@@ -250,7 +249,7 @@ class _CreateDemoState extends State<CreateDemo> {
                             top: 7,
                           ),
                           border: InputBorder.none,
-                          hintText: 'Select Gender',
+                          hintText: 'Select member',
                         ),
                       ),
                     ),
@@ -330,7 +329,7 @@ class _CreateDemoState extends State<CreateDemo> {
               child: Row(
                 children: [
                   Text(
-                    'Select List',
+                    'Select list',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -338,7 +337,7 @@ class _CreateDemoState extends State<CreateDemo> {
             ),
           if (widget.showLeadList != true)
             Padding(
-              padding: const EdgeInsets.only(left: kPadding, top: kPadding),
+              padding: const EdgeInsets.only(left: kPadding, top: kPadding,right:kPadding ),
               child: Container(
                 width: 30,
                 decoration: BoxDecoration(
@@ -373,7 +372,7 @@ class _CreateDemoState extends State<CreateDemo> {
               child: Row(
                 children: [
                   Text(
-                    'Select Members to add',
+                    'Select members to add',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -624,6 +623,33 @@ class _CreateDemoState extends State<CreateDemo> {
           //     ),
           //   ),
           // ),
+          if (widget.showLeadList != true)
+          Padding(
+            padding: const EdgeInsets.only(left: kPadding,right: kPadding,top: kPadding),
+            child:  Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomeText(
+                  text: "Don't send notification",
+                ),
+                AdvancedSwitch(
+                  controller: switch1,
+                  thumb: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.black,
+                        shape: BoxShape.circle
+                    ),
+                  ) ,
+                  inactiveColor: Colors.grey,
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  width: size.height*0.06,
+                  height: size.height*0.03,
+                  // enabled: true,
+                  disabledOpacity: 0.5,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: Column(
@@ -651,7 +677,7 @@ class _CreateDemoState extends State<CreateDemo> {
                   memberIds: memberId);
               if(model?.status ==true){
                 await context.read<MembersController>().fetchLeads(
-                    status: 'Invitation Call', priority: '', page: '1');
+                    status: 'Invitation Call', priority: '', page: '1',searchKey: '');
               }
 
             },

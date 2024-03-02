@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
@@ -6,6 +10,7 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/models/member/goals/goals_model.dart';
+import 'package:mrwebbeast/screens/guest/guest_check_demo/guest_check_demo_step2.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -16,6 +21,7 @@ import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import '../../guest/guestProfile/guest_edit_profile.dart';
 
 class PartnerGoalsScreen extends StatefulWidget {
   const PartnerGoalsScreen({
@@ -29,6 +35,8 @@ class PartnerGoalsScreen extends StatefulWidget {
 class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
   TextEditingController searchController = TextEditingController();
   List<GoalsData>? goals;
+  String downLineRank = '';
+  String filterByStatus = '';
 
   Future fetchGoals({bool? loadingNext}) async {
     return await context.read<MembersController>().fetchPartnerGoals(
@@ -37,6 +45,8 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
           loadingNext: loadingNext ?? false,
           searchKey: searchController.text,
           filter: filter,
+      filterByRank: downLineRank,
+      filterByStatus: filterByStatus
         );
   }
 
@@ -45,8 +55,22 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
       fetchGoals();
+      await context.read<MembersController>().fetchDownLineRank(
+        context: context,
+      );
+    });
+  }
+
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchGoals();
+
+      setState(() {});
     });
   }
 
@@ -99,6 +123,10 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
                             fetchGoals();
                           },
                         ),
+                        onChanged: (val) {
+                          onSearchFieldChanged(val);
+                        },
+
                         onEditingComplete: () {
                           fetchGoals();
                         },
@@ -141,6 +169,115 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
                         ),
                       ),
                     )
+                  ],
+                ),
+              ),
+               Padding(
+                padding: const EdgeInsets.only(left: kPadding,right: kPadding ,bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Consumer<MembersController>(
+                      builder: (context, controller, child) {
+                        return   Container(
+                          width: size.width*0.23,
+                          height: size.height*0.04,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              gradient: inActiveGradient
+                          ),
+                          child: DropdownSearch<String>(
+                            dropdownButtonProps: const DropdownButtonProps(
+                              // padding: EdgeInsets.only(bottom: 10),
+                                icon: Icon(
+                                  CupertinoIcons.chevron_down,
+                                  size: 14,
+                                )),
+                            // selectedItem: selectedItem,
+                            popupProps:  const PopupProps.menu(
+                              menuProps: MenuProps(
+                                backgroundColor: Color(0xFF1B1B1B),
+                              ),
+                              fit: FlexFit.loose,
+                              // showSelectedItems: true,
+                            ),
+
+                            items:  controller.fetchDownlineRan?.data??[],
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
+
+                              dropdownSearchDecoration: InputDecoration(
+
+                                contentPadding: EdgeInsets.only(
+                                  left: 7,
+                                  top: 7,
+                                ),
+                                border: InputBorder.none,
+
+                                hintText: 'Rank',
+
+
+                              ),
+                            ),
+                            onChanged: (value) async{
+                              downLineRank =value??'';
+                              setState(() {
+                              });
+                              await fetchGoals();
+                            },
+                          ),
+                        );
+                      },
+
+                    ),
+                    GestureDetector(
+                      onTap: () async{
+                        filterByStatus ='Archived';
+                        setState(() {});
+                        await fetchGoals();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            gradient:filterByStatus =='Archived'?primaryGradient: inActiveGradient
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0,bottom: 8,left: kPadding,right: kPadding),
+                          child: Center(
+                            child: CustomText1(
+                              text: 'Archived',
+                              fontSize: 14,
+                              color: filterByStatus =='Archived'?Colors.black:Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: ()async {
+                        filterByStatus ='Pending';
+                        setState(() {
+
+                        });
+                        await fetchGoals();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          gradient: filterByStatus=='Pending'?primaryGradient: inActiveGradient
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0,bottom: 8,left: kPadding,right: kPadding),
+                          child: Center(
+                            child: CustomText1(
+                              text: 'Pending',
+                              fontSize: 14,
+                              color: filterByStatus =='Pending'?Colors.black:Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
                   ],
                 ),
               ),

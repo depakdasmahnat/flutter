@@ -23,8 +23,9 @@ class LeadsPopup extends StatefulWidget {
   final String? title;
   final String? status;
   final String? priority;
+  final String? filter;
 
-  const LeadsPopup({super.key, this.title, this.status, this.priority});
+  const LeadsPopup({super.key, this.title, this.status, this.priority, this.filter});
 
   @override
   State<LeadsPopup> createState() => _LeadsPopupState();
@@ -32,6 +33,7 @@ class LeadsPopup extends StatefulWidget {
 
 class _LeadsPopupState extends State<LeadsPopup> {
   late String? status = widget.status;
+  late String? filter = widget.filter;
   TextEditingController searchController = TextEditingController();
   List<LeadsData>? leads;
 
@@ -43,6 +45,7 @@ class _LeadsPopupState extends State<LeadsPopup> {
           searchKey: searchController.text,
           status: widget.status,
           priority: widget.priority,
+          filter: widget.filter,
         );
   }
 
@@ -56,7 +59,7 @@ class _LeadsPopupState extends State<LeadsPopup> {
 
   @override
   Widget build(BuildContext context) {
-    print("check statsu ${widget.status}");
+    print('check status ${widget.status}');
     Size size = MediaQuery.of(context).size;
     return Consumer<ListsControllers>(builder: (context, controller, child) {
       leads = controller.leads;
@@ -73,6 +76,15 @@ class _LeadsPopupState extends State<LeadsPopup> {
               ),
               title: Text('${widget.title}'),
               centerTitle: true,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    context.pop();
+                    context.pushNamed(Routs.leads);
+                  },
+                  child: const Text('View All'),
+                )
+              ],
             ),
             body: SmartRefresher(
               controller: controller.leadsController,
@@ -620,6 +632,7 @@ class LeadsCard extends StatelessWidget {
     );
   }
 }
+
 class ClosedLeadsCard extends StatelessWidget {
   final int? index;
   final LeadsData? lead;

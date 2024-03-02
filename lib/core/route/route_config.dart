@@ -227,6 +227,7 @@ class RoutesConfig {
               ));
         },
       ),
+
       GoRoute(
         name: Routs.connectWithUs,
         path: Routs.connectWithUs,
@@ -398,8 +399,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ChaptersDetails? data = state.extra as ChaptersDetails?;
 
-          return materialPage(
-              state: state, child: ChaptersDetails(chapter: data?.chapter));
+          return materialPage(state: state, child: ChaptersDetails(chapter: data?.chapter));
         },
       ),
       GoRoute(
@@ -422,8 +422,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ResourceAndDemo? data = state.extra as ResourceAndDemo?;
 
-          return materialPage(
-              state: state, child: ResourceAndDemo(category: data?.category));
+          return materialPage(state: state, child: ResourceAndDemo(category: data?.category));
         },
       ),
 
@@ -445,8 +444,7 @@ class RoutesConfig {
         path: Routs.examQuiz,
         pageBuilder: (context, state) {
           ExamQuiz? data = state.extra as ExamQuiz?;
-          return materialPage(
-              state: state, child: ExamQuiz(chapterId: data?.chapterId));
+          return materialPage(state: state, child: ExamQuiz(chapterId: data?.chapterId));
         },
       ),
 
@@ -477,8 +475,7 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           ExamReport? data = state.extra as ExamReport?;
 
-          return materialPage(
-              state: state, child: ExamReport(report: data?.report));
+          return materialPage(state: state, child: ExamReport(report: data?.report));
         },
       ),
       GoRoute(
@@ -545,9 +542,15 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           EventScreen? data = state.extra as EventScreen?;
           return materialPage(
-              state: state, child: EventScreen(eventId: data?.eventId));
+              state: state,
+              child: EventScreen(
+                eventId: data?.eventId,
+                filter: data?.filter,
+                viewAll: data?.viewAll,
+              ));
         },
       ),
+
       GoRoute(
         name: Routs.shceduledDemoForm,
         path: Routs.shceduledDemoForm,
@@ -566,8 +569,7 @@ class RoutesConfig {
         name: Routs.guestDemoVideos,
         path: Routs.guestDemoVideos,
         pageBuilder: (context, state) {
-          return materialPage(
-              state: state, child: const GuestCheckDemoVideos());
+          return materialPage(state: state, child: const GuestCheckDemoVideos());
         },
       ),
       GoRoute(
@@ -591,8 +593,7 @@ class RoutesConfig {
         path: Routs.viewPdf,
         pageBuilder: (context, state) {
           PDFViewer? data = state.extra as PDFViewer?;
-          return materialPage(
-              state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
+          return materialPage(state: state, child: PDFViewer(pdfUrl: data?.pdfUrl ?? ''));
         },
       ),
       GoRoute(
@@ -650,8 +651,7 @@ class RoutesConfig {
         path: Routs.pptViewer,
         pageBuilder: (context, state) {
           PPTViewer? data = state.extra as PPTViewer?;
-          return materialPage(
-              state: state, child: PPTViewer(url: data?.url ?? ''));
+          return materialPage(state: state, child: PPTViewer(url: data?.url ?? ''));
         },
       ),
       GoRoute(
@@ -673,8 +673,7 @@ class RoutesConfig {
         path: Routs.resetPassword,
         pageBuilder: (context, state) {
           ResetPassword? data = state.extra as ResetPassword?;
-          return materialPage(
-              state: state, child: ResetPassword(enagicId: data?.enagicId));
+          return materialPage(state: state, child: ResetPassword(enagicId: data?.enagicId));
         },
       ),
       GoRoute(
@@ -682,8 +681,7 @@ class RoutesConfig {
         path: Routs.changePassword,
         pageBuilder: (context, state) {
           ChangePassword? data = state.extra as ChangePassword?;
-          return materialPage(
-              state: state, child: ChangePassword(enagicId: data?.enagicId));
+          return materialPage(state: state, child: ChangePassword(enagicId: data?.enagicId));
         },
       ),
 
@@ -755,9 +753,7 @@ class RoutesConfig {
           WebViewScreen? data = state.extra as WebViewScreen?;
 
           return materialPage(
-              state: state,
-              child: WebViewScreen(
-                  key: data?.key, title: data?.title, url: data?.url));
+              state: state, child: WebViewScreen(key: data?.key, title: data?.title, url: data?.url));
         },
         redirect: (context, state) {
           if (kIsWeb) {
