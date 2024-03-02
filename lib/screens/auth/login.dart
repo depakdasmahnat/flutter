@@ -107,8 +107,7 @@ class _LoginState extends State<Login> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child:
-                      IntlPhoneField(
+                      child: IntlPhoneField(
                         controller:phoneCtrl ,
                         decoration: const InputDecoration(
                           hintText: 'Enter Mobile No.',
@@ -128,6 +127,7 @@ class _LoginState extends State<Login> {
                           if (phone.number.length == 10) {
                             countryCode=phone.countryCode;
                             setState(() {});
+
                             validatePhone();
                           }
                         },

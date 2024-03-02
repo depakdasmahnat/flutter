@@ -1,4 +1,4 @@
-package app.mygtp.com
+package app.gtp.com
 
 import io.flutter.embedding.android.FlutterActivity
 

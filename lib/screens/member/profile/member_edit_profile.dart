@@ -260,7 +260,6 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       hintText: 'Enter Mobile No.',
                     ),
                     CustomDropdown(
-                      context: context,
                       hintText: genderHint,
                       onChanged: (v) {
                         gender = v;
@@ -274,7 +273,6 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       hintText: 'email@gmail.com',
                     ),
                     CustomDropdown(
-                      context: context,
                       hintText: occupationHint,
                       onChanged: (v) {
                         occupation = v ?? '';
@@ -392,7 +390,6 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       keyboardType: TextInputType.number,
                     ),
                     CustomDropdown(
-                      context: context,
                       hintText: stateHint,
                       onChanged: (v) async {
                         stateId = controller.satesModel?.data
@@ -419,7 +416,6 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                           .toList(),
                     ),
                     CustomDropdown(
-                      context: context,
                       hintText:cityHint,
                       onChanged: (v) {
                         cityId = controller.cityModel?.data
@@ -462,7 +458,6 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                     Consumer<MembersController>(
                       builder: (context, controller, child) {
                         return CustomDropdown(
-                          context: context,
                           hintText: sponsorHint,
                           onChanged: (v) {
                             sponsorId = controller.fetchSponsorModel?.data

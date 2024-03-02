@@ -73,7 +73,7 @@ class _TrainingProgressState extends State<TrainingProgress> {
                       style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      progress < 100 ? 'Complete your training' : 'Training Completed',
+                      progress < 100 ? 'Compete your training' : 'Training Completed',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 10,

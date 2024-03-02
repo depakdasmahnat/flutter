@@ -90,7 +90,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
               ),
               MenuCard(
                 image: AppAssets.feedsIcon,
-                name: 'Social',
+                name: 'Feeds',
                 onTap: () {
                   context.pushNamed(Routs.memberFeeds);
                 },
@@ -128,7 +128,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
 
               MenuCard(
                 image: AppAssets.resourcesIcon,
-                name: 'Data Bank',
+                name: 'Library',
                 onTap: () {
                   context.pushNamed(Routs.resources);
                 },

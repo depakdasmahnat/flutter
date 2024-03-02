@@ -79,7 +79,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
           ],
         ),
         elevation: 0,
-        title: const Text('Social'),
+        title: const Text('Feeds'),
       ),
       body: Consumer<FeedsController>(
         builder: (context, controller, child) {

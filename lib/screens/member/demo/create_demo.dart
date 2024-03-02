@@ -65,7 +65,7 @@ class _CreateDemoState extends State<CreateDemo> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context
           .read<MembersController>()
-          .fetchLeads(status: '', priority: '', page: '1',searchKey: '');
+          .fetchLeads(status: '', priority: '', page: '1');
       await context.read<MembersController>().fetchSponsor(
             context: context,
           );
@@ -89,7 +89,6 @@ class _CreateDemoState extends State<CreateDemo> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
-              context: context,
               onChanged: (v) {
                 typeOfDame = v;
               },
@@ -677,7 +676,7 @@ class _CreateDemoState extends State<CreateDemo> {
                   memberIds: memberId);
               if(model?.status ==true){
                 await context.read<MembersController>().fetchLeads(
-                    status: 'Invitation Call', priority: '', page: '1',searchKey: '');
+                    status: 'Invitation Call', priority: '', page: '1');
               }
 
             },

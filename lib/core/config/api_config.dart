@@ -148,9 +148,6 @@ class ApiEndpoints {
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';
   static const String state = 'fetch_states';
-  static const String fetchOccupation = 'fetch_occupation';
   static const String city = 'fetch_cities?state_id=';
   static const String fetchGuestProfile = 'fetch_profile';
-  static const String fetchDownlineRank = 'sponsor_downline_rank';
-  static const String fetchMemberProduct = 'fetch_products?page=1';
 }

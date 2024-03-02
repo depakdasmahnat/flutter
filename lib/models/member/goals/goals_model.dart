@@ -76,8 +76,6 @@ class GoalsData {
     this.createdAt,
     this.updatedAt,
     this.status,
-    this.edited,
-    this.completionDate,
     this.deletedAt,
   });
 
@@ -86,8 +84,8 @@ class GoalsData {
     memberId = json['member_id'];
     name = json['name'];
     type = json['type'];
-    profilePic = json['member_profile'];
-    partnerName = json['member_name'];
+    profilePic = json['profile_pic'];
+    partnerName = json['partner_name'];
     startDate = json['start_date'];
     endDate = json['end_date'];
     description = json['description'];
@@ -96,8 +94,6 @@ class GoalsData {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     status = json['status'];
-    edited = json['edited'];
-    completionDate = json['completion_date'];
     deletedAt = json['deleted_at'];
   }
 
@@ -115,8 +111,6 @@ class GoalsData {
   String? createdAt;
   String? updatedAt;
   String? status;
-  String? edited;
-  String? completionDate;
   dynamic deletedAt;
 
   GoalsData copyWith({
@@ -134,8 +128,6 @@ class GoalsData {
     String? createdAt,
     String? updatedAt,
     String? status,
-    String? edited,
-    String? completionDate,
     dynamic deletedAt,
   }) =>
       GoalsData(
@@ -153,8 +145,6 @@ class GoalsData {
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         status: status ?? this.status,
-        edited: edited ?? this.edited,
-        completionDate: completionDate ?? this.edited,
         deletedAt: deletedAt ?? this.deletedAt,
       );
 
@@ -164,8 +154,8 @@ class GoalsData {
     map['member_id'] = memberId;
 
     map['name'] = name;
-    map['member_profile'] = profilePic;
-    map['member_name'] = partnerName;
+    map['profile_pic'] = profilePic;
+    map['partner_name'] = partnerName;
     map['type'] = type;
 
     map['start_date'] = startDate;
@@ -176,8 +166,6 @@ class GoalsData {
     map['created_at'] = createdAt;
     map['updated_at'] = updatedAt;
     map['status'] = status;
-    map['edited'] = edited;
-    map['completion_date'] = completionDate;
     map['deleted_at'] = deletedAt;
     return map;
   }
