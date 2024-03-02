@@ -9,6 +9,25 @@
       "client_info": {
         "mobilesdk_app_id": "1:179240455941:android:473e601cea99d2bbb3f16c",
         "android_client_info": {
+          "package_name": "app.gtp.com"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJUwcr1uGQ8vUoIja1ShJuIrWFwmLtAxw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179240455941:android:45d3905b0d22df66b3f16c",
+        "android_client_info": {
           "package_name": "app.mygtp.com"
         }
       },

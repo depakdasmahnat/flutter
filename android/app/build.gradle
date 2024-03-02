@@ -34,7 +34,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 android {
-    namespace "app.mygtp.com"
+    namespace "app.gtp.com"
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
