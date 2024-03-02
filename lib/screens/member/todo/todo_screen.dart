@@ -53,13 +53,15 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
   List<EventsData>? events;
 
-  Future fetchEvents({bool? loadingNext}) async {
+  Future fetchEvents({bool? loadingNext,String? CustomDate}) async {
     return await context.read<EventsControllers>().fetchEvents(
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
           searchKey: searchController.text,
-          filter: filter ?? (dateTime != null ? dateTime.toString() : ''),
+          dateFilter: dateTime.toString().substring(0,10),
+          // filter: filter ?? (dateTime != null ? dateTime.toString() : ''),
+          filter: CustomDate,
         );
   }
 
@@ -125,30 +127,30 @@ class _ToDoScreenState extends State<ToDoScreen> {
                     debugPrint('dateTime $dateTime');
                     setState(() {});
                     fetchToDos();
-                    fetchEvents();
+                    fetchEvents(CustomDate: 'Custom_date');
                   },
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+            const Padding(
+              padding: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'All tasks',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Text(
-                    '${filter ?? formattedDate}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  // Text(
+                  //   '${filter ?? formattedDate}',
+                  //   style: const TextStyle(
+                  //     fontSize: 14,
+                  //     fontWeight: FontWeight.w600,
+                  //   ),
+                  // ),
                 ],
               ),
             ),

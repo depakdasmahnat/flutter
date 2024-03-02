@@ -298,7 +298,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           },
                         ),
                         AnalyticsCard(
-                          title: 'Demo Competed',
+                          title: 'Demo Completed ',
                           value: '${dashboardStatesData?.demoCompleted ?? 0}',
                           gradient: blackGradient,
                           textColor: Colors.white,
@@ -306,7 +306,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                             CustomBottomSheet.show(
                               context: context,
                               body: LeadsPopup(
-                                title: 'Demo Competed',
+                                title: 'Demo Completed ',
                                 status: LeadsStatus.followUp.value,
                               ),
                             );
