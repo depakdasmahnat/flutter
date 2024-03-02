@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mrwebbeast/controllers/member/member_auth_controller.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
@@ -80,6 +81,7 @@ class _CreateGoalState extends State<CreateGoal> {
               return Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8),
                 child: CustomDropdown(
+
                   controller: goalTypeCtrl,
                   onChanged: (v) {
                     var id = controller.fetchGoalCategoryModel?.data
@@ -232,26 +234,34 @@ class _CreateGoalState extends State<CreateGoal> {
             margin: const EdgeInsets.only(
                 left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () async {
-              if (widget.type == 'Edit') {
-                await context.read<MembersController>().updateGoal(
-                    context: context,
-                    name: goalNameCtrl.text,
-                    goalType: goalType,
-                    startDate: startDateCtrl.text,
-                    endDate: endDateCtrl.text,
-                    description: disCtrl.text,
-                    file: XFile(image?.path ?? ''),
-                    goalId: widget.goalId ?? '');
-              } else {
-                await context.read<MembersController>().addGoal(
-                    context: context,
-                    name: goalNameCtrl.text,
-                    goalType: goalType,
-                    startDate: startDateCtrl.text,
-                    endDate: endDateCtrl.text,
-                    description: disCtrl.text,
-                    file: XFile(image?.path ?? ''));
-              }
+              context.read<MemberAuthControllers>().confirmationPopup(
+                title: 'Are you sure, you want to create this goal!',
+                context: context,
+                onPressed: () async{
+                  if (widget.type == 'Edit') {
+                    await context.read<MembersController>().updateGoal(
+                        context: context,
+                        name: goalNameCtrl.text,
+                        goalType: goalType,
+                        startDate: startDateCtrl.text,
+                        endDate: endDateCtrl.text,
+                        description: disCtrl.text,
+                        file: XFile(image?.path ?? ''),
+                        goalId: widget.goalId ?? '');
+                  } else {
+                    await context.read<MembersController>().addGoal(
+                        context: context,
+                        name: goalNameCtrl.text,
+                        goalType: goalType,
+                        startDate: startDateCtrl.text,
+                        endDate: endDateCtrl.text,
+                        description: disCtrl.text,
+                        file: XFile(image?.path ?? ''));
+                  }
+                },
+              );
+
+
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

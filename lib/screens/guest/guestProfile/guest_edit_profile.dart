@@ -40,9 +40,11 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   TextEditingController diseaseController = TextEditingController();
   TextEditingController pinCodeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  bool? lastName =true;
-  String? gender='' ;
-  String? genderHint='' ;
+  bool? lastName = true;
+  String? gender = '';
+
+  String? genderHint = '';
+
   String refType = '';
   String refTypeHint = '';
   String occupation = '';
@@ -53,43 +55,54 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   String cityName = '';
   String countryCode = '';
   File? image;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      fetchGuestProfileModel =
-          await context.read<GuestControllers>().fetchGuestProfile(
-                context: context,
-              );
-      await context.read<GuestControllers>().fetchState(context: context,);
-      gender = fetchGuestProfileModel?.data?.gender??'';
-      genderHint = fetchGuestProfileModel?.data?.gender??'Select Gender';
-      refType = fetchGuestProfileModel?.data?.leadRefType??'';
+      fetchGuestProfileModel = await context.read<GuestControllers>().fetchGuestProfile(
+            context: context,
+          );
+      await context.read<GuestControllers>().fetchState(
+            context: context,
+          );
+      gender = fetchGuestProfileModel?.data?.gender ?? '';
+      genderHint = fetchGuestProfileModel?.data?.gender ?? 'Select Gender';
+      refType = fetchGuestProfileModel?.data?.leadRefType ?? '';
       refTypeHint = fetchGuestProfileModel?.data?.leadRefType ?? 'Select Ref Type';
-      occupation = fetchGuestProfileModel?.data?.occupation??'';
-      occupationHint = fetchGuestProfileModel?.data?.occupation??'Select Occupation';
+      occupation = fetchGuestProfileModel?.data?.occupation ?? '';
+      occupationHint = fetchGuestProfileModel?.data?.occupation ?? 'Select Occupation';
       dateControlller.text = fetchGuestProfileModel?.data?.dob ?? '';
-      familyMemberController.text = fetchGuestProfileModel?.data?.noOfFamilyMembers.toString()=='null' ? '':fetchGuestProfileModel?.data?.noOfFamilyMembers.toString()??"";
+      familyMemberController.text = fetchGuestProfileModel?.data?.noOfFamilyMembers.toString() == 'null'
+          ? ''
+          : fetchGuestProfileModel?.data?.noOfFamilyMembers.toString() ?? "";
       diseaseController.text = fetchGuestProfileModel?.data?.illnessInFamily ?? '';
       emailController.text = fetchGuestProfileModel?.data?.email ?? '';
       pinCodeController.text = fetchGuestProfileModel?.data?.pincode ?? '';
-      addressController.text = fetchGuestProfileModel?.data?.address.toString()=='null'?'':fetchGuestProfileModel?.data?.address;
+      addressController.text = fetchGuestProfileModel?.data?.address.toString() == 'null'
+          ? ''
+          : fetchGuestProfileModel?.data?.address;
       stateName = fetchGuestProfileModel?.data?.stateName ?? 'Select State';
-      stateId = fetchGuestProfileModel?.data?.stateId.toString()=='null' ? '':fetchGuestProfileModel?.data?.stateId.toString()??'';
-      cityId = fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':fetchGuestProfileModel?.data?.cityId.toString()??'';
-      cityName = fetchGuestProfileModel?.data?.cityName?? 'Select City';
-      firsNameController.text = fetchGuestProfileModel?.data?.firstName??'';
+      stateId = fetchGuestProfileModel?.data?.stateId.toString() == 'null'
+          ? ''
+          : fetchGuestProfileModel?.data?.stateId.toString() ?? '';
+      cityId = fetchGuestProfileModel?.data?.cityId.toString() == 'null'
+          ? ''
+          : fetchGuestProfileModel?.data?.cityId.toString() ?? '';
+      cityName = fetchGuestProfileModel?.data?.cityName ?? 'Select City';
+      firsNameController.text = fetchGuestProfileModel?.data?.firstName ?? '';
 
-      mobileController.text = fetchGuestProfileModel?.data?.mobile??'';
-      countryCode =fetchGuestProfileModel?.data?.countryCode??'+91';
-      if(fetchGuestProfileModel?.data?.lastName.toString()=='null'){
-        lastName=false;
+      mobileController.text = fetchGuestProfileModel?.data?.mobile ?? '';
+      countryCode = fetchGuestProfileModel?.data?.countryCode ?? '+91';
+      if (fetchGuestProfileModel?.data?.lastName.toString() == 'null') {
+        lastName = false;
         setState(() {});
-      }else{
-        lastNameController.text = fetchGuestProfileModel?.data?.lastName??'';
+      } else {
+        lastNameController.text = fetchGuestProfileModel?.data?.lastName ?? '';
       }
     });
     super.initState();
   }
+
   Future<void> updateProfileImage({required ImageSource source}) async {
     final pickedImg = await ImagePicker().pickImage(source: source);
     setState(() {
@@ -101,6 +114,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       Navigator.pop(context);
     }
   }
+
   Future addImages() async {
     return showModalBottomSheet(
         context: context,
@@ -158,10 +172,10 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           );
         });
   }
+
   @override
   Widget build(BuildContext context) {
     // LocalDatabase localDatabase = Provider.of<LocalDatabase>(context, listen: false);
-
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -174,275 +188,269 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
           )),
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
-          return controller.fetchGuestProfileLoader==false?
-          const LoadingScreen(message: 'Loading Profile...'):ListView(
-            padding: EdgeInsets.only(bottom: size.height * 0.13),
-            children: [
-              SizedBox(
-                height: size.height*0.03,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                children: [
-                  // image==null?
-                  // fetchGuestProfileModel?.data?.profilePhoto==null?
-                  // ImageView(
-                  //   onTap: () async{
-                  //     await  addImages();
-                  //   },
-                  //   height: 100,
-                  //   width: 100,
-                  //   file: File(image?.path??''),
-                  //
-                  //   border: Border.all(color: Colors.white),
-                  //   borderRadiusValue: 50,
-                  //   isAvatar: true,
-                  //   margin: const EdgeInsets.only(left: 8, right: 16),
-                  //   fit: BoxFit.cover,
-                  // ):
-                  // ImageView(
-                  //   onTap: () async{
-                  //     await  addImages();
-                  //   },
-                  //   height: 100,
-                  //   width: 100,
-                  //   networkImage: fetchGuestProfileModel?.data?.profilePhoto,
-                  //   border: Border.all(color: Colors.white),
-                  //   borderRadiusValue: 50,
-                  //   isAvatar: true,
-                  //   margin: const EdgeInsets.only(left: 8, right: 16),
-                  //   fit: BoxFit.cover,
-                  // ):
-                  // ImageView(
-                  //   onTap: () async{
-                  //     await  addImages();
-                  //   },
-                  //   height: 100,
-                  //   width: 100,
-                  //   networkImage: fetchGuestProfileModel?.data?.profilePhoto,
-                  //   border: Border.all(color: Colors.white),
-                  //   borderRadiusValue: 50,
-                  //   isAvatar: true,
-                  //   margin: const EdgeInsets.only(left: 8, right: 16),
-                  //   fit: BoxFit.cover,
-                  // )
-                  ImageView(
-                    onTap: () async{
-                      await  addImages();
-                    },
-                    height: 100,
-                    width: 100,
-                    file:File(image?.path??''),
-                    networkImage:image==null? fetchGuestProfileModel?.data?.profilePhoto ?? '':null,
-                    border: Border.all(color: Colors.white),
-                    borderRadiusValue: 50,
-                    isAvatar: true,
-                    margin: const EdgeInsets.only(left: 8, right: 16),
-                    fit: BoxFit.cover,
-                  )
-                ],
-              ),
-              GestureDetector(
-                onTap: () async{
-                  await   addImages();
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          return controller.fetchGuestProfileLoader == false
+              ? const LoadingScreen(message: 'Loading Profile...')
+              : ListView(
+                  padding: EdgeInsets.only(bottom: size.height * 0.13),
                   children: [
-                    Image.asset(AppAssets.upload,height: size.height*0.02),
-                    const SizedBox(
-                      width: 5,
+                    SizedBox(
+                      height: size.height * 0.03,
                     ),
-                    CustomeText(
-                      text: 'Upload image',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: size.height*0.03,
-              ),
-              CustomTextFieldApp(
-                title: 'First Name',
-                controller: firsNameController,
-                hintText: 'Enter First Name',
-                readOnly: true,
-              ),
-              CustomTextFieldApp(
-                controller: lastNameController,
-                title: 'Last Name',
-                hintText: 'Enter Last Name',
-                readOnly: lastName,
-              ),
-              CustomDropdown(
-                hintText: genderHint,
-                onChanged: (v) {
-                  gender = v ?? '';
-                },
-                title: 'Gender',
-                listItem: const ['Male', 'Female'],
-              ),
-              CustomTextFieldApp(
-                controller: mobileController,
-
-                title: 'Mobile No.',
-                hintText: 'Enter Mobile No.',
-                readOnly: true,
-                prefixIcon:  Padding(
-                  padding: EdgeInsets.only(top: 3),
-                  child: Text(countryCode),
-                ),
-              ),
-              CustomTextFieldApp(
-                controller: emailController,
-                title: 'Email',
-                hintText: 'email@gmail.com',
-              ),
-              CustomDropdown(
-                hintText:refTypeHint,
-                onChanged: (v) {
-                  refType = v ?? '';
-                },
-                // selectedItem: refType,
-                title: 'Ref Type',
-                listItem: const ['Friend', 'Family','Professional','Society','Random'],
-              ),
-              CustomDropdown(
-                hintText: occupationHint,
-                onChanged: (v) {
-                  occupation = v ?? '';
-                },
-
-                title: 'Occupation',
-                listItem: const ['Doctor', 'Doctor'],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextFieldApp(
-                      title: 'Date of Birth',
-                      hintText: 'dd-mm-yyyy',
-                      controller: dateControlller,
-                      onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1750),
-                          lastDate: DateTime(2101),
-                          builder: (context, child) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                popupMenuTheme: PopupMenuThemeData(
-                                    shape: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                cardColor: Colors.white,
-
-                                colorScheme: Theme.of(context)
-                                    .colorScheme
-                                    .copyWith(
-                                      primary: Colors.white, // <-- SEE HERE
-                                      onPrimary: Colors.black, // <-- SEE HERE
-                                      onSurface: Colors.white,
-                                    ),
-
-                                // Input
-                                inputDecorationTheme: const InputDecorationTheme(
-                                    // labelStyle: GoogleFonts.greatVibes(), // Input label
-                                    ),
-                              ),
-                              child: child!,
-                            );
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // image==null?
+                        // fetchGuestProfileModel?.data?.profilePhoto==null?
+                        // ImageView(
+                        //   onTap: () async{
+                        //     await  addImages();
+                        //   },
+                        //   height: 100,
+                        //   width: 100,
+                        //   file: File(image?.path??''),
+                        //
+                        //   border: Border.all(color: Colors.white),
+                        //   borderRadiusValue: 50,
+                        //   isAvatar: true,
+                        //   margin: const EdgeInsets.only(left: 8, right: 16),
+                        //   fit: BoxFit.cover,
+                        // ):
+                        // ImageView(
+                        //   onTap: () async{
+                        //     await  addImages();
+                        //   },
+                        //   height: 100,
+                        //   width: 100,
+                        //   networkImage: fetchGuestProfileModel?.data?.profilePhoto,
+                        //   border: Border.all(color: Colors.white),
+                        //   borderRadiusValue: 50,
+                        //   isAvatar: true,
+                        //   margin: const EdgeInsets.only(left: 8, right: 16),
+                        //   fit: BoxFit.cover,
+                        // ):
+                        // ImageView(
+                        //   onTap: () async{
+                        //     await  addImages();
+                        //   },
+                        //   height: 100,
+                        //   width: 100,
+                        //   networkImage: fetchGuestProfileModel?.data?.profilePhoto,
+                        //   border: Border.all(color: Colors.white),
+                        //   borderRadiusValue: 50,
+                        //   isAvatar: true,
+                        //   margin: const EdgeInsets.only(left: 8, right: 16),
+                        //   fit: BoxFit.cover,
+                        // )
+                        ImageView(
+                          onTap: () async {
+                            await addImages();
                           },
-                        );
-
-                        if (pickedDate != null) {
-                          dateControlller.text =
-                              "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
-                        }
+                          height: 100,
+                          width: 100,
+                          file: File(image?.path ?? ''),
+                          networkImage:
+                              image == null ? fetchGuestProfileModel?.data?.profilePhoto ?? '' : null,
+                          border: Border.all(color: Colors.white),
+                          borderRadiusValue: 50,
+                          isAvatar: true,
+                          margin: const EdgeInsets.only(left: 8, right: 16),
+                          fit: BoxFit.cover,
+                        )
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        await addImages();
                       },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(AppAssets.upload, height: size.height * 0.02),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          CustomeText(
+                            text: 'Upload image',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    CustomTextFieldApp(
+                      title: 'First Name',
+                      controller: firsNameController,
+                      hintText: 'Enter First Name',
                       readOnly: true,
                     ),
-                  ),
-                  Expanded(
-                    child: CustomTextFieldApp(
-                      keyboardType: TextInputType.number,
-                      controller: familyMemberController,
-                      title: 'No. of family Members',
-                      hintText: 'Enter No. of family Members',
+                    CustomTextFieldApp(
+                      controller: lastNameController,
+                      title: 'Last Name',
+                      hintText: 'Enter Last Name',
+                      readOnly: lastName,
                     ),
-                  ),
-                ],
-              ),
-              CustomTextFieldApp(
-                controller: diseaseController,
-                title: 'Any Disease',
-                hintText: 'Enter Disease',
-              ),
-              CustomDropdown(
-                hintText:stateName,
-                onChanged: (v) async {
-                  stateId = controller.satesModel?.data
-                          ?.firstWhere(
-                            (element) {
-                              return element.name == v;
-                            },
-                          )
-                          .id
-                          .toString() ??
-                      '';
-                  if (stateId.isNotEmpty == true) {
-                    await context.read<GuestControllers>().fetchCity(
-                          context: context,
-                          stateId: stateId,
-                        );
-                  }
-                  print('check state id $stateId');
-                },
-                // selectedItem: stateName,
-                title: 'State',
-                listItem:
-                    controller.satesModel?.data?.map((e) => e.name).toList(),
-              ),
-              Consumer<GuestControllers>(
-                builder: (context, controller, child) {
-                  return CustomDropdown(
-                    hintText:cityName ,
-                    onChanged: (v) {
-                      cityId = controller.cityModel?.data
-                              ?.firstWhere(
-                                (element) {
-                                  return element.name == v;
+                    CustomDropdown(
+                      hintText: genderHint,
+                      onChanged: (v) {
+                        gender = v ?? '';
+                      },
+                      title: 'Gender',
+                      listItem: const ['Male', 'Female'],
+                    ),
+                    CustomTextFieldApp(
+                      controller: mobileController,
+                      title: 'Mobile No.',
+                      hintText: 'Enter Mobile No.',
+                      readOnly: true,
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(top: 3),
+                        child: Text(countryCode),
+                      ),
+                    ),
+                    CustomTextFieldApp(
+                      controller: emailController,
+                      title: 'Email',
+                      hintText: 'email@gmail.com',
+                    ),
+                    CustomDropdown(
+                      hintText: refTypeHint,
+
+                      onChanged: (v) {
+                        refType = v ?? '';
+                      },
+                      // selectedItem: refType,
+                      title: 'Ref Type',
+                      listItem: const ['Friend', 'Family', 'Professional', 'Society', 'Random'],
+                    ),
+                    CustomDropdown(
+                      hintText: occupationHint,
+                      onChanged: (v) {
+                        occupation = v ?? '';
+                      },
+                      title: 'Occupation',
+                      listItem: const ['Doctor', 'Doctor'],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextFieldApp(
+                            title: 'Date of Birth',
+                            hintText: 'dd-mm-yyyy',
+                            controller: dateControlller,
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1750),
+                                lastDate: DateTime(2101),
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      popupMenuTheme: PopupMenuThemeData(
+                                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                                      cardColor: Colors.white,
+
+                                      colorScheme: Theme.of(context).colorScheme.copyWith(
+                                            primary: Colors.white, // <-- SEE HERE
+                                            onPrimary: Colors.black, // <-- SEE HERE
+                                            onSurface: Colors.white,
+                                          ),
+
+                                      // Input
+                                      inputDecorationTheme: const InputDecorationTheme(
+                                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                                          ),
+                                    ),
+                                    child: child!,
+                                  );
                                 },
-                              )
-                              .id
-                              .toString() ??
-                          '';
-                    },
-                    title: 'City',
-                    listItem:
-                        controller.cityModel?.data?.map((e) => e.name).toList(),
-                  );
-                },
-              ),
-              CustomTextFieldApp(
-                controller: pinCodeController,
-                title: 'Pin Code',
-                hintText: 'Pin Code',
-                keyboardType: TextInputType.number,
-                maxLength: 6,
-              ),
-              CustomTextFieldApp(
-                controller: addressController,
-                title: 'Address',
-                hintText: 'Enter Address',
-                height: size.height * 0.07,
-              ),
-            ],
-          );
+                              );
+
+                              if (pickedDate != null) {
+                                dateControlller.text =
+                                    "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                              }
+                            },
+                            readOnly: true,
+                          ),
+                        ),
+                        Expanded(
+                          child: CustomTextFieldApp(
+                            keyboardType: TextInputType.number,
+                            controller: familyMemberController,
+                            title: 'No. of family Members',
+                            hintText: 'Enter No. of family Members',
+                          ),
+                        ),
+                      ],
+                    ),
+                    CustomTextFieldApp(
+                      controller: diseaseController,
+                      title: 'Any Disease',
+                      hintText: 'Enter Disease',
+                    ),
+                    CustomDropdown(
+                      hintText: stateName,
+                      onChanged: (v) async {
+                        stateId = controller.satesModel?.data
+                                ?.firstWhere(
+                                  (element) {
+                                    return element.name == v;
+                                  },
+                                )
+                                .id
+                                .toString() ??
+                            '';
+                        if (stateId.isNotEmpty == true) {
+                          await context.read<GuestControllers>().fetchCity(
+                                context: context,
+                                stateId: stateId,
+                              );
+                        }
+                        print('check state id $stateId');
+                      },
+                      // selectedItem: stateName,
+                      title: 'State',
+                      listItem: controller.satesModel?.data?.map((e) => e.name).toList(),
+                    ),
+                    Consumer<GuestControllers>(
+                      builder: (context, controller, child) {
+                        return CustomDropdown(
+                          hintText: cityName,
+                          onChanged: (v) {
+                            cityId = controller.cityModel?.data
+                                    ?.firstWhere(
+                                      (element) {
+                                        return element.name == v;
+                                      },
+                                    )
+                                    .id
+                                    .toString() ??
+                                '';
+                          },
+                          title: 'City',
+                          listItem: controller.cityModel?.data?.map((e) => e.name).toList(),
+                        );
+                      },
+                    ),
+                    CustomTextFieldApp(
+                      controller: pinCodeController,
+                      title: 'Pin Code',
+                      hintText: 'Pin Code',
+                      keyboardType: TextInputType.number,
+                      maxLength: 6,
+                    ),
+                    CustomTextFieldApp(
+                      controller: addressController,
+                      title: 'Address',
+                      hintText: 'Enter Address',
+                      height: size.height * 0.07,
+                    ),
+                  ],
+                );
         },
       ),
       bottomSheet: Column(
@@ -455,34 +463,31 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(
-                left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
             onTap: () async {
-            await  context.read<MemberAuthControllers>().confirmationPopup(
-                context: context,
-                title: 'Confirm Changes',
-                content: 'Are you sure you want to submit the updated profile information ',
-                onPressed: ()async {
-                  await context.read<GuestControllers>().editProfile(
-                      context: context,
-                      firstName: firsNameController.text,
-                      lastName: lastNameController.text,
-                      email: emailController.text,
-                      gender: gender,
-                      leadRefType: refType,
-                      occupation: occupation,
-                      dob: dateControlller.text,
-                      familyMembers: familyMemberController.text,
-                      stateId: stateId,
-                      cityId: cityId,
-                      pincode: pinCodeController.text,
-                      address: addressController.text,
-                      illnessInFamily: diseaseController.text,
-                    file: XFile(image?.path??'')
+              await context.read<MemberAuthControllers>().confirmationPopup(
+                    context: context,
+                    title: 'Confirm Changes',
+                    content: 'Are you sure you want to submit the updated profile information ',
+                    onPressed: () async {
+                      await context.read<GuestControllers>().editProfile(
+                          context: context,
+                          firstName: firsNameController.text,
+                          lastName: lastNameController.text,
+                          email: emailController.text,
+                          gender: gender,
+                          leadRefType: refType,
+                          occupation: occupation,
+                          dob: dateControlller.text,
+                          familyMembers: familyMemberController.text,
+                          stateId: stateId,
+                          cityId: cityId,
+                          pincode: pinCodeController.text,
+                          address: addressController.text,
+                          illnessInFamily: diseaseController.text,
+                          file: XFile(image?.path ?? ''));
+                    },
                   );
-                },
-
-              );
 
               // context.pushNamed(Routs.questions);
             },
@@ -509,6 +514,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
 
 class CustomTextFieldApp extends StatelessWidget {
   final String? title;
+  final String? mandatory;
   final Function()? onTap;
   final String? hintText;
   final bool? readOnly;
@@ -523,6 +529,7 @@ class CustomTextFieldApp extends StatelessWidget {
 
   const CustomTextFieldApp({
     this.title,
+    this.mandatory,
     this.hintText,
     this.onTap,
     this.controller,
@@ -555,14 +562,36 @@ class CustomTextFieldApp extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: kPadding, top: 7),
-              child: Text(
-                title ?? '',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.start,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title ?? '',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  SizedBox(
+                    height: 13,
+                    child: Text(
+                      mandatory ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 23,
+                        height: 1,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
               ),
             ),
             CustomTextField(
@@ -589,20 +618,27 @@ class CustomTextFieldApp extends StatelessWidget {
 }
 
 class CustomDropdown extends StatelessWidget {
+  Key? dropDownkey;
+
   String? title;
   String? hintText;
+  String? mandatory;
   List? listItem;
   String? selectedItem;
+  bool? showSearchBox;
   TextEditingController? controller;
   final void Function(dynamic)? onChanged;
 
   CustomDropdown({
     this.title,
+    this.dropDownkey,
     this.hintText,
     this.listItem,
     this.controller,
     this.onChanged,
     this.selectedItem,
+    this.mandatory,
+    this.showSearchBox,
     super.key,
   });
 
@@ -624,35 +660,57 @@ class CustomDropdown extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: kPadding, top: 7),
-              child: Text(
-                title ?? '',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title ?? '',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  SizedBox(
+                    height: 13,
+                    child: Text(
+                      mandatory ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 23,
+                        height: 1,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child:
-              DropdownSearch<String>(
+              child: DropdownSearch<String>(
                 dropdownButtonProps: const DropdownButtonProps(
                     padding: EdgeInsets.only(bottom: 10),
-
                     icon: Icon(
                       CupertinoIcons.chevron_down,
                       size: 18,
                     )),
                 // selectedItem: selectedItem,
-                popupProps: const PopupProps.menu(
+                popupProps: PopupProps.menu(
+                  showSearchBox: showSearchBox ?? false,
                   menuProps: MenuProps(
                     backgroundColor: Color(0xFF1B1B1B),
                   ),
                   fit: FlexFit.loose,
                   // showSelectedItems: true,
                 ),
+                selectedItem: selectedItem,
                 items: listItem?.cast<String>() ?? [],
                 onChanged: onChanged,
                 dropdownDecoratorProps: DropDownDecoratorProps(
@@ -662,7 +720,7 @@ class CustomDropdown extends StatelessWidget {
                       top: 7,
                     ),
                     border: InputBorder.none,
-                    hintText: hintText?? 'Select Gender',
+                    hintText: hintText ?? 'Select Gender',
                   ),
                 ),
               ),

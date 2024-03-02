@@ -20,6 +20,7 @@ import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
+import '../../guest/guestProfile/guest_faq.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({super.key});
@@ -80,6 +81,7 @@ class _CreateEventState extends State<CreateEvent> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
+
               onChanged: (v) {
                 eventType = v;
                 eventMode = '';
@@ -121,6 +123,7 @@ class _CreateEventState extends State<CreateEvent> {
             child: IgnorePointer(
               ignoring: hideContainer,
               child: CustomDropdown(
+
                 onChanged: (v) {
                   eventMode = v;
                   setState(() {});
@@ -147,6 +150,7 @@ class _CreateEventState extends State<CreateEvent> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: CustomDropdown(
+
                 onChanged: (v) {
                   members = v;
                   setState(() {});
@@ -163,6 +167,7 @@ class _CreateEventState extends State<CreateEvent> {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: CustomDropdown(
 // showSearchBox: true,
+
                     onChanged: (v) {
                       teamMeeting = controller.fetchSponsorModel?.data
                               ?.firstWhere(
@@ -509,98 +514,134 @@ class _CreateEventState extends State<CreateEvent> {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
-            child: Row(
-              children: [
-                Text(
-                  'Select Members to add',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
-          const Row(
-            children: [
-              Flexible(
-                child: CustomTextField(
-                  hintText: 'Search',
-                  hintStyle: TextStyle(color: Colors.white),
-                  prefixIcon: ImageView(
-                    height: 20,
-                    width: 20,
-                    borderRadiusValue: 0,
-                    color: Colors.white,
-                    margin: EdgeInsets.only(left: kPadding, right: kPadding),
-                    fit: BoxFit.contain,
-                    assetImage: AppAssets.searchIcon,
-                  ),
-                  margin: EdgeInsets.only(
-                      left: kPadding,
-                      right: kPadding,
-                      top: kPadding,
-                      bottom: kPadding),
-                ),
-              ),
 
-            ],
-          ),
           Padding(
-            padding: const EdgeInsets.only(left: kPadding),
-            child: Consumer<MembersController>(
-              builder: (context, controller, child) {
-                return controller.sponsorLoader == false
-                    ? const LoadingScreen()
-                    : Wrap(
-                        children: List.generate(
-                        controller.fetchSponsorModel?.data?.length ?? 0,
-                        (index) {
-                          bool isSelected = leadIndex.contains(index);
-                          return GestureDetector(
-                            onTap: () {
-                              if (isSelected) {
-                                leadIndex.remove(index);
-                              } else {
-                                leadIndex.add(index);
-                              }
-                              memberIds = leadIndex.join(',');
-                              setState(() {});
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                  right: kPadding, top: kPadding),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 8),
-                              decoration: BoxDecoration(
-                                gradient: isSelected
-                                    ? primaryGradient
-                                    : inActiveGradient,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ImageView(
-                                    height: 40,
-                                    width: 40,
-                                    borderRadiusValue: 40,
-                                    isAvatar: true,
-// networkImage: controller.fetchSponsorModel?.data?[index].profilePhoto??'',
-                                    assetImage: AppAssets.appIcon,
-                                    margin: const EdgeInsets.only(right: 8),
-                                  ),
-                                  Text(controller.fetchSponsorModel
-                                          ?.data?[index].name ??
-                                      ''),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ));
-              },
+            padding:
+            const EdgeInsets.only(left: kPadding, right: kPadding, top: 8),
+            child: CustomeText(
+              text: 'Select Members to add',
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
             ),
           ),
+          Consumer<MembersController>(
+            builder: (context, controller, child) {
+              return Padding(
+                padding: const EdgeInsets.only(
+                    left: kPadding, right: kPadding, top: 8),
+                child: Container(
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFF1B1B1B),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                    ),
+                    child: DropdownSearch.multiSelection(
+                      dropdownButtonProps: const DropdownButtonProps(
+                          padding: EdgeInsets.only(bottom: 10),
+                          icon: Icon(
+                            CupertinoIcons.chevron_down,
+                            size: 18,
+                          )),
+                      items: controller.fetchSponsorModel?.data
+                          ?.map((e) => e.name)
+                          .toList() ??
+                          [],
+                      onChanged: (value) {
+                        List id = [];
+                        for (var e in value) {
+                          id.add(controller.fetchSponsorModel?.data?.firstWhere(
+                                (element) {
+                              return element.name == e;
+                            },
+                          ).id);
+                        }
+                        memberIds = id.join('');
+                        setState(() {});
+                      },
+                      popupProps: const PopupPropsMultiSelection.menu(
+                        showSearchBox: true,
+                        menuProps: MenuProps(
+                          backgroundColor: Color(0xFF1B1B1B),
+                        ),
+                      ),
+                      dropdownDecoratorProps: const DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(
+                            left: 7,
+                            top: 7,
+                          ),
+                          border: InputBorder.none,
+                          hintText: 'Select member',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+
+//           Padding(
+//             padding: const EdgeInsets.only(left: kPadding),
+//             child: Consumer<MembersController>(
+//               builder: (context, controller, child) {
+//                 return controller.sponsorLoader == false
+//                     ? const LoadingScreen()
+//                     : Wrap(
+//                         children: List.generate(
+//                         controller.fetchSponsorModel?.data?.length ?? 0,
+//                         (index) {
+//                           bool isSelected = leadIndex.contains(index);
+//                           return GestureDetector(
+//                             onTap: () {
+//                               if (isSelected) {
+//                                 leadIndex.remove(index);
+//                               } else {
+//                                 leadIndex.add(index);
+//                               }
+//                               memberIds = leadIndex.join(',');
+//                               setState(() {});
+//                             },
+//                             child: Container(
+//                               margin: const EdgeInsets.only(
+//                                   right: kPadding, top: kPadding),
+//                               padding: const EdgeInsets.symmetric(
+//                                   horizontal: 10, vertical: 8),
+//                               decoration: BoxDecoration(
+//                                 gradient: isSelected
+//                                     ? primaryGradient
+//                                     : inActiveGradient,
+//                                 borderRadius: BorderRadius.circular(50),
+//                               ),
+//                               child: Row(
+//                                 mainAxisSize: MainAxisSize.min,
+//                                 children: [
+//                                   ImageView(
+//                                     height: 40,
+//                                     width: 40,
+//                                     borderRadiusValue: 40,
+//                                     isAvatar: true,
+// // networkImage: controller.fetchSponsorModel?.data?[index].profilePhoto??'',
+//                                     assetImage: AppAssets.appIcon,
+//                                     margin: const EdgeInsets.only(right: 8),
+//                                   ),
+//                                   Text(controller.fetchSponsorModel
+//                                           ?.data?[index].name ??
+//                                       ''),
+//                                 ],
+//                               ),
+//                             ),
+//                           );
+//                         },
+//                       ));
+//               },
+//             ),
+//           ),
         ],
       ),
       bottomNavigationBar: Column(

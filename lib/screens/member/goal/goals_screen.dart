@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/controllers/member/member_auth_controller.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
@@ -9,9 +11,11 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.da
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/models/member/goals/goals_model.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
+import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constant/gradients.dart';
+import '../../../models/default/default_model.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
@@ -267,14 +271,33 @@ class GoalCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  goal?.name ?? '',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      goal?.name ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                    if (goal?.edited == 'Yes')
+                      GradientText(
+                        'Changed',
+                        gradient: primaryGradient,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          overflow: TextOverflow.ellipsis,
+                          fontFamily: GoogleFonts.urbanist().fontFamily,
+                          fontWeight: FontWeight.w700,
+                        ),
+                        maxLines: 1,
+                        textAlign: TextAlign.start,
+                      ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 4, bottom: 4),
@@ -306,24 +329,38 @@ class GoalCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 4),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: goal?.completionDate.toString() == 'null'
+                        ? MainAxisAlignment.end
+                        : MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Completion Date: ${goal?.endDate ?? ' '}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                      if (goal?.completionDate.toString() != 'null')
+                        Text(
+                          'Completion Date: ${goal?.completionDate ?? ' '}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                        textAlign: TextAlign.start,
-                      ),
                       GestureDetector(
                         onTap: () {
-                          context.pushNamed(Routs.createGoal,
-                              extra: CreateGoal(
-                                goalId: '${goal?.id}',
-                                type: 'Edit',
-                              ));
+                          context
+                              .pushNamed(Routs.createGoal,
+                                  extra: CreateGoal(
+                                    goalId: '${goal?.id}',
+                                    type: 'Edit',
+                                  ))
+                              .whenComplete(
+                            () async {
+                              await context.read<MembersController>().fetchGoals(
+                                    context: context,
+                                    isRefresh: true,
+                                    loadingNext: false,
+                                    searchKey: '',
+                                  );
+                            },
+                          );
                         },
                         child: const Row(
                           children: [
@@ -353,12 +390,22 @@ class GoalCard extends StatelessWidget {
                   height: 40,
                   borderRadius: 50,
                   onTap: () {
-                    if (goal?.status == GoalStatus.achieved.value) {
-                      context.read<MembersController>().achieveGoal(context: context, goalId: goal?.id);
+                    if (goal?.status == 'Pending') {
+                      context.read<MemberAuthControllers>().confirmationPopup(
+                            context: context,
+                            title: 'Are you sure, you have achieved this goal!',
+                            onPressed: () async {
+                              DefaultModel? model = await context
+                                  .read<MembersController>()
+                                  .achieveGoal(context: context, goalId: goal?.id);
+                              if (model?.status == true) {
+                                context.pop();
+                              }
+                            },
+                          );
                     }
                   },
-                  backgroundGradient:
-                      goal?.status == GoalStatus.achieved.value ? whiteGradient : greyGradient,
+                  backgroundGradient: goal?.status == 'Pending' ? inActiveGradient : whiteGradient,
                   margin: const EdgeInsets.symmetric(vertical: kPadding),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -366,7 +413,8 @@ class GoalCard extends StatelessWidget {
                       Text(
                         '${goal?.status}',
                         style: TextStyle(
-                            color: goal?.status == GoalStatus.achieved.value ? Colors.white : Colors.black),
+                            // color: goal?.status == GoalStatus.achieved.value ? Colors.white : Colors.black),
+                            color: goal?.status == 'Pending' ? Colors.white : Colors.black),
                       ),
                     ],
                   ),

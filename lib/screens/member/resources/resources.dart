@@ -76,7 +76,7 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
               CustomBackButton(),
             ],
           ),
-          title: const Text('Library'),
+          title: const Text('Data Bank'),
         ),
         body: ListView(
           children: [
