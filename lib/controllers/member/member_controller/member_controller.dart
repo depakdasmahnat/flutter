@@ -22,6 +22,8 @@ import '../../../models/member/create_goal/fetchGoalForEditModel.dart';
 import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../models/member/dashboard/traning_progress_model.dart';
+import '../../../models/member/downline_rank/fetchDownlineRan.dart';
+import '../../../models/member/fetch_product/fetchProduct.dart';
 import '../../../models/member/getPerformanceChart/getPerformanceChart.dart';
 import '../../../models/member/goals/goals_model.dart';
 import '../../../models/guest_Model/fetchResouresDetailModel.dart';
@@ -29,6 +31,7 @@ import '../../../models/member/genrate_referal/genrateReferralModel.dart';
 import '../../../models/member/leads/fetchLeads.dart';
 import '../../../models/member/member_profile/fetchMemberProfileModel.dart';
 import '../../../models/member/network/tree_graph_model.dart';
+import '../../../models/member/occupation/fetchOccupationModel.dart';
 import '../../../models/member/sponsor/fetchFacilitatorModel.dart';
 import '../../../models/member/sponsor/fetchSponsorModel.dart';
 import '../../../utils/widgets/widgets.dart';
@@ -596,16 +599,18 @@ class MembersController extends ChangeNotifier {
   }
 
   /// 7.5) Achieve Goal  API...
-  Future achieveGoal({
+  Future<DefaultModel?> achieveGoal({
     required BuildContext context,
     required num? goalId,
   }) async {
+    DefaultModel? defaultModel;
     BuildContext? context = MyApp.navigatorKey.currentContext;
     if (context != null) {
       FocusScope.of(context).unfocus();
       Map<String, String> body = {
         'goal_id': '$goalId',
       };
+
 
       debugPrint('Sent Data is $body');
 
@@ -622,10 +627,12 @@ class MembersController extends ChangeNotifier {
             Map<String, dynamic> json = response;
             DefaultModel responseData = DefaultModel.fromJson(json);
             if (responseData.status == true) {
+              defaultModel =responseData;
               showSnackBar(
                   context: context,
                   text: responseData.message ?? 'Goal achieved successfully',
                   color: Colors.green);
+
 
               fetchGoals(context: context, isRefresh: true);
               notifyListeners();
@@ -636,6 +643,8 @@ class MembersController extends ChangeNotifier {
           }
         },
       );
+
+
       // return ApiService().multiPart(
       //   endPoint: ApiEndpoints.addLead,
       //   body: body,
@@ -644,6 +653,8 @@ class MembersController extends ChangeNotifier {
       //
       // });
     }
+    return defaultModel;
+
   }
 
   bool loadingPartnerGoals = true;
@@ -666,6 +677,8 @@ class MembersController extends ChangeNotifier {
     String? searchKey,
     String? filter,
     String? limit,
+    String? filterByStatus,
+    String? filterByRank,
   }) async {
     String modelingData = 'FeedsData';
     debugPrint('Fetching $modelingData Data...');
@@ -695,6 +708,8 @@ class MembersController extends ChangeNotifier {
       'search_key': searchKey ?? '',
       'filter': filter ?? '',
       'limit': limit ?? '10',
+      'filter_by_status': filterByStatus ?? '',
+      'filter_by_rank': filterByRank ?? '',
     };
 
     debugPrint('Body $body');
@@ -897,6 +912,8 @@ class MembersController extends ChangeNotifier {
     required String demoType,
     required String demoDate,
     required String demoTime,
+    required String countryCode,
+    required String countryName,
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -925,6 +942,8 @@ class MembersController extends ChangeNotifier {
         'demo_type':demoType,
         'demo_date':demoDate,
         'demo_time':demoTime,
+        'country_code':countryCode,
+        'country_name':countryName,
       };
       debugPrint('Sent Data is $body');
       //Processing API...
@@ -1087,6 +1106,10 @@ class MembersController extends ChangeNotifier {
     required String monthlyIncome,
     required String sponsorId,
     required String salesFacilitatorId,
+    required String countryCode,
+    required String countryName,
+    required String rank,
+    required String product,
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -1113,6 +1136,10 @@ class MembersController extends ChangeNotifier {
         'monthly_income': monthlyIncome,
         'sponsor_id': sponsorId,
         'sales_facilitator_id': salesFacilitatorId,
+        'country_code': countryCode,
+        'country_name': countryName,
+        'rank': rank,
+        'product': product,
       };
       debugPrint('Sent Data is $body');
       //Processing API...
@@ -1537,8 +1564,10 @@ class MembersController extends ChangeNotifier {
                   context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
               // showItem=false;
               context.pop();
+              context.pop();
               notifyListeners();
             } else {
+              context.pop();
               showSnackBar(
                   context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
             }
@@ -1955,6 +1984,7 @@ class MembersController extends ChangeNotifier {
                   context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
               // showItem=false;
               context?.pop();
+              context?.pop();
               notifyListeners();
             } else {
               showSnackBar(
@@ -1971,5 +2001,140 @@ class MembersController extends ChangeNotifier {
       //
       // });
     }
+  }
+
+  /// 1) fetch state..
+  FetchOccupationModel? fetchOccupationModel;
+
+  Future<FetchOccupationModel?> fetchOccupation({
+    required BuildContext context,
+    // required String page,
+    // required String categoryId,
+  }) async {
+    // refresh() {
+    //   resourcesDetailLoader = false;
+    //
+    //   notifyListeners();
+    // }
+    // //
+    // apiResponseCompleted() {
+    //   resourcesDetailLoader = true;
+    //   notifyListeners();
+    // }
+    //
+    // refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchOccupation,
+      )
+          .then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchOccupationModel responseData = FetchOccupationModel.fromJson(json);
+          if (responseData.status == true) {
+            fetchOccupationModel = responseData;
+            notifyListeners();
+          }
+        }
+
+        // apiResponseCompleted();
+      });
+    } catch (e, s) {
+      // apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchOccupationModel;
+  }
+
+
+  /// 1) fetch downline rank..
+  FetchDownlineRan? fetchDownlineRan;
+
+  Future<FetchDownlineRan?> fetchDownLineRank({
+    required BuildContext context,
+  }) async {
+    // refresh() {
+    //   resourcesDetailLoader = false;
+    //
+    //   notifyListeners();
+    // }
+    // //
+    // apiResponseCompleted() {
+    //   resourcesDetailLoader = true;
+    //   notifyListeners();
+    // }
+    //
+    // refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchDownlineRank,
+      )
+          .then(
+            (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            FetchDownlineRan responseData = FetchDownlineRan.fromJson(json);
+            if (responseData.status == true) {
+              fetchDownlineRan = responseData;
+              notifyListeners();
+            }
+          }
+        },
+      );
+    } catch (e, s) {
+      // apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchDownlineRan;
+  }
+
+
+
+
+  /// 1) fetch product..
+  FetchProduct? fetchProduct;
+
+  Future<FetchProduct?> fetchProduct1({
+    required BuildContext context,
+  }) async {
+    // refresh() {
+    //   resourcesDetailLoader = false;
+    //
+    //   notifyListeners();
+    // }
+    // //
+    // apiResponseCompleted() {
+    //   resourcesDetailLoader = true;
+    //   notifyListeners();
+    // }
+    //
+    // refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchMemberProduct,
+      )
+          .then(
+            (response) {
+          if (response != null) {
+            Map<String, dynamic> json = response;
+            FetchProduct responseData = FetchProduct.fromJson(json);
+            if (responseData.status == true) {
+              fetchProduct = responseData;
+              notifyListeners();
+            }
+          }
+        },
+      );
+    } catch (e, s) {
+      // apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchProduct;
   }
 }

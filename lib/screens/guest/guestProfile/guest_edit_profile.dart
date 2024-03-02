@@ -278,6 +278,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 readOnly: lastName,
               ),
               CustomDropdown(
+                context: context,
                 hintText: genderHint,
                 onChanged: (v) {
                   gender = v ?? '';
@@ -303,6 +304,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
               ),
               CustomDropdown(
                 hintText:refTypeHint,
+                context: context,
                 onChanged: (v) {
                   refType = v ?? '';
                 },
@@ -311,6 +313,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 listItem: const ['Friend', 'Family','Professional','Society','Random'],
               ),
               CustomDropdown(
+                context: context,
                 hintText: occupationHint,
                 onChanged: (v) {
                   occupation = v ?? '';
@@ -383,6 +386,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 hintText: 'Enter Disease',
               ),
               CustomDropdown(
+                context: context,
                 hintText:stateName,
                 onChanged: (v) async {
                   stateId = controller.satesModel?.data
@@ -410,6 +414,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
               Consumer<GuestControllers>(
                 builder: (context, controller, child) {
                   return CustomDropdown(
+                    context: context,
                     hintText:cityName ,
                     onChanged: (v) {
                       cityId = controller.cityModel?.data
@@ -509,6 +514,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
 
 class CustomTextFieldApp extends StatelessWidget {
   final String? title;
+  final String? mandatory;
   final Function()? onTap;
   final String? hintText;
   final bool? readOnly;
@@ -523,6 +529,7 @@ class CustomTextFieldApp extends StatelessWidget {
 
   const CustomTextFieldApp({
     this.title,
+    this.mandatory,
     this.hintText,
     this.onTap,
     this.controller,
@@ -555,14 +562,39 @@ class CustomTextFieldApp extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: kPadding, top: 7),
-              child: Text(
-                title ?? '',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.start,
+              child:
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title ?? '',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  SizedBox(
+                    height: 13,
+                    child: Text(
+                      mandatory ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 23,
+                        height: 1,
+
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+
+                ],
               ),
             ),
             CustomTextField(
@@ -589,20 +621,28 @@ class CustomTextFieldApp extends StatelessWidget {
 }
 
 class CustomDropdown extends StatelessWidget {
+Key? dropDownkey;
+  BuildContext context;
   String? title;
   String? hintText;
+  String? mandatory;
   List? listItem;
   String? selectedItem;
+  bool? showSearchBox;
   TextEditingController? controller;
   final void Function(dynamic)? onChanged;
 
   CustomDropdown({
     this.title,
+    this.dropDownkey,
+    required this.context,
     this.hintText,
     this.listItem,
     this.controller,
     this.onChanged,
     this.selectedItem,
+    this.mandatory,
+    this.showSearchBox,
     super.key,
   });
 
@@ -624,35 +664,61 @@ class CustomDropdown extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: kPadding, top: 7),
-              child: Text(
-                title ?? '',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.center,
+              child:  Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title ?? '',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  SizedBox(
+                    height: 13,
+                    child: Text(
+                      mandatory ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 23,
+                        height: 1,
+
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child:
               DropdownSearch<String>(
-                dropdownButtonProps: const DropdownButtonProps(
-                    padding: EdgeInsets.only(bottom: 10),
 
+                dropdownButtonProps: const DropdownButtonProps(
+
+                    padding: EdgeInsets.only(bottom: 10),
                     icon: Icon(
                       CupertinoIcons.chevron_down,
                       size: 18,
                     )),
                 // selectedItem: selectedItem,
-                popupProps: const PopupProps.menu(
+                popupProps:  PopupProps.menu(
+                  showSearchBox: showSearchBox??false,
                   menuProps: MenuProps(
                     backgroundColor: Color(0xFF1B1B1B),
                   ),
                   fit: FlexFit.loose,
                   // showSelectedItems: true,
                 ),
+                selectedItem: selectedItem,
                 items: listItem?.cast<String>() ?? [],
                 onChanged: onChanged,
                 dropdownDecoratorProps: DropDownDecoratorProps(

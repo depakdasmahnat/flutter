@@ -9,6 +9,7 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/models/member/events/events_model.dart';
+import 'package:mrwebbeast/screens/guest/guest_check_demo/guest_check_demo_step2.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -320,45 +321,102 @@ class EventCard extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Text(
-                      data?.description ?? '',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      maxLines: 2,
-                      textAlign: TextAlign.start,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          data?.description ?? '',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          maxLines: 2,
+                          textAlign: TextAlign.start,
+                        ),
+                        if(data?.meetingLink.toString()!='null')
+                        Row(
+                          children: [
+                            Text(
+                              'Link ',
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              maxLines: 2,
+                              textAlign: TextAlign.start,
+                            ),
+                            Text(
+                              data?.meetingLink ?? '',
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              maxLines: 2,
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8, bottom: kPadding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            FeedMenu(
-                              icon: AppAssets.eventIcon,
-                              value: data?.startDate ?? '',
+                            CustomText1(text: 'Start',fontSize: 10),
+                            Row(
+                              children: [
+                                FeedMenu(
+                                  icon: AppAssets.eventIcon,
+                                  value: data?.startDate ?? '',
+                                ),
+                                FeedMenu(
+                                  icon: AppAssets.clockIcon,
+                                  value: data?.startTime ?? '',
+                                ),
+                              ],
                             ),
-                            FeedMenu(
-                              icon: AppAssets.clockIcon,
-                              value: data?.startTime ?? '',
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4),
+                              child: Text(
+                                'Type of Events: ${data?.type ?? ''}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(
-                            'Type of Events: ${data?.type ?? ''}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomText1(text: 'End',fontSize: 10),
+                            SizedBox(width: size.width*0.07,),
+                            Row(
+                              children: [
+                                FeedMenu(
+                                  icon: AppAssets.eventIcon,
+                                  value: data?.endDate ?? '',
+                                ),
+                                FeedMenu(
+                                  icon: AppAssets.clockIcon,
+                                  value: data?.endTime ?? '',
+                                ),
+                              ],
                             ),
-                            textAlign: TextAlign.start,
-                          ),
+
+                          ],
                         ),
                       ],
                     ),
