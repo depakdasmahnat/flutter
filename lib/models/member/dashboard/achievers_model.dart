@@ -79,6 +79,7 @@ class AchieversData {
     this.profilePhoto,
     this.turnover,
     this.performance,
+    this.rank,
   });
 
   AchieversData.fromJson(dynamic json) {
@@ -94,6 +95,7 @@ class AchieversData {
     profilePhoto = json['profile_photo'];
     turnover = json['turnover'];
     performance = json['performance'];
+    rank = json['rank'];
   }
 
   num? id;
@@ -107,6 +109,7 @@ class AchieversData {
   String? achievement;
   String? profilePhoto;
   String? turnover;
+  String? rank;
   num? performance;
 
   AchieversData copyWith({
@@ -121,6 +124,7 @@ class AchieversData {
     String? achievement,
     String? profilePhoto,
     String? turnover,
+    String? rank,
     num? performance,
   }) =>
       AchieversData(
@@ -136,6 +140,7 @@ class AchieversData {
         profilePhoto: profilePhoto ?? this.profilePhoto,
         turnover: turnover ?? this.turnover,
         performance: performance ?? this.performance,
+        rank: rank ?? this.rank,
       );
 
   Map<String, dynamic> toJson() {
@@ -152,6 +157,7 @@ class AchieversData {
     map['profile_photo'] = profilePhoto;
     map['turnover'] = turnover;
     map['performance'] = performance;
+    map['rank'] = rank;
     return map;
   }
 }

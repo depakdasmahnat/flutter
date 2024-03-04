@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 
 import '../../models/dashboard/color_grades.dart';
+import '../../screens/member/network/pinnacle_list_table.dart';
+import '../../screens/member/report/partner_report_table.dart';
 import 'colors.dart';
 
 const double kPadding = 16;
@@ -77,3 +79,58 @@ Color statusColor({required num? value}) {
 }
 
 String dayFormat = 'EEE, dd MMM';
+
+List<String> levels = [
+  '1A',
+  '2A',
+  '3A',
+  '4A',
+  '5A',
+  '6A',
+];
+
+List<Report> reportLabels = [
+  Report(name: 'User', isLocked: true, isSelected: true),
+  Report(name: 'Name', isSelected: true),
+  Report(name: 'Location'),
+  Report(name: 'Target', isSelected: true),
+  Report(name: 'Pending', isSelected: true),
+  Report(name: 'Conversation', isSelected: true),
+  Report(name: 'Demo', isSelected: true),
+  Report(name: 'Training', isSelected: true),
+  Report(name: 'Performance', isSelected: true),
+  Report(name: 'Rank', isSelected: true),
+  Report(name: 'Turnover'),
+  Report(name: 'App downloads'),
+  Report(name: 'Lists'),
+  Report(name: 'Sales'),
+  Report(name: 'Level'),
+  Report(name: 'Call'),
+  Report(name: 'DownLines'),
+  Report(name: 'Level completion')
+];
+
+enum PartnerHeadings {
+  user('User'),
+  name('Name'),
+  location('Location'),
+  target('Target'),
+  pending('Pending'),
+  conversion('Conversion'),
+  demo('Demo'),
+  training('Training'),
+  performance('Performance'),
+  rank('Rank'),
+  turnover('Turnover'),
+  appDownloads('App downloads'),
+  lists('Lists'),
+  sales('Sales'),
+  level('Level'),
+  call('Call'),
+  downLines('DownLines'),
+  levelCompletion('Level completion');
+
+  final String value;
+
+  const PartnerHeadings(this.value);
+}

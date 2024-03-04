@@ -39,7 +39,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      color: Colors.white,
+      color: Colors.grey.shade900,
       itemBuilder: (context) => List.generate(
         widget.items?.length ?? 0,
         (index) {
@@ -61,7 +61,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
                   menuEntry.label,
                   style: TextStyle(
                     fontSize: 12,
-                    color: isSelected ? primaryColor : (menuEntry.color ?? Colors.black),
+                    color: isSelected ? primaryColor : (menuEntry.color ?? Colors.white),
                     letterSpacing: 0.2,
                     fontWeight: FontWeight.w600,
                   ),

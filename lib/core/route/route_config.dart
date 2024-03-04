@@ -56,7 +56,7 @@ import '../../screens/member/lead/scheduled_demo_form.dart';
 import '../../screens/member/members/add_member_form.dart';
 import '../../screens/member/members/add_member_list.dart';
 import '../../screens/member/members/calendar.dart';
-import '../../screens/member/network/network_report.dart';
+import '../../screens/member/report/network_report.dart';
 import '../../screens/member/performance_chart/performance_chart.dart';
 import '../../screens/member/profile/account_settings.dart';
 import '../../screens/member/profile/member_edit_profile.dart';

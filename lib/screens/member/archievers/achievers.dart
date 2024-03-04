@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -9,19 +10,20 @@ import 'package:mrwebbeast/screens/member/archievers/archievers_table.dart';
 
 import 'package:mrwebbeast/screens/member/archievers/top_achievers_banner.dart';
 import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
+import 'package:mrwebbeast/utils/widgets/custom_bottom_sheet.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
+import 'package:mrwebbeast/utils/widgets/multi_option_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../../controllers/member/network/network_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../models/member/dashboard/achievers_model.dart';
-import '../../../models/member/network/pinnacle_list_model.dart';
 import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import '../../../utils/widgets/option_picker.dart';
 
 class Achievers extends StatefulWidget {
   const Achievers({super.key});
@@ -35,10 +37,13 @@ class _AchieversState extends State<Achievers> {
   List<AchieversData>? topListData;
   TextEditingController searchController = TextEditingController();
 
+  String? rank;
+
   Future fetchAchievers() async {
     achievers = await context.read<MembersController>().fetchAchievers(
           search: searchController.text,
           filter: filter,
+          rank: selectedRank,
         );
   }
 
@@ -62,6 +67,8 @@ class _AchieversState extends State<Achievers> {
       setState(() {});
     });
   }
+
+  String? selectedRank;
 
   @override
   Widget build(BuildContext context) {
@@ -118,8 +125,6 @@ class _AchieversState extends State<Achievers> {
                           ),
                       ],
                     ),
-
-
                   ],
                 ),
               ),
@@ -157,39 +162,72 @@ class _AchieversState extends State<Achievers> {
                   CustomPopupMenu(
                     items: [
                       CustomPopupMenuEntry(
-                        value: '',
-                        label: 'All',
-                        onPressed: () {
-                          filter = null;
-                        },
-                      ),
-                      CustomPopupMenuEntry(
                         label: 'Rank',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Name',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Sales',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Demo',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Turnover',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'App Downloads',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Performance',
-                        onPressed: null,
+                        onPressed: () {
+                          CustomBottomSheet.show(
+                            context: context,
+                            title: 'Rank Filter',
+                            centerTitle: true,
+                            showBackButton: true,
+                            body: StatefulBuilder(builder: (context, setState) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: kPadding),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    OptionPicker(
+                                      selected: selectedRank,
+                                      list: levels,
+                                      onChanged: (val) {
+                                        selectedRank = val;
+                                        setState(() {});
+                                        this.setState(() {});
+                                      },
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        GradientButton(
+                                          height: 45,
+                                          width: size.width * .42,
+                                          backgroundGradient: blackGradient,
+                                          onTap: () {
+                                            context.pop();
+                                          },
+                                          margin: const EdgeInsets.only(top: kPadding, left: kPadding),
+                                          child: const Center(
+                                            child: Text(
+                                              'Clear',
+                                              style: TextStyle(color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                        GradientButton(
+                                          height: 45,
+                                          width: size.width * .42,
+                                          backgroundGradient: primaryGradient,
+                                          onTap: () async {
+                                            setState(() {});
+                                            this.setState(() {});
+                                            context.pop();
+                                            await fetchAchievers();
+                                          },
+                                          margin: const EdgeInsets.only(top: kPadding, right: kPadding),
+                                          child: const Center(
+                                            child: Text(
+                                              'Apply',
+                                              style: TextStyle(color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
+                          );
+                        },
                       ),
                     ],
                     onChange: (String? val) {

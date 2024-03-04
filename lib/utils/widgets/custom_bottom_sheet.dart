@@ -6,7 +6,7 @@ import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 
 class CustomBottomSheet extends StatefulWidget {
   const CustomBottomSheet({
-    Key? key,
+    super.key,
     this.title,
     this.subTitle,
     required this.body,
@@ -22,7 +22,7 @@ class CustomBottomSheet extends StatefulWidget {
     this.appBar,
     this.mainAxisSize,
     this.showBackButton,
-  }) : super(key: key);
+  });
 
   final String? title;
   final String? subTitle;
@@ -162,7 +162,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                         Text(
                                           '$title',
                                           style: const TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.w700,
                                           ),
                                           textAlign: TextAlign.start,
@@ -175,9 +175,16 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> {
                                           FocusScope.of(context).unfocus();
                                           context.pop();
                                         },
-                                        child: const Icon(
-                                          CupertinoIcons.multiply,
-                                          color: Colors.white,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade500,
+                                            borderRadius: BorderRadius.circular(16),
+                                          ),
+                                          padding: EdgeInsets.all(4),
+                                          child: const Icon(
+                                            CupertinoIcons.multiply,
+                                            color: Colors.black,
+                                          ),
                                         ),
                                       )
                                     else

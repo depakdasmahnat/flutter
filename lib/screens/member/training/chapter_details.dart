@@ -109,7 +109,7 @@ class _ChaptersDetailsState extends State<ChaptersDetails> {
                 )
               else
                 NoDataFound(
-                  heightFactor: 0.7,
+                  heightFactor: 0.2,
                   message: controller.chaptersModel?.message ?? 'No Attachments Found',
                 ),
               if (chapterDetails?.assets.haveData == true)
@@ -126,6 +126,7 @@ class _ChaptersDetailsState extends State<ChaptersDetails> {
               if (chapterDetails?.assets.haveData == true)
                 ChapterCard(
                   chapterId: chapterDetails?.id,
+                  chapterStatus: chapterDetails?.chapterStatus,
                 ),
             ],
           ),
@@ -139,12 +140,18 @@ class ChapterCard extends StatelessWidget {
   const ChapterCard({
     super.key,
     this.chapterId,
+    this.chapterStatus,
   });
 
   final num? chapterId;
+  final String? chapterStatus;
 
   @override
   Widget build(BuildContext context) {
+    bool isOpen = chapterStatus == ChapterStatus.open.value;
+    bool isCompleted = chapterStatus == ChapterStatus.completed.value;
+    bool isLocked = chapterStatus == ChapterStatus.locked.value;
+
     return GestureDetector(
       onTap: () {
         context.pushNamed(Routs.examQuiz,
@@ -184,17 +191,32 @@ class ChapterCard extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          trailing: GradientButton(
-            borderRadius: 30,
-            backgroundColor: Colors.white,
-            child: const ImageView(
-              height: 16,
-              width: 16,
-              color: Colors.black,
-              fit: BoxFit.contain,
-              assetImage: AppAssets.lockFilledIcon,
-            ),
-          ),
+          trailing: isLocked
+              ? GradientButton(
+                  borderRadius: 30,
+                  backgroundColor: Colors.white,
+                  child: const ImageView(
+                    height: 16,
+                    width: 16,
+                    color: Colors.black,
+                    fit: BoxFit.contain,
+                    assetImage: AppAssets.lockFilledIcon,
+                  ),
+                )
+              : (isCompleted)
+                  ? GradientButton(
+                      height: 28,
+                      width: 28,
+                      borderRadius: 30,
+                      backgroundGradient: limeGradient,
+                      child: const ImageView(
+                        height: 16,
+                        width: 16,
+                        fit: BoxFit.contain,
+                        assetImage: AppAssets.checkIcon,
+                      ),
+                    )
+                  : const SizedBox(),
         ),
       ),
     );

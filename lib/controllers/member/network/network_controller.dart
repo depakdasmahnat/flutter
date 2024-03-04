@@ -15,6 +15,7 @@ import '../../../models/member/network/level_wise_member_count_model.dart';
 import '../../../models/member/network/network_report_model.dart';
 import '../../../models/member/network/pinnacle_view_model.dart';
 import '../../../models/member/network/tree_graph_model.dart';
+import '../../../models/member/report/partner_report_model.dart';
 import '../../../utils/widgets/widgets.dart';
 
 class NetworkControllers extends ChangeNotifier {
@@ -401,6 +402,64 @@ class NetworkControllers extends ChangeNotifier {
     }
 
     return networkReports;
+  }
+
+  /// 7) Network Reports API...
+  bool loadingPartnerReport = true;
+  PartnerReportModel? partnerReportModel;
+  List<PartnerReportData>? partnerReport;
+
+  Future<List<PartnerReportData>?> fetchPartnerReport({
+    String? search,
+    String? filter,
+    String? memberId,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingPartnerReport = true;
+        partnerReportModel = null;
+        partnerReport = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingPartnerReport = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchMemberReports,
+          queryParameters: {
+            'search_key': search ?? '',
+            'filter': filter ?? '',
+            'member_id': memberId ?? '',
+          },
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          PartnerReportModel responseData = PartnerReportModel.fromJson(json);
+          if (responseData.status == true) {
+            partnerReport = responseData.data;
+
+            debugPrint('partnerReport ${partnerReport?.length}');
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return partnerReport;
   }
 
   /// 8) level Wise Member Count API...

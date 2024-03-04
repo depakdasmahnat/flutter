@@ -29,6 +29,7 @@ class TrainingControllers extends ChangeNotifier {
 
   Future<List<TrainingCategoryData>?> fetchTrainings({
     required bool? basic,
+    required String? search,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -51,6 +52,7 @@ class TrainingControllers extends ChangeNotifier {
           endPoint: ApiEndpoints.fetchTrainings,
           queryParameters: {
             'category_type': basic == true ? 'Basic' : 'Advance',
+            'search_key': search ?? '',
           },
         );
 

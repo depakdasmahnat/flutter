@@ -282,30 +282,3 @@ enum PinnaclesHeadings {
   const PinnaclesHeadings(this.value);
 }
 
-class PinnacleData {
-  final String? profilePic;
-  final String? name;
-  final num? target;
-  final num? pending;
-  final num? conversion;
-  final num? leads;
-  final num? demo;
-  final num? training;
-  final num? progress;
-  final String call;
-  final String achievement;
-
-  PinnacleData({
-    required this.profilePic,
-    required this.name,
-    required this.target,
-    required this.pending,
-    required this.conversion,
-    required this.leads,
-    required this.demo,
-    required this.training,
-    required this.progress,
-    required this.call,
-    required this.achievement,
-  });
-}

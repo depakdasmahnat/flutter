@@ -49,23 +49,23 @@ class _ExamReportState extends State<ExamReport> {
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.only(bottom: 100),
             children: [
-              const Column(
+              Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.only(top: 8),
                     child: Text(
-                      'Completed',
-                      style: TextStyle(
+                      report?.title ?? 'Completed',
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: kPadding),
+                    padding: const EdgeInsets.only(top: 8, bottom: kPadding),
                     child: Text(
-                      'Your test results in chapter this time',
-                      style: TextStyle(
+                      report?.message ?? 'Your test results in chapter this time',
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),

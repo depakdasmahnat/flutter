@@ -7,6 +7,7 @@ String quizReportModelToJson(QuizReportModel data) => json.encode(data.toJson())
 class QuizReportModel {
   QuizReportModel({
     this.status,
+    this.title,
     this.message,
     this.correctAnswers,
     this.wrongAnswers,
@@ -16,6 +17,7 @@ class QuizReportModel {
 
   QuizReportModel.fromJson(dynamic json) {
     status = json['status'];
+    title = json['title'];
     message = json['message'];
     correctAnswers = json['correct_answers'];
     wrongAnswers = json['wrong_answers'];
@@ -29,6 +31,7 @@ class QuizReportModel {
   }
 
   bool? status;
+  String? title;
   String? message;
   num? correctAnswers;
   num? wrongAnswers;
@@ -37,6 +40,7 @@ class QuizReportModel {
 
   QuizReportModel copyWith({
     bool? status,
+    String? title,
     String? message,
     num? correctAnswers,
     num? wrongAnswers,
@@ -45,6 +49,7 @@ class QuizReportModel {
   }) =>
       QuizReportModel(
         status: status ?? this.status,
+        title: title ?? this.title,
         message: message ?? this.message,
         correctAnswers: correctAnswers ?? this.correctAnswers,
         wrongAnswers: wrongAnswers ?? this.wrongAnswers,
@@ -55,6 +60,7 @@ class QuizReportModel {
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
+    map['title'] = title;
     map['message'] = message;
     map['correct_answers'] = correctAnswers;
     map['wrong_answers'] = wrongAnswers;

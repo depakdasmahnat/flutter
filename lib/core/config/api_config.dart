@@ -101,6 +101,8 @@ class ApiEndpoints {
   static const String addTarget = 'add_target';
   static const String fetchAllPinnacleMembers = 'fetch_all_pinnacle_members';
   static const String fetchAllMembers = 'fetch_all_members';
+  static const String fetchMemberReports = 'fetch_member_reports';
+  static const String fetchLeadReports = 'fetch_lead_reports';
   static const String getAchievers = 'get_achievers';
   static const String fetchServices = 'fetch_services';
 
@@ -129,8 +131,7 @@ class ApiEndpoints {
   static const String fetchFeedCategories = 'fetch_feed_categories';
   static const String getComments = 'get_comments';
   static const String feedComment = 'feed_comment';
-  static const String fetchResourceDetails =
-      'fetch_resources?page=1&category_id=';
+  static const String fetchResourceDetails = 'fetch_resources?page=1&category_id=';
   static const String editProfile = 'edit_profile';
   static const String fetchFaqs = 'fetch_faqs?category=';
   static const String guestDemo = 'fetch_demos';

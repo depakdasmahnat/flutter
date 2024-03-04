@@ -54,6 +54,7 @@ class _ChaptersScreenState extends State<ChaptersScreen> {
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<TrainingControllers>(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
+import 'package:mrwebbeast/core/constant/colors.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
@@ -185,6 +186,7 @@ class MenuCard extends StatelessWidget {
               height: 30,
               width: 30,
               borderRadiusValue: 0,
+              color: primaryColor,
               margin: const EdgeInsets.symmetric(horizontal: kPadding),
               fit: BoxFit.contain,
               assetImage: '$image',

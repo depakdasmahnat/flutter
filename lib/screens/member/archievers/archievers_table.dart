@@ -90,17 +90,7 @@ class EmployeeDataSource extends DataGridSource {
           cells: [
             DataGridCell(
               columnName: AchieversTableHeadings.rank.value,
-              value: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ImageView(
-                    height: 28,
-                    width: 28,
-                    assetImage: AppAssets.trophyIcon,
-                    margin: EdgeInsets.only(),
-                  ),
-                ],
-              ),
+              value: GridHeading(title: e.achievement??defaultText),
             ),
             DataGridCell(
               columnName: AchieversTableHeadings.name.value,

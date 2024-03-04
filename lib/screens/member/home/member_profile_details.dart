@@ -92,7 +92,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     NetworkControllers networkControllers = Provider.of<NetworkControllers>(context);
-    pinnacleList = networkControllers.networkReports;
+
 
     return Consumer<MembersController>(
       builder: (context, controller, child) {

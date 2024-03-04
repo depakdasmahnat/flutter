@@ -1647,6 +1647,7 @@ class MembersController extends ChangeNotifier {
   Future<List<AchieversData>?> fetchAchievers({
     String? search,
     String? filter,
+    String? rank,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -1668,6 +1669,7 @@ class MembersController extends ChangeNotifier {
         var response = await ApiService().get(endPoint: ApiEndpoints.getAchievers, queryParameters: {
           'search_key': search ?? '',
           'filter': filter ?? '',
+          'rank': rank ?? '',
         });
 
         if (response != null) {

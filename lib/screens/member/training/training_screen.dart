@@ -38,7 +38,10 @@ class _TrainingScreenState extends State<TrainingScreen> {
   List<TrainingCategoryData>? trainingCategories;
 
   Future fetchTrainings({bool? loadingNext}) async {
-    return await context.read<TrainingControllers>().fetchTrainings(basic: tabIndex == 0);
+    return await context.read<TrainingControllers>().fetchTrainings(
+          basic: tabIndex == 0,
+          search: searchController.text,
+        );
   }
 
   @override
@@ -98,7 +101,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GradientButton(
-                    width: size.width * 0.7,
+                    width: size.width * 0.75,
                     borderRadius: 50,
                     blur: 15,
                     margin: const EdgeInsets.only(bottom: 16),

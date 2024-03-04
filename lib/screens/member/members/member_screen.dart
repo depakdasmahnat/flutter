@@ -190,7 +190,12 @@ class MemberScreen extends StatefulWidget {
 }
 
 class _MemberScreenState extends State<MemberScreen> {
-  List tabItem = ['Today', 'This week', 'Month'];
+  List tabItem = [
+    'This week',
+    'This month',
+    'This year',
+  ];
+
   late String selectedDuration = tabItem.first;
   PinnacleListModel? networkReportsModel;
   List<PinnacleListData>? pinnacleList;
@@ -214,6 +219,7 @@ class _MemberScreenState extends State<MemberScreen> {
     );
     super.initState();
   }
+
   Timer? _debounce;
 
   void onSearchFieldChanged(String value) {
@@ -224,6 +230,7 @@ class _MemberScreenState extends State<MemberScreen> {
       setState(() {});
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
