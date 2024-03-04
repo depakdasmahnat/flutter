@@ -76,15 +76,15 @@ class _LeadsPopupState extends State<LeadsPopup> {
               ),
               title: Text('${widget.title}'),
               centerTitle: true,
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    context.pop();
-                    context.pushNamed(Routs.leads);
-                  },
-                  child: const Text('View All'),
-                )
-              ],
+              // actions: [
+              //   TextButton(
+              //     onPressed: () {
+              //       context.pop();
+              //       context.pushNamed(Routs.leads);
+              //     },
+              //     child: const Text('View All'),
+              //   )
+              // ],
             ),
             body: SmartRefresher(
               controller: controller.leadsController,
@@ -117,7 +117,6 @@ class _LeadsPopupState extends State<LeadsPopup> {
                               itemCount: leads?.length ?? 0,
                               itemBuilder: (context, index) {
                                 var lead = leads?.elementAt(index);
-
                                 return (status == LeadsStatus.followUp.value)
                                     ? ClosedLeadsCard(lead: lead)
                                     : (status == LeadsStatus.closed.value)
@@ -267,7 +266,6 @@ class CompletedLeadsCard extends StatelessWidget {
 class ScheduledLeadsCard extends StatelessWidget {
   final int? index;
   final LeadsData? lead;
-
   const ScheduledLeadsCard({
     this.index,
     this.lead,
@@ -378,7 +376,6 @@ class ScheduledLeadsCard extends StatelessWidget {
 class NewLeadsCard extends StatelessWidget {
   final int? index;
   final LeadsData? lead;
-
   const NewLeadsCard({
     this.index,
     this.lead,
@@ -414,17 +411,23 @@ class NewLeadsCard extends StatelessWidget {
                   width: 5,
                 ),
                 // if (lead?.firstName != null)
-                CustomeText(
-                  text: lead?.firstName ?? defaultText,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+                SizedBox(
+                  width: size.width * 0.2,
+                  child: CustomeText(
+                    text: lead?.firstName ?? defaultText,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),
-            CustomeText(
-              text: lead?.address ?? defaultText,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
+            SizedBox(
+              width: size.width * 0.1,
+              child: CustomeText(
+                text: lead?.address ?? defaultText,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             if (lead?.priority != null)
               InkWell(
@@ -712,6 +715,132 @@ class ClosedLeadsCard extends StatelessWidget {
                 ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class InvitationCall extends StatelessWidget {
+  final int? index;
+  final LeadsData? lead;
+  const InvitationCall({
+    this.index,
+    this.lead,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const String defaultText = '--';
+    Size size = MediaQuery.of(context).size;
+    return InkWell(
+      onTap: () {
+        context.push(Routs.memberProfile);
+      },
+      child: Container(
+        decoration: decoration,
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                ImageView(
+                  height: 28,
+                  width: 28,
+                  isAvatar: true,
+                  borderRadiusValue: 30,
+                  networkImage: '${lead?.profilePhoto}',
+                  margin: const EdgeInsets.only(left: 8, right: 8),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                // if (lead?.firstName != null)
+                SizedBox(
+                  width: size.width * 0.2,
+                  child: CustomeText(
+                    text: lead?.firstName ?? defaultText,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: size.width * 0.1,
+              child: CustomeText(
+                text: lead?.date ?? defaultText,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            if (lead?.mobile != null)
+              ImageView(
+                height: 28,
+                width: 28,
+                isAvatar: true,
+                borderRadiusValue: 30,
+                backgroundColor: Colors.white,
+                assetImage: AppAssets.call,
+                color: Colors.black,
+                padding: const EdgeInsets.all(4),
+                margin: const EdgeInsets.only(left: 8),
+                onTap: () {
+                  launchUrl(Uri.parse('tel:${lead?.mobile}'));
+                },
+              ),
+            if (lead?.priority != null)
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  decoration: ShapeDecoration(
+                    gradient: LinearGradient(
+                      begin: const Alignment(0.61, -0.79),
+                      end: const Alignment(-0.61, 0.79),
+                      colors: lead?.priority == LeadPriorityFilters.hot.value
+                          ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
+                          : lead?.priority == LeadPriorityFilters.warm.value
+                          ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                          : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(39),
+                    ),
+                  ),
+                  child: SizedBox(
+                    width: size.width * 0.11,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4, bottom: 4),
+                        child: CustomeText(
+                          text: '${lead?.priority}',
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+            // CustomPopupMenu(
+            //   items: [
+            //     CustomPopupMenuEntry(
+            //       label: 'Interested',
+            //       onPressed: null,
+            //     ),
+            //     CustomPopupMenuEntry(
+            //       label: 'Not confirm',
+            //       onPressed: null,
+            //     ),
+            //   ],
+            //   onChange: (String? val) {},
+            //   child: const Icon(Icons.more_vert),
+            // )
           ],
         ),
       ),

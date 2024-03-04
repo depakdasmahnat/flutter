@@ -1081,7 +1081,7 @@ class _DemoDoneFormDemoScheduledState extends State<DemoDoneFormDemoScheduled> {
                           DefaultModel? model = await context.read<MembersController>().demoDoneForm(context: context,
                               demoId: widget.demoId, feedback: '', remark: remarkController.text, priority: priority);
                           if(model?.status==true){
-                            await context.read<MembersController>().fetchLeads(status: 'Demo Scheduled', priority: '', page: '1');
+                            await context.read<MembersController>().fetchLeads(status: 'Demo Scheduled', priority: '', page: '1',searchKey: '');
                           }
                         },
                         child: Row(
@@ -1231,9 +1231,14 @@ class _ModelDialogBoxIncompleteState extends State<ModelDialogBoxIncomplete> {
             ),
             TextButton(
               onPressed:()async {
-                await context.read<ListsControllers>().rescheduledCall(context: context,
+                DefaultModel? model=  await context.read<ListsControllers>().rescheduledCall(context: context,
                     guestId: widget.guestId, reason: '', date: dateController.text, time:timeController.text, LMSStep: 'Demo Scheduled ', priority: widget.priority, demoRescheduleRemark: '');
-                context.pop();
+
+                if(model?.status==true){
+                  context.pop();
+                  context.pop();
+                }
+
               },
               child: const Text('Save'),
             ),

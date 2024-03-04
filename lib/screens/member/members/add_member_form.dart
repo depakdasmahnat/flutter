@@ -8,10 +8,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
+import '../../../controllers/member/leads/leads_controllers.dart';
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 
+import '../../../models/member/leads/fetchGuestData.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/image_view.dart';
@@ -21,7 +23,8 @@ import '../../guest/guestProfile/guest_faq.dart';
 import 'add_member_list.dart';
 
 class AddMemberForm extends StatefulWidget {
-  const AddMemberForm({super.key});
+ final String? guestId;
+  const AddMemberForm({super.key,this.guestId});
 
   @override
   State<AddMemberForm> createState() => _AddMemberFormState();
@@ -31,6 +34,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
   bool? validate =false;
   bool? disability =false;
   String gender ='';
+  String genderHint ='Select Gender';
   String occupation ='';
   String stateId ='';
   String cityId ='';
@@ -130,7 +134,16 @@ class _AddMemberFormState extends State<AddMemberForm> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-
+      if(widget.guestId!=''){
+        FetchGuestData? model= await context.read<ListsControllers>().fetchGuestData(context: context, guestId: widget.guestId??'');
+        firstNameController.text =model?.data?.firstName??'';
+        lastNameController.text=model?.data?.lastName??'';
+        mobileController.text=model?.data?.mobile??'';
+        emailController.text=model?.data?.email??'';
+        gender =model?.data?.gender??'';
+        genderHint =model?.data?.gender??'';
+        setState(() {});
+      }
       await context.read<GuestControllers>().fetchState(
         context: context,
       );
@@ -163,6 +176,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
   }
   @override
   Widget build(BuildContext context) {
+    print("check wedig it ${widget.guestId}");
     Size size = MediaQuery.sizeOf(context);
     return  Scaffold(
       resizeToAvoidBottomInset: false,
@@ -239,7 +253,6 @@ class _AddMemberFormState extends State<AddMemberForm> {
                 title: 'First Name',
                 mandatory: '*',
                 hintText: 'Enter First Name',
-
               ),
               CustomTextFieldApp(
                 controller: lastNameController,
@@ -252,10 +265,9 @@ class _AddMemberFormState extends State<AddMemberForm> {
                 mandatory: '*',
                 controller:mobileController ,
                 onCountryChanged: (v) {
-                  debugPrint('countryCode ${v.regionCode}');
+                  debugPrint('countryCode ${v.flag}');
                   countryCode=v.fullCountryCode;
                   setState(() {});
-
                 },
               ),
               if(countryCode !='91')
@@ -278,6 +290,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
                   gender =v;
                 },
                 title: 'Gender',
+                hintText: genderHint,
                 listItem: const ['Male','Female'],
               ),
               Consumer<MembersController>(

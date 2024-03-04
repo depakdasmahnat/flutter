@@ -80,6 +80,7 @@ class LeadsData {
     this.stateName,
     this.cityName,
     this.status,
+    this.date,
     this.priority,
     this.parentId,
     this.demoId,
@@ -96,6 +97,7 @@ class LeadsData {
     mobile = json['mobile'];
     profilePhoto = json['profile_photo'];
     path = json['path'];
+    date = json['date'];
     address = json['address'];
     stateName = json['state_name'];
     cityName = json['city_name'];
@@ -119,6 +121,7 @@ class LeadsData {
   String? stateName;
   String? cityName;
   String? status;
+  String? date;
   String? priority;
   num? parentId;
   num? demoId;
@@ -139,6 +142,7 @@ class LeadsData {
     String? cityName,
     String? status,
     String? priority,
+    String? date,
     num? parentId,
     num? demoId,
     String? demoDate,
@@ -160,6 +164,7 @@ class LeadsData {
         priority: priority ?? this.priority,
         parentId: parentId ?? this.parentId,
         demoId: demoId ?? this.demoId,
+        date: date ?? this.date,
         demoDate: demoDate ?? this.demoDate,
         demoTime: demoTime ?? this.demoTime,
         remarks: remarks ?? this.remarks,
@@ -184,6 +189,7 @@ class LeadsData {
     map['demo_date'] = demoDate;
     map['demo_time'] = demoTime;
     map['remarks'] = remarks;
+    map['date'] = date;
     map['demo_status'] = demoStatus;
     return map;
   }

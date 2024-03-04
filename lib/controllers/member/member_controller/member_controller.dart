@@ -101,7 +101,7 @@ class MembersController extends ChangeNotifier {
     String? status,
     String? priority,
     String? page,
-    String? searchKey,
+    required String searchKey,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -225,7 +225,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context.pop();
+          // context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -337,6 +337,7 @@ class MembersController extends ChangeNotifier {
 
         if (responseData?.status == true) {
           context.pop();
+          // context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);

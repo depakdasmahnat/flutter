@@ -41,12 +41,13 @@ class _AddMemberListState extends State<AddMemberList> {
   List item = ['Hot', 'Worm', 'Cold'];
   int? tabIndex = 0;
   String gender = '';
-  String status = 'Newly Listed';
+  String statusSelect = 'Newly Listed';
+  String status = 'New';
   String stateId = '';
   String priority = 'Hot';
   String cityId = '';
   String sponsorId = '';
-  String refType = 'Self';
+  String refType = '';
   String occupation = '';
   String demoType = '';
   String countryCode = '91';
@@ -239,25 +240,12 @@ class _AddMemberListState extends State<AddMemberList> {
               mandatory: '*',
               controller:mobileController ,
               onCountryChanged: (v) {
-                debugPrint("countryCode ${v.regionCode}");
+
                 countryCode=v.fullCountryCode;
+                countryNameController.text =v.name;
+                print("checl ${v.regionCode}");
                 setState(() {});
-
               },
-            ),
-            CustomTextFieldApp(
-              title: ' Email',
-              hintText: 'email@gmail.com',
-              controller: emailController,
-            ),
-            CustomDropdown(
-
-              context: context,
-              onChanged: (v) {
-                gender = v;
-              },
-              title: 'Gender',
-              listItem: const ['Male', 'Female'],
             ),
             if(countryCode !='91')
               CustomTextFieldApp(
@@ -265,6 +253,19 @@ class _AddMemberListState extends State<AddMemberList> {
                 hintText: 'Enter Country Name',
                 controller: countryNameController,
               ),
+            CustomTextFieldApp(
+              title: ' Email',
+              hintText: 'email@gmail.com',
+              controller: emailController,
+            ),
+            CustomDropdown(
+              context: context,
+              onChanged: (v) {
+                gender = v;
+              },
+              title: 'Gender',
+              listItem: const ['Male', 'Female'],
+            ),
             if(countryCode =='91')
               Consumer<GuestControllers>(
                 builder: (context, controller, child) {
@@ -352,7 +353,7 @@ class _AddMemberListState extends State<AddMemberList> {
                 }
                 setState(() {});
               },
-              selectedItem: status,
+              selectedItem: statusSelect,
               listItem: const [
                 'Newly Listed',
                 'Invitation Call',
@@ -476,7 +477,7 @@ class _AddMemberListState extends State<AddMemberList> {
               },
               // selectedItem: refType,
               title: 'Ref Type',
-              selectedItem:refType ,
+
               listItem: const ['Self', 'Referred'],
             ),
             Padding(
@@ -726,7 +727,7 @@ class _AddMemberListState extends State<AddMemberList> {
                 () async {
                   await context
                       .read<MembersController>()
-                      .fetchLeads(status: 'New', priority: '', page: '1');
+                      .fetchLeads(status: 'New', priority: '', page: '1',searchKey: '');
                 },
               );
             },
@@ -831,6 +832,7 @@ class _CountyTextFieldState extends State<CountyTextField> {
                   decoration: const InputDecoration(hintText: 'Enter Mobile No.', border: InputBorder.none),
                   autovalidateMode: AutovalidateMode.disabled,
                   initialCountryCode: 'IN',
+                  // initialValue:'233' ,
                   dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                   dropdownIconPosition: IconPosition.trailing,
                   disableLengthCheck: true,

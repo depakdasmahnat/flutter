@@ -46,16 +46,16 @@ class _GuestProfilesState extends State<GuestProfiles> {
             setState(() {});
           }
         } else {
-          timer.cancel(); // Cancel the timer if the page is no longer active
+          timer.cancel();
         }
       });
     });
   }
   @override
   void dispose() {
-    _isPageActive = false; // Set the flag to false when the page is disposed
-    _timer?.cancel(); // Cancel the timer
-    _controller?.controller?.isDismissed; // Dispose of the controller
+    _isPageActive = false;
+    _timer?.cancel();
+    _controller?.controller?.isDismissed;
     super.dispose();
   }
   @override

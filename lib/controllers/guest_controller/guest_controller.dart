@@ -956,5 +956,9 @@ class GuestControllers extends ChangeNotifier {
   }
 
 
+  /// fetch guest profile
+
+
+
 
 }

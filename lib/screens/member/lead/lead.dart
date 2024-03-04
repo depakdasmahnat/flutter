@@ -18,16 +18,14 @@ import '../../dashboard/more_menu.dart';
 import '../../guest/guestProfile/guest_faq.dart';
 import '../demo/create_demo.dart';
 import '../home/member_profile_details.dart';
+import '../members/add_member_form.dart';
 import '../profile/profile.dart';
 import 'custom_popup_menu.dart';
-
 import 'demo_don_form.dart';
 import 'leads_popup.dart';
 import 'model_dailog_box.dart';
-
 class Lead extends StatefulWidget {
   const Lead({super.key});
-
   @override
   State<Lead> createState() => _LeadState();
 }
@@ -74,14 +72,14 @@ TextEditingController searchController =TextEditingController();
   ];
 
   // bool showItem =false;
-  String status = '';
+  String status = 'New';
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context
           .read<MembersController>()
-          .fetchLeads(status: 'New', priority: '', page: '1');
+          .fetchLeads(status: status, priority: '', page: '1',searchKey: '');
     });
     super.initState();
   }
@@ -369,20 +367,31 @@ TextEditingController searchController =TextEditingController();
                                     scrollDirection: Axis.horizontal,
                                     children: [
                                       LeadType(
-                                        value: controller
-                                            .fetchLeadsModel?.stats?.hot
-                                            .toString(),
+                                        value: controller.fetchLeadsModel?.stats?.hot.toString(),
                                         subHeading: 'Hot Leads',
+                                        onTap: () async{
+                                          await context
+                                              .read<MembersController>()
+                                              .fetchLeads(status: status, priority: 'Hot', page: '1',searchKey: '');
+
+                                        },
+
                                       ),
                                       LeadType(
                                         value: controller
                                             .fetchLeadsModel?.stats?.warm
                                             .toString(),
                                         subHeading: 'Warm Leads',
+                                        onTap: () async{
+                                          await context
+                                              .read<MembersController>()
+                                              .fetchLeads(status: status, priority: 'Warm', page: '1',searchKey: '');
+                                        },
                                         colors: const [
                                           Color(0xFFFDDC9C),
                                           Color(0xFFDDA53B)
                                         ],
+
                                       ),
 
                                       // Padding(
@@ -471,6 +480,11 @@ TextEditingController searchController =TextEditingController();
                                           Color(0xFF3CDCDC),
                                           Color(0xFF12BCBC)
                                         ],
+                                        onTap: () async{
+                                          await context
+                                              .read<MembersController>()
+                                              .fetchLeads(status: status, priority: 'Cold', page: '1',searchKey: '');
+                                        },
                                       ),
                                       LeadType(
                                         onTap: () {
@@ -588,16 +602,8 @@ TextEditingController searchController =TextEditingController();
                                             child: Text('Today'),
                                           ),
                                           const PopupMenuItem(
-                                            value: 'Hot',
-                                            child: Text('Hot'),
-                                          ),
-                                          const PopupMenuItem(
-                                            value: 'Cold',
-                                            child: Text('Cold'),
-                                          ),
-                                          const PopupMenuItem(
-                                            value: 'Warm',
-                                            child: Text('Warm'),
+                                            value: 'By app',
+                                            child: Text('By App'),
                                           ),
                                         ],
                                       ),
@@ -779,6 +785,8 @@ class _RowCartState extends State<RowCart> {
 
   Future<void> _showDialogDemoScheduled(
       BuildContext context, guestId, priority) async {
+    dateController.clear();
+    timeConroller.clear();
     return showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -877,6 +885,7 @@ class _RowCartState extends State<RowCart> {
           ),
           TextButton(
             onPressed: () async {
+
               DefaultModel? model=   await context.read<ListsControllers>().rescheduledCall(
                   context: context,
                   guestId: guestId,
@@ -886,10 +895,9 @@ class _RowCartState extends State<RowCart> {
                   LMSStep: 'Demo Scheduled ',
                   priority: priority,
                   demoRescheduleRemark: '');
-
               if(model?.status==true){
-                _showDialogIncomplete(context,widget.guestId,priority,true);
-                // context.pop();
+                _showDialogIncomplete(context,widget.guestId,priority,true,false);
+
               }
 
             },
@@ -903,7 +911,9 @@ class _RowCartState extends State<RowCart> {
   Future<void> _showDialogIncomplete(
     BuildContext context,
     String? guestId,
-    String? priority,bool? openDialog
+    String? priority,
+      bool? openDialog,
+      bool? apiCall,
   ) async {
     return showDialog(
       context: context,
@@ -923,7 +933,7 @@ class _RowCartState extends State<RowCart> {
             child:openDialog==false? ModelDialogBoxIncomplete(
               guestId: guestId ?? '',
               priority: priority ?? '',
-            ): DemoDoneForm( demoId: widget.demoId??''),
+            ): DemoDoneForm( demoId: widget.demoId??'',apiCall:apiCall ),
           ),
         );
       },
@@ -1024,7 +1034,7 @@ class _RowCartState extends State<RowCart> {
                                       .fetchLeads(
                                           status: 'New',
                                           priority: '',
-                                          page: '1');
+                                          page: '1',searchKey: '');
                                 },
                               );
                             },
@@ -1436,7 +1446,7 @@ class _RowCartState extends State<RowCart> {
                           await context.read<MembersController>().fetchLeads(
                               status: 'Invitation Call',
                               priority: '',
-                              page: '1');
+                              page: '1',searchKey: '');
                             },);
                       } else {
                         await context
@@ -1448,7 +1458,7 @@ class _RowCartState extends State<RowCart> {
                             await context.read<MembersController>().fetchLeads(
                                 status: 'Invitation Call',
                                 priority: '',
-                                page: '1');
+                                page: '1',searchKey: '');
                           },
                         );
                       }
@@ -1726,7 +1736,7 @@ class _RowCartState extends State<RowCart> {
                                         .fetchLeads(
                                             status: 'Demo Scheduled',
                                             priority: '',
-                                            page: '1');
+                                            page: '1',searchKey: '');
                                   },
                                 );
                               },
@@ -1803,35 +1813,15 @@ class _RowCartState extends State<RowCart> {
                       CustomPopUpMenu(
                         onSelected: (v) async {
                           if (v == 'Demo done') {
-                            await showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    DemoDoneFormDemoScheduled(
-                                      demoId: widget.demoId ?? '',
-                                      feedback: '',
-                                    ));
-                            // await showModalBottomSheet(
-                            //     backgroundColor: Colors.transparent,
+                            // await showDialog<String>(
                             //     context: context,
-                            //     clipBehavior: Clip.antiAlias,
-                            //     isScrollControlled: true,
-                            //     shape: const OutlineInputBorder(
-                            //         borderRadius: BorderRadius.only(
-                            //             topLeft: Radius.circular(18),
-                            //             topRight: Radius.circular(18))),
-                            //     builder: (context) => DemoDoneForm(
-                            //           title: 'List Update',
-                            //           demoId: widget.demoId,
-                            //         )).whenComplete(
-                            //   () async {
-                            //     await context
-                            //         .read<MembersController>()
-                            //         .fetchLeads(
-                            //             status: 'Demo Sheduled',
-                            //             priority: '',
-                            //             page: '1');
-                            //   },
-                            // );
+                            //     builder: (BuildContext context) =>
+                            //         DemoDoneFormDemoScheduled(
+                            //           demoId: widget.demoId ?? '',
+                            //           feedback: '',
+                            //         ));
+                            _showDialogIncomplete(context,widget.guestId,widget.priority,true,true);
+
                           } else if (v == 'Move to bin') {
                             await context
                                 .read<ListsControllers>()
@@ -1845,7 +1835,7 @@ class _RowCartState extends State<RowCart> {
                                     .fetchLeads(
                                         status: 'Demo Scheduled',
                                         priority: '',
-                                        page: '1');
+                                        page: '1',searchKey: '');
                               },
                             );
                           } else if (v == 'Reschedule') {
@@ -1853,7 +1843,7 @@ class _RowCartState extends State<RowCart> {
                                 context, widget.guestId, widget.priority,);
                           } else if (v == 'Incomplete') {
                             _showDialogIncomplete(
-                                context, widget.guestId, widget.priority,false);
+                                context, widget.guestId, widget.priority,false,false);
                           } else {
                             context
                                 .pushNamed(Routs.createDemo,
@@ -1869,7 +1859,7 @@ class _RowCartState extends State<RowCart> {
                                     .fetchLeads(
                                         status: 'Demo Scheduled',
                                         priority: '',
-                                        page: '1');
+                                        page: '1',searchKey: '');
                               },
                             );
                           }
@@ -2061,54 +2051,75 @@ class _RowCartState extends State<RowCart> {
                                               .fetchLeads(
                                                   status: ' Follow Up',
                                                   priority: '',
-                                                  page: '1');
+                                                  page: '1',searchKey: '');
                                         },
                                       );
                                     },
                                     itemBuilder: (BuildContext context) =>
                                         <PopupMenuEntry>[
-                                      PopupMenuItem(
-                                        // height: size.height*0.05,
-                                        value: 'Hot',
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10.0),
-                                          child: CustomeText(
-                                            text: 'Hot',
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12,
+                                          PopupMenuItem(
+                                            // height: size.height*0.05,
+                                            value: 'Hot',
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomeText(
+                                                      text: 'Hot',
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Divider(
+                                                  thickness: 2,
+                                                  color: Colors.grey.shade300,
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      PopupMenuItem(
-                                        value: 'Warm',
-                                        height: size.height * 0.04,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10.0),
-                                          child: CustomeText(
-                                            text: 'Warm',
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12,
+                                          PopupMenuItem(
+                                            value: 'Warm',
+                                            height: size.height * 0.04,
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                                  children: [
+                                                    CustomeText(
+                                                      text: 'Warm',
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Divider(
+                                                  thickness: 2,
+                                                  color: Colors.grey.shade300,
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      PopupMenuItem(
-                                        value: 'Cold',
-                                        height: size.height * 0.04,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10.0),
-                                          child: CustomeText(
-                                            text: 'Cold',
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 12,
+                                          PopupMenuItem(
+                                            value: 'Cold',
+                                            height: size.height * 0.04,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                CustomeText(
+                                                  text: 'Cold',
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 12,
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -2148,18 +2159,19 @@ class _RowCartState extends State<RowCart> {
                           CustomPopUpMenu(
                             onSelected: (v) async {
                               if (v == 'Close') {
-                                _showDialog(context, widget.guestId, '', true,
-                                        false, '')
-                                    .whenComplete(
-                                  () async {
-                                    await context
-                                        .read<MembersController>()
-                                        .fetchLeads(
-                                            status: 'Follow Up',
-                                            priority: '',
-                                            page: '1');
-                                  },
-                                );
+                                // _showDialog(context, widget.guestId, '', true,
+                                //         false, '')
+                                //     .whenComplete(
+                                //   () async {
+                                //     await context
+                                //         .read<MembersController>()
+                                //         .fetchLeads(
+                                //             status: 'Follow Up',
+                                //             priority: '',
+                                //             page: '1',searchKey: '');
+                                //   },
+                                // );
+                                context.pushNamed(Routs.memberaddForm,extra:AddMemberForm(guestId: widget.guestId,) );
                               } else if (v == 'Schedule follow up') {
                                 _showDialogDemoScheduled(
                                     context, widget.guestId, widget.priority);
@@ -2176,7 +2188,7 @@ class _RowCartState extends State<RowCart> {
                                         .fetchLeads(
                                             status: 'Follow Up',
                                             priority: '',
-                                            page: '1');
+                                            page: '1',searchKey: '');
                                   },
                                 );
                               }
