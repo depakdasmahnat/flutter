@@ -13,6 +13,7 @@ import 'controllers/dashboard/download_controller.dart';
 import 'controllers/feeds/feeds_controller.dart';
 import 'controllers/guest_controller/guest_controller.dart';
 import 'controllers/member/events/events_controller.dart';
+import 'controllers/member/filter_controller.dart';
 import 'controllers/member/leads/leads_controllers.dart';
 import 'controllers/member/member_auth_controller.dart';
 import 'controllers/member/member_controller/demo_controller.dart';
@@ -73,6 +74,7 @@ Future main() async {
         ChangeNotifierProvider(create: (context) => ListsControllers()),
         ChangeNotifierProvider(create: (context) => CheckDemoController()),
         ChangeNotifierProvider(create: (context) => DownloadState()),
+        ChangeNotifierProvider(create: (context) => FilterController()),
       ],
       child: const MyApp(),
     ),

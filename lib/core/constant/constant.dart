@@ -3,6 +3,7 @@ import 'package:mrwebbeast/core/constant/gradients.dart';
 
 import '../../models/dashboard/color_grades.dart';
 import '../../screens/member/network/pinnacle_list_table.dart';
+import '../../screens/member/report/guest_report_table.dart';
 import '../../screens/member/report/partner_report_table.dart';
 import 'colors.dart';
 
@@ -89,7 +90,7 @@ List<String> levels = [
   '6A',
 ];
 
-List<Report> reportLabels = [
+List<Report> partnerReportColumns = [
   Report(name: 'User', isLocked: true, isSelected: true),
   Report(name: 'Name', isSelected: true),
   Report(name: 'Location'),
@@ -110,7 +111,7 @@ List<Report> reportLabels = [
   Report(name: 'Level completion')
 ];
 
-enum PartnerHeadings {
+enum PartnerTabHeadings {
   user('User'),
   name('Name'),
   location('Location'),
@@ -120,17 +121,63 @@ enum PartnerHeadings {
   demo('Demo'),
   training('Training'),
   performance('Performance'),
+  call('Call'),
   rank('Rank'),
   turnover('Turnover'),
   appDownloads('App downloads'),
   lists('Lists'),
   sales('Sales'),
   level('Level'),
-  call('Call'),
   downLines('DownLines'),
   levelCompletion('Level completion');
 
   final String value;
 
-  const PartnerHeadings(this.value);
+  const PartnerTabHeadings(this.value);
 }
+
+num? id;
+String? firstName;
+String? lastName;
+String? mobile;
+dynamic profilePhoto;
+dynamic path;
+String? address;
+String? status;
+String? priority;
+num? parentId;
+String? occupation;
+dynamic deletedAt;
+String? updatedAt;
+dynamic memberId;
+dynamic demoStatus;
+num? appDownloads;
+num? pending;
+num? count;
+String? profileUpdated;
+
+enum GuestTabHeadings {
+  user('User'),
+  name('Name'),
+  location('Location'),
+  demoDone('Demo Done'),
+  pending('Pending'),
+  count('Count'),
+  profile('Profile'),
+  profession('Profession');
+
+  final String value;
+
+  const GuestTabHeadings(this.value);
+}
+
+List<Report> guestReportColumns = [
+  Report(name: 'User', isSelected: true, isLocked: true),
+  Report(name: 'Name', isSelected: true),
+  Report(name: 'Location', isSelected: true),
+  Report(name: 'Demo Done', isSelected: true),
+  Report(name: 'Pending', isSelected: true),
+  Report(name: 'Count', isSelected: true),
+  Report(name: 'Profile', isSelected: true),
+  Report(name: 'Profession', isSelected: true),
+];

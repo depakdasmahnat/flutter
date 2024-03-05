@@ -10,6 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/member/network/pinnacle_list_model.dart';
 import '../../../models/member/report/partner_report_model.dart';
+import 'guest_report_table.dart';
 
 class PartnerReportTable extends StatefulWidget {
   /// Creates the home page.
@@ -63,61 +64,96 @@ class _PartnerReportTableState extends State<PartnerReportTable> {
             source: employeeDataSource!,
             shrinkWrapRows: true,
             columns: [
-              if (showColumn(name: PartnerHeadings.user.value))
+              if (showColumn(name: PartnerTabHeadings.user.value))
                 GridColumn(
                   maximumWidth: 50,
-                  columnName: PartnerHeadings.user.value,
-                  label: GridHeading(title: PartnerHeadings.user.value),
+                  columnName: PartnerTabHeadings.user.value,
+                  label: GridHeading(title: PartnerTabHeadings.user.value),
                 ),
-              if (showColumn(name: PartnerHeadings.name.value))
+              if (showColumn(name: PartnerTabHeadings.name.value))
                 GridColumn(
-                  columnName: PartnerHeadings.name.value,
-                  label: GridHeading(title: PartnerHeadings.name.value),
+                  columnName: PartnerTabHeadings.name.value,
+                  label: GridHeading(title: PartnerTabHeadings.name.value),
                 ),
-              if (showColumn(name: PartnerHeadings.target.value))
+              if (showColumn(name: PartnerTabHeadings.location.value))
                 GridColumn(
-                  columnName: PartnerHeadings.target.value,
-                  label: GridHeading(title: PartnerHeadings.target.value),
+                  columnName: PartnerTabHeadings.location.value,
+                  label: GridHeading(title: PartnerTabHeadings.location.value),
                 ),
-              if (showColumn(name: PartnerHeadings.pending.value))
+              if (showColumn(name: PartnerTabHeadings.target.value))
                 GridColumn(
-                  columnName: PartnerHeadings.pending.value,
-                  label: GridHeading(title: PartnerHeadings.pending.value),
+                  columnName: PartnerTabHeadings.target.value,
+                  label: GridHeading(title: PartnerTabHeadings.target.value),
                 ),
-              if (showColumn(name: PartnerHeadings.conversion.value))
+              if (showColumn(name: PartnerTabHeadings.pending.value))
                 GridColumn(
-                  columnName: PartnerHeadings.conversion.value,
-                  label: GridHeading(title: PartnerHeadings.conversion.value),
+                  columnName: PartnerTabHeadings.pending.value,
+                  label: GridHeading(title: PartnerTabHeadings.pending.value),
                 ),
-              if (showColumn(name: PartnerHeadings.lists.value))
+              if (showColumn(name: PartnerTabHeadings.conversion.value))
                 GridColumn(
-                  columnName: PartnerHeadings.lists.value,
-                  label: GridHeading(title: PartnerHeadings.lists.value),
+                  columnName: PartnerTabHeadings.conversion.value,
+                  label: GridHeading(title: PartnerTabHeadings.conversion.value),
                 ),
-              if (showColumn(name: PartnerHeadings.demo.value))
+              if (showColumn(name: PartnerTabHeadings.demo.value))
                 GridColumn(
-                  columnName: PartnerHeadings.demo.value,
-                  label: GridHeading(title: PartnerHeadings.demo.value),
+                  columnName: PartnerTabHeadings.demo.value,
+                  label: GridHeading(title: PartnerTabHeadings.demo.value),
                 ),
-              if (showColumn(name: PartnerHeadings.training.value))
+              if (showColumn(name: PartnerTabHeadings.training.value))
                 GridColumn(
-                  columnName: PartnerHeadings.training.value,
-                  label: GridHeading(title: PartnerHeadings.training.value),
+                  columnName: PartnerTabHeadings.training.value,
+                  label: GridHeading(title: PartnerTabHeadings.training.value),
                 ),
-              if (showColumn(name: PartnerHeadings.performance.value))
+              if (showColumn(name: PartnerTabHeadings.performance.value))
                 GridColumn(
-                  columnName: PartnerHeadings.performance.value,
-                  label: GridHeading(title: PartnerHeadings.performance.value),
+                  columnName: PartnerTabHeadings.performance.value,
+                  label: GridHeading(title: PartnerTabHeadings.performance.value),
                 ),
-              if (showColumn(name: PartnerHeadings.call.value))
+              if (showColumn(name: PartnerTabHeadings.call.value))
                 GridColumn(
-                  columnName: PartnerHeadings.call.value,
-                  label: GridHeading(title: PartnerHeadings.call.value),
+                  columnName: PartnerTabHeadings.call.value,
+                  label: GridHeading(title: PartnerTabHeadings.call.value),
                 ),
-              if (showColumn(name: PartnerHeadings.rank.value))
+              if (showColumn(name: PartnerTabHeadings.rank.value))
                 GridColumn(
-                  columnName: PartnerHeadings.rank.value,
-                  label: GridHeading(title: PartnerHeadings.rank.value),
+                  columnName: PartnerTabHeadings.rank.value,
+                  label: GridHeading(title: PartnerTabHeadings.rank.value),
+                ),
+              if (showColumn(name: PartnerTabHeadings.turnover.value))
+                GridColumn(
+                  columnName: PartnerTabHeadings.turnover.value,
+                  label: GridHeading(title: PartnerTabHeadings.turnover.value),
+                ),
+              if (showColumn(name: PartnerTabHeadings.appDownloads.value))
+                GridColumn(
+                  columnName: PartnerTabHeadings.appDownloads.value,
+                  label: GridHeading(title: PartnerTabHeadings.appDownloads.value),
+                ),
+              if (showColumn(name: PartnerTabHeadings.lists.value))
+                GridColumn(
+                  columnName: PartnerTabHeadings.lists.value,
+                  label: GridHeading(title: PartnerTabHeadings.lists.value),
+                ),
+              if (showColumn(name: PartnerTabHeadings.sales.value))
+                GridColumn(
+                  columnName: PartnerTabHeadings.sales.value,
+                  label: GridHeading(title: PartnerTabHeadings.sales.value),
+                ),
+              if (showColumn(name: PartnerTabHeadings.level.value))
+                GridColumn(
+                  columnName: PartnerTabHeadings.level.value,
+                  label: GridHeading(title: PartnerTabHeadings.level.value),
+                ),
+              if (showColumn(name: PartnerTabHeadings.downLines.value))
+                GridColumn(
+                  columnName: PartnerTabHeadings.downLines.value,
+                  label: GridHeading(title: PartnerTabHeadings.downLines.value),
+                ),
+              if (showColumn(name: PartnerTabHeadings.levelCompletion.value))
+                GridColumn(
+                  columnName: PartnerTabHeadings.levelCompletion.value,
+                  label: GridHeading(title: PartnerTabHeadings.levelCompletion.value),
                 ),
             ],
           )
@@ -148,9 +184,9 @@ class EmployeeDataSource extends DataGridSource {
       (data) {
         return DataGridRow(
           cells: [
-            if (showColumn(name: PartnerHeadings.user.value))
+            if (showColumn(name: PartnerTabHeadings.user.value))
               DataGridCell(
-                columnName: PartnerHeadings.user.value,
+                columnName: PartnerTabHeadings.user.value,
                 value: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -167,9 +203,9 @@ class EmployeeDataSource extends DataGridSource {
                   ],
                 ),
               ),
-            if (showColumn(name: PartnerHeadings.name.value))
+            if (showColumn(name: PartnerTabHeadings.name.value))
               DataGridCell(
-                columnName: PartnerHeadings.name.value,
+                columnName: PartnerTabHeadings.name.value,
                 value: Align(
                   alignment: Alignment.center,
                   child: SingleChildScrollView(
@@ -179,34 +215,41 @@ class EmployeeDataSource extends DataGridSource {
                   ),
                 ),
               ),
-            if (showColumn(name: PartnerHeadings.target.value))
+            if (showColumn(name: PartnerTabHeadings.location.value))
               DataGridCell(
-                columnName: PartnerHeadings.target.value,
+                columnName: PartnerTabHeadings.location.value,
+                value: Align(
+                  alignment: Alignment.center,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    child: GridHeading(title: data.location ?? defaultText),
+                  ),
+                ),
+              ),
+            if (showColumn(name: PartnerTabHeadings.target.value))
+              DataGridCell(
+                columnName: PartnerTabHeadings.target.value,
                 value: GridHeading(title: '${data.target ?? defaultText}'),
               ),
-            if (showColumn(name: PartnerHeadings.pending.value))
+            if (showColumn(name: PartnerTabHeadings.pending.value))
               DataGridCell(
-                columnName: PartnerHeadings.pending.value,
+                columnName: PartnerTabHeadings.pending.value,
                 value: GridHeading(title: '${data.pending ?? defaultText}'),
               ),
-            if (showColumn(name: PartnerHeadings.conversion.value))
+            if (showColumn(name: PartnerTabHeadings.conversion.value))
               DataGridCell(
-                columnName: PartnerHeadings.conversion.value,
+                columnName: PartnerTabHeadings.conversion.value,
                 value: GridHeading(title: '${data.conversion ?? 0}%'),
               ),
-            if (showColumn(name: PartnerHeadings.lists.value))
+            if (showColumn(name: PartnerTabHeadings.demo.value))
               DataGridCell(
-                columnName: PartnerHeadings.lists.value,
-                value: GridHeading(title: '${data.lists ?? defaultText}'),
-              ),
-            if (showColumn(name: PartnerHeadings.demo.value))
-              DataGridCell(
-                columnName: PartnerHeadings.demo.value,
+                columnName: PartnerTabHeadings.demo.value,
                 value: GridHeading(title: '${data.demo ?? defaultText}'),
               ),
-            if (showColumn(name: PartnerHeadings.training.value))
+            if (showColumn(name: PartnerTabHeadings.training.value))
               DataGridCell(
-                columnName: PartnerHeadings.training.value,
+                columnName: PartnerTabHeadings.training.value,
                 value: CircularPercentIndicator(
                   radius: 16.0,
                   lineWidth: 3,
@@ -222,9 +265,9 @@ class EmployeeDataSource extends DataGridSource {
                   progressColor: statusColor(value: data.training),
                 ),
               ),
-            if (showColumn(name: PartnerHeadings.performance.value))
+            if (showColumn(name: PartnerTabHeadings.performance.value))
               DataGridCell(
-                columnName: PartnerHeadings.performance.value,
+                columnName: PartnerTabHeadings.performance.value,
                 value: CircularPercentIndicator(
                   radius: 16.0,
                   lineWidth: 3,
@@ -240,9 +283,9 @@ class EmployeeDataSource extends DataGridSource {
                   progressColor: statusColor(value: data.training),
                 ),
               ),
-            if (showColumn(name: PartnerHeadings.call.value))
+            if (showColumn(name: PartnerTabHeadings.call.value))
               DataGridCell(
-                columnName: PartnerHeadings.call.value,
+                columnName: PartnerTabHeadings.call.value,
                 value: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -262,10 +305,45 @@ class EmployeeDataSource extends DataGridSource {
                   ],
                 ),
               ),
-            if (showColumn(name: PartnerHeadings.rank.value))
+            if (showColumn(name: PartnerTabHeadings.rank.value))
               DataGridCell(
-                columnName: PartnerHeadings.rank.value,
+                columnName: PartnerTabHeadings.rank.value,
                 value: GridHeading(title: data.rank ?? defaultText),
+              ),
+            if (showColumn(name: PartnerTabHeadings.turnover.value))
+              DataGridCell(
+                columnName: PartnerTabHeadings.turnover.value,
+                value: GridHeading(title: '${data.turnovers ?? defaultText}'),
+              ),
+            if (showColumn(name: PartnerTabHeadings.appDownloads.value))
+              DataGridCell(
+                columnName: PartnerTabHeadings.appDownloads.value,
+                value: GridHeading(title: '${data.appDownloads ?? defaultText}'),
+              ),
+            if (showColumn(name: PartnerTabHeadings.lists.value))
+              DataGridCell(
+                columnName: PartnerTabHeadings.lists.value,
+                value: GridHeading(title: '${data.lists ?? defaultText}'),
+              ),
+            if (showColumn(name: PartnerTabHeadings.sales.value))
+              DataGridCell(
+                columnName: PartnerTabHeadings.sales.value,
+                value: GridHeading(title: '${data.sales ?? defaultText}'),
+              ),
+            if (showColumn(name: PartnerTabHeadings.level.value))
+              DataGridCell(
+                columnName: PartnerTabHeadings.level.value,
+                value: GridHeading(title: '${data.level ?? defaultText}'),
+              ),
+            if (showColumn(name: PartnerTabHeadings.downLines.value))
+              DataGridCell(
+                columnName: PartnerTabHeadings.downLines.value,
+                value: GridHeading(title: '${data.downline ?? defaultText}'),
+              ),
+            if (showColumn(name: PartnerTabHeadings.levelCompletion.value))
+              DataGridCell(
+                columnName: PartnerTabHeadings.levelCompletion.value,
+                value: GridHeading(title: '${data.levelCompletion ?? defaultText}'),
               ),
           ],
         );
@@ -318,10 +396,3 @@ class GridHeading extends StatelessWidget {
   }
 }
 
-class Report {
-  final String name;
-  bool isSelected;
-  bool isLocked;
-
-  Report({required this.name, this.isSelected = false, this.isLocked = false});
-}

@@ -151,7 +151,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
                           child: InteractiveViewer(
                             constrained: false,
                             boundaryMargin:
-                                EdgeInsets.only(left: 36, right: 36,top: 24, bottom: size.height * 0.25),
+                                EdgeInsets.only(left: 36, right: 36, top: 24, bottom: size.height * 0.25),
                             minScale: 0.01,
                             maxScale: 6,
                             child: GraphView(
@@ -270,7 +270,7 @@ class NetworkTreeViewState extends State<NetworkTreeView> {
             Padding(
               padding: const EdgeInsets.only(top: 2, bottom: 2),
               child: Text(
-                '${data?.name} : ${data?.sales}',
+                'Sales: ${data?.sales ?? '0'}',
                 style: const TextStyle(fontSize: 12),
               ),
             ),

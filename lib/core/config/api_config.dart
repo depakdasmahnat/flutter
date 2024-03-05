@@ -150,6 +150,8 @@ class ApiEndpoints {
   static const String fetchBanner = 'fetch_banners';
   static const String state = 'fetch_states';
   static const String fetchOccupation = 'fetch_occupation';
+  static const String fetchMachineType = 'fetch_machine_type';
+  static const String fetchObjectionList = 'fetch_objection_list';
   static const String city = 'fetch_cities?state_id=';
   static const String fetchGuestProfile = 'fetch_profile';
   static const String fetchDownlineRank = 'sponsor_downline_rank';

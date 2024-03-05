@@ -270,7 +270,7 @@ class NetworkProjectionState extends State<NetworkProjection> {
             Padding(
               padding: const EdgeInsets.only(top: 2, bottom: 2),
               child: Text(
-                '${data?.name}: (${data?.sales ?? '0'})',
+                'Sales: ${data?.sales ?? '0'}',
                 style: const TextStyle(fontSize: 12),
               ),
             ),

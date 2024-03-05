@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mrwebbeast/screens/member/report/partner_report_table.dart';
 
 import '../../../../utils/widgets/image_view.dart';
-import '../network/pinnacle_list_table.dart';
-import 'guest_report_table.dart';
+import '../../core/constant/colors.dart';
+import '../../models/member/filter/filter_model.dart';
 
-class ReportLabelPicker extends StatefulWidget {
-  const ReportLabelPicker({
+class MultiFilterPicker extends StatefulWidget {
+  const MultiFilterPicker({
     super.key,
+    this.selected,
     this.list,
     required this.onChanged,
     this.color,
@@ -21,7 +21,8 @@ class ReportLabelPicker extends StatefulWidget {
     this.padding,
   });
 
-  final List<Report?>? list;
+  final List<FilterData?>? selected;
+  final List<FilterData?>? list;
   final Color? color;
   final double? height;
   final double? radius;
@@ -31,14 +32,14 @@ class ReportLabelPicker extends StatefulWidget {
   final bool? shrinkWrap;
   final EdgeInsets? padding;
   final Gradient? gradient;
-  final Function(List<Report?>? value) onChanged;
+  final Function(List<FilterData?>? value) onChanged;
 
   @override
-  State<ReportLabelPicker> createState() => _ReportLabelPickerState();
+  State<MultiFilterPicker> createState() => _MultiFilterPickerState();
 }
 
-class _ReportLabelPickerState extends State<ReportLabelPicker> {
-  late List<Report?>? list = widget.list ?? [];
+class _MultiFilterPickerState extends State<MultiFilterPicker> {
+  late List<FilterData?>? selected = widget.selected ?? [];
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +49,8 @@ class _ReportLabelPickerState extends State<ReportLabelPicker> {
       itemCount: widget.list?.length ?? 0,
       padding: EdgeInsets.zero,
       itemBuilder: (context, index) {
-        Report? data = list?.elementAt(index);
-        bool selectedItem = data?.isSelected == true;
-
+        FilterData? data = widget.list?.elementAt(index);
+        bool selectedItem = selected?.where((element) => element?.id == data?.id).isNotEmpty == true;
         return card(
           context: context,
           index: index,
@@ -64,7 +64,7 @@ class _ReportLabelPickerState extends State<ReportLabelPicker> {
   Widget card({
     required BuildContext context,
     required int index,
-    required Report? data,
+    required FilterData? data,
     required bool selectedItem,
   }) {
     bool lastIndex = index == ((widget.list?.length ?? 0) - 1);
@@ -74,13 +74,13 @@ class _ReportLabelPickerState extends State<ReportLabelPicker> {
         if (selectedItem) {
           debugPrint('$index Removed');
 
-          list?[index]?.isSelected = false;
+          selected?.removeWhere((element) => element == data);
         } else {
           debugPrint('$index Added');
-          list?[index]?.isSelected = true;
+          selected?.add(data);
         }
         setState(() {});
-        widget.onChanged(list);
+        widget.onChanged(selected);
       },
       child: Container(
         margin: EdgeInsets.only(right: lastIndex ? 0 : 1.2),
@@ -96,7 +96,7 @@ class _ReportLabelPickerState extends State<ReportLabelPicker> {
               fontWeight: FontWeight.w600,
               overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 1,
+            maxLines: 2,
           ),
           trailing: Container(
             decoration: BoxDecoration(

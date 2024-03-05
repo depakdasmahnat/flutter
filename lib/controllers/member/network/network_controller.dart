@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/app.dart';
 import 'package:mrwebbeast/core/config/api_config.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/models/default/default_model.dart';
 import 'package:mrwebbeast/models/member/network/down_line_members_model.dart';
@@ -11,10 +12,12 @@ import 'package:mrwebbeast/models/member/network/projection_view_model.dart';
 import 'package:mrwebbeast/models/member/services/services_model.dart';
 
 import '../../../core/services/api/api_service.dart';
+import '../../../models/member/filter/filter_model.dart';
 import '../../../models/member/network/level_wise_member_count_model.dart';
 import '../../../models/member/network/network_report_model.dart';
 import '../../../models/member/network/pinnacle_view_model.dart';
 import '../../../models/member/network/tree_graph_model.dart';
+import '../../../models/member/report/guest_lead_report.dart';
 import '../../../models/member/report/partner_report_model.dart';
 import '../../../utils/widgets/widgets.dart';
 
@@ -404,15 +407,37 @@ class NetworkControllers extends ChangeNotifier {
     return networkReports;
   }
 
-  /// 7) Network Reports API...
+  String filterIds({required List<FilterData?>? filters}) {
+    String? value;
+    List<num?>? ids;
+
+    if (filters.haveData) {
+      ids = filters?.map((e) => e?.id).toList();
+    }
+
+    if (ids.haveData) {
+      value = ids?.join(',');
+    }
+
+    return value ?? '';
+  }
+
+  /// 7) Partner Reports API...
   bool loadingPartnerReport = true;
   PartnerReportModel? partnerReportModel;
   List<PartnerReportData>? partnerReport;
 
   Future<List<PartnerReportData>?> fetchPartnerReport({
-    String? search,
-    String? filter,
-    String? memberId,
+    required String? search,
+    required String? rank,
+    required double? level,
+    required double? productPrice,
+    required double? turnover,
+    required DateTime? fromDate,
+    required DateTime? toDate,
+    required List<FilterData?>? objection,
+    required List<FilterData?>? machineType,
+    required List<FilterData?>? profession,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -431,13 +456,23 @@ class NetworkControllers extends ChangeNotifier {
 
       onRefresh();
       try {
+        Map<String, String> body = {
+          'search_key': search ?? '',
+          'rank': rank ?? '',
+          'level': '${level ?? ''}',
+          'objection': filterIds(filters: objection),
+          'product_price': '${productPrice ?? ''}',
+          'from_date': fromDate != null ? fromDate.toString() : '',
+          'to_date': toDate != null ? toDate.toString() : '',
+          'turnover': '${turnover ?? ''}',
+          'machine_type': filterIds(filters: machineType),
+          'profession': filterIds(filters: profession),
+        };
+
+        debugPrint('body $body');
         var response = await ApiService().get(
           endPoint: ApiEndpoints.fetchMemberReports,
-          queryParameters: {
-            'search_key': search ?? '',
-            'filter': filter ?? '',
-            'member_id': memberId ?? '',
-          },
+          queryParameters: body,
         );
 
         if (response != null) {
@@ -460,6 +495,67 @@ class NetworkControllers extends ChangeNotifier {
     }
 
     return partnerReport;
+  }
+
+  /// 7.5) Guest Reports API...
+  bool loadingGuestReport = true;
+  GuestLeadReport? guestReportModel;
+  List<LeadReportData>? guestReport;
+
+  Future<List<LeadReportData>?> fetchGuestReport({
+    required String? search,
+    required List<FilterData?>? objection,
+    required List<FilterData?>? profession,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        loadingGuestReport = true;
+        guestReportModel = null;
+        guestReport = null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        loadingGuestReport = false;
+        notifyListeners();
+      }
+
+      onRefresh();
+      try {
+        Map<String, String> body = {
+          'search_key': search ?? '',
+          'objection': filterIds(filters: objection),
+          'profession': filterIds(filters: profession),
+        };
+
+        debugPrint('body $body');
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchLeadReports,
+          queryParameters: body,
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+
+          GuestLeadReport responseData = GuestLeadReport.fromJson(json);
+          if (responseData.status == true) {
+            guestReport = responseData.data;
+
+            debugPrint('guestReport ${guestReport?.length}');
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return guestReport;
   }
 
   /// 8) level Wise Member Count API...
