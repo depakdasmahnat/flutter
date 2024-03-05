@@ -72,7 +72,11 @@ class Data {
       this.followUpDateTime, 
       this.incompleteDemo, 
       this.demoRescheduleRemark, 
-      this.countryCode,});
+      this.countryCode,
+      this.sponsorName,
+      this.countryName,
+
+  });
 
   Data.fromJson(dynamic json) {
     id = json['id'];
@@ -116,6 +120,8 @@ class Data {
     incompleteDemo = json['incomplete_demo'];
     demoRescheduleRemark = json['demo_reschedule_remark'];
     countryCode = json['country_code'];
+    sponsorName = json['sponsor_name'];
+    countryName = json['country_name'];
   }
   num? id;
   String? firstName;
@@ -158,6 +164,8 @@ class Data {
   dynamic incompleteDemo;
   dynamic demoRescheduleRemark;
   String? countryCode;
+  String? sponsorName;
+  String? countryName;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -202,6 +210,8 @@ class Data {
     map['incomplete_demo'] = incompleteDemo;
     map['demo_reschedule_remark'] = demoRescheduleRemark;
     map['country_code'] = countryCode;
+    map['sponsor_name'] = sponsorName;
+    map['country_name'] = countryName;
     return map;
   }
 

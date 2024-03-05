@@ -125,7 +125,8 @@ class RoutesConfig {
         name: Routs.memberEditProfile,
         path: Routs.memberEditProfile,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const MemberEditProfile());
+          MemberEditProfile? data = state.extra as MemberEditProfile?;
+          return materialPage(state: state, child:  MemberEditProfile(loginType: data?.loginType??false,));
         },
       ),
       GoRoute(

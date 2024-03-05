@@ -38,7 +38,7 @@ class CreateDemo extends StatefulWidget {
 }
 
 class _CreateDemoState extends State<CreateDemo> {
-  final switch1 = ValueNotifier<bool>(true);
+  final switch1 = ValueNotifier<bool>(false);
   TextEditingController eventNameCtrl = TextEditingController();
   TextEditingController startDateCtrl = TextEditingController();
   TextEditingController startTimeCtrl = TextEditingController();

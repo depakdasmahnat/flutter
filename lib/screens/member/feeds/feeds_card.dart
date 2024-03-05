@@ -228,6 +228,7 @@ class _FeedCardState extends State<FeedCard> {
                             const SizedBox(
                               width: 10,
                             ),
+
                             FeedMenu(
                               icon: AppAssets.shareIcon,
                               onTap: () {
@@ -237,7 +238,11 @@ class _FeedCardState extends State<FeedCard> {
                             const SizedBox(
                               width: 10,
                             ),
-                            const FeedMenu(
+                            if(data?.downloadAndSharePermission==true)
+                             FeedMenu(
+                              onTap: () {
+                                launchUrl(Uri.parse('${data?.file}'));
+                              },
                               icon: AppAssets.fileDownload,
                             ),
                           ],

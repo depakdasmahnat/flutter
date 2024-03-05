@@ -1087,6 +1087,7 @@ class MembersController extends ChangeNotifier {
   // bool addLeadLoader=false;
   Future addFacilitatorList({
     required BuildContext context,
+    required String guestId,
     required String firstName,
     required String lastName,
     required String mobile,
@@ -1117,6 +1118,7 @@ class MembersController extends ChangeNotifier {
     if (context != null) {
       FocusScope.of(context).unfocus();
       Map<String, String> body = {
+        'guest_id': guestId,
         'first_name': firstName,
         'last_name': lastName,
         'mobile': mobile,

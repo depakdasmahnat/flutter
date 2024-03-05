@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_auth_controller.dart';
@@ -20,6 +21,7 @@ import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/widgets.dart';
+import '../../member/members/add_member_list.dart';
 import 'guest_faq.dart';
 
 class GuestEditProfile extends StatefulWidget {
@@ -40,6 +42,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   TextEditingController diseaseController = TextEditingController();
   TextEditingController pinCodeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController countryNameController = TextEditingController();
   bool? lastName =true;
   String? gender='' ;
   String? genderHint='' ;
@@ -51,7 +54,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   String stateName = '';
   String cityId = '';
   String cityName = '';
-  String countryCode = '';
+  String countryCode = '91';
   File? image;
   @override
   void initState() {
@@ -59,6 +62,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       fetchGuestProfileModel =
           await context.read<GuestControllers>().fetchGuestProfile(
                 context: context,
+            member: true
               );
       await context.read<GuestControllers>().fetchState(context: context,);
       gender = fetchGuestProfileModel?.data?.gender??'';
@@ -77,10 +81,11 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       stateId = fetchGuestProfileModel?.data?.stateId.toString()=='null' ? '':fetchGuestProfileModel?.data?.stateId.toString()??'';
       cityId = fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':fetchGuestProfileModel?.data?.cityId.toString()??'';
       cityName = fetchGuestProfileModel?.data?.cityName?? 'Select City';
-      firsNameController.text = fetchGuestProfileModel?.data?.firstName??'';
+      firsNameController.text = fetchGuestProfileModel?.data?.firstName.toCapitalizeFirst??'';
 
-      mobileController.text = fetchGuestProfileModel?.data?.mobile??'';
+      mobileController.text = fetchGuestProfileModel?.data?.mobile.toString()=='null'?'':fetchGuestProfileModel?.data?.mobile.toString()??'';
       countryCode =fetchGuestProfileModel?.data?.countryCode??'+91';
+      countryNameController.text =fetchGuestProfileModel?.data?.cityName??'';
       if(fetchGuestProfileModel?.data?.lastName.toString()=='null'){
         lastName=false;
         setState(() {});
@@ -269,7 +274,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 title: 'First Name',
                 controller: firsNameController,
                 hintText: 'Enter First Name',
-                readOnly: true,
+
               ),
               CustomTextFieldApp(
                 controller: lastNameController,
@@ -288,30 +293,54 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
               ),
               CustomTextFieldApp(
                 controller: mobileController,
-
                 title: 'Mobile No.',
                 hintText: 'Enter Mobile No.',
                 readOnly: true,
                 prefixIcon:  Padding(
                   padding: EdgeInsets.only(top: 3),
-                  child: Text(countryCode),
+                  child: Text('+${countryCode}'),
                 ),
               ),
+              // CustomTextFieldApp(
+              //   controller: mobileController,
+              //   title: 'Mobile No.',
+              //   hintText: 'Enter Mobile No.',
+              //   prefixIcon: ,
+              // ),
+              // CountyTextField(
+              //   title: 'Mobile No.',
+              //   mandatory: '*',
+              //   readOnly: true,
+              //   controller:mobileController ,
+              //   onCountryChanged: (v) {
+              //     debugPrint('countryCode ${v.flag}');
+              //     countryCode=v.fullCountryCode;
+              //     countryNameController.text =v.name;
+              //     setState(() {});
+              //   },
+              // ),
+              if(countryCode !='91')
+              CustomTextFieldApp(
+                controller: countryNameController,
+                title: 'Country Name',
+                hintText: 'Enter Country Name',
+              ),
+
               CustomTextFieldApp(
                 controller: emailController,
                 title: 'Email',
                 hintText: 'email@gmail.com',
               ),
-              CustomDropdown(
-                hintText:refTypeHint,
-                context: context,
-                onChanged: (v) {
-                  refType = v ?? '';
-                },
-                // selectedItem: refType,
-                title: 'Ref Type',
-                listItem: const ['Friend', 'Family','Professional','Society','Random'],
-              ),
+              // CustomDropdown(
+              //   hintText:refTypeHint,
+              //   context: context,
+              //   onChanged: (v) {
+              //     refType = v ?? '';
+              //   },
+              //   // selectedItem: refType,
+              //   title: 'Ref Type',
+              //   listItem: const ['Friend', 'Family','Professional','Society','Random'],
+              // ),
               CustomDropdown(
                 context: context,
                 hintText: occupationHint,
@@ -367,7 +396,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                               "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
                         }
                       },
-                      readOnly: true,
+                      // readOnly: true,
                     ),
                   ),
                   Expanded(
@@ -385,6 +414,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 title: 'Any Disease',
                 hintText: 'Enter Disease',
               ),
+              if(countryCode =='91')
               CustomDropdown(
                 context: context,
                 hintText:stateName,
@@ -411,10 +441,12 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 listItem:
                     controller.satesModel?.data?.map((e) => e.name).toList(),
               ),
+              if(countryCode =='91')
               Consumer<GuestControllers>(
                 builder: (context, controller, child) {
                   return CustomDropdown(
                     context: context,
+                    showSearchBox: true,
                     hintText:cityName ,
                     onChanged: (v) {
                       cityId = controller.cityModel?.data
@@ -433,13 +465,14 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                   );
                 },
               ),
-              CustomTextFieldApp(
-                controller: pinCodeController,
-                title: 'Pin Code',
-                hintText: 'Pin Code',
-                keyboardType: TextInputType.number,
-                maxLength: 6,
-              ),
+              // if(countryCode =='91')
+              // CustomTextFieldApp(
+              //   controller: pinCodeController,
+              //   title: 'Pin Code',
+              //   hintText: 'Pin Code',
+              //   keyboardType: TextInputType.number,
+              //   maxLength: 6,
+              // ),
               CustomTextFieldApp(
                 controller: addressController,
                 title: 'Address',
@@ -524,6 +557,7 @@ class CustomTextFieldApp extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final FormFieldValidator<String>? validator;
+  final void Function(String)? onFieldSubmitted;
   final ValueChanged<String>? onChanged;
   final int? maxLength;
 
@@ -532,6 +566,7 @@ class CustomTextFieldApp extends StatelessWidget {
     this.mandatory,
     this.hintText,
     this.onTap,
+    this.onFieldSubmitted,
     this.controller,
     this.prefixIcon,
     this.height,
@@ -610,6 +645,7 @@ class CustomTextFieldApp extends StatelessWidget {
               hintText: hintText,
               validator: validator,
               onChanged: onChanged,
+              onFieldSubmitted: onFieldSubmitted,
 
               // margin: const EdgeInsets.only(bottom: 18),
             ),
@@ -619,7 +655,6 @@ class CustomTextFieldApp extends StatelessWidget {
     );
   }
 }
-
 class CustomDropdown extends StatelessWidget {
 Key? dropDownkey;
   BuildContext context;

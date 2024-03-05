@@ -91,7 +91,7 @@ class CustomDrawer extends StatelessWidget {
             ),
             CustomDrawerTile(
               activeImage: AppAssets.feedsIcon,
-              title: 'Feeds',
+              title: 'Social',
               // badgeCount: 45,
               onTap: () {
                 context.pushNamed(Routs.memberFeeds);

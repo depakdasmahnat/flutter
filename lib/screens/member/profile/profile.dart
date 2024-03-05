@@ -107,6 +107,7 @@ class _GuestProfileDetailsState extends State<GuestProfileDetails> {
             Step(
               isActive: false,
               title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText1(
                     text: 'Business Demo meeting',
@@ -144,7 +145,7 @@ class _GuestProfileDetailsState extends State<GuestProfileDetails> {
                     )
                   ],
                 ),
-                content: SizedBox.shrink()),
+                content: const SizedBox.shrink()),
           if (guestProfileDetails?.data?.leadJourney?.followUp.toString() != '')
             Step(
               isActive: false,
@@ -200,7 +201,7 @@ class _GuestProfileDetailsState extends State<GuestProfileDetails> {
           body: ListView(
             shrinkWrap: true,
 
-            // physics: const BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             children: [
               if (controller.loadingGuestProfileDetails)
                 const LoadingScreen(
@@ -310,11 +311,17 @@ class _GuestProfileDetailsState extends State<GuestProfileDetails> {
                       ),
                       if (steps.isNotEmpty == true)
                         ListView.builder(
+                          padding: EdgeInsets.only(bottom: size.height*0.2),
                           shrinkWrap: true,
                           itemCount: 1,
-                          physics: const NeverScrollableScrollPhysics(),
+                          physics:const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Stepper(
+                              physics: const NeverScrollableScrollPhysics(),
+                              // stepIconBuilder: (stepIndex, stepState) {
+                              //   return Icon(Icons.access_time_outlined);
+                              // },
+
                               currentStep: _index,
                               onStepCancel: () {
                                 if (_index > 0) {

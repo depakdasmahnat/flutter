@@ -92,14 +92,13 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
                 context.pushNamed(Routs.memberaddList);
               },
             ),
-            MenuButton(
-              title: 'Add Members',
-              image: AppAssets.membersIcon,
-              onTap: () {
-                context.pushNamed(Routs.memberaddForm,extra:const AddMemberForm(guestId: '',) );
-
-              },
-            ),
+            // MenuButton(
+            //   title: 'Add Members',
+            //   image: AppAssets.membersIcon,
+            //   onTap: () {
+            //     context.pushNamed(Routs.memberaddForm,extra:const AddMemberForm(guestId: '',) );
+            //   },
+            // ),
             MenuButton(
               title: 'Create Events',
               image: AppAssets.eventIcon,

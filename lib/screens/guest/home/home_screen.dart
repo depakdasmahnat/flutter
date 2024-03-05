@@ -101,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
   Set<int> selectedIds = Set<int>();
+  int? tabIndex =0;
   @override
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
@@ -286,22 +287,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       // padding: const EdgeInsets.only(left: 20,),
                       itemBuilder: (context, index) {
                         var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
-                        bool isSelected = selectedIds.contains(data?.id);
+
                         selectedFilter ??= data;
                         return GradientButton(
-                          backgroundGradient: isSelected? primaryGradient : inActiveGradient,
+                          backgroundGradient:  tabIndex==index? primaryGradient : inActiveGradient,
                           borderWidth: 2,
                           borderRadius: 30,
                           onTap: () async{
                             selectedFilter = data;
-                            if (isSelected) {
-                              selectedIds.remove(data?.id);
-                            } else {
-                              selectedIds.add(int.parse(data?.id.toString()??''));
-                            }
-
+                            var id=selectedFilter?.id;
+                            tabIndex=index;
                             setState(() {});
-                          await  fetchFeeds(categoryId:selectedIds.join(',') );
+                          await  fetchFeeds(categoryId:id.toString() );
                           },
                           margin: const EdgeInsets.only(right: 12),
                           padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
@@ -310,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: isSelected ? Colors.black : Colors.white,
+                              color: tabIndex==index ? Colors.black : Colors.white,
                             ),
                           ),
                         );

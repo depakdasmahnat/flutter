@@ -153,6 +153,7 @@ class ApiEndpoints {
   static const String fetchOccupation = 'fetch_occupation';
   static const String city = 'fetch_cities?state_id=';
   static const String fetchGuestProfile = 'guest_profile';
+  static const String memberProfile = 'fetch_profile';
   static const String fetchDownlineRank = 'sponsor_downline_rank';
   static const String fetchMemberProduct = 'fetch_products?page=1';
 }

@@ -2171,7 +2171,14 @@ class _RowCartState extends State<RowCart> {
                                 //             page: '1',searchKey: '');
                                 //   },
                                 // );
-                                context.pushNamed(Routs.memberaddForm,extra:AddMemberForm(guestId: widget.guestId,) );
+                                context.pushNamed(Routs.memberaddForm,extra:AddMemberForm(guestId: widget.guestId,) ).whenComplete(()async {
+                                  await context
+                                      .read<MembersController>()
+                                      .fetchLeads(
+                                      status: 'Follow Up',
+                                      priority: '',
+                                      page: '1',searchKey: '');
+                                },);
                               } else if (v == 'Schedule follow up') {
                                 _showDialogDemoScheduled(
                                     context, widget.guestId, widget.priority);

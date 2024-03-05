@@ -25,14 +25,15 @@ import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
 
 class MemberEditProfile extends StatefulWidget {
-  const MemberEditProfile({super.key});
+ final bool?loginType;
+  const MemberEditProfile({super.key,this.loginType});
 
   @override
   State<MemberEditProfile> createState() => _MemberEditProfileState();
 }
 
 class _MemberEditProfileState extends State<MemberEditProfile> {
-  final switch1 = ValueNotifier<bool>(true);
+  final switch1 = ValueNotifier<bool>(false);
   String gender = '';
   String genderHint = '';
   String stateId = '';
@@ -64,6 +65,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<GuestControllers>().fetchGuestProfile(
             context: context,
+        member: true
           );
       await context.read<GuestControllers>().fetchState(
             context: context,
@@ -273,14 +275,32 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       title: 'Email',
                       hintText: 'email@gmail.com',
                     ),
-                    CustomDropdown(
-                      context: context,
-                      hintText: occupationHint,
-                      onChanged: (v) {
-                        occupation = v ?? '';
+                    // CustomDropdown(
+                    //   context: context,
+                    //   hintText: occupationHint,
+                    //   onChanged: (v) {
+                    //     occupation = v ?? '';
+                    //   },
+                    //   title: 'Occupation',
+                    //   listItem: const ['Doctor', 'Doctor'],
+                    // ),
+                    Consumer<MembersController>(
+                      builder: (context, controller, child) {
+                        return     CustomDropdown(
+                          context: context,
+                          hintText: 'Select Occupation',
+                          onChanged: (v) {
+                            var id =controller.fetchOccupationModel?.data?.firstWhere((element) {
+                              return element.name ==v;
+                            }).id;
+                            occupation = id.toString() ;
+                          },
+                          title: 'Occupation',
+                          listItem: controller.fetchOccupationModel?.data?.map((e) {
+                            return e.name;
+                          }).toList(),
+                        );
                       },
-                      title: 'Occupation',
-                      listItem: const ['Doctor', 'Doctor'],
                     ),
                     Row(
                       children: [
@@ -420,6 +440,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                     ),
                     CustomDropdown(
                       context: context,
+                      showSearchBox: true,
                       hintText:cityHint,
                       onChanged: (v) {
                         cityId = controller.cityModel?.data
@@ -437,12 +458,12 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                           ?.map((e) => e.name)
                           .toList(),
                     ),
-                    CustomTextFieldApp(
-                      title: 'Pin Code',
-                      controller: pinCodeController,
-                      hintText: 'Enter Pin Code',
-                      keyboardType: TextInputType.number,
-                    ),
+                    // CustomTextFieldApp(
+                    //   title: 'Pin Code',
+                    //   controller: pinCodeController,
+                    //   hintText: 'Enter Pin Code',
+                    //   keyboardType: TextInputType.number,
+                    // ),
                     CustomTextFieldApp(
                       controller: addressController,
                       height: size.height * 0.06,
@@ -452,6 +473,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                     CustomTextFieldApp(
                       controller: enagicIdController,
                       title: 'Enagic ID',
+                      readOnly: true,
                       hintText: 'Enter Enagic ID',
                     ),
                     CustomTextFieldApp(

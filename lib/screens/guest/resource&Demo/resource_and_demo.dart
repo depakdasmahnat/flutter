@@ -57,11 +57,9 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       fetchResourcesDetail();
-
       setState(() {});
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

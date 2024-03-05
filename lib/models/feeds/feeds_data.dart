@@ -27,6 +27,7 @@ class FeedsData {
     this.isBookmarked,
     this.file,
     this.files,
+    this.downloadAndSharePermission,
   });
 
   FeedsData.fromJson(dynamic json) {
@@ -48,6 +49,7 @@ class FeedsData {
     categoryName = json['category_name'];
     isLiked = json['is_liked'];
     isCommented = json['is_commented'];
+    downloadAndSharePermission = json['download_and_share_permission'];
 
     isBookmarked = json['is_bookmarked'];
     file = json['file'];
@@ -75,6 +77,7 @@ class FeedsData {
 
   bool? isBookmarked;
   String? file;
+  bool? downloadAndSharePermission;
   List<String>? files;
 
   FeedsData copyWith({
@@ -98,6 +101,7 @@ class FeedsData {
     bool? isCommented,
     bool? isBookmarked,
     String? file,
+    bool? downloadAndSharePermission,
     List<String>? files,
   }) =>
       FeedsData(
@@ -120,6 +124,7 @@ class FeedsData {
         isLiked: isLiked ?? this.isLiked,
         isCommented: isCommented ?? this.isCommented,
         isBookmarked: isBookmarked ?? this.isBookmarked,
+        downloadAndSharePermission: downloadAndSharePermission ?? this.downloadAndSharePermission,
         file: file ?? this.file,
         files: files ?? this.files,
       );
@@ -146,6 +151,7 @@ class FeedsData {
     map['is_commented'] = isCommented;
     map['is_bookmarked'] = isBookmarked;
     map['file'] = file;
+    map['download_and_share_permission'] = downloadAndSharePermission;
     map['files'] = files;
     return map;
   }
