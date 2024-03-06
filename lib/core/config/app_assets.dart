@@ -30,7 +30,8 @@ class AppAssets {
   static const String group = 'assets/icons/Group.png';
   static const String newJoiners = 'assets/icons/Ic_newjoiners.png';
   static const String geustProduct = 'assets/images/geust_product.png';
-  static const String geustProductDteila = 'assets/images/guet_product_detail.png';
+  static const String geustProductDteila =
+      'assets/images/guet_product_detail.png';
   static const String product = 'assets/images/product.png';
   static const String product1 = 'assets/images/product1.png';
   static const String product2 = 'assets/images/product2.png';
@@ -72,7 +73,8 @@ class AppAssets {
   static const String playIcon = 'assets/icons/ic_play.png';
   static const String playVideoIcon = 'assets/icons/play_video.png';
   static const String upload = 'assets/icons/download.png';
-  static const String congratulationsBanner = 'assets/images/congratulations_banner.png';
+  static const String congratulationsBanner =
+      'assets/images/congratulations_banner.png';
   static const String checkIcon = 'assets/icons/ic_check.png';
   static const String achieversIcon = 'assets/icons/ic_achievers.png';
   static const String videoIcons = 'assets/icons/ic_video.png';
@@ -111,7 +113,8 @@ class AppAssets {
   static const String fileDownload = 'assets/images/file_download.png';
   static const String reportBg = 'assets/images/report_bg.png';
 
-  static const String logoHorizontalText = 'assets/images/logo_horizontal_text.png';
+  static const String logoHorizontalText =
+      'assets/images/logo_horizontal_text.png';
   static const String dashboardRings = 'assets/images/dashboard_rings.png';
   static const String smileStar = 'assets/icons/Ice_smile_star.png';
   static const String basSmileStar = 'assets/icons/Ic_bas_smile_star.png';
@@ -134,12 +137,22 @@ class AppAssets {
   static const String admemberlist = 'assets/images/memberuser.png';
 
   // static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
-  static const String authbackgroundimage = 'assets/images/login_background_Image.png';
-  static const String introVideo = 'assets/videos/intro_videos.mp4';
+  static const String authbackgroundimage =
+      'assets/images/login_background_Image.png';
+  static const String introVideo = 'assets/videos/introVideo.mp4';
 
   /// social image
   static const String fb = 'assets/social_link/Facebook.png';
   static const String insta = 'assets/social_link/Instagram.png';
   static const String link = 'assets/social_link/linkedin.png';
   static const String tw = 'assets/social_link/Twitter.png';
+
+  ///gif
+  static const String welcomeGif = 'assets/gif/welocome.gif';
+  static const String welcomeSplash = 'assets/gif/welcom_splash.gif';
+  static const String thinkBigLastScreen = 'assets/gif/think_big_last.gif';
+  static const String thinkBigLastAnswer = 'assets/gif/think_big_answer.gif';
+
+  /// gif Sound
+  static const String welcomeSound = 'gifSount/welcome_sound.mp3';
 }

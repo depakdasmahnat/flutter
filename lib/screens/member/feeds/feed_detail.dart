@@ -81,13 +81,12 @@ class _FeedDetailState extends State<FeedDetail> {
             CustomBackButton(),
           ],
         ),
-        title: const Text('Feeds'),
+        title: const Text('Social'),
       ),
       body: Consumer<FeedsController>(
         builder: (context, controller, child) {
           feedDetails = controller.feedsDetails;
           comments = controller.comments;
-
           return PageView.builder(
             controller: pageController,
             itemCount: feedDetails?.length ?? 0,

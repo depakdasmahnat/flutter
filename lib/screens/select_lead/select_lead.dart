@@ -16,7 +16,7 @@ class SelectLead extends StatefulWidget {
 }
 
 class _SelectLeadState extends State<SelectLead> {
-  final switch1 = ValueNotifier<bool>(true);
+  final switch1 = ValueNotifier<bool>(false);
 
   @override
   Widget build(BuildContext context) {

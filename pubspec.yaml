@@ -81,6 +81,10 @@ dependencies:
   flip_card: ^0.7.0
   dio: ^5.4.1
   path_provider: ^2.1.2
+  two_dimensional_scrollables: ^0.1.1
+  audioplayers: ^5.2.1
+
+
 
 dev_dependencies:
   flutter_test:
@@ -121,3 +125,8 @@ flutter:
     - assets/extraImage/
     - assets/videos/
     - assets/social_link/
+    - assets/gif/
+    - assets/gifSound/sound.mp3
+    - assets/gifSound/think_bigLast.mp3
+    - assets/gifSound/think_big_answer.mp3
+

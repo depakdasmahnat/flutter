@@ -68,11 +68,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
 
   @override
   void initState() {
-    print('check first name ${widget.firstName}');
-    print('check last name ${widget.lastName}');
-    print('check referralCode name ${widget.referralCode}');
-    print('check mobileNo name ${widget.mobileNo}');
-    print('check isMobileValidated name ${widget.isMobileValidated}');
+
     super.initState();
     startCountDown();
   }

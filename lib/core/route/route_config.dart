@@ -61,6 +61,7 @@ import '../../screens/member/performance_chart/performance_chart.dart';
 import '../../screens/member/profile/account_settings.dart';
 import '../../screens/member/profile/member_edit_profile.dart';
 import '../../screens/member/profile/profile.dart';
+import '../../screens/member/profile/watch_video_count.dart';
 import '../../screens/member/resources/resources.dart';
 import '../../screens/member/services/services_screen.dart';
 import '../../screens/member/target/create_target.dart';
@@ -109,7 +110,8 @@ class RoutesConfig {
         name: Routs.memberaddForm,
         path: Routs.memberaddForm,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const AddMemberForm());
+          AddMemberForm? data = state.extra as AddMemberForm?;
+          return materialPage(state: state, child:  AddMemberForm(guestId: data?.guestId??'',));
         },
       ),
       GoRoute(
@@ -123,7 +125,8 @@ class RoutesConfig {
         name: Routs.memberEditProfile,
         path: Routs.memberEditProfile,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const MemberEditProfile());
+          MemberEditProfile? data = state.extra as MemberEditProfile?;
+          return materialPage(state: state, child:  MemberEditProfile(loginType: data?.loginType??false,));
         },
       ),
       GoRoute(
@@ -146,13 +149,25 @@ class RoutesConfig {
         path: Routs.dashboard,
         pageBuilder: (context, state) {
           DashBoard? data = state.extra as DashBoard?;
-          print('check data ${data?.dashBoardIndex}');
-          print('check data ${data?.userRole}');
+
           return materialPage(
               state: state,
               child: DashBoard(
                 dashBoardIndex: data?.dashBoardIndex,
                 userRole: data?.userRole,
+              ),
+              authRequired: true);
+        },
+      ),     GoRoute(
+        name: Routs.watchVideoCount,
+        path: Routs.watchVideoCount,
+        pageBuilder: (context, state) {
+          WatchVideoCount? data = state.extra as WatchVideoCount?;
+
+          return materialPage(
+              state: state,
+              child: WatchVideoCount(
+                guestProfileDetails:data?.guestProfileDetails ,
               ),
               authRequired: true);
         },

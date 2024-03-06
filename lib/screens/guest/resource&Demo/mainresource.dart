@@ -71,7 +71,9 @@ class _MainResourceState extends State<MainResource> {
                                     children: [
                                       Flexible(
                                         child: ImageView(
-                                          networkImage: '${data?.image}',
+                                          width: 172,
+                                          borderRadiusValue: 10,
+                                          networkImage: '${data?.path}',
                                           fit: BoxFit.cover,
                                           margin: const EdgeInsets.all(6),
                                         ),

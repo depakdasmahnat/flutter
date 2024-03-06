@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +25,30 @@ class GuestCheckDemoStep4 extends StatefulWidget {
 }
 
 class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
+  AudioPlayer player =  AudioPlayer();
+  playLocal() async {
+
+    AudioCache.instance = AudioCache(prefix: 'assets/');
+    await player?.play(AssetSource('gifSound/think_bigLast.mp3'));
+    player?.setReleaseMode(ReleaseMode.loop);
+    // player?.setVolume(0.2);
+
+
+  }
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      playLocal();
+
+    });
+    super.initState();
+    // context.read<CheckDemoController>().addIndex(3);
+  }
+  @override
+  void dispose() {
+    player?.stop();
+    player?.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     GuestData? guest = context.read<LocalDatabase>().guest;
@@ -32,14 +57,14 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
        body: Stack(
          children: [
            Positioned(
-             bottom: size.height*0.14,
+             // bottom: size.height*0.14,
              child: Container(
-               height: size.height * 0.48,
+               // height: size.height * 0.48,
                width: size.width,
                decoration: const BoxDecoration(
                  image: DecorationImage(
                    image: AssetImage(
-                     AppAssets.checkDemoImage,
+                     AppAssets.thinkBigLastScreen,
                    ),
                    fit: BoxFit.cover,
                  ),
@@ -52,8 +77,17 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
              children: [
                Column(
                  children: [
+                   const SizedBox(
+                     height: 10,
+                   ),
                    CustomText1(
-                     text: "Hello, ${guest?.firstName.toCapitalizeFirst}! Let's dive in and explore together !",
+                     text: 'Hello, ${guest?.firstName.toCapitalizeFirst}! ',
+                     color: Colors.white,
+                     fontSize: 26,
+                     textAlign: TextAlign.center,
+                     fontWeight: FontWeight.w400,
+                   ),  CustomText1(
+                     text: "Let's dive in and explore together !",
                      color: Colors.white,
                      fontSize: 26,
                      textAlign: TextAlign.center,
@@ -84,9 +118,10 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
                      backgroundColor: Colors.transparent,
                      boxShadow: const [],
                      margin: const EdgeInsets.only(left: 16, right: 24),
-                     onTap: () {
+                     onTap: () async{
                        // context.read<CheckDemoController>().addIndex(4);
                        // context.read<CheckDemoController>().nextPage(4);
+                    await   player.pause();
                        context.pop();
 
                      },
@@ -117,6 +152,7 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
                      boxShadow: const [],
                      margin: const EdgeInsets.only(left: 16, right: 24),
                      onTap: () async{
+                       await   player.pause();
                        await context.read<MembersController>().callUser(
                                    mobileNo: widget.mobile,
                                  );

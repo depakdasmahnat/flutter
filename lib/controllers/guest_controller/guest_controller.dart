@@ -739,6 +739,7 @@ class GuestControllers extends ChangeNotifier {
 
   Future<FetchGuestProfile?> fetchGuestProfile({
     required BuildContext context,
+    required bool? member,
   }) async {
     refresh() {
       fetchGuestProfileLoader = false;
@@ -757,7 +758,7 @@ class GuestControllers extends ChangeNotifier {
     try {
       await ApiService()
           .get(
-        endPoint: ApiEndpoints.fetchGuestProfile,
+        endPoint:member==true?ApiEndpoints.memberProfile: ApiEndpoints.fetchGuestProfile,
       )
           .then((response) {
         if (response != null) {
@@ -954,6 +955,10 @@ class GuestControllers extends ChangeNotifier {
     });
     // return responseData;
   }
+
+
+  /// fetch guest profile
+
 
 
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_flip_card/flipcard/gesture_flip_card.dart';
@@ -20,10 +22,10 @@ import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
+import '../../../core/constant/colors.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/feeds/feeds_data.dart';
@@ -101,6 +103,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
   Set<int> selectedIds = Set<int>();
+  int? tabIndex =0;
+  Timer? _debounce;
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+       context.read<FeedsController>().fetchFeeds(
+        context: context,
+        isRefresh:  true ,
+        loadingNext:  false,
+        categoryId: '',
+        searchKey: value,
+      );
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
@@ -108,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer<FeedsController>(builder: (context, controller, child) {
       feeds = controller.feeds;
       return Scaffold(
+         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 0,
           title: Row(
@@ -175,6 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const GuestProfiles(),
             const Banners(),
+
             Consumer<CheckDemoController>(
               builder: (context, controller, child) {
                 return  GradientButton(
@@ -184,17 +203,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   backgroundColor: Colors.transparent,
                   boxShadow: const [],
                   onTap: () {
-                // if(controller.getStep?.demoStep==6){
-                //   context.pushNamed(Routs.guestDemoVideos);
-                // }else{
-                //   context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
-                //     await context.read<CheckDemoController>().getStepCheckDemo(context: context);
-                //   },);
-                //
-                // }
-                    context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
-                      await context.read<CheckDemoController>().getStepCheckDemo(context: context);
-                    },);
+                if(controller.getStep?.demoStep==6){
+                  context.pushNamed(Routs.guestDemoVideos);
+                }else{
+                  context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                    await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                  },);
+
+                }
+                //     context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                //       await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                //     },);
                   },
                   margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                   child: Row(
@@ -251,15 +270,10 @@ class _HomeScreenState extends State<HomeScreen> {
              CustomTextField(
               hintText: 'Search events, benefits, and more',
               controller: searchController,
-              onFieldSubmitted: (value)async {
-                await context.read<FeedsController>().fetchFeeds(
-                  context: context,
-                  isRefresh:  true ,
-                  loadingNext:  false,
-                  categoryId: '',
-                  searchKey: searchController.text,
-                );
+              onChanged: (value) {
+                onSearchFieldChanged(value);
               },
+
               hintStyle: const TextStyle(color: Colors.white),
               prefixIcon: const ImageView(
                 height: 20,
@@ -286,22 +300,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       // padding: const EdgeInsets.only(left: 20,),
                       itemBuilder: (context, index) {
                         var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
-                        bool isSelected = selectedIds.contains(data?.id);
+
                         selectedFilter ??= data;
                         return GradientButton(
-                          backgroundGradient: isSelected? primaryGradient : inActiveGradient,
+                          backgroundGradient:  tabIndex==index? primaryGradient : inActiveGradient,
                           borderWidth: 2,
                           borderRadius: 30,
                           onTap: () async{
                             selectedFilter = data;
-                            if (isSelected) {
-                              selectedIds.remove(data?.id);
-                            } else {
-                              selectedIds.add(int.parse(data?.id.toString()??''));
-                            }
-
+                            var id=selectedFilter?.id;
+                            tabIndex=index;
                             setState(() {});
-                          await  fetchFeeds(categoryId:selectedIds.join(',') );
+                          await  fetchFeeds(categoryId:id.toString() );
                           },
                           margin: const EdgeInsets.only(right: 12),
                           padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
@@ -310,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: isSelected ? Colors.black : Colors.white,
+                              color: tabIndex==index ? Colors.black : Colors.white,
                             ),
                           ),
                         );

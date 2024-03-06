@@ -287,7 +287,7 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
                   ),
                   CustomeDropdown(
                     title: 'Sponsor’s Down line Rank',
-                    hintText: 'Select down line rank',
+                    hintText: 'Register this applicant as (rank)',
                     listItem: const ['1A','2A','3A','4A','5a'],
                   ),
                   SizedBox(
@@ -295,7 +295,8 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
                   ),
                   AppTextField(
                     controller: salesFController,
-                    hintText: 'Sales Facilitator',
+                    hintText: 'sales done by',
+                    // hintText: 'Sales Facilitator',
                     // validator:
                     //     (value) {
                     //   if(value!.isEmpty || value ==null){
@@ -318,7 +319,7 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
                     //
                     // },
 
-                    title:'Sales Facilitator' ,
+                    title:'sales done by' ,
                     height: size.height*0.04,
                   ),
                   SizedBox(
@@ -435,10 +436,7 @@ class _ModelDialogBoxState extends State<ModelDialogBox> {
     );
   }
 }
-
-
 class ModelDialogBox1 extends StatefulWidget {
-
   const ModelDialogBox1({super.key,});
   @override
   State<ModelDialogBox1> createState() => _ModelDialogBox1State();
@@ -456,12 +454,10 @@ class _ModelDialogBox1State extends State<ModelDialogBox1> {
     Size size = MediaQuery.of(context).size;
     return  Consumer<MembersController>(
       builder: (context, controller, child) {
-
         return  Scaffold(
           backgroundColor: Colors.transparent,
           body:  Center(
             child: Container(
-
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18),
@@ -1081,7 +1077,7 @@ class _DemoDoneFormDemoScheduledState extends State<DemoDoneFormDemoScheduled> {
                           DefaultModel? model = await context.read<MembersController>().demoDoneForm(context: context,
                               demoId: widget.demoId, feedback: '', remark: remarkController.text, priority: priority);
                           if(model?.status==true){
-                            await context.read<MembersController>().fetchLeads(status: 'Demo Scheduled', priority: '', page: '1');
+                            await context.read<MembersController>().fetchLeads(status: 'Demo Scheduled', priority: '', page: '1',searchKey: '');
                           }
                         },
                         child: Row(
@@ -1231,9 +1227,14 @@ class _ModelDialogBoxIncompleteState extends State<ModelDialogBoxIncomplete> {
             ),
             TextButton(
               onPressed:()async {
-                await context.read<ListsControllers>().rescheduledCall(context: context,
+                DefaultModel? model=  await context.read<ListsControllers>().rescheduledCall(context: context,
                     guestId: widget.guestId, reason: '', date: dateController.text, time:timeController.text, LMSStep: 'Demo Scheduled ', priority: widget.priority, demoRescheduleRemark: '');
-                context.pop();
+
+                if(model?.status==true){
+                  context.pop();
+                  context.pop();
+                }
+
               },
               child: const Text('Save'),
             ),

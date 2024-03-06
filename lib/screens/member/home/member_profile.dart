@@ -18,9 +18,11 @@ import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/web_view_screen.dart';
 import '../../guest/guestProfile/guest_profile.dart';
+import '../profile/member_edit_profile.dart';
 
 class MemberProfile extends StatefulWidget {
-  const MemberProfile({super.key});
+
+  const MemberProfile({super.key,});
 
   @override
   State<MemberProfile> createState() => _MemberProfileState();
@@ -282,7 +284,7 @@ class _MemberProfileState extends State<MemberProfile> {
                         icon: AppAssets.edit,
                         title: 'Profile Edit',
                         onTap: () {
-                          context.push(Routs.memberEditProfile);
+                          context.push(Routs.memberEditProfile,extra:  const MemberEditProfile(loginType: true,));
                         },
                       ),
                       SizedBox(

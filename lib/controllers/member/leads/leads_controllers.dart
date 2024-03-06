@@ -10,7 +10,10 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../core/services/api/api_service.dart';
 
+import '../../../models/guestProfileDetailsFor/guestProfileDetailFor.dart';
 import '../../../models/member/dashboard/achievement_badges_model.dart';
+import '../../../models/member/leads/fetchGuestData.dart';
+import '../../../models/member/leads/fetchObjectModel.dart';
 import '../../../models/member/leads/leads_member_details.dart';
 import '../../../models/member/leads/leads_model.dart';
 import '../../../models/member/todo/to_do_model.dart';
@@ -20,6 +23,11 @@ class ListsControllers extends ChangeNotifier {
   /// 1) Leads API...
   bool loadingLeads = true;
   LeadsModel? _leadsModel;
+  int? tabIndex =-1;
+  addIndex(index){
+    tabIndex=index;
+    notifyListeners();
+  }
 
   LeadsModel? get leadsModel => _leadsModel;
 
@@ -207,7 +215,7 @@ class ListsControllers extends ChangeNotifier {
 
   bool loadingGuestProfileDetails = true;
   GuestProfileDetails? guestProfileDetailsModel;
-  GuestProfileDetailsData? guestProfileDetails;
+  GuestProfileDetailFor? guestProfileDetails;
 
   /// 1) Delete lead...
   Future<DefaultModel?> deleteLead({
@@ -302,7 +310,7 @@ class ListsControllers extends ChangeNotifier {
     return responseData;
   }
 
-  Future<GuestProfileDetailsData?> fetchGuestProfileDetails({
+  Future<GuestProfileDetailFor?> fetchGuestProfileDetails({
     String? guestId,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -334,9 +342,9 @@ class ListsControllers extends ChangeNotifier {
         if (response != null) {
           Map<String, dynamic> json = response;
 
-          GuestProfileDetails responseData = GuestProfileDetails.fromJson(json);
+          GuestProfileDetailFor responseData = GuestProfileDetailFor.fromJson(json);
           if (responseData.status == true) {
-            guestProfileDetails = responseData.data;
+            guestProfileDetails = responseData;
             notifyListeners();
           }
         }
@@ -349,5 +357,88 @@ class ListsControllers extends ChangeNotifier {
     }
 
     return guestProfileDetails;
+  }
+
+/// fetch objects
+  FetchObjectModel? fetchObjectModel;
+ bool? fetchObjectLoader =false;
+  Future<FetchObjectModel?> fetchObject({
+    required BuildContext context,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        fetchObjectLoader =false;
+        fetchObjectModel =null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        fetchObjectLoader = true;
+        notifyListeners();
+      }
+
+      onRefresh();
+
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchObject,
+
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchObjectModel responseData = FetchObjectModel.fromJson(json);
+          if (responseData.status == true) {
+            fetchObjectModel = responseData;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+    return fetchObjectModel;
+  }
+
+  /// 1) fetch state..
+  FetchGuestData? fetchGuestDataModel;
+
+  Future<FetchGuestData?> fetchGuestData({
+    required BuildContext context,
+    required String guestId,
+
+  }) async {
+
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchGuestData,
+        queryParameters: {
+          'guest_id':guestId
+        }
+      )
+          .then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchGuestData responseData = FetchGuestData.fromJson(json);
+          if (responseData.status == true) {
+            fetchGuestDataModel = responseData;
+            notifyListeners();
+          }
+        }
+
+        // apiResponseCompleted();
+      });
+    } catch (e, s) {
+      // apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchGuestDataModel;
   }
 }

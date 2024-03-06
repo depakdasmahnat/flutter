@@ -37,6 +37,7 @@ class _GuestProfileState extends State<GuestProfile> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       await context.read<GuestControllers>().fetchGuestProfile(
             context: context,
+        member: true
           );
     });
     super.initState();
@@ -118,10 +119,11 @@ class _GuestProfileState extends State<GuestProfile> {
                                     icon: AppAssets.edit,
                                     title: 'Profile Edit',
                                     onTap: () {
-                                      context.push(Routs.guestEditProfile).whenComplete(
+                                      context.push(Routs.guestEditProfile, ).whenComplete(
                                         () async {
                                           await context.read<GuestControllers>().fetchGuestProfile(
                                                 context: context,
+                                            member: true
                                               );
                                         },
                                       );
