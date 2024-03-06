@@ -61,6 +61,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       fetchGuestProfileModel = await context.read<GuestControllers>().fetchGuestProfile(
             context: context,
+            member: true,
           );
       await context.read<GuestControllers>().fetchState(
             context: context,

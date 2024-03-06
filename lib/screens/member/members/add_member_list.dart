@@ -37,16 +37,17 @@ class AddMemberList extends StatefulWidget {
 
 class _AddMemberListState extends State<AddMemberList> {
   GlobalKey<DropdownSearchState<String>> dropdownKey = GlobalKey<DropdownSearchState<String>>();
-  final switch1 = ValueNotifier<bool>(true);
+  final switch1 = ValueNotifier<bool>(false);
   List item = ['Hot', 'Worm', 'Cold'];
   int? tabIndex = 0;
   String gender = '';
-  String status = 'Newly Listed';
+  String statusSelect = 'Newly Listed';
+  String status = 'New';
   String stateId = '';
   String priority = 'Hot';
   String cityId = '';
   String sponsorId = '';
-  String refType = 'Self';
+  String refType = '';
   String occupation = '';
   String demoType = '';
   String countryCode = '91';
@@ -234,16 +235,24 @@ class _AddMemberListState extends State<AddMemberList> {
                 title: 'Last Name',
                 hintText: 'Enter Lead Last Name',
               ),
+
               CountyTextField(
                 title: 'Mobile No.',
                 mandatory: '*',
                 controller: mobileController,
                 onCountryChanged: (v) {
-                  debugPrint("countryCode ${v.regionCode}");
                   countryCode = v.fullCountryCode;
+                  countryNameController.text = v.name;
+                  print("checl ${v.regionCode}");
                   setState(() {});
                 },
               ),
+              if (countryCode != '91')
+                CustomTextFieldApp(
+                  title: 'Country Name',
+                  hintText: 'Enter Country Name',
+                  controller: countryNameController,
+                ),
               CustomTextFieldApp(
                 title: ' Email',
                 hintText: 'email@gmail.com',
@@ -256,12 +265,6 @@ class _AddMemberListState extends State<AddMemberList> {
                 title: 'Gender',
                 listItem: const ['Male', 'Female'],
               ),
-              if (countryCode != '91')
-                CustomTextFieldApp(
-                  title: 'Country Name',
-                  hintText: 'Enter Country Name',
-                  controller: countryNameController,
-                ),
               if (countryCode == '91')
                 Consumer<GuestControllers>(
                   builder: (context, controller, child) {
@@ -317,19 +320,18 @@ class _AddMemberListState extends State<AddMemberList> {
                     );
                   },
                 ),
-              if (countryCode == '91')
-                CustomTextFieldApp(
-                  title: 'Pin Code',
-                  hintText: 'Enter Pin Code',
-                  mandatory: '*',
-                  controller: pinCodeController,
-                  keyboardType: TextInputType.number,
-                  maxLength: 6,
-                ),
+              // if(countryCode =='91')
+              //   CustomTextFieldApp(
+              //     title: 'Pin Code',
+              //     hintText: 'Enter Pin Code',
+              //     mandatory: '*',
+              //     controller: pinCodeController,
+              //     keyboardType: TextInputType.number,
+              //     maxLength: 6,
+              //   ),
               CustomTextFieldApp(
                 height: size.height * 0.04,
                 title: 'Address',
-                mandatory: '*',
                 hintText: 'Enter Address',
                 controller: addressController,
               ),
@@ -344,7 +346,7 @@ class _AddMemberListState extends State<AddMemberList> {
                   }
                   setState(() {});
                 },
-                selectedItem: status,
+                selectedItem: statusSelect,
                 listItem: const ['Newly Listed', 'Invitation Call', 'Demo Scheduled', 'Follow Up'],
               ),
               if (status == 'Demo Scheduled')
@@ -445,6 +447,7 @@ class _AddMemberListState extends State<AddMemberList> {
                     )
                   ],
                 ),
+
               CustomDropdown(
                 hintText: 'Select refType',
                 onChanged: (v) {
@@ -452,7 +455,7 @@ class _AddMemberListState extends State<AddMemberList> {
                 },
                 // selectedItem: refType,
                 title: 'Ref Type',
-                selectedItem: refType,
+
                 listItem: const ['Self', 'Referred'],
               ),
               Padding(
@@ -518,6 +521,7 @@ class _AddMemberListState extends State<AddMemberList> {
                   ),
                 ),
               ),
+
               Consumer<MembersController>(
                 builder: (context, controller, child) {
                   return CustomDropdown(
@@ -589,6 +593,7 @@ class _AddMemberListState extends State<AddMemberList> {
                   ),
                 ],
               ),
+
               Padding(
                 padding: const EdgeInsets.all(9),
                 child: Container(
@@ -683,7 +688,9 @@ class _AddMemberListState extends State<AddMemberList> {
                       countryName: countryNameController.text)
                   .whenComplete(
                 () async {
-                  await context.read<MembersController>().fetchLeads(status: 'New', priority: '', page: '1');
+                  await context
+                      .read<MembersController>()
+                      .fetchLeads(status: 'New', priority: '', page: '1', searchKey: '');
                 },
               );
             },
@@ -714,6 +721,8 @@ class _AddMemberListState extends State<AddMemberList> {
 class CountyTextField extends StatefulWidget {
   final String? title;
   final String? mandatory;
+  final bool? readOnly;
+
   void Function(Country)? onCountryChanged;
   final TextEditingController? controller;
 
@@ -721,6 +730,7 @@ class CountyTextField extends StatefulWidget {
     this.title,
     this.controller,
     this.mandatory,
+    this.readOnly,
     super.key,
     this.onCountryChanged,
   });
@@ -787,9 +797,11 @@ class _CountyTextFieldState extends State<CountyTextField> {
                 decoration: const InputDecoration(hintText: 'Enter Mobile No.', border: InputBorder.none),
                 autovalidateMode: AutovalidateMode.disabled,
                 initialCountryCode: 'IN',
+                // initialValue:'233' ,
                 dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                 dropdownIconPosition: IconPosition.trailing,
                 disableLengthCheck: true,
+                readOnly: widget.readOnly ?? false,
                 onCountryChanged: widget.onCountryChanged,
                 // onChanged: widget.onChanged
               ),

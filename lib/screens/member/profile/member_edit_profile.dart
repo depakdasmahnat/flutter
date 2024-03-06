@@ -25,20 +25,22 @@ import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
 
 class MemberEditProfile extends StatefulWidget {
-  const MemberEditProfile({super.key});
+  final bool? loginType;
+
+  const MemberEditProfile({super.key, this.loginType});
 
   @override
   State<MemberEditProfile> createState() => _MemberEditProfileState();
 }
 
 class _MemberEditProfileState extends State<MemberEditProfile> {
-  final switch1 = ValueNotifier<bool>(true);
+  final switch1 = ValueNotifier<bool>(false);
   String gender = '';
   String genderHint = '';
   String stateId = '';
   String stateHint = '';
   String cityId = '';
-  String cityHint= '';
+  String cityHint = '';
   String occupation = '';
   String sponsorId = '';
   String sponsorHint = '';
@@ -58,13 +60,12 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
   TextEditingController addressController = TextEditingController();
   TextEditingController enagicIdController = TextEditingController();
   TextEditingController enagicPassController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context.read<GuestControllers>().fetchGuestProfile(
-            context: context,
-          );
+      await context.read<GuestControllers>().fetchGuestProfile(context: context, member: true);
       await context.read<GuestControllers>().fetchState(
             context: context,
           );
@@ -86,6 +87,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
       });
     });
   }
+
   Future<void> updateProfileImage({required ImageSource source}) async {
     final pickedImg = await ImagePicker().pickImage(source: source);
     setState(() {
@@ -97,6 +99,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
       Navigator.pop(context);
     }
   }
+
   Future addImages() async {
     return showModalBottomSheet(
         context: context,
@@ -169,38 +172,35 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
           )),
       body: Consumer<GuestControllers>(
         builder: (context, controller, child) {
-          firstNameController.text =
-              controller.fetchGuestProfileModel?.data?.firstName ?? '';
-          lastNameController.text =
-              controller.fetchGuestProfileModel?.data?.lastName ?? '';
-          mobileController.text =
-              controller.fetchGuestProfileModel?.data?.mobile ?? '';
-          emailController.text =
-              controller.fetchGuestProfileModel?.data?.email ?? '';
-          noOfFamilyController.text = controller
-                  .fetchGuestProfileModel?.data?.noOfFamilyMembers
-                  .toString()=='null' ?'':controller
-              .fetchGuestProfileModel?.data?.noOfFamilyMembers
-              .toString()??
-              '';
+          firstNameController.text = controller.fetchGuestProfileModel?.data?.firstName ?? '';
+          lastNameController.text = controller.fetchGuestProfileModel?.data?.lastName ?? '';
+          mobileController.text = controller.fetchGuestProfileModel?.data?.mobile ?? '';
+          emailController.text = controller.fetchGuestProfileModel?.data?.email ?? '';
+          noOfFamilyController.text =
+              controller.fetchGuestProfileModel?.data?.noOfFamilyMembers.toString() == 'null'
+                  ? ''
+                  : controller.fetchGuestProfileModel?.data?.noOfFamilyMembers.toString() ?? '';
           illnessController.text = controller.fetchGuestProfileModel?.data?.illnessInFamily ?? '';
           pinCodeController.text = controller.fetchGuestProfileModel?.data?.pincode ?? '';
           monthlyIncomeController.text = controller.fetchGuestProfileModel?.data?.monthlyIncome ?? '';
           addressController.text = controller.fetchGuestProfileModel?.data?.address ?? '';
           enagicIdController.text = controller.fetchGuestProfileModel?.data?.enagicId ?? '';
           genderHint = controller.fetchGuestProfileModel?.data?.gender ?? '';
-          stateId = controller.fetchGuestProfileModel?.data?.stateId.toString()=='null'?'':controller.fetchGuestProfileModel?.data?.stateId.toString()??'';
-          stateHint = controller.fetchGuestProfileModel?.data?.stateName ??
-              'Select State';
+          stateId = controller.fetchGuestProfileModel?.data?.stateId.toString() == 'null'
+              ? ''
+              : controller.fetchGuestProfileModel?.data?.stateId.toString() ?? '';
+          stateHint = controller.fetchGuestProfileModel?.data?.stateName ?? 'Select State';
           gender = controller.fetchGuestProfileModel?.data?.gender ?? 'Select Gender';
-          cityId = controller.fetchGuestProfileModel?.data?.cityId.toString()=='null' ? '':controller.fetchGuestProfileModel?.data?.cityId.toString()??'';
-          sponsorId = controller.fetchGuestProfileModel?.data?.sponsorId.toString()??'';
-          sponsorHint = controller.fetchGuestProfileModel?.data?.sponsorName.toString()=='null' ? '':controller.fetchGuestProfileModel?.data?.sponsorName.toString()??'';
-          cityHint = controller.fetchGuestProfileModel?.data?.cityName?? 'Select City';
-          occupationHint = controller.fetchGuestProfileModel?.data?.occupation ??
-              'Select Occupation';
-          occupation =
-              controller.fetchGuestProfileModel?.data?.occupation ?? '';
+          cityId = controller.fetchGuestProfileModel?.data?.cityId.toString() == 'null'
+              ? ''
+              : controller.fetchGuestProfileModel?.data?.cityId.toString() ?? '';
+          sponsorId = controller.fetchGuestProfileModel?.data?.sponsorId.toString() ?? '';
+          sponsorHint = controller.fetchGuestProfileModel?.data?.sponsorName.toString() == 'null'
+              ? ''
+              : controller.fetchGuestProfileModel?.data?.sponsorName.toString() ?? '';
+          cityHint = controller.fetchGuestProfileModel?.data?.cityName ?? 'Select City';
+          occupationHint = controller.fetchGuestProfileModel?.data?.occupation ?? 'Select Occupation';
+          occupation = controller.fetchGuestProfileModel?.data?.occupation ?? '';
           return controller.fetchGuestProfileLoader == false
               ? const LoadingScreen(message: 'Loading Profile...')
               : ListView(
@@ -210,12 +210,11 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ImageView(
-                          onTap: () async{
-                            await  addImages();
+                          onTap: () async {
+                            await addImages();
                           },
                           height: 100,
-
-                          file: File(image?.path??''),
+                          file: File(image?.path ?? ''),
                           border: Border.all(color: Colors.white),
                           borderRadiusValue: 50,
                           isAvatar: true,
@@ -230,8 +229,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(AppAssets.upload,
-                            height: size.height * 0.02),
+                        Image.asset(AppAssets.upload, height: size.height * 0.02),
                         const SizedBox(
                           width: 5,
                         ),
@@ -260,7 +258,6 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       hintText: 'Enter Mobile No.',
                     ),
                     CustomDropdown(
-
                       hintText: genderHint,
                       onChanged: (v) {
                         gender = v;
@@ -273,14 +270,31 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       title: 'Email',
                       hintText: 'email@gmail.com',
                     ),
-                    CustomDropdown(
-
-                      hintText: occupationHint,
-                      onChanged: (v) {
-                        occupation = v ?? '';
+                    // CustomDropdown(
+                    //   context: context,
+                    //   hintText: occupationHint,
+                    //   onChanged: (v) {
+                    //     occupation = v ?? '';
+                    //   },
+                    //   title: 'Occupation',
+                    //   listItem: const ['Doctor', 'Doctor'],
+                    // ),
+                    Consumer<MembersController>(
+                      builder: (context, controller, child) {
+                        return CustomDropdown(
+                          hintText: 'Select Occupation',
+                          onChanged: (v) {
+                            var id = controller.fetchOccupationModel?.data?.firstWhere((element) {
+                              return element.name == v;
+                            }).id;
+                            occupation = id.toString();
+                          },
+                          title: 'Occupation',
+                          listItem: controller.fetchOccupationModel?.data?.map((e) {
+                            return e.name;
+                          }).toList(),
+                        );
                       },
-                      title: 'Occupation',
-                      listItem: const ['Doctor', 'Doctor'],
                     ),
                     Row(
                       children: [
@@ -299,26 +313,19 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
                                       popupMenuTheme: PopupMenuThemeData(
-                                          shape: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
+                                          shape: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                                       cardColor: Colors.white,
 
-                                      colorScheme: Theme.of(context)
-                                          .colorScheme
-                                          .copyWith(
-                                            primary:
-                                                Colors.white, // <-- SEE HERE
-                                            onPrimary:
-                                                Colors.black, // <-- SEE HERE
+                                      colorScheme: Theme.of(context).colorScheme.copyWith(
+                                            primary: Colors.white, // <-- SEE HERE
+                                            onPrimary: Colors.black, // <-- SEE HERE
                                             onSurface: Colors.white,
                                           ),
 
                                       // Input
-                                      inputDecorationTheme:
-                                          const InputDecorationTheme(
-                                              // labelStyle: GoogleFonts.greatVibes(), // Input label
-                                              ),
+                                      inputDecorationTheme: const InputDecorationTheme(
+                                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                                          ),
                                     ),
                                     child: child!,
                                   );
@@ -363,13 +370,11 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                               AdvancedSwitch(
                                 controller: switch1,
                                 thumb: Container(
-                                  decoration: const BoxDecoration(
-                                      color: Colors.black,
-                                      shape: BoxShape.circle),
+                                  decoration:
+                                      const BoxDecoration(color: Colors.black, shape: BoxShape.circle),
                                 ),
                                 inactiveColor: Colors.grey,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(15)),
+                                borderRadius: const BorderRadius.all(Radius.circular(15)),
                                 width: size.height * 0.06,
                                 height: size.height * 0.03,
                                 enabled: true,
@@ -392,7 +397,6 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       keyboardType: TextInputType.number,
                     ),
                     CustomDropdown(
-
                       hintText: stateHint,
                       onChanged: (v) async {
                         stateId = controller.satesModel?.data
@@ -414,13 +418,11 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                       },
                       // selectedItem: stateName,
                       title: 'State',
-                      listItem: controller.satesModel?.data
-                          ?.map((e) => e.name)
-                          .toList(),
+                      listItem: controller.satesModel?.data?.map((e) => e.name).toList(),
                     ),
                     CustomDropdown(
-
-                      hintText:cityHint,
+                      showSearchBox: true,
+                      hintText: cityHint,
                       onChanged: (v) {
                         cityId = controller.cityModel?.data
                                 ?.firstWhere(
@@ -433,16 +435,14 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                             '';
                       },
                       title: 'City',
-                      listItem: controller.cityModel?.data
-                          ?.map((e) => e.name)
-                          .toList(),
+                      listItem: controller.cityModel?.data?.map((e) => e.name).toList(),
                     ),
-                    CustomTextFieldApp(
-                      title: 'Pin Code',
-                      controller: pinCodeController,
-                      hintText: 'Enter Pin Code',
-                      keyboardType: TextInputType.number,
-                    ),
+                    // CustomTextFieldApp(
+                    //   title: 'Pin Code',
+                    //   controller: pinCodeController,
+                    //   hintText: 'Enter Pin Code',
+                    //   keyboardType: TextInputType.number,
+                    // ),
                     CustomTextFieldApp(
                       controller: addressController,
                       height: size.height * 0.06,
@@ -452,6 +452,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                     CustomTextFieldApp(
                       controller: enagicIdController,
                       title: 'Enagic ID',
+                      readOnly: true,
                       hintText: 'Enter Enagic ID',
                     ),
                     CustomTextFieldApp(
@@ -462,7 +463,6 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                     Consumer<MembersController>(
                       builder: (context, controller, child) {
                         return CustomDropdown(
-
                           hintText: sponsorHint,
                           onChanged: (v) {
                             sponsorId = controller.fetchSponsorModel?.data
@@ -476,9 +476,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                                 '';
                           },
                           title: 'Sponsor',
-                          listItem: controller.fetchSponsorModel?.data
-                              ?.map((e) => e.name)
-                              .toList(),
+                          listItem: controller.fetchSponsorModel?.data?.map((e) => e.name).toList(),
                         );
                       },
                     ),
@@ -524,8 +522,7 @@ class _MemberEditProfileState extends State<MemberEditProfile> {
                   salesFacilitatorId: '',
                   // enagicId: enagicIdController.text,
                   // password: enagicPassController.text,
-                file: XFile(image?.path??'')
-              );
+                  file: XFile(image?.path ?? ''));
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

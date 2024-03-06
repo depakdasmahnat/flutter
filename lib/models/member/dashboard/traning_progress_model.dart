@@ -9,7 +9,7 @@ class TrainingProgressModel {
   TrainingProgressModel({
     this.status,
     this.message,
-    this.chapter,
+    this.modules,
     this.perc,
     this.advanceEligible,
   });
@@ -17,28 +17,28 @@ class TrainingProgressModel {
   TrainingProgressModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
-    chapter = json['chapter'];
+    modules = json['modules'];
     perc = json['perc'];
     advanceEligible = json['advance_eligible'];
   }
 
   bool? status;
   String? message;
-  String? chapter;
+  String? modules;
   num? perc;
   bool? advanceEligible;
 
   TrainingProgressModel copyWith({
     bool? status,
     String? message,
-    String? chapter,
+    String? modules,
     num? perc,
     bool? advanceEligible,
   }) =>
       TrainingProgressModel(
         status: status ?? this.status,
         message: message ?? this.message,
-        chapter: chapter ?? this.chapter,
+        modules: modules ?? this.modules,
         perc: perc ?? this.perc,
         advanceEligible: advanceEligible ?? this.advanceEligible,
       );
@@ -47,7 +47,7 @@ class TrainingProgressModel {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['message'] = message;
-    map['chapter'] = chapter;
+    map['modules'] = modules;
     map['perc'] = perc;
     map['advance_eligible'] = advanceEligible;
     return map;

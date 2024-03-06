@@ -69,7 +69,7 @@ class _TrainingProgressState extends State<TrainingProgress> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Steps ${trainingProgress?.chapter ?? ''}',
+                      'Steps ${trainingProgress?.modules ?? ''}',
                       style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
                     ),
                     Text(
