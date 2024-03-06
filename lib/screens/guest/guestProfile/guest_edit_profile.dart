@@ -11,6 +11,7 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.d
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_auth_controller.dart';
+import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/services/database/local_database.dart';
@@ -64,6 +65,9 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 context: context,
             member: true
               );
+      await context.read<MembersController>().fetchOccupation(
+        context: context,
+      );
       await context.read<GuestControllers>().fetchState(context: context,);
       gender = fetchGuestProfileModel?.data?.gender??'';
       genderHint = fetchGuestProfileModel?.data?.gender??'Select Gender';
@@ -280,7 +284,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 controller: lastNameController,
                 title: 'Last Name',
                 hintText: 'Enter Last Name',
-                readOnly: lastName,
+
               ),
               CustomDropdown(
                 context: context,
@@ -298,27 +302,10 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 readOnly: true,
                 prefixIcon:  Padding(
                   padding: EdgeInsets.only(top: 3),
-                  child: Text('+${countryCode}'),
+                  child: Text('+$countryCode'),
                 ),
               ),
-              // CustomTextFieldApp(
-              //   controller: mobileController,
-              //   title: 'Mobile No.',
-              //   hintText: 'Enter Mobile No.',
-              //   prefixIcon: ,
-              // ),
-              // CountyTextField(
-              //   title: 'Mobile No.',
-              //   mandatory: '*',
-              //   readOnly: true,
-              //   controller:mobileController ,
-              //   onCountryChanged: (v) {
-              //     debugPrint('countryCode ${v.flag}');
-              //     countryCode=v.fullCountryCode;
-              //     countryNameController.text =v.name;
-              //     setState(() {});
-              //   },
-              // ),
+
               if(countryCode !='91')
               CustomTextFieldApp(
                 controller: countryNameController,
@@ -341,15 +328,33 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
               //   title: 'Ref Type',
               //   listItem: const ['Friend', 'Family','Professional','Society','Random'],
               // ),
-              CustomDropdown(
-                context: context,
-                hintText: occupationHint,
-                onChanged: (v) {
-                  occupation = v ?? '';
+              // CustomDropdown(
+              //   context: context,
+              //   hintText: occupationHint,
+              //   onChanged: (v) {
+              //     occupation = v ?? '';
+              //   },
+              //
+              //   title: 'Occupation',
+              //   listItem: const ['Doctor', 'Doctor'],
+              // ),
+              Consumer<MembersController>(
+                builder: (context, controller, child) {
+                  return     CustomDropdown(
+                    context: context,
+                    hintText: occupationHint,
+                    onChanged: (v) {
+                      var id =controller.fetchOccupationModel?.data?.firstWhere((element) {
+                        return element.name ==v;
+                      }).id;
+                      occupation = id.toString() ;
+                    },
+                    title: 'Occupation',
+                    listItem: controller.fetchOccupationModel?.data?.map((e) {
+                      return e.name;
+                    }).toList(),
+                  );
                 },
-
-                title: 'Occupation',
-                listItem: const ['Doctor', 'Doctor'],
               ),
               Row(
                 children: [

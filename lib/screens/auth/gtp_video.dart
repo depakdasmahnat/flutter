@@ -29,9 +29,9 @@ class _GtpVideoState extends State<GtpVideo> {
     controller = VideoPlayerController.asset(AppAssets.introVideo);
     futureController = controller!.initialize();
      controller?.play();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-    ]);
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.landscapeRight,
+    // ]);
      setState(() {});
   }
   @override
@@ -41,9 +41,9 @@ class _GtpVideoState extends State<GtpVideo> {
       if (controller!.value.isInitialized) {
         currentPosition.value = controller?.value;
         if (controller!.value.position >= controller!.value.duration) {
-          SystemChrome.setPreferredOrientations([
-            DeviceOrientation.portraitUp, // Change to desired orientation
-          ]);
+          // SystemChrome.setPreferredOrientations([
+          //   DeviceOrientation.portraitUp, // Change to desired orientation
+          // ]);
           context.firstRoute();
           context.pushReplacementNamed(Routs.dashboard);
           controller?.pause();
@@ -94,7 +94,7 @@ class _GtpVideoState extends State<GtpVideo> {
               child:
               AspectRatio(
                   // aspectRatio: controller!.value.aspectRatio,
-                  aspectRatio:2/1,
+                  aspectRatio:1/2,
                   child: Stack(children: [
                     Positioned.fill(
                         child: Container(
@@ -111,8 +111,6 @@ class _GtpVideoState extends State<GtpVideo> {
                                   end: Alignment.topCenter),
                             ),
                             child: VideoPlayer(controller!))),
-
-
                   ])),
             );
           }

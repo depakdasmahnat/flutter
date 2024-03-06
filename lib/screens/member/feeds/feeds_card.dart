@@ -21,6 +21,7 @@ import '../../../core/constant/gradients.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/guest_Model/guestDemoModel.dart';
 import 'chewie_video_player.dart';
+import 'feed_detail.dart';
 
 class FeedCard extends StatefulWidget {
   const FeedCard({
@@ -78,7 +79,8 @@ class _FeedCardState extends State<FeedCard> {
                     fit: BoxFit.cover,
                     networkImage: '${data?.file}',
                     onTap: () {
-                      context.pushNamed(Routs.imageOpener, extra: ImageOpener(networkImage: '${data?.file}'));
+                      context.pushNamed(Routs.feedDetail, extra: FeedDetail(id: data?.id));
+                      // context.pushNamed(Routs.imageOpener, extra: ImageOpener(networkImage: '${data?.file}'));
                     },
                   ),
                 )
@@ -127,8 +129,9 @@ class _FeedCardState extends State<FeedCard> {
                   fit: BoxFit.cover,
                   assetImage: AppAssets.pdfIcon,
                   onTap: () {
-                    context.pushNamed(Routs.viewPdf, extra: PDFViewer(pdfUrl: '${data?.file}',
-                        ));
+                    context.pushNamed(Routs.feedDetail, extra: FeedDetail(id: data?.id));
+                    // context.pushNamed(Routs.viewPdf, extra: PDFViewer(pdfUrl: '${data?.file}',
+                    //     ));
                   },
                 )
               else if (data?.file != null)

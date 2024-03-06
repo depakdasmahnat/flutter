@@ -137,11 +137,20 @@ class AppAssets {
   // static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
   static const String authbackgroundimage =
       'assets/images/login_background_Image.png';
-  static const String introVideo = 'assets/videos/intro_videos.mp4';
+  static const String introVideo = 'assets/videos/introVideo.mp4';
 
   /// social image
   static const String fb = 'assets/social_link/Facebook.png';
   static const String insta = 'assets/social_link/Instagram.png';
   static const String link = 'assets/social_link/linkedin.png';
   static const String tw = 'assets/social_link/Twitter.png';
+
+  ///gif
+  static const String welcomeGif = 'assets/gif/welocome.gif';
+  static const String welcomeSplash= 'assets/gif/welcom_splash.gif';
+  static const String thinkBigLastScreen= 'assets/gif/think_big_last.gif';
+  static const String thinkBigLastAnswer= 'assets/gif/think_big_answer.gif';
+
+  /// gif Sound
+  static const String welcomeSound = 'gifSount/welcome_sound.mp3';
 }
