@@ -356,6 +356,7 @@ class _CreateGoalState extends State<CreateGoal> {
 }
 class AppTextField extends StatelessWidget {
   final String? title;
+  final EdgeInsetsGeometry? padding;
   final void Function()? onTap;
   final String? hintText;
   final bool? readOnly;
@@ -374,6 +375,7 @@ class AppTextField extends StatelessWidget {
 
   const AppTextField({
     this.title,
+    this.padding,
     this.hintText,
     this.onTap,
     this.controller,
@@ -396,7 +398,7 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
+      padding:padding?? const EdgeInsets.symmetric(horizontal: kPadding, vertical: 10),
       child: Container(
         decoration: ShapeDecoration(
           color: const Color(0xFF1B1B1B),

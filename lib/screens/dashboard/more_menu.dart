@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import '../../core/route/route_paths.dart';
 import '../member/demo/create_demo.dart';
 import '../member/lead/model_dailog_box.dart';
+import '../member/members/add_member_form.dart';
 
 class DashboardMoreMenu extends StatefulWidget {
   bool? showLeadItem;
@@ -91,14 +92,13 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
                 context.pushNamed(Routs.memberaddList);
               },
             ),
-            MenuButton(
-              title: 'Add Members',
-              image: AppAssets.membersIcon,
-              onTap: () {
-                context.pushNamed(Routs.memberaddForm);
-
-              },
-            ),
+            // MenuButton(
+            //   title: 'Add Members',
+            //   image: AppAssets.membersIcon,
+            //   onTap: () {
+            //     context.pushNamed(Routs.memberaddForm,extra:const AddMemberForm(guestId: '',) );
+            //   },
+            // ),
             MenuButton(
               title: 'Create Events',
               image: AppAssets.eventIcon,

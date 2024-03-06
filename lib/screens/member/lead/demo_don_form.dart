@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
+import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controllers/member/leads/leads_controllers.dart';
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/constant.dart';
+import '../../../models/default/default_model.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../demo/create_demo.dart';
@@ -14,7 +18,8 @@ import '../demo/create_demo.dart';
 class DemoDoneForm extends StatefulWidget {
  final String? title;
  final String? demoId;
-  const DemoDoneForm({super.key,this.title,this.demoId});
+ final bool? apiCall;
+  const DemoDoneForm({super.key,this.title,this.demoId,this.apiCall});
 
   @override
   State<DemoDoneForm> createState() => _DemoDoneFormState();
@@ -30,8 +35,15 @@ class _DemoDoneFormState extends State<DemoDoneForm> {
   List item1 =['Hot','Worm','Cold'];
   List item =['Will rethink about it','Need to talk with some friends and family','Issue with pyramidal scheme'];
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.read<ListsControllers>().fetchObject(context: context);
+    });
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
-    print("check demo id ${widget.demoId}");
+
     Size size = MediaQuery.of(context).size;
     return StatefulBuilder(
       builder: (BuildContext context, void Function(void Function()) setState) {
@@ -52,42 +64,50 @@ class _DemoDoneFormState extends State<DemoDoneForm> {
               child: Form(
                 autovalidateMode:validate==true ? AutovalidateMode.always: AutovalidateMode.disabled,
                 child: ListView(
+                  shrinkWrap: true,
                   children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: item.length??0,
-                      itemBuilder: (context, index) {
-                      return   Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            tabIndex =index;
-                            feedback =item[index];
-                            this.setState(() {});
-                          },
-                          child: Container(
-                            decoration: ShapeDecoration(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                    Consumer<ListsControllers>(
+                      builder: (context, controller, child) {
+                        return controller.fetchObjectLoader==false?const LoadingScreen():  ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: controller.fetchObjectModel?.data?.length??0,
+                          itemBuilder: (context, index) {
+                            return   Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GestureDetector(
+                                onTap: () {
+
+                                  controller.addIndex(index);
+                                  feedback =controller.fetchObjectModel?.data?[index].id.toString()??'';
+                                  this.setState(() {});
+                                },
+                                child: Container(
+                                  decoration: ShapeDecoration(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      gradient: controller.tabIndex==index?primaryGradient:const LinearGradient(colors: [
+                                        Color(0xFF1B1B1B),
+                                        Color(0xFF1B1B1B)
+                                      ])
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(kPadding),
+                                    child: CustomeText(
+                                      text: controller.fetchObjectModel?.data?[index].name,
+                                      fontSize: 16,
+                                      color: controller.tabIndex==index?Colors.black:Colors.white,
+                                      fontWeight:controller.tabIndex==index?FontWeight.w600: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              gradient: tabIndex==index?primaryGradient:const LinearGradient(colors: [
-                                Color(0xFF1B1B1B),
-                                Color(0xFF1B1B1B)
-                              ])
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(kPadding),
-                              child: CustomeText(
-                                text: item[index],
-                                fontSize: 16,
-                                color: tabIndex==index?Colors.black:Colors.white,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },),
+                            );
+                          },);
+                      },
+
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: CustomeText(
@@ -170,8 +190,32 @@ class _DemoDoneFormState extends State<DemoDoneForm> {
                       boxShadow: const [],
                       margin: const EdgeInsets.only(left: 16, right: 24),
                       onTap: () async{
-                        await context.read<MembersController>().demoDoneForm(context: context,
-                            demoId: widget.demoId, feedback: feedback, remark: remarkController.text, priority: priority);
+                        if(widget.apiCall==true){
+                          DefaultModel? model = await context.read<MembersController>().demoDoneForm(context: context,
+                              demoId: widget.demoId, feedback: feedback, remark: remarkController.text, priority: priority);
+                          if(model?.status==true){
+
+                            await context.read<MembersController>().fetchLeads(status: 'Demo Scheduled', priority: '', page: '1',searchKey: '');
+                          }
+                        }else{
+                          DefaultModel? model=   await context.read<ListsControllers>().rescheduledCall(
+                              context: context,
+                              guestId: widget.demoId.toString()??'',
+                              reason: remarkController.text,
+                              date: '',
+                              time: '',
+                              LMSStep: 'Demo Scheduled ',
+                              priority: priority,
+                              demoRescheduleRemark: feedback);
+                          if(model?.status==true){
+                            context.pop();
+                            context.pop();
+                            await context.read<MembersController>().fetchLeads(status: 'Demo Scheduled', priority: '', page: '1',searchKey: '');
+                          }
+                          // await context.read<MembersController>().demoDoneForm(context: context,
+                          //     demoId: widget.demoId, feedback: feedback, remark: remarkController.text, priority: priority);
+                        }
+
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

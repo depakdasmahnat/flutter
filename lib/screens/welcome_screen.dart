@@ -27,25 +27,25 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage(AppAssets.firstScreenVideo1),
+                  image: AssetImage(AppAssets.welcomeSplash),
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.high,
                   isAntiAlias: true),
             ),
           ),
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(top: size.height * 0.08),
-              child: Column(
-                children: [
-                  Image.asset(
-                    AppAssets.appLogo,
-                    height: size.height * 0.16,
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Center(
+          //   child: Padding(
+          //     padding: EdgeInsets.only(top: size.height * 0.08),
+          //     child: Column(
+          //       children: [
+          //         Image.asset(
+          //           AppAssets.appLogo,
+          //           height: size.height * 0.16,
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(
               left: 28.0,
@@ -60,7 +60,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
                 GradientText(

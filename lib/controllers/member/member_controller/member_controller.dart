@@ -101,7 +101,7 @@ class MembersController extends ChangeNotifier {
     String? status,
     String? priority,
     String? page,
-    String? searchKey,
+    required String searchKey,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
@@ -226,7 +226,7 @@ class MembersController extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          context.pop();
+          // context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -338,6 +338,7 @@ class MembersController extends ChangeNotifier {
 
         if (responseData?.status == true) {
           context.pop();
+          // context.pop();
         } else {
           showSnackBar(
               context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
@@ -1083,6 +1084,7 @@ class MembersController extends ChangeNotifier {
   // bool addLeadLoader=false;
   Future addFacilitatorList({
     required BuildContext context,
+    required String guestId,
     required String firstName,
     required String lastName,
     required String mobile,
@@ -1113,6 +1115,7 @@ class MembersController extends ChangeNotifier {
     if (context != null) {
       FocusScope.of(context).unfocus();
       Map<String, String> body = {
+        'guest_id': guestId,
         'first_name': firstName,
         'last_name': lastName,
         'mobile': mobile,

@@ -120,6 +120,8 @@ class ApiEndpoints {
   static const String levelWiseMemberCount = 'level_wise_member_count?';
   static const String deleteLead = 'delete_lead';
   static const String rescheduleCall = 'reschedule';
+  static const String fetchObject = 'fetch_objection_list';
+  static const String fetchGuestData = 'fetch_guest_details';
 
   /// Guest Apis....
   static const String fetchJoiners = 'fetch_new_joinees';
@@ -150,7 +152,8 @@ class ApiEndpoints {
   static const String state = 'fetch_states';
   static const String fetchOccupation = 'fetch_occupation';
   static const String city = 'fetch_cities?state_id=';
-  static const String fetchGuestProfile = 'fetch_profile';
+  static const String fetchGuestProfile = 'guest_profile';
+  static const String memberProfile = 'fetch_profile';
   static const String fetchDownlineRank = 'sponsor_downline_rank';
   static const String fetchMemberProduct = 'fetch_products?page=1';
 }

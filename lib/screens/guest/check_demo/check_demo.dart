@@ -88,7 +88,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
               EasyStepper(
                 activeStep:controller.stepIndex,
                 internalPadding: 1,
-                // enableStepTapping: false,
+                enableStepTapping: false,
                 showLoadingAnimation: false,
                 stepRadius: 12,
                 onStepReached: (index) {
