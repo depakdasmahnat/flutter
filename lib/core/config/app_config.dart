@@ -25,14 +25,14 @@ class AppConfig {
     return url;
   }
 
-  static const String fcmServerKey = '';
+  static const String fcmServerKey = 'AAAAKbuQTwU:APA91bFlm6wbb0ap_Xw0qI1CH6g-21wj3hfXggENcqu18s3APYQMBxB38RWqLJ2uCWYEH1f0g0ab_gQpma_I4G_S_m64RHhvZ5_jlVm6e4usToAJnsMkDxuoPVLv-mEMhjxDRqQ82z8C';
   static const String mapAddressesApiKey = 'AIzaSyAaq-CLNOFfMMtll9c3LV2wpFTITExbud4';
   static const String contactEmail = 'mrwebbeast@gmail.com';
   static const String contactNumber = '+91 7559721016';
   static const String shareApp = '';
 
   ///Notification Channel Id...
-  static const String chanelName = 'GTP';
+  static const String chanelName = 'GtpApp';
 
   ///Local Database Configurations..
   static const String databaseName = 'database';

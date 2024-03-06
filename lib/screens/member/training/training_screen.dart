@@ -2,17 +2,22 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/controllers/member/training/training_controller.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/screens/member/training/chapters_screen.dart';
 import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
+import 'package:mrwebbeast/utils/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
+import '../../../core/constant/enums.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/dashboard/dashboard_data.dart';
+import '../../../models/member/dashboard/traning_progress_model.dart';
+import '../../../models/member/training/chapters_model.dart';
 import '../../../models/member/training/training_categories_model.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
@@ -24,6 +29,7 @@ import '../../../utils/widgets/training_progress.dart';
 import '../../dashboard/dashboard.dart';
 import '../../guest/home/home_screen.dart';
 import '../home/member_dashboard.dart';
+import 'chapter_details.dart';
 
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({super.key});
@@ -83,6 +89,8 @@ class _TrainingScreenState extends State<TrainingScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    MembersController membersController = Provider.of<MembersController>(context);
+    TrainingProgressModel? trainingProgress = membersController.trainingProgress;
     return Consumer<TrainingControllers>(
       builder: (context, controller, child) {
         trainingCategories = controller.trainingCategories;
@@ -124,11 +132,17 @@ class _TrainingScreenState extends State<TrainingScreen> {
                                 height: 50,
                                 alwaysShowLabel: true,
                                 width: size.width,
-                                onTap: () {
-                                  tabIndex = index;
-                                  setState(() {});
-                                  fetchTrainings();
-                                },
+                                onTap: (data.title == 'Advance' && trainingProgress?.advanceEligible == true)
+                                    ? () {
+                                        showSnackBar(
+                                            context: context,
+                                            text: 'Complete Basic Training to unlock Advance Training');
+                                      }
+                                    : () {
+                                        tabIndex = index;
+                                        setState(() {});
+                                        fetchTrainings();
+                                      },
                               ),
                             ),
                           );
@@ -138,9 +152,10 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   ),
                 ],
               ),
-              TrainingProgress(
-                onTap: () {},
-              ),
+              if (trainingProgress?.advanceEligible != true)
+                TrainingProgress(
+                  onTap: () {},
+                ),
               CustomTextField(
                 hintText: 'Search',
                 controller: searchController,
@@ -171,7 +186,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   Padding(
                     padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                     child: Text(
-                      'Explore Categories',
+                      'Your Modules',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -183,63 +198,16 @@ class _TrainingScreenState extends State<TrainingScreen> {
                   message: 'Loading Trainings...',
                 )
               else if (trainingCategories.haveData)
-                GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 1,
-                  controller: ScrollController(keepScrollOffset: false),
-                  padding: const EdgeInsets.only(bottom: 100, left: 16, right: 16, top: 8),
+                ListView.builder(
                   shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  children: List.generate(
-                    trainingCategories?.length ?? 0,
-                    (index) {
-                      var data = trainingCategories?.elementAt(index);
-                      return InkWell(
-                          onTap: () {
-                            context.push(Routs.chapters, extra: ChaptersScreen(category: data));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: blackGradient,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(18),
-                              ),
-                            ),
-                            child: Center(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    child: ImageView(
-                                      networkImage: '${data?.image}',
-                                      backgroundColor: Colors.grey.shade800.withOpacity(0.6),
-                                      fit: BoxFit.cover,
-                                      borderRadiusValue: 12,
-                                      margin: const EdgeInsets.only(top: 12, left: 12, right: 12),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
-                                    child: Text(
-                                      '${data?.subCategoryName}',
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          height: 2),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ));
-                    },
-                  ),
+                  itemCount: trainingCategories?.length ?? 0,
+                  itemBuilder: (BuildContext context, int index) {
+                    var data = trainingCategories?.elementAt(index);
+                    return ChapterCard(
+                      index: index,
+                      chapter: data,
+                    );
+                  },
                 )
               else
                 NoDataFound(
@@ -250,6 +218,81 @@ class _TrainingScreenState extends State<TrainingScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class ChapterCard extends StatelessWidget {
+  const ChapterCard({
+    super.key,
+    required this.chapter,
+    required this.index,
+  });
+
+  final int index;
+  final TrainingCategoryData? chapter;
+
+  @override
+  Widget build(BuildContext context) {
+    bool isOpen = chapter?.chapterStatus == ChapterStatus.open.value;
+    bool isCompleted = chapter?.chapterStatus == ChapterStatus.complete.value;
+    bool isLocked = chapter?.chapterStatus == ChapterStatus.locked.value;
+
+    return GestureDetector(
+      onTap: () {
+        context.push(Routs.chapters, extra: ChaptersScreen(category: chapter));
+        // if (isOpen || isCompleted) {
+        //   context.push(Routs.chapters, extra: ChaptersScreen(category: chapter));
+        // }
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(
+          horizontal: kPadding,
+          vertical: 8,
+        ),
+        decoration: BoxDecoration(
+          gradient: blackGradient,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: ListTile(
+          dense: true,
+          title: Text(
+            'Module ${index + 1}: ${chapter?.subCategoryName}',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          trailing: isLocked
+              ? GradientButton(
+                  borderRadius: 30,
+                  backgroundColor: Colors.white,
+                  child: const ImageView(
+                    height: 16,
+                    width: 16,
+                    color: Colors.black,
+                    fit: BoxFit.contain,
+                    assetImage: AppAssets.lockFilledIcon,
+                  ),
+                )
+              : (isCompleted)
+                  ? GradientButton(
+                      height: 28,
+                      width: 28,
+                      borderRadius: 30,
+                      backgroundGradient: limeGradient,
+                      child: const ImageView(
+                        height: 16,
+                        width: 16,
+                        fit: BoxFit.contain,
+                        assetImage: AppAssets.checkIcon,
+                      ),
+                    )
+                  : const SizedBox(),
+        ),
+      ),
     );
   }
 }

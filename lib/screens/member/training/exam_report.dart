@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
@@ -35,234 +37,196 @@ class _ExamReportState extends State<ExamReport> {
   Widget build(BuildContext context) {
     return Consumer<TrainingControllers>(
       builder: (context, controller, child) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: const Column(
-              children: [CustomBackButton()],
+        return Stack(
+          children: [
+            const ImageView(
+              assetImage: AppAssets.reportBg,
+              backgroundColor: Colors.black,
             ),
-            title: const Text(
-              'Test Report',
-            ),
-          ),
-          body: ListView(
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.only(bottom: 100),
-            children: [
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      report?.title ?? 'Completed',
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, bottom: kPadding),
-                    child: Text(
-                      report?.message ?? 'Your test results in chapter this time',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                leading: const Column(
+                  children: [CustomBackButton()],
+                ),
               ),
-              Stack(
-                alignment: Alignment.topCenter,
-                clipBehavior: Clip.none,
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: 48, bottom: kPadding),
-                    padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
-                    decoration: BoxDecoration(
-                      gradient: primaryGradient,
-                      borderRadius: BorderRadius.circular(kPadding),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8),
+                        child: Text(
+                          'Test Result',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      GradientButton(
+                        backgroundGradient: primaryGradient,
+                        borderRadius: 50,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        child: Text(
+                          report?.result ?? 'Fail',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8, bottom: kPadding),
+                        child: Text(
+                          'Your test results in chapter this time',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Stack(
+                    alignment: Alignment.topCenter,
+                    clipBehavior: Clip.none,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: kPadding, right: kPadding, top: 48, bottom: kPadding),
+                        padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+                        decoration: BoxDecoration(
+                          gradient: primaryGradient,
+                          borderRadius: BorderRadius.circular(kPadding),
+                        ),
+                        child: Column(
                           children: [
-                            Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    'Correct answer',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w400,
+                                Column(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 8),
+                                      child: Text(
+                                        'Correct answer',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8, bottom: kPadding),
+                                      child: Text(
+                                        '${report?.correctAnswers ?? 0}',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8, bottom: kPadding),
-                                  child: Text(
-                                    '${report?.correctAnswers ?? 0}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
+                                Column(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(top: 8),
+                                      child: Text(
+                                        'Wrong answer',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8, bottom: kPadding),
+                                      child: Text(
+                                        '${report?.wrongAnswers ?? 0}',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            Column(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Text(
-                                    'Wrong answer',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8, bottom: kPadding),
-                                  child: Text(
-                                    '${report?.wrongAnswers ?? 0}',
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                Text(
+                                  '${report?.score ?? 0}',
+                                  style: const TextStyle(
+                                    fontSize: 56,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ],
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${report?.score ?? 0}',
-                              style: const TextStyle(
-                                fontSize: 56,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
+                      ),
+                      Positioned(
+                        top: 0,
+                        child: ImageView(
+                          height: 80,
+                          width: 80,
+                          assetImage: AppAssets.trophyIcon,
+                          borderRadiusValue: 100,
+                          padding: const EdgeInsets.all(16),
+                          backgroundColor: Colors.grey.shade800,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              bottomNavigationBar: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GradientButton(
+                    height: 60,
+                    borderRadius: 18,
+                    backgroundGradient: primaryGradient,
+                    blur: 20,
+                    backgroundColor: Colors.transparent,
+                    boxShadow: const [],
+                    margin: const EdgeInsets.only(left: 16, right: 24, bottom: 24),
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Continue',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: GoogleFonts.urbanist().fontFamily,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                          ),
                         ),
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: 0,
-                    child: ImageView(
-                      height: 80,
-                      width: 80,
-                      assetImage: AppAssets.trophyIcon,
-                      borderRadiusValue: 100,
-                      padding: const EdgeInsets.all(16),
-                      gradient: blackGradient,
-                    ),
-                  ),
                 ],
               ),
-              const Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: kPadding),
-                    child: Text(
-                      'Correct answer',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              if (questionAnswers.haveData)
-                ListView.builder(
-                  itemCount: questionAnswers?.length ?? 0,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    QuestionAnswers? data = questionAnswers?.elementAt(index);
-
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                      margin: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 8),
-                      decoration: BoxDecoration(
-                        gradient: blackGradient,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: kPadding),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8),
-                                  child: Text(
-                                    'Q${index + 1}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    '${data?.question}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          GradientButton(
-                            height: 40,
-                            borderRadius: 50,
-                            backgroundGradient: blackGradient,
-                            gradient: primaryGradient,
-                            onTap: null,
-                            margin: EdgeInsets.zero,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '${data?.answer}',
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                )
-            ],
-          ),
+            ),
+          ],
         );
       },
     );

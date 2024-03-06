@@ -110,7 +110,7 @@ class ChapterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isOpen = chapter?.chapterStatus == ChapterStatus.open.value;
-    bool isCompleted = chapter?.chapterStatus == ChapterStatus.completed.value;
+    bool isCompleted = chapter?.chapterStatus == ChapterStatus.complete.value;
     bool isLocked = chapter?.chapterStatus == ChapterStatus.locked.value;
 
     return GestureDetector(

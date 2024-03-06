@@ -58,17 +58,20 @@ class TrainingCategoryData {
     this.id,
     this.subCategoryName,
     this.image,
+    this.chapterStatus,
   });
 
   TrainingCategoryData.fromJson(dynamic json) {
     id = json['id'];
     subCategoryName = json['sub_category_name'];
     image = json['image'];
+    chapterStatus = json['chapter_status'];
   }
 
   num? id;
   String? subCategoryName;
   String? image;
+  String? chapterStatus;
 
   TrainingCategoryData copyWith({
     num? id,
@@ -79,6 +82,7 @@ class TrainingCategoryData {
         id: id ?? this.id,
         subCategoryName: subCategoryName ?? this.subCategoryName,
         image: image ?? this.image,
+        chapterStatus: chapterStatus ?? this.chapterStatus,
       );
 
   Map<String, dynamic> toJson() {
@@ -86,6 +90,7 @@ class TrainingCategoryData {
     map['id'] = id;
     map['sub_category_name'] = subCategoryName;
     map['image'] = image;
+    map['chapter_status'] = chapterStatus;
     return map;
   }
 }

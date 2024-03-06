@@ -90,27 +90,6 @@ List<String> levels = [
   '6A',
 ];
 
-List<Report> partnerReportColumns = [
-  Report(name: 'User', isLocked: true, isSelected: true),
-  Report(name: 'Name', isSelected: true),
-  Report(name: 'Location'),
-  Report(name: 'Target', isSelected: true),
-  Report(name: 'Pending', isSelected: true),
-  Report(name: 'Conversation', isSelected: true),
-  Report(name: 'Demo', isSelected: true),
-  Report(name: 'Training', isSelected: true),
-  Report(name: 'Performance', isSelected: true),
-  Report(name: 'Rank', isSelected: true),
-  Report(name: 'Turnover'),
-  Report(name: 'App downloads'),
-  Report(name: 'Lists'),
-  Report(name: 'Sales'),
-  Report(name: 'Level'),
-  Report(name: 'Call'),
-  Report(name: 'DownLines'),
-  Report(name: 'Level completion')
-];
-
 enum PartnerTabHeadings {
   user('User'),
   name('Name'),
@@ -171,13 +150,38 @@ enum GuestTabHeadings {
   const GuestTabHeadings(this.value);
 }
 
-List<Report> guestReportColumns = [
-  Report(name: 'User', isSelected: true, isLocked: true),
-  Report(name: 'Name', isSelected: true),
-  Report(name: 'Location', isSelected: true),
-  Report(name: 'Demo Done', isSelected: true),
-  Report(name: 'Pending', isSelected: true),
-  Report(name: 'Count', isSelected: true),
-  Report(name: 'Profile', isSelected: true),
-  Report(name: 'Profession', isSelected: true),
-];
+List<Report> partnerReportColumns() {
+  return [
+    Report(name: 'User', isLocked: true, isSelected: true),
+    Report(name: 'Name', isSelected: true),
+    Report(name: 'Location'),
+    Report(name: 'Target', isSelected: true),
+    Report(name: 'Pending', isSelected: true),
+    Report(name: 'Conversation', isSelected: true),
+    Report(name: 'Demo', isSelected: true),
+    Report(name: 'Training', isSelected: true),
+    Report(name: 'Performance', isSelected: true),
+    Report(name: 'Rank', isSelected: true),
+    Report(name: 'Turnover'),
+    Report(name: 'App downloads'),
+    Report(name: 'Lists'),
+    Report(name: 'Sales'),
+    Report(name: 'Level'),
+    Report(name: 'Call'),
+    Report(name: 'DownLines'),
+    Report(name: 'Level completion')
+  ];
+}
+
+List<Report> guestReportColumns() {
+  return [
+    Report(name: 'User', isSelected: true, isLocked: true),
+    Report(name: 'Name', isSelected: true),
+    Report(name: 'Location', isSelected: true),
+    Report(name: 'Demo Done', isSelected: true),
+    Report(name: 'Pending', isSelected: true),
+    Report(name: 'Count', isSelected: true),
+    Report(name: 'Profile', isSelected: true),
+    Report(name: 'Profession', isSelected: true),
+  ];
+}

@@ -68,7 +68,7 @@ class _PartnerReportState extends State<PartnerReport> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      labels = partnerReportColumns;
+      labels = partnerReportColumns();
       setState(() {});
       fetchReport();
 
@@ -187,7 +187,7 @@ class _PartnerReportState extends State<PartnerReport> {
                               width: size.width * .42,
                               backgroundGradient: blackGradient,
                               onTap: () async {
-                                labels = partnerReportColumns;
+                                labels = partnerReportColumns();
                                 setState(() {});
                                 context.pop();
                                 await fetchReport();

@@ -10,6 +10,7 @@ import 'package:mrwebbeast/screens/member/report/partner_report_table.dart';
 import 'package:mrwebbeast/screens/member/report/report_label_picker.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
+import 'package:mrwebbeast/utils/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';
@@ -55,7 +56,7 @@ class _GuestReportState extends State<GuestReport> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      labels = guestReportColumns;
+      labels = guestReportColumns();
       setState(() {});
       fetchReport();
 
@@ -151,11 +152,12 @@ class _GuestReportState extends State<GuestReport> {
                               width: size.width * .42,
                               backgroundGradient: blackGradient,
                               onTap: () async {
-                                labels = guestReportColumns;
+                                labels = guestReportColumns();
+
                                 setState(() {});
+                                fetchReport();
 
                                 context.pop();
-                                await fetchReport();
                               },
                               margin: const EdgeInsets.only(top: kPadding, left: kPadding),
                               child: const Center(

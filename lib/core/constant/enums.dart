@@ -51,7 +51,7 @@ enum Roles {
 enum ChapterStatus {
   open('Open'),
   locked('Locked'),
-  completed('Completed');
+  complete('Complete');
 
   final String value;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="appName">GTP</string>
-    <string name="notificationChannel">MrWebBeast</string>
+    <string name="notificationChannel">GtpApp</string>
     <string name="geoApiKey">AIzaSyCamuioPjeI4wPc9SeItEbr1WrrOEfVb2Q</string>
 </resources>

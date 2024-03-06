@@ -11,6 +11,7 @@ class TrainingProgressModel {
     this.message,
     this.chapter,
     this.perc,
+    this.advanceEligible,
   });
 
   TrainingProgressModel.fromJson(dynamic json) {
@@ -18,24 +19,28 @@ class TrainingProgressModel {
     message = json['message'];
     chapter = json['chapter'];
     perc = json['perc'];
+    advanceEligible = json['advance_eligible'];
   }
 
   bool? status;
   String? message;
   String? chapter;
   num? perc;
+  bool? advanceEligible;
 
   TrainingProgressModel copyWith({
     bool? status,
     String? message,
     String? chapter,
     num? perc,
+    bool? advanceEligible,
   }) =>
       TrainingProgressModel(
         status: status ?? this.status,
         message: message ?? this.message,
         chapter: chapter ?? this.chapter,
         perc: perc ?? this.perc,
+        advanceEligible: advanceEligible ?? this.advanceEligible,
       );
 
   Map<String, dynamic> toJson() {
@@ -44,6 +49,7 @@ class TrainingProgressModel {
     map['message'] = message;
     map['chapter'] = chapter;
     map['perc'] = perc;
+    map['advance_eligible'] = advanceEligible;
     return map;
   }
 }
