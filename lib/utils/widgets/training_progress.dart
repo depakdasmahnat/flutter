@@ -37,62 +37,65 @@ class _TrainingProgressState extends State<TrainingProgress> {
         TrainingProgressModel? trainingProgress = controller.trainingProgress;
         double progress = (trainingProgress?.perc ?? 0).toDouble();
 
-        return GestureDetector(
-          onTap: widget.onTap ??
-              () {
-                context.pushNamed(Routs.trainingScreen);
-              },
-          child: Container(
-            margin: widget.margin ?? const EdgeInsets.only(top: kPadding, left: kPadding, right: kPadding),
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 12, bottom: 12),
-            decoration: BoxDecoration(
-              gradient: darkGreyGradient,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.title ?? 'Complete Your Training Progress',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
+        return trainingProgress?.advanceEligible == true
+            ? const SizedBox()
+            : GestureDetector(
+                onTap: widget.onTap ??
+                    () {
+                      context.pushNamed(Routs.trainingScreen);
+                    },
+                child: Container(
+                  margin:
+                      widget.margin ?? const EdgeInsets.only(top: kPadding, left: kPadding, right: kPadding),
+                  padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 12, bottom: 12),
+                  decoration: BoxDecoration(
+                    gradient: darkGreyGradient,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.title ?? 'Complete Your Training Progress',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      GradientProgressBar(
+                        value: (progress / 100),
+                        margin: const EdgeInsets.only(top: 12, bottom: 12),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Steps ${trainingProgress?.modules ?? ''}',
+                            style: TextStyle(
+                                color: Colors.grey.shade200, fontSize: 11, fontWeight: FontWeight.w500),
+                          ),
+                          Text(
+                            progress < 100 ? 'Complete your training' : 'Training Completed',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          Text(
+                            '${(progress).toStringAsFixed(0)}%',
+                            style: TextStyle(
+                                color: Colors.grey.shade200, fontSize: 11, fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                GradientProgressBar(
-                  value: (progress / 100),
-                  margin: const EdgeInsets.only(top: 12, bottom: 12),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Steps ${trainingProgress?.modules ?? ''}',
-                      style:
-                          TextStyle(color: Colors.grey.shade200, fontSize: 11, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      progress < 100 ? 'Complete your training' : 'Training Completed',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                    Text(
-                      '${(progress).toStringAsFixed(0)}%',
-                      style:
-                          TextStyle(color: Colors.grey.shade200, fontSize: 11, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
+              );
       },
     );
   }
