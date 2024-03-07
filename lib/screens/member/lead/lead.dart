@@ -91,15 +91,7 @@ TextEditingController searchController =TextEditingController();
       builder: (context, controller, child) {
         return Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: controller.leadsLoader == false
-                ? PreferredSize(
-                    preferredSize: Size.fromHeight(size.height * 0.54),
-                    child: const Center(
-                      child: CupertinoActivityIndicator(
-                          radius: 15, color: CupertinoColors.white),
-                    ),
-                  )
-                : PreferredSize(
+            appBar: PreferredSize(
                     preferredSize: Size.fromHeight(size.height * 0.4),
                     child: CustomAppBar(
                       showLeadICon: false,
@@ -367,6 +359,7 @@ TextEditingController searchController =TextEditingController();
                                     scrollDirection: Axis.horizontal,
                                     children: [
                                       LeadType(
+                                        leadsLoader: controller.leadsLoader,
                                         value: controller.fetchLeadsModel?.stats?.hot.toString(),
                                         subHeading: 'Hot Leads',
                                         onTap: () async{
@@ -378,6 +371,7 @@ TextEditingController searchController =TextEditingController();
 
                                       ),
                                       LeadType(
+                                        leadsLoader: controller.leadsLoader,
                                         value: controller
                                             .fetchLeadsModel?.stats?.warm
                                             .toString(),
@@ -472,6 +466,7 @@ TextEditingController searchController =TextEditingController();
                                       //
                                       // ),
                                       LeadType(
+                                        leadsLoader: controller.leadsLoader,
                                         value: controller
                                             .fetchLeadsModel?.stats?.cold
                                             .toString(),
@@ -601,6 +596,13 @@ TextEditingController searchController =TextEditingController();
                                             value: 'Today',
                                             child: Text('Today'),
                                           ),
+                                              const PopupMenuItem(
+                                            value: 'Self',
+                                            child: Text('Self '),
+                                          ),  const PopupMenuItem(
+                                            value: 'Referred ',
+                                            child: Text('Referred'),
+                                          ),
                                           const PopupMenuItem(
                                             value: 'By app',
                                             child: Text('By App'),
@@ -616,7 +618,12 @@ TextEditingController searchController =TextEditingController();
                         ),
                       ),
                     )),
-            body: Stack(
+            body:  controller.leadsLoader == false
+                ? const Center(
+              child: CupertinoActivityIndicator(
+                  radius: 15, color: CupertinoColors.white),
+            )
+                :Stack(
               children: [
                 controller.fetchLeadsModel?.data == null
                     ? const Center(child: NoDataFound())
@@ -650,57 +657,58 @@ TextEditingController searchController =TextEditingController();
                               ));
                         },
                       ),
-                if (controller.showItem == true)
-                  Padding(
-                    padding: EdgeInsets.only(bottom: size.height * 0.1),
-                    child: Container(
-                      decoration: controller.showItem
-                          ? BoxDecoration(color: Colors.grey.withOpacity(0.1))
-                          : null,
-                      child: Column(
-                        mainAxisSize: controller.showItem
-                            ? MainAxisSize.max
-                            : MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (controller.showItem == true)
-                            DashboardMoreMenu(
-                              showLeadItem: true,
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
+                // if (controller.showItem == true)
+                //   Padding(
+                //     padding: EdgeInsets.only(bottom: size.height * 0.1),
+                //     child: Container(
+                //       decoration: controller.showItem
+                //           ? BoxDecoration(color: Colors.grey.withOpacity(0.1))
+                //           : null,
+                //       child: Column(
+                //         mainAxisSize: controller.showItem
+                //             ? MainAxisSize.max
+                //             : MainAxisSize.min,
+                //         mainAxisAlignment: MainAxisAlignment.end,
+                //         children: [
+                //           if (controller.showItem == true)
+                //             DashboardMoreMenu(
+                //               showLeadItem: true,
+                //             ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
               ],
             ),
-            floatingActionButton: tabIndex == 0
-                ? Padding(
-                    padding: EdgeInsets.only(bottom: size.height * 0.1),
-                    child: GestureDetector(
-                      onTap: () async {
-                        controller.changeStatus();
-                        // if(controller.showItem==false){
-                        //   context.read<MembersController>().showItem=true;
-                        //
-                        // }else{
-                        //   context.read<MembersController>().showItem=false;
-                        // }
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            gradient: primaryGradient, shape: BoxShape.circle),
-                        child: Padding(
-                          padding: const EdgeInsets.all(kPadding),
-                          child: Image.asset(
-                            AppAssets.addIcon,
-                            height: 30,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : null);
+            // floatingActionButton: tabIndex == 0
+            //     ? Padding(
+            //         padding: EdgeInsets.only(bottom: size.height * 0.1),
+            //         child: GestureDetector(
+            //           onTap: () async {
+            //             controller.changeStatus();
+            //             // if(controller.showItem==false){
+            //             //   context.read<MembersController>().showItem=true;
+            //             //
+            //             // }else{
+            //             //   context.read<MembersController>().showItem=false;
+            //             // }
+            //           },
+            //           child: Container(
+            //             decoration: BoxDecoration(
+            //                 gradient: primaryGradient, shape: BoxShape.circle),
+            //             child: Padding(
+            //               padding: const EdgeInsets.all(kPadding),
+            //               child: Image.asset(
+            //                 AppAssets.addIcon,
+            //                 height: 30,
+            //                 color: Colors.black,
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       )
+            //     : null
+        );
       },
     );
   }
@@ -885,20 +893,20 @@ class _RowCartState extends State<RowCart> {
           ),
           TextButton(
             onPressed: () async {
-
-              DefaultModel? model=   await context.read<ListsControllers>().rescheduledCall(
-                  context: context,
-                  guestId: guestId,
-                  reason: '',
-                  date: dateController.text,
-                  time: timeConroller.text,
-                  LMSStep: 'Demo Scheduled ',
-                  priority: priority,
-                  demoRescheduleRemark: '');
-              if(model?.status==true){
-                _showDialogIncomplete(context,widget.guestId,priority,true,false);
-
-              }
+              _showDialogIncomplete(context,widget.guestId,priority,true,false,dateController.text,timeConroller.text);
+              // DefaultModel? model=   await context.read<ListsControllers>().rescheduledCall(
+              //     context: context,
+              //     guestId: guestId,
+              //     reason: '',
+              //     date: dateController.text,
+              //     time: timeConroller.text,
+              //     LMSStep: 'Demo Scheduled ',
+              //     priority: priority,
+              //     demoRescheduleRemark: '');
+              // if(model?.status==true){
+              //
+              //
+              // }
 
             },
             child: const Text('Save'),
@@ -912,8 +920,10 @@ class _RowCartState extends State<RowCart> {
     BuildContext context,
     String? guestId,
     String? priority,
-      bool? openDialog,
+     bool? openDialog,
       bool? apiCall,
+      String? date,
+      String? time,
   ) async {
     return showDialog(
       context: context,
@@ -933,10 +943,141 @@ class _RowCartState extends State<RowCart> {
             child:openDialog==false? ModelDialogBoxIncomplete(
               guestId: guestId ?? '',
               priority: priority ?? '',
-            ): DemoDoneForm( demoId: widget.demoId??'',apiCall:apiCall ),
+            ): DemoDoneForm( demoId: widget.demoId??'',apiCall:apiCall,date: date,time: time,title: ' Reschedule Remark', ),
           ),
         );
       },
+    );
+  }
+  Future<void> _scheduledFollowUIp(
+      BuildContext context, guestId, priority) async {
+    dateController.clear();
+    timeConroller.clear();
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        shape: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+        title: CustomeText(
+          text: 'Reschedule',
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppTextField(
+              title: 'Date',
+              hintText: 'dd-mm-yyyy',
+              controller: dateController,
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1750),
+                  lastDate: DateTime(2101),
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        popupMenuTheme: PopupMenuThemeData(
+                            shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        cardColor: Colors.white,
+
+                        colorScheme: Theme.of(context).colorScheme.copyWith(
+                          primary: Colors.white, // <-- SEE HERE
+                          onPrimary: Colors.black, // <-- SEE HERE
+                          onSurface: Colors.white,
+                        ),
+
+                        // Input
+                        inputDecorationTheme: const InputDecorationTheme(
+                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
+                );
+
+                if (pickedDate != null) {
+                  dateController.text =
+                  "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                }
+              },
+              readOnly: true,
+            ),
+            AppTextField(
+              title: 'Time',
+              hintText: 'hh:mm',
+              controller: timeConroller,
+              onTap: () async {
+                TimeOfDay? time = await showTimePicker(
+                  context: context,
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        popupMenuTheme: PopupMenuThemeData(
+                            shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        cardColor: Colors.white,
+
+                        colorScheme: Theme.of(context).colorScheme.copyWith(
+                          primary: Colors.white, // <-- SEE HERE
+                          onPrimary: Colors.black, // <-- SEE HERE
+                          onSurface: Colors.white,
+                        ),
+
+                        // Input
+                        inputDecorationTheme: const InputDecorationTheme(
+                          // labelStyle: GoogleFonts.greatVibes(), // Input label
+                        ),
+                      ),
+                      child: child!,
+                    );
+                  },
+                  initialTime: TimeOfDay.now(),
+                );
+
+                if (time != null) {
+                  timeConroller.text = time.format(context);
+                }
+              },
+              readOnly: true,
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Back'),
+          ),
+          TextButton(
+            onPressed: () async {
+
+              DefaultModel? model=   await context.read<ListsControllers>().rescheduledCall(
+                  context: context,
+                  guestId: guestId,
+                  reason: '',
+                  date: dateController.text,
+                  time: timeConroller.text,
+                  LMSStep: 'Follow Up',
+                  priority: priority,
+                  demoRescheduleRemark: '');
+              if(model?.status==true){
+
+                await context
+                    .read<MembersController>()
+                    .fetchLeads(
+                    status: 'Follow Up',
+                    priority: '',
+                    page: '1',searchKey: '');
+                context.pop();
+
+              }
+
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
     );
   }
   Color? pupUpTextColor = const Color(0xFFA0A0A0);
@@ -1728,17 +1869,7 @@ class _RowCartState extends State<RowCart> {
                                         guestId: widget.guestId,
                                         feedback: '',
                                         priority: v,
-                                        remark: '')
-                                    .whenComplete(
-                                  () async {
-                                    await context
-                                        .read<MembersController>()
-                                        .fetchLeads(
-                                            status: 'Demo Scheduled',
-                                            priority: '',
-                                            page: '1',searchKey: '');
-                                  },
-                                );
+                                        remark: '');
                               },
                               itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry>[
@@ -1820,9 +1951,10 @@ class _RowCartState extends State<RowCart> {
                             //           demoId: widget.demoId ?? '',
                             //           feedback: '',
                             //         ));
-                            _showDialogIncomplete(context,widget.guestId,widget.priority,true,true);
+                            _showDialogIncomplete(context,widget.guestId,widget.priority,true,true,'','');
 
-                          } else if (v == 'Move to bin') {
+                          }
+                          else if (v == 'Move to bin') {
                             await context
                                 .read<ListsControllers>()
                                 .deleteLead(
@@ -1838,12 +1970,13 @@ class _RowCartState extends State<RowCart> {
                                         page: '1',searchKey: '');
                               },
                             );
-                          } else if (v == 'Reschedule') {
+                          }
+                          else if (v == 'Reschedule') {
                             _showDialogDemoScheduled(
                                 context, widget.guestId, widget.priority,);
                           } else if (v == 'Incomplete') {
                             _showDialogIncomplete(
-                                context, widget.guestId, widget.priority,false,false);
+                                context, widget.guestId, widget.priority,false,false,'','');
                           } else {
                             context
                                 .pushNamed(Routs.createDemo,
@@ -2180,8 +2313,13 @@ class _RowCartState extends State<RowCart> {
                                       page: '1',searchKey: '');
                                 },);
                               } else if (v == 'Schedule follow up') {
-                                _showDialogDemoScheduled(
-                                    context, widget.guestId, widget.priority);
+                                _scheduledFollowUIp(
+                                    context,
+                                    widget.guestId,
+                                    widget.priority
+                                );
+                                // _showDialogDemoScheduled(
+                                //     context, widget.guestId, widget.priority);
                               } else {
                                 await context
                                     .read<ListsControllers>()
@@ -2424,12 +2562,14 @@ class _RowCartState extends State<RowCart> {
 class LeadType extends StatelessWidget {
   String? value;
   String? subHeading;
+  bool? leadsLoader;
   List<Color>? colors;
   void Function()? onTap;
 
   LeadType({
     this.value,
     this.colors,
+    this.leadsLoader,
     this.onTap,
     this.subHeading,
     super.key,
@@ -2459,6 +2599,9 @@ class LeadType extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                leadsLoader == false
+                    ? const CupertinoActivityIndicator(
+                    radius: 10, color: CupertinoColors.white):
                 CustomeText(
                   text: value,
                   fontSize: 28,

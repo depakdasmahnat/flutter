@@ -386,20 +386,20 @@ class _AddMemberFormState extends State<AddMemberForm> {
                       );
                     },
                   ),
-                  Consumer<MembersController>(
-                    builder: (context, controller, child) {
-                      return CustomDropdown(
-                        mandatory: '*',
-                        showSearchBox: true,
-                        hintText: 'Register this applicant as (rank)',
-                        onChanged: (v) {
-                          downlineRank = v;
-                        },
-                        title: 'Sponsor’s Down line Rank',
-                        listItem: controller.fetchDownlineRan?.data,
-                      );
-                    },
-                  ),
+                  // Consumer<MembersController>(
+                  //   builder: (context, controller, child) {
+                  //     return CustomDropdown(
+                  //       mandatory: '*',
+                  //       showSearchBox: true,
+                  //       hintText: 'Register this applicant as (rank)',
+                  //       onChanged: (v) {
+                  //         downlineRank = v;
+                  //       },
+                  //       title: 'Sponsor’s Down line Rank',
+                  //       listItem: controller.fetchDownlineRan?.data,
+                  //     );
+                  //   },
+                  // ),
                   CustomTextFieldApp(
                     controller: enagicIdController,
                     maxLength: 11,
@@ -555,7 +555,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
                     controller: addressController,
                   ),
                   CustomDropdown(
-                    hintText: 'Select Ref Type ',
+                    hintText: refTypeHint,
                     onChanged: (v) {
                       refType = v ?? '';
                     },
@@ -732,6 +732,8 @@ class _AddMemberFormState extends State<AddMemberForm> {
                             file: XFile(image?.path ?? ''));
 
                         if (model?.status == true) {
+                          context.pop();
+                        }else{
                           context.pop();
                         }
                       },

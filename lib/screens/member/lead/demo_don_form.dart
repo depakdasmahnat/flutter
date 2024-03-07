@@ -18,13 +18,14 @@ import '../demo/create_demo.dart';
 class DemoDoneForm extends StatefulWidget {
  final String? title;
  final String? demoId;
+ final String? date;
+ final String? time;
  final bool? apiCall;
-  const DemoDoneForm({super.key,this.title,this.demoId,this.apiCall});
+  const DemoDoneForm({super.key,this.title,this.demoId,this.apiCall,this.date,this.time});
 
   @override
   State<DemoDoneForm> createState() => _DemoDoneFormState();
 }
-
 class _DemoDoneFormState extends State<DemoDoneForm> {
   TextEditingController remarkController =TextEditingController();
   bool validate =true;
@@ -43,7 +44,7 @@ class _DemoDoneFormState extends State<DemoDoneForm> {
   }
   @override
   Widget build(BuildContext context) {
-
+ print("check api calling ${widget.apiCall}");
     Size size = MediaQuery.of(context).size;
     return StatefulBuilder(
       builder: (BuildContext context, void Function(void Function()) setState) {
@@ -195,15 +196,16 @@ class _DemoDoneFormState extends State<DemoDoneForm> {
                               demoId: widget.demoId, feedback: feedback, remark: remarkController.text, priority: priority);
                           if(model?.status==true){
 
-                            await context.read<MembersController>().fetchLeads(status: 'Demo Scheduled', priority: '', page: '1',searchKey: '');
+
+                            await context.read<MembersController>().fetchLeads(status: 'Follow Up', priority: '', page: '1',searchKey: '');
                           }
                         }else{
                           DefaultModel? model=   await context.read<ListsControllers>().rescheduledCall(
                               context: context,
                               guestId: widget.demoId.toString()??'',
                               reason: remarkController.text,
-                              date: '',
-                              time: '',
+                              date: widget.date??'',
+                              time: widget.time??'',
                               LMSStep: 'Demo Scheduled ',
                               priority: priority,
                               demoRescheduleRemark: feedback);

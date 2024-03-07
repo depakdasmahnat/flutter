@@ -63,16 +63,15 @@ class _CreateDemoState extends State<CreateDemo> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context
-          .read<MembersController>()
-          .fetchLeads(status: '', priority: '', page: '1',searchKey: '');
+      // await context
+      //     .read<MembersController>()
+      //     .fetchLeads(status: '', priority: '', page: '1',searchKey: '');
       await context.read<MembersController>().fetchSponsor(
             context: context,
           );
     });
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     print('check id ${widget.guestId}');
@@ -89,7 +88,6 @@ class _CreateDemoState extends State<CreateDemo> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: CustomDropdown(
-
               onChanged: (v) {
                 typeOfDame = v;
               },
@@ -781,13 +779,14 @@ class AppTextField extends StatelessWidget {
   final double? height;
   final int? minLines;
   final int? maxLines;
-
+  final TextInputType? keyboardType;
   final TextEditingController? controller;
   final EdgeInsets? padding;
 
   const AppTextField({
     this.title,
     this.hintText,
+    this.keyboardType,
     this.onTap,
     this.controller,
     this.prefixIcon,
@@ -832,6 +831,7 @@ class AppTextField extends StatelessWidget {
             CustomTextField(
               readOnly: readOnly,
               onTap: onTap,
+              keyboardType: keyboardType,
 
               controller: controller,
               prefixIcon: prefixIcon,

@@ -47,7 +47,7 @@ class _AddMemberListState extends State<AddMemberList> {
   String priority = 'Hot';
   String cityId = '';
   String sponsorId = '';
-  String refType = '';
+  String refType = 'Self';
   String occupation = '';
   String demoType = '';
   String countryCode = '91';
@@ -453,9 +453,8 @@ class _AddMemberListState extends State<AddMemberList> {
                 onChanged: (v) {
                   refType = v ?? '';
                 },
-                // selectedItem: refType,
+                selectedItem: refType,
                 title: 'Ref Type',
-
                 listItem: const ['Self', 'Referred'],
               ),
               Padding(
@@ -794,13 +793,20 @@ class _CountyTextFieldState extends State<CountyTextField> {
               padding: const EdgeInsets.only(left: 14, top: 0),
               child: IntlPhoneField(
                 controller: widget.controller,
-                decoration: const InputDecoration(hintText: 'Enter Mobile No.', border: InputBorder.none),
+
+
+                decoration: const InputDecoration(
+
+                    hintText: 'Enter Mobile No.', border: InputBorder.none,
+                  counterText: ''
+
+                ),
                 autovalidateMode: AutovalidateMode.disabled,
                 initialCountryCode: 'IN',
-                // initialValue:'233' ,
+
                 dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                 dropdownIconPosition: IconPosition.trailing,
-                disableLengthCheck: true,
+                disableLengthCheck: false,
                 readOnly: widget.readOnly ?? false,
                 onCountryChanged: widget.onCountryChanged,
                 // onChanged: widget.onChanged

@@ -834,12 +834,14 @@ class GuestControllers extends ChangeNotifier {
     required BuildContext context,
     required String? eventId,
     required String? feedback,
+    required String? leadCount,
 
   }) async {
     FocusScope.of(context).unfocus();
     Map<String, dynamic> body = {
       'event_id': '$eventId',
       'feedback': '$feedback',
+      'lead_count': '$leadCount',
 
     };
 

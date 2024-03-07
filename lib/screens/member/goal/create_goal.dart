@@ -28,6 +28,7 @@ class CreateGoal extends StatefulWidget {
   State<CreateGoal> createState() => _CreateGoalState();
 }
 class _CreateGoalState extends State<CreateGoal> {
+  DateTime endDateValidation=DateTime.now();
   FetchGoalForEditModel? fetchGoalForEditModel;
   String goalType = '';
   String networkImageForGoal = '';
@@ -136,8 +137,11 @@ class _CreateGoalState extends State<CreateGoal> {
               );
 
               if (pickedDate != null) {
-                startDateCtrl.text =
-                    "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                endDateValidation =pickedDate;
+                startDateCtrl.text = "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                setState(() {
+
+                });
               }
             },
             readOnly: true,
@@ -149,8 +153,8 @@ class _CreateGoalState extends State<CreateGoal> {
             onTap: () async {
               DateTime? pickedDate = await showDatePicker(
                 context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
+                initialDate: endDateValidation,
+                firstDate: endDateValidation,
                 lastDate: DateTime(2101),
                 builder: (context, child) {
                   return Theme(

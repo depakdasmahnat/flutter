@@ -20,6 +20,7 @@ import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/enums.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/default/default_model.dart';
 import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_button.dart';
@@ -28,6 +29,8 @@ import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import '../../guest/guestProfile/guest_faq.dart';
+import '../demo/create_demo.dart';
 
 List eventFeedbackOptions = ['I Will Attend', 'Attend with others', 'Not interested'];
 
@@ -82,6 +85,7 @@ class _EventScreenState extends State<EventScreen> {
       fetchEvents();
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -206,6 +210,7 @@ class _EventScreenState extends State<EventScreen> {
                         child: EventCard(
                           index: index,
                           data: data,
+                          eventId: data?.id,
                         ),
                       );
                     },
@@ -256,6 +261,7 @@ class _EventScreenState extends State<EventScreen> {
 }
 
 class EventCard extends StatelessWidget {
+
   final double? imageHeight;
   final BoxFit? fit;
 
@@ -264,11 +270,60 @@ class EventCard extends StatelessWidget {
   final num? eventId;
   final EventsData? data;
 
-  const EventCard(
+   EventCard(
       {super.key, this.imageHeight, this.fit, required this.index, required this.data, this.eventId});
+  TextEditingController loadCountController =TextEditingController();
+  Future<void> attendWithOther(BuildContext context,feedback) async {
+    loadCountController.clear();
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: CustomText1(
+          text: 'Enter number of leads to attend the event',
+        ),
+        shape: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            AppTextField(
+              title: 'Lead Count',
+              hintText: 'Enter Lead Count',
+              controller: loadCountController,
+              keyboardType: TextInputType.number,
+
+            ),
+
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Back'),
+          ),
+          TextButton(
+            onPressed: () async {
+
+              DefaultModel? model=  await context.read<GuestControllers>().attendEvent(
+                context: context,
+                eventId: '$eventId',
+                feedback: feedback, leadCount: loadCountController.text,
+              );
+              if(model?.status==true){
+                context.pop();
+              }
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("check event id ${eventId}");
     Size size = MediaQuery.of(context).size;
 
     return GestureDetector(
@@ -435,11 +490,18 @@ class EventCard extends StatelessWidget {
                             border: feedback == 'I Will Attend' ? null : Border.all(color: Colors.grey),
                             backgroundGradient: feedback == 'I Will Attend' ? primaryGradient : blackGradient,
                             onTap: () async {
-                              await context.read<GuestControllers>().attendEvent(
-                                    context: context,
-                                    eventId: '$eventId',
-                                    feedback: feedback,
-                                  );
+                              print(" ecent id ${feedback}");
+                              if(feedback=='Attend with others'){
+                                attendWithOther(context,feedback);
+                              }else{
+                                await context.read<GuestControllers>().attendEvent(
+                                  context: context,
+                                  eventId: '$eventId',
+                                  feedback: feedback,
+                                  leadCount: ''
+                                );
+                              }
+
                             },
                             child: Center(
                               child: Text(
