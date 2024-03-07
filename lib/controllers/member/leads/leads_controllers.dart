@@ -214,7 +214,7 @@ class ListsControllers extends ChangeNotifier {
   }
 
   bool loadingGuestProfileDetails = true;
-  GuestProfileDetails? guestProfileDetailsModel;
+  GuestProfileDetailsModel? guestProfileDetailsModel;
   GuestProfileDetailFor? guestProfileDetails;
 
   /// 1) Delete lead...

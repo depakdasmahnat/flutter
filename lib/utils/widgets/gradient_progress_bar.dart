@@ -16,10 +16,10 @@ class GradientProgressBar extends StatelessWidget {
     super.key,
     required this.value,
     this.gradient,
-    this.lineHeight = 5,
+    this.lineHeight = 6,
     this.borderRadius = 16,
-    this.cursorSize = 10,
-    this.backgroundColor = Colors.grey,
+    this.cursorSize = 6,
+    this.backgroundColor ,
     this.margin,
   });
 
@@ -40,7 +40,7 @@ class GradientProgressBar extends StatelessWidget {
                 width: constraints.maxWidth,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(borderRadius),
-                  color: backgroundColor,
+                  color: backgroundColor??Colors.grey.shade700,
                 ),
               ),
               Stack(
@@ -62,13 +62,13 @@ class GradientProgressBar extends StatelessWidget {
                           color: Colors.white.withOpacity(0.5),
                           borderRadius: BorderRadius.circular(cursorSize + cursorSize)),
                       child: Container(
-                        margin: const EdgeInsets.all(5),
+                        margin: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                             color: Colors.white, borderRadius: BorderRadius.circular(cursorSize)),
                         child: Container(
                           height: cursorSize,
                           width: cursorSize,
-                          margin: const EdgeInsets.all(4),
+                          margin: const EdgeInsets.all(3),
                           decoration: BoxDecoration(
                               gradient: primaryGradient, borderRadius: BorderRadius.circular(cursorSize)),
                         ),

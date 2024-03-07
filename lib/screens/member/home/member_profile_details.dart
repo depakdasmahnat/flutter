@@ -239,7 +239,7 @@ class _MemberProfileDetailsState extends State<MemberProfileDetails> {
                           ),
                           GradientProgressBar(
                             value: (trainingProgress ?? 0) > 0 ? (trainingProgress! / 100) : 0,
-                            backgroundColor: Colors.grey.shade300,
+
                             margin: const EdgeInsets.only(top: 8, bottom: 8),
                           ),
                           Row(

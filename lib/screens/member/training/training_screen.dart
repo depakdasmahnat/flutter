@@ -132,11 +132,11 @@ class _TrainingScreenState extends State<TrainingScreen> {
                                 height: 50,
                                 alwaysShowLabel: true,
                                 width: size.width,
-                                onTap: (data.title == 'Advance' && trainingProgress?.advanceEligible == true)
+                                onTap: (data.title == 'Advance' && trainingProgress?.advanceEligible == false)
                                     ? () {
-                                        showSnackBar(
+                                        showError(
                                             context: context,
-                                            text: 'Complete Basic Training to unlock Advance Training');
+                                            message: 'Please complete your basic training first');
                                       }
                                     : () {
                                         tabIndex = index;
@@ -156,35 +156,35 @@ class _TrainingScreenState extends State<TrainingScreen> {
                 TrainingProgress(
                   onTap: () {},
                 ),
-              CustomTextField(
-                hintText: 'Search',
-                controller: searchController,
-                hintStyle: const TextStyle(color: Colors.white),
-                prefixIcon: ImageView(
-                  height: 20,
-                  width: 20,
-                  borderRadiusValue: 0,
-                  color: Colors.white,
-                  margin: const EdgeInsets.only(left: kPadding, right: kPadding),
-                  fit: BoxFit.contain,
-                  assetImage: AppAssets.searchIcon,
-                  onTap: () {
-                    fetchTrainings();
-                  },
-                ),
-                onChanged: (val) {
-                  onSearchFieldChanged(val);
-                },
-                onEditingComplete: () {
-                  fetchTrainings();
-                },
-                margin:
-                    const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
-              ),
+              // CustomTextField(
+              //   hintText: 'Search',
+              //   controller: searchController,
+              //   hintStyle: const TextStyle(color: Colors.white),
+              //   prefixIcon: ImageView(
+              //     height: 20,
+              //     width: 20,
+              //     borderRadiusValue: 0,
+              //     color: Colors.white,
+              //     margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+              //     fit: BoxFit.contain,
+              //     assetImage: AppAssets.searchIcon,
+              //     onTap: () {
+              //       fetchTrainings();
+              //     },
+              //   ),
+              //   onChanged: (val) {
+              //     onSearchFieldChanged(val);
+              //   },
+              //   onEditingComplete: () {
+              //     fetchTrainings();
+              //   },
+              //   margin:
+              //       const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding, bottom: kPadding),
+              // ),
               const Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                    padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding, top: kPadding),
                     child: Text(
                       'Your Modules',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),

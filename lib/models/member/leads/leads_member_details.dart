@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-GuestProfileDetails leadsMemberDetailsFromJson(String str) => GuestProfileDetails.fromJson(json.decode(str));
+GuestProfileDetailsModel leadsMemberDetailsFromJson(String str) => GuestProfileDetailsModel.fromJson(json.decode(str));
 
-String leadsMemberDetailsToJson(GuestProfileDetails data) => json.encode(data.toJson());
+String leadsMemberDetailsToJson(GuestProfileDetailsModel data) => json.encode(data.toJson());
 
-class GuestProfileDetails {
-  GuestProfileDetails({
+class GuestProfileDetailsModel {
+  GuestProfileDetailsModel({
     this.status,
     this.message,
     this.data,
   });
 
-  GuestProfileDetails.fromJson(dynamic json) {
+  GuestProfileDetailsModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? GuestProfileDetailsData.fromJson(json['data']) : null;
@@ -21,12 +21,12 @@ class GuestProfileDetails {
   String? message;
   GuestProfileDetailsData? data;
 
-  GuestProfileDetails copyWith({
+  GuestProfileDetailsModel copyWith({
     bool? status,
     String? message,
     GuestProfileDetailsData? data,
   }) =>
-      GuestProfileDetails(
+      GuestProfileDetailsModel(
         status: status ?? this.status,
         message: message ?? this.message,
         data: data ?? this.data,

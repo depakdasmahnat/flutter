@@ -17,6 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
+import '../../../core/constant/enums.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../utils/custom_menu_popup.dart';
@@ -84,41 +85,40 @@ class _EventScreenState extends State<EventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Consumer<EventsControllers>(
       builder: (context, controller, child) {
         events = controller.events;
-        return SmartRefresher(
-          controller: controller.eventsController,
-          enablePullUp: true,
-          enablePullDown: true,
-          onRefresh: () async {
-            if (mounted) {
-              await fetchEvents();
-            }
-          },
-          onLoading: () async {
-            if (mounted) {
-              await fetchEvents(loadingNext: true);
-            }
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              leading: const CustomBackButton(),
-              title: const Text('Events'),
-              actions: [
-                if (viewAll == true)
-                  TextButton(
-                    onPressed: () {
-                      context.pop();
-                      context.pushNamed(Routs.events);
-                    },
-                    child: const Text('View All'),
-                  )
-              ],
-            ),
-            body: ListView(
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            leading: const CustomBackButton(),
+            title: const Text('Events'),
+            actions: [
+              if (viewAll == true)
+                TextButton(
+                  onPressed: () {
+                    context.pop();
+                    context.pushNamed(Routs.events);
+                  },
+                  child: const Text('View All'),
+                )
+            ],
+          ),
+          body: SmartRefresher(
+            controller: controller.eventsController,
+            enablePullUp: true,
+            enablePullDown: true,
+            onRefresh: () async {
+              if (mounted) {
+                await fetchEvents();
+              }
+            },
+            onLoading: () async {
+              if (mounted) {
+                await fetchEvents(loadingNext: true);
+              }
+            },
+            child: ListView(
               shrinkWrap: true,
               physics: const BouncingScrollPhysics(),
               children: [
@@ -153,27 +153,17 @@ class _EventScreenState extends State<EventScreen> {
                         ),
                       ),
                       CustomPopupMenu(
-                        items: [
-                          CustomPopupMenuEntry(
-                            value: '',
-                            label: 'All',
-                            onPressed: () {
-                              filter = null;
-                            },
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'This Week',
-                            onPressed: null,
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'This Month',
-                            onPressed: null,
-                          ),
-                          CustomPopupMenuEntry(
-                            label: 'This Year',
-                            onPressed: null,
-                          ),
-                        ],
+                        items: List.generate(
+                          EventFilters.values.length,
+                          (index) {
+                            var data = EventFilters.values.elementAt(index);
+                            return CustomPopupMenuEntry(
+                              value: data.id,
+                              label: data.value,
+                              onPressed: null,
+                            );
+                          },
+                        ),
                         onChange: (String? val) {
                           filter = val;
                           setState(() {});
@@ -227,37 +217,37 @@ class _EventScreenState extends State<EventScreen> {
                   ),
               ],
             ),
-            bottomNavigationBar: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GradientButton(
-                  height: 70,
-                  borderRadius: 18,
-                  backgroundGradient: primaryGradient,
-                  backgroundColor: Colors.transparent,
-                  boxShadow: const [],
-                  margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-                  onTap: () async {
-                    context.pushReplacementNamed(Routs.createEvent);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Create Event',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: GoogleFonts.urbanist().fontFamily,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                        ),
+          ),
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GradientButton(
+                height: 70,
+                borderRadius: 18,
+                backgroundGradient: primaryGradient,
+                backgroundColor: Colors.transparent,
+                boxShadow: const [],
+                margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                onTap: () async {
+                  context.pushReplacementNamed(Routs.createEvent);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Create Event',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: GoogleFonts.urbanist().fontFamily,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
@@ -335,31 +325,31 @@ class EventCard extends StatelessWidget {
                           maxLines: 2,
                           textAlign: TextAlign.start,
                         ),
-                        if(data?.meetingLink.toString()!='null')
-                        Row(
-                          children: [
-                            Text(
-                              'Link ',
-                              style: const TextStyle(
-                                color: Colors.blue,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                        if (data?.meetingLink.toString() != 'null')
+                          Row(
+                            children: [
+                              const Text(
+                                'Link ',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                maxLines: 2,
+                                textAlign: TextAlign.start,
                               ),
-                              maxLines: 2,
-                              textAlign: TextAlign.start,
-                            ),
-                            Text(
-                              data?.meetingLink ?? '',
-                              style: const TextStyle(
-                                color: Colors.blue,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
+                              Text(
+                                data?.meetingLink ?? '',
+                                style: const TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                                maxLines: 2,
+                                textAlign: TextAlign.start,
                               ),
-                              maxLines: 2,
-                              textAlign: TextAlign.start,
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
                       ],
                     ),
                   ),
@@ -371,21 +361,29 @@ class EventCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomText1(text: 'Start',fontSize: 10),
                             Row(
                               children: [
-                                FeedMenu(
-                                  icon: AppAssets.eventIcon,
-                                  value: data?.startDate ?? '',
+                                Padding(
+                                  padding: const EdgeInsets.only(right: kPadding),
+                                  child: CustomText1(text: 'Start', fontSize: 10),
                                 ),
-                                FeedMenu(
-                                  icon: AppAssets.clockIcon,
-                                  value: data?.startTime ?? '',
+                                Row(
+                                  children: [
+                                    FeedMenu(
+                                      icon: AppAssets.eventIcon,
+                                      value: data?.startDate ?? '',
+                                    ),
+                                    FeedMenu(
+                                      icon: AppAssets.clockIcon,
+                                      value: data?.startTime ?? '',
+                                      lastMenu: true,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 4),
+                              padding: const EdgeInsets.only(top: 4, bottom: 4),
                               child: Text(
                                 'Type of Events: ${data?.type ?? ''}',
                                 style: const TextStyle(
@@ -401,21 +399,19 @@ class EventCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            CustomText1(text: 'End',fontSize: 10),
-                            SizedBox(width: size.width*0.07,),
-                            Row(
-                              children: [
-                                FeedMenu(
-                                  icon: AppAssets.eventIcon,
-                                  value: data?.endDate ?? '',
-                                ),
-                                FeedMenu(
-                                  icon: AppAssets.clockIcon,
-                                  value: data?.endTime ?? '',
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(right: kPadding + 6),
+                              child: CustomText1(text: 'End', fontSize: 10),
                             ),
-
+                            FeedMenu(
+                              icon: AppAssets.eventIcon,
+                              value: data?.endDate ?? '',
+                            ),
+                            FeedMenu(
+                              icon: AppAssets.clockIcon,
+                              value: data?.endTime ?? '',
+                              lastMenu: true,
+                            ),
                           ],
                         ),
                       ],

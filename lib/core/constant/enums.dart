@@ -82,6 +82,25 @@ enum Genders {
   const Genders(this.value);
 }
 
+enum EventFilters {
+  all('', 'All'),
+  newest('Newest', 'Newest'),
+  oldest('Oldest', 'Oldest'),
+  today('Today', 'Today'),
+  thisWeek('ThisWeek', 'This Week'),
+  thisMonth('ThisMonth', 'This Month'),
+  thisYear('ThisYear', 'This Year'),
+  seminar('Seminar', 'Seminar'),
+  webinar('Webinar', 'Webinar'),
+  event('Event', 'Event'),
+  megaEvent('Mega Event', 'Mega Event');
+
+  final String id;
+  final String value;
+
+  const EventFilters(this.id, this.value);
+}
+
 enum OrderStatuses {
   all('All'),
   placed('Order Placed'),

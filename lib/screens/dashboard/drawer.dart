@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
@@ -33,7 +34,7 @@ class CustomDrawer extends StatelessWidget {
               ],
             ),
             Divider(color: Colors.grey.shade700, thickness: 0),
-            const TrainingProgress(),
+            const TrainingProgress(margin: EdgeInsets.only(left: 8,right: 8),),
             Divider(color: Colors.grey.shade700, thickness: 0),
             CustomDrawerTile(
               activeImage: AppAssets.dashboardIcon,
@@ -47,13 +48,13 @@ class CustomDrawer extends StatelessWidget {
                 context.pushNamed(Routs.performanceChart);
               },
             ),
-            CustomDrawerTile(
-              activeImage: AppAssets.videoIcons,
-              title: 'Demo',
-              onTap: () {
-                context.pushNamed(Routs.demos);
-              },
-            ),
+            // CustomDrawerTile(
+            //   activeImage: AppAssets.videoIcons,
+            //   title: 'Demo',
+            //   onTap: () {
+            //     context.pushNamed(Routs.demos);
+            //   },
+            // ),
             CustomDrawerTile(
               activeImage: AppAssets.trainingIcon,
               title: 'Training',
@@ -106,18 +107,18 @@ class CustomDrawer extends StatelessWidget {
             ),
             CustomDrawerTile(
               activeImage: AppAssets.resourcesIcon,
-              title: 'Library',
+              title: 'Data Bank',
               onTap: () {
                 context.pushNamed(Routs.resources);
               },
             ),
-            CustomDrawerTile(
-              activeImage: AppAssets.hallOfFameIcon,
-              title: 'Hall of fame',
-              onTap: () {
-                context.pushNamed(Routs.hallOfFame);
-              },
-            ),
+            // CustomDrawerTile(
+            //   activeImage: AppAssets.hallOfFameIcon,
+            //   title: 'Hall of fame',
+            //   onTap: () {
+            //     context.pushNamed(Routs.hallOfFame);
+            //   },
+            // ),
             CustomDrawerTile(
               activeImage: AppAssets.setting,
               title: 'Services',

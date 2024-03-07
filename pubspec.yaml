@@ -1,7 +1,7 @@
 name: mrwebbeast
 description: Flutter Skeleton using Provider State Management.
 publish_to: 'none'
-version: 1.0.10+10
+version: 1.0.11+11
 environment:
 #  sdk: '>=3.1.3 <4.0.0'
 #   sdk: '>=3.0.0 <4.0.0'

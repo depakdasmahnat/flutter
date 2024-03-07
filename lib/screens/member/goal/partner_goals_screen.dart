@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
@@ -22,6 +23,8 @@ import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
+import '../home/member_profile_details.dart';
+import '../profile/profile.dart';
 
 class PartnerGoalsScreen extends StatefulWidget {
   const PartnerGoalsScreen({
@@ -40,14 +43,13 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
 
   Future fetchGoals({bool? loadingNext}) async {
     return await context.read<MembersController>().fetchPartnerGoals(
-          context: context,
-          isRefresh: loadingNext == true ? false : true,
-          loadingNext: loadingNext ?? false,
-          searchKey: searchController.text,
-          filter: filter,
-      filterByRank: downLineRank,
-      filterByStatus: filterByStatus
-        );
+        context: context,
+        isRefresh: loadingNext == true ? false : true,
+        loadingNext: loadingNext ?? false,
+        searchKey: searchController.text,
+        filter: filter,
+        filterByRank: downLineRank,
+        filterByStatus: filterByStatus);
   }
 
   String? filter;
@@ -55,11 +57,11 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       fetchGoals();
       await context.read<MembersController>().fetchDownLineRank(
-        context: context,
-      );
+            context: context,
+          );
     });
   }
 
@@ -102,182 +104,132 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: kPadding),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: CustomTextField(
-                        hintText: 'Search',
-                        controller: searchController,
-                        hintStyle: const TextStyle(color: Colors.white),
-                        prefixIcon: ImageView(
-                          height: 20,
-                          width: 20,
-                          borderRadiusValue: 0,
-                          color: Colors.white,
-                          margin: const EdgeInsets.only(left: kPadding, right: kPadding),
-                          fit: BoxFit.contain,
-                          assetImage: AppAssets.searchIcon,
-                          onTap: () {
-                            fetchGoals();
-                          },
-                        ),
-                        onChanged: (val) {
-                          onSearchFieldChanged(val);
-                        },
-
-                        onEditingComplete: () {
-                          fetchGoals();
-                        },
-                        margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
-                      ),
-                    ),
-                    CustomPopupMenu(
-                      items: [
-                        CustomPopupMenuEntry(
-                          value: '',
-                          label: 'All',
-                          onPressed: () {
-                            filter = null;
-                          },
-                        ),
-                        CustomPopupMenuEntry(
-                          label: 'Achieved',
-                          onPressed: null,
-                        ),
-                        CustomPopupMenuEntry(
-                          label: 'Pending',
-                          onPressed: null,
-                        ),
-                      ],
-                      onChange: (String? val) {
-                        filter = val;
-                        setState(() {});
-                        fetchGoals();
-                      },
-                      child: GradientButton(
-                        height: 60,
-                        width: 60,
-                        margin: const EdgeInsets.only(left: 8, right: kPadding, bottom: kPadding),
-                        backgroundGradient: blackGradient,
-                        child: const ImageView(
-                          height: 28,
-                          width: 28,
-                          assetImage: AppAssets.filterIcons,
-                          margin: EdgeInsets.zero,
-                        ),
-                      ),
-                    )
-                  ],
+              CustomTextField(
+                hintText: 'Search',
+                controller: searchController,
+                hintStyle: const TextStyle(color: Colors.white),
+                prefixIcon: ImageView(
+                  height: 20,
+                  width: 20,
+                  borderRadiusValue: 0,
+                  color: Colors.white,
+                  margin: const EdgeInsets.only(left: kPadding, right: kPadding),
+                  fit: BoxFit.contain,
+                  assetImage: AppAssets.searchIcon,
+                  onTap: () {
+                    fetchGoals();
+                  },
                 ),
+                onChanged: (val) {
+                  onSearchFieldChanged(val);
+                },
+                onEditingComplete: () {
+                  fetchGoals();
+                },
+                margin:
+                    const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding, top: kPadding),
               ),
-               Padding(
-                padding: const EdgeInsets.only(left: kPadding,right: kPadding ,bottom: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Consumer<MembersController>(
                       builder: (context, controller, child) {
-                        return   Container(
-                          width: size.width*0.23,
-                          height: size.height*0.04,
+                        return Container(
+                          width: 100,
+                          height: size.height * 0.04,
+                          padding: const EdgeInsets.only(left: 12),
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              gradient: inActiveGradient
+                            borderRadius: BorderRadius.circular(30),
+                            gradient: inActiveGradient,
                           ),
-                          child: DropdownSearch<String>(
-                            dropdownButtonProps: const DropdownButtonProps(
-                              // padding: EdgeInsets.only(bottom: 10),
-                                icon: Icon(
-                                  CupertinoIcons.chevron_down,
-                                  size: 14,
-                                )),
-                            // selectedItem: selectedItem,
-                            popupProps:  const PopupProps.menu(
-                              menuProps: MenuProps(
-                                backgroundColor: Color(0xFF1B1B1B),
-                              ),
-                              fit: FlexFit.loose,
-                              // showSelectedItems: true,
-                            ),
+                          child: Center(
+                            child: DropdownSearch<String>(
 
-                            items:  controller.fetchDownlineRan?.data??[],
-                            dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownButtonProps: const DropdownButtonProps(
+                                  // padding: EdgeInsets.only(bottom: 10),
+                                  icon: Icon(
+                                CupertinoIcons.chevron_down,
+                                size: 14,
+                              )),
+                              // selectedItem: selectedItem,
 
-                              dropdownSearchDecoration: InputDecoration(
-
-                                contentPadding: EdgeInsets.only(
-                                  left: 7,
-                                  top: 7,
+                              popupProps: const PopupProps.menu(
+                                menuProps: MenuProps(
+                                  backgroundColor: Color(0xFF1B1B1B),
                                 ),
-                                border: InputBorder.none,
-
-                                hintText: 'Rank',
-
-
+                                fit: FlexFit.loose,
+                                // showSelectedItems: true,
                               ),
+
+                              items: controller.fetchDownlineRan?.data ?? [],
+                              dropdownDecoratorProps: const DropDownDecoratorProps(
+                                dropdownSearchDecoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(left: 0, top: 8),
+                                  border: InputBorder.none,
+                                  hintText: 'Rank',
+                                  hintStyle: TextStyle(),
+                                  isDense: true,
+                                  isCollapsed: true,
+                                ),
+                              ),
+                              onChanged: (value) async {
+                                downLineRank = value ?? '';
+                                setState(() {});
+                                await fetchGoals();
+                              },
                             ),
-                            onChanged: (value) async{
-                              downLineRank =value??'';
-                              setState(() {
-                              });
-                              await fetchGoals();
-                            },
                           ),
                         );
                       },
-
                     ),
                     GestureDetector(
-                      onTap: () async{
-                        filterByStatus ='Archived';
+                      onTap: () async {
+                        filterByStatus = 'Achieved';
                         setState(() {});
                         await fetchGoals();
                       },
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
-                            gradient:filterByStatus =='Archived'?primaryGradient: inActiveGradient
-                        ),
+                            gradient: filterByStatus == 'Achieved' ? primaryGradient : inActiveGradient),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0,bottom: 8,left: kPadding,right: kPadding),
+                          padding:
+                              const EdgeInsets.only(top: 8.0, bottom: 8, left: kPadding, right: kPadding),
                           child: Center(
                             child: CustomText1(
-                              text: 'Archived',
+                              text: 'Achieved',
                               fontSize: 14,
-                              color: filterByStatus =='Archived'?Colors.black:Colors.white,
+                              color: filterByStatus == 'Achieved' ? Colors.black : Colors.white,
                             ),
                           ),
                         ),
                       ),
                     ),
                     GestureDetector(
-                      onTap: ()async {
-                        filterByStatus ='Pending';
-                        setState(() {
-
-                        });
+                      onTap: () async {
+                        filterByStatus = 'Pending';
+                        setState(() {});
                         await fetchGoals();
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          gradient: filterByStatus=='Pending'?primaryGradient: inActiveGradient
-                        ),
+                            borderRadius: BorderRadius.circular(30),
+                            gradient: filterByStatus == 'Pending' ? primaryGradient : inActiveGradient),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0,bottom: 8,left: kPadding,right: kPadding),
+                          padding:
+                              const EdgeInsets.only(top: 8.0, bottom: 8, left: kPadding, right: kPadding),
                           child: Center(
                             child: CustomText1(
                               text: 'Pending',
                               fontSize: 14,
-                              color: filterByStatus =='Pending'?Colors.black:Colors.white,
+                              color: filterByStatus == 'Pending' ? Colors.black : Colors.white,
                             ),
                           ),
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -380,6 +332,7 @@ class HorizontalGoalCard extends StatelessWidget {
                       FeedMenu(
                         icon: AppAssets.membersIcon,
                         value: goal?.type ?? '',
+                        lastMenu: true,
                       ),
                     ],
                   ),
@@ -390,7 +343,7 @@ class HorizontalGoalCard extends StatelessWidget {
                     'Completion date: ${goal?.endDate ?? ''}',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 11,
+                      fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),
                     textAlign: TextAlign.start,
@@ -399,27 +352,37 @@ class HorizontalGoalCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        ImageView(
-                          height: 28,
-                          width: 28,
-                          borderRadiusValue: 50,
-                          networkImage: '${goal?.profilePic}',
-                          fit: BoxFit.cover,
-                          isAvatar: true,
-                          margin: const EdgeInsets.only(right: 8),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          context.pushNamed(Routs.memberProfileDetails,
+                              extra: MemberProfileDetails(memberId: '${goal?.memberId}'));
+                        },
+                        child: Row(
+                          children: [
+                            ImageView(
+                              height: 28,
+                              width: 28,
+                              borderRadiusValue: 50,
+                              networkImage: '${goal?.profilePic}',
+                              fit: BoxFit.cover,
+                              isAvatar: true,
+                              margin: const EdgeInsets.only(right: 8),
+                            ),
+                            Flexible(
+                              child: Text(
+                                goal?.partnerName ?? '',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          goal?.partnerName ?? '',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
+                      ),
                     ),
                     GradientButton(
                       height: 18,
@@ -473,11 +436,11 @@ class FeedMenu extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ImageView(
-            height: 12,
-            width: 12,
+            height: 10,
+            width: 10,
             borderRadiusValue: 0,
             color: Colors.white,
-            margin: const EdgeInsets.only(right: 4),
+            margin: const EdgeInsets.only(right: 2),
             fit: BoxFit.contain,
             onTap: onTap,
             assetImage: icon,
@@ -487,7 +450,7 @@ class FeedMenu extends StatelessWidget {
               '$value',
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.start,

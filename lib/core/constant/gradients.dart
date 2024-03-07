@@ -38,6 +38,13 @@ Gradient blackGradient = const LinearGradient(
   end: Alignment.bottomCenter,
   begin: Alignment.topCenter,
   colors: [
+    Color(0xff3B3B3B),
+    Color(0xff373737),
+  ],
+);Gradient darkGreyGradient = const LinearGradient(
+  end: Alignment.bottomCenter,
+  begin: Alignment.topCenter,
+  colors: [
     Color(0xff1C1C1C),
     Color(0xff282828),
   ],

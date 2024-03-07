@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/screens/member/home/member_profile_details.dart';
 import 'package:mrwebbeast/utils/widgets/appbar.dart';
 import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:provider/provider.dart';
@@ -12,12 +13,14 @@ import '../../../controllers/member/leads/leads_controllers.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/member/leads/leads_member_details.dart';
 import '../../../models/member/leads/leads_model.dart';
 import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../guest/guestProfile/guest_faq.dart';
+import '../profile/profile.dart';
 
 class LeadsPopup extends StatefulWidget {
   final String? title;
@@ -158,7 +161,7 @@ class CompletedLeadsCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        context.push(Routs.memberProfile);
+        context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${lead?.id}'));
       },
       child: Container(
         decoration: decoration,
@@ -266,6 +269,7 @@ class CompletedLeadsCard extends StatelessWidget {
 class ScheduledLeadsCard extends StatelessWidget {
   final int? index;
   final LeadsData? lead;
+
   const ScheduledLeadsCard({
     this.index,
     this.lead,
@@ -278,7 +282,7 @@ class ScheduledLeadsCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        context.push(Routs.memberProfile);
+        context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${lead?.id}'));
       },
       child: Container(
         decoration: decoration,
@@ -376,6 +380,7 @@ class ScheduledLeadsCard extends StatelessWidget {
 class NewLeadsCard extends StatelessWidget {
   final int? index;
   final LeadsData? lead;
+
   const NewLeadsCard({
     this.index,
     this.lead,
@@ -388,7 +393,7 @@ class NewLeadsCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        context.push(Routs.memberProfile);
+        context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${lead?.id}'));
       },
       child: Container(
         decoration: decoration,
@@ -515,7 +520,7 @@ class LeadsCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        context.push(Routs.memberProfile);
+        context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${lead?.id}'));
       },
       child: Container(
         decoration: decoration,
@@ -653,7 +658,7 @@ class ClosedLeadsCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        context.push(Routs.memberProfile);
+        context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${lead?.id}'));
       },
       child: Container(
         decoration: decoration,
@@ -721,9 +726,11 @@ class ClosedLeadsCard extends StatelessWidget {
     );
   }
 }
+
 class InvitationCall extends StatelessWidget {
   final int? index;
   final LeadsData? lead;
+
   const InvitationCall({
     this.index,
     this.lead,
@@ -736,7 +743,7 @@ class InvitationCall extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        context.push(Routs.memberProfile);
+        context.pushNamed(Routs.leadMemberProfile, extra: GuestProfileDetails(guestId: '${lead?.id}'));
       },
       child: Container(
         decoration: decoration,
@@ -803,8 +810,8 @@ class InvitationCall extends StatelessWidget {
                       colors: lead?.priority == LeadPriorityFilters.hot.value
                           ? [const Color(0xFFFF2600), const Color(0xFFFF6130)]
                           : lead?.priority == LeadPriorityFilters.warm.value
-                          ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
-                          : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
+                              ? [const Color(0xFFFDDC9C), const Color(0xFFDDA53B)]
+                              : [const Color(0xFF3CDCDC), const Color(0xFF12BCBC)],
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(39),

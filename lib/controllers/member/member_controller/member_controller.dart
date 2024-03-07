@@ -1006,7 +1006,10 @@ class MembersController extends ChangeNotifier {
     }
 
     //
-    refresh();
+    if (generateReferralModel == null) {
+      refresh();
+    }
+
     try {
       await ApiService()
           .get(

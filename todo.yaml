@@ -1,0 +1,71 @@
+To Do -
+
+#1) There is null value showing in pending task. By default , today's date is selected.
+2) Demo scheduled & Invitation call list is showing -- value.
+#3) Alignment of city in followup should be properly aligned.
+#4) Training Bar -> "Steps 0/11" should be dynamic. Replace 11 with total no. of modules and 0 with no. of completed modules.
+#5) Training Bar -> add colors in bar according to figma.
+#6) Profile icon in every list should be clickable and it should be dynamic(lead's profile)
+
+
+
+Goals -
+
+1) My Goals list should come according to ascending order of their completion date.
+#2) My Partners Goal -> correct spelling of Achieved. that's why filter is not working. Profile icon of every partner should be clickable.
+#3) Rank filter tab -> alignment of text -" rank" should be correct.
+3) Search is not working.
+4) Add validation while creating goals-> completion date cannot be less than start date
+#5) Filter funnel is also not working.
+
+Events
+
+1) Form -> add validation -> end date cannot be less than start date.
+2) On end date passed of any events, events should be graded out and also should get removed from banner if placed.
+#3) All Events are not showing.
+4) Events - > Add an input field to enter the count of number of  leads you are inviting.
+
+
+Data Banks
+
+#1) Data Banks should be like guest app.
+
+
+Menu
+
+#1) Hide Hall of Fame.
+#2) Hide Demo
+#3) Performance chart should be dynamic.
+#4) Service chart should be updated acc to new list. If it is static then remove search and filter option . And if it is dynamic then remove filter from it.
+
+
+Profile
+
+#1) Profile should be dynamic. Achievements & member count should be dynamic
+#2) Copy Referral code -> There is a glitch coming with message at the below.
+#s
+
+Partners Form
+
+1) Remove Sponsor's down-line rank.
+2) Enagic Id should be not editable.
+3) Add 10 digit length validation in partner form.
+
+Network
+
+1) Projection -> tree should be center aligned.
+2) Tree View -> Tree main node should be center aligned.
+3) Pinnacle view & pinnacle should be of all level.
+
+Training
+
+#6) Advance training will open when basic completes. On clicking on advance a message will come - please complete your basic training first.
+#7) Remove search option from training.
+#8) Training -> Modules should come Line wise
+
+
+Achievers
+
+#13) Training - videos can be landscape.
+#14) Achievers - remove performance column
+16) Achievers in banners - 4A and above

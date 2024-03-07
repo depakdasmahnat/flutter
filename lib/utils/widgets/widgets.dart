@@ -59,6 +59,7 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
             child: Text(
               text,
               style: TextStyle(color: textColor ?? Colors.white),
+              maxLines: 2,
             ),
           ),
           Icon(

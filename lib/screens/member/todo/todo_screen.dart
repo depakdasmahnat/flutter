@@ -53,15 +53,14 @@ class _ToDoScreenState extends State<ToDoScreen> {
 
   List<EventsData>? events;
 
-  Future fetchEvents({bool? loadingNext,String? CustomDate}) async {
+  Future fetchEvents({bool? loadingNext}) async {
     return await context.read<EventsControllers>().fetchEvents(
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
           searchKey: searchController.text,
-          dateFilter: dateTime.toString().substring(0,10),
-          // filter: filter ?? (dateTime != null ? dateTime.toString() : ''),
-          filter: CustomDate,
+          dateFilter: dateTime != null ? dateTime.toString().substring(0, 10) : '',
+          filter: filter != null ? filter?.replaceAll(' ', '') : '',
         );
   }
 
@@ -119,7 +118,8 @@ class _ToDoScreenState extends State<ToDoScreen> {
                   tableCalenderIcon: const Icon(Icons.calendar_month),
                   onDateSelected: (val) {
                     dateTime = val;
-                    filter = null;
+                    // filter = null;
+                    filter = 'Custom_date';
                     if (dateTime != null) {
                       formattedDate = DateFormat(dayFormat).format(dateTime!);
                     }
@@ -127,7 +127,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
                     debugPrint('dateTime $dateTime');
                     setState(() {});
                     fetchToDos();
-                    fetchEvents(CustomDate: 'Custom_date');
+                    fetchEvents();
                   },
                 ),
               ),

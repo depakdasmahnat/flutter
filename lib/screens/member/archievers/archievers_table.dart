@@ -69,10 +69,11 @@ class _AchieversTableState extends State<AchieversTable> {
                 columnName: AchieversTableHeadings.appDownloads.value,
                 label: GridHeading(title: AchieversTableHeadings.appDownloads.value),
               ),
-              GridColumn(
-                columnName: AchieversTableHeadings.performance.value,
-                label: GridHeading(title: AchieversTableHeadings.performance.value),
-              ),
+
+              // GridColumn(
+              //   columnName: AchieversTableHeadings.performance.value,
+              //   label: GridHeading(title: AchieversTableHeadings.performance.value),
+              // ),
             ],
           )
         : const NoDataFound();
@@ -90,7 +91,7 @@ class EmployeeDataSource extends DataGridSource {
           cells: [
             DataGridCell(
               columnName: AchieversTableHeadings.rank.value,
-              value: GridHeading(title: e.achievement??defaultText),
+              value: GridHeading(title: e.achievement ?? defaultText),
             ),
             DataGridCell(
               columnName: AchieversTableHeadings.name.value,
@@ -131,23 +132,23 @@ class EmployeeDataSource extends DataGridSource {
               columnName: AchieversTableHeadings.appDownloads.value,
               value: GridHeading(title: '${e.appDownloads}'),
             ),
-            DataGridCell(
-              columnName: AchieversTableHeadings.performance.value,
-              value: CircularPercentIndicator(
-                radius: 16.0,
-                lineWidth: 3,
-                percent: (e.performance ?? 0).toDouble() / 100,
-                center: Text(
-                  '${(e.performance ?? 0).toInt()}%',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                progressColor: statusColor(value: e.level),
-              ),
-            ),
+            // DataGridCell(
+            //   columnName: AchieversTableHeadings.performance.value,
+            //   value: CircularPercentIndicator(
+            //     radius: 16.0,
+            //     lineWidth: 3,
+            //     percent: (e.performance ?? 0).toDouble() / 100,
+            //     center: Text(
+            //       '${(e.performance ?? 0).toInt()}%',
+            //       style: const TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 8,
+            //         fontWeight: FontWeight.w700,
+            //       ),
+            //     ),
+            //     progressColor: statusColor(value: e.level),
+            //   ),
+            // ),
           ],
         );
       },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
+import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/constant/constant.dart';
@@ -43,47 +44,48 @@ class _TrainingProgressState extends State<TrainingProgress> {
               },
           child: Container(
             margin: widget.margin ?? const EdgeInsets.only(top: kPadding, left: kPadding, right: kPadding),
-            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 8, bottom: 8),
+            padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: 12, bottom: 12),
             decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(12),
+              gradient: darkGreyGradient,
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.title ?? 'Basic Training Progress',
+                  widget.title ?? 'Complete Your Training Progress',
                   style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
+                    color: Colors.white,
+                    fontSize: 13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 GradientProgressBar(
                   value: (progress / 100),
-                  backgroundColor: Colors.grey.shade300,
-                  margin: const EdgeInsets.only(top: 8, bottom: 8),
+                  margin: const EdgeInsets.only(top: 12, bottom: 12),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'Steps ${trainingProgress?.modules ?? ''}',
-                      style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                      style:
+                          TextStyle(color: Colors.grey.shade200, fontSize: 11, fontWeight: FontWeight.w500),
                     ),
                     Text(
                       progress < 100 ? 'Complete your training' : 'Training Completed',
                       style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 10,
+                        color: Colors.white,
+                        fontSize: 11,
                         fontWeight: FontWeight.w700,
                         decoration: TextDecoration.underline,
                       ),
                     ),
                     Text(
                       '${(progress).toStringAsFixed(0)}%',
-                      style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                      style:
+                          TextStyle(color: Colors.grey.shade200, fontSize: 11, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),

@@ -69,8 +69,8 @@ class EventsControllers extends ChangeNotifier {
       'id': '${eventId ?? ' '}',
       'page': '$eventsIndex',
       'search_key': searchKey ?? '',
-      'filter': filter ?? '',
-      'date_filter': dateFilter ?? '',
+      if (filter?.isNotEmpty ==true) 'filter': filter ?? '',
+      if (dateFilter?.isNotEmpty ==true) 'date_filter': dateFilter ?? '',
       'limit': limit ?? '10',
     };
 

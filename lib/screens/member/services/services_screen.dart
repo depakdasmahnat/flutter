@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
@@ -47,6 +49,17 @@ class _ServicesScreenState extends State<ServicesScreen> {
     });
   }
 
+  Timer? _debounce;
+
+  void onSearchFieldChanged(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      fetchServiceReports();
+
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NetworkControllers>(builder: (context, controller, child) {
@@ -81,56 +94,59 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           fetchServiceReports();
                         },
                       ),
+                      onChanged: (val) async {
+                        onSearchFieldChanged(val);
+                      },
                       onEditingComplete: () {
                         fetchServiceReports();
                       },
                       margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
                     ),
                   ),
-                  CustomPopupMenu(
-                    items: [
-                      CustomPopupMenuEntry(
-                        value: '',
-                        label: 'All',
-                        onPressed: () {
-                          filter = null;
-                        },
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'City',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Name',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Number',
-                        onPressed: null,
-                      ),
-                      CustomPopupMenuEntry(
-                        label: 'Number 2',
-                        onPressed: null,
-                      ),
-                    ],
-                    onChange: (String? val) {
-                      filter = val;
-                      setState(() {});
-                      fetchServiceReports();
-                    },
-                    child: GradientButton(
-                      height: 60,
-                      width: 60,
-                      margin: const EdgeInsets.only(left: 8, right: kPadding, bottom: kPadding),
-                      backgroundGradient: blackGradient,
-                      child: const ImageView(
-                        height: 28,
-                        width: 28,
-                        assetImage: AppAssets.filterIcons,
-                        margin: EdgeInsets.zero,
-                      ),
-                    ),
-                  )
+                  // CustomPopupMenu(
+                  //   items: [
+                  //     CustomPopupMenuEntry(
+                  //       value: '',
+                  //       label: 'All',
+                  //       onPressed: () {
+                  //         filter = null;
+                  //       },
+                  //     ),
+                  //     CustomPopupMenuEntry(
+                  //       label: 'City',
+                  //       onPressed: null,
+                  //     ),
+                  //     CustomPopupMenuEntry(
+                  //       label: 'Name',
+                  //       onPressed: null,
+                  //     ),
+                  //     CustomPopupMenuEntry(
+                  //       label: 'Number',
+                  //       onPressed: null,
+                  //     ),
+                  //     CustomPopupMenuEntry(
+                  //       label: 'Number 2',
+                  //       onPressed: null,
+                  //     ),
+                  //   ],
+                  //   onChange: (String? val) {
+                  //     filter = val;
+                  //     setState(() {});
+                  //     fetchServiceReports();
+                  //   },
+                  //   child: GradientButton(
+                  //     height: 60,
+                  //     width: 60,
+                  //     margin: const EdgeInsets.only(left: 8, right: kPadding, bottom: kPadding),
+                  //     backgroundGradient: blackGradient,
+                  //     child: const ImageView(
+                  //       height: 28,
+                  //       width: 28,
+                  //       assetImage: AppAssets.filterIcons,
+                  //       margin: EdgeInsets.zero,
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             ),

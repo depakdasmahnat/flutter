@@ -10,6 +10,7 @@ import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/models/member/goals/goals_model.dart';
+import 'package:mrwebbeast/screens/member/goal/partner_goals_screen.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
 import 'package:provider/provider.dart';
@@ -132,7 +133,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                     physics: const BouncingScrollPhysics(),
                     itemCount: partnerGoals?.length ?? 0,
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.zero,
+                    padding: const EdgeInsets.only(left: kPadding),
                     // physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       var data = partnerGoals?.elementAt(index);
@@ -140,9 +141,12 @@ class _GoalsScreenState extends State<GoalsScreen> {
                         onTap: () {
                           // context.pushNamed(Routs.productDetail);
                         },
-                        child: HorizontalGoalCard(
-                          index: index,
-                          goal: data,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: HorizontalGoalCard(
+                            index: index,
+                            goal: data,
+                          ),
                         ),
                       );
                     },
@@ -154,7 +158,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
                   message: controller.goalsModel?.message ?? 'No Goals Found',
                 ),
               const Padding(
-                padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                padding: EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding, top: kPadding),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -418,138 +422,6 @@ class GoalCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class HorizontalGoalCard extends StatelessWidget {
-  final double? imageHeight;
-  final BoxFit? fit;
-
-  final int index;
-
-  final GoalsData? goal;
-
-  const HorizontalGoalCard({
-    super.key,
-    this.imageHeight,
-    this.fit,
-    required this.index,
-    required this.goal,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 180,
-      margin: const EdgeInsets.only(left: kPadding, bottom: kPadding),
-      decoration: BoxDecoration(
-        gradient: feedsCardGradient,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: ImageView(
-              width: 180,
-              borderRadiusValue: 10,
-              margin: const EdgeInsets.all(10),
-              fit: BoxFit.cover,
-              networkImage: '${goal?.image}',
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  goal?.name ?? '',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: Row(
-                    children: [
-                      FeedMenu(
-                        icon: AppAssets.eventIcon,
-                        value: goal?.startDate ?? '',
-                      ),
-                      FeedMenu(
-                        icon: AppAssets.membersIcon,
-                        value: goal?.type ?? '',
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    'Completion date: ${goal?.endDate ?? ''}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        ImageView(
-                          height: 28,
-                          width: 28,
-                          borderRadiusValue: 50,
-                          networkImage: '${goal?.profilePic}',
-                          fit: BoxFit.cover,
-                          isAvatar: true,
-                          margin: const EdgeInsets.only(right: 8),
-                        ),
-                        Text(
-                          goal?.partnerName ?? '',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.start,
-                        ),
-                      ],
-                    ),
-                    GradientButton(
-                      height: 18,
-                      borderRadius: 50,
-                      backgroundGradient: whiteGradient,
-                      margin: const EdgeInsets.symmetric(vertical: kPadding),
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${goal?.status}',
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
