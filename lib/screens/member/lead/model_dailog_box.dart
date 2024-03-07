@@ -675,7 +675,8 @@ class _ModelDialogBoxForBannerState extends State<ModelDialogBoxForBanner> {
                           tabIndex =index;
                           setState(() {});
                           print(" ecent id ${widget.eventID}");
-                        await  context.read<GuestControllers>().attendEvent(context: context, eventId: widget.eventID, feedback: nameType);
+                          print(" ecent id ${nameType}");
+                        await  context.read<GuestControllers>().attendEvent(context: context, eventId: widget.eventID, feedback: nameType,leadCount: '');
                           ;
 
                         },
@@ -1227,12 +1228,18 @@ class _ModelDialogBoxIncompleteState extends State<ModelDialogBoxIncomplete> {
             ),
             TextButton(
               onPressed:()async {
-                DefaultModel? model=  await context.read<ListsControllers>().rescheduledCall(context: context,
-                    guestId: widget.guestId, reason: '', date: dateController.text, time:timeController.text, LMSStep: 'Demo Scheduled ', priority: widget.priority, demoRescheduleRemark: '');
-
+                // DefaultModel? model=  await context.read<ListsControllers>().rescheduledCall(context: context,
+                //     guestId: widget.guestId, reason: '', date: dateController.text, time:timeController.text, LMSStep: 'Demo Scheduled ', priority: widget.priority, demoRescheduleRemark: '');
+                DefaultModel? model=await    context.read<MembersController>().updateLeadStatus(context: context, guestId: widget.guestId, status: 'Invitation Call');
                 if(model?.status==true){
                   context.pop();
                   context.pop();
+                  await context
+                      .read<MembersController>()
+                      .fetchLeads(
+                      status: 'Demo Scheduled',
+                      priority: '',
+                      page: '1',searchKey: '');
                 }
 
               },

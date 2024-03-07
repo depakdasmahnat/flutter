@@ -294,10 +294,10 @@ class ListsControllers extends ChangeNotifier {
         responseData = DefaultModel.fromJson(json);
 
         if (responseData?.status == true) {
-          showSnackBar(
-              context: context,
-              text: responseData?.message ?? 'Something went wong',
-              color: Colors.green);
+          // showSnackBar(
+          //     context: context,
+          //     text: responseData?.message ?? 'Something went wong',
+          //     color: Colors.green);
           // context.pop();
         } else {
           showSnackBar(

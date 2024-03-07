@@ -86,7 +86,7 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
         Column(
           children: [
             MenuButton(
-              title: 'Add List',
+              title: 'Add Lead',
               image: AppAssets.addPersonIcon,
               onTap: () {
                 context.pushNamed(Routs.memberaddList);
@@ -106,13 +106,13 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
                 context.pushNamed(Routs.createEvent);
               },
             ),
-            MenuButton(
-              title: 'Create Demo',
-              image: AppAssets.videoIcons,
-              onTap: () {
-                context.pushNamed(Routs.createDemo,extra: const CreateDemo(guestId: '',showLeadList: true,));
-              },
-            ),
+            // MenuButton(
+            //   title: 'Create Demo',
+            //   image: AppAssets.videoIcons,
+            //   onTap: () {
+            //     context.pushNamed(Routs.createDemo,extra: const CreateDemo(guestId: '',showLeadList: true,));
+            //   },
+            // ),
             MenuButton(
               title: 'Create Target',
               image: AppAssets.targetIcon,

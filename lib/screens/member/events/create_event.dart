@@ -30,6 +30,7 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
+  DateTime endDateValidation=DateTime.now();
   bool hideContainer = false;
   String eventType = '';
   String eventMode = '';
@@ -111,15 +112,7 @@ class _CreateEventState extends State<CreateEvent> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-// child: CustomDropdown(
-// title: 'Type Of Category*',
-// hintText: 'Select Event Type',
-// listItem: const [
-// 'Webinar',
-// 'Conferences',
-// 'Workshops',
-// 'Networking Event'
-// ],
+
             child: IgnorePointer(
               ignoring: hideContainer,
               child: CustomDropdown(
@@ -318,8 +311,10 @@ class _CreateEventState extends State<CreateEvent> {
                     );
 
                     if (pickedDate != null) {
+                      endDateValidation =pickedDate;
                       startDateCtrl.text =
                       "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                      setState(() {});
                     }
                   },
                   readOnly: true,
@@ -381,8 +376,8 @@ class _CreateEventState extends State<CreateEvent> {
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
+                      initialDate: endDateValidation,
+                      firstDate: endDateValidation,
                       lastDate: DateTime(2101),
                       builder: (context, child) {
                         return Theme(
