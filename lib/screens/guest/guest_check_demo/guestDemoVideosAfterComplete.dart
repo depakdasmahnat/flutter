@@ -17,7 +17,6 @@ class GuestCheckDemoVideos extends StatefulWidget {
 }
 
 class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
-
   @override
   void initState() {
     super.initState();
@@ -25,90 +24,93 @@ class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
       await context.read<CheckDemoController>().fetchDemoVideos(context: context);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return  Scaffold(
+    return Scaffold(
       body: Consumer<CheckDemoController>(
         builder: (context, controller, child) {
-          return  controller.demoVideosLoader==false? const LoadingScreen():  Stack(
-            fit: StackFit.expand,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: PageView.builder(
-                      itemCount:controller.fetchDemoVideosAfter?.data?.length??0 ,
-                      scrollDirection: Axis.vertical,
-                      itemBuilder:(context, index) {
-                      return VideoPlayerCard(
-                        type: true,
-                        demoId:'${controller.fetchDemoVideosAfter?.data?[index].id}' ,
-                        url:'${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
-                        aspectRatio: 2.2/4.5,
-                        borderRadius: 1,
-                      );
-                    },),
-                  ),
-                  // Expanded(
-                  //   child: ListView.builder(
-                  //     shrinkWrap: true,
-                  //     itemCount: controller.fetchDemoVideosAfter?.data?.length??0,
-                  //     itemBuilder: (context, index) {
-                  //     // return VideoPlay(video: controller.fetchDemoVideosAfter?.data?[index].videoLink??'',);
-                  //     return VideoPlayerCard(
-                  //      type: true,
-                  //       demoId:'${controller.fetchDemoVideosAfter?.data?[index].id}' ,
-                  //       url:'${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
-                  //       aspectRatio: 2.2/4.5,
-                  //       borderRadius: 1,
-                  //     );
-                  //   },),
-                  // ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CustomeText(
-                    text: 'Best water purifier: 10 picks to ensure\nclean drinking water',
-                  ),
-                ),
-              ),
-              Positioned(
-                top: size.height*0.05,
-                child: Row(
-
+          return controller.demoVideosLoader == false
+              ? const LoadingScreen()
+              : Stack(
+                  fit: StackFit.expand,
                   children: [
-                    const CustomBackButton(
-                      padding: EdgeInsets.all(8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: PageView.builder(
+                            itemCount: controller.fetchDemoVideosAfter?.data?.length ?? 0,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              return VideoPlayerCard(
+                                type: true,
+                                demoId: '${controller.fetchDemoVideosAfter?.data?[index].id}',
+                                url: '${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
+                                aspectRatio: 2.2 / 4.5,
+                                borderRadius: 1,
+                              );
+                            },
+                          ),
+                        ),
+                        // Expanded(
+                        //   child: ListView.builder(
+                        //     shrinkWrap: true,
+                        //     itemCount: controller.fetchDemoVideosAfter?.data?.length??0,
+                        //     itemBuilder: (context, index) {
+                        //     // return VideoPlay(video: controller.fetchDemoVideosAfter?.data?[index].videoLink??'',);
+                        //     return VideoPlayerCard(
+                        //      type: true,
+                        //       demoId:'${controller.fetchDemoVideosAfter?.data?[index].id}' ,
+                        //       url:'${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
+                        //       aspectRatio: 2.2/4.5,
+                        //       borderRadius: 1,
+                        //     );
+                        //   },),
+                        // ),
+                      ],
                     ),
-                    SizedBox(
-                      width:size.width*0.2 ,
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CustomeText(
+                          text: 'Best water purifier: 10 picks to ensure\nclean drinking water',
+                        ),
+                      ),
                     ),
-
-                    CustomeText(
-                      text: 'Demo Videos',
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
+                    Positioned(
+                      top: size.height * 0.05,
+                      child: Row(
+                        children: [
+                          const CustomBackButton(
+                            padding: EdgeInsets.all(8),
+                          ),
+                          SizedBox(
+                            width: size.width * 0.2,
+                          ),
+                          CustomeText(
+                            text: 'Demo Videos',
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ],
+                      ),
                     ),
-
                   ],
-                ),
-              ),
-            ],
-          );
+                );
         },
       ),
     );
   }
 }
+
 class VideoPlay extends StatefulWidget {
- final String video;
-  const VideoPlay({super.key,required this.video});
+  final String video;
+
+  const VideoPlay({super.key, required this.video});
 
   @override
   State<VideoPlay> createState() => _VideoPlayState();
@@ -120,11 +122,12 @@ class _VideoPlayState extends State<VideoPlay> {
   late Future<void> futureController;
 
   initVideo() {
-    controller = VideoPlayerController.networkUrl(Uri.parse(widget.video??''));
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.video ?? ''));
     futureController = controller!.initialize();
     controller?.play();
     setState(() {});
   }
+
   void initState() {
     initVideo();
     // controller!.addListener(() {
@@ -149,6 +152,7 @@ class _VideoPlayState extends State<VideoPlay> {
     // });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -166,19 +170,15 @@ class _VideoPlayState extends State<VideoPlay> {
                   //   video: widget.pathh,
                   // ));
                 },
-                child:
-                AspectRatio(
-                  // aspectRatio: controller!.value.aspectRatio,
-                    aspectRatio:2/4,
+                child: AspectRatio(
+                    // aspectRatio: controller!.value.aspectRatio,
+                    aspectRatio: 2 / 4,
                     child: Stack(children: [
                       Positioned.fill(
                           child: Container(
                               foregroundDecoration: BoxDecoration(
                                 gradient: LinearGradient(
-                                    colors: [
-                                      Colors.black.withOpacity(.7),
-                                      Colors.transparent
-                                    ],
+                                    colors: [Colors.black.withOpacity(.7), Colors.transparent],
                                     stops: const [0, .3],
                                     begin: Alignment.bottomCenter,
                                     end: Alignment.topCenter),
@@ -189,15 +189,11 @@ class _VideoPlayState extends State<VideoPlay> {
                                       width: controller!.value.size.width,
                                       height: controller!.value.size.height,
                                       child: VideoPlayer(controller!))))),
-
-
                     ])),
               );
             }
           },
         ),
-
-
       ],
     );
   }

@@ -8,9 +8,11 @@ import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
 import 'package:provider/provider.dart';
 
+import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../models/member/dashboard/traning_progress_model.dart';
+import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/training_progress.dart';
 import '../../guest/home/guest_profiles.dart';
@@ -186,7 +188,6 @@ class MenuCard extends StatelessWidget {
               height: 30,
               width: 30,
               borderRadiusValue: 0,
-              color: primaryColor,
               margin: const EdgeInsets.symmetric(horizontal: kPadding),
               fit: BoxFit.contain,
               assetImage: '$image',
