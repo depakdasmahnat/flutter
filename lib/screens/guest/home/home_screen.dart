@@ -199,21 +199,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 return  GradientButton(
                   height: 60,
                   borderRadius: 18,
-                  backgroundGradient: primaryGradient,
-                  backgroundColor: Colors.transparent,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(AppAssets.thinkBigImage),
+                      fit: BoxFit.fill
+                    )
+                  ),
                   boxShadow: const [],
                   onTap: () {
-                if(controller.getStep?.demoStep==6){
-                  context.pushNamed(Routs.guestDemoVideos);
-                }else{
-                  context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
-                    await context.read<CheckDemoController>().getStepCheckDemo(context: context);
-                  },);
+                // if(controller.getStep?.demoStep==6){
+                //   context.pushNamed(Routs.guestDemoVideos);
+                // }else{
+                //   context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                //     await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                //   },);
 
-                }
-                //     context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
-                //       await context.read<CheckDemoController>().getStepCheckDemo(context: context);
-                //     },);
+                // }
+                    context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                      await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                    },);
                   },
                   margin: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
                   child: Row(

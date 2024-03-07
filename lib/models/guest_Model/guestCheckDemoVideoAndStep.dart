@@ -45,16 +45,22 @@ Data dataFromJson(String str) => Data.fromJson(json.decode(str));
 String dataToJson(Data data) => json.encode(data.toJson());
 class Data {
   Data({
-      this.link,});
+      this.link,
+      this.youtubeLink,
+
+  });
 
   Data.fromJson(dynamic json) {
     link = json['link'];
+    youtubeLink = json['youtube_link'];
   }
   String? link;
+  String? youtubeLink;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['link'] = link;
+    map['youtube_link'] = youtubeLink;
     return map;
   }
 

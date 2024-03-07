@@ -40,6 +40,8 @@ class Data {
       this.id, 
       this.path, 
       this.file, 
+      this.youtubeLink,
+      this.type,
       this.videoLink,});
 
   Data.fromJson(dynamic json) {
@@ -47,11 +49,15 @@ class Data {
     path = json['path'];
     file = json['file'];
     videoLink = json['video_link'];
+    type = json['type'];
+    youtubeLink = json['youtube_link'];
   }
   num? id;
   String? path;
   String? file;
   String? videoLink;
+  String? type;
+  String? youtubeLink;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -59,6 +65,8 @@ class Data {
     map['path'] = path;
     map['file'] = file;
     map['video_link'] = videoLink;
+    map['youtube_link'] = youtubeLink;
+    map['type'] = type;
     return map;
   }
 

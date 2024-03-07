@@ -82,7 +82,7 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
                    ),
                    CustomText1(
                      text: 'Hello, ${guest?.firstName.toCapitalizeFirst}! ',
-                     color: Colors.white,
+                     color: Colors.black,
                      fontSize: 26,
                      textAlign: TextAlign.center,
                      fontWeight: FontWeight.w400,
@@ -109,7 +109,6 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
                ),
                Column(
                  children: [
-
                    GradientButton(
                      height: 60,
                      borderRadius: 18,
@@ -123,7 +122,6 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
                        // context.read<CheckDemoController>().nextPage(4);
                     await   player.pause();
                        context.pop();
-
                      },
                      child: Row(
                        mainAxisAlignment: MainAxisAlignment.center,
@@ -181,6 +179,73 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
 
          ],
        ),
+      bottomNavigationBar:   Column(
+        children: [
+          GradientButton(
+            height: 60,
+            borderRadius: 18,
+            blur: 10,
+            backgroundGradient: whiteGradient,
+            backgroundColor: Colors.transparent,
+            boxShadow: const [],
+            margin: const EdgeInsets.only(left: 16, right: 24),
+            onTap: () async{
+              // context.read<CheckDemoController>().addIndex(4);
+              // context.read<CheckDemoController>().nextPage(4);
+              await   player.pause();
+              context.pop();
+
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Continue',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          GradientButton(
+            height: 60,
+            borderRadius: 18,
+            blur: 10,
+            backgroundGradient: primaryGradient,
+            backgroundColor: Colors.transparent,
+            boxShadow: const [],
+            margin: const EdgeInsets.only(left: 16, right: 24),
+            onTap: () async{
+              await   player.pause();
+              await context.read<MembersController>().callUser(
+                mobileNo: widget.mobile,
+              );
+
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Call to connect now',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -98,7 +98,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
         lastName = false;
         setState(() {});
       } else {
-        lastNameController.text = fetchGuestProfileModel?.data?.lastName ?? '';
+        lastNameController.text = fetchGuestProfileModel?.data?.lastName.toString()=='null' ? '':fetchGuestProfileModel?.data?.lastName.toString()??'';
       }
     });
     super.initState();
@@ -115,7 +115,6 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       Navigator.pop(context);
     }
   }
-
   Future addImages() async {
     return showModalBottomSheet(
         context: context,

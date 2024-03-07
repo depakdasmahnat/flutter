@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
+import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.dart';
 
 import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,10 @@ import 'package:provider/provider.dart';
 
 
 import '../../../controllers/check_demo_controller/check_demo_controller.dart';
+import '../../../core/services/database/local_database.dart';
+import '../../../models/auth_model/guest_data.dart';
 import '../../../utils/widgets/gradient_button.dart';
+import '../../../utils/widgets/gradient_text.dart';
 import 'guest_check_demo_step2.dart';
 class GuestCheckDemoStep3 extends StatefulWidget {
   const GuestCheckDemoStep3({super.key});
@@ -49,13 +53,14 @@ class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    GuestData? guest = context.read<LocalDatabase>().guest;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body:Consumer<CheckDemoController>(
         builder: (context, controller, child) {
           return  Center(
             child: Container(
+              height:675 ,
               decoration: BoxDecoration(
                   image: const DecorationImage(
                       image: AssetImage(AppAssets.thinkBigLastAnswer),
@@ -74,112 +79,138 @@ class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3> {
                   children: [
 
                     SizedBox(
-                      height: size.height*0.32,
+                      height: size.height*0.37,
                     ),
+
                     CustomText1(
-                      text: 'Your answers',
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                    CustomText1(
-                      text: 'Reference site about Lorem Ipsum, giving information on its origins, a random generator.',
+                      text: 'Hey, ${guest?.firstName.toCapitalizeFirst} i know you loved our\nmagical Kangen water',
                       fontSize: 16,
                       textAlign: TextAlign.center,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
+
                     controller.demoAnsLoader==false?const LoadingScreen():
                     SizedBox(
-                      height: size.height*0.28,
+                      height: size.height*0.2,
                       child: ListView.builder(
                         itemCount:controller.fetchGuestDemoAns?.data?.length??0,
                         shrinkWrap: true,
-
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration:  BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10)
-
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child:
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: size.width*0.04,
-                                          height: size.height*0.02,
-                                          child: Radio(
-                                            value: true,
-                                            groupValue: _site,
-                                            activeColor: Colors.black,
-                                            onChanged: (value) {
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 7,
-                                        ),
-
-                                        SizedBox(
-                                          width: size.width*0.6,
-                                          height: size.width*0.1,
-                                          child: CustomText1(
-                                            text: controller.fetchGuestDemoAns?.data?[index],
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-
-                                    const Icon(Icons.check,color: Colors.black,size: 17,)
-                                  ],
-                                ),
-                              ),
+                          return     Padding(
+                            padding: const EdgeInsets.only(left: 8.0,right: 8,bottom: 8),
+                            child: CustomText1(
+                              text:controller.fetchGuestDemoAns?.data?[index] ,
+                              fontSize: 16,
+                              textAlign: TextAlign.center,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
                             ),
                           );
+                          //   Padding(
+                          //   padding: const EdgeInsets.all(8.0),
+                          //   child: Container(
+                          //     decoration:  BoxDecoration(
+                          //         color: Colors.white,
+                          //         borderRadius: BorderRadius.circular(10)
+                          //
+                          //     ),
+                          //     child: Padding(
+                          //       padding: const EdgeInsets.all(8),
+                          //       child:
+                          //       Row(
+                          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //         children: [
+                          //           Row(
+                          //             children: [
+                          //               SizedBox(
+                          //                 width: size.width*0.04,
+                          //                 height: size.height*0.02,
+                          //                 child: Radio(
+                          //                   value: true,
+                          //                   groupValue: _site,
+                          //                   activeColor: Colors.black,
+                          //                   onChanged: (value) {
+                          //                   },
+                          //                 ),
+                          //               ),
+                          //               const SizedBox(
+                          //                 width: 7,
+                          //               ),
+                          //
+                          //               SizedBox(
+                          //                 width: size.width*0.6,
+                          //                 height: size.width*0.1,
+                          //                 child: CustomText1(
+                          //                   text: controller.fetchGuestDemoAns?.data?[index],
+                          //                   fontWeight: FontWeight.w400,
+                          //                   fontSize: 14,
+                          //                   color: Colors.black,
+                          //                 ),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //
+                          //           const Icon(Icons.check,color: Colors.black,size: 17,)
+                          //         ],
+                          //       ),
+                          //     ),
+                          //   ),
+                          // );
                         },),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
+                    CustomText1(
+                      text: 'Lets work together to make a big change!!!!\nAll the best..!!!',
+                      fontSize: 16,
+                      textAlign: TextAlign.center,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.black,
+                    ),
+                     SizedBox(
+                      height: size.height*0.02,
+                    ),
                     GradientButton(
                       height: 60,
                       borderRadius: 18,
                       blur: 10,
-                      backgroundGradient: primaryGradient,
+                      backgroundGradient: inActiveGradient,
                       backgroundColor: Colors.transparent,
                       boxShadow: const [],
                       margin: const EdgeInsets.only(left: 16, right: 24),
                       onTap: () async{
-                        // playLocal();
+
                     await    player?.pause();
-                        // player?.dispose();
+
                         context.read<CheckDemoController>().addIndex(4,'');
                         context.read<CheckDemoController>().nextPage(4);
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        // mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
+                          // Text(
+                          //   'Continue',
+                          //   style: TextStyle(
+                          //     color: Colors.black,
+                          //     fontFamily: GoogleFonts.urbanist().fontFamily,
+                          //     fontWeight: FontWeight.w600,
+                          //     fontSize: 18,
+                          //   ),
+                          // ),
+                          GradientText(
                             'Continue',
+                            gradient: primaryGradient,
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
+                              fontSize: 18,
                               fontFamily: GoogleFonts.urbanist().fontFamily,
                               fontWeight: FontWeight.w600,
-                              fontSize: 18,
                             ),
                           ),
                         ],

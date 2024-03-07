@@ -88,7 +88,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
               EasyStepper(
                 activeStep:controller.stepIndex,
                 internalPadding: 1,
-                enableStepTapping: false,
+                // enableStepTapping: false,
                 showLoadingAnimation: false,
                 stepRadius: 12,
                 onStepReached: (index) {
@@ -248,7 +248,6 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                    physics: const NeverScrollableScrollPhysics(),
                    onPageChanged: (value) async{
                      context.read<CheckDemoController>().addIndex(value,'');
-
                      if(value==2){
                        await context.read<CheckDemoController>().guestCheckDemoStep1(context: context);
                      }
@@ -259,7 +258,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                           return controller.guestCheckDemoLoader==false?
                           const LoadingScreen() :
                           // GtpVideo( videoLink: controller.guestCheckDemoVideoAndStep?.data?[0].link,);
-                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].link??'');
+                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].youtubeLink??'');
                         },
                            ),
                       const Padding(

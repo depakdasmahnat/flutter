@@ -312,8 +312,7 @@ class _CreateEventState extends State<CreateEvent> {
 
                     if (pickedDate != null) {
                       endDateValidation =pickedDate;
-                      startDateCtrl.text =
-                      "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                      startDateCtrl.text = "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
                       setState(() {});
                     }
                   },
@@ -393,9 +392,9 @@ class _CreateEventState extends State<CreateEvent> {
                                   onSurface: Colors.white,
                                 ),
 
-// Input
+
                             inputDecorationTheme: const InputDecorationTheme(
-// labelStyle: GoogleFonts.greatVibes(), // Input label
+ // Input label
                                 ),
                           ),
                           child: child!,
@@ -406,7 +405,7 @@ class _CreateEventState extends State<CreateEvent> {
                     if (pickedDate != null) {
                       endDateCtrl.text =
                           // "${pickedDate.day.toString().padLeft(2, "0")}/${pickedDate.month.toString().padLeft(2, "0")}/${pickedDate.year}";
-                      "${pickedDate.day.toString().padLeft(2, "0")}-0${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                      "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
                     }
                   },
                   readOnly: true,

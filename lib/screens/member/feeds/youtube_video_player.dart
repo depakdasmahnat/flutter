@@ -7,10 +7,12 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import '../../../core/constant/colors.dart';
 
 class YoutubeVideoPlayerCard extends StatefulWidget {
-  const YoutubeVideoPlayerCard({super.key, this.url, this.borderRadius});
+  const YoutubeVideoPlayerCard({super.key, this.url, this.borderRadius,this.backGroundColor,this.aspectRatio});
 
   final String? url;
   final double? borderRadius;
+  final bool? backGroundColor;
+  final double? aspectRatio ;
 
   @override
   State<YoutubeVideoPlayerCard> createState() => _YoutubeVideoPlayerCardState();
@@ -26,21 +28,29 @@ class _YoutubeVideoPlayerCardState extends State<YoutubeVideoPlayerCard> {
     super.initState();
     try {
       controller = YoutubePlayerController(
+
         params: const YoutubePlayerParams(
           mute: false,
-          showControls: true,
-          showFullscreenButton: false,
+
+          showControls: false,
+          showFullscreenButton: true,
         ),
+
+
+
+
       );
 
       controller?.loadVideo('$url');
 
       controller?.pauseVideo();
+
+
     } catch (e, s) {
       ErrorHandler.catchError(e, s, false);
     }
 
-    debugPrint('Loading ytVideoPlayer...');
+
     // controller.setFullScreenListener((value) {
     //   debugPrint("YoutubePlayer FullScreen :- $value");
     //   if (value == true) {
@@ -50,8 +60,10 @@ class _YoutubeVideoPlayerCardState extends State<YoutubeVideoPlayerCard> {
 
   @override
   Widget build(BuildContext context) {
-    return VisibilityDetector(
+    return
+      VisibilityDetector(
       key: const ObjectKey('ytVideoPlayer'),
+
       onVisibilityChanged: (visibility) async {
         var visiblePercentage = visibility.visibleFraction * 100;
         if (visiblePercentage >= 80 && mounted) {
@@ -60,15 +72,22 @@ class _YoutubeVideoPlayerCardState extends State<YoutubeVideoPlayerCard> {
           controller?.pauseVideo();
         }
       },
+
       child: controller != null
           ? ClipRRect(
               borderRadius: BorderRadius.circular(borderRadius ?? 8),
-              child: YoutubePlayer(
+              child:YoutubePlayer(
                 controller: controller!,
-                aspectRatio: 16 / 9,
-                backgroundColor: Colors.grey.shade200,
+                aspectRatio:widget.aspectRatio?? 16 / 9,
+                backgroundColor: widget.backGroundColor==true?null:Colors.grey.shade200,
                 enableFullScreenOnVerticalDrag: false,
-              ),
+              )
+              // YoutubePlayer(
+              //   controller: controller!,
+              //   aspectRatio: 16 / 9,
+              //   backgroundColor: Colors.grey.shade200,
+              //   enableFullScreenOnVerticalDrag: false,
+              // ),
             )
           : const AspectRatio(
               aspectRatio: 16 / 9,

@@ -8,6 +8,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../member/feeds/video_player.dart';
+import '../../member/feeds/youtube_video_player.dart';
 
 class GuestCheckDemoVideos extends StatefulWidget {
   const GuestCheckDemoVideos({super.key});
@@ -29,6 +30,7 @@ class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Consumer<CheckDemoController>(
         builder: (context, controller, child) {
           return controller.demoVideosLoader == false
@@ -45,16 +47,38 @@ class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
                             itemCount: controller.fetchDemoVideosAfter?.data?.length ?? 0,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (context, index) {
-                              return VideoPlayerCard(
-                                type: true,
-                                demoId: '${controller.fetchDemoVideosAfter?.data?[index].id}',
-                                url: '${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
-                                aspectRatio: 2.2 / 4.5,
-                                borderRadius: 1,
+                              print('check lilk ${controller.fetchDemoVideosAfter?.data?[index].youtubeLink}');
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if(controller.fetchDemoVideosAfter?.data?[index].type!='Youtube')
+                                  VideoPlayerCard(
+                                    type: true,
+                                    demoId: '${controller.fetchDemoVideosAfter?.data?[index].id}',
+                                    url: '${controller.fetchDemoVideosAfter?.data?[index].videoLink}',
+                                    aspectRatio: 1/2,
+                                    borderRadius: 1,
+                                  )
+                                 else
+                                 YoutubeVideoPlayerCard(
+                                   aspectRatio: 1/1,
+                                 url: '${controller.fetchDemoVideosAfter?.data?[index].youtubeLink}',
+                              borderRadius: 18,
+                              backGroundColor: true,
+                              ),
+
+
+                                ],
                               );
                             },
                           ),
                         ),
+                        // YoutubeVideoPlayerCard(
+                        //   url: '${data?.file}',
+                        //   borderRadius: 18,
+                        //   backGroundColor: true,
+                        // ),
                         // Expanded(
                         //   child: ListView.builder(
                         //     shrinkWrap: true,
@@ -103,6 +127,21 @@ class _GuestCheckDemoVideosState extends State<GuestCheckDemoVideos> {
                 );
         },
       ),
+      // bottomNavigationBar: Column(
+      //   mainAxisAlignment: MainAxisAlignment.end,
+      //   mainAxisSize: MainAxisSize.min,
+      //   children: [
+      //     Align(
+      //       alignment: Alignment.bottomLeft,
+      //       child: Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: CustomeText(
+      //           text: 'Best water purifier: 10 picks to ensure\nclean drinking water',
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

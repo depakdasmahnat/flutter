@@ -61,20 +61,20 @@ class _GuestCheckDemoStep2State extends State<GuestCheckDemoStep2> {
                             alignment: Alignment.center,
                             child: CustomText1(
                               text:
-                                  'Choose your interests for your future goal',
+                                  'Unlock your financial potential',
                               fontWeight: FontWeight.w400,
                               fontSize: 38,
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          // Align(
-                          //   alignment: Alignment.center,
-                          //   child: CustomeText(
-                          //     text: 'Choose as many as you like',
-                          //     fontWeight: FontWeight.w400,
-                          //     fontSize: 18,
-                          //   ),
-                          // ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: CustomeText(
+                              text: 'Choose as many as you like',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                            ),
+                          ),
                           SizedBox(
                             height: size.height * 0.03,
                           ),

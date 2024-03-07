@@ -18,6 +18,7 @@ import '../../models/default/default_model.dart';
 import '../../models/feeds/feeds_data.dart';
 import '../../models/guest_Model/editProfileModel.dart';
 import '../../models/guest_Model/fetchGuestProfile.dart';
+import '../../models/guest_Model/fetchNotificationModel.dart';
 import '../../models/guest_Model/fetchProductModel1.dart';
 import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchfeedcategoriesmodel.dart';
@@ -959,9 +960,54 @@ class GuestControllers extends ChangeNotifier {
   }
 
 
-  /// fetch guest profile
 
 
+  /// 1) fetch notification..
+  FetchNotificationModel? fetchNotificationModel;
+  bool notificationLoader = false;
+
+  Future<FetchNotificationModel?> fetchNotification({
+    required BuildContext context,
+
+  }) async {
+    refresh() {
+      notificationLoader = false;
+      fetchNotificationModel = null;
+
+      notifyListeners();
+    }
+
+    apiResponseCompleted() {
+      notificationLoader = true;
+      notifyListeners();
+    }
+
+    refresh();
+    try {
+      await ApiService()
+          .get(
+        endPoint: ApiEndpoints.fetchNotification,
+      )
+          .then((response) {
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchNotificationModel responseData = FetchNotificationModel.fromJson(json);
+          if (responseData.status == true) {
+
+            fetchNotificationModel = responseData;
+            notifyListeners();
+          }
+        }
+
+        apiResponseCompleted();
+      });
+    } catch (e, s) {
+      apiResponseCompleted();
+      debugPrint('Error is $e & $s');
+    }
+
+    return fetchNotificationModel;
+  }
 
 
 }

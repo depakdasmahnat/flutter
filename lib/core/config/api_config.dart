@@ -147,6 +147,7 @@ class ApiEndpoints {
   static const String helpAndSupport = 'submit_help_and_support';
   static const String submitFeedback = 'submit_feedback';
   static const String demoWatchCount = 'demo_watch_count';
+  static const String fetchNotification = 'fetch_notifications';
 
   /// Common  Apis....
   static const String fetchBanner = 'fetch_banners';

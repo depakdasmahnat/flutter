@@ -140,6 +140,7 @@ class AppAssets {
   static const String authbackgroundimage =
       'assets/images/login_background_Image.png';
   static const String introVideo = 'assets/videos/introVideo.mp4';
+  static const String thinkBigImage = 'assets/images/thinkbig_Image.png';
 
   /// social image
   static const String fb = 'assets/social_link/Facebook.png';
