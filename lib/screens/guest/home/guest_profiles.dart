@@ -188,7 +188,7 @@ class _GuestProfilesState extends State<GuestProfiles> {
                     ],
                   )
                 : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: widgets.length > 2 ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                     children: widgets,
                   ),
           ),

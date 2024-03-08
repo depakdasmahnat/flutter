@@ -35,13 +35,14 @@ class MemberFeeds extends StatefulWidget {
 class _MemberFeedsState extends State<MemberFeeds> {
   TextEditingController searchController = TextEditingController();
   List<FeedsData>? feeds;
+  int? tabIndex =0;
 
   Future fetchFeeds({bool? loadingNext}) async {
     return await context.read<FeedsController>().fetchFeeds(
           context: context,
           isRefresh: loadingNext == true ? false : true,
           loadingNext: loadingNext ?? false,
-          categoryId: (selectedIds.isNotEmpty) ? selectedIds.join(',') : '',
+          categoryId: selectedIds,
           searchKey: searchController.text,
         );
   }
@@ -66,8 +67,9 @@ class _MemberFeedsState extends State<MemberFeeds> {
     });
   }
 
-  Set<int> selectedIds = <int>{};
+  // Set<int> selectedIds = <int>{};
 
+  String selectedIds='';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -137,21 +139,15 @@ class _MemberFeedsState extends State<MemberFeeds> {
                         padding: const EdgeInsets.only(left: kPadding),
                         itemBuilder: (context, index) {
                           var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
-                          bool isSelected = selectedIds.contains(data?.id);
-
                           return GradientButton(
-                            backgroundGradient: isSelected ? primaryGradient : inActiveGradient,
+                            backgroundGradient:  tabIndex ==index ? primaryGradient : inActiveGradient,
                             borderWidth: 2,
                             borderRadius: 30,
                             onTap: () async {
-                              if (isSelected) {
-                                selectedIds.remove(data?.id);
-                              } else {
-                                selectedIds.add(int.parse(data?.id.toString() ?? ''));
-                              }
+                              tabIndex =index;
 
+                              selectedIds =data?.id.toString()??'';
                               setState(() {});
-
                               await fetchFeeds();
                             },
                             margin: const EdgeInsets.only(right: 12),
@@ -161,7 +157,7 @@ class _MemberFeedsState extends State<MemberFeeds> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
-                                color: isSelected ? Colors.black : Colors.white,
+                                color:  tabIndex ==index ? Colors.black : Colors.white,
                               ),
                             ),
                           );
