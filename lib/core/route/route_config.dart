@@ -40,6 +40,7 @@ import '../../screens/guest/pricavy_policy/privacy_policy.dart';
 import '../../screens/guest/product/guest_product.dart';
 import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/permission_screen.dart';
+import '../../screens/guest/resource&Demo/mainresource.dart';
 import '../../screens/guest/resource&Demo/resource_and_demo.dart';
 import '../../screens/guest/web_view/faq.dart';
 import '../../screens/member/events/create_event.dart';
@@ -199,6 +200,12 @@ class RoutesConfig {
         path: Routs.leads,
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const Lead());
+        },
+      ), GoRoute(
+        name: Routs.mainResource,
+        path: Routs.mainResource,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const MainResource());
         },
       ),
 

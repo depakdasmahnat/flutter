@@ -226,7 +226,7 @@ class _LoginState extends State<Login> {
                       return Validator.flocationValidation(val);
                     },
                     onChanged: (value) {},
-                    hintText: 'Enter Location',
+                    hintText: 'Enter City',
                     autofillHints: const [AutofillHints.name],
                     margin: const EdgeInsets.only(top: 18, bottom: 18),
                   ),

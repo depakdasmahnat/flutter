@@ -20,6 +20,7 @@ import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/widgets.dart';
+import '../../member/members/add_member_list.dart';
 import 'guest_faq.dart';
 
 class GuestEditProfile extends StatefulWidget {
@@ -40,6 +41,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   TextEditingController diseaseController = TextEditingController();
   TextEditingController pinCodeController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController countryNameController = TextEditingController();
   bool? lastName = true;
   String? gender = '';
 
@@ -93,7 +95,8 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       firsNameController.text = fetchGuestProfileModel?.data?.firstName ?? '';
 
       mobileController.text = fetchGuestProfileModel?.data?.mobile ?? '';
-      countryCode = fetchGuestProfileModel?.data?.countryCode ?? '+91';
+      countryCode = fetchGuestProfileModel?.data?.countryCode ?? '91';
+      countryNameController.text =fetchGuestProfileModel?.data?.country ?? '';
       if (fetchGuestProfileModel?.data?.lastName.toString() == 'null') {
         lastName = false;
         setState(() {});
@@ -282,6 +285,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                     ),
                     CustomTextFieldApp(
                       title: 'First Name',
+                      mandatory: '*',
                       controller: firsNameController,
                       hintText: 'Enter First Name',
                       readOnly: true,
@@ -300,31 +304,50 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                       title: 'Gender',
                       listItem: const ['Male', 'Female'],
                     ),
-                    CustomTextFieldApp(
-                      controller: mobileController,
+                    CountyTextField(
                       title: 'Mobile No.',
-                      hintText: 'Enter Mobile No.',
-                      readOnly: true,
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.only(top: 3),
-                        child: Text(countryCode),
-                      ),
+                      mandatory: '*',
+                      controller: mobileController,
+                      onCountryChanged: (v) {
+                        debugPrint('countryCode ${v.flag}');
+                        countryCode = v.fullCountryCode;
+                        countryNameController.text = v.name;
+                        setState(() {});
+                      },
                     ),
+                    if (countryCode != '91')
+                      CustomTextFieldApp(
+                        title: 'Country Name',
+                        hintText: 'Enter Country Name',
+                        controller: countryNameController,
+                      ),
+                    // CustomTextFieldApp(
+                    //   controller: mobileController,
+                    //   mandatory: '*',
+                    //   title: 'Mobile No.',
+                    //   hintText: 'Enter Mobile No.',
+                    //   readOnly: true,
+                    //   prefixIcon: Padding(
+                    //     padding: EdgeInsets.only(top: 3),
+                    //     child: Text(countryCode),
+                    //   ),
+                    // ),
                     CustomTextFieldApp(
                       controller: emailController,
+                      mandatory: '*',
                       title: 'Email',
                       hintText: 'email@gmail.com',
                     ),
-                    CustomDropdown(
-                      hintText: refTypeHint,
-
-                      onChanged: (v) {
-                        refType = v ?? '';
-                      },
-                      // selectedItem: refType,
-                      title: 'Ref Type',
-                      listItem: const ['Friend', 'Family', 'Professional', 'Society', 'Random'],
-                    ),
+                    // CustomDropdown(
+                    //   hintText: refTypeHint,
+                    //
+                    //   onChanged: (v) {
+                    //     refType = v ?? '';
+                    //   },
+                    //   // selectedItem: refType,
+                    //   title: 'Ref Type',
+                    //   listItem: const ['Friend', 'Family', 'Professional', 'Society', 'Random'],
+                    // ),
                     CustomDropdown(
                       hintText: occupationHint,
                       onChanged: (v) {
@@ -393,6 +416,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                       hintText: 'Enter Disease',
                     ),
                     CustomDropdown(
+                      mandatory: '*',
                       hintText: stateName,
                       onChanged: (v) async {
                         stateId = controller.satesModel?.data
@@ -419,6 +443,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                     Consumer<GuestControllers>(
                       builder: (context, controller, child) {
                         return CustomDropdown(
+                          mandatory: '*',
                           hintText: cityName,
                           onChanged: (v) {
                             cityId = controller.cityModel?.data
@@ -437,6 +462,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                       },
                     ),
                     CustomTextFieldApp(
+                      mandatory: '*',
                       controller: pinCodeController,
                       title: 'Pin Code',
                       hintText: 'Pin Code',

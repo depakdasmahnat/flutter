@@ -264,8 +264,7 @@ class _GuestProfileDetailsState extends State<GuestProfileDetails> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 ProfileWatch(
-                                  value:
-                                      '${guestProfileDetails?.data?.watchedVideosCount ?? '0'}',
+                                  value: '${guestProfileDetails?.data?.watchedVideosCount ?? '0'}',
                                   subHeading: 'Watch\nVideos',
                                   textColor: true,
                                 ),
@@ -277,7 +276,7 @@ class _GuestProfileDetailsState extends State<GuestProfileDetails> {
                                 ),
                                 ProfileWatch(
                                   value:
-                                      guestProfileDetails?.data?.watchCount ??
+                                  guestProfileDetails?.data?.watchCount ??
                                           '0',
                                   subHeading: 'Watch\nCount',
                                   colors: const [Colors.white],

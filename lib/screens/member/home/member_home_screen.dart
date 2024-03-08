@@ -133,7 +133,8 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
                 image: AppAssets.resourcesIcon,
                 name: 'Data Bank',
                 onTap: () {
-                  context.pushNamed(Routs.resources);
+                  // context.pushNamed(Routs.resources);
+                  context.pushNamed(Routs.mainResource);
                 },
               ),
               // MenuCard(

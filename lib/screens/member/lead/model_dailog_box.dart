@@ -869,6 +869,7 @@ class _ModelDialogBoxForRescheduledState extends State<ModelDialogBoxForReschedu
                   onTap: () async{
                     await context.read<ListsControllers>().rescheduledCall(context: context,
                         guestId: widget.guestId, reason: 'No answer', date: '', time: '', LMSStep: 'Invitation Call', priority: widget.priority, demoRescheduleRemark: '',);
+                    context.pop();
 
                   },
                   child: CustomeText(

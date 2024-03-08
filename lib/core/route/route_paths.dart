@@ -85,4 +85,5 @@ class Routs {
   static const String feedbackAndRating = '/feedbackAndRating';
   static const String performanceChart = '/performanceChart';
   static const String watchVideoCount = '/watchVideoCount';
+  static const String mainResource = '/mainResource';
 }

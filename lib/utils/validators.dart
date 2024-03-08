@@ -59,10 +59,10 @@ class Validator {
   // }
   static String? flocationValidation(String? value, [String? fieldName]) {
     if (value == null || value.isEmpty) {
-      return '${fieldName ?? 'Location'} is required';
+      return '${fieldName ?? 'City'} is required';
     }
     if (value.length < 3) {
-      return 'Location  must be at least 3 characters.';
+      return 'Enter City  must be at least 3 characters.';
     }
 
     return null;

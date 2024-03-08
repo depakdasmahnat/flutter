@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
@@ -50,6 +51,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
   String sponsorId = '';
   String sponsorHint = 'Select Sponsor';
   String facilitatorId = '';
+  String facilitatorHint = 'Sales Done By';
   String product = '';
   String refType = '';
   String refTypeHint = '';
@@ -152,6 +154,9 @@ class _AddMemberFormState extends State<AddMemberForm> {
         FetchGuestData? model = await context
             .read<ListsControllers>()
             .fetchGuestData(context: context, guestId: widget.guestId ?? '');
+
+        print("check sales naem ${model?.data?.salesFacilitatorName}");
+
         firstNameController.text = model?.data?.firstName ?? '';
         lastNameController.text = model?.data?.lastName ?? '';
         mobileController.text = model?.data?.mobile ?? '';
@@ -163,6 +168,11 @@ class _AddMemberFormState extends State<AddMemberForm> {
         sponsorHint = model?.data?.sponsorName ?? '';
         sponsorId = model?.data?.sponsorId.toString() ?? '';
         countryNameController.text = model?.data?.countryName ?? '';
+        facilitatorId = model?.data?.salesFacilitatorId.toString() ?? '';
+        if(model?.data?.salesFacilitatorName.toString()!='null'){
+          facilitatorHint = model?.data?.salesFacilitatorName.toString()??'';
+        }
+
         dateController.text = model?.data?.dob ?? '';
         if (model?.data?.disability == 'Yes') {
           disability = true;
@@ -200,9 +210,25 @@ class _AddMemberFormState extends State<AddMemberForm> {
       });
     });
   }
+  Timer? _debounce;
+  void genratePaswword(String value) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+
+      if (value.isEmpty) {
+        enagicPasswordController.clear();
+      } else {
+        final random = Random().nextInt(999999);
+        enagicPasswordController.text = random.toString();
+
+      }
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    print("check sales naem ${widget.guestId}");
     MemberData? member = context.read<LocalDatabase>().member;
     sponsorHint = member?.firstName ?? '';
     sponsorId = member?.id.toString() ?? '';
@@ -369,7 +395,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
                       return CustomDropdown(
                         mandatory: '*',
                         showSearchBox: true,
-                        hintText: 'sales Done By',
+                        hintText: facilitatorHint,
                         onChanged: (v) {
                           facilitatorId = controller.fetchFacilitatorModel?.data
                                   ?.firstWhere(
@@ -381,7 +407,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
                                   .toString() ??
                               '';
                         },
-                        title: 'sales Done By',
+                        title: 'Sales Done By',
                         listItem: controller.fetchFacilitatorModel?.data?.map((e) => e.name).toList(),
                       );
                     },
@@ -408,15 +434,8 @@ class _AddMemberFormState extends State<AddMemberForm> {
                     title: 'Enagic Id',
                     hintText: 'Enter EnagicId',
                     onChanged: (v) {
-                      if (v.isEmpty) {
-                        enagicPasswordController.clear();
-                      } else {
-                        if (v.length == 11) {
-                          final random = Random().nextInt(999999);
-                          enagicPasswordController.text = random.toString();
-                          setState(() {});
-                        }
-                      }
+                      genratePaswword(v);
+
                     },
                   ),
                   AppTextField(

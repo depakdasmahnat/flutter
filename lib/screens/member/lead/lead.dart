@@ -840,8 +840,7 @@ class _RowCartState extends State<RowCart> {
                 );
 
                 if (pickedDate != null) {
-                  dateController.text =
-                      "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
+                  dateController.text = "${pickedDate.day.toString().padLeft(2, "0")}-${pickedDate.month.toString().padLeft(2, "0")}-${pickedDate.year}";
                 }
               },
               readOnly: true,
@@ -1862,14 +1861,19 @@ class _RowCartState extends State<RowCart> {
                               showText: true,
                               priority: widget.priority,
                               onSelected: (v) async {
-                                await context
-                                    .read<MembersController>()
-                                    .updateLeadPriority(
+                                await context.read<MembersController>().updateLeadPriority(
                                         context: context,
                                         guestId: widget.guestId,
                                         feedback: '',
                                         priority: v,
-                                        remark: '');
+                                        remark: '').whenComplete(() async{
+                                  await context
+                                      .read<MembersController>()
+                                      .fetchLeads(
+                                      status: 'Demo Scheduled',
+                                      priority: '',
+                                      page: '1',searchKey: '');
+                                        },);
                               },
                               itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry>[

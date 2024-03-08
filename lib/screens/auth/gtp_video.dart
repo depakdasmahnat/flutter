@@ -123,7 +123,7 @@ class _GtpVideoState extends State<GtpVideo> {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: VideoProgressIndicator(
               controller!,
-              allowScrubbing: true,
+              allowScrubbing: false,
               padding: EdgeInsets.zero,
               colors: const VideoProgressColors(
                 backgroundColor: Color(0xFF243771),

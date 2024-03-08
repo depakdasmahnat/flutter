@@ -45,6 +45,17 @@ class GuestControllers extends ChangeNotifier {
   Future<Fetchnewjoiners?> fetchNewJoiners({
     required BuildContext context,
   }) async {
+    refresh() {
+      isLoading = false;
+      fetchnewjoiners = null;
+      notifyListeners();
+    }
+    apiResponseCompleted() {
+      isLoading = true;
+      notifyListeners();
+    }
+
+    refresh();
     try {
       await ApiService()
           .get(
@@ -63,10 +74,11 @@ class GuestControllers extends ChangeNotifier {
         }
         notifyListeners();
 
-        // apiResponseCompleted();
+        apiResponseCompleted();
       });
+
     } catch (e, s) {
-      // apiResponseCompleted();
+      apiResponseCompleted();
       debugPrint('Error is $e & $s');
     }
 
@@ -75,10 +87,22 @@ class GuestControllers extends ChangeNotifier {
 
   /// 1) fetch banner...
   Commonbanner? banner;
+ bool? bannerLoader =false;
 
   Future<Commonbanner?> fetchBanner({
     required BuildContext context,
   }) async {
+    refresh() {
+      bannerLoader = false;
+      bannerLoader = null;
+      notifyListeners();
+    }
+    apiResponseCompleted() {
+      bannerLoader = true;
+      notifyListeners();
+    }
+
+    refresh();
     try {
       await ApiService()
           .get(
@@ -94,10 +118,10 @@ class GuestControllers extends ChangeNotifier {
         }
         notifyListeners();
 
-        // apiResponseCompleted();
+        apiResponseCompleted();
       });
     } catch (e, s) {
-      // apiResponseCompleted();
+      apiResponseCompleted();
       debugPrint('Error is $e & $s');
     }
 

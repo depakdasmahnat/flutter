@@ -1,3 +1,4 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -181,18 +182,27 @@ class _FeedCardState extends State<FeedCard> {
                     overFlow: TextOverflow.ellipsis,
                   )
                 else if (data?.description != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 5),
-                    child: Text(
-                      '${data?.description}',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
+                  ExpandableText(
+                    expanded: true,
+
+                    '${data?.description}',
+                    expandText: 'show more',
+                    collapseText: 'show less',
+                    maxLines: 3,
+                    linkColor: Colors.blue,
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 10, bottom: 5),
+                  //   child: Text(
+                  //     '${data?.description}',
+                  //     style: const TextStyle(
+                  //       color: Colors.grey,
+                  //       fontSize: 13,
+                  //       fontWeight: FontWeight.w400,
+                  //     ),
+                  //     textAlign: TextAlign.start,
+                  //   ),
+                  // ),
                 if (isFeeds == true)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12, top: 3),

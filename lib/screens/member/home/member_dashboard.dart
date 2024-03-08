@@ -176,14 +176,14 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           myDashboard ? 'My Target' : 'Members Target',
                           style: headingTextStyle(),
                         ),
-                        GraphDurationFilter(
-                          value: selectedDuration,
-                          onChange: (String? val) {
-                            selectedDuration = val;
-                            setState(() {});
-                            fetchDashboardStates();
-                          },
-                        ),
+                        // GraphDurationFilter(
+                        //   value: selectedDuration,
+                        //   onChange: (String? val) {
+                        //     selectedDuration = val;
+                        //     setState(() {});
+                        //     fetchDashboardStates();
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
@@ -271,14 +271,14 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                       children: [
                         AnalyticsCard(
                           title: 'Lists',
-                          value: '${dashboardStatesData?.memberCounts ?? 0}',
+                          value: '${dashboardStatesData?.leadsAdded ?? 0}',
                           gradient: limeGradient,
                           onTap: () async {
                             CustomBottomSheet.show(
                               context: context,
-                              body: LeadsPopup(
+                              body: const LeadsPopup(
                                 title: 'New Lists',
-                                status: LeadsStatus.newLead.value,
+                                status: '',
                               ),
                             );
                           },
@@ -343,7 +343,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         ),
                         AnalyticsCard(
                           title: 'Performance\nPercentage',
-                          value: '${dashboardStatesData?.leadsConversion ?? 0}%',
+                          value: '${dashboardStatesData?.performance ?? 0}%',
                           gradient: blackGradient,
                           textColor: Colors.white,
                           showArrow: false,

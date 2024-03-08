@@ -38,7 +38,6 @@ class _AchieversState extends State<Achievers> {
   TextEditingController searchController = TextEditingController();
 
   String? rank;
-
   Future fetchAchievers() async {
     achievers = await context.read<MembersController>().fetchAchievers(
           search: searchController.text,
@@ -46,9 +45,7 @@ class _AchieversState extends State<Achievers> {
           rank: selectedRank,
         );
   }
-
   String? filter;
-
   @override
   void initState() {
     super.initState();
@@ -56,27 +53,21 @@ class _AchieversState extends State<Achievers> {
       fetchAchievers();
     });
   }
-
   Timer? _debounce;
-
   void onSearchFieldChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       fetchAchievers();
-
       setState(() {});
     });
   }
-
   String? selectedRank;
-
   @override
   Widget build(BuildContext context) {
     return Consumer<MembersController>(builder: (context, controller, child) {
       achievers = controller.achievers;
       topListData = controller.topListData;
       Size size = MediaQuery.sizeOf(context);
-
       return Scaffold(
         body: Column(
           children: [
@@ -100,6 +91,7 @@ class _AchieversState extends State<Achievers> {
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                       children: [
                         AppBar(
                           leading: const CustomBackButton(),

@@ -1685,7 +1685,6 @@ class MembersController extends ChangeNotifier {
           if (responseData.status == true) {
             achievers = responseData.data;
             topListData = responseData.topListData;
-
             debugPrint('achieversNodes ${achievers?.length}');
             notifyListeners();
           }

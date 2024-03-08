@@ -145,7 +145,7 @@ class _TargetScreenState extends State<TargetScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Monthly Performance Graph',
+                                  'Monthly Target Graph',
                                   style: headingTextStyle(),
                                 ),
                                 IconButton(
@@ -182,14 +182,14 @@ class _TargetScreenState extends State<TargetScreen> {
                                   'Pinnacle target',
                                   style: headingTextStyle(),
                                 ),
-                                GraphDurationFilter(
-                                  value: selectedDuration,
-                                  onChange: (String? val) {
-                                    selectedDuration = val;
-                                    setState(() {});
-                                    fetchTarget();
-                                  },
-                                ),
+                                // GraphDurationFilter(
+                                //   value: selectedDuration,
+                                //   onChange: (String? val) {
+                                //     selectedDuration = val;
+                                //     setState(() {});
+                                //     fetchTarget();
+                                //   },
+                                // ),
                               ],
                             ),
                           ),

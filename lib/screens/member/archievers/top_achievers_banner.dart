@@ -25,12 +25,14 @@ class _TopAchieversBannersState extends State<TopAchieversBanners> {
   Widget build(BuildContext context) {
     return widget.data.haveData
         ? Column(
+
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: kPadding, bottom: 4),
                 child: CarouselSlider(
                     options: CarouselOptions(
-                      aspectRatio: 16 / 7,
+
+                      aspectRatio: 16 / 9,
                       viewportFraction: 1,
                       initialPage: 0,
                       enableInfiniteScroll: true,

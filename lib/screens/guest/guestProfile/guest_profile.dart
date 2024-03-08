@@ -132,23 +132,23 @@ class _GuestProfileState extends State<GuestProfile> {
                                   SizedBox(
                                     height: size.height * 0.02,
                                   ),
-                                  IconAndText(
-                                    icon: AppAssets.profileStar,
-                                    title: 'Hall of fame',
-                                    onTap: () {
-                                      context.pushNamed(Routs.hallOfFame);
-                                      // context.push(Routs.guestEditProfile).whenComplete(
-                                      //       () async {
-                                      //     await context.read<GuestControllers>().fetchGuestProfile(
-                                      //       context: context,
-                                      //     );
-                                      //   },
-                                      // );
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
+                                  // IconAndText(
+                                  //   icon: AppAssets.profileStar,
+                                  //   title: 'Hall of fame',
+                                  //   onTap: () {
+                                  //     context.pushNamed(Routs.hallOfFame);
+                                  //     // context.push(Routs.guestEditProfile).whenComplete(
+                                  //     //       () async {
+                                  //     //     await context.read<GuestControllers>().fetchGuestProfile(
+                                  //     //       context: context,
+                                  //     //     );
+                                  //     //   },
+                                  //     // );
+                                  //   },
+                                  // ),
+                                  // SizedBox(
+                                  //   height: size.height * 0.02,
+                                  // ),
                                   IconAndText(
                                     icon: AppAssets.faq,
                                     title: 'FAQ',

@@ -87,6 +87,7 @@ class DashboardStatesData {
     this.coldLeads,
     this.total_turnover,
     this.analytics,
+    this.performance,
   });
 
   DashboardStatesData.fromJson(dynamic json) {
@@ -126,6 +127,7 @@ class DashboardStatesData {
     warmLeads = json['warmLeads'];
     coldLeads = json['coldLeads'];
     total_turnover = json['total_turnover'];
+    performance = json['performance'];
     if (json['analytics'] != null) {
       analytics = [];
       json['analytics'].forEach((v) {
@@ -169,6 +171,7 @@ class DashboardStatesData {
   num? hotLeads;
   num? warmLeads;
   num? coldLeads;
+  num? performance;
   String? total_turnover;
   List<DashboardAnalytics>? analytics;
 
@@ -209,6 +212,7 @@ class DashboardStatesData {
     num? warmLeads,
     num? coldLeads,
     String? totalTurnover,
+    num? performance,
     List<DashboardAnalytics>? analytics,
   }) =>
       DashboardStatesData(
@@ -249,6 +253,7 @@ class DashboardStatesData {
         coldLeads: coldLeads ?? this.coldLeads,
         total_turnover: totalTurnover ?? this.total_turnover,
         analytics: analytics ?? this.analytics,
+        performance: performance ?? this.performance,
       );
 
   Map<String, dynamic> toJson() {
@@ -289,6 +294,7 @@ class DashboardStatesData {
     map['warmLeads'] = warmLeads;
     map['coldLeads'] = coldLeads;
     map['total_turnover'] = total_turnover;
+    map['performance'] = performance;
     if (analytics != null) {
       map['analytics'] = analytics?.map((v) => v.toJson()).toList();
     }

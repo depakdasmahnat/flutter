@@ -64,6 +64,7 @@ class Data {
       this.sponsorName,
       this.enagicId,
       this.countryCode,
+      this.country,
       this.accessToken,});
 
   Data.fromJson(dynamic json) {
@@ -100,6 +101,7 @@ class Data {
     steps = json['steps'];
     accessToken = json['access_token'];
     countryCode = json['country_code'];
+    country = json['country'];
   }
   num? id;
   String? firstName;
@@ -131,6 +133,7 @@ class Data {
   String? disability;
   String? monthlyIncome;
   String? countryCode;
+  String? country;
   dynamic sponsorId;
   num? steps;
   dynamic accessToken;
@@ -170,6 +173,7 @@ class Data {
     map['steps'] = steps;
     map['access_token'] = accessToken;
     map['country_code'] = countryCode;
+    map['country'] = country;
     return map;
   }
 

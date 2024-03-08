@@ -25,6 +25,8 @@ import '../profile/profile.dart';
 class LeadsPopup extends StatefulWidget {
   final String? title;
   final String? status;
+
+
   final String? priority;
   final String? filter;
 
@@ -566,11 +568,11 @@ class LeadsCard extends StatelessWidget {
             //     fontWeight: FontWeight.w500,
             //   ),
             // ),
-            // // CustomeText(
-            // //   text: lead?.address ?? defaultText,
-            // //   fontSize: 12,
-            // //   fontWeight: FontWeight.w500,
-            // // ),
+            CustomeText(
+              text: lead?.cityName ?? defaultText,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
             // if (lead?.priority != null)
             //   InkWell(
             //     onTap: () {},
@@ -677,10 +679,13 @@ class ClosedLeadsCard extends StatelessWidget {
                   borderRadiusValue: 30,
                   margin: const EdgeInsets.only(left: 8, right: 8),
                 ),
-                CustomeText(
-                  text: lead?.firstName ?? defaultText,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+                SizedBox(
+                  width: size.width * 0.2,
+                  child: CustomeText(
+                    text: lead?.firstName ?? defaultText,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ],
             ),

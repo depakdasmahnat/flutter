@@ -75,6 +75,8 @@ class Data {
       this.countryCode,
       this.sponsorName,
       this.countryName,
+      this.salesFacilitatorId,
+      this.salesFacilitatorName,
 
   });
 
@@ -122,6 +124,8 @@ class Data {
     countryCode = json['country_code'];
     sponsorName = json['sponsor_name'];
     countryName = json['country_name'];
+    salesFacilitatorId = json['sales_facilitator_id'];
+    salesFacilitatorName = json['sales_facilitator_name'];
   }
   num? id;
   String? firstName;
@@ -166,6 +170,8 @@ class Data {
   String? countryCode;
   String? sponsorName;
   String? countryName;
+  String? salesFacilitatorName;
+  int? salesFacilitatorId;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -212,6 +218,8 @@ class Data {
     map['country_code'] = countryCode;
     map['sponsor_name'] = sponsorName;
     map['country_name'] = countryName;
+    map['sales_facilitator_id'] = salesFacilitatorId;
+    map['sales_facilitator_name'] = salesFacilitatorName;
     return map;
   }
 

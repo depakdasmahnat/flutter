@@ -49,6 +49,7 @@ class _ToDoScreenState extends State<ToDoScreen> {
           search: searchController.text,
           filter: filter ?? (dateTime != null ? dateTime.toString() : ''),
         );
+    formattedDate = DateFormat(dayFormat).format(dateTime!);
   }
 
   List<EventsData>? events;

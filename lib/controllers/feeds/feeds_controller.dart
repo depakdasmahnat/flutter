@@ -56,7 +56,6 @@ class FeedsController extends ChangeNotifier {
       loadingFeeds = false;
       notifyListeners();
     }
-
     if (isRefresh) {
       onRefresh();
     }

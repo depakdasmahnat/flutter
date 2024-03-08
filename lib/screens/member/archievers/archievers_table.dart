@@ -31,7 +31,6 @@ class _AchieversTableState extends State<AchieversTable> {
       employeeDataSource = EmployeeDataSource(employeeData: achievers);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return employeeDataSource != null
@@ -91,7 +90,7 @@ class EmployeeDataSource extends DataGridSource {
           cells: [
             DataGridCell(
               columnName: AchieversTableHeadings.rank.value,
-              value: GridHeading(title: e.achievement ?? defaultText),
+              value: GridHeading(title: e.rank ?? defaultText),
             ),
             DataGridCell(
               columnName: AchieversTableHeadings.name.value,
