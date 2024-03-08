@@ -5,6 +5,7 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
+import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
@@ -47,7 +48,10 @@ class _GuestNotificationState extends State<GuestNotification> {
           builder: (context, controller, child) {
             return controller.notificationLoader == false
                 ? const LoadingScreen()
-                : ListView(
+                : controller.fetchNotificationModel
+                ?.eventNotification?.isNotEmpty==true &&controller.fetchNotificationModel
+                ?.otherNotification?.isNotEmpty ==true ?
+            ListView(
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     children: [
@@ -68,6 +72,7 @@ class _GuestNotificationState extends State<GuestNotification> {
                           ),
                         ],
                       ),
+
                       ListView.builder(
                         itemCount: controller.fetchNotificationModel
                                 ?.eventNotification?.length ??
@@ -244,7 +249,9 @@ class _GuestNotificationState extends State<GuestNotification> {
                         },
                       ),
                     ],
-                  );
+                  ):const Center(
+              child: NoDataFound(),
+            );
           },
         ),
       ),

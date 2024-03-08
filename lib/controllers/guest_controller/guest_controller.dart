@@ -352,8 +352,7 @@ class GuestControllers extends ChangeNotifier {
       await ApiService()
           .get(
         endPoint: ApiEndpoints.fetchFeedCategories,
-      )
-          .then((response) {
+      ).then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
           FetchFeedCategoriesModel responseData = FetchFeedCategoriesModel.fromJson(json);

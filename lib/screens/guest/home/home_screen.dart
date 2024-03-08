@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late String formattedDate = DateFormat(dayFormat).format(currentDate);
 
-  Future fetchFeeds({bool? loadingNext, String? categoryId}) async {
+  Future fetchFeeds({bool? loadingNext}) async {
     return await context.read<FeedsController>().fetchFeeds(
           context: context,
           isRefresh: loadingNext == true ? false : true,
@@ -106,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Set<int> selectedIds = Set<int>();
   int? tabIndex = 0;
+  String categoryId ='';
   Timer? _debounce;
   void onSearchFieldChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
@@ -318,13 +319,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     return SizedBox(
                       height: 40,
                       child: ListView.builder(
-                        itemCount:
-                            value.fetchFeedCategoriesModel?.data?.length ?? 0,
+                        itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
                         scrollDirection: Axis.horizontal,
-                        // padding: const EdgeInsets.only(left: 20,),
                         itemBuilder: (context, index) {
-                          var data = value.fetchFeedCategoriesModel?.data
-                              ?.elementAt(index);
+                          var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
 
                           selectedFilter ??= data;
                           return GradientButton(
@@ -335,10 +333,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: 30,
                             onTap: () async {
                               selectedFilter = data;
-                              var id = selectedFilter?.id;
+                              var id = data?.id;
                               tabIndex = index;
+                              categoryId =selectedFilter?.id.toString()??'';
                               setState(() {});
-                              await fetchFeeds(categoryId: id.toString());
+                               fetchFeeds();
                             },
                             margin: const EdgeInsets.only(right: 12),
                             padding: const EdgeInsets.symmetric(
