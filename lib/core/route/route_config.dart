@@ -52,6 +52,7 @@ import '../../screens/member/goal/goals_screen.dart';
 import '../../screens/member/home/member_dashboard.dart';
 import '../../screens/member/home/member_profile.dart';
 import '../../screens/member/home/member_profile_details.dart';
+import '../../screens/member/lead/get_contact.dart';
 import '../../screens/member/lead/lead.dart';
 import '../../screens/member/lead/scheduled_demo_form.dart';
 import '../../screens/member/members/add_member_form.dart';

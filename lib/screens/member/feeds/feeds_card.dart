@@ -116,9 +116,13 @@ class _FeedCardState extends State<FeedCard> {
               else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
                 Padding(
                   padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-                  child: YoutubeVideoPlayerCard(
-                    url: '${data?.file}',
-                    borderRadius: 18,
+                  child: IgnorePointer(
+                    ignoring: true,
+                    child: YoutubeVideoPlayerCard(
+                      url: '${data?.file}',
+                      showControls: false,
+                      borderRadius: 18,
+                    ),
                   ),
                 )
               else if (data?.fileType == FeedsFileType.pdf.value && data?.file != null)

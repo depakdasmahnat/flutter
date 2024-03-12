@@ -25,12 +25,9 @@ class _GuestNotificationState extends State<GuestNotification> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await context
-          .read<GuestControllers>()
-          .fetchNotification(context: context);
+      await context.read<GuestControllers>().fetchNotification(context: context);
     });
   }
-
   @override
   Widget build(BuildContext context) {
     Color textColo = const Color(0xffB5B5B5);

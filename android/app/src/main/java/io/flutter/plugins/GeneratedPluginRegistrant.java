@@ -76,6 +76,11 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin flutter_plugin_android_lifecycle, io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin", e);
     }
     try {
+      flutterEngine.getPlugins().add(new me.schlaubi.fluttercontactpicker.FlutterContactPickerPlugin());
+    } catch (Exception e) {
+      Log.e(TAG, "Error registering plugin fluttercontactpicker, me.schlaubi.fluttercontactpicker.FlutterContactPickerPlugin", e);
+    }
+    try {
       flutterEngine.getPlugins().add(new com.aloisdeniel.geocoder.GeocoderPlugin());
     } catch (Exception e) {
       Log.e(TAG, "Error registering plugin geocoder, com.aloisdeniel.geocoder.GeocoderPlugin", e);

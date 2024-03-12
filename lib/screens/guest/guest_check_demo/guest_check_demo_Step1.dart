@@ -24,7 +24,8 @@ class GuestCheckDemoStep1 extends StatefulWidget {
   final String? video;
  final PageController? pageController;
   final String? jumpType;
-  const GuestCheckDemoStep1({super.key,this.video,this.pageController,this.jumpType});
+  final bool? ignoring;
+  const GuestCheckDemoStep1({super.key,this.video,this.pageController,this.jumpType,this.ignoring});
 
   @override
   State<GuestCheckDemoStep1> createState() => _GuestCheckDemoStep1State();
@@ -198,24 +199,28 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
       //   ),
       // )
       Center(
-        child: YoutubeVideoPlayerCard(
-          showControls: false,
+        child: IgnorePointer(
+          ignoring: widget.ignoring??false,
+          child: YoutubeVideoPlayerCard(
+            // showControls: true,
+            // url: widget.video,
+            url: 'https://www.youtube.com/watch?v=bof3oMvYVNQ',
+            // url: 'https://www.youtube.com/watch?v=1s2P4vxgN24',
+          borderRadius: 0,
+            onCompleted: () {
 
-          url: widget.video,
-        borderRadius: 0,
-          onCompleted: () {
-            print("check on complete ");
-            if(widget.jumpType=='3'){
-              context.read<CheckDemoController>()?.nextPage(3);
-            }else if(widget.jumpType=='4'){
-              context.read<CheckDemoController>()?.nextPage(5);
-              context.read<CheckDemoController>()?.addIndex(5,'');
-            }
-            else{
-              context.read<CheckDemoController>()?.nextPage(1);
-            }
+              // if(widget.jumpType=='3'){
+              //   context.read<CheckDemoController>()?.nextPage(3);
+              // }else if(widget.jumpType=='4'){
+              //   context.read<CheckDemoController>()?.nextPage(5);
+              //   context.read<CheckDemoController>()?.addIndex(5,'');
+              // }
+              // else{
+              //   context.read<CheckDemoController>()?.nextPage(1);
+              // }
 
-          },
+            },
+          ),
         ),
       )
       // Chewie(

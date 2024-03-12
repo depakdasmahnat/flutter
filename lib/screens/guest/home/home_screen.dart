@@ -1,9 +1,12 @@
 import 'dart:async';
 
-import 'package:flip_card/flip_card.dart';
+
 import 'package:flutter/material.dart';
-// import 'package:flutter_flip_card/flipcard/gesture_flip_card.dart';
-// import 'package:flutter_flip_card/modal/flip_side.dart';
+
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
+
+
+
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -19,13 +22,14 @@ import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:mrwebbeast/utils/widgets/custom_text_field.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_text.dart';
+
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
-import '../../../core/constant/colors.dart';
+
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/feeds/feeds_data.dart';
@@ -108,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int? tabIndex = 0;
   String categoryId ='';
   Timer? _debounce;
+
   void onSearchFieldChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -222,21 +227,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             fit: BoxFit.fill)),
                     boxShadow: const [],
                     onTap: () {
-                      if(controller.getStep?.demoStep==6){
-                        context.pushNamed(Routs.guestDemoVideos);
-                      }else{
-                        context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
-                          await context.read<CheckDemoController>().getStepCheckDemo(context: context);
-                        },);
-
-                      }
-                      // context.pushNamed(Routs.guestCheckDemo).whenComplete(
-                      //   () async {
-                      //     await context
-                      //         .read<CheckDemoController>()
-                      //         .getStepCheckDemo(context: context);
-                      //   },
-                      // );
+                      // if(controller.getStep?.demoStep==6){
+                      //   context.pushNamed(Routs.guestDemoVideos);
+                      // }else{
+                      //   context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                      //     await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                      //   },);
+                      //
+                      // }
+                      context.pushNamed(Routs.guestCheckDemo).whenComplete(
+                        () async {
+                          await context
+                              .read<CheckDemoController>()
+                              .getStepCheckDemo(context: context);
+                        },
+                      );
                     },
                     margin: const EdgeInsets.only(
                         left: kPadding, right: kPadding, top: kPadding),
@@ -325,7 +330,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
 
                           selectedFilter ??= data;
-                          return GradientButton(
+                          return
+                            GradientButton(
                             backgroundGradient: tabIndex == index
                                 ? primaryGradient
                                 : inActiveGradient,
@@ -333,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: 30,
                             onTap: () async {
                               selectedFilter = data;
-                              var id = data?.id;
+
                               tabIndex = index;
                               categoryId =selectedFilter?.id.toString()??'';
                               setState(() {});
@@ -359,6 +365,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
+              GradientButton(
+                backgroundGradient:  primaryGradient,
+
+                borderWidth: 2,
+                borderRadius: 30,
+                onTap: () async {
+                  final FullContact contact =
+                  await FlutterContactPicker.pickFullContact(askForPermission: true);
+
+                  print('check name $contact');
+
+                },
+                margin: const EdgeInsets.only(right: 12),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kPadding, vertical: 8),
+                child: const Text(
+                  'Get Contact',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color:
+                        Colors.black
+
+                  ),
+                ),
+              ),
+
               if (controller.loadingFeeds)
                 const LoadingScreen(
                   heightFactor: 0.3,

@@ -85,6 +85,9 @@ dependencies:
   two_dimensional_scrollables: ^0.0.4
   audioplayers: ^5.2.1
   expandable_text: ^2.3.0
+  fluttercontactpicker: ^4.7.0
+
+
 
 
 

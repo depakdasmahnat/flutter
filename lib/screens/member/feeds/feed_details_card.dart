@@ -99,9 +99,13 @@ class _FeedDetailsCardState extends State<FeedDetailsCard> {
                 borderRadius: 18,
               )
             else if (data?.fileType == FeedsFileType.youtubeVideo.value && data?.file != null)
-              YoutubeVideoPlayerCard(
-                url: '${data?.file}',
-                borderRadius: 18,
+              IgnorePointer(
+                ignoring: true,
+                child: YoutubeVideoPlayerCard(
+                  url: '${data?.file}',
+                  borderRadius: 18,
+                  showControls: true,
+                ),
               )
             else if (data?.fileType == FeedsFileType.pdf.value && data?.file != null)
               ImageView(
