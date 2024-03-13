@@ -12,9 +12,7 @@ import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/route/route_paths.dart';
-import '../member/demo/create_demo.dart';
 import '../member/lead/model_dailog_box.dart';
-import '../member/members/add_member_form.dart';
 
 class DashboardMoreMenu extends StatefulWidget {
   bool? showLeadItem;
@@ -86,12 +84,42 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
         Column(
           children: [
             MenuButton(
-              title: 'Add Lead',
+
+              title: 'Add List',
               image: AppAssets.addPersonIcon,
               onTap: () {
+                // controller.changeStatus();
                 context.pushNamed(Routs.memberaddList);
               },
             ),
+            MenuButton(
+
+              title: 'Add Leads From Contacts',
+              image: AppAssets.leadContact,
+              onTap: () {
+                context.pushNamed(Routs.getContact);
+              },
+            ),
+            MenuButton(
+
+              title: 'Share referral',
+              image: AppAssets.leadShare,
+              onTap: () async{
+                // controller.changeStatus();
+                // await  _showDialog(
+                //     context
+                // );
+
+                // context.pushNamed(Routs.createGoal);
+              },
+            ),
+            // MenuButton(
+            //   title: 'Add Lead',
+            //   image: AppAssets.addPersonIcon,
+            //   onTap: () {
+            //
+            //   },
+            // ),
             // MenuButton(
             //   title: 'Add Members',
             //   image: AppAssets.membersIcon,

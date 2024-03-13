@@ -204,7 +204,7 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
           child: YoutubeVideoPlayerCard(
             // showControls: true,
             // url: widget.video,
-            url: 'https://www.youtube.com/watch?v=bof3oMvYVNQ',
+            url: 'https://www.youtube.com/watch?v=xuP4g7IDgDM',
             // url: 'https://www.youtube.com/watch?v=1s2P4vxgN24',
           borderRadius: 0,
             onCompleted: () {

@@ -431,6 +431,12 @@ class RoutesConfig {
         pageBuilder: (context, state) {
           return materialPage(state: state, child: const TrainingScreen());
         },
+      ), GoRoute(
+        name: Routs.getContact,
+        path: Routs.getContact,
+        pageBuilder: (context, state) {
+          return materialPage(state: state, child: const ContactsPage());
+        },
       ),
       GoRoute(
         name: Routs.memberFeeds,

@@ -119,6 +119,10 @@ class _LoginState extends State<Login> {
                         dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                         dropdownIconPosition: IconPosition.trailing,
                         disableLengthCheck: true,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         // validator: (val) {
                         //   return Validator.numberValidator(val.toString());
                         // },

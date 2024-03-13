@@ -121,6 +121,7 @@ class ApiEndpoints {
   static const String levelWiseMemberCount = 'level_wise_member_count?';
   static const String deleteLead = 'delete_lead';
   static const String rescheduleCall = 'reschedule';
+  static const String contactLead = 'contact_lead';
   static const String fetchObject = 'fetch_objection_list';
   static const String fetchGuestData = 'fetch_guest_details';
 

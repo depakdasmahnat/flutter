@@ -64,7 +64,7 @@ class _LeadsPopupState extends State<LeadsPopup> {
 
   @override
   Widget build(BuildContext context) {
-    print('check status ${widget.status}');
+
     Size size = MediaQuery.of(context).size;
     return Consumer<ListsControllers>(builder: (context, controller, child) {
       leads = controller.leads;

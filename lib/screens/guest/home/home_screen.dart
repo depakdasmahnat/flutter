@@ -365,32 +365,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              GradientButton(
-                backgroundGradient:  primaryGradient,
 
-                borderWidth: 2,
-                borderRadius: 30,
-                onTap: () async {
-                  final FullContact contact =
-                  await FlutterContactPicker.pickFullContact(askForPermission: true);
-
-                  print('check name $contact');
-
-                },
-                margin: const EdgeInsets.only(right: 12),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: kPadding, vertical: 8),
-                child: const Text(
-                  'Get Contact',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color:
-                        Colors.black
-
-                  ),
-                ),
-              ),
 
               if (controller.loadingFeeds)
                 const LoadingScreen(

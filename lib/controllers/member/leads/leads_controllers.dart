@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -440,5 +442,50 @@ class ListsControllers extends ChangeNotifier {
     }
 
     return fetchGuestDataModel;
+  }
+
+
+
+  /// 1) add leads from contacts
+  Future<DefaultModel?> addLeadFromContacts({
+    required BuildContext context,
+    required List details,
+
+  }) async {
+
+    FocusScope.of(context).unfocus();
+    Map<String, dynamic> body = {
+      'details': jsonEncode(details),
+    };
+    debugPrint('Sent Data is $body');
+    var response = ApiService().post(
+      endPoint: ApiEndpoints.contactLead,
+      body: body,
+    );
+//Processing API...
+    DefaultModel? responseData;
+    await loadingDialog(
+      context: context,
+      future: response,
+    ).then((response) async {
+      if (response != null) {
+        Map<String, dynamic> json = response;
+        responseData = DefaultModel.fromJson(json);
+
+        if (responseData?.status == true) {
+          showSnackBar(
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.green);
+          context.pop();
+        } else {
+          showSnackBar(
+              context: context,
+              text: '${responseData?.message}',
+              color: Colors.red);
+        }
+      }
+    });
+    return responseData;
   }
 }

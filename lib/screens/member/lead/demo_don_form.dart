@@ -44,8 +44,7 @@ class _DemoDoneFormState extends State<DemoDoneForm> {
   }
   @override
   Widget build(BuildContext context) {
- print("check api calling ${widget.date}");
- print("check api calling ${widget.time}");
+
     Size size = MediaQuery.of(context).size;
     return StatefulBuilder(
       builder: (BuildContext context, void Function(void Function()) setState) {
