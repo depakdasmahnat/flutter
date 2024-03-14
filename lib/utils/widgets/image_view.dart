@@ -154,7 +154,7 @@ class ImageView extends StatelessWidget {
       height: height ?? 10,
       width: width ?? 10,
       child: const Center(
-        child: CupertinoActivityIndicator(color: primaryColor),
+        child: CupertinoActivityIndicator(color: primaryColor,),
       ),
     );
   }

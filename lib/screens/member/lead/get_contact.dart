@@ -62,7 +62,6 @@ class _ContactsPageState extends State<ContactsPage> {
       return permission;
     }
   }
-
   void _handleInvalidPermissions(PermissionStatus permissionStatus) {
     if (permissionStatus == PermissionStatus.denied) {
       const snackBar = SnackBar(
@@ -114,7 +113,6 @@ class _ContactsPageState extends State<ContactsPage> {
               ),
             ),
           ),
-
           Expanded(
             child: FutureBuilder<List<Contact>>(
               future: _loadContactsFuture,

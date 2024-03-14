@@ -85,7 +85,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
               EasyStepper(
                 activeStep:controller.stepIndex,
                 internalPadding: 1,
-                enableStepTapping: false,
+                // enableStepTapping: false,
                 showLoadingAnimation: false,
                 stepRadius: 12,
                 onStepReached: (index) {
@@ -192,7 +192,6 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                       customTitle: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
                           GradientText(
                             'Business video',
                             gradient: controller.stepIndex>=4? primaryGradient:inActiveGradient,
@@ -253,7 +252,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                           return controller.guestCheckDemoLoader==false?
                           const LoadingScreen() :
                           // GtpVideo( videoLink: controller.guestCheckDemoVideoAndStep?.data?[0].link,);
-                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].youtubeLink??'',ignoring: true,);
+                           GuestCheckDemoStep1(video:controller.guestCheckDemoVideoAndStep?.data?[0].link??'',videoType: true,);
                         },
                            ),
                       const Padding(
@@ -264,7 +263,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                         builder: (context, controller, child) {
                           return controller.guestCheckDemoLoader==false?
                           const LoadingScreen() :
-                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].youtubeLink??'',jumpType: '3',ignoring: false,);
+                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].youtubeLink??'',jumpType: '3',);
                         },
                       ),
                       const Padding(

@@ -1,31 +1,18 @@
-import 'package:chewie/chewie.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
-import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
-import 'package:mrwebbeast/screens/guest/guest_check_demo/textMotion.dart';
-import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
-import 'package:visibility_detector/visibility_detector.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-
 import '../../../controllers/check_demo_controller/check_demo_controller.dart';
-import '../../../core/config/app_assets.dart';
-import '../../../core/constant/colors.dart';
-import '../../../core/route/route_paths.dart';
-import '../../../core/services/api/exception_handler.dart';
-import '../../auth/gtp_video.dart';
+import '../../member/feeds/chewie_video_player.dart';
 import '../../member/feeds/youtube_video_player.dart';
 
 class GuestCheckDemoStep1 extends StatefulWidget {
   final String? video;
+  final bool? videoType;
  final PageController? pageController;
   final String? jumpType;
-  final bool? ignoring;
-  const GuestCheckDemoStep1({super.key,this.video,this.pageController,this.jumpType,this.ignoring});
+
+  const GuestCheckDemoStep1({super.key,this.video,this.pageController,this.jumpType,this.videoType});
 
   @override
   State<GuestCheckDemoStep1> createState() => _GuestCheckDemoStep1State();
@@ -96,7 +83,7 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
   //
   //     controller?.loadVideo('https://www.youtube.com/watch?v=IlZbHDSalww');
   //     controller?.pauseVideo();
-  //      print("dfffffffffffffffg ${controller?.pauseVideo()}");
+  //
   //     // controller?.valueStream.listen((state) {
   //     //   if (state == PlayerState.ended) {
   //     //     print('Video has ended');
@@ -198,25 +185,31 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
       //     ),
       //   ),
       // )
+      widget.videoType==true?
+      Center(
+        child: ChewieVideoPlayerCard(
+          url: widget.video,
+          borderRadius: 18,
+        ),
+      ):
       Center(
         child: IgnorePointer(
-          ignoring: widget.ignoring??false,
+          ignoring: true,
           child: YoutubeVideoPlayerCard(
             // showControls: true,
             url: widget.video,
-            // url: 'https://www.youtube.com/watch?v=zBjJUV-lzHo',
-            // url: 'https://www.youtube.com/watch?v=1s2P4vxgN24',
+            // url: 'https://www.youtube.com/watch?v=AGKk7CvQRd8',
+
           borderRadius: 0,
             onCompleted: () {
-
               if(widget.jumpType=='3'){
-                context.read<CheckDemoController>()?.nextPage(3);
+                context.read<CheckDemoController>().nextPage(3);
               }else if(widget.jumpType=='4'){
-                context.read<CheckDemoController>()?.nextPage(5);
-                context.read<CheckDemoController>()?.addIndex(5,'');
+                context.read<CheckDemoController>().nextPage(5);
+                context.read<CheckDemoController>().addIndex(5,'');
               }
               else{
-                context.read<CheckDemoController>()?.nextPage(1);
+                context.read<CheckDemoController>().nextPage(1);
               }
 
             },

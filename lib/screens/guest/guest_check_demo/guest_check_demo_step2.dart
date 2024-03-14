@@ -134,14 +134,11 @@ class _GuestCheckDemoStep2State extends State<GuestCheckDemoStep2> {
                                                                     index]
                                                                 .answer?[i] ??
                                                             '';
+                                                        print('Check snas $showItem');
+                                                        print('Check snas ${selectedIndices[index]}');
 
                                                         controller.ansQues.add(Questions(
-                                                            ans: controller
-                                                                .guestDemoQuestions
-                                                                ?.data?[0]
-                                                                .questionType2?[
-                                                                    index]
-                                                                .answer?[i],
+                                                            ans: controller.guestDemoQuestions?.data?[0].questionType2?[index].answer?[i],
                                                             id: controller
                                                                 .guestDemoQuestions
                                                                 ?.data?[0]
@@ -326,19 +323,11 @@ class _GuestCheckDemoStep2State extends State<GuestCheckDemoStep2> {
                                                   itemBuilder: (context, i) {
                                                     return InkWell(
                                                       onTap: () {
-                                                        selectedIndices[index] =
-                                                            i;
-                                                        showItem = controller
-                                                                .guestDemoQuestions
-                                                                ?.data?[0]
-                                                                .questionType2?[
-                                                                    index]
-                                                                .answer?[i] ??
-                                                            '';
-                                                        print(
-                                                            'Check snas $showItem');
-                                                        print(
-                                                            'Check snas ${selectedIndices[index]}');
+                                                        selectedIndices[index] = i;
+                                                        // showItem = controller.guestDemoQuestions?.data?[0].questionType2?[index].answer?[i] ??
+                                                        //     '';
+                                                        // print('Check snas $showItem');
+                                                        // print('Check snas ${selectedIndices[index]}');
                                                         controller.ansQues.add(Questions(
                                                             ans: controller
                                                                 .guestDemoQuestions
@@ -619,10 +608,11 @@ class _GuestCheckDemoStep2State extends State<GuestCheckDemoStep2> {
             onTap: () async {
 
               if (page == 0) {
-
                 if (showItem == 'Yes') {
                   _pageController.jumpToPage(1);
+                  page =1;
                   setState(() {});
+                  print("check page13456 $page");
                 }
                 else {
                   page = 1;
@@ -635,7 +625,15 @@ class _GuestCheckDemoStep2State extends State<GuestCheckDemoStep2> {
                   }
                   setState(() {});
                 }
-              }  else {
+              } else if(page==1){
+                if (showItem == 'Yes') {
+                  _pageController.jumpToPage(2);
+                  page =2;
+                  setState(() {});
+                  print("check  $page");
+                }
+
+            } else{
                 print("check page13 $page");
                 DefaultModel? responseData = await context.read<CheckDemoController>().submitAns(context: context, ans: context.read<CheckDemoController>().ansQues);
                 if (responseData?.status == true) {

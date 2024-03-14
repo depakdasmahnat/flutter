@@ -95,6 +95,7 @@ enum EventFilters {
   event('Event', 'Event'),
   megaEvent('Mega Event', 'Mega Event');
 
+
   final String id;
   final String value;
 

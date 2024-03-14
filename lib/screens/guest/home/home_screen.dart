@@ -328,7 +328,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
-
                           selectedFilter ??= data;
                           return
                             GradientButton(
@@ -365,8 +364,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-
-
               if (controller.loadingFeeds)
                 const LoadingScreen(
                   heightFactor: 0.3,

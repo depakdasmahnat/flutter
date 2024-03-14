@@ -2,8 +2,6 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mrwebbeast/core/constant/constant.dart';
-import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -106,8 +104,7 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
         } else if (visibility.visibleFraction == 1 && mounted) {
           videoPlayerController?.play();
         }
-        debugPrint(
-            'Video Player visibility  ${visibility.key} is $visiblePercentage% visible & ${visibility.visibleFraction}');
+        debugPrint('Video Player visibility  ${visibility.key} is $visiblePercentage% visible & ${visibility.visibleFraction}');
       },
       child: Container(
         color: Colors.black,
@@ -120,7 +117,6 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
                           demoId: '${widget.demoId}',
                         );
                   }
-
                   playVideo();
                 },
                 child: AspectRatio(
