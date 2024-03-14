@@ -203,21 +203,21 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
           ignoring: widget.ignoring??false,
           child: YoutubeVideoPlayerCard(
             // showControls: true,
-            // url: widget.video,
-            url: 'https://www.youtube.com/watch?v=xuP4g7IDgDM',
+            url: widget.video,
+            // url: 'https://www.youtube.com/watch?v=zBjJUV-lzHo',
             // url: 'https://www.youtube.com/watch?v=1s2P4vxgN24',
           borderRadius: 0,
             onCompleted: () {
 
-              // if(widget.jumpType=='3'){
-              //   context.read<CheckDemoController>()?.nextPage(3);
-              // }else if(widget.jumpType=='4'){
-              //   context.read<CheckDemoController>()?.nextPage(5);
-              //   context.read<CheckDemoController>()?.addIndex(5,'');
-              // }
-              // else{
-              //   context.read<CheckDemoController>()?.nextPage(1);
-              // }
+              if(widget.jumpType=='3'){
+                context.read<CheckDemoController>()?.nextPage(3);
+              }else if(widget.jumpType=='4'){
+                context.read<CheckDemoController>()?.nextPage(5);
+                context.read<CheckDemoController>()?.addIndex(5,'');
+              }
+              else{
+                context.read<CheckDemoController>()?.nextPage(1);
+              }
 
             },
           ),
