@@ -94,11 +94,8 @@ enum EventFilters {
   webinar('Webinar', 'Webinar'),
   event('Event', 'Event'),
   megaEvent('Mega Event', 'Mega Event');
-
-
   final String id;
   final String value;
-
   const EventFilters(this.id, this.value);
 }
 
@@ -108,8 +105,6 @@ enum OrderStatuses {
   processing('Processing'),
   confirmed('Order Confirmed'),
   completed('Completed');
-
   final String value;
-
   const OrderStatuses(this.value);
 }

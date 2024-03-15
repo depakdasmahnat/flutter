@@ -203,7 +203,7 @@ class _VerifyResetPasswordOTPState extends State<VerifyResetPasswordOTP> {
                                 reSentOtp();
                               },
                               child: GradientText(
-                                'Resend SMS',
+                                'Resend OTP',
                                 gradient: primaryGradient,
                                 style: const TextStyle(
                                   color: Colors.white,

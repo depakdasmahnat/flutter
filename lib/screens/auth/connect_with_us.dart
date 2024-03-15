@@ -192,9 +192,10 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'I am excited',
+                              'I Am Excited',
                               style: TextStyle(
                                 color: Colors.black,
+                                letterSpacing: 2,
                                 fontFamily: GoogleFonts.urbanist().fontFamily,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 18,

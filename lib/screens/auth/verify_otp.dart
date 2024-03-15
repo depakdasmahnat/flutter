@@ -212,7 +212,7 @@ class _VerifyOTPState extends State<VerifyOTP> {
                                 reSentOtp();
                               },
                               child: GradientText(
-                                'Resend SMS',
+                                'Resend OTP',
                                 gradient: primaryGradient,
                                 style: const TextStyle(
                                   color: Colors.white,

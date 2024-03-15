@@ -11,13 +11,13 @@ import '../../../core/constant/colors.dart';
 
 class ChewieVideoPlayerCard extends StatefulWidget {
   const ChewieVideoPlayerCard(
-      {super.key, this.url, this.borderRadius, this.aspectRatio, this.type, this.demoId});
+      {super.key, this.url, this.borderRadius, this.aspectRatio, this.type, this.demoId,this.onCompleted});
 
   final double? aspectRatio;
   final String? url;
   final bool? type;
   final String? demoId;
-
+  final VoidCallback? onCompleted;
   final double? borderRadius;
 
   @override
@@ -34,7 +34,6 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
   @override
   void initState() {
     super.initState();
-
     initVideo();
   }
 
@@ -49,10 +48,8 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
     disposeVideo();
     if (url != null) {
       debugPrint('url$url');
-
       videoPlayerController = VideoPlayerController.networkUrl(Uri.parse('$url'));
     }
-
     await videoPlayerController?.initialize();
     if (videoPlayerController != null) {
       chewieController = ChewieController(
@@ -65,20 +62,39 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
               handleColor: Colors.green,
               bufferedColor: Colors.green.withOpacity(0.3),
               playedColor: Colors.white));
-
-      videoPlayerController?.addListener(() {
-        if (context.mounted) {
-          setState(() {});
+      chewieController?.videoPlayerController.addListener(() {
+        videoPlayerController?.value = videoPlayerController!.value;
+        if (videoPlayerController!.value.position >= videoPlayerController!.value.duration) {
+          print("check on complete");
         }
       });
-      playVideo();
+
+      setState(() {
+
+      });
+
+      // videoPlayerController?.addListener(() {
+      //   if (videoPlayerController!.value.position >=
+      //       videoPlayerController!.value.duration) {
+      //     widget.onCompleted!();
+      //   }
+      //   if (context.mounted) {
+      //     setState(() {});
+      //   }
+      // });
+      // playVideo();
     }
   }
 
   Future<bool> playVideo() async {
     if (videoPlayerController?.value.isPlaying == true) {
       await videoPlayerController?.pause();
+      await  chewieController?.pause();
     } else {
+      if (videoPlayerController!.value.position >= videoPlayerController!.value.duration) {
+        // If the video is complete, seek to the beginning before playing
+        await videoPlayerController?.seekTo(Duration.zero);
+      }
       await videoPlayerController?.play();
     }
     return true;
@@ -90,9 +106,9 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
       await videoPlayerController?.dispose();
     }
   }
-
   @override
   Widget build(BuildContext context) {
+
     return VisibilityDetector(
       key: const ObjectKey('videoManager'),
       onVisibilityChanged: (visibility) {
@@ -123,6 +139,7 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
                   aspectRatio: widget.aspectRatio ?? 16 / 9,
                   child: Chewie(
                     controller: chewieController!,
+
                   ),
                 ),
               )

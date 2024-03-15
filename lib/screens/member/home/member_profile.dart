@@ -290,16 +290,16 @@ class _MemberProfileState extends State<MemberProfile> {
                       SizedBox(
                         height: size.height * 0.02,
                       ),
-                      IconAndText(
-                        icon: AppAssets.hallOfFameIcon,
-                        title: 'Hall of fame',
-                        onTap: () {
-                          context.push(Routs.hallOfFame);
-                        },
-                      ),
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
+                      // IconAndText(
+                      //   icon: AppAssets.hallOfFameIcon,
+                      //   title: 'Hall of fame',
+                      //   onTap: () {
+                      //     context.push(Routs.hallOfFame);
+                      //   },
+                      // ),
+                      // SizedBox(
+                      //   height: size.height * 0.02,
+                      // ),
                       IconAndText(
                         icon: AppAssets.faq,
                         title: 'FAQ',

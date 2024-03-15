@@ -223,6 +223,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.sizeOf(context);
     bool selected = dashBoardIndex == index;
     return GestureDetector(
       onTap: onTap ??
@@ -241,8 +242,10 @@ class CustomBottomNavBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ImageView(
-              height: 24,
-              width: 24,
+              height: size.height*0.03,
+              width: size.height*0.03,
+              // height: 24,
+              // width: 24,
               borderRadiusValue: 0,
               color: data.title == null ? Colors.black : (selected ? primaryColor : Colors.white),
               margin: imageMargin ?? EdgeInsets.zero,

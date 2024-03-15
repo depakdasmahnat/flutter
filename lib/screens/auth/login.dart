@@ -7,12 +7,14 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
+import 'package:mrwebbeast/core/constant/constant.dart';
 
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/validators.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../controllers/auth_controller/auth_controller.dart';
+import '../../controllers/guest_controller/guest_controller.dart';
 import '../../core/constant/gradients.dart';
 
 import '../../core/route/route_paths.dart';
@@ -20,6 +22,7 @@ import '../../models/auth_model/validatemobile.dart';
 import '../../utils/widgets/gradient_button.dart';
 import '../../utils/widgets/web_view_screen.dart';
 import '../../utils/widgets/widgets.dart';
+import '../guest/guestProfile/guest_edit_profile.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -34,8 +37,15 @@ class _LoginState extends State<Login> {
   bool showReferral = false;
   bool checkBox = false;
   String countryCode ='';
+  String stateId ='';
+  String cityId ='';
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.read<GuestControllers>().fetchState(
+        context: context,
+      );
+    });
     super.initState();
   }
 
@@ -223,17 +233,62 @@ class _LoginState extends State<Login> {
                     margin: const EdgeInsets.only(top: 18),
                   ),
                 if (checkValidate == true)
-                  CustomTextField(
-                    controller: addressCtrl,
-                    autofocus: true,
-                    validator: (val) {
-                      return Validator.flocationValidation(val);
+                  Consumer<GuestControllers>(
+                    builder: (context, controller, child) {
+                      return  CustomDropdown(
+                        mandatory: '*',
+                        padding:  EdgeInsets.only(top: kPadding,bottom: kPadding),
+                        hintText: 'Select State',
+                        onChanged: (v) async {
+                          stateId = controller.satesModel?.data
+
+                              ?.firstWhere(
+                                (element) {
+                              return element.name == v;
+                            },
+                          )
+                              .id
+                              .toString() ??
+                              '';
+                          if (stateId.isNotEmpty == true) {
+                            await context.read<GuestControllers>().fetchCity(
+                              context: context,
+                              stateId: stateId,
+                            );
+                          }
+
+                        },
+                        // selectedItem: stateName,
+                        title: 'State',
+                        listItem: controller.satesModel?.data?.map((e) => e.name).toList(),
+                      );
                     },
-                    onChanged: (value) {},
-                    hintText: 'Enter City',
-                    autofillHints: const [AutofillHints.name],
-                    margin: const EdgeInsets.only(top: 18, bottom: 18),
+
+
                   ),
+                if (checkValidate == true)
+                Consumer<GuestControllers>(
+                  builder: (context, controller, child) {
+                    return CustomDropdown(
+                      padding:  const EdgeInsets.only(top: 0,bottom: kPadding),
+                      mandatory: '*',
+                      hintText: 'Select City',
+                      onChanged: (v) {
+                        cityId = controller.cityModel?.data
+                            ?.firstWhere(
+                              (element) {
+                            return element.name == v;
+                          },
+                        )
+                            .id
+                            .toString() ??
+                            '';
+                      },
+                      title: 'City',
+                      listItem: controller.cityModel?.data?.map((e) => e.name).toList(),
+                    );
+                  },
+                ),
                 // if(showReferral==true )
                 // const Padding(
                 //   padding: EdgeInsets.only(bottom: 12),
@@ -430,7 +485,7 @@ class _LoginState extends State<Login> {
           firstName: nameCtrl.text,
           lastName: lastNameCtrl.text,
           referralCode: referralCodeCtrl.text,
-          address: addressCtrl.text, countryCode: countryCode);
+          address: 'pali', countryCode: countryCode);
     }
 
 

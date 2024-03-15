@@ -43,7 +43,6 @@ Future main() async {
     //   builder: (context) => MultiProvider(
     //     providers: [
     //       ChangeNotifierProvider(create: (context) => DashboardController()),
-    //       ChangeNotifierProvider(create: (context) => LocationController()),
     //       ChangeNotifierProvider(create: (context) => ThemeController()),
     //       ChangeNotifierProvider(create: (context) => LocalizationController()),
     //       ChangeNotifierProvider(create: (context) => LocalDatabase()),
@@ -53,10 +52,17 @@ Future main() async {
     //       ChangeNotifierProvider(create: (context) => GuestControllers()),
     //       ChangeNotifierProvider(create: (context) => FeedsController()),
     //       ChangeNotifierProvider(create: (context) => MembersController()),
+    //       ChangeNotifierProvider(create: (context) => TrainingControllers()),
+    //       ChangeNotifierProvider(create: (context) => EventsControllers()),
+    //       ChangeNotifierProvider(create: (context) => DemoController()),
+    //       ChangeNotifierProvider(create: (context) => ListsControllers()),
+    //       ChangeNotifierProvider(create: (context) => CheckDemoController()),
+    //       ChangeNotifierProvider(create: (context) => DownloadState()),
+    //       ChangeNotifierProvider(create: (context) => FilterController()),
     //     ],
     //     child: const MyApp(),
     //   ), // Wrap your app
-    // ),);
+    // ),
 
     MultiProvider(
       providers: [

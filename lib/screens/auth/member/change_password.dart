@@ -58,7 +58,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: GradientText(
-                    'Your identity has been verified!\nset your new password ',
+                    'Thank you for your verification! Please\nset a new password.',
                     gradient: primaryGradient,
                     style: const TextStyle(
                       color: Colors.white,

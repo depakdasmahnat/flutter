@@ -248,15 +248,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Think Big',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: GoogleFonts.urbanist().fontFamily,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                          ),
+                        CustomeText(
+                          text: 'Think Big',
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
                         ),
+                        // Text(
+                        //   'Think Big',
+                        //   style: TextStyle(
+                        //    fontStyle: FontStyle.italic,
+                        //
+                        //     color: Colors.black,
+                        //     fontFamily: GoogleFonts.urbanist().fontFamily,
+                        //     fontWeight: FontWeight.bold,
+                        //     fontSize: 22,
+                        //   ),
+                        // ),
                       ],
                     ),
                   );

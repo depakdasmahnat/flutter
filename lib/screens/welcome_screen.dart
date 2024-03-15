@@ -107,7 +107,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onTap: () {
                     context.pushNamed(Routs.memberLogin);
                   },
-                  title: 'Login as a Member',
+                  title: 'Login as a Team Partner',
                 ),
                 SizedBox(
                   height: size.height * 0.04,

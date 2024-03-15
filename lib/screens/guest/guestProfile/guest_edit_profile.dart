@@ -653,6 +653,7 @@ class CustomDropdown extends StatelessWidget {
   String? selectedItem;
   bool? showSearchBox;
   TextEditingController? controller;
+  EdgeInsetsGeometry? padding;
   final void Function(dynamic)? onChanged;
 
   CustomDropdown({
@@ -665,6 +666,7 @@ class CustomDropdown extends StatelessWidget {
     this.selectedItem,
     this.mandatory,
     this.showSearchBox,
+    this.padding,
     super.key,
   });
 
@@ -672,15 +674,15 @@ class CustomDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(9),
+      padding: padding??const EdgeInsets.all(9),
       child: Container(
-        decoration: ShapeDecoration(
+     
+        decoration: BoxDecoration(
           color: const Color(0xFF1B1B1B),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
+          borderRadius: BorderRadius.circular(16)
         ),
-        child: Column(
+        child:
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -721,11 +723,12 @@ class CustomDropdown extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: DropdownSearch<String>(
+                
                 dropdownButtonProps: const DropdownButtonProps(
                     padding: EdgeInsets.only(bottom: 10),
                     icon: Icon(
                       CupertinoIcons.chevron_down,
-                      size: 18,
+                      size: 16,
                     )),
                 // selectedItem: selectedItem,
                 popupProps: PopupProps.menu(
@@ -744,8 +747,12 @@ class CustomDropdown extends StatelessWidget {
                     contentPadding: const EdgeInsets.only(
                       left: 7,
                       top: 7,
+                     
                     ),
+                    constraints: BoxConstraints.loose(Size.fromHeight(size.height*0.055)),
                     border: InputBorder.none,
+
+                    
                     hintText: hintText ?? 'Select Gender',
                   ),
                 ),
