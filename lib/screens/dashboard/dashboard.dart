@@ -17,7 +17,7 @@ import '../../core/services/database/local_database.dart';
 import '../../models/dashboard/dashboard_data.dart';
 import '../../utils/widgets/gradient_text.dart';
 import '../../utils/widgets/widgets.dart';
-import '../member/profile/member_edit_profile.dart';
+
 import 'drawer.dart';
 import 'more_menu.dart';
 

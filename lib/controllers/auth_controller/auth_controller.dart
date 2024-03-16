@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mrwebbeast/core/constant/enums.dart';
+
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/models/auth_model/guest_data.dart';
 import 'package:provider/provider.dart';
@@ -12,15 +12,15 @@ import '../../core/route/route_paths.dart';
 import '../../core/services/api/api_service.dart';
 import '../../core/services/database/local_database.dart';
 import '../../models/auth_model/validatemobile.dart';
-import '../../models/auth_model/fetchinterestcategory.dart';
+
 import '../../models/auth_model/fetchinterestquestions.dart';
 import '../../models/auth_model/sendotp.dart';
-import '../../models/auth_model/validatemobile.dart';
+
 import '../../models/auth_model/verifyotp.dart';
 import '../../models/default/default_model.dart';
 import '../../screens/auth/verify_otp.dart';
 import '../../utils/widgets/widgets.dart';
-import '../dashboard/dashboard_controller.dart';
+
 
 class AuthControllers extends ChangeNotifier {
   /// 0)  SignOut User....
@@ -94,7 +94,8 @@ class AuthControllers extends ChangeNotifier {
     required String? mobile,
     required String? firstName,
     required String? lastName,
-    required String? address,
+    required String? cityId,
+    required String? stateId,
     required String? referralCode,
     required String? countryCode,
   }) async {
@@ -104,7 +105,8 @@ class AuthControllers extends ChangeNotifier {
       'mobile': '$mobile',
       'first_name': '$firstName',
       'last_name': '$lastName',
-      'city': '$address',
+      'city': '$cityId',
+      'state': '$stateId',
       'referral_code': '$referralCode',
       'country_code': '$countryCode',
     };
@@ -133,7 +135,8 @@ class AuthControllers extends ChangeNotifier {
                 isMobileValidated: '${responseData?.data?.isMobileValidated}',
                 lastName: responseData?.data?.lastName,
                 mobileNo: responseData?.data?.mobile,
-                address: responseData?.data?.address,
+                cityId: responseData?.data?.city,
+                stateID:  responseData?.data?.state,
                 countryCode:responseData?.data?.countryCode ,
                 referralCode: responseData?.data?.referralCode,
 
@@ -156,7 +159,8 @@ class AuthControllers extends ChangeNotifier {
     required String? firstName,
     required String? lastName,
     required String? referralCode,
-    required String? address,
+    required String? cityId,
+    required String? stateId,
     required String? countryCode,
     required String? otp,
   }) async {
@@ -168,7 +172,8 @@ class AuthControllers extends ChangeNotifier {
       'last_name': '$lastName',
       'referral_code': '$referralCode',
       // 'city': '$address',
-      'city': '$address',
+      'city': '$cityId',
+      'state': '$stateId',
       'country_code':'$countryCode',
       'otp': '$otp',
     };

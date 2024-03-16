@@ -2,33 +2,23 @@ import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-
 import 'package:mrwebbeast/utils/widgets/appbar.dart';
-
 import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../../core/config/app_assets.dart';
-
 import '../../../utils/widgets/gradient_text.dart';
-
 import '../guest_check_demo/guest_check_demo_Step1.dart';
 import '../guest_check_demo/guest_check_demo_step2.dart';
 import '../guest_check_demo/guest_check_demo_step3.dart';
 import '../guest_check_demo/guest_check_demo_step4.dart';
-import '../guest_check_demo/textMotion.dart';
-
 class GuestNewCheckDemo extends StatefulWidget {
   const GuestNewCheckDemo({super.key});
   @override
   State<GuestNewCheckDemo> createState() => _GuestNewCheckDemoState();
 }
-
 class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
-
   Color? inactiveColor =const Color(0xFF3D3D3D);
   @override
   void initState() {
@@ -80,7 +70,6 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
         builder: (context, controller, child) {
           return
             Column(
-
             children: [
               EasyStepper(
                 activeStep:controller.stepIndex,
@@ -252,6 +241,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                           return controller.guestCheckDemoLoader==false?
                           const LoadingScreen() :
                           // GtpVideo( videoLink: controller.guestCheckDemoVideoAndStep?.data?[0].link,);
+                          //  const GuestCheckDemoStep1(video:'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',videoType: true,);
                            GuestCheckDemoStep1(video:controller.guestCheckDemoVideoAndStep?.data?[0].link??'',videoType: true,);
                         },
                            ),

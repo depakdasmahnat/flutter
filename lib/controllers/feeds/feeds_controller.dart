@@ -9,8 +9,7 @@ import '../../app.dart';
 import '../../core/config/api_config.dart';
 import '../../core/services/api/api_service.dart';
 import '../../models/feeds/comments_model.dart';
-import '../../models/feeds/feed_details_model.dart';
-import '../../models/feeds/feed_details_model.dart';
+
 import '../../models/feeds/feeds_data.dart';
 import '../../models/feeds/feeds_model.dart';
 import '../../utils/widgets/widgets.dart';

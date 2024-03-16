@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
+
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
-import 'package:mrwebbeast/core/route/route_paths.dart';
+
 import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
@@ -13,14 +11,14 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../controllers/member/member_controller/demo_controller.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../models/feeds/feeds_data.dart';
+
 import '../../../models/member/demo/demo_model.dart';
 import '../../../utils/custom_menu_popup.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../guest/guestProfile/guest_faq.dart';
-import '../../member/feeds/feeds_card.dart';
+
 
 class DemosScreen extends StatefulWidget {
   const DemosScreen({super.key});
@@ -240,7 +238,7 @@ class DemoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+
 
     return Container(
       decoration: decoration,

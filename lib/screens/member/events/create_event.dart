@@ -1,16 +1,15 @@
 import 'dart:io';
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
+
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
-import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';

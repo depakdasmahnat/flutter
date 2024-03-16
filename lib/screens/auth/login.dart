@@ -455,6 +455,8 @@ class _LoginState extends State<Login> {
       nameCtrl.text = validate?.data?.firstName ?? '';
       lastNameCtrl.text = validate?.data?.lastName ?? '';
       addressCtrl.text = validate?.data?.address ?? '';
+      cityId =validate?.data?.cityId.toString() ?? '';
+      stateId =validate?.data?.stateId.toString() ?? '';
       checkValidate = false;
       forReferral = true;
       showReferral = false;
@@ -485,7 +487,9 @@ class _LoginState extends State<Login> {
           firstName: nameCtrl.text,
           lastName: lastNameCtrl.text,
           referralCode: referralCodeCtrl.text,
-          address: 'pali', countryCode: countryCode);
+          cityId: cityId,
+          stateId:stateId,
+          countryCode: countryCode);
     }
 
 

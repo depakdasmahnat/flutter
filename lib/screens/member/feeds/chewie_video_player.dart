@@ -55,7 +55,7 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
       chewieController = ChewieController(
           videoPlayerController: videoPlayerController!,
           autoPlay: true,
-          looping: true,
+          // looping: true,
           zoomAndPan: true,
           showOptions: false,
           materialProgressColors: ChewieProgressColors(
@@ -63,16 +63,18 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
               bufferedColor: Colors.green.withOpacity(0.3),
               playedColor: Colors.white));
       chewieController?.videoPlayerController.addListener(() {
+        print("video player ${videoPlayerController!.value.duration}");
+        print("video player ${videoPlayerController!.value.position}");
         videoPlayerController?.value = videoPlayerController!.value;
         if (videoPlayerController!.value.position >= videoPlayerController!.value.duration) {
-          print("check on complete");
+         widget.onCompleted?.call();
         }
       });
 
       setState(() {
 
       });
-
+      // playVideo();
       // videoPlayerController?.addListener(() {
       //   if (videoPlayerController!.value.position >=
       //       videoPlayerController!.value.duration) {

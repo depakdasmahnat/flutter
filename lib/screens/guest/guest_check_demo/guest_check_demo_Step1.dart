@@ -2,6 +2,7 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:provider/provider.dart';
+// import 'package:video_player/video_player.dart';
 // import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 // import '../../member/feeds/chewie_video_player.dart';
 // import '../../member/feeds/youtube_video_player.dart';
@@ -150,7 +151,23 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return  Scaffold(
-//       body:
+//       body: ChewieVideoPlayerCard(
+//         url: widget.video,
+//         borderRadius: 18,
+//         onCompleted: () {
+//           print('check complete video');
+//           // if(widget.jumpType=='3'){
+//           //   context.read<CheckDemoController>().nextPage(3);
+//           // }else if(widget.jumpType=='4'){
+//           //   context.read<CheckDemoController>().nextPage(5);
+//           //   context.read<CheckDemoController>().addIndex(5,'');
+//           // }
+//           // else{
+//           //   context.read<CheckDemoController>().nextPage(1);
+//           // }
+//
+//         },
+//       ),
 //       // Center(
 //       //   child: VisibilityDetector(
 //       //     key: const ObjectKey('ytVideoPlayer'),
@@ -185,50 +202,50 @@
 //       //     ),
 //       //   ),
 //       // )
-//       widget.videoType==true?
+//       // widget.videoType==true?
 // //       Center(
-//         child: ChewieVideoPlayerCard(
-//           url: widget.video,
-//           borderRadius: 18,
-//           onCompleted: () {
-//             // if(widget.jumpType=='3'){
-//             //   context.read<CheckDemoController>().nextPage(3);
-//             // }else if(widget.jumpType=='4'){
-//             //   context.read<CheckDemoController>().nextPage(5);
-//             //   context.read<CheckDemoController>().addIndex(5,'');
-//             // }
-//             // else{
-//             //   context.read<CheckDemoController>().nextPage(1);
-//             // }
-//
-//           },
-//         ),
-//       )
-//           :
-//       Center(
-//         child: IgnorePointer(
-//           ignoring: true,
-//           child: YoutubeVideoPlayerCard(
-//             // showControls: true,
-//             url: widget.video,
-//             // url: 'https://www.youtube.com/watch?v=AGKk7CvQRd8',
-//
-//           borderRadius: 0,
-//             onCompleted: () {
-//               if(widget.jumpType=='3'){
-//                 context.read<CheckDemoController>().nextPage(3);
-//               }else if(widget.jumpType=='4'){
-//                 context.read<CheckDemoController>().nextPage(5);
-//                 context.read<CheckDemoController>().addIndex(5,'');
-//               }
-//               else{
-//                 context.read<CheckDemoController>().nextPage(1);
-//               }
-//
-//             },
-//           ),
-//         ),
-//       )
+// //         child: ChewieVideoPlayerCard(
+// //           url: widget.video,
+// //           borderRadius: 18,
+// //           onCompleted: () {
+// //             // if(widget.jumpType=='3'){
+// //             //   context.read<CheckDemoController>().nextPage(3);
+// //             // }else if(widget.jumpType=='4'){
+// //             //   context.read<CheckDemoController>().nextPage(5);
+// //             //   context.read<CheckDemoController>().addIndex(5,'');
+// //             // }
+// //             // else{
+// //             //   context.read<CheckDemoController>().nextPage(1);
+// //             // }
+// //
+// //           },
+// //         ),
+// //       );
+// //           :
+// //       Center(
+// //         child: IgnorePointer(
+// //           ignoring: true,
+// //           child: YoutubeVideoPlayerCard(
+// //             // showControls: true,
+// //             url: widget.video,
+// //             // url: 'https://www.youtube.com/watch?v=AGKk7CvQRd8',
+// //
+// //           borderRadius: 0,
+// //             onCompleted: () {
+// //               if(widget.jumpType=='3'){
+// //                 context.read<CheckDemoController>().nextPage(3);
+// //               }else if(widget.jumpType=='4'){
+// //                 context.read<CheckDemoController>().nextPage(5);
+// //                 context.read<CheckDemoController>().addIndex(5,'');
+// //               }
+// //               else{
+// //                 context.read<CheckDemoController>().nextPage(1);
+// //               }
+// //
+// //             },
+// //           ),
+// //         ),
+// //       )
 //       // Chewie(
 //       //   controller: chewieController!,
 //       // ),
@@ -250,7 +267,12 @@ class GuestCheckDemoStep1 extends StatefulWidget {
   final bool? videoType;
   final PageController? pageController;
   final String? jumpType;
-  const GuestCheckDemoStep1({super.key,this.video,this.videoType,this.pageController,this.jumpType});
+  const GuestCheckDemoStep1(
+      {super.key,
+      this.video,
+      this.videoType,
+      this.pageController,
+      this.jumpType});
 
   @override
   State<GuestCheckDemoStep1> createState() => _GuestCheckDemoStep1State();
@@ -262,7 +284,6 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
   Future initVideo() async {
     // disposeVideo();
     if (widget.video != null) {
-
       videoPlayerController = VideoPlayerController.networkUrl(Uri.parse('${widget.video}'));
     }
     await videoPlayerController?.initialize();
@@ -270,7 +291,7 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
       chewieController = ChewieController(
           videoPlayerController: videoPlayerController!,
           autoPlay: true,
-          looping: true,
+          // looping: true,
           zoomAndPan: true,
           showOptions: false,
           materialProgressColors: ChewieProgressColors(
@@ -278,34 +299,35 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
               bufferedColor: Colors.green.withOpacity(0.3),
               playedColor: Colors.white));
       chewieController?.videoPlayerController.addListener(() {
-        print("check videos");
-        chewieController!.videoPlayerController?.value = chewieController!.videoPlayerController!.value;
-        if (chewieController!.videoPlayerController!.value.position >= chewieController!.videoPlayerController!.value.duration) {
-          print("check complete");
-          if(widget.jumpType=='3'){
+        print('check videos ${chewieController?.videoPlayerController.value.duration}');
+        print('check videos ${chewieController?.videoPlayerController.value.position}');
+        // print("check complete ${chewieController?.videoPlayerController!.duration}");
+        // chewieController!.videoPlayerController?.value = chewieController!.videoPlayerController!.value;
+        // if (chewieController?. == false) {
+        //   print("check complete");
+        //   if (widget.jumpType == '3') {
+        //     context.read<CheckDemoController>().nextPage(3);
+        //   } else if (widget.jumpType == '4') {
+        //     context.read<CheckDemoController>().nextPage(5);
+        //     context.read<CheckDemoController>().addIndex(5, '');
+        //   } else {
+        //     context.read<CheckDemoController>().nextPage(1);
+        //   }
+        // }
+        if (chewieController!.videoPlayerController.value.position >= chewieController!.videoPlayerController.value.duration) {
+          print('complete video ${chewieController!.videoPlayerController!.value.position}');
+          if (widget.jumpType == '3') {
             context.read<CheckDemoController>().nextPage(3);
-          }else if(widget.jumpType=='4'){
+          } else if (widget.jumpType == '4') {
             context.read<CheckDemoController>().nextPage(5);
-            context.read<CheckDemoController>().addIndex(5,'');
-          }
-          else{
+            context.read<CheckDemoController>().addIndex(5, '');
+          } else {
             context.read<CheckDemoController>().nextPage(1);
           }
         }
       });
-
-
       setState(() {});
-      // videoPlayerController?.addListener(() {
-      //   if (videoPlayerController!.value.position >=
-      //       videoPlayerController!.value.duration) {
-      //     widget.onCompleted!();
-      //   }
-      //   if (context.mounted) {
-      //     setState(() {});
-      //   }
-      // });
-      // playVideo();
+
     }
   }
   @override
@@ -317,44 +339,40 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
   Future disposeVideo() async {
     if (videoPlayerController?.value.isInitialized == true) {
       videoPlayerController?.removeListener(() {});
-
       await videoPlayerController?.dispose();
       chewieController?.dispose();
     }
   }
+
   @override
   void dispose() {
     super.dispose();
     disposeVideo();
     videoPlayerController = null;
   }
+
   @override
   Widget build(BuildContext context) {
-    return   Container(
+    return Container(
       color: Colors.black,
-      child: (videoPlayerController?.value.isInitialized == true)
+      child:
+      (videoPlayerController?.value.isInitialized == true)
           ? GestureDetector(
-        onTap: () {
-          // if (widget.type == true) {
-          //   context.read<CheckDemoController>().videoCount(
-          //     context: context,
-          //     demoId: '${widget.demoId}',
-          //   );
-          // }
-          // playVideo();
-        },
-        child: AspectRatio(
-          aspectRatio:  16 / 9,
-          child: Chewie(
-            controller: chewieController!,
-          ),
-        ),
-      )
+              onTap: () {
+
+              },
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Chewie(
+                  controller: chewieController!,
+                ),
+              ),
+            )
           : const AspectRatio(
-        aspectRatio: 16 / 9,
-        child: CupertinoActivityIndicator(radius: 18, color: primaryColor),
-      ),
+              aspectRatio: 16 / 9,
+              child:
+                  CupertinoActivityIndicator(radius: 18, color: primaryColor),
+            ),
     );
   }
 }
-

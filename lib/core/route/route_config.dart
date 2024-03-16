@@ -283,7 +283,8 @@ class RoutesConfig {
                 referralCode: data?.referralCode,
                 isMobileValidated: data?.isMobileValidated,
                 firstName: data?.firstName,
-                address: data?.address,
+                stateID: data?.stateID,
+                cityId: data?.cityId,
                 goBack: data?.goBack,
               ));
         },

@@ -17,19 +17,19 @@ import '../../../core/constant/enums.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/dashboard/dashboard_data.dart';
 import '../../../models/member/dashboard/traning_progress_model.dart';
-import '../../../models/member/training/chapters_model.dart';
+
 import '../../../models/member/training/training_categories_model.dart';
-import '../../../utils/widgets/custom_text_field.dart';
+
 import '../../../utils/widgets/gradient_button.dart';
-import '../../../utils/widgets/gradient_progress_bar.dart';
+
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../../../utils/widgets/training_progress.dart';
-import '../../dashboard/dashboard.dart';
+
 import '../../guest/home/home_screen.dart';
 import '../home/member_dashboard.dart';
-import 'chapter_details.dart';
+
 
 class TrainingScreen extends StatefulWidget {
   const TrainingScreen({super.key});
@@ -40,9 +40,7 @@ class TrainingScreen extends StatefulWidget {
 
 class _TrainingScreenState extends State<TrainingScreen> {
   TextEditingController searchController = TextEditingController();
-
   List<TrainingCategoryData>? trainingCategories;
-
   Future fetchTrainings({bool? loadingNext}) async {
     return await context.read<TrainingControllers>().fetchTrainings(
           basic: tabIndex == 0,

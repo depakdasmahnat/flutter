@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mrwebbeast/core/config/app_assets.dart';
+
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../core/constant/constant.dart';
 import '../../../models/member/dashboard/achievers_model.dart';
 
 class AchieversTable extends StatefulWidget {

@@ -2,17 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
-import 'package:mrwebbeast/core/constant/colors.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
-import 'package:provider/provider.dart';
-
-import '../../../controllers/check_demo_controller/check_demo_controller.dart';
-import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../models/member/dashboard/traning_progress_model.dart';
-import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/training_progress.dart';
 import '../../guest/home/guest_profiles.dart';
@@ -37,7 +30,7 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: ListView(
         shrinkWrap: true,

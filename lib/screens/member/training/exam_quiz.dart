@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
-import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
+
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/training/training_controller.dart';
-import '../../../core/route/route_paths.dart';
+
 import '../../../models/member/training/quiz_model.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/loading_screen.dart';

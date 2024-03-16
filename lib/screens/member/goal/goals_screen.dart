@@ -6,7 +6,7 @@ import 'package:mrwebbeast/controllers/member/member_auth_controller.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
-import 'package:mrwebbeast/core/constant/enums.dart';
+
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/models/member/goals/goals_model.dart';

@@ -16,15 +16,15 @@ import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../utils/custom_menu_popup.dart';
+
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
-import '../../guest/guestProfile/guest_edit_profile.dart';
+
 import '../home/member_profile_details.dart';
-import '../profile/profile.dart';
+
 
 class PartnerGoalsScreen extends StatefulWidget {
   const PartnerGoalsScreen({

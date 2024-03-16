@@ -2,11 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
-import 'package:mrwebbeast/core/route/route_paths.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
-import '../../../core/config/app_assets.dart';
+
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/image_view.dart';
 

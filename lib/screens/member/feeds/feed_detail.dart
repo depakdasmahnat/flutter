@@ -1,22 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mrwebbeast/core/constant/enums.dart';
-import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+
 import 'package:mrwebbeast/core/services/database/local_database.dart';
-import 'package:mrwebbeast/screens/member/feeds/feeds_card.dart';
+
 import 'package:mrwebbeast/utils/widgets/custom_back_button.dart';
 import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:mrwebbeast/utils/widgets/no_data_found.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 import '../../../controllers/feeds/feeds_controller.dart';
-import '../../../core/config/app_assets.dart';
-import '../../../core/constant/constant.dart';
 import '../../../models/feeds/comments_model.dart';
 import '../../../models/feeds/feeds_data.dart';
-import '../../../utils/widgets/image_view.dart';
+
 import 'feed_details_card.dart';
 
 class FeedDetail extends StatefulWidget {

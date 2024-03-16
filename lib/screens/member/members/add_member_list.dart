@@ -1,24 +1,18 @@
 import 'dart:io';
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_switch/flutter_advanced_switch.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:provider/provider.dart';
-
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../core/route/route_paths.dart';
-
 import '../../../core/services/database/local_database.dart';
 import '../../../models/member/auth/member_data.dart';
 import '../../../utils/widgets/appbar.dart';
@@ -26,7 +20,7 @@ import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_edit_profile.dart';
 import '../../guest/guestProfile/guest_faq.dart';
-import '../demo/create_demo.dart';
+
 
 class AddMemberList extends StatefulWidget {
   const AddMemberList({super.key});

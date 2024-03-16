@@ -57,7 +57,7 @@ class _BannersState extends State<Banners> {
   @override
   Widget build(BuildContext context) {
     MemberData? memberData = context.read<LocalDatabase>().member;
-    Size size = MediaQuery.of(context).size;
+
     return Consumer<GuestControllers>(
       builder: (context, controller, child) {
         return controller.banner?.data?.isNotEmpty == true

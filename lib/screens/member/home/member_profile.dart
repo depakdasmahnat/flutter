@@ -449,7 +449,7 @@ class Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+
     return Container(
       // width: 398,
       // height: 232,

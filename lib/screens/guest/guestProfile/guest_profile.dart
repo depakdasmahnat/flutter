@@ -10,19 +10,16 @@ import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_string_extension.d
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-
 import '../../../controllers/guest_controller/guest_controller.dart';
-
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/config/app_config.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../core/services/database/local_database.dart';
-
 import '../../../utils/widgets/social_links.dart';
 import '../../../utils/widgets/web_view_screen.dart';
 import '../../../utils/widgets/widgets.dart';
-import '../../member/home/member_profile.dart';
+
 import 'guest_faq.dart';
 
 class GuestProfile extends StatefulWidget {

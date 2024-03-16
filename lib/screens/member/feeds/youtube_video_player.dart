@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mrwebbeast/core/constant/constant.dart';
+
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
-import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
-import 'package:mrwebbeast/utils/widgets/widgets.dart';
+
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 

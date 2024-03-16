@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 
 import '../../models/dashboard/color_grades.dart';
-import '../../screens/member/network/pinnacle_list_table.dart';
+
 import '../../screens/member/report/guest_report_table.dart';
-import '../../screens/member/report/partner_report_table.dart';
+
 import 'colors.dart';
 
 const double kPadding = 16;

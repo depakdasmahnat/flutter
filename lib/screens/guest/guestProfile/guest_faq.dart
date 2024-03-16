@@ -8,8 +8,7 @@ import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../models/auth_model/fetchinterestcategory.dart';
 import '../../../utils/widgets/appbar.dart';
-import '../../../utils/widgets/custom_text_field.dart';
-import '../../../utils/widgets/image_view.dart';
+
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
 import '../guest_check_demo/guest_check_demo_step2.dart';

@@ -6,7 +6,7 @@ import 'package:html/parser.dart' show parse;
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
-import 'package:mrwebbeast/screens/member/feeds/video_player.dart';
+
 import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_opener.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';

@@ -20,7 +20,8 @@ class VerifyOTP extends StatefulWidget {
       this.lastName,
       this.mobileNo,
       this.referralCode,
-      this.address,
+      this.cityId,
+      this.stateID,
       this.countryCode,
       this.goBack});
 
@@ -29,7 +30,8 @@ class VerifyOTP extends StatefulWidget {
   final String? lastName;
   final String? mobileNo;
   final String? referralCode;
-  final String? address;
+  final String? cityId;
+  final String? stateID;
   final String? countryCode;
   final bool? goBack;
 
@@ -267,7 +269,8 @@ class _VerifyOTPState extends State<VerifyOTP> {
           firstName: widget.firstName,
           lastName: widget.lastName,
           referralCode: widget.referralCode,
-          address: widget.address,
+          cityId: widget.cityId,
+          stateId:widget.stateID ,
           otp: otp, countryCode: widget.countryCode);
       setState(() {});
     } else {

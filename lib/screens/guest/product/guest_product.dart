@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../utils/widgets/appbar.dart';
-import '../../../utils/widgets/image_view.dart';
+
 import 'guest_product_details.dart';
 
 class GuestPoduct extends StatefulWidget {

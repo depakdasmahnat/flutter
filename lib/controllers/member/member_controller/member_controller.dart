@@ -8,7 +8,7 @@ import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/core/services/database/local_database.dart';
 import 'package:mrwebbeast/models/member/dashboard/achievers_model.dart';
 import 'package:mrwebbeast/models/member/profile/member_profile_model.dart';
-import 'package:mrwebbeast/screens/member/home/member_profile_details.dart';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,10 +26,10 @@ import '../../../models/member/downline_rank/fetchDownlineRan.dart';
 import '../../../models/member/fetch_product/fetchProduct.dart';
 import '../../../models/member/getPerformanceChart/getPerformanceChart.dart';
 import '../../../models/member/goals/goals_model.dart';
-import '../../../models/guest_Model/fetchResouresDetailModel.dart';
+
 import '../../../models/member/genrate_referal/genrateReferralModel.dart';
 import '../../../models/member/leads/fetchLeads.dart';
-import '../../../models/member/member_profile/fetchMemberProfileModel.dart';
+
 import '../../../models/member/network/tree_graph_model.dart';
 import '../../../models/member/occupation/fetchOccupationModel.dart';
 import '../../../models/member/sponsor/fetchFacilitatorModel.dart';

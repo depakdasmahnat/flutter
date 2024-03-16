@@ -16,7 +16,7 @@ import '../../../controllers/guest_controller/guest_controller.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
 import '../../../models/feeds/feeds_data.dart';
-import '../../../models/guest_Model/fetchfeedcategoriesmodel.dart';
+
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/loading_screen.dart';

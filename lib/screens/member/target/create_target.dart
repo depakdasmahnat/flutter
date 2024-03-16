@@ -10,13 +10,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
-import 'package:mrwebbeast/utils/widgets/image_view.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../core/route/route_paths.dart';
-import '../../../utils/widgets/appbar.dart';
+
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/custom_text_field.dart';
 import '../../../utils/widgets/gradient_button.dart';

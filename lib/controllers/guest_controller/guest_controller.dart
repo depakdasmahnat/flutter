@@ -24,7 +24,7 @@ import '../../models/guest_Model/fetchResouresDetailModel.dart';
 import '../../models/guest_Model/fetchfeedcategoriesmodel.dart';
 import '../../models/guest_Model/fetchguestproduct.dart';
 import '../../models/guest_Model/fetchnewjoiners.dart';
-import '../../models/guest_Model/fetchproductdetail.dart';
+
 import '../../models/guest_Model/guestDemoModel.dart';
 import '../../models/guest_Model/resourceModel.dart';
 import '../../models/member/faqs/fetchFaqsModel.dart';

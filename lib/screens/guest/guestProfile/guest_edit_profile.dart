@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../controllers/member/member_auth_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
-import '../../../core/services/database/local_database.dart';
+
 import '../../../models/guest_Model/fetchGuestProfile.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/custom_text_field.dart';
