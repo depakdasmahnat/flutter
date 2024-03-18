@@ -82,6 +82,7 @@ class DashboardStatesData {
     this.leadsConversion,
     this.demoScheduled,
     this.demoCompleted,
+    this.invitationCall,
     this.hotLeads,
     this.warmLeads,
     this.coldLeads,
@@ -123,6 +124,7 @@ class DashboardStatesData {
     leadsConversion = json['leadsConversion'];
     demoScheduled = json['demoScheduled'];
     demoCompleted = json['demoCompleted'];
+    invitationCall = json['invitationCall'];
     hotLeads = json['hotLeads'];
     warmLeads = json['warmLeads'];
     coldLeads = json['coldLeads'];
@@ -168,6 +170,7 @@ class DashboardStatesData {
   num? leadsConversion;
   num? demoScheduled;
   num? demoCompleted;
+  num? invitationCall;
   num? hotLeads;
   num? warmLeads;
   num? coldLeads;
@@ -208,6 +211,7 @@ class DashboardStatesData {
     num? leadsConversion,
     num? demoScheduled,
     num? demoCompleted,
+    num? invitationCall,
     num? hotLeads,
     num? warmLeads,
     num? coldLeads,
@@ -248,6 +252,7 @@ class DashboardStatesData {
         leadsConversion: leadsConversion ?? this.leadsConversion,
         demoScheduled: demoScheduled ?? this.demoScheduled,
         demoCompleted: demoCompleted ?? this.demoCompleted,
+        invitationCall: invitationCall ?? this.invitationCall,
         hotLeads: hotLeads ?? this.hotLeads,
         warmLeads: warmLeads ?? this.warmLeads,
         coldLeads: coldLeads ?? this.coldLeads,
@@ -290,6 +295,7 @@ class DashboardStatesData {
     map['leadsConversion'] = leadsConversion;
     map['demoScheduled'] = demoScheduled;
     map['demoCompleted'] = demoCompleted;
+    map['invitationCall'] = invitationCall;
     map['hotLeads'] = hotLeads;
     map['warmLeads'] = warmLeads;
     map['coldLeads'] = coldLeads;

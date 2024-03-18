@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../utils/widgets/loading_screen.dart';
 import '../../../utils/widgets/no_data_found.dart';
+import '../home/member_dashboard.dart';
 import '../members/member_screen.dart';
 
 class TargetScreen extends StatefulWidget {
@@ -72,27 +73,28 @@ class _TargetScreenState extends State<TargetScreen> {
                     children: [
                       Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'My Target',
-                                  style: headingTextStyle(),
-                                ),
-                                GraphDurationFilter(
-                                  value: selectedDuration,
-                                  onChange: (String? val) {
-                                    selectedDuration = val;
-                                    setState(() {});
-                                    fetchTarget();
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Text(
+                          //         'My Target',
+                          //         style: headingTextStyle(),
+                          //       ),
+                          //       GraphDurationFilter(
+                          //         value: selectedDuration,
+                          //         onChange: (String? val) {
+                          //           selectedDuration = val;
+                          //           setState(() {});
+                          //           fetchTarget();
+                          //         },
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           TargetCard(
+                            cardHeading: 'My Sales Target',
                             pendingTarget: num.tryParse('${targetData?.pendingTarget}'),
                             salesTarget: targetData?.salesTarget,
                             achievedTarget: num.tryParse('${targetData?.achievedTarget}'),
@@ -144,9 +146,19 @@ class _TargetScreenState extends State<TargetScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'Monthly Target Graph',
-                                  style: headingTextStyle(),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Monthly Target',
+                                      style: headingTextStyle(),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    GraphPercentage(
+                                      performance: targetData?.performance,
+                                    )
+                                  ],
                                 ),
                                 IconButton(
                                   onPressed: () {
@@ -173,55 +185,56 @@ class _TargetScreenState extends State<TargetScreen> {
                       ),
                       Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Pinnacle target',
-                                  style: headingTextStyle(),
-                                ),
-                                // GraphDurationFilter(
-                                //   value: selectedDuration,
-                                //   onChange: (String? val) {
-                                //     selectedDuration = val;
-                                //     setState(() {});
-                                //     fetchTarget();
-                                //   },
-                                // ),
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //     children: [
+                          //       Text(
+                          //         'Pinnacle target',
+                          //         style: headingTextStyle(),
+                          //       ),
+                          //       // GraphDurationFilter(
+                          //       //   value: selectedDuration,
+                          //       //   onChange: (String? val) {
+                          //       //     selectedDuration = val;
+                          //       //     setState(() {});
+                          //       //     fetchTarget();
+                          //       //   },
+                          //       // ),
+                          //     ],
+                          //   ),
+                          // ),
                           TargetCard(
+                            cardHeading: 'Pinnacle target',
                             pendingTarget: num.tryParse('${targetData?.pinnaclePendingTarget}'),
                             salesTarget: targetData?.pinnacleSalesTarget,
                             achievedTarget: num.tryParse('${targetData?.pinnacleAchievedTarget}'),
-                            more: GestureDetector(
-                              onTap: () {
-                                context.pushNamed(Routs.createTarget);
-                              },
-                              child: const Row(
-                                children: [
-                                  Icon(
-                                    Icons.edit,
-                                    size: 14,
-                                    color: Colors.black,
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 4, right: 8),
-                                    child: Text(
-                                      'Edit',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // more: GestureDetector(
+                            //   onTap: () {
+                            //     context.pushNamed(Routs.createTarget);
+                            //   },
+                            //   child: const Row(
+                            //     children: [
+                            //       Icon(
+                            //         Icons.edit,
+                            //         size: 14,
+                            //         color: Colors.black,
+                            //       ),
+                            //       Padding(
+                            //         padding: EdgeInsets.only(left: 4, right: 8),
+                            //         child: Text(
+                            //           'Edit',
+                            //           style: TextStyle(
+                            //             color: Colors.black,
+                            //             fontSize: 12,
+                            //             fontWeight: FontWeight.w400,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ),
 
                           // Padding(

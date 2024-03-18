@@ -148,6 +148,13 @@ class _DashboardMoreMenuState extends State<DashboardMoreMenu> {
                 context.pushNamed(Routs.createTarget);
               },
             ),
+            MenuButton(
+              title: 'Create New Goal',
+              image: AppAssets.goalIcon,
+              onTap: () {
+                context.pushNamed(Routs.createGoal);
+              },
+            ),
 
           ],
         ),

@@ -60,6 +60,7 @@ class TargetData {
     this.pendingRankTarget,
     this.conversionRatio,
     this.analytics,
+    this.performance,
     this.pinnaclePendingTarget,
     this.pinnacleSalesTarget,
     this.pinnacleAchievedTarget,
@@ -70,6 +71,7 @@ class TargetData {
     salesTarget = json['sales_target'];
     achievedTarget = json['achieved_target'];
     status = json['status'];
+    performance = json['performance'];
     currentRank = json['current_rank'];
     targetRank = json['target_rank'];
     pendingRankTarget = json['pending_rank_target'];
@@ -88,6 +90,7 @@ class TargetData {
   num? pendingTarget;
   num? salesTarget;
   num? achievedTarget;
+  num? performance;
   String? status;
   String? currentRank;
   String? targetRank;
@@ -108,6 +111,7 @@ class TargetData {
     String? targetRank,
     num? pendingRankTarget,
     num? conversionRatio,
+    num? performance,
     List<DashboardAnalytics>? analytics,
     num? pinnaclePendingTarget,
     num? pinnacleSalesTarget,
@@ -123,6 +127,7 @@ class TargetData {
         pendingRankTarget: pendingRankTarget ?? this.pendingRankTarget,
         conversionRatio: conversionRatio ?? this.conversionRatio,
         analytics: analytics ?? this.analytics,
+        performance: performance ?? this.performance,
         pinnaclePendingTarget: pinnaclePendingTarget ?? this.pinnaclePendingTarget,
         pinnacleSalesTarget: pinnacleSalesTarget ?? this.pinnacleSalesTarget,
         pinnacleAchievedTarget: pinnacleAchievedTarget ?? this.pinnacleAchievedTarget,
@@ -134,6 +139,7 @@ class TargetData {
     map['sales_target'] = salesTarget;
     map['achieved_target'] = achievedTarget;
     map['status'] = status;
+    map['performance'] = performance;
     map['current_rank'] = currentRank;
     map['target_rank'] = targetRank;
     map['pending_rank_target'] = pendingRankTarget;

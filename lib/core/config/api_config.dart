@@ -75,6 +75,7 @@ class ApiEndpoints {
   static const String downLineMemberList = 'downline_member_list';
   static const String scheduledDemo = 'schedule_demo';
   static const String fetchDashboardStats = 'fetch_dashboard_stats';
+  static const String fetchMemberState = 'get_member_stats_data';
   static const String generateReferralLink = 'generate_referral_link';
   static const String fetchMemberProfile = 'fetch_member_profile';
   static const String guestProfile = 'guest_profile';

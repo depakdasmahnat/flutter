@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/controllers/member/member_controller/member_controller.dart';
@@ -6,6 +7,7 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/screens/guest/guest_check_demo/guest_check_demo_step2.dart';
 import 'package:mrwebbeast/screens/member/home/duration_popup.dart';
 import 'package:mrwebbeast/screens/member/home/performance_graph.dart';
 import 'package:mrwebbeast/utils/widgets/custom_bottom_sheet.dart';
@@ -16,6 +18,7 @@ import '../../../core/route/route_paths.dart';
 import '../../../models/dashboard/dashboard_data.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 
+import '../../../models/member/fetch_member_state_data/fetchMemberStateModel.dart';
 import '../../../utils/widgets/custom_back_button.dart';
 import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/loading_screen.dart';
@@ -36,7 +39,12 @@ class MemberDashBoard extends StatefulWidget {
 
 class _MemberDashBoardState extends State<MemberDashBoard> {
   late num? memberId = widget.memberId;
-
+  List<String> tabs = [
+    'This Week',
+    'This Month',
+    'This Year',
+  ];
+  String? filter;
   final List<DashboardData> bottomNabBarItems = [
     DashboardData(
       title: 'My Dashboard',
@@ -45,7 +53,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
       widget: const HomeScreen(),
     ),
     DashboardData(
-      title: 'My Members',
+      title: 'My Partners',
       activeImage: AppAssets.membersFilledIcon,
       inActiveImage: AppAssets.membersIcon,
       widget: const NoDataFound(),
@@ -54,24 +62,33 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
 
   int dashBoardIndex = 0;
   String? selectedDuration = DurationFilterMenu.monthly.label;
+  String? cardFilter = '';
   TextEditingController searchController = TextEditingController();
   DashboardStatesData? dashboardStatesData;
   List<DashboardAnalytics>? analytics;
   bool showPerformanceGraph = true;
-
-  Future fetchDashboardStates({bool? loadingNext}) async {
+  FetchMemberStateModel? fetchMemberStateDataModel;
+  Future fetchDashboardStates({bool? loadingNext, bool? leadType}) async {
     return await context.read<MembersController>().fetchDashboardStates(
           memberId: memberId,
+          leadType: leadType,
+          cardFilter: cardFilter,
           filter: selectedDuration,
           tab: dashBoardIndex == 0 ? 'Dashboard' : 'Members',
         );
+  }
+  Future fetchMemberState() async {
+    return  await context.read<MembersController>().fetchMemberStateData(filter: cardFilter);
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      fetchMemberState();
       fetchDashboardStates();
+
+
     });
   }
 
@@ -79,7 +96,6 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
     bool myDashboard = dashBoardIndex == 0;
-
     return Consumer<MembersController>(builder: (context, controller, child) {
       dashboardStatesData = controller.dashboardStatesData;
       analytics = dashboardStatesData?.analytics;
@@ -90,8 +106,9 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
           padding: const EdgeInsets.only(bottom: 100),
           children: [
             ClipRRect(
-              borderRadius:
-                  const BorderRadius.only(bottomLeft: Radius.circular(40), bottomRight: Radius.circular(40)),
+              borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(40),
+                  bottomRight: Radius.circular(40)),
               child: Container(
                 height: 200,
                 decoration: BoxDecoration(gradient: primaryGradient),
@@ -127,7 +144,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                             children: [
                               Container(
                                 margin: const EdgeInsets.only(bottom: 4),
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: Colors.white.withOpacity(0.5),
                                   borderRadius: BorderRadius.circular(16),
@@ -158,64 +176,68 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                 ),
               ),
             ),
-            if (controller.loadingDashboardStates)
-              const LoadingScreen(
-                heightFactor: 0.7,
-                message: 'Loading Dashboard...',
-              )
-            else if (dashboardStatesData != null)
+
+            if(controller.loadingDashboardStates)
+              const Center(child: LoadingScreen())
+           else if (dashboardStatesData != null)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          myDashboard ? 'My Target' : 'Members Target',
-                          style: headingTextStyle(),
-                        ),
-                        // GraphDurationFilter(
-                        //   value: selectedDuration,
-                        //   onChange: (String? val) {
-                        //     selectedDuration = val;
-                        //     setState(() {});
-                        //     fetchDashboardStates();
-                        //   },
-                        // ),
-                      ],
-                    ),
-                  ),
+                  // const Padding(
+                  //   padding: EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       // Text(
+                  //       //   myDashboard ? 'My Target' : 'Members Target',
+                  //       //   style: headingTextStyle(),
+                  //       // ),
+                  //       // GraphDurationFilter(
+                  //       //   value: selectedDuration,
+                  //       //   onChange: (String? val) {
+                  //       //     selectedDuration = val;
+                  //       //     setState(() {});
+                  //       //     fetchDashboardStates();
+                  //       //   },
+                  //       // ),
+                  //     ],
+                  //   ),
+                  // ),
                   TargetCard(
-                    pendingTarget: num.tryParse('${dashboardStatesData?.pendingSales}'),
+                    pendingTarget:
+                        num.tryParse('${dashboardStatesData?.pendingSales}'),
                     salesTarget: dashboardStatesData?.salesTarget,
-                    achievedTarget: num.tryParse('${dashboardStatesData?.achievedSales}'),
-                    more: GestureDetector(
-                      onTap: () {
-                        context.pushNamed(Routs.createTarget);
-                      },
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.edit,
-                            size: 14,
-                            color: Colors.black,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 4, right: 8),
-                            child: Text(
-                              'Edit',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                              ),
+                    achievedTarget:
+                        num.tryParse('${dashboardStatesData?.achievedSales}'),
+                    more: myDashboard
+                        ? GestureDetector(
+                            onTap: () {
+                              context.pushNamed(Routs.createTarget);
+                            },
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.edit,
+                                  size: 14,
+                                  color: Colors.black,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 4, right: 8),
+                                  child: Text(
+                                    'Edit',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
+                          )
+                        : null,
+                    cardHeading:
+                        myDashboard ? 'My Sales Target' : 'Partners target',
                   ),
 
                   // Padding(
@@ -236,13 +258,43 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   //   ),
                   // ),
                   Padding(
-                    padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                    padding:
+                        const EdgeInsets.only(left: kPadding, right: kPadding),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          '$selectedDuration Performance Graph',
-                          style: headingTextStyle(),
+                        Row(
+                          children: [
+                            Text(
+                              '$selectedDuration Performance',
+                              style: headingTextStyle(),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            GraphPercentage(
+                              performance:
+                                  dashboardStatesData?.performance ?? 0,
+                            )
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(15),
+                            //     gradient:(dashboardStatesData?.performance??0)<=20?colorGrades [0].gradient:
+                            //     (dashboardStatesData?.performance??0)<=40 &&(dashboardStatesData?.performance??0)>=21 ?colorGrades [1].gradient:
+                            //     (dashboardStatesData?.performance??0)<=60 &&(dashboardStatesData?.performance??0)>=41?colorGrades [2].gradient:
+                            //     (dashboardStatesData?.performance??0)<=80 &&(dashboardStatesData?.performance??0)>=61?colorGrades [3].gradient:
+                            //     colorGrades [4].gradient
+                            //   ),
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.only(left: 8,right: 8,top: 2,bottom: 2),
+                            //     child: CustomText1(
+                            //       text: '${dashboardStatesData?.performance ?? 0}%',
+                            //       fontSize: 14,
+                            //       fontWeight: FontWeight.w700,
+                            //     ),
+                            //   ),
+                            // )
+                          ],
                         ),
                         IconButton(
                           onPressed: () {
@@ -260,18 +312,67 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                   ),
                   if (analytics.haveData && showPerformanceGraph)
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: kPadding, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: PerformanceGraph(
                         analytics: analytics,
                       ),
                     ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: kPadding, vertical: kPadding),
+                    decoration: BoxDecoration(
+                      gradient: inActiveGradient,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Row(
+                      children: tabs.map(
+                        (e) {
+                          bool isSelected = filter == e;
+                          return Expanded(
+                            child: GestureDetector(
+                              onTap: () async {
+                                filter = e;
+                                cardFilter = e;
+                                setState(() {});
+                                fetchMemberState();
+                              },
+                              child: Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  gradient: isSelected ? primaryGradient : null,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    e,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: isSelected
+                                          ? Colors.black
+                                          : Colors.white,
+                                      fontWeight: isSelected
+                                          ? FontWeight.w600
+                                          : FontWeight.w500,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: kPadding),
                     child: Row(
                       children: [
                         AnalyticsCard(
-                          title: 'Lists',
-                          value: '${dashboardStatesData?.leadsAdded ?? 0}',
+                          title: 'Newly\nlisted',
+                          leadType: controller.fetchMemberStateLoader,
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.leadsAdded ?? 0}',
                           gradient: limeGradient,
                           onTap: () async {
                             CustomBottomSheet.show(
@@ -284,30 +385,35 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           },
                         ),
                         AnalyticsCard(
+                          title: 'Invitation Call',
+                          leadType: controller.fetchMemberStateLoader,
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.invitationCall ?? 0}',
+                          gradient: inActiveGradient,
+                          textColor: Colors.white,
+                          onTap: () async {
+                            CustomBottomSheet.show(
+                              context: context,
+                              body: const LeadsPopup(
+                                title: 'New Lists',
+                                status: '',
+                              ),
+                            );
+                          },
+                        ),
+                        AnalyticsCard(
+                          leadType: controller.fetchMemberStateLoader,
                           title: 'Demo Scheduled',
-                          value: '${dashboardStatesData?.demoScheduled ?? 0}',
-                          gradient: targetGradient,
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.demoScheduled ?? 0}',
+                          gradient: inActiveGradient,
+                          textColor: Colors.white,
                           onTap: () async {
                             CustomBottomSheet.show(
                               context: context,
                               body: LeadsPopup(
                                 title: 'Demo Scheduled',
                                 status: LeadsStatus.demoScheduled.value,
-                              ),
-                            );
-                          },
-                        ),
-                        AnalyticsCard(
-                          title: 'Demo Completed ',
-                          value: '${dashboardStatesData?.demoCompleted ?? 0}',
-                          gradient: blackGradient,
-                          textColor: Colors.white,
-                          onTap: () async {
-                            CustomBottomSheet.show(
-                              context: context,
-                              body: LeadsPopup(
-                                title: 'Demo Completed ',
-                                status: LeadsStatus.followUp.value,
                               ),
                             );
                           },
@@ -320,9 +426,29 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                     child: Row(
                       children: [
                         AnalyticsCard(
+                          leadType: controller.fetchMemberStateLoader,
+                          title: 'Demo\nDone ',
+                          // value: '${dashboardStatesData?.demoCompleted ?? 0}',
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.demoDone ?? 0}',
+                          gradient: blackGradient,
+                          textColor: Colors.white,
+                          onTap: () async {
+                            CustomBottomSheet.show(
+                              context: context,
+                              body: LeadsPopup(
+                                title: 'Demo Done ',
+                                status: LeadsStatus.followUp.value,
+                              ),
+                            );
+                          },
+                        ),
+                        AnalyticsCard(
+                          leadType: controller.fetchMemberStateLoader,
                           title: 'Closing Done',
-                          value: '${dashboardStatesData?.leadsClosed ?? 0}',
-                          gradient: primaryGradient,
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.leadsClosed ?? 0}',
+                          gradient: targetGradient,
                           onTap: () async {
                             CustomBottomSheet.show(
                               context: context,
@@ -334,26 +460,30 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           },
                         ),
                         AnalyticsCard(
+                          leadType: controller.fetchMemberStateLoader,
                           title: 'Conversion\nRatio',
-                          value: '${dashboardStatesData?.leadsConversion ?? 0}%',
+                          // value: '${dashboardStatesData?.leadsConversion ?? 0}%',
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.leadsConversion ?? 0}%',
                           gradient: blackGradient,
                           textColor: Colors.white,
                           showArrow: false,
                           onTap: () {},
                         ),
-                        AnalyticsCard(
-                          title: 'Performance\nPercentage',
-                          value: '${dashboardStatesData?.performance ?? 0}%',
-                          gradient: blackGradient,
-                          textColor: Colors.white,
-                          showArrow: false,
-                          onTap: () {},
-                        ),
+                        // AnalyticsCard(
+                        //   title: 'Performance\nPercentage',
+                        //   value: '${dashboardStatesData?.performance ?? 0}%',
+                        //   gradient: blackGradient,
+                        //   textColor: Colors.white,
+                        //   showArrow: false,
+                        //   onTap: () {},
+                        // ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+                    padding: const EdgeInsets.only(
+                        left: kPadding, right: kPadding, bottom: kPadding),
                     child: Text(
                       'Leads Type',
                       style: headingTextStyle(),
@@ -364,8 +494,10 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                     child: Row(
                       children: [
                         AnalyticsCard(
+                          leadType: controller.fetchMemberStateLoader,
                           title: 'Hot Leads',
-                          value: '${dashboardStatesData?.hotLeads ?? 0}',
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.hotLeads ?? 0}',
                           minHeight: 80,
                           borderRadius: 24,
                           titleFontSize: 14,
@@ -375,8 +507,10 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           onTap: () {},
                         ),
                         AnalyticsCard(
+                          leadType: controller.fetchMemberStateLoader,
                           title: 'Warm Leads',
-                          value: '${dashboardStatesData?.warmLeads ?? 0}',
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.warmLeads ?? 0}',
                           borderRadius: 24,
                           titleFontSize: 14,
                           textColor: Colors.white,
@@ -386,8 +520,10 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                           onTap: () {},
                         ),
                         AnalyticsCard(
+                          leadType: controller.fetchMemberStateLoader,
                           title: 'Cold Leads',
-                          value: '${dashboardStatesData?.coldLeads ?? 0}',
+                          value:
+                              '${controller.fetchMemberStateDataModel?.data?.coldLeads ?? 0}',
                           titleFontSize: 14,
                           textColor: Colors.white,
                           gradient: blueGradient,
@@ -404,7 +540,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
             else
               NoDataFound(
                 heightFactor: 0.7,
-                message: controller.dashboardStatesModel?.message ?? 'No Dashboard Found',
+                message: controller.dashboardStatesModel?.message ??
+                    'No Dashboard Found',
               ),
           ],
         ),
@@ -453,7 +590,8 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
     });
   }
 
-  TextStyle headingTextStyle() => const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
+  TextStyle headingTextStyle() =>
+      const TextStyle(fontSize: 18, fontWeight: FontWeight.w700);
 }
 
 class MyRankTarget extends StatelessWidget {
@@ -487,7 +625,8 @@ class MyRankTarget extends StatelessWidget {
               children: [
                 Text(
                   '$level',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10),
@@ -504,7 +643,8 @@ class MyRankTarget extends StatelessWidget {
                 ),
                 Text(
                   '$rank',
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -519,7 +659,8 @@ class MyRankTarget extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 4),
                   child: Text(
                     '(${target ?? 0}) Sale Pending to achieve',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -549,7 +690,8 @@ class MySalesTarget extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(minHeight: 140),
         margin: const EdgeInsets.only(right: 8),
-        padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: kPadding),
+        padding: const EdgeInsets.symmetric(
+            horizontal: kPadding, vertical: kPadding),
         decoration: BoxDecoration(
           gradient: targetGradient,
           borderRadius: BorderRadius.circular(32),
@@ -559,7 +701,10 @@ class MySalesTarget extends StatelessWidget {
           children: [
             const Text(
               'My sales target',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 12, top: 12),
@@ -570,14 +715,20 @@ class MySalesTarget extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 8),
                     child: Text(
                       '${pending ?? 0}',
-                      style: const TextStyle(color: Colors.black, fontSize: 32, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 4),
                     child: Text(
                       'Pending',
-                      style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ],
@@ -593,15 +744,20 @@ class MySalesTarget extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         '${target ?? 0}',
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700),
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 2),
                       child: Text(
                         'Target',
-                        style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ],
@@ -619,15 +775,20 @@ class MySalesTarget extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
                         '${archived ?? 0}',
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 2),
                       child: Text(
                         'Achieved',
-                        style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
                       ),
                     ),
                   ],
@@ -654,6 +815,7 @@ class AnalyticsCard extends StatelessWidget {
     this.minHeight,
     this.borderRadius,
     this.titleFontSize,
+    this.leadType,
   });
 
   final String? title;
@@ -661,6 +823,7 @@ class AnalyticsCard extends StatelessWidget {
   final Gradient? gradient;
   final Color? textColor;
   final int? flex;
+  final bool? leadType;
 
   final GestureTapCallback? onTap;
   final bool? showArrow;
@@ -680,7 +843,8 @@ class AnalyticsCard extends StatelessWidget {
             children: [
               Container(
                 constraints: BoxConstraints(minHeight: minHeight ?? 120),
-                padding: const EdgeInsets.symmetric(horizontal: kPadding, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kPadding, vertical: 16),
                 decoration: BoxDecoration(
                   gradient: gradient ?? inActiveGradient,
                   borderRadius: BorderRadius.circular(borderRadius ?? 32),
@@ -691,14 +855,21 @@ class AnalyticsCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          '${value ?? 0}',
-                          style: TextStyle(
-                            color: textColor ?? Colors.black,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        leadType == false
+                            ? Center(
+                              child: const CupertinoActivityIndicator(
+                                  color: Colors.black,
+                                  radius: 12,
+                                ),
+                            )
+                            : Text(
+                                '${value ?? 0}',
+                                style: TextStyle(
+                                  color: textColor ?? Colors.black,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ],
                     ),
                     Column(
@@ -788,7 +959,9 @@ class CustomTabBar extends StatelessWidget {
               fit: BoxFit.contain,
               assetImage: selected ? data.activeImage : data.inActiveImage,
             ),
-            if (alwaysShowLabel == true ? true : selected == true && data.title != null)
+            if (alwaysShowLabel == true
+                ? true
+                : selected == true && data.title != null)
               Padding(
                 padding: const EdgeInsets.only(left: 6),
                 child: Text(
@@ -803,6 +976,40 @@ class CustomTabBar extends StatelessWidget {
                 ),
               )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class GraphPercentage extends StatelessWidget {
+  final num? performance;
+
+  const GraphPercentage({
+    super.key,
+    this.performance,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          gradient: (performance ?? 0) <= 20
+              ? colorGrades[0].gradient
+              : (performance ?? 0) <= 40 && (performance ?? 0) >= 21
+                  ? colorGrades[1].gradient
+                  : (performance ?? 0) <= 60 && (performance ?? 0) >= 41
+                      ? colorGrades[2].gradient
+                      : (performance ?? 0) <= 80 && (performance ?? 0) >= 61
+                          ? colorGrades[3].gradient
+                          : colorGrades[4].gradient),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 2, bottom: 2),
+        child: CustomText1(
+          text: '${performance ?? 0}%',
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

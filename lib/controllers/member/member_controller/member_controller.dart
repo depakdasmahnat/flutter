@@ -23,6 +23,8 @@ import '../../../models/member/dashboard/achievement_badges_model.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
 import '../../../models/member/dashboard/traning_progress_model.dart';
 import '../../../models/member/downline_rank/fetchDownlineRan.dart';
+
+import '../../../models/member/fetch_member_state_data/fetchMemberStateModel.dart';
 import '../../../models/member/fetch_product/fetchProduct.dart';
 import '../../../models/member/getPerformanceChart/getPerformanceChart.dart';
 import '../../../models/member/goals/goals_model.dart';
@@ -1589,26 +1591,32 @@ class MembersController extends ChangeNotifier {
   /// 1) Dashboard States API...
 
   bool loadingDashboardStates = true;
+  bool loadingDashboardStatesLead = true;
   DashboardStatesModel? dashboardStatesModel;
   DashboardStatesData? dashboardStatesData;
 
   Future<DashboardStatesData?> fetchDashboardStates({
+    bool? leadType,
     num? memberId,
     String? filter,
+    String? cardFilter,
     String? tab,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
     if (context != null) {
       onRefresh() {
-        loadingDashboardStates = true;
+
+          loadingDashboardStates = true;
+
+
         dashboardStatesModel = null;
         dashboardStatesData = null;
         notifyListeners();
       }
 
       onComplete() {
-        loadingDashboardStates = false;
+          loadingDashboardStates = false;
         notifyListeners();
       }
 
@@ -1620,6 +1628,8 @@ class MembersController extends ChangeNotifier {
           queryParameters: {
             'member_id': '${memberId ?? member?.id}',
             'filter': filter ?? '',
+            'card_filter': cardFilter ?? '',
+
             'tab': tab ?? '',
           },
         );
@@ -1641,6 +1651,62 @@ class MembersController extends ChangeNotifier {
     }
 
     return dashboardStatesData;
+  }
+
+
+  /// 1) fetch member state data
+
+  FetchMemberStateModel? fetchMemberStateDataModel;
+bool? fetchMemberStateLoader =false;
+  Future<FetchMemberStateModel?> fetchMemberStateData({
+    bool? leadType,
+    num? memberId,
+    String? filter,
+    String? cardFilter,
+    String? tab,
+  }) async {
+    BuildContext? context = MyApp.navigatorKey.currentContext;
+
+    if (context != null) {
+      onRefresh() {
+        fetchMemberStateLoader =false;
+        fetchMemberStateDataModel =null;
+        notifyListeners();
+      }
+
+      onComplete() {
+        fetchMemberStateLoader =true;
+        notifyListeners();
+      }
+
+      onRefresh();
+      MemberData? member = LocalDatabase().member;
+      try {
+        var response = await ApiService().get(
+          endPoint: ApiEndpoints.fetchMemberState,
+          queryParameters: {
+            'member_id': '${memberId ?? member?.id}',
+            'filter': filter ?? '',
+          },
+        );
+
+        if (response != null) {
+          Map<String, dynamic> json = response;
+          FetchMemberStateModel responseData = FetchMemberStateModel.fromJson(json);
+          if (responseData.status == true) {
+            fetchMemberStateDataModel = responseData;
+            notifyListeners();
+          }
+        }
+      } catch (e, s) {
+        onComplete();
+        ErrorHandler.catchError(e, s, true);
+      } finally {
+        onComplete();
+      }
+    }
+
+    return fetchMemberStateDataModel;
   }
 
   /// 7) Achievers API...

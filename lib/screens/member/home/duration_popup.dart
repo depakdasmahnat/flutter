@@ -7,9 +7,7 @@ enum DurationFilterMenu {
   monthly('Monthly'),
   weekly('Weekly'),
   days('Days');
-
   const DurationFilterMenu(this.label);
-
   final String label;
 }
 

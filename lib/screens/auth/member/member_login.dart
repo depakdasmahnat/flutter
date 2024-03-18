@@ -71,12 +71,11 @@ class _MemberSignInState extends State<MemberSignIn> {
                     textCapitalization: TextCapitalization.characters,
                     keyboardType: TextInputType.text,
                     // : TextCapitalization.sentences,
-
                     validator: (val) {
                       return Validator.alphanumericValidator(val, 'Id no');
                     },
 
-                    hintText: 'Id no',
+                    hintText: 'ID No.',
                     margin: const EdgeInsets.only(top: 18, bottom: 18),
                   ),
                   CustomTextField(

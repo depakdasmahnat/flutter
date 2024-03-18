@@ -363,10 +363,7 @@ TextEditingController searchController =TextEditingController();
                                         value: controller.fetchLeadsModel?.stats?.hot.toString(),
                                         subHeading: 'Hot Leads',
                                         onTap: () async{
-                                          await context
-                                              .read<MembersController>()
-                                              .fetchLeads(status: status, priority: 'Hot', page: '1',searchKey: '');
-
+                                          await context.read<MembersController>().fetchLeads(status: status, priority: 'Hot', page: '1',searchKey: '');
                                         },
 
                                       ),
@@ -481,6 +478,17 @@ TextEditingController searchController =TextEditingController();
                                               .fetchLeads(status: status, priority: 'Cold', page: '1',searchKey: '');
                                         },
                                       ),
+
+                                      LeadType(
+                                        value: controller.fetchLeadsModel?.stats
+                                            ?.appDownloads
+                                            .toString(),
+                                        subHeading: 'App Downloads',
+                                        colors: const [
+                                          Color(0xFF3B3B3B),
+                                          Color(0xFF4A4A4A)
+                                        ],
+                                      ),
                                       LeadType(
                                         onTap: () {
                                           CustomBottomSheet.show(
@@ -495,16 +503,6 @@ TextEditingController searchController =TextEditingController();
                                             .fetchLeadsModel?.stats?.bin
                                             .toString(),
                                         subHeading: 'Bin',
-                                        colors: const [
-                                          Color(0xFF3B3B3B),
-                                          Color(0xFF4A4A4A)
-                                        ],
-                                      ),
-                                      LeadType(
-                                        value: controller.fetchLeadsModel?.stats
-                                            ?.appDownloads
-                                            .toString(),
-                                        subHeading: 'App Downloads',
                                         colors: const [
                                           Color(0xFF3B3B3B),
                                           Color(0xFF4A4A4A)

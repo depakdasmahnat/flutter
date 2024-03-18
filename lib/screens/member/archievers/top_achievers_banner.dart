@@ -25,7 +25,6 @@ class _TopAchieversBannersState extends State<TopAchieversBanners> {
   Widget build(BuildContext context) {
     return widget.data.haveData
         ? Column(
-
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: kPadding, bottom: 4),

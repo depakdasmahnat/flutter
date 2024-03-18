@@ -263,6 +263,7 @@ class _MemberScreenState extends State<MemberScreen> {
                   ),
                 ),
                 TargetCard(
+                  cardHeading: '',
                   pendingTarget: networkReportsModel?.pendingTarget,
                   salesTarget: networkReportsModel?.salesTarget,
                   achievedTarget: networkReportsModel?.achievedTarget,
@@ -393,11 +394,13 @@ class TargetCard extends StatelessWidget {
   final num? pendingTarget;
   final num? salesTarget;
   final num? achievedTarget;
+  final String? cardHeading;
   final Widget? more;
 
   const TargetCard({
     super.key,
     required this.pendingTarget,
+    required this.cardHeading,
     required this.salesTarget,
     required this.achievedTarget,
     this.more,
@@ -423,7 +426,8 @@ class TargetCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 12),
                       child: CustomeText(
-                        text: 'Partners target',
+                        // text: 'Partners target',
+                        text: cardHeading??'Partners target',
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
