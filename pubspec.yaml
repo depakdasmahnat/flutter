@@ -57,7 +57,7 @@ dependencies:
   syncfusion_flutter_charts: ^22.2.9
   syncfusion_flutter_core: ^22.2.9
   flutter_vector_icons: ^2.0.0
-  dropdown_search: ^5.0.6
+  dropdown_search: ^5.0.5
   device_preview: ^1.1.0
   flutter_advanced_switch: ^3.0.1
 #  syncfusion_flutter_datagrid_export: ^24.1.47
@@ -87,6 +87,7 @@ dependencies:
   expandable_text: ^2.3.0
   fluttercontactpicker: ^4.7.0
   contacts_service: ^0.6.3
+  confetti: ^0.7.0
 
 
 

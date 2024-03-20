@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
-
-
 import 'package:video_player/video_player.dart';
-
 import '../../core/config/app_assets.dart';
 import '../../core/route/route_paths.dart';
 
@@ -15,12 +11,9 @@ import '../../core/route/route_paths.dart';
 class GtpVideo extends StatefulWidget {
  final String? videoLink;
   const GtpVideo({super.key,this.videoLink});
-
   @override
   State<GtpVideo> createState() => _GtpVideoState();
 }
-
-
 class _GtpVideoState extends State<GtpVideo> {
   ValueNotifier<VideoPlayerValue?> currentPosition = ValueNotifier(null);
   VideoPlayerController? controller;
@@ -47,7 +40,6 @@ class _GtpVideoState extends State<GtpVideo> {
           context.firstRoute();
           context.pushReplacementNamed(Routs.dashboard);
           controller?.pause();
-
         }
       }
       setState(() {
@@ -135,7 +127,7 @@ class _GtpVideoState extends State<GtpVideo> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -143,14 +135,14 @@ class _GtpVideoState extends State<GtpVideo> {
                       formatDuration(controller!.value.position),
                       style: TextStyle(color: Colors.white),
                     ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        soundToggle();
-                      },
-                        child:  Icon(isMusicOn==false?FontAwesome.volume_up:Feather.volume_x))
+                    // const SizedBox(
+                    //   width: 15,
+                    // ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     soundToggle();
+                    //   },
+                    //     child:  Icon(isMusicOn==false?FontAwesome.volume_up:Feather.volume_x))
                   ],
                 ),
                 Text(

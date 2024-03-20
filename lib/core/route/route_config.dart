@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive/hive.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/screens/guest/product/guest_product_details.dart';
@@ -91,7 +92,18 @@ class RoutesConfig {
 
     return authenticated ? Routs.dashboard : Routs.welcome;
   }
+  void storeBool(bool value) async {
+    var box = await Hive.openBox('myBox');
+    await box.put('myBoolKey',value);
+    box.close();
 
+  }
+  Future<bool> getBool() async {
+    var box = await Hive.openBox('myBox');
+    var myModel = box.get('myBoolKey');
+    box.close();
+    return myModel ?? false;
+  }
   ///1)  Route Config...
 
   static final GoRouter _router = GoRouter(
@@ -834,7 +846,9 @@ class RoutesConfig {
     LocalDatabase localDatabase = LocalDatabase();
 
     if (localDatabase.userRole == UserRoles.guest.value) {
+      
       status = localDatabase.guest?.accessToken?.isNotEmpty == true;
+
     } else if (localDatabase.userRole == UserRoles.member.value) {
       status = localDatabase.member?.accessToken?.isNotEmpty == true;
     }

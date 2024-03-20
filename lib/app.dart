@@ -3,10 +3,8 @@ import 'package:mrwebbeast/core/route/route_config.dart';
 import 'package:mrwebbeast/core/services/notifications/notification_controller.dart';
 import 'package:mrwebbeast/core/services/theme/theme_controller.dart';
 import 'package:provider/provider.dart';
-
 import 'core/config/app_config.dart';
 import 'core/services/localization/localization_controller.dart';
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 

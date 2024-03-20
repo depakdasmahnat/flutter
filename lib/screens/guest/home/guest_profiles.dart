@@ -237,7 +237,7 @@ class NewJoiner extends StatelessWidget {
           networkImage: image ?? '',
         ),
         SizedBox(
-          width: 40,
+          width: 48,
           child: Text(
             firstName ?? 'Deepak',
             maxLines: 1,

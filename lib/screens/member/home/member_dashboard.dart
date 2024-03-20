@@ -13,7 +13,6 @@ import 'package:mrwebbeast/screens/member/home/performance_graph.dart';
 import 'package:mrwebbeast/utils/widgets/custom_bottom_sheet.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:provider/provider.dart';
-
 import '../../../core/route/route_paths.dart';
 import '../../../models/dashboard/dashboard_data.dart';
 import '../../../models/member/dashboard/dashboard_states_model.dart';
@@ -36,7 +35,6 @@ class MemberDashBoard extends StatefulWidget {
   @override
   State<MemberDashBoard> createState() => _MemberDashBoardState();
 }
-
 class _MemberDashBoardState extends State<MemberDashBoard> {
   late num? memberId = widget.memberId;
   List<String> tabs = [
@@ -59,7 +57,6 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
       widget: const NoDataFound(),
     ),
   ];
-
   int dashBoardIndex = 0;
   String? selectedDuration = DurationFilterMenu.monthly.label;
   String? cardFilter = '';
@@ -69,7 +66,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
   bool showPerformanceGraph = true;
   FetchMemberStateModel? fetchMemberStateDataModel;
   Future fetchDashboardStates({bool? loadingNext, bool? leadType}) async {
-    return await context.read<MembersController>().fetchDashboardStates(
+     await context.read<MembersController>().fetchDashboardStates(
           memberId: memberId,
           leadType: leadType,
           cardFilter: cardFilter,
@@ -78,7 +75,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
         );
   }
   Future fetchMemberState() async {
-    return  await context.read<MembersController>().fetchMemberStateData(filter: cardFilter);
+     return await context.read<MembersController>().fetchMemberStateData1(filter: cardFilter);
   }
 
   @override
@@ -99,6 +96,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
     return Consumer<MembersController>(builder: (context, controller, child) {
       dashboardStatesData = controller.dashboardStatesData;
       analytics = dashboardStatesData?.analytics;
+
 
       return Scaffold(
         body: ListView(
@@ -371,8 +369,7 @@ class _MemberDashBoardState extends State<MemberDashBoard> {
                         AnalyticsCard(
                           title: 'Newly\nlisted',
                           leadType: controller.fetchMemberStateLoader,
-                          value:
-                              '${controller.fetchMemberStateDataModel?.data?.leadsAdded ?? 0}',
+                          value: '${controller.fetchMemberStateDataModel?.data?.leadsAdded ?? 0}',
                           gradient: limeGradient,
                           onTap: () async {
                             CustomBottomSheet.show(

@@ -85,8 +85,7 @@ class _VideoPlayerCardState extends State<VideoPlayerCard> {
         } else if (visibility.visibleFraction == 1 && mounted) {
           videoPlayerController?.play();
         }
-        debugPrint(
-            'Video Player visibility  ${visibility.key} is $visiblePercentage% visible & ${visibility.visibleFraction}');
+        debugPrint('Video Player visibility  ${visibility.key} is $visiblePercentage% visible & ${visibility.visibleFraction}');
       },
       child: Container(
         child: (videoPlayerController?.value.isInitialized == true)
@@ -97,7 +96,6 @@ class _VideoPlayerCardState extends State<VideoPlayerCard> {
                     if(widget.type==true){
                       context.read<CheckDemoController>().videoCount(context: context, demoId: '${widget.demoId}', );
                     }
-
                     playVideo();
                   },
                   child: Stack(

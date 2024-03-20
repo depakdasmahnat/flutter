@@ -181,7 +181,9 @@ class MembersController extends ChangeNotifier {
           // context.pop();
         } else {
           showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
         }
       }
     });
@@ -231,7 +233,9 @@ class MembersController extends ChangeNotifier {
           // context.pop();
         } else {
           showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
         }
       }
     });
@@ -299,7 +303,9 @@ class MembersController extends ChangeNotifier {
           context.pop();
         } else {
           showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
         }
       }
     });
@@ -343,7 +349,9 @@ class MembersController extends ChangeNotifier {
           // context.pop();
         } else {
           showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
         }
       }
     });
@@ -640,7 +648,9 @@ class MembersController extends ChangeNotifier {
               notifyListeners();
             } else {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+                  context: context,
+                  text: responseData.message ?? 'Something went wong',
+                  color: Colors.red);
             }
           }
         },
@@ -668,7 +678,8 @@ class MembersController extends ChangeNotifier {
   num partnerGoalsIndex = 1;
   num partnerGoalsTotal = 1;
 
-  RefreshController partnerGoalsController = RefreshController(initialRefresh: false);
+  RefreshController partnerGoalsController =
+      RefreshController(initialRefresh: false);
 
   Future<List<GoalsData>?> fetchPartnerGoals({
     required BuildContext context,
@@ -823,7 +834,9 @@ class MembersController extends ChangeNotifier {
           context.pop();
         } else {
           showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+              context: context,
+              text: responseData?.message ?? 'Something went wong',
+              color: Colors.red);
         }
       }
     });
@@ -950,7 +963,10 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.addLead,
         body: body,
-        multipartFile: [if (file != null) MultiPartData(field: 'profile_photo', filePath: file.path)],
+        multipartFile: [
+          if (file != null)
+            MultiPartData(field: 'profile_photo', filePath: file.path)
+        ],
       );
       await loadingDialog(
         context: context,
@@ -972,7 +988,9 @@ class MembersController extends ChangeNotifier {
               notifyListeners();
             } else {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+                  context: context,
+                  text: responseData.message ?? 'Something went wong',
+                  color: Colors.red);
             }
           }
         },
@@ -1021,7 +1039,8 @@ class MembersController extends ChangeNotifier {
         (response) {
           if (response != null) {
             Map<String, dynamic> json = response;
-            GenrateReferralModel responseData = GenrateReferralModel.fromJson(json);
+            GenrateReferralModel responseData =
+                GenrateReferralModel.fromJson(json);
             if (responseData.status == true) {
               generateReferralModel = responseData;
               notifyListeners();
@@ -1065,7 +1084,8 @@ class MembersController extends ChangeNotifier {
         (response) {
           if (response != null) {
             Map<String, dynamic> json = response;
-            FetchFacilitatorModel responseData = FetchFacilitatorModel.fromJson(json);
+            FetchFacilitatorModel responseData =
+                FetchFacilitatorModel.fromJson(json);
             if (responseData.status == true) {
               fetchFacilitatorModel = responseData;
               notifyListeners();
@@ -1151,7 +1171,9 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.addNewMemberLead,
         body: body,
-        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file.path)] : [],
+        multipartFile: file != null
+            ? [MultiPartData(field: 'profile_photo', filePath: file.path)]
+            : [],
       );
       await loadingDialog(
         context: context,
@@ -1173,7 +1195,9 @@ class MembersController extends ChangeNotifier {
               notifyListeners();
             } else {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+                  context: context,
+                  text: responseData.message ?? 'Something went wong',
+                  color: Colors.red);
             }
           }
         },
@@ -1226,7 +1250,9 @@ class MembersController extends ChangeNotifier {
               notifyListeners();
             } else {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+                  context: context,
+                  text: responseData.message ?? 'Something went wong',
+                  color: Colors.red);
             }
           }
         },
@@ -1302,7 +1328,9 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.editMember,
         body: body,
-        multipartFile: file != null ? [MultiPartData(field: 'profile_photo', filePath: file.path)] : [],
+        multipartFile: file != null
+            ? [MultiPartData(field: 'profile_photo', filePath: file.path)]
+            : [],
       );
       await loadingDialog(
         context: context,
@@ -1323,7 +1351,9 @@ class MembersController extends ChangeNotifier {
               notifyListeners();
             } else {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+                  context: context,
+                  text: responseData.message ?? 'Something went wong',
+                  color: Colors.red);
             }
           }
         },
@@ -1490,7 +1520,9 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.createEvent,
         body: body,
-        multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+        multipartFile: [
+          if (file != null) MultiPartData(field: 'image', filePath: file.path)
+        ],
       );
       await loadingDialog(
         context: context,
@@ -1504,13 +1536,17 @@ class MembersController extends ChangeNotifier {
             DefaultModel responseData = DefaultModel.fromJson(json);
             if (responseData?.status == true) {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Event Created', color: Colors.green);
+                  context: context,
+                  text: responseData.message ?? 'Event Created',
+                  color: Colors.green);
               // showItem=false;
               context?.pop();
               notifyListeners();
             } else {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+                  context: context,
+                  text: responseData.message ?? 'Something went wong',
+                  color: Colors.red);
             }
           }
         },
@@ -1552,7 +1588,9 @@ class MembersController extends ChangeNotifier {
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.addGoal,
         body: body,
-        multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+        multipartFile: [
+          if (file != null) MultiPartData(field: 'image', filePath: file.path)
+        ],
       );
       await loadingDialog(
         context: context,
@@ -1565,7 +1603,9 @@ class MembersController extends ChangeNotifier {
             DefaultModel responseData = DefaultModel.fromJson(json);
             if (responseData.status == true) {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+                  context: context,
+                  text: responseData.message ?? 'Event Crated',
+                  color: Colors.green);
               // showItem=false;
               context.pop();
               context.pop();
@@ -1573,7 +1613,9 @@ class MembersController extends ChangeNotifier {
             } else {
               context.pop();
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+                  context: context,
+                  text: responseData.message ?? 'Something went wong',
+                  color: Colors.red);
             }
           }
         },
@@ -1606,17 +1648,14 @@ class MembersController extends ChangeNotifier {
 
     if (context != null) {
       onRefresh() {
-
-          loadingDashboardStates = true;
-
-
+        loadingDashboardStates = true;
         dashboardStatesModel = null;
         dashboardStatesData = null;
         notifyListeners();
       }
 
       onComplete() {
-          loadingDashboardStates = false;
+        loadingDashboardStates = false;
         notifyListeners();
       }
 
@@ -1629,14 +1668,14 @@ class MembersController extends ChangeNotifier {
             'member_id': '${memberId ?? member?.id}',
             'filter': filter ?? '',
             'card_filter': cardFilter ?? '',
-
             'tab': tab ?? '',
           },
         );
 
         if (response != null) {
           Map<String, dynamic> json = response;
-          DashboardStatesModel responseData = DashboardStatesModel.fromJson(json);
+          DashboardStatesModel responseData =
+              DashboardStatesModel.fromJson(json);
           if (responseData.status == true) {
             dashboardStatesData = responseData.data;
             notifyListeners();
@@ -1653,29 +1692,25 @@ class MembersController extends ChangeNotifier {
     return dashboardStatesData;
   }
 
-
   /// 1) fetch member state data
 
   FetchMemberStateModel? fetchMemberStateDataModel;
-bool? fetchMemberStateLoader =false;
-  Future<FetchMemberStateModel?> fetchMemberStateData({
-    bool? leadType,
+  bool? fetchMemberStateLoader = false;
+  Future<FetchMemberStateModel?> fetchMemberStateData1({
     num? memberId,
     String? filter,
-    String? cardFilter,
-    String? tab,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
-
+    print('yes call state api ${ApiEndpoints.fetchMemberState}');
     if (context != null) {
       onRefresh() {
-        fetchMemberStateLoader =false;
-        fetchMemberStateDataModel =null;
+        fetchMemberStateLoader = false;
+        fetchMemberStateDataModel = null;
         notifyListeners();
       }
 
       onComplete() {
-        fetchMemberStateLoader =true;
+        fetchMemberStateLoader = true;
         notifyListeners();
       }
 
@@ -1694,10 +1729,13 @@ bool? fetchMemberStateLoader =false;
           Map<String, dynamic> json = response;
           FetchMemberStateModel responseData = FetchMemberStateModel.fromJson(json);
           if (responseData.status == true) {
+
             fetchMemberStateDataModel = responseData;
+            debugPrint('achieversNodes ${fetchMemberStateDataModel?.data?.leadsAdded}');
             notifyListeners();
           }
         }
+        onComplete();
       } catch (e, s) {
         onComplete();
         ErrorHandler.catchError(e, s, true);
@@ -1738,7 +1776,8 @@ bool? fetchMemberStateLoader =false;
 
       onRefresh();
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.getAchievers, queryParameters: {
+        var response = await ApiService()
+            .get(endPoint: ApiEndpoints.getAchievers, queryParameters: {
           'search_key': search ?? '',
           'filter': filter ?? '',
           'rank': rank ?? '',
@@ -1794,7 +1833,8 @@ bool? fetchMemberStateLoader =false;
 
         if (response != null) {
           Map<String, dynamic> json = response;
-          TrainingProgressModel responseData = TrainingProgressModel.fromJson(json);
+          TrainingProgressModel responseData =
+              TrainingProgressModel.fromJson(json);
           if (responseData.status == true) {
             trainingProgress = responseData;
             notifyListeners();
@@ -1837,14 +1877,16 @@ bool? fetchMemberStateLoader =false;
       MemberData? member = LocalDatabase().member;
       onRefresh();
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.achievementBadges, queryParameters: {
+        var response = await ApiService()
+            .get(endPoint: ApiEndpoints.achievementBadges, queryParameters: {
           'member_id': memberId ?? '${member?.id}',
         });
 
         if (response != null) {
           Map<String, dynamic> json = response;
 
-          AchievementBadgesModel responseData = AchievementBadgesModel.fromJson(json);
+          AchievementBadgesModel responseData =
+              AchievementBadgesModel.fromJson(json);
           if (responseData.status == true) {
             achievementBadges = responseData;
             notifyListeners();
@@ -1885,7 +1927,8 @@ bool? fetchMemberStateLoader =false;
 
       onRefresh();
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.fetchMemberProfile, queryParameters: {
+        var response = await ApiService()
+            .get(endPoint: ApiEndpoints.fetchMemberProfile, queryParameters: {
           'member_id': '$memberId',
         });
 
@@ -1930,7 +1973,8 @@ bool? fetchMemberStateLoader =false;
 
       onRefresh();
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.fetchPerformance);
+        var response =
+            await ApiService().get(endPoint: ApiEndpoints.fetchPerformance);
 
         if (response != null) {
           Map<String, dynamic> json = response;
@@ -1962,10 +2006,12 @@ bool? fetchMemberStateLoader =false;
 
     if (context != null) {
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.goalCategory);
+        var response =
+            await ApiService().get(endPoint: ApiEndpoints.goalCategory);
         if (response != null) {
           Map<String, dynamic> json = response;
-          FetchGoalCategoryModel responseData = FetchGoalCategoryModel.fromJson(json);
+          FetchGoalCategoryModel responseData =
+              FetchGoalCategoryModel.fromJson(json);
           if (responseData.status == true) {
             fetchGoalCategoryModel = responseData;
             notifyListeners();
@@ -1986,15 +2032,18 @@ bool? fetchMemberStateLoader =false;
   FetchGoalForEditModel? fetchGoalForEditModel;
   bool editGoalLoader = false;
 
-  Future<FetchGoalForEditModel?> fetchGoalForEdit({required String goalId}) async {
+  Future<FetchGoalForEditModel?> fetchGoalForEdit(
+      {required String goalId}) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
 
     if (context != null) {
       try {
-        var response = await ApiService().get(endPoint: ApiEndpoints.goalForEdit + goalId);
+        var response =
+            await ApiService().get(endPoint: ApiEndpoints.goalForEdit + goalId);
         if (response != null) {
           Map<String, dynamic> json = response;
-          FetchGoalForEditModel responseData = FetchGoalForEditModel.fromJson(json);
+          FetchGoalForEditModel responseData =
+              FetchGoalForEditModel.fromJson(json);
           if (responseData.status == true) {
             fetchGoalForEditModel = responseData;
             notifyListeners();
@@ -2037,7 +2086,9 @@ bool? fetchMemberStateLoader =false;
       var response = ApiService().multiPart(
         endPoint: ApiEndpoints.updateGoal,
         body: body,
-        multipartFile: [if (file != null) MultiPartData(field: 'image', filePath: file.path)],
+        multipartFile: [
+          if (file != null) MultiPartData(field: 'image', filePath: file.path)
+        ],
       );
       await loadingDialog(
         context: context,
@@ -2050,14 +2101,18 @@ bool? fetchMemberStateLoader =false;
             DefaultModel responseData = DefaultModel.fromJson(json);
             if (responseData?.status == true) {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Event Crated', color: Colors.green);
+                  context: context,
+                  text: responseData.message ?? 'Event Crated',
+                  color: Colors.green);
               // showItem=false;
               context?.pop();
               context?.pop();
               notifyListeners();
             } else {
               showSnackBar(
-                  context: context, text: responseData.message ?? 'Something went wong', color: Colors.red);
+                  context: context,
+                  text: responseData.message ?? 'Something went wong',
+                  color: Colors.red);
             }
           }
         },
@@ -2100,7 +2155,8 @@ bool? fetchMemberStateLoader =false;
           .then((response) {
         if (response != null) {
           Map<String, dynamic> json = response;
-          FetchOccupationModel responseData = FetchOccupationModel.fromJson(json);
+          FetchOccupationModel responseData =
+              FetchOccupationModel.fromJson(json);
           if (responseData.status == true) {
             fetchOccupationModel = responseData;
             notifyListeners();

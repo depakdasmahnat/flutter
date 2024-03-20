@@ -673,6 +673,7 @@ class CustomText1 extends StatelessWidget {
   double? textHeight;
   TextAlign? textAlign;
   FontWeight? fontWeight;
+  String? fontFamily;
   int? maxLines;
 
   CustomText1({
@@ -683,6 +684,7 @@ class CustomText1 extends StatelessWidget {
     this.textHeight,
     this.textAlign,
     this.maxLines,
+    this.fontFamily,
     super.key,
   });
 
@@ -696,6 +698,7 @@ class CustomText1 extends StatelessWidget {
           color: color,
           fontSize: fontSize,
           fontWeight: fontWeight,
+          fontFamily:fontFamily ,
           height: textHeight),
       textAlign: textAlign ?? TextAlign.start,
     );

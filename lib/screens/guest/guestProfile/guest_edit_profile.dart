@@ -479,7 +479,8 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                 );
         },
       ),
-      bottomSheet: Column(
+      bottomSheet:
+      Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -645,7 +646,6 @@ class CustomTextFieldApp extends StatelessWidget {
 
 class CustomDropdown extends StatelessWidget {
   Key? dropDownkey;
-
   String? title;
   String? hintText;
   String? mandatory;
@@ -710,7 +710,7 @@ class CustomDropdown extends StatelessWidget {
                       mandatory ?? '',
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 23,
+                        fontSize: 18,
                         height: 1,
                         fontWeight: FontWeight.w400,
                       ),
@@ -722,8 +722,9 @@ class CustomDropdown extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: DropdownSearch<String>(
-                
+              child:
+              DropdownSearch<String>(
+                key:dropDownkey ,
                 dropdownButtonProps: const DropdownButtonProps(
                     padding: EdgeInsets.only(bottom: 10),
                     icon: Icon(
@@ -744,11 +745,13 @@ class CustomDropdown extends StatelessWidget {
                 onChanged: onChanged,
                 dropdownDecoratorProps: DropDownDecoratorProps(
                   dropdownSearchDecoration: InputDecoration(
+
                     contentPadding: const EdgeInsets.only(
                       left: 7,
                       top: 7,
                      
                     ),
+
                     constraints: BoxConstraints.loose(Size.fromHeight(size.height*0.055)),
                     border: InputBorder.none,
 

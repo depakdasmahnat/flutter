@@ -24,14 +24,15 @@ class ConnectWithUs extends StatefulWidget {
   State<ConnectWithUs> createState() => _ConnectWithUsState();
 }
 
-class _ConnectWithUsState extends State<ConnectWithUs> {
+class _ConnectWithUsState extends State<ConnectWithUs>  with WidgetsBindingObserver {
 
   AudioPlayer player =  AudioPlayer();
  playLocal() async {
-
+   WidgetsBinding.instance!.addObserver(this);
    AudioCache.instance = AudioCache(prefix: 'assets/');
    await player?.play(AssetSource('gifSound/sound.mp3'));
    player?.setReleaseMode(ReleaseMode.loop);
+
 
  }
   @override
@@ -45,10 +46,22 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
   navigateToDashboard() {
     return context.pushReplacementNamed(Routs.gtpVideo);
   }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      player.pause();
+    } else if (state == AppLifecycleState.resumed) {
+      playLocal();
+
+    }
+  }
  @override
  void dispose() {
+   WidgetsBinding.instance!.removeObserver(this);
    player?.dispose();
    player?.stop();
+    player.pause();
    super.dispose();
  }
 
@@ -57,33 +70,7 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
     GuestData? guest = context.read<LocalDatabase>().guest;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // appBar: AppBar(
-      //   actions: [
-      //     // GradientButton(
-      //     //   height: 30,
-      //     //   width: 75,
-      //     //   blur: 10,
-      //     //   borderRadius: 20,
-      //     //   backgroundGradient: inActiveGradient,
-      //     //   backgroundColor: Colors.transparent,
-      //     //   boxShadow: const [],
-      //     //   margin: const EdgeInsets.only(right: 16),
-      //     //   onTap: () {
-      //     //     navigateToDashboard();
-      //     //   },
-      //     //   child: const Center(
-      //     //     child: Text(
-      //     //       'Skip',
-      //     //       style: TextStyle(
-      //     //         color: Colors.white,
-      //     //         fontWeight: FontWeight.w400,
-      //     //         fontSize: 14,
-      //     //       ),
-      //     //     ),
-      //     //   ),
-      //     // ),
-      //   ],
-      // ),
+
       body: Stack(
         children: [
           const Positioned.fill(  //
@@ -186,7 +173,7 @@ class _ConnectWithUsState extends State<ConnectWithUs> {
                           // playLocal();
                           await player.pause();
                           await context.read<AuthControllers>().connectWithUs(context: context, guestId:guest?.id.toString() );
-                          // setState(() {});
+
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

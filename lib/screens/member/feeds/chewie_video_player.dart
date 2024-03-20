@@ -63,8 +63,7 @@ class _ChewieVideoPlayerCardState extends State<ChewieVideoPlayerCard> {
               bufferedColor: Colors.green.withOpacity(0.3),
               playedColor: Colors.white));
       chewieController?.videoPlayerController.addListener(() {
-        print("video player ${videoPlayerController!.value.duration}");
-        print("video player ${videoPlayerController!.value.position}");
+
         videoPlayerController?.value = videoPlayerController!.value;
         if (videoPlayerController!.value.position >= videoPlayerController!.value.duration) {
          widget.onCompleted?.call();

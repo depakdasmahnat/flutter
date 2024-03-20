@@ -150,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -193,213 +194,247 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          body: ListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(
-                bottom: bottomNavbarSize, left: 4, right: 4),
+          body: Stack(
             children: [
-              Padding(
+              ImageView(
+                // height: 100,
+                assetImage: AppAssets.confeti2,
+              ),
+              ListView(
+                shrinkWrap: true,
                 padding: const EdgeInsets.only(
-                    left: kPadding, right: kPadding, top: 4, bottom: 8),
-                child: Text(
-                  'Congratulations to the new joinees',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontFamily: GoogleFonts.urbanist().fontFamily,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-              ),
-              const GuestProfiles(),
-              const Banners(),
-
-              Consumer<CheckDemoController>(
-                builder: (context, controller, child) {
-                  return GradientButton(
-                    height: 60,
-                    borderRadius: 18,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage(AppAssets.thinkBigImage),
-                            fit: BoxFit.fill)),
-                    boxShadow: const [],
-                    onTap: () {
-                      // if(controller.getStep?.demoStep==6){
-                      //   context.pushNamed(Routs.guestDemoVideos);
-                      // }else{
-                      //   context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
-                      //     await context.read<CheckDemoController>().getStepCheckDemo(context: context);
-                      //   },);
-                      //
-                      // }
-                      context.pushNamed(Routs.guestCheckDemo).whenComplete(
-                        () async {
-                          await context
-                              .read<CheckDemoController>()
-                              .getStepCheckDemo(context: context);
-                        },
-                      );
-                    },
-                    margin: const EdgeInsets.only(
-                        left: kPadding, right: kPadding, top: kPadding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomeText(
-                          text: 'Think Big',
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 22,
-                        ),
-                        // Text(
-                        //   'Think Big',
-                        //   style: TextStyle(
-                        //    fontStyle: FontStyle.italic,
-                        //
-                        //     color: Colors.black,
-                        //     fontFamily: GoogleFonts.urbanist().fontFamily,
-                        //     fontWeight: FontWeight.bold,
-                        //     fontSize: 22,
-                        //   ),
-                        // ),
-                      ],
+                    bottom: bottomNavbarSize, left: 4, right: 4),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: kPadding, right: kPadding, top: 4, bottom: 8),
+                    child: Text(
+                      'Congratulations To The New Joinees',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: GoogleFonts.urbanist().fontFamily,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.start,
                     ),
-                  );
-                },
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
-              //   child: Container(
-              //     // height:size.height*0.05 ,
-              //     decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AppAssets.container))),
-              //     child: const Padding(
-              //       padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 5, bottom: 5),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         mainAxisSize: MainAxisSize.min,
-              //         children: [
-              //           Text(
-              //             'Total App Download',
-              //             style: TextStyle(
-              //               fontSize: 16,
-              //               fontWeight: FontWeight.w700,
-              //               color: Colors.black,
-              //             ),
-              //           ),
-              //           Text(
-              //             '10 K',
-              //             style: TextStyle(
-              //               fontSize: 32,
-              //               fontWeight: FontWeight.w700,
-              //               color: Colors.black,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              CustomTextField(
-                hintText: 'Search events, benefits, and more',
-                controller: searchController,
-                onChanged: (value) {
-                  onSearchFieldChanged(value);
-                },
-                hintStyle: const TextStyle(color: Colors.white),
-                prefixIcon: const ImageView(
-                  height: 20,
-                  width: 20,
-                  borderRadiusValue: 0,
-                  color: Colors.white,
-                  margin: EdgeInsets.only(left: kPadding, right: kPadding),
-                  fit: BoxFit.contain,
-                  assetImage: AppAssets.searchIcon,
-                ),
-                margin: const EdgeInsets.only(
-                    left: kPadding,
-                    right: kPadding,
-                    top: kPadding,
-                    bottom: kPadding),
-              ),
-              // if (filters?.haveData == true)
-              Padding(
-                padding: const EdgeInsets.only(left: kPadding, right: kPadding),
-                child: Consumer<GuestControllers>(
-                  builder: (context, value, child) {
-                    return SizedBox(
-                      height: 40,
-                      child: ListView.builder(
-                        itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
-                          selectedFilter ??= data;
-                          return
-                            GradientButton(
-                            backgroundGradient: tabIndex == index
-                                ? primaryGradient
-                                : inActiveGradient,
-                            borderWidth: 2,
-                            borderRadius: 30,
-                            onTap: () async {
-                              selectedFilter = data;
+                  ),
+                  const GuestProfiles(),
+                  const Banners(),
 
-                              tabIndex = index;
-                              categoryId =selectedFilter?.id.toString()??'';
-                              setState(() {});
-                               fetchFeeds();
-                            },
-                            margin: const EdgeInsets.only(right: 12),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: kPadding, vertical: 8),
-                            child: Text(
-                              '${data?.name}',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: tabIndex == index
-                                    ? Colors.black
-                                    : Colors.white,
+                  Consumer<CheckDemoController>(
+                    builder: (context, controller, child) {
+                      return
+                        Stack(
+                          children: [
+
+                            GradientButton(
+                              height: 60,
+                              borderRadius: 18,
+                              decoration:  const BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(AppAssets.thinkBig),
+                                    fit: BoxFit.fill),
+
+
+                              ),
+
+                              backgroundGradient: primaryGradient,
+                              onTap: () {
+                                if(controller.getStep?.demoStep==6){
+                                  context.pushNamed(Routs.guestDemoVideos);
+                                }else{
+                                  context.pushNamed(Routs.guestCheckDemo).whenComplete(()async {
+                                    await context.read<CheckDemoController>().getStepCheckDemo(context: context);
+                                  },);
+
+                                }
+                                // context.pushNamed(Routs.guestCheckDemo).whenComplete(
+                                //   () async {
+                                //     await context
+                                //         .read<CheckDemoController>()
+                                //         .getStepCheckDemo(context: context);
+                                //   },
+                                // );
+                              },
+                              margin: const EdgeInsets.only(
+                                  left: kPadding, right: kPadding, top: kPadding),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomeText(
+                                    text: 'Think Big',
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22,
+                                  ),
+                                  // Text(
+                                  //   'Think Big',
+                                  //   style: TextStyle(
+                                  //    fontStyle: FontStyle.italic,
+                                  //
+                                  //     color: Colors.black,
+                                  //     fontFamily: GoogleFonts.urbanist().fontFamily,
+                                  //     fontWeight: FontWeight.bold,
+                                  //     fontSize: 22,
+                                  //   ),
+                                  // ),
+                                ],
                               ),
                             ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-              if (controller.loadingFeeds)
-                const LoadingScreen(
-                  heightFactor: 0.3,
-                  message: 'Loading Feeds...',
-                )
-              else if (feeds.haveData)
-                ListView.builder(
-                  itemCount: feeds?.length ?? 0,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    var data = feeds?.elementAt(index);
-                    return InkWell(
-                      onTap: () {
-                        context.pushNamed(Routs.feedDetail,
-                            extra: FeedDetail(id: data?.id));
+
+                            // Positioned(
+                            //   left: 20,
+                            //   right: 20,
+                            //   bottom: 0,
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //       borderRadius: const BorderRadius.only(bottomRight: Radius.circular(22), bottomLeft: Radius.circular(22)),
+                            //       gradient: primaryGradient,
+                            //     ),
+                            //     height: 7,
+                            //   ),
+                            // ),
+
+
+                          ],
+                        );
+                    },
+                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
+                  //   child: Container(
+                  //     // height:size.height*0.05 ,
+                  //     decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AppAssets.container))),
+                  //     child: const Padding(
+                  //       padding: EdgeInsets.only(left: kPadding, right: kPadding, top: 5, bottom: 5),
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //         mainAxisSize: MainAxisSize.min,
+                  //         children: [
+                  //           Text(
+                  //             'Total App Download',
+                  //             style: TextStyle(
+                  //               fontSize: 16,
+                  //               fontWeight: FontWeight.w700,
+                  //               color: Colors.black,
+                  //             ),
+                  //           ),
+                  //           Text(
+                  //             '10 K',
+                  //             style: TextStyle(
+                  //               fontSize: 32,
+                  //               fontWeight: FontWeight.w700,
+                  //               color: Colors.black,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+
+                  CustomTextField(
+                    hintText: 'Search events, benefits, and more',
+                    controller: searchController,
+                    onChanged: (value) {
+                      onSearchFieldChanged(value);
+                    },
+                    hintStyle: const TextStyle(color: Colors.white),
+                    prefixIcon: const ImageView(
+                      height: 20,
+                      width: 20,
+                      borderRadiusValue: 0,
+                      color: Colors.white,
+                      margin: EdgeInsets.only(left: kPadding, right: kPadding),
+                      fit: BoxFit.contain,
+                      assetImage: AppAssets.searchIcon,
+                    ),
+                    margin: const EdgeInsets.only(
+                        left: kPadding,
+                        right: kPadding,
+                        top: kPadding,
+                        bottom: kPadding),
+                  ),
+                  // if (filters?.haveData == true)
+                  Padding(
+                    padding: const EdgeInsets.only(left: kPadding, right: kPadding),
+                    child: Consumer<GuestControllers>(
+                      builder: (context, value, child) {
+                        return SizedBox(
+                          height: 40,
+                          child: ListView.builder(
+                            itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
+                              selectedFilter ??= data;
+                              return
+                                GradientButton(
+                                  backgroundGradient: tabIndex == index
+                                      ? primaryGradient
+                                      : inActiveGradient,
+                                  borderWidth: 2,
+                                  borderRadius: 30,
+                                  onTap: () async {
+                                    selectedFilter = data;
+
+                                    tabIndex = index;
+                                    categoryId =selectedFilter?.id.toString()??'';
+                                    setState(() {});
+                                    fetchFeeds();
+                                  },
+                                  margin: const EdgeInsets.only(right: 12),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: kPadding, vertical: 8),
+                                  child: Text(
+                                    '${data?.name}',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: tabIndex == index
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                );
+                            },
+                          ),
+                        );
                       },
-                      child: FeedCard(
-                        index: index,
-                        data: data,
-                      ),
-                    );
-                  },
-                )
-              else
-                NoDataFound(
-                  heightFactor: 0.3,
-                  message: controller.feedsModel?.message ?? 'No Feeds Found',
-                ),
+                    ),
+                  ),
+                  if (controller.loadingFeeds)
+                    const LoadingScreen(
+                      heightFactor: 0.3,
+                      message: 'Loading Feeds...',
+                    )
+                  else if (feeds.haveData)
+                    ListView.builder(
+                      itemCount: feeds?.length ?? 0,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        var data = feeds?.elementAt(index);
+                        return InkWell(
+                          onTap: () {
+                            context.pushNamed(Routs.feedDetail,
+                                extra: FeedDetail(id: data?.id));
+                          },
+                          child: FeedCard(
+                            index: index,
+                            data: data,
+                          ),
+                        );
+                      },
+                    )
+                  else
+                    NoDataFound(
+                      heightFactor: 0.3,
+                      message: controller.feedsModel?.message ?? 'No Feeds Found',
+                    ),
+                ],
+              ),
             ],
           ),
           floatingActionButton: Padding(

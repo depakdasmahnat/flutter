@@ -111,6 +111,7 @@ class AppAssets {
   static const String goalImage = 'assets/images/goal_home.png';
   static const String checkDemoImage = 'assets/images/checdemoImage.png';
   static const String fileDownload = 'assets/images/file_download.png';
+  static const String download = 'assets/icons/ic_downloadfile.png';
   static const String reportBg = 'assets/images/report_bg.png';
 
   static const String logoHorizontalText =
@@ -135,7 +136,9 @@ class AppAssets {
   static const String toparrow = 'assets/images/toparrow.png';
   static const String memberprofile = 'assets/images/memberprofile.png';
   static const String admemberlist = 'assets/images/memberuser.png';
-  static const String achiversBackgroudn = 'assets/images/achiversBackgroudn.png';
+  static const String achiversBackgroudn = 'assets/images/acvhivers.png';
+  static const String congo = 'assets/images/congratsAchivers.png';
+  static const String batch = 'assets/images/batch.png';
 
   // static const String authbackgroundimage = 'assets/images/authbackgroundimage.png';
   static const String authbackgroundimage =
@@ -154,6 +157,10 @@ class AppAssets {
   static const String welcomeSplash = 'assets/gif/welcom_splash.gif';
   static const String thinkBigLastScreen = 'assets/gif/think_big_last.gif';
   static const String thinkBigLastAnswer = 'assets/gif/think_big_answer.gif';
+
+  static const String confeti2 = 'assets/gif/confeti3.gif';
+  // static const String thinkBig = 'assets/gif/thinkbig.gif';
+  static const String thinkBig = 'assets/gif/thinkBig4.gif';
 
   /// gif Sound
   static const String welcomeSound = 'gifSount/welcome_sound.mp3';

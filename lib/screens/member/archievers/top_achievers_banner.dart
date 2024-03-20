@@ -1,12 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
+import 'package:mrwebbeast/screens/guest/guest_check_demo/guest_check_demo_step2.dart';
 import 'package:mrwebbeast/utils/widgets/gradient_button.dart';
 
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../models/member/dashboard/achievers_model.dart';
+import '../../../utils/widgets/gradient_text.dart';
 import '../../../utils/widgets/image_view.dart';
 
 class TopAchieversBanners extends StatefulWidget {
@@ -31,7 +34,7 @@ class _TopAchieversBannersState extends State<TopAchieversBanners> {
                 child: CarouselSlider(
                     options: CarouselOptions(
 
-                      aspectRatio: 16 / 9,
+                      aspectRatio: 16 /16,
                       viewportFraction: 1,
                       initialPage: 0,
                       enableInfiniteScroll: true,
@@ -113,36 +116,77 @@ class TopAchieverCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const ImageView(
-                  height: 22,
-                  width: 22,
+                  height: 40,
+                  width: 40,
                   assetImage: AppAssets.trophyIcon,
                   margin: EdgeInsets.only(right: 8),
                 ),
                 Text(
                   'RANK ${bannerIndex + 1}',
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: 30,
+
                     color: Colors.black,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
           ),
-          const ImageView(
-            height: 70,
-            width: 70,
-            borderRadiusValue: 100,
-            isAvatar: true,
-            networkImage: '',
-            margin: EdgeInsets.only(top: 4, bottom: 2),
+          const SizedBox(
+            height: 25,
+          ),
+
+           Stack(
+          children: [
+             ImageView(
+              height: 170,
+              width: 170,
+              networkImage: data?.profilePhoto,
+              borderRadiusValue: 100,
+              fit: BoxFit.cover,
+              isAvatar: true,
+              margin: const EdgeInsets.only(top: 4, bottom: 2),
+            ),
+            Positioned(
+              left: -7,
+              child: Container(
+                height: 80,
+                width: 80,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                        AppAssets.batch
+                    )
+                  )
+                ),
+                child: Center(
+
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: GradientText(
+                      '${data?.rank}',
+                      gradient: primaryGradient,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontFamily: GoogleFonts.urbanist().fontFamily,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+
+          ],
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 4),
+            padding: const EdgeInsets.only(bottom: 4,top: kPadding),
             child: Text(
               '${data?.firstName ?? ''} ${data?.lastName ?? ''}',
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 25,
                 color: Colors.black,
                 fontWeight: FontWeight.w900,
               ),

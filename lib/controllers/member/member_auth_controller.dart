@@ -7,14 +7,9 @@ import 'package:mrwebbeast/core/extensions/normal/build_context_extension.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
 import 'package:mrwebbeast/screens/auth/member/change_password.dart';
-import 'package:mrwebbeast/screens/auth/member/reset_password.dart';
-import 'package:mrwebbeast/screens/auth/verify_otp.dart';
 import 'package:provider/provider.dart';
-
 import '../../core/services/api/api_service.dart';
 import '../../core/services/database/local_database.dart';
-import '../../models/auth_model/guest_data.dart';
-import '../../models/auth_model/verifyotp.dart';
 import '../../models/default_model.dart';
 import '../../models/member/auth/member_auth_model.dart';
 import '../../screens/auth/member/verify_reset_password_otp.dart';
@@ -276,7 +271,7 @@ class MemberAuthControllers extends ChangeNotifier {
         Map<String, dynamic> json = response;
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
         if (responseData.status == true) {
-          context.read<LocalDatabase>().saveMemberData(member: responseData.data);
+          // context.read<LocalDatabase>().saveMemberData(member: responseData.data);
 
           context.firstRoute();
           context.pushReplacementNamed(Routs.verifyForgotPasswordOtp,
@@ -303,7 +298,7 @@ class MemberAuthControllers extends ChangeNotifier {
 
     Map<String, String> body = {
       'enagic_id': '$enagicId',
-      'new_password': '$password',
+      'password': '$password',
     };
 
     debugPrint('Sent Data is $body');
@@ -311,19 +306,19 @@ class MemberAuthControllers extends ChangeNotifier {
       var response = await loadingDialog(
         context: context,
         future: ApiService().post(
-          endPoint: ApiEndpoints.changePassword,
+          endPoint: ApiEndpoints.resetPassword,
           body: body,
         ),
       );
-
       if (response != null && context.mounted) {
         Map<String, dynamic> json = response;
         MemberAuthModel responseData = MemberAuthModel.fromJson(json);
-
         if (responseData.status == true) {
-          context.read<LocalDatabase>().saveMemberData(member: responseData.data);
-          String route = responseData.data?.url ?? Routs.login;
-          authNavigation(context: context, route: route);
+          // context.read<LocalDatabase>().saveMemberData(member: responseData.data);
+          // String route = responseData.data?.url ?? Routs.login;
+          context.firstRoute();
+          context.pushReplacementNamed('/memberLogin');
+          // authNavigation(context: context, route: "");
         } else {
           showError(context: context, message: responseData.message ?? 'Something Went Wrong');
         }
@@ -332,7 +327,6 @@ class MemberAuthControllers extends ChangeNotifier {
       ErrorHandler.catchError(e, s, true);
     }
   }
-
   /// 2) Get Profile API...
   Future getProfile({required BuildContext context}) async {
     FocusScope.of(context).unfocus();
@@ -394,13 +388,15 @@ class MemberAuthControllers extends ChangeNotifier {
   }
 
   Future authNavigation({required BuildContext context, required String route}) async {
+    print("check route $route");
     if (route == Routs.dashboard) {
-      context.firstRoute();
+
       context.read<DashboardController>().changeDashBoardIndex(index: 0);
+      context.firstRoute();
       context.pushReplacementNamed(Routs.dashboard, extra: const DashBoard(dashBoardIndex: 0));
     } else {
       context.firstRoute();
-      context.pushNamed(route);
+      context.pushReplacementNamed(route);
     }
   }
 }

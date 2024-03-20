@@ -12,6 +12,7 @@ import '../../../core/constant/gradients.dart';
 import '../../../core/services/database/local_database.dart';
 import '../../../models/auth_model/guest_data.dart';
 import '../../../utils/widgets/gradient_button.dart';
+import '../../../utils/widgets/image_view.dart';
 
 
 class GuestCheckDemoStep4 extends StatefulWidget {
@@ -54,6 +55,10 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
     return Scaffold(
        body: Stack(
          children: [
+           // const ImageView(
+           //   // height: 100,
+           //   assetImage: AppAssets.confeti2,
+           // ),
            Positioned(
              // bottom: size.height*0.14,
              child: Container(

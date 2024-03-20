@@ -79,8 +79,8 @@ class AuthControllers extends ChangeNotifier {
           showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           // context.pushNamed(Routs., extra: VerifyOTP(mobileNo: mobile, countryCode: countryCode));
         } else {
-          showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
+          // showSnackBar(
+          //     context: context, text: responseData?.message ?? 'Something went wong', color: Colors.red);
         }
       }
     });
@@ -165,6 +165,7 @@ class AuthControllers extends ChangeNotifier {
     required String? otp,
   }) async {
     FocusScope.of(context).unfocus();
+    LocalDatabase localDatabase = LocalDatabase();
     Map<String, dynamic> body = {
       'is_mobile_validated': '$isMobileValidated',
       'mobile': '$mobile',
@@ -176,6 +177,7 @@ class AuthControllers extends ChangeNotifier {
       'state': '$stateId',
       'country_code':'$countryCode',
       'otp': '$otp',
+      'deviceToken': localDatabase.deviceToken ?? '',
     };
     debugPrint('Sent Data is $body');
     var response = ApiService().post(
@@ -436,8 +438,7 @@ class AuthControllers extends ChangeNotifier {
         Map<String, dynamic> json = response;
         responseData = DefaultModel.fromJson(json);
         if (responseData?.status == true) {
-          showSnackBar(
-              context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
+          // showSnackBar(context: context, text: responseData?.message ?? 'Something went wong', color: Colors.green);
           context.firstRoute();
           context.pushReplacementNamed(Routs.gtpVideo);
 

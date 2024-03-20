@@ -45,6 +45,7 @@ class ApiEndpoints {
   static const String forgotPassword = 'forgot_password';
   static const String resetPassword = 'reset_password';
   static const String changePassword = 'change_password';
+  // static const String resetPassword = 'reset_password';
   static const String fetchProfile = 'fetch_profile';
   static const String treeView = 'tree_view';
   static const String pinnacleView = 'pinnacle_view';

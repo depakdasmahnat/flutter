@@ -43,7 +43,6 @@ class DashboardController extends ChangeNotifier {
   changeUserRole({String? role}) {
     if (role != null) {
       _userRole = role;
-
       widgets = _userRole == UserRoles.guest.value ? guestWidgets : membersWidgets;
       _dashBoardIndex = 0;
       notifyListeners();

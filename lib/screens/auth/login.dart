@@ -1,4 +1,5 @@
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +20,7 @@ import '../../core/constant/gradients.dart';
 
 import '../../core/route/route_paths.dart';
 import '../../models/auth_model/validatemobile.dart';
+import '../../models/common_apis/cityModel.dart';
 import '../../utils/widgets/gradient_button.dart';
 import '../../utils/widgets/web_view_screen.dart';
 import '../../utils/widgets/widgets.dart';
@@ -32,11 +34,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  GlobalKey<DropdownSearchState<dynamic>> dropDownkey = GlobalKey<DropdownSearchState<dynamic>>();
+  // final dropDownkey = GlobalKey<DropdownSearchState<String>>();
+  FocusNode nameFocusNode = FocusNode();
   bool checkValidate = false;
   bool forReferral = false;
   bool showReferral = false;
   bool checkBox = false;
-  String countryCode ='';
+  String countryCode ='91';
   String stateId ='';
   String cityId ='';
   @override
@@ -48,8 +53,10 @@ class _LoginState extends State<Login> {
     });
     super.initState();
   }
+  bool check =false;
 
-  // Validatemobile validate =Validatemobile();
+
+
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController lastNameCtrl = TextEditingController();
   TextEditingController referralCodeCtrl = TextEditingController();
@@ -74,6 +81,7 @@ class _LoginState extends State<Login> {
             key: signInFormKey,
             child: ListView(
               padding: const EdgeInsets.only(left: 24, right: 24, bottom: 150),
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: size.height * 0.13, bottom: 8),
@@ -93,7 +101,7 @@ class _LoginState extends State<Login> {
                         padding:
                             EdgeInsets.only(top: 8, bottom: size.height * 0.06),
                         child:  Text(
-                          checkValidate==false?  'Login now to continue your journey':'Fill your true information',
+                          checkValidate==false?  'Login Now To Continue Your Journey':'Fill Your True Information',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -108,7 +116,6 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Container(
-
                     decoration: ShapeDecoration(
                       color: const Color(0xFF1B1B1B),
                       shape: RoundedRectangleBorder(
@@ -122,26 +129,24 @@ class _LoginState extends State<Login> {
                         controller:phoneCtrl ,
                         decoration: const InputDecoration(
                           hintText: 'Enter Mobile No.',
-                          border: InputBorder.none
+                          border: InputBorder.none,
+                          counterText: ''
                         ),
                          autovalidateMode: AutovalidateMode.disabled,
                         initialCountryCode: 'IN',
                         dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                         dropdownIconPosition: IconPosition.trailing,
-                        disableLengthCheck: true,
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
                           FilteringTextInputFormatter.digitsOnly
                         ],
-                        // validator: (val) {
-                        //   return Validator.numberValidator(val.toString());
-                        // },
-                        // pickerDialogStyle:PickerDialogStyle ,
+                        onCountryChanged: (value) {
+                          countryCode=value.fullCountryCode;
+                          setState(() {});
+                        },
                         onChanged: (phone) {
 
                           if (phone.number.length == 10) {
-                            countryCode=phone.countryCode;
-                            setState(() {});
                             validatePhone();
                           }
                         },
@@ -156,70 +161,47 @@ class _LoginState extends State<Login> {
                     color: textColor2,
                   ),
                 ),
-                // CustomTextField(
-                //   controller: phoneCtrl,
-                //   autofocus: true,
-                //   prefix: SizedBox(
-                //     width: size.width*0.24,
-                //     child: Row(
-                //       children: [
-                //         CountryCodePicker(
-                //           onChanged: (value) {
-                //           },
-                //           showCountryOnly: true,
-                //           initialSelection: 'in',
-                //           showDropDownButton: true,
-                //           hideMainText: true,
-                //           showFlagMain: true,
-                //           flagWidth: size.width*0.04,
-                //         ),
-                //         SizedBox(
-                //           height: 20,
-                //           width: 10,
-                //           child: VerticalDivider(
-                //             width: 10,
-                //             thickness: 2,
-                //           ),
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                //   keyboardType: TextInputType.phone,
-                //   limit: 10,
-                //   validator: (val) {
-                //     return Validator.numberValidator(val);
-                //   },
-                //   onChanged: (value) async {
-                //     if (value.length == 10) {
-                //       validatePhone();
-                //     }
-                //   },
-                //   hintText: 'Enter Mobile No.',
-                //   autofillHints: const [AutofillHints.telephoneNumberNational],
-                //   margin: const EdgeInsets.only(bottom: 24),
-                // ),
+                Visibility(
+                    visible: checkValidate == true,
+                    child: CustomTextField(
+                      controller: nameCtrl,
 
-                if (checkValidate == true)
-                  CustomTextField(
-                    controller: nameCtrl,
-                    autofocus: true,
-                    validator: (val) {
-                      return Validator.fullNameValidator(val);
-                    },
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
-
-                    ],
-
-                    onChanged: (value) {},
-                    hintText: 'Enter First Name',
-                    autofillHints: const [AutofillHints.name],
-                    margin: const EdgeInsets.only(top: 1, bottom: 1),
-                  ),
+                      autofocus: checkValidate,
+                      textCapitalization: TextCapitalization.words,
+                      validator: (val) {
+                        return Validator.fullNameValidator(val);
+                      },
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+                      ],
+                      onChanged: (value) {},
+                      hintText: 'Enter First Name',
+                      autofillHints: const [AutofillHints.name],
+                      margin: const EdgeInsets.only(top: 1, bottom: 1),
+                    ),),
+                // if (checkValidate == true)
+                  // CustomTextField(
+                  //   controller: nameCtrl,
+                  //   autofocus: checkValidate,
+                  //   textCapitalization: TextCapitalization.words,
+                  //   validator: (val) {
+                  //     return Validator.fullNameValidator(val);
+                  //   },
+                  //   inputFormatters: <TextInputFormatter>[
+                  //     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+                  //
+                  //   ],
+                  //   onChanged: (value) {},
+                  //   hintText: 'Enter First Name',
+                  //   autofillHints: const [AutofillHints.name],
+                  //   margin: const EdgeInsets.only(top: 1, bottom: 1),
+                  // ),
                 if (checkValidate == true)
                   CustomTextField(
                     controller: lastNameCtrl,
-                    autofocus: true,
+                    textCapitalization: TextCapitalization.words,
+
+
                     // validator: (val) {
                     //   return Validator.fullNameValidator(val);
                     // },
@@ -230,31 +212,38 @@ class _LoginState extends State<Login> {
                     onChanged: (value) {},
                     hintText: 'Enter Last Name',
                     autofillHints: const [AutofillHints.name],
-                    margin: const EdgeInsets.only(top: 18),
+                    margin:  EdgeInsets.only(top: 18,bottom: countryCode=='91'?0:18),
                   ),
-                if (checkValidate == true)
+                if (checkValidate == true &&countryCode=='91')
                   Consumer<GuestControllers>(
                     builder: (context, controller, child) {
-                      return  CustomDropdown(
+                      return
+
+                        CustomDropdown(
                         mandatory: '*',
-                        padding:  EdgeInsets.only(top: kPadding,bottom: kPadding),
+                        padding:  const EdgeInsets.only(top: kPadding,bottom: kPadding),
                         hintText: 'Select State',
                         onChanged: (v) async {
-                          stateId = controller.satesModel?.data
 
-                              ?.firstWhere(
-                                (element) {
+                          check=true;
+                          stateId = controller.satesModel?.data?.firstWhere((element) {
                               return element.name == v;
-                            },
-                          )
-                              .id
-                              .toString() ??
-                              '';
+                            },).id.toString() ?? '';
+                        ;
+
                           if (stateId.isNotEmpty == true) {
-                            await context.read<GuestControllers>().fetchCity(
+
+                            CityModel? cityModel= await context.read<GuestControllers>().fetchCity(
                               context: context,
                               stateId: stateId,
                             );
+                            if(cityModel?.status==true){
+                              dropDownkey.currentState?.clear();
+                              setState(() {});
+                            }else{
+                              dropDownkey.currentState?.clear();
+                              setState(() {});
+                            }
                           }
 
                         },
@@ -263,13 +252,14 @@ class _LoginState extends State<Login> {
                         listItem: controller.satesModel?.data?.map((e) => e.name).toList(),
                       );
                     },
-
-
                   ),
-                if (checkValidate == true)
+
+                if (checkValidate == true &&countryCode=='91')
                 Consumer<GuestControllers>(
                   builder: (context, controller, child) {
-                    return CustomDropdown(
+                    return
+                      CustomDropdown(
+                      dropDownkey: dropDownkey,
                       padding:  const EdgeInsets.only(top: 0,bottom: kPadding),
                       mandatory: '*',
                       hintText: 'Select City',
@@ -381,6 +371,7 @@ class _LoginState extends State<Login> {
             boxShadow: const [],
             margin: const EdgeInsets.only(left: 16, right: 24),
             onTap: () {
+
               if (signInFormKey.currentState?.validate() == true) {
                 sendOtp();
               }
@@ -461,6 +452,7 @@ class _LoginState extends State<Login> {
       forReferral = true;
       showReferral = false;
       checkBox =true;
+
       setState(() {});
 
     } else {
@@ -471,8 +463,9 @@ class _LoginState extends State<Login> {
       checkValidate = true;
       forReferral = false;
       showReferral = true;
+      setState(() {});
     }
-    setState(() {});
+
 
   }
 

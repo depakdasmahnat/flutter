@@ -1,14 +1,19 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+import 'package:mrwebbeast/core/constant/gradients.dart';
 
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
 
 import '../../../utils/widgets/custom_back_button.dart';
+import '../../../utils/widgets/gradient_button.dart';
 import '../../../utils/widgets/image_view.dart';
+import '../guestProfile/guest_faq.dart';
 
 class GusetProductDetails extends StatefulWidget {
   String? productId;
@@ -198,6 +203,46 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
               );
         },
       ),
+      bottomSheet:
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GradientButton(
+            height: 70,
+            borderRadius: 18,
+            backgroundGradient: primaryGradient,
+            backgroundColor: Colors.transparent,
+            boxShadow: const [],
+            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+
+            child: Padding(
+              padding: const EdgeInsets.all(kPadding),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Download Invoice',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: GoogleFonts.urbanist().fontFamily,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                    ),
+                  ),
+                  const ImageView(
+                    height: 30,
+                   width: 30,
+                    assetImage: AppAssets.download,
+
+                  )
+
+                ],
+              ),
+            ),
+          ),
+        ],
+      )
     );
   }
 }
