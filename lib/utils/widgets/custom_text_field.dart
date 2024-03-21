@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     this.controller,
+    this.context,
     this.textCapitalization,
     this.height,
     this.width,
@@ -96,6 +97,7 @@ class CustomTextField extends StatelessWidget {
 
   });
 
+  final BuildContext? context;
   final TextEditingController? controller;
   final BoxConstraints? suffixIconConstraints;
   final double? height;

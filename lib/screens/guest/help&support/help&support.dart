@@ -44,7 +44,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
             Align(
               alignment:  Alignment.center,
               child: CustomeText(
-                text: "Any questions? we're here to help you!",
+                text: "Any questions ? we're here to help you!",
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
@@ -69,7 +69,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: GradientText(
-                        'Any Query',
+                        'Any Query ?',
                         gradient: primaryGradient,
                         style: TextStyle(
                           color: Colors.white,
@@ -93,7 +93,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                         decoration:  InputDecoration(
                           contentPadding:EdgeInsets.only(left: size.width*0.07) ,
                           border: InputBorder.none,
-                          hintText: 'Please type your message here...',
+                          hintText: 'Please Drop Your Questions Here.',
                           hintStyle: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 14
@@ -119,7 +119,7 @@ class _HelpAndSupportState extends State<HelpAndSupport> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Submit',
+                            'Send Request',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: GoogleFonts.urbanist().fontFamily,

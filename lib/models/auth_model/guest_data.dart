@@ -19,6 +19,7 @@ class GuestData {
     this.profilePhoto,
     this.referredBy,
     this.deviceToken,
+    this.sponsorMobile,
     this.role,
     this.steps,
     this.accessToken,
@@ -35,6 +36,7 @@ class GuestData {
     deviceToken = json['device_token'];
     role = json['role'];
     steps = json['steps'];
+    sponsorMobile = json['sponsor_mobile'];
     accessToken = json['access_token'];
   }
 
@@ -60,12 +62,15 @@ class GuestData {
   num? steps;
   @HiveField(10)
   String? accessToken;
+  @HiveField(11)
+  String? sponsorMobile;
 
   GuestData copyWith({
     num? id,
     String? firstName,
     String? lastName,
     String? mobile,
+    String? sponsorMobile,
     dynamic email,
     dynamic profilePhoto,
     dynamic referredBy,
@@ -85,6 +90,7 @@ class GuestData {
         deviceToken: deviceToken ?? this.deviceToken,
         role: role ?? this.role,
         steps: steps ?? this.steps,
+        sponsorMobile: sponsorMobile ?? this.sponsorMobile,
         accessToken: accessToken ?? this.accessToken,
       );
 
@@ -100,6 +106,7 @@ class GuestData {
     map['device_token'] = deviceToken;
     map['role'] = role;
     map['steps'] = steps;
+    map['sponsor_mobile'] = sponsorMobile;
     map['access_token'] = accessToken;
     return map;
   }

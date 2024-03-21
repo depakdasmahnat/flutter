@@ -43,6 +43,7 @@ import '../../screens/guest/profile/about_us.dart';
 import '../../screens/guest/profile/permission_screen.dart';
 import '../../screens/guest/resource&Demo/mainresource.dart';
 import '../../screens/guest/resource&Demo/resource_and_demo.dart';
+import '../../screens/guest/resource&Demo/view_detail.dart';
 import '../../screens/guest/web_view/faq.dart';
 import '../../screens/member/events/create_event.dart';
 import '../../screens/member/events/events_screen.dart';
@@ -334,7 +335,9 @@ class RoutesConfig {
         name: Routs.settings,
         path: Routs.settings,
         pageBuilder: (context, state) {
-          return materialPage(state: state, child: const AccountSettings());
+          AccountSettings? data = state.extra as AccountSettings?;
+
+          return materialPage(state: state, child:  AccountSettings(hideDeleteAccount: data?.hideDeleteAccount??false,));
         },
       ),
       GoRoute(
@@ -465,6 +468,14 @@ class RoutesConfig {
           ResourceAndDemo? data = state.extra as ResourceAndDemo?;
 
           return materialPage(state: state, child: ResourceAndDemo(category: data?.category));
+        },
+      ),  GoRoute(
+        name: Routs.ViewDetail,
+        path: Routs.ViewDetail,
+        pageBuilder: (context, state) {
+
+          ViewDetail? data = state.extra as ViewDetail?;
+          return materialPage(state: state, child: ViewDetail(image: data?.image??'', type: data?.type??'',));
         },
       ),
 

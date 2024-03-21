@@ -118,17 +118,11 @@ class _ResourceAndDemoState extends State<ResourceAndDemo> {
                             itemBuilder: (context, index) {
                               var data = resources?.elementAt(index);
 
-                              return InkWell(
-                                  onTap: () {
-                                    // if(widget.type!='true'){
-                                    //   context.pushNamed(Routs.resourceAndDemo,extra:true );
-                                    // }
-                                  },
-                                  child: FeedCard(
-                                    index: index,
-                                    data: data,
-                                    isFeeds: false,
-                                  ));
+                              return FeedCard(
+                                index: index,
+                                data: data,
+                                isFeeds: false,
+                              );
                             },
                           )
                         : const NoDataFound(heightFactor: 0.7),

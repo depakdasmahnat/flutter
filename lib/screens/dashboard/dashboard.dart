@@ -14,6 +14,7 @@ import '../../controllers/dashboard/dashboard_controller.dart';
 import '../../core/config/app_assets.dart';
 import '../../core/route/route_paths.dart';
 import '../../core/services/database/local_database.dart';
+import '../../models/auth_model/guest_data.dart';
 import '../../models/dashboard/dashboard_data.dart';
 import '../../utils/widgets/gradient_text.dart';
 import '../../utils/widgets/widgets.dart';
@@ -49,6 +50,7 @@ class DashBoardState extends State<DashBoard> {
   @override
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
+    GuestData? guest = context.read<LocalDatabase>().guest;
     debugPrint('deviceToken ${localDatabase.deviceToken}');
     // DashboardController dashboardController = Provider.of<DashboardController>(context);
     Size size = MediaQuery.sizeOf(context);
@@ -171,8 +173,8 @@ class DashBoardState extends State<DashBoard> {
                       borderRadius: 50,
                       blur: 15,
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                      // backgroundGradient: inActiveGradientTransparent,
-                      backgroundColor: Colors.white.withOpacity(0.15),
+                      backgroundGradient:guest?.role=='Guest'?null: inActiveGradientTransparent,
+                      backgroundColor:guest?.role=='Guest'? Colors.grey.withOpacity(0.8):Colors.white.withOpacity(0.5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: List.generate(

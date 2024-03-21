@@ -57,8 +57,8 @@ class DashboardController extends ChangeNotifier {
   final List<DashboardData> guestWidgets = [
     DashboardData(
       title: 'Social',
-      activeImage: AppAssets.guestHomeIcon,
-      inActiveImage: AppAssets.guestHomeIcon,
+      activeImage: AppAssets.social,
+      inActiveImage: AppAssets.socialInactive,
       widget: const HomeScreen(),
     ),
     DashboardData(

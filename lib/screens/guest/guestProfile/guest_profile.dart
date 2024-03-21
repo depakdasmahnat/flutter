@@ -20,6 +20,7 @@ import '../../../utils/widgets/social_links.dart';
 import '../../../utils/widgets/web_view_screen.dart';
 import '../../../utils/widgets/widgets.dart';
 
+import '../../member/profile/account_settings.dart';
 import 'guest_faq.dart';
 
 class GuestProfile extends StatefulWidget {
@@ -148,7 +149,7 @@ class _GuestProfileState extends State<GuestProfile> {
                                   // ),
                                   IconAndText(
                                     icon: AppAssets.faq,
-                                    title: 'FAQ',
+                                    title: 'FAQs',
                                     onTap: () {
                                       context.pushNamed(Routs.guestFaq);
                                       // context.pushNamed(Routs.webView,
@@ -160,21 +161,21 @@ class _GuestProfileState extends State<GuestProfile> {
                                   SizedBox(
                                     height: size.height * 0.02,
                                   ),
-                                  // IconAndText(
-                                  //   onTap: () {
-                                  //     context.pushNamed(Routs.guestNotification);
-                                  //   },
-                                  //   icon: AppAssets.notificationsIcon,
-                                  //   title: 'Notification ',
-                                  // ),
-                                  // SizedBox(
-                                  //   height: size.height * 0.02,
-                                  // ),
+                                  IconAndText(
+                                    onTap: () {
+                                      context.pushNamed(Routs.guestNotification);
+                                    },
+                                    icon: AppAssets.notificationsIcon,
+                                    title: 'Notification ',
+                                  ),
+                                  SizedBox(
+                                    height: size.height * 0.02,
+                                  ),
                                   IconAndText(
                                     icon: AppAssets.setting,
                                     title: 'Setting',
                                     onTap: () {
-                                      context.pushNamed(Routs.settings);
+                                      context.pushNamed(Routs.settings,extra: const AccountSettings(hideDeleteAccount: true,));
                                     },
                                   ),
                                   SizedBox(

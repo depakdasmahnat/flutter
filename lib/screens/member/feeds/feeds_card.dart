@@ -1,26 +1,26 @@
+
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:html/parser.dart' show parse;
+import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
-
 import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_opener.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:mrwebbeast/utils/widgets/pdf_viewer.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../controllers/feeds/feeds_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/guest_Model/guestDemoModel.dart';
+import '../../guest/resource&Demo/view_detail.dart';
 import 'chewie_video_player.dart';
 import 'feed_detail.dart';
 
@@ -47,6 +47,7 @@ class _FeedCardState extends State<FeedCard> {
 
   @override
   void initState() {
+    print("check this");
     super.initState();
   }
 
@@ -80,7 +81,12 @@ class _FeedCardState extends State<FeedCard> {
                     fit: BoxFit.cover,
                     networkImage: '${data?.file}',
                     onTap: () {
-                      context.pushNamed(Routs.feedDetail, extra: FeedDetail(id: data?.id));
+                      if(isFeeds==false){
+                        context.pushNamed(Routs.ViewDetail,extra: ViewDetail(image: data?.file??'', type: FeedsFileType.image.value,));
+                      }else{
+                        context.pushNamed(Routs.feedDetail, extra: FeedDetail(id: data?.id));
+                      }
+
                       // context.pushNamed(Routs.imageOpener, extra: ImageOpener(networkImage: '${data?.file}'));
                     },
                   ),
@@ -134,12 +140,29 @@ class _FeedCardState extends State<FeedCard> {
                   fit: BoxFit.cover,
                   assetImage: AppAssets.pdfIcon,
                   onTap: () {
-                    context.pushNamed(Routs.feedDetail, extra: FeedDetail(id: data?.id));
-                    // context.pushNamed(Routs.viewPdf, extra: PDFViewer(pdfUrl: '${data?.file}',
-                    //     ));
+                    if(isFeeds==false){
+                      context.pushNamed(Routs.viewPdf, extra: PDFViewer(pdfUrl: '${data?.file}',
+                      ));
+                      // context.pushNamed(Routs.ViewDetail,extra: ViewDetail(image: data?.file??'', type: FeedsFileType.pdf.value,));
+                    }else{
+                      context.pushNamed(Routs.feedDetail, extra: FeedDetail(id: data?.id));
+                    };
                   },
                 )
-              else if (data?.file != null)
+              else if (data?.fileType ==FeedsFileType.article.value && data?.file != null)
+                ImageView(
+                  height: 150,
+                  borderRadiusValue: 18,
+                  margin: const EdgeInsets.only(left: 12, right: 12, top: 12),
+                  backgroundColor: Colors.transparent,
+                  fit: BoxFit.cover,
+                  networkImage:'${data?.file}' ,
+                  // assetImage: AppAssets.fileIcon,
+                  onTap: () {
+                    launchUrl(Uri.parse('${data?.file}'));
+                  },
+                )
+                      else if (data?.file != null)
                 ImageView(
                   height: 150,
                   borderRadiusValue: 18,
@@ -153,12 +176,12 @@ class _FeedCardState extends State<FeedCard> {
                 )
             ],
           ),
+          if(isFeeds==true)
           Padding(
             padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 if (data?.title != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
@@ -248,8 +271,26 @@ class _FeedCardState extends State<FeedCard> {
 
                             FeedMenu(
                               icon: AppAssets.shareIcon,
-                              onTap: () {
-                                Share.share('${data?.title ?? ''}\n${data?.file ?? ''}');
+                              onTap: () async{
+                                       print('check ${data?.fileType} ');
+                                if(data?.fileType == FeedsFileType.image.value){
+                                  context.read<GuestControllers>().sendImageAndVideos(
+                                      type: 'image',
+                                      path:data?.file,
+                                  );
+                                }else if(data?.fileType == FeedsFileType.video.value){
+                                  context.read<GuestControllers>().sendImageAndVideos(
+                                  type: 'video',
+                                  path:data?.file,
+                                );
+
+                                }else{
+                                  context.read<GuestControllers>().sendImageAndVideos(
+                                    type: 'youtube',
+                                    path:data?.file,
+                                  );
+                                }
+                                // Share.share('${data?.title ?? ''}\n${data?.file ?? ''}');
                               },
                             ),
                             const SizedBox(

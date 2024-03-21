@@ -10,6 +10,7 @@ import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/member/member_auth_controller.dart';
+import '../../../controllers/member/member_controller/member_controller.dart';
 import '../../../core/config/app_assets.dart';
 import '../../../core/constant/gradients.dart';
 
@@ -31,6 +32,7 @@ class GuestEditProfile extends StatefulWidget {
 }
 
 class _GuestEditProfileState extends State<GuestEditProfile> {
+  GlobalKey<DropdownSearchState<String>> dropdownKey = GlobalKey<DropdownSearchState<String>>();
   FetchGuestProfile? fetchGuestProfileModel;
   TextEditingController dateControlller = TextEditingController();
   TextEditingController firsNameController = TextEditingController();
@@ -55,7 +57,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
   String stateName = '';
   String cityId = '';
   String cityName = '';
-  String countryCode = '';
+  String countryCode = '91';
   File? image;
 
   @override
@@ -68,6 +70,9 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
       await context.read<GuestControllers>().fetchState(
             context: context,
           );
+      await context.read<MembersController>().fetchOccupation(
+        context: context,
+      );
       gender = fetchGuestProfileModel?.data?.gender ?? '';
       genderHint = fetchGuestProfileModel?.data?.gender ?? 'Select Gender';
       refType = fetchGuestProfileModel?.data?.leadRefType ?? '';
@@ -307,9 +312,11 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                     CountyTextField(
                       title: 'Mobile No.',
                       mandatory: '*',
+
                       controller: mobileController,
+                      readOnly: true,
                       onCountryChanged: (v) {
-                        debugPrint('countryCode ${v.flag}');
+                        debugPrint('countryCode ${v.fullCountryCode}');
                         countryCode = v.fullCountryCode;
                         countryNameController.text = v.name;
                         setState(() {});
@@ -348,14 +355,31 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                     //   title: 'Ref Type',
                     //   listItem: const ['Friend', 'Family', 'Professional', 'Society', 'Random'],
                     // ),
-                    CustomDropdown(
-                      hintText: occupationHint,
-                      onChanged: (v) {
-                        occupation = v ?? '';
+                    Consumer<MembersController>(
+                      builder: (context, controller, child) {
+                        return CustomDropdown(
+                          hintText: 'Select Occupation ',
+                          onChanged: (v) {
+                            var id = controller.fetchOccupationModel?.data?.firstWhere((element) {
+                              return element.name == v;
+                            }).id;
+                            occupation = id.toString();
+                          },
+                          title: 'Occupation',
+                          listItem: controller.fetchOccupationModel?.data?.map((e) {
+                            return e.name;
+                          }).toList(),
+                        );
                       },
-                      title: 'Occupation',
-                      listItem: const ['Doctor', 'Doctor'],
                     ),
+                    // CustomDropdown(
+                    //   hintText: occupationHint,
+                    //   onChanged: (v) {
+                    //     occupation = v ?? '';
+                    //   },
+                    //   title: 'Occupation',
+                    //   listItem: const ['Doctor', 'Doctor'],
+                    // ),
                     Row(
                       children: [
                         Expanded(
@@ -366,9 +390,9 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                             onTap: () async {
                               DateTime? pickedDate = await showDatePicker(
                                 context: context,
-                                initialDate: DateTime.now(),
+                                initialDate: DateTime(DateTime.now().year - 17, DateTime.now().month,DateTime.now().day),
                                 firstDate: DateTime(1750),
-                                lastDate: DateTime(2101),
+                                lastDate:  DateTime(DateTime.now().year - 17, DateTime.now().month,DateTime.now().day),
                                 builder: (context, child) {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
@@ -415,6 +439,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                       title: 'Any Disease',
                       hintText: 'Enter Disease',
                     ),
+                    if (countryCode == '91')
                     CustomDropdown(
                       mandatory: '*',
                       hintText: stateName,
@@ -433,6 +458,12 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                                 context: context,
                                 stateId: stateId,
                               );
+                          cityName ='Select City';
+                          dropdownKey.currentState?.clear();
+
+                          setState(() {
+
+                          });
                         }
 
                       },
@@ -440,10 +471,12 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                       title: 'State',
                       listItem: controller.satesModel?.data?.map((e) => e.name).toList(),
                     ),
+                    if (countryCode == '91')
                     Consumer<GuestControllers>(
                       builder: (context, controller, child) {
                         return CustomDropdown(
                           mandatory: '*',
+                          dropDownkey: dropdownKey,
                           hintText: cityName,
                           onChanged: (v) {
                             cityId = controller.cityModel?.data
@@ -461,8 +494,9 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                         );
                       },
                     ),
+                    if (countryCode == '91')
                     CustomTextFieldApp(
-                      mandatory: '*',
+
                       controller: pinCodeController,
                       title: 'Pin Code',
                       hintText: 'Pin Code',
@@ -512,7 +546,7 @@ class _GuestEditProfileState extends State<GuestEditProfile> {
                           pincode: pinCodeController.text,
                           address: addressController.text,
                           illnessInFamily: diseaseController.text,
-                          file: XFile(image?.path ?? ''));
+                          file: XFile(image?.path ?? ''), countryCode: countryCode);
                     },
                   );
 

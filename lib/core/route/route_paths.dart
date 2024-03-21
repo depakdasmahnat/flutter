@@ -58,6 +58,7 @@ class Routs {
   static const String guestProduct = '/guestProduct';
   static const String guestProfile = '/guestProfile';
   static const String resourceAndDemo = '/resourceAndDemo';
+  static const String ViewDetail = '/ViewDetail';
   static const String guestEditProfile = '/guestEditPRofile';
   static const String guestFaq = '/guestFaq';
   static const String selectLead = '/selectLead';

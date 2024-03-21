@@ -798,6 +798,7 @@ class _CountyTextFieldState extends State<CountyTextField> {
                 autovalidateMode: AutovalidateMode.disabled,
                 initialCountryCode: 'IN',
 
+
                 dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                 dropdownIconPosition: IconPosition.trailing,
                 disableLengthCheck: false,

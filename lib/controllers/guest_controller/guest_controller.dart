@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/services/api/exception_handler.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:share_plus/share_plus.dart';
@@ -29,7 +32,7 @@ import '../../models/guest_Model/guestDemoModel.dart';
 import '../../models/guest_Model/resourceModel.dart';
 import '../../models/member/faqs/fetchFaqsModel.dart';
 import '../../utils/widgets/widgets.dart';
-
+import 'package:http/http.dart' as http;
 class GuestControllers extends ChangeNotifier {
   /// 0)  SignOut User....
 
@@ -41,7 +44,28 @@ class GuestControllers extends ChangeNotifier {
   /// 1) fetch new joiners...
   bool isLoading = false;
   Fetchnewjoiners? fetchnewjoiners;
+  sendImageAndVideos({final String? path,String? type})async{
+    try {
+      final response = await http.get(Uri.parse(path??''));
+      final documentDirectory = await getTemporaryDirectory();
+      if(type=='image'){
 
+        final file = File('${documentDirectory.path}/image.png');
+        await file.writeAsBytes(response.bodyBytes);
+        Share.shareFiles(['${documentDirectory.path}/image.png'], text: 'Sharing image');
+      }else if(type=='video'){
+
+        final file = File('${documentDirectory.path}/video.mp4');
+        await file.writeAsBytes(response.bodyBytes);
+        Share.shareFiles(['${documentDirectory.path}/video.mp4'], text: 'Sharing video');
+      }else{
+        Share.share('${path}');
+      }
+
+    } catch (e) {
+      print('Error sharing: $e');
+    }
+  }
   Future<Fetchnewjoiners?> fetchNewJoiners({
     required BuildContext context,
   }) async {
@@ -703,6 +727,7 @@ class GuestControllers extends ChangeNotifier {
     required String? pincode,
     required String? address,
     required String? illnessInFamily,
+    required String? countryCode,
     required XFile? file,
   }) async {
     FocusScope.of(context).unfocus();
@@ -720,6 +745,7 @@ class GuestControllers extends ChangeNotifier {
       'pincode': '$pincode',
       'address': '$address',
       'illness_in_family': '$illnessInFamily',
+      'country_code': '$countryCode',
     };
 
     debugPrint('Sent Data is $body');

@@ -12,7 +12,8 @@ import '../../../utils/widgets/widgets.dart';
 import '../../guest/guestProfile/guest_profile.dart';
 
 class AccountSettings extends StatefulWidget {
-  const AccountSettings({Key? key}) : super(key: key);
+ final bool? hideDeleteAccount;
+  const AccountSettings({Key? key,this.hideDeleteAccount}) : super(key: key,);
 
   @override
   State<AccountSettings> createState() => _AccountSettingsState();
@@ -34,6 +35,7 @@ class _AccountSettingsState extends State<AccountSettings> {
         padding: EdgeInsets.only(bottom: size.height * 0.1),
         physics: const BouncingScrollPhysics(),
         children: [
+          if(widget.hideDeleteAccount==false)
           Padding(
             padding: const EdgeInsets.only(left: kPadding, right: kPadding, top: kPadding),
             child: GestureDetector(

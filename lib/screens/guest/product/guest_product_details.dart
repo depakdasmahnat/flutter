@@ -185,7 +185,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                       //     textAlign: TextAlign.center,
                       //   ),
                       // ),
-                      Padding(
+                       Padding(
                         padding: const EdgeInsets.only(
                             left: kPadding, top: 5, right: kPadding),
                         child: Text(
@@ -203,7 +203,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
               );
         },
       ),
-      bottomSheet:
+      bottomNavigationBar:
       Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -222,7 +222,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Download Invoice',
+                    'Get Brochure',
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: GoogleFonts.urbanist().fontFamily,

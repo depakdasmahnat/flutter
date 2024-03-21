@@ -56,7 +56,7 @@ class _FeedDetailState extends State<FeedDetail> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       fetchFeedDetails();
-      fetchComments();
+      // fetchComments();
     });
   }
 
@@ -65,7 +65,6 @@ class _FeedDetailState extends State<FeedDetail> {
     pageController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -84,21 +83,27 @@ class _FeedDetailState extends State<FeedDetail> {
         builder: (context, controller, child) {
           feedDetails = controller.feedsDetails;
           comments = controller.comments;
-          return PageView.builder(
+          return (controller.loadingFeedsDetails)
+              ? const LoadingScreen()
+              : PageView.builder(
             controller: pageController,
             itemCount: feedDetails?.length ?? 0,
             scrollDirection: Axis.vertical,
             physics: const PageScrollPhysics(),
             onPageChanged: (int page) async {
-              if (mounted) {
-                await fetchComments(loadingNext: true);
+
+              if (page == (feedDetails?.length??0) - 1) {
+                id =feedDetails?[page].id;
+
+                fetchFeedDetails();
               }
+              // if (mounted) {
+              //   await fetchComments(loadingNext: true);
+              // }
             },
             itemBuilder: (context, index) {
               var feedDetail = feedDetails?.elementAt(index);
-              return (controller.loadingFeedsDetails)
-                  ? const LoadingScreen()
-                  : (feedDetails != null)
+              return  (feedDetails != null)
                       ? FeedDetailsCard(data: feedDetail)
                       : const NoDataFound();
             },

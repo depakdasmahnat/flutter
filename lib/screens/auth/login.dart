@@ -127,6 +127,7 @@ class _LoginState extends State<Login> {
                       child:
                       IntlPhoneField(
                         controller:phoneCtrl ,
+                        autofocus: false,
                         decoration: const InputDecoration(
                           hintText: 'Enter Mobile No.',
                           border: InputBorder.none,
@@ -164,8 +165,8 @@ class _LoginState extends State<Login> {
                 Visibility(
                     visible: checkValidate == true,
                     child: CustomTextField(
+                      context: context,
                       controller: nameCtrl,
-
                       autofocus: checkValidate,
                       textCapitalization: TextCapitalization.words,
                       validator: (val) {

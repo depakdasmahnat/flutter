@@ -91,6 +91,8 @@ class AppAssets {
   static const String feedBack = 'assets/icons/Ic_feedback.png';
   static const String performanceIcon = 'assets/icons/ic_performance.png';
   static const String feedBack1 = 'assets/icons/Ic_feedBack1.png';
+  static const String social = 'assets/images/social.png';
+  static const String socialInactive = 'assets/images/socialIn_active.png';
 
   /// 2) Images...
 

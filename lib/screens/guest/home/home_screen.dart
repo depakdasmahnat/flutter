@@ -31,6 +31,7 @@ import '../../../controllers/guest_controller/guest_controller.dart';
 
 import '../../../core/constant/gradients.dart';
 import '../../../core/route/route_paths.dart';
+import '../../../models/auth_model/guest_data.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/guest_Model/fetchfeedcategoriesmodel.dart';
 
@@ -53,11 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController searchController = TextEditingController();
   List<FeedsData>? feeds;
   FeedCategory? selectedFilter;
-
+  FocusNode nameFocusNode = FocusNode();
   DateTime currentDate = DateTime.now();
 
   late String formattedDate = DateFormat(dayFormat).format(currentDate);
-
   Future fetchFeeds({bool? loadingNext}) async {
     return await context.read<FeedsController>().fetchFeeds(
           context: context,
@@ -68,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
           searchKey: searchController.text,
         );
   }
-
   @override
   void initState() {
     super.initState();
@@ -111,7 +110,13 @@ class _HomeScreenState extends State<HomeScreen> {
   int? tabIndex = 0;
   String categoryId ='';
   Timer? _debounce;
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    nameFocusNode.dispose();
 
+    super.dispose();
+  }
   void onSearchFieldChanged(String value) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
@@ -195,15 +200,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           body: Stack(
+          clipBehavior: Clip.antiAlias,
             children: [
-              ImageView(
+              const ImageView(
                 // height: 100,
                 assetImage: AppAssets.confeti2,
               ),
               ListView(
                 shrinkWrap: true,
-                padding: const EdgeInsets.only(
-                    bottom: bottomNavbarSize, left: 4, right: 4),
+                padding: const EdgeInsets.only(bottom: bottomNavbarSize, left: 4, right: 4),
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
@@ -335,8 +340,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
 
                   CustomTextField(
+                    context: this.context,
                     hintText: 'Search events, benefits, and more',
                     controller: searchController,
+                    // focusNode: nameFocusNode,
+                    autofocus: false,
                     onChanged: (value) {
                       onSearchFieldChanged(value);
                     },
@@ -366,6 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListView.builder(
                             itemCount: value.fetchFeedCategoriesModel?.data?.length ?? 0,
                             scrollDirection: Axis.horizontal,
+                          physics: const ScrollPhysics(),
                             itemBuilder: (context, index) {
                               var data = value.fetchFeedCategoriesModel?.data?.elementAt(index);
                               selectedFilter ??= data;
@@ -381,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                     tabIndex = index;
                                     categoryId =selectedFilter?.id.toString()??'';
-                                    setState(() {});
+                                    // setState(() {});
                                     fetchFeeds();
                                   },
                                   margin: const EdgeInsets.only(right: 12),
@@ -405,9 +414,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   if (controller.loadingFeeds)
-                    const LoadingScreen(
-                      heightFactor: 0.3,
-                      message: 'Loading Feeds...',
+                    SizedBox(
+                      height: size.height*0.7,
+                      child: const Column(
+                        mainAxisAlignment:MainAxisAlignment.start ,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          LoadingScreen(
+                            heightFactor: 0.3,
+                            message: 'Loading Feeds...',
+                          ),
+                        ],
+                      ),
                     )
                   else if (feeds.haveData)
                     ListView.builder(
@@ -418,8 +436,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         var data = feeds?.elementAt(index);
                         return InkWell(
                           onTap: () {
+
                             context.pushNamed(Routs.feedDetail,
-                                extra: FeedDetail(id: data?.id));
+                                extra: FeedDetail(id: data?.id)).whenComplete(() {
+                              nameFocusNode.unfocus();
+                              FocusScope.of(this.context).unfocus();
+                                },);
                           },
                           child: FeedCard(
                             index: index,
@@ -441,7 +463,9 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.only(bottom: size.height * 0.1),
             child: GestureDetector(
               onTap: () {
-                launchUrl(Uri.parse('tel:9876543210'));
+                GuestData? guest = context.read<LocalDatabase>().guest;
+
+                launchUrl(Uri.parse('tel:${guest?.sponsorMobile}'));
               },
               child: Container(
                 decoration: BoxDecoration(
