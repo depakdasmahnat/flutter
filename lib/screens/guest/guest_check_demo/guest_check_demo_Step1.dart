@@ -294,26 +294,14 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
           // looping: true,
           zoomAndPan: true,
           showOptions: false,
+          allowPlaybackSpeedChanging: false,
+         allowMuting: false,
+          draggableProgressBar: false,
           materialProgressColors: ChewieProgressColors(
               handleColor: Colors.green,
               bufferedColor: Colors.green.withOpacity(0.3),
               playedColor: Colors.white));
       chewieController?.videoPlayerController.addListener(() {
-        print('check videos ${chewieController?.videoPlayerController.value.duration}');
-        print('check videos ${chewieController?.videoPlayerController.value.position}');
-        // print("check complete ${chewieController?.videoPlayerController!.duration}");
-        // chewieController!.videoPlayerController?.value = chewieController!.videoPlayerController!.value;
-        // if (chewieController?. == false) {
-        //   print("check complete");
-        //   if (widget.jumpType == '3') {
-        //     context.read<CheckDemoController>().nextPage(3);
-        //   } else if (widget.jumpType == '4') {
-        //     context.read<CheckDemoController>().nextPage(5);
-        //     context.read<CheckDemoController>().addIndex(5, '');
-        //   } else {
-        //     context.read<CheckDemoController>().nextPage(1);
-        //   }
-        // }
         if (chewieController!.videoPlayerController.value.position >= chewieController!.videoPlayerController.value.duration) {
           print('complete video ${chewieController!.videoPlayerController!.value.position}');
           if (widget.jumpType == '3') {
@@ -364,6 +352,7 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Chewie(
+
                   controller: chewieController!,
                 ),
               ),

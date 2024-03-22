@@ -23,10 +23,10 @@ class GuestCheckDemoStep4 extends StatefulWidget {
   State<GuestCheckDemoStep4> createState() => _GuestCheckDemoStep4State();
 }
 
-class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
+class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4>  with WidgetsBindingObserver {
   AudioPlayer player =  AudioPlayer();
   playLocal() async {
-
+    WidgetsBinding.instance!.addObserver(this);
     AudioCache.instance = AudioCache(prefix: 'assets/');
     await player?.play(AssetSource('gifSound/think_bigLast.mp3'));
     player?.setReleaseMode(ReleaseMode.loop);
@@ -43,9 +43,22 @@ class _GuestCheckDemoStep4State extends State<GuestCheckDemoStep4> {
     // context.read<CheckDemoController>().addIndex(3);
   }
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print('check statue ${AppLifecycleState.paused}');
+    if (state == AppLifecycleState.paused) {
+      player.pause();
+    } else if (state == AppLifecycleState.resumed) {
+      playLocal();
+
+    }
+  }
+  @override
   void dispose() {
-    player?.stop();
+    WidgetsBinding.instance!.removeObserver(this);
     player?.dispose();
+    player?.stop();
+    player.pause();
     super.dispose();
   }
   @override

@@ -774,7 +774,9 @@ class GuestControllers extends ChangeNotifier {
           // debugPrint('guest ${guest?.firstName}');
           showSnackBar(context: context, text: editProfileModel?.message ?? 'Something went wong', color: Colors.green);
           context.pop(context);
+          context.pop(context);
         } else {
+          context.pop(context);
           showSnackBar(
               context: context, text: editProfileModel?.message ?? 'Something went wong', color: Colors.red);
         }

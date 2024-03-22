@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:mrwebbeast/core/config/app_config.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +32,10 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await LocalDatabase.initialize();
+
   await NotificationController.initialize();
+
+
   AppConfig.generateDeviceToken();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp, // Change to desired orientation

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
@@ -71,8 +72,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // userBox.put('name', true);
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       fetchFeeds();
+
+
+
       await context
           .read<GuestControllers>()
           .fetchFeedCategories(context: context);
@@ -133,7 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
+    localDatabase.setIntroVideo(true);
+    print('check intro video ${localDatabase.gtpVideo}');
     Size size = MediaQuery.of(context).size;
     return Consumer<FeedsController>(builder: (context, controller, child) {
       feeds = controller.feeds;

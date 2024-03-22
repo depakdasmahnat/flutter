@@ -90,14 +90,15 @@ import 'route_paths.dart';
 class RoutesConfig {
   static String? initialLocation() {
     bool authenticated = isAuthenticated();
+    bool guestIntroVideo = guestIntrovideo();
+    print('check intro video ${guestIntroVideo}');
 
-    return authenticated ? Routs.dashboard : Routs.welcome;
+    return authenticated ?guestIntroVideo==false?Routs.gtpVideo: Routs.dashboard : Routs.welcome;
   }
   void storeBool(bool value) async {
     var box = await Hive.openBox('myBox');
     await box.put('myBoolKey',value);
     box.close();
-
   }
   Future<bool> getBool() async {
     var box = await Hive.openBox('myBox');
@@ -857,14 +858,19 @@ class RoutesConfig {
     LocalDatabase localDatabase = LocalDatabase();
 
     if (localDatabase.userRole == UserRoles.guest.value) {
-      
       status = localDatabase.guest?.accessToken?.isNotEmpty == true;
-
     } else if (localDatabase.userRole == UserRoles.member.value) {
       status = localDatabase.member?.accessToken?.isNotEmpty == true;
     }
 
     return status;
+  }
+  static guestIntrovideo(){
+     bool video =false;
+     LocalDatabase localDatabase = LocalDatabase();
+     video=localDatabase.gtpVideo==true;
+
+     return video;
   }
 
   static String? authRequired(BuildContext context, GoRouterState state) {

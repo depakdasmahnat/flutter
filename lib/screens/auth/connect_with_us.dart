@@ -70,7 +70,6 @@ class _ConnectWithUsState extends State<ConnectWithUs>  with WidgetsBindingObser
     GuestData? guest = context.read<LocalDatabase>().guest;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
       body: Stack(
         children: [
           const Positioned.fill(  //
@@ -79,9 +78,6 @@ class _ConnectWithUsState extends State<ConnectWithUs>  with WidgetsBindingObser
               fit : BoxFit.fill,
             ),
           ),
-
-
-
           Form(
             key: signInFormKey,
             child: Padding(

@@ -51,7 +51,7 @@ class DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
     GuestData? guest = context.read<LocalDatabase>().guest;
-    debugPrint('deviceToken ${localDatabase.deviceToken}');
+
     // DashboardController dashboardController = Provider.of<DashboardController>(context);
     Size size = MediaQuery.sizeOf(context);
     return Consumer<DashboardController>(

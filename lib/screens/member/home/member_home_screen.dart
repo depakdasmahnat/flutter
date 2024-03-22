@@ -5,7 +5,9 @@ import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
 import 'package:mrwebbeast/screens/guest/home/banners.dart';
+import 'package:provider/provider.dart';
 import '../../../core/constant/gradients.dart';
+import '../../../core/services/database/local_database.dart';
 import '../../../utils/widgets/image_view.dart';
 import '../../../utils/widgets/training_progress.dart';
 import '../../guest/home/guest_profiles.dart';
@@ -30,7 +32,10 @@ class _MemberHomeScreenState extends State<MemberHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LocalDatabase localDatabase = Provider.of<LocalDatabase>(context);
 
+    localDatabase.setIntroVideo(true);
+    debugPrint('deviceToken ${localDatabase.gtpVideo}');
     return Scaffold(
       body: ListView(
         shrinkWrap: true,

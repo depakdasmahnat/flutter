@@ -24,14 +24,14 @@ class GuestCheckDemoStep3 extends StatefulWidget {
   State<GuestCheckDemoStep3> createState() => _GuestCheckDemoStep3State();
 }
 
-class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3> {
+class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3>  with WidgetsBindingObserver {
   Color? inactiveColor =const Color(0xFF1C1C1C);
   final bool _site = true;
   AudioPlayer player =  AudioPlayer();
   playLocal() async {
-
+    WidgetsBinding.instance!.addObserver(this);
     AudioCache.instance = AudioCache(prefix: 'assets/');
-    await player?.play(AssetSource('gifSound/think_big_answer.mp3'));
+    await player?.play(AssetSource('gifSound/thinkbig3Sound.mp3'));
     player?.setReleaseMode(ReleaseMode.loop);
     // player?.setVolume(0.2);
   }
@@ -45,9 +45,22 @@ class _GuestCheckDemoStep3State extends State<GuestCheckDemoStep3> {
     // context.read<CheckDemoController>().addIndex(3);
   }
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print('check statue ${AppLifecycleState.paused}');
+    if (state == AppLifecycleState.paused) {
+      player.pause();
+    } else if (state == AppLifecycleState.resumed) {
+      playLocal();
+
+    }
+  }
+  @override
   void dispose() {
-    player?.stop();
+    WidgetsBinding.instance!.removeObserver(this);
     player?.dispose();
+    player?.stop();
+    player.pause();
     super.dispose();
   }
   @override

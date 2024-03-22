@@ -21,11 +21,8 @@ class LocalDatabase extends ChangeNotifier {
 
   ///Hive Database Box....
   Box database = Hive.box(AppConfig.databaseName);
-
   ///Access Local Database data...
-
   late String? deviceToken = database.get('deviceToken');
-
   late String? themeMode = database.get('themeMode');
   late double? latitude = database.get('latitude');
   late double? longitude = database.get('themeMode');
@@ -34,11 +31,15 @@ class LocalDatabase extends ChangeNotifier {
 
   late GuestData? guest = database.get('guest');
   late MemberData? member = database.get('member');
+  late bool? gtpVideo = database.get('video');
 
   setDeviceToken(String? token) {
     deviceToken = token;
     database.put('deviceToken', token ?? '');
     notifyListeners();
+  }
+  setIntroVideo(bool? gtpVideo){
+    database.put('video', gtpVideo);
   }
 
   setThemeMode({required ThemeMode mode}) {
