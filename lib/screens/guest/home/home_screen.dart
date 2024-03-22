@@ -349,10 +349,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ),
 
                   CustomTextField(
-                    context: this.context,
                     hintText: 'Search events, benefits, and more',
                     controller: searchController,
-                    // focusNode: nameFocusNode,
+                    focusNode: nameFocusNode,
                     autofocus: false,
                     onChanged: (value) {
                       onSearchFieldChanged(value);

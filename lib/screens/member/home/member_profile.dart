@@ -334,7 +334,7 @@ class _MemberProfileState extends State<MemberProfile> {
                         icon: AppAssets.shareIcon,
                         title: 'Share App ',
                         onTap: () {
-                          Share.share(AppConfig.shareApp);
+                          Share.share(AppConfig.shareApp());
                         },
                       )
                     ],

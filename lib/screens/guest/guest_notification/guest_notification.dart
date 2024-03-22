@@ -223,8 +223,8 @@ class _GuestNotificationState extends State<GuestNotification> {
                                           width: size.width*0.5,
                                           child: ExpandableText(
                                             '${controller.fetchNotificationModel?.otherNotification?[index].description}',
-                                            expandText: 'show more',
-                                            collapseText: 'show less',
+                                            expandText: 'more',
+                                            collapseText: 'less',
                                             maxLines: 2,
                                             linkColor: Colors.blue,
                                           ),

@@ -208,20 +208,18 @@ class GuestControllers extends ChangeNotifier {
     required BuildContext context,
     required String page,
   }) async {
-    // refresh() {
-    //   loadingExerciseDetail = true;
-    //   exerciseDetailModel = null;
-    //   exerciseData = null;
-    //   exerciseDetail?.clear();
-    //   notifyListeners();
-    // }
+    refresh() {
+      guestProductLoader=false;
+      fetchguestProduct=null;
+      notifyListeners();
+    }
     //
-    // apiResponseCompleted() {
-    //   loadingExerciseDetail = false;
-    //   notifyListeners();
-    // }
+    apiResponseCompleted() {
+      guestProductLoader = true;
+      notifyListeners();
+    }
 
-    // refresh();
+    refresh();
     try {
       await ApiService()
           .get(
@@ -232,20 +230,18 @@ class GuestControllers extends ChangeNotifier {
           Map<String, dynamic> json = response;
           Fetchguestproduct responseData = Fetchguestproduct.fromJson(json);
           if (responseData.status == true) {
-            // isLoading=true;
             fetchguestProduct = responseData;
-            guestProductLoader = true;
-            // assignExercise(refresh: true);
-
             notifyListeners();
           }
         }
 
-        // apiResponseCompleted();
+        apiResponseCompleted();
       });
     } catch (e, s) {
-      // apiResponseCompleted();
+      apiResponseCompleted();
       debugPrint('Error is $e & $s');
+    }finally{
+      apiResponseCompleted();
     }
 
     return fetchguestProduct;

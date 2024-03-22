@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
-import 'package:mrwebbeast/models/dashboard/color_grades.dart';
+
 import 'package:mrwebbeast/screens/member/home/member_profile_details.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
 import 'package:mrwebbeast/utils/widgets/loading_screen.dart';

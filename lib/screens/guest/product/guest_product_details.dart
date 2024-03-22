@@ -214,7 +214,7 @@ class _GusetProductDetailsState extends State<GusetProductDetails> {
             backgroundGradient: primaryGradient,
             backgroundColor: Colors.transparent,
             boxShadow: const [],
-            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding),
+            margin: const EdgeInsets.only(left: kPadding, right: kPadding, bottom: kPadding,top: 10),
 
             child: Padding(
               padding: const EdgeInsets.all(kPadding),

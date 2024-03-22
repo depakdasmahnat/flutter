@@ -23,6 +23,7 @@ class FeedsData {
     this.deletedAt,
     this.categoryName,
     this.isLiked,
+    this.fileAttachment,
     this.isCommented,
     this.isBookmarked,
     this.file,
@@ -48,6 +49,7 @@ class FeedsData {
     deletedAt = json['deleted_at'];
     categoryName = json['category_name'];
     isLiked = json['is_liked'];
+    fileAttachment = json['file_attachment'];
     isCommented = json['is_commented'];
     downloadAndSharePermission = json['download_and_share_permission'];
 
@@ -70,6 +72,7 @@ class FeedsData {
   String? createdAt;
   String? updatedAt;
   String? isActive;
+  String? fileAttachment;
   dynamic deletedAt;
   dynamic categoryName;
   bool? isLiked;
@@ -101,6 +104,7 @@ class FeedsData {
     bool? isCommented,
     bool? isBookmarked,
     String? file,
+    String? fileAttachment,
     bool? downloadAndSharePermission,
     List<String>? files,
   }) =>
@@ -127,6 +131,7 @@ class FeedsData {
         downloadAndSharePermission: downloadAndSharePermission ?? this.downloadAndSharePermission,
         file: file ?? this.file,
         files: files ?? this.files,
+        fileAttachment: fileAttachment ?? this.fileAttachment,
       );
 
   Map<String, dynamic> toJson() {
@@ -150,6 +155,7 @@ class FeedsData {
     map['is_liked'] = isLiked;
     map['is_commented'] = isCommented;
     map['is_bookmarked'] = isBookmarked;
+    map['file_attachment'] = fileAttachment;
     map['file'] = file;
     map['download_and_share_permission'] = downloadAndSharePermission;
     map['files'] = files;

@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     this.controller,
-    this.context,
+    // this.context,
     this.textCapitalization,
     this.height,
     this.width,
@@ -94,10 +94,9 @@ class CustomTextField extends StatelessWidget {
     this.labelStyle,
     this.onTapOutside,
     this.suffixIconConstraints,
-
   });
 
-  final BuildContext? context;
+  // final BuildContext? context;
   final TextEditingController? controller;
   final BoxConstraints? suffixIconConstraints;
   final double? height;
@@ -119,7 +118,8 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
-  final TextCapitalization? textCapitalization ;
+  final TextCapitalization? textCapitalization;
+
   final TextInputAction? textInputAction;
   final TextStyle? style;
   final StrutStyle? strutStyle;
@@ -220,7 +220,8 @@ class CustomTextField extends StatelessWidget {
               enableSuggestions: enableSuggestions,
               enableInteractiveSelection: enableInteractiveSelection,
               onTapOutside: onTapOutside ??
-                  (val) {
+                      (val) {
+                    focusNode?.unfocus();
                     FocusScope.of(context).unfocus();
                   },
               focusNode: focusNode,
@@ -243,7 +244,7 @@ class CustomTextField extends StatelessWidget {
               cursorWidth: cursorWidth ?? 2.0,
               textAlign: textAlign ?? TextAlign.start,
               textDirection: textDirection,
-              textCapitalization: textCapitalization??TextCapitalization.none,
+              textCapitalization: textCapitalization ?? TextCapitalization.none,
               textInputAction: textInputAction,
               autocorrect: autocorrect ?? true,
               obscuringCharacter: obscuringCharacter ?? '•',
@@ -291,17 +292,17 @@ class CustomTextField extends StatelessWidget {
                 suffixIcon: suffixIcon,
                 suffixIconColor: primaryColor,
                 border:
-                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
                 enabledBorder:
-                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
                 errorBorder:
-                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
                 focusedErrorBorder:
-                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
                 disabledBorder:
-                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
                 focusedBorder:
-                    border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
+                border ?? inputBorder(color: borderColor, borderRadius: borderRadius, context: context),
               ),
             ),
           ),

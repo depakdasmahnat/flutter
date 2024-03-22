@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mrwebbeast/core/constant/gradients.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
+import 'package:mrwebbeast/utils/widgets/loading_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../controllers/guest_controller/guest_controller.dart';
@@ -33,52 +34,59 @@ class _GuestPoductState extends State<GuestPoduct> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(size.height * 0.06),
-        child: CustomAppBar(
-          showLeadICon: false,
-          title: 'Products',
+    return RefreshIndicator(
+      backgroundColor: Colors.white,
+      onRefresh: () async {
+
+        await context.read<GuestControllers>().fetchProduct(context: context, page: '1');
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(size.height * 0.06),
+          child: CustomAppBar(
+            showLeadICon: false,
+            title: 'Products',
+          ),
         ),
-      ),
-      body: Consumer<GuestControllers>(
-        builder: (context, controller, child) {
-          return GridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: ((size.height - kToolbarHeight -20) / (size.height - kToolbarHeight - 20) / 1.4),
-            // controller: ScrollController(keepScrollOffset: false),
-            padding: const EdgeInsets.only(bottom: 100),
-            shrinkWrap: true,
-            // scrollDirection: Axis.vertical,
-            children: List.generate(
-              controller.fetchguestProduct?.data?.length ?? 0,
-              (index) {
-                return InkWell(
-                    onTap: () {
-                      value = index;
-                      setState(() {});
-                      context.push(Routs.guestProductDetail,
-                          extra: GusetProductDetails(
-                            productId: controller.fetchguestProduct?.data?[index].id.toString() ?? '',
-                          ));
-                    },
-                    child: controller.guestProductLoader == false
-                        ? const Center(
-                            child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
-                          )
-                        : ProductCard(
-                            index: index,
-                            value: value,
-                            title: controller.fetchguestProduct?.data?[index].name,
-                            subTitle: controller.fetchguestProduct?.data?[index].subHeading,
-                            image: controller.fetchguestProduct?.data?[index].productImage,
-                          ));
-              },
-            ),
-          );
-        },
+        body: Consumer<GuestControllers>(
+          builder: (context, controller, child) {
+            return controller.guestProductLoader==false?const LoadingScreen():GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              childAspectRatio: ((size.height - kToolbarHeight -20) / (size.height - kToolbarHeight - 20) / 1.4),
+              // controller: ScrollController(keepScrollOffset: false),
+              padding: const EdgeInsets.only(bottom: 100),
+              shrinkWrap: true,
+              // scrollDirection: Axis.vertical,
+              children: List.generate(
+                controller.fetchguestProduct?.data?.length ?? 0,
+                (index) {
+                  return InkWell(
+                      onTap: () {
+                        value = index;
+                        setState(() {});
+                        context.push(Routs.guestProductDetail,
+                            extra: GusetProductDetails(
+                              productId: controller.fetchguestProduct?.data?[index].id.toString() ?? '',
+                            ));
+                      },
+                      child: controller.guestProductLoader == false
+                          ? const Center(
+                              child: CupertinoActivityIndicator(radius: 15, color: CupertinoColors.white),
+                            )
+                          : ProductCard(
+                              index: index,
+                              value: value,
+                              title: controller.fetchguestProduct?.data?[index].name,
+                              subTitle: controller.fetchguestProduct?.data?[index].subHeading,
+                              image: controller.fetchguestProduct?.data?[index].productImage,
+                            ));
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }

@@ -174,7 +174,7 @@ class DashBoardState extends State<DashBoard> {
                       blur: 15,
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                       backgroundGradient:guest?.role=='Guest'?null: inActiveGradientTransparent,
-                      backgroundColor:guest?.role=='Guest'? Colors.grey.withOpacity(0.8):Colors.white.withOpacity(0.5),
+                      backgroundColor:guest?.role=='Guest'? Color(0xff4A4A4A).withOpacity(0.61):Colors.white.withOpacity(0.5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: List.generate(

@@ -1,4 +1,3 @@
-
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mrwebbeast/core/config/app_assets.dart';
 import 'package:mrwebbeast/core/constant/constant.dart';
+
 import 'package:mrwebbeast/screens/guest/guestProfile/guest_faq.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/validators.dart';
@@ -34,15 +34,17 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   GlobalKey<DropdownSearchState<dynamic>> dropDownkey = GlobalKey<DropdownSearchState<dynamic>>();
+
   // final dropDownkey = GlobalKey<DropdownSearchState<String>>();
   FocusNode nameFocusNode = FocusNode();
   bool checkValidate = false;
   bool forReferral = false;
   bool showReferral = false;
   bool checkBox = false;
-  String countryCode ='91';
-  String stateId ='';
-  String cityId ='';
+  String countryCode = '91';
+  String stateId = '';
+  String cityId = '';
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -52,9 +54,8 @@ class _LoginState extends State<Login> {
     });
     super.initState();
   }
-  bool check =false;
 
-
+  bool check = false;
 
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController lastNameCtrl = TextEditingController();
@@ -68,14 +69,13 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Color? textColor2 =const Color(0xFF909090);
+    Color? textColor2 = const Color(0xFF909090);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       // appBar: AppBar(),
       body: Stack(
         children: [
-          Image.asset(AppAssets.authbackgroundimage,
-              fit: BoxFit.fitWidth, width: double.infinity),
+          Image.asset(AppAssets.authbackgroundimage, fit: BoxFit.fitWidth, width: double.infinity),
           Form(
             key: signInFormKey,
             child: ListView(
@@ -87,8 +87,8 @@ class _LoginState extends State<Login> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Text(
-                        checkValidate==false?  'Welcome!' :'Register',
+                      Text(
+                        checkValidate == false ? 'Welcome!' : 'Register',
                         style: const TextStyle(
                           fontSize: 38,
                           fontWeight: FontWeight.w500,
@@ -97,10 +97,11 @@ class _LoginState extends State<Login> {
                         textAlign: TextAlign.center,
                       ),
                       Padding(
-                        padding:
-                            EdgeInsets.only(top: 8, bottom: size.height * 0.06),
-                        child:  Text(
-                          checkValidate==false?  'Login Now To Continue Your Journey':'Fill Your True Information',
+                        padding: EdgeInsets.only(top: 8, bottom: size.height * 0.06),
+                        child: Text(
+                          checkValidate == false
+                              ? 'Login Now To Continue Your Journey'
+                              : 'Fill Your True Information',
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -123,16 +124,12 @@ class _LoginState extends State<Login> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child:
-                      IntlPhoneField(
-                        controller:phoneCtrl ,
+                      child: IntlPhoneField(
+                        controller: phoneCtrl,
                         autofocus: false,
                         decoration: const InputDecoration(
-                          hintText: 'Enter Mobile No.',
-                          border: InputBorder.none,
-                          counterText: ''
-                        ),
-                         autovalidateMode: AutovalidateMode.disabled,
+                            hintText: 'Enter Mobile No.', border: InputBorder.none, counterText: ''),
+                        autovalidateMode: AutovalidateMode.disabled,
                         initialCountryCode: 'IN',
                         dropdownIcon: const Icon(Icons.keyboard_arrow_down_rounded),
                         dropdownIconPosition: IconPosition.trailing,
@@ -141,13 +138,17 @@ class _LoginState extends State<Login> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         onCountryChanged: (value) {
-                          countryCode=value.fullCountryCode;
+                          countryCode = value.fullCountryCode;
                           setState(() {});
                         },
-                        onChanged: (phone) {
-
+                        onChanged: (phone) async {
                           if (phone.number.length == 10) {
-                            validatePhone();
+                            FocusScope.of(context).nextFocus();
+                            await validatePhone();
+
+                            if (context.mounted && checkValidate == true) {
+                              nameFocusNode.requestFocus();
+                            }
                           }
                         },
                       ),
@@ -155,97 +156,102 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 8.0,bottom: 8),
+                  padding: const EdgeInsets.only(left: 8.0, bottom: 8),
                   child: CustomeText(
                     text: 'Use only WhatsApp no.',
                     color: textColor2,
                   ),
                 ),
-                Visibility(
-                    visible: checkValidate == true,
-                    child: CustomTextField(
-                      context: context,
-                      controller: nameCtrl,
-                      autofocus: checkValidate,
-                      textCapitalization: TextCapitalization.words,
-                      validator: (val) {
-                        return Validator.fullNameValidator(val);
-                      },
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
-                      ],
-                      onChanged: (value) {},
-                      hintText: 'Enter First Name',
-                      autofillHints: const [AutofillHints.name],
-                      margin: const EdgeInsets.only(top: 1, bottom: 1),
-                    ),),
+                if (checkValidate == true)
+                  CustomTextField(
+
+                    controller: nameCtrl,
+                    autofocus: true,
+                    focusNode: nameFocusNode,
+                    textCapitalization: TextCapitalization.words,
+                    validator: (val) {
+                      return Validator.fullNameValidator(val);
+                    },
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+                    ],
+                    onChanged: (value) {},
+                    hintText: 'Enter First Name',
+                    autofillHints: const [AutofillHints.name],
+                    margin: const EdgeInsets.only(top: 1, bottom: 1),
+                  ),
                 // if (checkValidate == true)
-                  // CustomTextField(
-                  //   controller: nameCtrl,
-                  //   autofocus: checkValidate,
-                  //   textCapitalization: TextCapitalization.words,
-                  //   validator: (val) {
-                  //     return Validator.fullNameValidator(val);
-                  //   },
-                  //   inputFormatters: <TextInputFormatter>[
-                  //     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
-                  //
-                  //   ],
-                  //   onChanged: (value) {},
-                  //   hintText: 'Enter First Name',
-                  //   autofillHints: const [AutofillHints.name],
-                  //   margin: const EdgeInsets.only(top: 1, bottom: 1),
-                  // ),
+                // CustomTextField(
+                //   controller: nameCtrl,
+                //   autofocus: checkValidate,
+                //   textCapitalization: TextCapitalization.words,
+                //   validator: (val) {
+                //     return Validator.fullNameValidator(val);
+                //   },
+                //   inputFormatters: <TextInputFormatter>[
+                //     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+                //
+                //   ],
+                //   onChanged: (value) {},
+                //   hintText: 'Enter First Name',
+                //   autofillHints: const [AutofillHints.name],
+                //   margin: const EdgeInsets.only(top: 1, bottom: 1),
+                // ),
                 if (checkValidate == true)
                   CustomTextField(
                     controller: lastNameCtrl,
                     textCapitalization: TextCapitalization.words,
-
 
                     // validator: (val) {
                     //   return Validator.fullNameValidator(val);
                     // },
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
-
                     ],
                     onChanged: (value) {},
                     hintText: 'Enter Last Name',
                     autofillHints: const [AutofillHints.name],
-                    margin:  EdgeInsets.only(top: 18,bottom: countryCode=='91'?0:18),
+                    margin: EdgeInsets.only(top: 18, bottom: countryCode == '91' ? 0 : 18),
                   ),
-                if (checkValidate == true &&countryCode=='91')
+                if (checkValidate == true && countryCode == '91')
                   Consumer<GuestControllers>(
                     builder: (context, controller, child) {
-                      return
-
-                        CustomDropdown(
+                      return CustomDropdown(
                         mandatory: '*',
-                        padding:  const EdgeInsets.only(top: kPadding,bottom: kPadding),
+                        padding: const EdgeInsets.only(top: kPadding, bottom: kPadding),
                         hintText: 'Select State',
                         onChanged: (v) async {
-
-                          check=true;
-                          stateId = controller.satesModel?.data?.firstWhere((element) {
+                          check = true;
+                          stateId = controller.satesModel?.data
+                              ?.firstWhere(
+                                (element) {
                               return element.name == v;
-                            },).id.toString() ?? '';
-                        ;
+                            },
+                          )
+                              .id
+                              .toString() ??
+                              '';
+                          ;
 
                           if (stateId.isNotEmpty == true) {
-
-                            CityModel? cityModel= await context.read<GuestControllers>().fetchCity(
+                            CityModel? cityModel = await context.read<GuestControllers>().fetchCity(
                               context: context,
                               stateId: stateId,
                             );
-                            if(cityModel?.status==true){
-                              dropDownkey.currentState?.clear();
-                              setState(() {});
-                            }else{
-                              dropDownkey.currentState?.clear();
-                              setState(() {});
+                            if (cityModel?.status == true) {
+
+                              if(cityId.isNotEmpty==true){
+                                dropDownkey.currentState?.clear();
+                                setState(() {});
+                              }
+
+                            } else {
+                              if(cityId.isNotEmpty==true){
+                                dropDownkey.currentState?.clear();
+                                setState(() {});
+                              }
                             }
                           }
-
                         },
                         // selectedItem: stateName,
                         title: 'State',
@@ -254,31 +260,30 @@ class _LoginState extends State<Login> {
                     },
                   ),
 
-                if (checkValidate == true &&countryCode=='91')
-                Consumer<GuestControllers>(
-                  builder: (context, controller, child) {
-                    return
-                      CustomDropdown(
-                      dropDownkey: dropDownkey,
-                      padding:  const EdgeInsets.only(top: 0,bottom: kPadding),
-                      mandatory: '*',
-                      hintText: 'Select City',
-                      onChanged: (v) {
-                        cityId = controller.cityModel?.data
-                            ?.firstWhere(
-                              (element) {
-                            return element.name == v;
-                          },
-                        )
-                            .id
-                            .toString() ??
-                            '';
-                      },
-                      title: 'City',
-                      listItem: controller.cityModel?.data?.map((e) => e.name).toList(),
-                    );
-                  },
-                ),
+                if (checkValidate == true && countryCode == '91')
+                  Consumer<GuestControllers>(
+                    builder: (context, controller, child) {
+                      return CustomDropdown(
+                        dropDownkey: dropDownkey,
+                        padding: const EdgeInsets.only(top: 0, bottom: kPadding),
+                        mandatory: '*',
+                        hintText: 'Select City',
+                        onChanged: (v) {
+                          cityId = controller.cityModel?.data
+                              ?.firstWhere(
+                                (element) {
+                              return element.name == v;
+                            },
+                          )
+                              .id
+                              .toString() ??
+                              '';
+                        },
+                        title: 'City',
+                        listItem: controller.cityModel?.data?.map((e) => e.name).toList(),
+                      );
+                    },
+                  ),
                 // if(showReferral==true )
                 // const Padding(
                 //   padding: EdgeInsets.only(bottom: 12),
@@ -298,8 +303,7 @@ class _LoginState extends State<Login> {
                       return Validator.referralValidator(value);
                     },
                     // autofillHints: const [AutofillHints.name],
-                    margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    margin: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                   ),
               ],
             ),
@@ -310,58 +314,56 @@ class _LoginState extends State<Login> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           if (checkValidate == true)
-          Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 20,
+                    child: Checkbox(
+                      // fillColor: MaterialStateColor.resolveWith(
+                      //   (states) {
+                      //     return checkBox==false?Colors.black: Colors.black;
+                      //   },
+                      // ),
+                      focusColor: MaterialStateColor.resolveWith((states) {
+                        return Colors.black;
+                      }),
+                      // side: BorderSide.none,
+                      activeColor: MaterialStateColor.resolveWith((states) {
+                        return Colors.black;
+                      }),
 
-                SizedBox(
-                  width: 20,
-                  child: Checkbox(
-                    // fillColor: MaterialStateColor.resolveWith(
-                    //   (states) {
-                    //     return checkBox==false?Colors.black: Colors.black;
-                    //   },
-                    // ),
-                    focusColor: MaterialStateColor.resolveWith((states) {
-                      return Colors.black;
-                    }),
-                    // side: BorderSide.none,
-                    activeColor: MaterialStateColor.resolveWith((states) {
-                      return Colors.black;
-                    }),
-
-                    onChanged: (bool? value) {
-                      checkBox =value!;
-                      setState(() {});
-                    }, value: checkBox,
+                      onChanged: (bool? value) {
+                        checkBox = value!;
+                        setState(() {});
+                      },
+                      value: checkBox,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: size.width*0.04,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    context.pushNamed(Routs.webView,
-                        extra: const WebViewScreen(
-                          title: 'Terms & conditions',
-                          url: 'https://api.gtp.proapp.in/api/v1/terms_and_condition',
-                        ));
-                  },
-                  child: CustomeText(
-
-                    text: 'I agree to the Terms and Conditions',
-                    fontSize: 14,
-                    // color: Colors.black,
-                    fontWeight: FontWeight.w500,
+                  SizedBox(
+                    width: size.width * 0.04,
                   ),
-                )
-              ],
+                  GestureDetector(
+                    onTap: () {
+                      context.pushNamed(Routs.webView,
+                          extra: const WebViewScreen(
+                            title: 'Terms & conditions',
+                            url: 'https://api.gtp.proapp.in/api/v1/terms_and_condition',
+                          ));
+                    },
+                    child: CustomeText(
+                      text: 'I agree to the Terms and Conditions',
+                      fontSize: 14,
+                      // color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
           GradientButton(
             height: 70,
             borderRadius: 18,
@@ -371,7 +373,6 @@ class _LoginState extends State<Login> {
             boxShadow: const [],
             margin: const EdgeInsets.only(left: 16, right: 24),
             onTap: () {
-
               if (signInFormKey.currentState?.validate() == true) {
                 sendOtp();
               }
@@ -380,7 +381,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  checkValidate == true?'Register':'Login',
+                  checkValidate == true ? 'Register' : 'Login',
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: GoogleFonts.urbanist().fontFamily,
@@ -441,20 +442,21 @@ class _LoginState extends State<Login> {
   }
 
   Future validatePhone() async {
-    Validatemobile? validate = await context.read<AuthControllers>().validateMobile(context: context, mobile: phoneCtrl.text,);
+    Validatemobile? validate = await context.read<AuthControllers>().validateMobile(
+      context: context,
+      mobile: phoneCtrl.text,
+    );
     if (validate?.status == true) {
       nameCtrl.text = validate?.data?.firstName ?? '';
       lastNameCtrl.text = validate?.data?.lastName ?? '';
       addressCtrl.text = validate?.data?.address ?? '';
-      cityId =validate?.data?.cityId.toString() ?? '';
-      stateId =validate?.data?.stateId.toString() ?? '';
+      cityId = validate?.data?.cityId.toString() ?? '';
+      stateId = validate?.data?.stateId.toString() ?? '';
       checkValidate = false;
       forReferral = true;
       showReferral = false;
-      checkBox =true;
-
+      checkBox = true;
       setState(() {});
-
     } else {
       nameCtrl.clear();
       lastNameCtrl.clear();
@@ -465,14 +467,12 @@ class _LoginState extends State<Login> {
       showReferral = true;
       setState(() {});
     }
-
-
   }
 
   Future sendOtp() async {
-    if(checkBox==false){
-      showSnackBar(context: context, color: Colors.green, text:'Please check the terms & condition');
-    }else{
+    if (checkBox == false) {
+      showSnackBar(context: context, color: Colors.green, text: 'Please check the terms & condition');
+    } else {
       await context.read<AuthControllers>().sendOtp(
           context: context,
           mobile: phoneCtrl.text,
@@ -481,10 +481,9 @@ class _LoginState extends State<Login> {
           lastName: lastNameCtrl.text,
           referralCode: referralCodeCtrl.text,
           cityId: cityId,
-          stateId:stateId,
+          stateId: stateId,
           countryCode: countryCode);
     }
-
 
     // setState(() {});
     // print('check status ${validate?.status}');

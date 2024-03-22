@@ -9,8 +9,9 @@ class AppConfig {
   static const String version = '1.0';
   static const String packageName = 'app.gtp.com';
   static const String playStoreUrl = 'https://play.google.com/store/apps/details?id=$packageName';
-  static const String appStoreUrl = 'https://apps.apple.com/us/app/emuvv/id6462873844';
+  static const String appStoreUrl = 'https://apps.apple.com/us/app/my-gtp/id6477718398';
   static const String deeplinkUrl = 'https://mrwebbeast.page.link/downlaod';
+
   static String apkLink() {
     String url;
     if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -21,11 +22,16 @@ class AppConfig {
     return url;
   }
 
-  static const String fcmServerKey = 'AAAAKbuQTwU:APA91bFlm6wbb0ap_Xw0qI1CH6g-21wj3hfXggENcqu18s3APYQMBxB38RWqLJ2uCWYEH1f0g0ab_gQpma_I4G_S_m64RHhvZ5_jlVm6e4usToAJnsMkDxuoPVLv-mEMhjxDRqQ82z8C';
+  static String shareApp() {
+    String message = 'Download $name\n\n${apkLink()}';
+    return message;
+  }
+
+  static const String fcmServerKey =
+      'AAAAKbuQTwU:APA91bFlm6wbb0ap_Xw0qI1CH6g-21wj3hfXggENcqu18s3APYQMBxB38RWqLJ2uCWYEH1f0g0ab_gQpma_I4G_S_m64RHhvZ5_jlVm6e4usToAJnsMkDxuoPVLv-mEMhjxDRqQ82z8C';
   static const String mapAddressesApiKey = 'AIzaSyAaq-CLNOFfMMtll9c3LV2wpFTITExbud4';
-  static const String contactEmail = 'mrwebbeast@gmail.com';
-  static const String contactNumber = '+91 7559721016';
-  static const String shareApp = '';
+  static const String contactEmail = 'er.tanveshrupani@gmail.com';
+  static const String contactNumber = '+91 9981111777';
 
   ///Notification Channel Id...
   static const String chanelName = 'GtpApp';

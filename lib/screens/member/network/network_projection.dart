@@ -189,8 +189,7 @@ class NetworkProjectionState extends State<NetworkProjection> {
                       alignment: Alignment.center,
                       child: InteractiveViewer(
                         constrained: false,
-                        boundaryMargin:
-                            EdgeInsets.only(left: 36, right: 36, top: 24, bottom: size.height * 0.25),
+                        boundaryMargin: EdgeInsets.only(left: 36, right: 36, top: 24, bottom: size.height * 0.25),
                         minScale: 0.01,
                         maxScale: 6,
                         child: GraphView(

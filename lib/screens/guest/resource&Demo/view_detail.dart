@@ -21,11 +21,13 @@ class _ViewDetailState extends State<ViewDetail> {
         leading: const CustomBackButton(),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if(widget.type==FeedsFileType.pdf.value)
+          if(widget.type==FeedsFileType.image.value)
           ImageView(
             networkImage:widget.image??'' ,
-          ),
+          )
+
         ],
       ),
     );
