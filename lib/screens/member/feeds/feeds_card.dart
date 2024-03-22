@@ -1,7 +1,9 @@
 
-import 'dart:typed_data';
+import 'dart:io';
+import 'dart:math';
 
-import 'package:dio/dio.dart';
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:http/http.dart' as http;
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:mrwebbeast/controllers/guest_controller/guest_controller.dart';
 import 'package:mrwebbeast/core/constant/enums.dart';
 import 'package:mrwebbeast/core/extensions/nullsafe/null_safe_list_extentions.dart';
 import 'package:mrwebbeast/core/route/route_paths.dart';
+import 'package:mrwebbeast/screens/guest/guest_check_demo/guest_check_demo_step2.dart';
 import 'package:mrwebbeast/screens/member/feeds/youtube_video_player.dart';
 import 'package:mrwebbeast/utils/widgets/image_opener.dart';
 import 'package:mrwebbeast/utils/widgets/image_view.dart';
@@ -53,6 +56,60 @@ class _FeedCardState extends State<FeedCard> {
   late FeedsData? data = widget.data;
   late bool? isFeeds = widget.isFeeds;
 
+  Future<void> _saveImage(BuildContext context,String url) async {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    late String message;
+    var random = Random();
+    try {
+      // Download image
+      var response = await http.get(Uri.parse(url));
+
+      // Get temporary directory
+      final dir = await getTemporaryDirectory();
+
+      // Create an image name
+      var filename = '${dir.path}/SaveImage${random.nextInt(100)}.png';
+
+      // Save to filesystem
+      final file = File(filename);
+      await file.writeAsBytes(response.bodyBytes);
+      // Ask the user to save it
+      final params = SaveFileDialogParams(sourceFilePath: file.path);
+      final finalPath = await FlutterFileDialog.saveFile(params: params);
+
+      if (finalPath != null) {
+        message = 'Image saved to disk';
+      }
+    } catch (e) {
+      message = e.toString();
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(
+          message,
+          style:  TextStyle(
+            fontSize: 12,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Color(0xFFe91e63),
+      ));
+    }
+
+    if (message != null) {
+      scaffoldMessenger.showSnackBar(SnackBar(
+        content: Text(
+          message,
+          style:  TextStyle(
+            fontSize: 12,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Color(0xFFe91e63),
+      ));
+
+    }
+  }
 
   @override
   void initState() {
@@ -217,6 +274,12 @@ class _FeedCardState extends State<FeedCard> {
                       textAlign: TextAlign.start,
                     ),
                   ),
+                if(data?.tags != null)
+                  CustomText1(
+                    text:data?.tags?.replaceAll(',', ' #') ,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
 
                 if (data?.description != null && data?.fileType == FeedsFileType.article.value)
                   showMoreDescription(
@@ -310,12 +373,12 @@ class _FeedCardState extends State<FeedCard> {
                             if(data?.downloadAndSharePermission==true)
                              FeedMenu(
                               onTap: () {
-
-
+                                // _saveImage(context,data?.file??'');
+                                if(data?.fileType == FeedsFileType.image.value){
+                                  _saveImage(context,data?.file??'');
+                                }else{
                                   launchUrl(Uri.parse('${data?.file}'));
-
-
-
+                                }
                               },
                               icon: AppAssets.fileDownload,
                             ),

@@ -28,6 +28,7 @@ class FeedsData {
     this.isBookmarked,
     this.file,
     this.files,
+    this.tags,
     this.downloadAndSharePermission,
   });
 
@@ -37,6 +38,7 @@ class FeedsData {
     userId = json['user_id'];
     userType = json['user_type'];
     title = json['title'];
+    tags = json['tags'];
     description = json['description'];
     fileType = json['file_type'];
     path = json['path'];
@@ -63,6 +65,7 @@ class FeedsData {
   num? userId;
   String? userType;
   String? title;
+  String? tags;
   dynamic description;
   String? fileType;
   String? path;
@@ -92,6 +95,7 @@ class FeedsData {
     dynamic description,
     String? fileType,
     String? path,
+    String? tags,
     String? uploadType,
     num? likes,
     num? comments,
@@ -117,6 +121,7 @@ class FeedsData {
         description: description ?? this.description,
         fileType: fileType ?? this.fileType,
         path: path ?? this.path,
+        tags: tags ?? this.tags,
         uploadType: uploadType ?? this.uploadType,
         likes: likes ?? this.likes,
         comments: comments ?? this.comments,
@@ -141,6 +146,7 @@ class FeedsData {
     map['user_id'] = userId;
     map['user_type'] = userType;
     map['title'] = title;
+    map['tags'] = tags;
     map['description'] = description;
     map['file_type'] = fileType;
     map['path'] = path;
