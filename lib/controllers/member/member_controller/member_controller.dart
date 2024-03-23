@@ -1134,6 +1134,7 @@ class MembersController extends ChangeNotifier {
     required String countryName,
     required String rank,
     required String product,
+    required String rankLeg,
     required XFile? file,
   }) async {
     BuildContext? context = MyApp.navigatorKey.currentContext;
@@ -1165,6 +1166,7 @@ class MembersController extends ChangeNotifier {
         'country_name': countryName,
         'rank': rank,
         'product': product,
+        'rank_leg': rankLeg,
       };
       debugPrint('Sent Data is $body');
       //Processing API...
@@ -2178,6 +2180,7 @@ class MembersController extends ChangeNotifier {
 
   Future<FetchDownlineRan?> fetchDownLineRank({
     required BuildContext context,
+    required String userId,
   }) async {
     // refresh() {
     //   resourcesDetailLoader = false;
@@ -2195,6 +2198,9 @@ class MembersController extends ChangeNotifier {
       await ApiService()
           .get(
         endPoint: ApiEndpoints.fetchDownlineRank,
+          queryParameters: {
+            'user_id': userId ?? '',
+          }
       )
           .then(
         (response) {

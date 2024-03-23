@@ -256,15 +256,21 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mrwebbeast/core/constant/constant.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../controllers/check_demo_controller/check_demo_controller.dart';
 import '../../../core/constant/colors.dart';
+import '../../../core/constant/gradients.dart';
+import '../../../utils/widgets/gradient_button.dart';
+import '../guestProfile/guest_faq.dart';
 
 class GuestCheckDemoStep1 extends StatefulWidget {
   final String? video;
   final bool? videoType;
+  final int? index;
+
   final PageController? pageController;
   final String? jumpType;
   const GuestCheckDemoStep1(
@@ -272,6 +278,7 @@ class GuestCheckDemoStep1 extends StatefulWidget {
       this.video,
       this.videoType,
       this.pageController,
+      this.index,
       this.jumpType});
 
   @override
@@ -281,10 +288,19 @@ class GuestCheckDemoStep1 extends StatefulWidget {
 class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
   VideoPlayerController? videoPlayerController;
   ChewieController? chewieController;
+  bool? previousVideo = false;
+  int? tabIndex = 0;
+  String? previousVideoLink = '';
   Future initVideo() async {
     // disposeVideo();
     if (widget.video != null) {
-      videoPlayerController = VideoPlayerController.networkUrl(Uri.parse('${widget.video}'));
+      if (previousVideo == false) {
+        videoPlayerController =
+            VideoPlayerController.networkUrl(Uri.parse('${widget.video}'));
+      } else {
+        videoPlayerController =
+            VideoPlayerController.networkUrl(Uri.parse('$previousVideoLink'));
+      }
     }
     await videoPlayerController?.initialize();
     if (videoPlayerController != null) {
@@ -295,15 +311,17 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
           zoomAndPan: true,
           showOptions: false,
           allowPlaybackSpeedChanging: false,
-         allowMuting: false,
+          allowMuting: false,
           draggableProgressBar: false,
           materialProgressColors: ChewieProgressColors(
               handleColor: Colors.green,
               bufferedColor: Colors.green.withOpacity(0.3),
               playedColor: Colors.white));
       chewieController?.videoPlayerController.addListener(() {
-        if (chewieController!.videoPlayerController.value.position >= chewieController!.videoPlayerController.value.duration) {
-          print('complete video ${chewieController!.videoPlayerController!.value.position}');
+        if (chewieController!.videoPlayerController.value.position >=
+            chewieController!.videoPlayerController.value.duration) {
+          print(
+              'complete video ${chewieController!.videoPlayerController!.value.position}');
           if (widget.jumpType == '3') {
             context.read<CheckDemoController>().nextPage(3);
           } else if (widget.jumpType == '4') {
@@ -315,12 +333,20 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
         }
       });
       setState(() {});
-
     }
   }
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      if (widget.index != 0) {
+        await context
+            .read<CheckDemoController>()
+            .fetchDemoVideos(context: context);
+      }
+    });
+
     initVideo();
   }
 
@@ -341,27 +367,108 @@ class _GuestCheckDemoStep1State extends State<GuestCheckDemoStep1> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      child:
-      (videoPlayerController?.value.isInitialized == true)
-          ? GestureDetector(
-              onTap: () {
-
-              },
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Chewie(
-
-                  controller: chewieController!,
+    return Scaffold(
+      body: Center(
+        child: (videoPlayerController?.value.isInitialized == true)
+            ? GestureDetector(
+                onTap: () {},
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Chewie(
+                    controller: chewieController!,
+                  ),
                 ),
+              )
+            : const AspectRatio(
+                aspectRatio: 16 / 9,
+                child:
+                    CupertinoActivityIndicator(radius: 18, color: primaryColor),
               ),
-            )
-          : const AspectRatio(
-              aspectRatio: 16 / 9,
-              child:
-                  CupertinoActivityIndicator(radius: 18, color: primaryColor),
-            ),
+      ),
+      bottomSheet: Consumer<CheckDemoController>(
+        builder: (context, controller, child) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.index != 0 || tabIndex == 2)
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: kPadding, bottom: kPadding),
+                  child: GradientButton(
+                    height: 30,
+                    width: 100,
+                    borderRadius: 18,
+                    onTap: () {
+                      if (widget.index == 1 || tabIndex==1||tabIndex==0) {
+                        disposeVideo();
+                        previousVideo = true;
+                        previousVideoLink = controller.fetchDemoVideosAfter?.data?[0].videoLink;
+                        initVideo();
+                        setState(() {});
+                      } else if (widget.index == 2 && tabIndex==0 ) {
+                        disposeVideo();
+                        previousVideo = true;
+                        tabIndex = 1;
+                        previousVideoLink = controller.fetchDemoVideosAfter?.data?[1].videoLink;
+                        initVideo();
+                        setState(() {});
+                      }
+                    },
+                    backgroundGradient: primaryGradient,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomeText(
+                          text: 'Previous Video',
+                          color: Colors.black,
+                          fontSize: 14,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              // if(widget.index!=0 && tabIndex==1)
+              // Padding(
+              //   padding: const EdgeInsets.only(left: kPadding,bottom: kPadding),
+              //   child: GradientButton(
+              //     height: 30,
+              //     width: 100,
+              //     borderRadius: 18,
+              //     onTap: () {
+              //       if(widget.index==1){
+              //         disposeVideo();
+              //         previousVideo =true;
+              //         previousVideoLink =controller.fetchDemoVideosAfter?.data?[0].videoLink;
+              //         initVideo();
+              //         setState(() {});
+              //       }else if(widget.index==2){
+              //         disposeVideo();
+              //         previousVideo =true;
+              //         previousVideoLink =controller.fetchDemoVideosAfter?.data?[1].videoLink;
+              //         initVideo();
+              //         setState(() {});
+              //       }
+              //     },
+              //     backgroundGradient: primaryGradient,
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         CustomeText(
+              //           text: 'Previous Video',
+              //           color: Colors.black,
+              //           fontSize: 14,
+              //         ),
+              //
+              //       ],
+              //     ),
+              //   ),
+              // ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

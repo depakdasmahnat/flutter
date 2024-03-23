@@ -104,8 +104,11 @@ TextEditingController searchController =TextEditingController();
                             const SizedBox(
                               height: 2,
                             ),
+
+
+
                             Container(
-                              height: size.width * 0.14,
+                              height: size.width * 0.1,
                               width: double.infinity,
                               clipBehavior: Clip.antiAlias,
                               decoration: const ShapeDecoration(
@@ -143,29 +146,18 @@ TextEditingController searchController =TextEditingController();
                                                 priority: '',
                                                 page: '1',searchKey: '');
                                       },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          width: size.width * 0.3,
-                                          height: size.width * 0.06,
-                                          decoration: ShapeDecoration(
-                                            gradient: index == tabIndex
-                                                ? primaryGradient
-                                                : inActiveGradient,
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(13))
-                                                ),
-                                          ),
+                                      child: SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.46, // Set the width to 20% of the screen width
+                                        height: MediaQuery.of(context).size.height * 0.2, // Set the height to 10% of the screen height
+                                        child: CustomPaint(
+                                          painter: tabIndex == index?RPSCustomPainter():RPSCustomPainterInactive(),
+
                                           child: Center(
-                                              child: CustomeText(
-                                            text: tabItem[index],
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: index == tabIndex
-                                                ? Colors.black
-                                                : Colors.white,
-                                          )),
+                                            child: CustomeText(
+                                              text: tabItem[index],
+                                              color:  tabIndex == index?Colors.black:Colors.white,
+                                            ),
+                                          ),
                                         ),
                                       ));
                                 },
@@ -2626,4 +2618,111 @@ class LeadType extends StatelessWidget {
       ),
     );
   }
+}
+class RPSCustomPainter extends CustomPainter{
+
+  @override
+  void paint(Canvas canvas, Size size) {
+
+    // Layer 1
+    Paint paint_fill_0 = Paint()
+      ..color = const Color.fromARGB(255, 255, 255, 255)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = size.width*0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+    paint_fill_0.shader = primaryGradient.createShader(Rect.fromPoints(Offset(0, 0), Offset(0, size.height)));
+
+
+    Path path_0 = Path();
+    path_0.moveTo(size.width*0.2052632,size.height*0.5000000);
+    path_0.quadraticBezierTo(size.width*0.1953947,size.height*0.6375000,size.width*0.1394737,size.height*0.7300000);
+    path_0.lineTo(size.width*-0.0026316,size.height);
+    path_0.lineTo(size.width*0.7921053,size.height*1.0100000);
+    path_0.lineTo(size.width*0.9157895,size.height*0.7900000);
+    path_0.quadraticBezierTo(size.width*0.9855263,size.height*0.6525000,size.width,size.height*0.5000000);
+    path_0.quadraticBezierTo(size.width*0.9940789,size.height*0.3600000,size.width*0.9157895,size.height*0.2200000);
+    path_0.lineTo(size.width*0.7921053,size.height*-0.0200000);
+    path_0.lineTo(0,size.height*-0.0200000);
+    path_0.lineTo(size.width*0.1342105,size.height*0.2400000);
+    path_0.quadraticBezierTo(size.width*0.2000000,size.height*0.3600000,size.width*0.2052632,size.height*0.5000000);
+    path_0.close();
+
+    canvas.drawPath(path_0, paint_fill_0);
+
+
+    // Layer 1
+
+    Paint paint_stroke_0 = Paint()
+      ..color = const Color.fromARGB(0, 0, 0, 0)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = size.width*0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+
+
+    canvas.drawPath(path_0, paint_stroke_0);
+
+
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+
+}
+class RPSCustomPainterInactive extends CustomPainter{
+
+  @override
+  void paint(Canvas canvas, Size size) {
+
+    // Layer 1
+    Paint paint_fill_0 = Paint()
+      ..color = const Color.fromARGB(255, 255, 255, 255)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = size.width*0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+    paint_fill_0.shader = feedsCardGradient.createShader(Rect.fromPoints(Offset(0, 0), Offset(0, size.height)));
+
+    Path path_0 = Path();
+    path_0.moveTo(size.width*0.2052632,size.height*0.5000000);
+    path_0.quadraticBezierTo(size.width*0.1953947,size.height*0.6375000,size.width*0.1394737,size.height*0.7300000);
+    path_0.lineTo(size.width*-0.0026316,size.height);
+    path_0.lineTo(size.width*0.7921053,size.height*1.0100000);
+    path_0.lineTo(size.width*0.9157895,size.height*0.7900000);
+    path_0.quadraticBezierTo(size.width*0.9855263,size.height*0.6525000,size.width,size.height*0.5000000);
+    path_0.quadraticBezierTo(size.width*0.9940789,size.height*0.3600000,size.width*0.9157895,size.height*0.2200000);
+    path_0.lineTo(size.width*0.7921053,size.height*-0.0200000);
+    path_0.lineTo(0,size.height*-0.0200000);
+    path_0.lineTo(size.width*0.1342105,size.height*0.2400000);
+    path_0.quadraticBezierTo(size.width*0.2000000,size.height*0.3600000,size.width*0.2052632,size.height*0.5000000);
+    path_0.close();
+
+    canvas.drawPath(path_0, paint_fill_0);
+
+
+    // Layer 1
+
+    Paint paint_stroke_0 = Paint()
+      ..color = const Color.fromARGB(0, 0, 0, 0)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = size.width*0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+
+
+    canvas.drawPath(path_0, paint_stroke_0);
+
+
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+
 }

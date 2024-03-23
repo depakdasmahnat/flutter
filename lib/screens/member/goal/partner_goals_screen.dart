@@ -61,6 +61,7 @@ class _PartnerGoalsScreenState extends State<PartnerGoalsScreen> {
       fetchGoals();
       await context.read<MembersController>().fetchDownLineRank(
             context: context,
+        userId: ''
           );
     });
   }

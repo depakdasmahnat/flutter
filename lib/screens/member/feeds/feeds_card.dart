@@ -30,7 +30,7 @@ import '../../../core/constant/constant.dart';
 import '../../../core/constant/gradients.dart';
 import '../../../models/feeds/feeds_data.dart';
 import '../../../models/guest_Model/guestDemoModel.dart';
-import '../../../utils/widgets/widgets.dart';
+
 import '../../guest/resource&Demo/view_detail.dart';
 import 'chewie_video_player.dart';
 import 'feed_detail.dart';
@@ -99,13 +99,13 @@ class _FeedCardState extends State<FeedCard> {
       scaffoldMessenger.showSnackBar(SnackBar(
         content: Text(
           message,
-          style:  TextStyle(
+          style:  const TextStyle(
             fontSize: 12,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Color(0xFFe91e63),
+        backgroundColor: const Color(0xFFe91e63),
       ));
 
     }

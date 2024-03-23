@@ -74,7 +74,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
               EasyStepper(
                 activeStep:controller.stepIndex,
                 internalPadding: 1,
-                enableStepTapping: false,
+                // enableStepTapping: false,
                 showLoadingAnimation: false,
                 stepRadius: 12,
                 onStepReached: (index) {
@@ -242,7 +242,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                           const LoadingScreen() :
                           // GtpVideo( videoLink: controller.guestCheckDemoVideoAndStep?.data?[0].link,);
                           //  const GuestCheckDemoStep1(video:'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',videoType: true,);
-                           GuestCheckDemoStep1(video:controller.guestCheckDemoVideoAndStep?.data?[0].link??'',videoType: true,);
+                           GuestCheckDemoStep1(video:controller.guestCheckDemoVideoAndStep?.data?[0].link??'',videoType: true,index: 0,);
                         },
                            ),
                       const Padding(
@@ -253,7 +253,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                         builder: (context, controller, child) {
                           return controller.guestCheckDemoLoader==false?
                           const LoadingScreen() :
-                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].link??'',jumpType: '3',);
+                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].link??'',jumpType: '3',index: 1,);
                         },
                       ),
                       const Padding(
@@ -264,7 +264,7 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                         builder: (context, controller, child) {
                           return controller.guestCheckDemoLoader==false?
                           const LoadingScreen() :
-                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].link??'',jumpType: '4',);
+                          GuestCheckDemoStep1(video: controller.guestCheckDemoVideoAndStep?.data?[0].link??'',jumpType: '4',index: 2,);
                         },
                       ),
                        GuestCheckDemoStep4(mobile: controller.guestCheckDemoVideoAndStep?.mobile??'',)
@@ -273,16 +273,8 @@ class _GuestNewCheckDemoState extends State<GuestNewCheckDemo> {
                   ),
                 ),
               ),
-              // if(controller.stepIndex==0)
-              // Padding(
-              //   padding: const EdgeInsets.only(bottom: kPadding),
-              //   child: SizedBox(
-              //     height: size.height*0.03,
-              //     child: ScrollingText(text: 'Remember, each body is different. Kangen does not claim that it cures any ailment.', textStyle: const TextStyle(
-              //       color: Colors.white,
-              //     ),),
-              //   ),
-              // ),
+              // if(controller.stepIndex==1)
+
 
             ],
           );

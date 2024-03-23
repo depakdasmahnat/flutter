@@ -56,7 +56,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
   String refType = '';
   String refTypeHint = '';
   String countryCode = '91';
-  String downlineRank = '';
+  String rankLeg = '';
   File? image;
   final _formKey = GlobalKey<FormState>();
   final switch1 = ValueNotifier<bool>(false);
@@ -196,9 +196,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
       await context.read<MembersController>().fetchProduct1(
             context: context,
           );
-      await context.read<MembersController>().fetchDownLineRank(
-            context: context,
-          );
+
     });
     switch1.addListener(() {
       setState(() {
@@ -220,7 +218,6 @@ class _AddMemberFormState extends State<AddMemberForm> {
       } else {
         final random = Random().nextInt(999999);
         enagicPasswordController.text = random.toString();
-
       }
       setState(() {});
     });
@@ -228,7 +225,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
 
   @override
   Widget build(BuildContext context) {
-    print("check sales naem ${widget.guestId}");
+
     MemberData? member = context.read<LocalDatabase>().member;
     sponsorHint = member?.firstName ?? '';
     sponsorId = member?.id.toString() ?? '';
@@ -374,7 +371,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
                         mandatory: '*',
                         showSearchBox: true,
                         hintText: sponsorHint,
-                        onChanged: (v) {
+                        onChanged: (v) async{
                           sponsorId = controller.fetchSponsorModel?.data
                                   ?.firstWhere(
                                     (element) {
@@ -384,9 +381,27 @@ class _AddMemberFormState extends State<AddMemberForm> {
                                   .id
                                   .toString() ??
                               '';
+                          await context.read<MembersController>().fetchDownLineRank(
+                            context: context,
+                            userId: sponsorId
+                          );
                         },
                         title: 'Sponsor',
                         listItem: controller.fetchSponsorModel?.data?.map((e) => e.name).toList(),
+                      );
+                    },
+                  ),
+                  Consumer<MembersController>(
+                    builder: (context, controller, child) {
+                      return CustomDropdown(
+                        mandatory: '*',
+                        showSearchBox: true,
+                        hintText: 'Select Rank Leg',
+                        onChanged: (v) {
+                          rankLeg = v;
+                        },
+                        title: 'Rank Leg',
+                        listItem: controller.fetchDownlineRan?.data,
                       );
                     },
                   ),
@@ -412,20 +427,7 @@ class _AddMemberFormState extends State<AddMemberForm> {
                       );
                     },
                   ),
-                  // Consumer<MembersController>(
-                  //   builder: (context, controller, child) {
-                  //     return CustomDropdown(
-                  //       mandatory: '*',
-                  //       showSearchBox: true,
-                  //       hintText: 'Register this applicant as (rank)',
-                  //       onChanged: (v) {
-                  //         downlineRank = v;
-                  //       },
-                  //       title: 'Sponsor’s Down line Rank',
-                  //       listItem: controller.fetchDownlineRan?.data,
-                  //     );
-                  //   },
-                  // ),
+
                   CustomTextFieldApp(
                     controller: enagicIdController,
                     maxLength: 11,
@@ -746,8 +748,9 @@ class _AddMemberFormState extends State<AddMemberForm> {
                             salesFacilitatorId: facilitatorId,
                             countryCode: countryCode,
                             countryName: countryNameController.text,
-                            rank: downlineRank,
+                            rank: '',
                             product: product,
+                            rankLeg: rankLeg,
                             file: XFile(image?.path ?? ''));
 
                         if (model?.status == true) {
